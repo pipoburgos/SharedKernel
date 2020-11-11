@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>SharedKernel.Integration.Tests</AssemblyName>
+    <RootNamespace>SharedKernel.Integration.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="appsettings.rabbitMq.json" />
+    <None Remove="appsettings.serilog.json" />
+    <None Remove="appsettings.smtp.json" />
+    <None Remove="appsettings.sqlServer.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.serilog.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.smtp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--TESTING-->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.9" />
+    <!--ENTITY FRAMEWORK CORE-->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!--ELASTICSEARCH TESTING-->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
+    <!--TESTING-->
+    <PackageReference Include="Moq" Version="4.14.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <!--SERILOG-->
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0" />
+    <!--XUNIT-->
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\Domain\SharedKernel.Domain.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Photo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>

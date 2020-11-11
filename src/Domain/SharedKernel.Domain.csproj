@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net461;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Exceptions\DomainException.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Exceptions\ExceptionCodes.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Exceptions\ExceptionCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionCodes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
