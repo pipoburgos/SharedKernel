@@ -1,33 +1,33 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using SharedKernel.Application.Logging;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Logging;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
 {
-    public class InMemoryCacheHelperTests : InfrastructureTestCase
+    public class RedisCacheHelperTests : InfrastructureTestCase
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddMemoryCache();
+            return services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "127.0.0.1:6379";
+                options.InstanceName = "shared.kernel";
+            });
         }
 
         [Fact]
         public async Task TestCache()
         {
-            var log = GetService<ICustomLogger<InMemoryCacheHelper>>();
-            var memoryCache = GetService<IMemoryCache>();
+            var distributedCache = GetService<IDistributedCache>();
 
-            var inMemoryCacheHelper = new InMemoryCacheHelper(memoryCache, log);
+            var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache);
 
             inMemoryCacheHelper.Remove("prueba");
+
             var id = Guid.NewGuid();
             var contador = 0;
             Func<Task<Guid>> funcionGeneraValor = () =>

@@ -6,7 +6,7 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Caching
 {
-    public class InMemoryCacheHelper : ICacheHelper
+    internal class InMemoryCacheHelper : ICacheHelper
     {
         private readonly IMemoryCache _memoryCache;
         private readonly ICustomLogger<InMemoryCacheHelper> _customLogger;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.ActiveDirectory
 {
-    public class ActiveDirectoryService : IActiveDirectoryService
+    internal class ActiveDirectoryService : IActiveDirectoryService
     {
         private readonly ActiveDirectorySettings _settings;
 

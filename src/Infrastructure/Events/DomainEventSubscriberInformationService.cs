@@ -24,6 +24,9 @@ namespace SharedKernel.Infrastructure.Events
             {
                 var subscriberClass = subscriber.ImplementationType;
 
+                if (subscriberClass is null)
+                    continue;
+
                 var eventType = subscriberClass.BaseType?.GenericTypeArguments.Single();
 
                 information.Add(subscriberClass, new DomainEventSubscriberInformation(subscriberClass, eventType));

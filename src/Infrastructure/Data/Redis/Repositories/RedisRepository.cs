@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SharedKernel.Infrastructure.Exceptions;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 #pragma warning disable 693
 
@@ -18,39 +16,23 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
         IUpdateRepository<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
-        private readonly ConnectionMultiplexer _redis;
-        private readonly IDatabase _database;
+        private readonly IDistributedCache _distributedCache;
+        private readonly string _aggregateName;
 
-        protected RedisRepository(ConnectionMultiplexer redis)
+        protected RedisRepository(IDistributedCache distributedCache)
         {
-            _redis = redis;
-            _database = redis.GetDatabase();
-        }
-
-        public async Task<bool> DeleteBasketAsync(string id)
-        {
-            return await _database.KeyDeleteAsync(id);
-        }
-
-        public IEnumerable<string> GetUsers()
-        {
-            var server = GetServer();
-            var data = server.Keys();
-
-            return data?.Select(k => k.ToString());
-        }
-
-        private IServer GetServer()
-        {
-            var endpoint = _redis.GetEndPoints();
-            return _redis.GetServer(endpoint.First());
+            _aggregateName = typeof(TAggregateRoot).Name;
+            _distributedCache = distributedCache;
         }
 
         public TAggregateRoot GetById<TKey>(TKey key)
         {
-            var data = _database.StringGet(key.ToString());
+            var bytes = _distributedCache.Get(_aggregateName + key);
 
-            return data.IsNullOrEmpty ? null : JsonConvert.DeserializeObject<TAggregateRoot>(data);
+            if (bytes == default || bytes.Length == 0)
+                return default;
+
+            return ByteArrayToObject<TAggregateRoot>(bytes);
         }
 
         public bool Any()
@@ -60,17 +42,14 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
 
         public bool Any<TKey>(TKey key)
         {
-            return _database.KeyExists(key.ToString());
+            var bytes = _distributedCache.Get(_aggregateName + key);
+
+            return bytes != default && bytes.Length > 0;
         }
 
         public void Update(TAggregateRoot aggregate)
         {
-            var created = _database.StringSet(aggregate.Id.ToString(), JsonConvert.SerializeObject(aggregate));
-
-            if (!created)
-            {
-                throw new SharedKernelInfrastructureException(nameof(ExceptionCodes.REDIS_UPDATE));
-            }
+            _distributedCache.Set(_aggregateName + aggregate.Id, ObjectToByteArray(aggregate));
         }
 
         public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
@@ -79,6 +58,41 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             {
                 Update(aggregateRoot);
             }
+        }
+
+        /// <summary>
+        /// Convert an Object to byte array
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private byte[] ObjectToByteArray(object obj)
+        {
+            if (obj == null)
+                return null;
+
+            var bf = new BinaryFormatter();
+            using (var ms = new MemoryStream())
+            {
+                bf.Serialize(ms, obj);
+                return ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Convert a byte array to an Object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrBytes"></param>
+        /// <returns></returns>
+        private T ByteArrayToObject<T>(byte[] arrBytes)
+        {
+            var memStream = new MemoryStream();
+            var binForm = new BinaryFormatter();
+            memStream.Write(arrBytes, 0, arrBytes.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            var obj = (T)binForm.Deserialize(memStream);
+
+            return obj;
         }
     }
 }

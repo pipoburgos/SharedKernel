@@ -42,7 +42,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
         {
             var repository = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
 
-            var roberto = User.Create(Guid.NewGuid(), "Roberto bbaa" );
+            var roberto = User.Create(Guid.NewGuid(), "Roberto bbaa");
             repository.Add(roberto);
 
             repository.Save();
@@ -54,7 +54,5 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
             Assert.Equal(roberto.Id, repoUser.Id);
             Assert.NotEqual(roberto.Name, repoUser.Name);
         }
-
-
     }
 }

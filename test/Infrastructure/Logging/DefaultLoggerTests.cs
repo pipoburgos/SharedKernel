@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -31,11 +30,6 @@ namespace SharedKernel.Integration.Tests.Logging
         protected override string GetJsonFile()
         {
             return "appsettings.serilog.json";
-        }
-
-        protected override IServiceCollection ConfigureServices(IServiceCollection services)
-        {
-            return services;
         }
 
         [Fact]
