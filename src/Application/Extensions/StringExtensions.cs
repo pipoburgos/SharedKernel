@@ -7,12 +7,11 @@ namespace SharedKernel.Application.Extensions
 {
     public static class StringExtensions
     {
-#pragma warning disable 1570
         /// <summary>
         ///         /// Example Usage:
         /// -------------------------------------------------------
         /// <code>
-        /// var queryParams = new Dictionary<string>()
+        /// var queryParams = new Dictionary&lt;string&gt;()
         /// {
         ///     { "x", "1" },
         ///     { "y", "2" },
@@ -25,12 +24,11 @@ namespace SharedKernel.Application.Extensions
         /// Console.WriteLine(url);
         /// -------------------------------------------------------
         /// Output:
-        /// <string>http://example.com/stuff?x=1&y=2&foo=bar&foo=baz&special%20chars=%3F%20%3D%20%26</string>
+        /// <string>http://example.com/stuff?x=1&amp;y=2&amp;foo=bar&amp;foo=baz&amp;special%20chars=%3F%20%3D%20%26</string>
         /// </code>
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-#pragma warning restore 1570
         public static string DictionaryToQueryString(this Dictionary<string, object> parameters)
         {
             if (parameters == null)
@@ -52,7 +50,12 @@ namespace SharedKernel.Application.Extensions
                 }
 
                 parameters.TryGetValue(key, out var param);
-                sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(Convert.ToString(param)));
+
+                var stringParam = Convert.ToString(param);
+#if NETCOREAPP3_1 || NET5_0
+                if (stringParam != null)
+#endif
+                    sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
 
                 first = false;
 

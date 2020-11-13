@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.ActiveDirectory
 {
+
     internal class ActiveDirectoryService : IActiveDirectoryService
     {
         private readonly ActiveDirectorySettings _settings;
@@ -16,12 +17,15 @@ namespace SharedKernel.Infrastructure.ActiveDirectory
 
         public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings.Path);
 
+#pragma warning disable CA1416 // Validate platform compatibility
         public bool Exists(string user, string password)
         {
+
             var directorySearcher = new DirectorySearcher(new DirectoryEntry("LDAP://" + _settings.Path, user, password))
             {
                 Filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" + user + "))"
             };
+
 
             var userResult = directorySearcher.FindOne();
 
@@ -41,5 +45,6 @@ namespace SharedKernel.Infrastructure.ActiveDirectory
                 .Split(',')
                 .Any(p => commonNames.Contains(p) || organizationalUnits.Contains(p));
         }
+#pragma warning restore CA1416 // Validate platform compatibility
     }
 }

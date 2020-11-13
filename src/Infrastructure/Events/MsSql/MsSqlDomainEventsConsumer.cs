@@ -47,7 +47,7 @@ namespace SharedKernel.Infrastructure.Events.MsSql
             var result = (DomainEvent)domainEventType
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-                .Invoke(instance, new object[]
+                ?.Invoke(instance, new object[]
                 {
                     domainEventPrimitive.AggregateId,
                     domainEventPrimitive.Body,

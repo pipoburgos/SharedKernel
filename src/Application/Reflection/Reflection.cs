@@ -16,7 +16,10 @@ namespace SharedKernel.Application.Reflection
             name = name.ToUpper(CultureInfo.InvariantCulture);
             return AppDomain.CurrentDomain
                 .GetAssemblies()
-                .FirstOrDefault(x => x.FullName.ToUpper(CultureInfo.InvariantCulture).Contains(name));
+                .FirstOrDefault(x =>
+                    // ReSharper disable once PossibleNullReferenceException
+                    x.FullName.ToUpper(CultureInfo.InvariantCulture).Contains(name)
+                    );
         }
 
         public static Type GetType(string name)
@@ -75,16 +78,33 @@ namespace SharedKernel.Application.Reflection
                     $"No existe la propiedad {propertyInfo.Name} con escritura en {typeof(T).Name}");
 
             var t = Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
+
 #if !NET40
             if (t == typeof(Guid) || t == typeof(Guid?))
-                propertyInfo.SetValue(obj, value == null ? null : (Guid?)new Guid(value.ToString()));
+            {
+                var valueString = value?.ToString();
+                if (valueString == null)
+                    propertyInfo.SetValue(obj, null);
+                else
+                    propertyInfo.SetValue(obj, (Guid?)new Guid(valueString));
+            }
             else
+            {
                 propertyInfo.SetValue(obj, Convert.ChangeType(value, t));
+            }
 #else
             if (t == typeof(Guid) || t == typeof(Guid?))
-                propertyInfo.SetValue(obj, value == null ? null : (Guid?)new Guid(value.ToString()), new object[0]);
+            {
+                var valueString = value?.ToString();
+                if (valueString == null)
+                    propertyInfo.SetValue(obj, null, new object[0]);
+                else
+                    propertyInfo.SetValue(obj, (Guid?)new Guid(valueString), new object[0]);
+            }
             else
+            {
                 propertyInfo.SetValue(obj, Convert.ChangeType(value, t), new object[0]);
+            }
 #endif
         }
 
@@ -102,9 +122,19 @@ namespace SharedKernel.Application.Reflection
                 var t = Nullable.GetUnderlyingType(fieldInfo.FieldType) ?? fieldInfo.FieldType;
 
                 if (t == typeof(Guid) || t == typeof(Guid?))
-                    fieldInfo.SetValue(obj, new Guid(value.ToString()));
+                {
+                    var valueString = value.ToString();
+#if NETCOREAPP3_1 || NET5_0
+                    if (valueString == null)
+                        fieldInfo.SetValue(obj, null);
+                    else
+#endif
+                        fieldInfo.SetValue(obj, new Guid(valueString));
+                }
                 else
+                {
                     fieldInfo.SetValue(obj, Convert.ChangeType(value, t));
+                }
             }
             catch (Exception e)
             {

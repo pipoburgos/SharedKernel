@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using SharedKernel.Api.Gateway.ServiceCollectionExtensions;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Validators;
 

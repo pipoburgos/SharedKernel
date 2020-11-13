@@ -40,6 +40,9 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
             var validator = (IEntityValidator<IRequest>)
                 _serviceProvider.GetService(typeof(IEntityValidator<IRequest>));
 
+            if (validator == null)
+                throw new Exception("Falta registrar la interfaz IEntityValidator<>");
+
             return validator.ValidateAsync(request, cancellationToken);
 
             // Todo ejecutar middlewares

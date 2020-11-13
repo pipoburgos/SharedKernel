@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
-namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
+namespace SharedKernel.Api.ServiceCollectionExtensions
 {
     public class OpenIdOptions
     {

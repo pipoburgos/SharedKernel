@@ -106,7 +106,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var wrapperType = typeof(CommandHandlerWrapper<>).MakeGenericType(command.GetType());
 
             var handlers =
-                (IEnumerable)_serviceProvider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+                (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var instance = handlers.Cast<object>()
                 .Select(handler => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType));
@@ -123,7 +123,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var wrapperType = typeof(CommandHandlerWrapperResponse<,>).MakeGenericType(command.GetType());
 
             var handlers =
-                (IEnumerable)_serviceProvider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+                (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var wrappedHandlers = (CommandHandlerWrapperResponse<TResponse>)CommandHandlersResponse.GetOrAdd(command.GetType(), handlers.Cast<object>()
                 .Select(handler => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());

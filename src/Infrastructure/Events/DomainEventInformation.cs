@@ -33,7 +33,7 @@ namespace SharedKernel.Infrastructure.Events
         private string GetEventName(Type eventType)
         {
             var instance = ReflectionHelper.CreateInstance<DomainEvent>(eventType);
-            return eventType.GetMethod(nameof(DomainEvent.GetEventName))?.Invoke(instance, null).ToString();
+            return eventType.GetMethod(nameof(DomainEvent.GetEventName))?.Invoke(instance, null)?.ToString();
         }
 
         private List<Type> GetDomainTypes()

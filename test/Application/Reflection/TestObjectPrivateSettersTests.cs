@@ -53,14 +53,11 @@ namespace SharedKernel.Application.Tests.Reflection
         [Fact]
         public void SetPropertyValueNullableGuidNull()
         {
-            Guid? adminId = null;
-
             var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            // ReSharper disable once ExpressionIsAlwaysNull
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), adminId);
+            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), null);
 
             Assert.NotNull(obj);
-            Assert.Equal(adminId, obj.AdminId);
+            Assert.Null(obj.AdminId);
         }
 
         [Fact]
@@ -126,13 +123,11 @@ namespace SharedKernel.Application.Tests.Reflection
         [Fact]
         public void SetPropertyValueStringNull()
         {
-            const string name = null;
-
             var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
+            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), null);
 
             Assert.NotNull(obj);
-            Assert.Equal(name, obj.Name);
+            Assert.Null(obj.Name);
         }
 
         [Fact]

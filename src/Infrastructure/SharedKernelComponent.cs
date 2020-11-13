@@ -57,6 +57,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
                 .AddTransient<IAuditableService, AuditableService>()
                 .AddTransient<IBase64, Base64>()
+                .AddTransient<IBinarySerializer, BinarySerializer>()
                 .AddTransient<ICacheHelper, InMemoryCacheHelper>()
                 .AddTransient<ICulture, ThreadUiCulture>()
                 .AddTransient<ICustomLogger, DefaultCustomLogger>()

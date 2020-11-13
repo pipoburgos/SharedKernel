@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 #pragma warning disable 693
 
@@ -17,12 +16,16 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
         where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
         private readonly IDistributedCache _distributedCache;
+        private readonly IBinarySerializer _binarySerializer;
         private readonly string _aggregateName;
 
-        protected RedisRepository(IDistributedCache distributedCache)
+        protected RedisRepository(
+            IDistributedCache distributedCache,
+            IBinarySerializer binarySerializer)
         {
             _aggregateName = typeof(TAggregateRoot).Name;
             _distributedCache = distributedCache;
+            _binarySerializer = binarySerializer;
         }
 
         public TAggregateRoot GetById<TKey>(TKey key)
@@ -32,7 +35,7 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             if (bytes == default || bytes.Length == 0)
                 return default;
 
-            return ByteArrayToObject<TAggregateRoot>(bytes);
+            return _binarySerializer.Deserialize<TAggregateRoot>(bytes);
         }
 
         public bool Any()
@@ -49,7 +52,7 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
 
         public void Update(TAggregateRoot aggregate)
         {
-            _distributedCache.Set(_aggregateName + aggregate.Id, ObjectToByteArray(aggregate));
+            _distributedCache.Set(_aggregateName + aggregate.Id, _binarySerializer.Serialize(aggregate));
         }
 
         public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
@@ -58,41 +61,6 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             {
                 Update(aggregateRoot);
             }
-        }
-
-        /// <summary>
-        /// Convert an Object to byte array
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Convert a byte array to an Object
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="arrBytes"></param>
-        /// <returns></returns>
-        private T ByteArrayToObject<T>(byte[] arrBytes)
-        {
-            var memStream = new MemoryStream();
-            var binForm = new BinaryFormatter();
-            memStream.Write(arrBytes, 0, arrBytes.Length);
-            memStream.Seek(0, SeekOrigin.Begin);
-            var obj = (T)binForm.Deserialize(memStream);
-
-            return obj;
         }
     }
 }

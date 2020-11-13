@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
@@ -49,7 +50,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
             var wrapperType = typeof(QueryHandlerWrapper<,>).MakeGenericType(typeArgs);
 
             var handlers =
-                (IEnumerable)_serviceProvider.GetService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+                (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var wrappedHandlers = (QueryHandlerWrapper<TResponse>)QueryHandlers.GetOrAdd(query.GetType(), handlers.Cast<object>()
                 .Select(handler => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());

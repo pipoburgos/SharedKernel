@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
+namespace SharedKernel.Api.ServiceCollectionExtensions
 {
     public static class AuthenticationExtensions
     {

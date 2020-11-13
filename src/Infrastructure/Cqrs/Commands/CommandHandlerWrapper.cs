@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 
@@ -16,7 +17,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     {
         public override Task Handle(ICommandRequest commandRequest, IServiceProvider provider, CancellationToken cancellationToken)
         {
-            var handler = (ICommandRequestHandler<TCommand>)provider.GetService(typeof(ICommandRequestHandler<TCommand>));
+            var handler = (ICommandRequestHandler<TCommand>)provider.GetRequiredService(typeof(ICommandRequestHandler<TCommand>));
             return handler.Handle((TCommand)commandRequest, cancellationToken);
         }
     }
@@ -31,7 +32,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     {
         public override Task<TResponse> Handle(ICommandRequest<TResponse> commandRequest, IServiceProvider provider, CancellationToken cancellationToken)
         {
-            var handler = (ICommandRequestHandler<TCommand, TResponse>)provider.GetService(typeof(ICommandRequestHandler<TCommand, TResponse>));
+            var handler = (ICommandRequestHandler<TCommand, TResponse>)provider.GetRequiredService(typeof(ICommandRequestHandler<TCommand, TResponse>));
             return handler.Handle((TCommand)commandRequest, cancellationToken);
         }
     }

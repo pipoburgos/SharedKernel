@@ -21,7 +21,7 @@ namespace SharedKernel.Api.Middlewares
                 var total = services
                     .OrderBy(s => s.Lifetime)
                     .ThenBy(s => s.ImplementationType?.FullName)
-                    .ThenBy(s => s.ServiceType?.FullName);
+                    .ThenBy(s => s.ServiceType.FullName);
 
                 foreach (var svc in total)
                 {

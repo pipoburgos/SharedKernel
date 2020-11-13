@@ -40,7 +40,7 @@ namespace SharedKernel.Domain.ValueObjects
                     var right = p.GetValue(other, null);
 
 
-                    return left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right);
+                    return left != null && (left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right));
                 });
             }
             return true;

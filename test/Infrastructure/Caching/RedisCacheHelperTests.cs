@@ -4,6 +4,8 @@ using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
+using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.Serializers;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
@@ -12,7 +14,9 @@ namespace SharedKernel.Integration.Tests.Caching
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services.AddDistributedRedisCache(options =>
+            return services
+                .AddTransient<IBinarySerializer, BinarySerializer>()
+                .AddDistributedRedisCache(options =>
             {
                 options.Configuration = "127.0.0.1:6379";
                 options.InstanceName = "shared.kernel";
@@ -24,7 +28,9 @@ namespace SharedKernel.Integration.Tests.Caching
         {
             var distributedCache = GetService<IDistributedCache>();
 
-            var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache);
+            var binarySerializer = GetService<IBinarySerializer>();
+
+            var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
 
             inMemoryCacheHelper.Remove("prueba");
 

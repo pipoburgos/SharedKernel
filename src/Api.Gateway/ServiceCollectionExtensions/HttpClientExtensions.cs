@@ -47,24 +47,22 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         /// <returns></returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            if (_httpContextAccesor.HttpContext == null)
+                return await base.SendAsync(request, cancellationToken);
+
+
             var authorizationHeader = _httpContextAccesor.HttpContext.Request.Headers["Authorization"];
 
             if (!string.IsNullOrEmpty(authorizationHeader))
                 request.Headers.Add("Authorization", new List<string> { authorizationHeader });
 
-            var token = await GetToken();
-
-            if (token != null)
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            return await base.SendAsync(request, cancellationToken);
-        }
-
-        private Task<string> GetToken()
-        {
             const string accessToken = "access_token";
 
-            return _httpContextAccesor.HttpContext.GetTokenAsync(accessToken);
+            var token = await _httpContextAccesor.HttpContext.GetTokenAsync(accessToken);
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

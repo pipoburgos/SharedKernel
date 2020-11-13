@@ -16,7 +16,7 @@ namespace SharedKernel.Infrastructure.Events
                 .GetProperties()
                 .Where(p => p.Name != nameof(DomainEvent.AggregateId) && p.Name != nameof(DomainEvent.EventId) && p.Name != nameof(DomainEvent.OccurredOn))
                 .ToList()
-                .ForEach(p => primitives.Add(p.Name, p.GetValue(domainEvent, null).ToString()));
+                .ForEach(p => primitives.Add(p.Name, p.GetValue(domainEvent, null)?.ToString()));
 
             return primitives;
         }

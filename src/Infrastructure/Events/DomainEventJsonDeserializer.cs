@@ -20,7 +20,9 @@ namespace SharedKernel.Infrastructure.Events
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
 
             var data = eventData["data"];
-            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(data["attributes"].ToString());
+            var attributesString = data["attributes"].ToString();
+
+            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributesString!);
 
             var domainEventType = _information.ForName((string) data["type"]);
 
@@ -29,7 +31,7 @@ namespace SharedKernel.Infrastructure.Events
             var domainEvent = (DomainEvent) domainEventType
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-                .Invoke(instance, new object[]
+                ?.Invoke(instance, new object[]
                 {
                     attributes["id"],
                     attributes,
