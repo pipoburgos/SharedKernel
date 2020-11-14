@@ -43,8 +43,7 @@ namespace SharedKernel.Integration.Tests.Communication
         {
             var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
 
-            var path = $"{Directory.GetCurrentDirectory()}\\Photo.jpg";
-            var bytes = File.ReadAllBytes(path);
+            var bytes = await GetPhotoBinary();
 
             var attachment = new EmailAttachment("Adjunto.jpg", bytes);
 
@@ -59,8 +58,7 @@ namespace SharedKernel.Integration.Tests.Communication
         {
             var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
 
-            var path = $"{Directory.GetCurrentDirectory()}\\Photo.jpg";
-            var bytes = File.ReadAllBytes(path);
+            var bytes = await GetPhotoBinary();
 
             var attachment = new EmailAttachment("Adjunto", bytes);
 
@@ -75,6 +73,13 @@ namespace SharedKernel.Integration.Tests.Communication
             Assert.Equal(ExceptionCodes.EMAIL_ATTACH_EXT, exception.Message);
         }
 
+        private static async Task<byte[]> GetPhotoBinary()
+        {
+            var path = $"{Directory.GetCurrentDirectory()}/Photo.jpg";
+            var bytes = await File.ReadAllBytesAsync(path);
+            return bytes;
+        }
+
         [Fact]
         public async Task SendEmailEmptyPasswordTaskKo()
         {
@@ -82,8 +87,7 @@ namespace SharedKernel.Integration.Tests.Communication
             smtp.Value.Password = null;
             var sender = new SmtpEmailSender(smtp);
 
-            var path = $"{Directory.GetCurrentDirectory()}\\Photo.jpg";
-            var bytes = File.ReadAllBytes(path);
+            var bytes = await GetPhotoBinary();
 
             var attachment = new EmailAttachment("Adjunto", bytes);
 
@@ -108,8 +112,7 @@ namespace SharedKernel.Integration.Tests.Communication
             smtp.Value.Password = null;
             var sender = new SmtpEmailSender(smtp);
 
-            var path = $"{Directory.GetCurrentDirectory()}\\Photo.jpg";
-            var bytes = File.ReadAllBytes(path);
+            var bytes = await GetPhotoBinary();
 
             var attachment = new EmailAttachment("Adjunto", bytes);
 

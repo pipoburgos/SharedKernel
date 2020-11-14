@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+    shared-kernel:
+        build:
+            context: .
+            network: host
+            dockerfile: Dockerfile
+        container_name: shared-kernel
+        image: shared-kernel

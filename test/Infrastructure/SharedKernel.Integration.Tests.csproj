@@ -10,12 +10,17 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="appsettings.rabbitMq.json" />
+    <None Remove="appsettings.redis.json" />
     <None Remove="appsettings.serilog.json" />
     <None Remove="appsettings.smtp.json" />
     <None Remove="appsettings.sqlServer.json" />
+    <None Remove="Photo.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -30,6 +35,9 @@
     </Content>
     <Content Include="appsettings.smtp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Photo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -70,12 +78,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\Domain\SharedKernel.Domain.Tests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Photo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 

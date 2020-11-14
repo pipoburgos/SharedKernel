@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /Src/Apps/Api/tempkey.jwk
 *.cmd
+/.vscode

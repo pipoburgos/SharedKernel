@@ -1,26 +1,31 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
+using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
-using SharedKernel.Application.Serializers;
-using SharedKernel.Infrastructure.Serializers;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
 {
     public class RedisCacheHelperTests : InfrastructureTestCase
     {
+        protected override string GetJsonFile()
+        {
+            return "appsettings.redis.json";
+        }
+
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
                 .AddTransient<IBinarySerializer, BinarySerializer>()
-                .AddDistributedRedisCache(options =>
-            {
-                options.Configuration = "127.0.0.1:6379";
-                options.InstanceName = "shared.kernel";
-            });
+                .AddDistributedRedisCache(opt =>
+                {
+                    opt.Configuration = Configuration.GetSection("RedisCacheOptions:Configuration").Value;
+                    opt.InstanceName = Configuration.GetSection("RedisCacheOptions:InstanceName").Value;
+                });
         }
 
         [Fact]

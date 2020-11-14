@@ -27,7 +27,11 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
         [Fact]
         public async Task SaveRepositoryOk()
         {
-            var repository = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
+            var dbContext = GetService<SharedKernelDbContext>();
+            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.Database.MigrateAsync();
+
+            var repository = new UserEfCoreRepository(dbContext);
 
             var roberto = User.Create(Guid.NewGuid(), "Roberto bbdd");
             repository.Add(roberto);
@@ -38,9 +42,13 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
         }
 
         [Fact]
-        public void SaveRepositoryNameChanged()
+        public async Task SaveRepositoryNameChanged()
         {
-            var repository = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
+            var dbContext = GetService<SharedKernelDbContext>();
+            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.Database.MigrateAsync();
+
+            var repository = new UserEfCoreRepository(dbContext);
 
             var roberto = User.Create(Guid.NewGuid(), "Roberto bbaa");
             repository.Add(roberto);

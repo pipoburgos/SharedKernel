@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+    sqlserver:
+        container_name: sqlserver
+        image: mcr.microsoft.com/mssql/server
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrong(!)Password
+            - MSSQL_PID=Developer
+        ports:
+            - 22220:1433
+
+    mongo:
+        container_name: mongo
+        image: mongo
+        restart: always
+        ports:
+            - 22221:27017
+
+    redis:
+        container_name: redis
+        image: redis
+        ports:
+            - 22222:6379
+    
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password
+        ports:
+            - 22223:5672
