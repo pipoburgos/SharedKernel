@@ -10,7 +10,7 @@ namespace SharedKernel.Domain.Repositories
     ///     https://buildplease.com/pages/repositories-dto/
     /// </summary>
     /// <typeparam name="TAggregate">Tipo de datos del repositorio</typeparam>
-    public interface IUpdateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+    internal interface IUpdateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
     {
         /// <summary>
         ///     Actualiza los datos de un elemento del repositorio

@@ -5,37 +5,35 @@ using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using SharedKernel.Domain.Specifications.Common;
 
 #pragma warning disable 693
 
 namespace SharedKernel.Infrastructure.Data.Redis.Repositories
 {
-    public abstract class RedisRepository<TAggregateRoot, TKey> :
-        IReadRepository<TAggregateRoot>,
-        IUpdateRepository<TAggregateRoot>
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    public abstract class RedisRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
-        private readonly IDistributedCache _distributedCache;
-        private readonly IBinarySerializer _binarySerializer;
-        private readonly string _aggregateName;
+        protected readonly IDistributedCache DistributedCache;
+        protected readonly IBinarySerializer BinarySerializer;
+        protected readonly string AggregateName;
 
         protected RedisRepository(
             IDistributedCache distributedCache,
             IBinarySerializer binarySerializer)
         {
-            _aggregateName = typeof(TAggregateRoot).Name;
-            _distributedCache = distributedCache;
-            _binarySerializer = binarySerializer;
+            AggregateName = typeof(TAggregateRoot).Name;
+            DistributedCache = distributedCache;
+            BinarySerializer = binarySerializer;
         }
 
         public TAggregateRoot GetById<TKey>(TKey key)
         {
-            var bytes = _distributedCache.Get(_aggregateName + key);
+            var bytes = DistributedCache.Get(AggregateName + key);
 
             if (bytes == default || bytes.Length == 0)
                 return default;
 
-            return _binarySerializer.Deserialize<TAggregateRoot>(bytes);
+            return BinarySerializer.Deserialize<TAggregateRoot>(bytes);
         }
 
         public bool Any()
@@ -45,14 +43,14 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
 
         public bool Any<TKey>(TKey key)
         {
-            var bytes = _distributedCache.Get(_aggregateName + key);
+            var bytes = DistributedCache.Get(AggregateName + key);
 
             return bytes != default && bytes.Length > 0;
         }
 
         public void Update(TAggregateRoot aggregate)
         {
-            _distributedCache.Set(_aggregateName + aggregate.Id, _binarySerializer.Serialize(aggregate));
+            DistributedCache.Set(AggregateName + aggregate.Id, BinarySerializer.Serialize(aggregate));
         }
 
         public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
@@ -61,6 +59,56 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             {
                 Update(aggregateRoot);
             }
+        }
+
+        public void Add(TAggregateRoot aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRange(IEnumerable<TAggregateRoot> aggregates)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(TAggregateRoot aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Any(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Rollback()
+        {
+            return 0;
+        }
+
+        public int SaveChanges()
+        {
+            return 0;
         }
     }
 }

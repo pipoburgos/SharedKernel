@@ -145,7 +145,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
             return _dbContextBase.Rollback();
         }
 
-        public int Save()
+        public int SaveChanges()
         {
             return _dbContextBase.SaveChanges();
         }

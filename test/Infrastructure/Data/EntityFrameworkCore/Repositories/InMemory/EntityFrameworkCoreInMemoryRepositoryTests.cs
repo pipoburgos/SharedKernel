@@ -1,12 +1,12 @@
-﻿using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Domain.Tests.Users;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Integration.Tests.Shared;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory
 {
     public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase
     {
@@ -26,7 +26,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
             var roberto = User.Create(Guid.NewGuid(), "Roberto");
             repository.Add(roberto);
 
-            repository.Save();
+            repository.SaveChanges();
 
             Assert.Equal(roberto, repository.GetById(roberto.Id));
         }
@@ -39,7 +39,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
             var roberto = User.Create(Guid.NewGuid(), "Roberto");
             repository.Add(roberto);
 
-            repository.Save();
+            repository.SaveChanges();
 
             var repoUser = repository.GetById(roberto.Id);
             repoUser.Name = "asdfass";

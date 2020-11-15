@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Domain.Repositories
 {
-    public interface IReadRepository<out TAggregate> where TAggregate : IAggregateRoot
+    internal interface IReadRepository<out TAggregate> where TAggregate : IAggregateRoot
     {
         TAggregate GetById<TKey>(TKey key);
 

@@ -10,7 +10,7 @@ namespace SharedKernel.Domain.Repositories
     ///     https://buildplease.com/pages/repositories-dto/
     /// </summary>
     /// <typeparam name="TAggregate">Tipo de datos del repositorio</typeparam>
-    public interface ICreateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+    internal interface ICreateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
     {
         /// <summary>
         ///     Inserta un nuevo elemento en el repositorio

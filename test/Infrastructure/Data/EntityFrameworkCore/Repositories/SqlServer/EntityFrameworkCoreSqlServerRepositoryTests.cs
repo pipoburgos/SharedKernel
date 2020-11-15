@@ -1,21 +1,21 @@
-﻿using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Domain.Tests.Users;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Integration.Tests.Shared;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
 {
     public class EntityFrameworkCoreSqlServerRepositoryTests : InfrastructureTestCase
     {
         protected override string GetJsonFile()
         {
-            return "Data/EntityFrameworkCore/Repositories/appsettings.sqlServer.json";
+            return "Data/EntityFrameworkCore/Repositories/SqlServer/appsettings.sqlServer.json";
         }
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
@@ -53,7 +53,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
             var roberto = User.Create(Guid.NewGuid(), "Roberto bbaa");
             repository.Add(roberto);
 
-            repository.Save();
+            repository.SaveChanges();
 
             var repository2 = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
             var repoUser = repository2.GetById(roberto.Id);

@@ -1,31 +1,28 @@
 ﻿using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications.Common;
+using SharedKernel.Infrastructure.Data.Elasticsearch.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using SharedKernel.Domain.Specifications.Common;
 
-#pragma warning disable 693
-
-namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
+namespace SharedKernel.Infrastructure.Data.Elasticsearch.Repositories
 {
-    public abstract class MongoRepositoryAsync<TAggregateRoot, TKey> : MongoRepository<TAggregateRoot, TKey>, IRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    public abstract class ElasticsearchRepositoryAsync<TAggregateRoot> : ElasticsearchRepository<TAggregateRoot>, IRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot // , IEntity<TKey>
     {
-        protected MongoRepositoryAsync(IOptions<MongoSettings> mongoSettings) : base(mongoSettings)
+        protected ElasticsearchRepositoryAsync(ElasticsearchClient client) : base(client)
         {
         }
 
         public Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            return MongoCollection.InsertOneAsync(aggregate, cancellationToken: cancellationToken);
+            throw new NotImplementedException();
         }
 
         public Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
-            return MongoCollection.InsertManyAsync(aggregates, cancellationToken: cancellationToken);
+            throw new NotImplementedException();
         }
 
         public Task<TAggregateRoot> GetByIdAsync<TKey>(TKey key, CancellationToken cancellationToken)

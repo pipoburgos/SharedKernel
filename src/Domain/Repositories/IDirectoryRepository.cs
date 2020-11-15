@@ -5,7 +5,7 @@ using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Domain.Repositories
 {
-    public interface IDirectoryRepository
+    internal interface IDirectoryRepository
     {
         Task<List<string>> GetFilesAsync(string path, CancellationToken cancellationToken);
 

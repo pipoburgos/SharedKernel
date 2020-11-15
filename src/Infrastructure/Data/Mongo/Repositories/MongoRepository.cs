@@ -1,23 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 #pragma warning disable 693
 
 namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
 {
-    public abstract class MongoRepository<TAggregateRoot, TKey> :
-        ICreateRepository<TAggregateRoot>,
-        IReadRepository<TAggregateRoot>,
-        IUpdateRepository<TAggregateRoot>,
-        IDeleteRepository<TAggregateRoot>
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    public abstract class MongoRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
         protected readonly IMongoCollection<TAggregateRoot> MongoCollection;
 
@@ -84,6 +80,36 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
             {
                 Remove(aggregateRoot);
             }
+        }
+
+        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
+        {
+            return MongoCollection.AsQueryable().Where(spec.SatisfiedBy()).ToList();
+        }
+
+        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
+        {
+            return MongoCollection.AsQueryable().Single(spec.SatisfiedBy());
+        }
+
+        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
+        {
+            return MongoCollection.AsQueryable().SingleOrDefault(spec.SatisfiedBy());
+        }
+
+        public bool Any(ISpecification<TAggregateRoot> spec)
+        {
+            return MongoCollection.AsQueryable().Any(spec.SatisfiedBy());
+        }
+
+        public int Rollback()
+        {
+            return 0;
+        }
+
+        public int SaveChanges()
+        {
+            return 0;
         }
     }
 }

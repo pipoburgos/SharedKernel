@@ -2,23 +2,27 @@
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
+#pragma warning disable 693
+
 namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
 {
-    public abstract class FileSystemRepository<TAggregateRoot, TKey> : ICreateRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    public abstract class FileSystemRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
-        private readonly string _filePath;
+        protected readonly string FilePath;
 
         protected FileSystemRepository()
         {
-            _filePath = Directory.GetCurrentDirectory() + typeof(TAggregateRoot);
+            FilePath = Directory.GetCurrentDirectory() + typeof(TAggregateRoot);
         }
 
-        private string FileName(string id)
+        protected string FileName(string id)
         {
-            return $"{_filePath}.{id}.repository";
+            return $"{FilePath}.{id}.repository";
         }
 
         //public async Task Save(T course)
@@ -57,6 +61,75 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
             {
                 Add(aggregateRoot);
             }
+        }
+
+        public TAggregateRoot GetById<TKey>(TKey key)
+        {
+            if (!File.Exists(FileName(key.ToString())))
+                return null;
+
+            var text = File.ReadAllText(FileName(key.ToString()));
+            return JsonConvert.DeserializeObject<TAggregateRoot>(text);
+        }
+
+        public bool Any()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Any<TKey>(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(TAggregateRoot aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(TAggregateRoot aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Any(ISpecification<TAggregateRoot> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Rollback()
+        {
+            return 0;
+        }
+
+        public int SaveChanges()
+        {
+            return 0;
         }
     }
 }

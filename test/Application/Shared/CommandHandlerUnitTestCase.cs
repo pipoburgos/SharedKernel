@@ -4,7 +4,7 @@ using SharedKernel.Domain.Repositories;
 
 namespace SharedKernel.Application.Tests.Shared
 {
-    public abstract class CommandHandlerUnitTestCase<TRepository, TAggregateRoot> : UnitTestCase
+    internal abstract class CommandHandlerUnitTestCase<TRepository, TAggregateRoot> : UnitTestCase
         where TRepository : class, IRepositoryAsync<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot
     {
@@ -17,7 +17,7 @@ namespace SharedKernel.Application.Tests.Shared
 
         protected void ShouldHaveSave()
         {
-            Repository.Verify(x => x.Save(), Times.AtLeastOnce());
+            Repository.Verify(x => x.SaveChanges(), Times.AtLeastOnce());
         }
     }
 }

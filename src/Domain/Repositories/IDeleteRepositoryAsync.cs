@@ -10,7 +10,7 @@ namespace SharedKernel.Domain.Repositories
     ///     https://buildplease.com/pages/repositories-dto/
     /// </summary>
     /// <typeparam name="TAggregate">Tipo de datos del repositorio</typeparam>
-    public interface IDeleteRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+    internal interface IDeleteRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
     {
         Task RemoveAsync(TAggregate aggregate, CancellationToken cancellationToken);
 

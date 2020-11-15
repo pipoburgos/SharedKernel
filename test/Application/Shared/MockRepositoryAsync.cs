@@ -7,7 +7,7 @@ using SharedKernel.Domain.Repositories;
 
 namespace SharedKernel.Application.Tests.Shared
 {
-    public class MockRepositoryAsync<TRepository, TAggregateRoot> : Mock<TRepository>
+    internal class MockRepositoryAsync<TRepository, TAggregateRoot> : Mock<TRepository>
         where TRepository : class, IRepositoryAsync<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot
     {

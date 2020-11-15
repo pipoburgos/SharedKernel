@@ -2,16 +2,14 @@
 
 namespace SharedKernel.Domain.Repositories
 {
-    public interface IRepository<TAggregateRoot> :
+    internal interface IRepository<TAggregateRoot> :
         ICreateRepository<TAggregateRoot>,
         IReadRepository<TAggregateRoot>,
         IUpdateRepository<TAggregateRoot>,
         IDeleteRepository<TAggregateRoot>,
-        IReadSpecificationRepository<TAggregateRoot>
+        IReadSpecificationRepository<TAggregateRoot>,
+        IPersistRepository
         where TAggregateRoot : class, IAggregateRoot
     {
-        int Rollback();
-
-        int Save();
     }
 }
