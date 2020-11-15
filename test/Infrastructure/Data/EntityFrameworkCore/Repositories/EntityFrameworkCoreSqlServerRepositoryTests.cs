@@ -15,7 +15,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
     {
         protected override string GetJsonFile()
         {
-            return "appsettings.sqlServer.json";
+            return "Data/EntityFrameworkCore/Repositories/appsettings.sqlServer.json";
         }
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)

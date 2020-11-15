@@ -29,7 +29,7 @@ namespace SharedKernel.Integration.Tests.Logging
 
         protected override string GetJsonFile()
         {
-            return "appsettings.serilog.json";
+            return "Logging/appsettings.serilog.json";
         }
 
         [Fact]

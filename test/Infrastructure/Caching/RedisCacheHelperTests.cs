@@ -14,7 +14,7 @@ namespace SharedKernel.Integration.Tests.Caching
     {
         protected override string GetJsonFile()
         {
-            return "appsettings.redis.json";
+            return "Caching/appsettings.redis.json";
         }
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)

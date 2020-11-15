@@ -27,7 +27,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
 
         protected override string GetJsonFile()
         {
-            return "appsettings.rabbitMq.json";
+            return "Events/RabbitMq/appsettings.rabbitMq.json";
         }
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)

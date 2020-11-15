@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -20,9 +21,11 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
     {
         protected readonly IMongoCollection<TAggregateRoot> MongoCollection;
 
-        protected MongoRepository(MongoClient mongoClient, string database)
+        protected MongoRepository(IOptions<MongoSettings> mongoSettings)
         {
-            MongoCollection = mongoClient.GetDatabase(database).GetCollection<TAggregateRoot>(typeof(TAggregateRoot).Name);
+            MongoCollection = new MongoClient(mongoSettings.Value.ConnectionString)
+                .GetDatabase(mongoSettings.Value.Database)
+                .GetCollection<TAggregateRoot>(typeof(TAggregateRoot).Name);
         }
 
 

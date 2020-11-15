@@ -48,6 +48,11 @@ namespace SharedKernel.Integration.Tests.Shared
             return services;
         }
 
+        protected T GetRequiredService<T>()
+        {
+            return Services.GetRequiredService<T>();
+        }
+
         protected T GetService<T>()
         {
             return Services.GetService<T>();

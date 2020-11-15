@@ -1,11 +1,11 @@
-﻿using System;
+﻿using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Driver;
-using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Repositories;
+using Microsoft.Extensions.Options;
 
 #pragma warning disable 693
 
@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
         IDeleteRepositoryAsync<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
-        protected MongoRepositoryAsync(MongoClient mongoClient, string database) : base(mongoClient, database)
+        protected MongoRepositoryAsync(IOptions<MongoSettings> mongoSettings) : base(mongoSettings)
         {
         }
 
