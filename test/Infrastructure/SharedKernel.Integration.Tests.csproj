@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <AssemblyName>SharedKernel.Integration.Tests</AssemblyName>
     <RootNamespace>SharedKernel.Integration.Tests</RootNamespace>
@@ -47,8 +47,10 @@
 
   <ItemGroup>
     <!--TESTING-->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.0" Condition="('$(TargetFramework)'=='net5.0')"/>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.0" Condition="('$(TargetFramework)'=='net5.0')" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.10" Condition="('$(TargetFramework)'=='netcoreapp3.1')"/>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.10" Condition="('$(TargetFramework)'=='netcoreapp3.1')"/>
     <!--ENTITY FRAMEWORK CORE-->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">

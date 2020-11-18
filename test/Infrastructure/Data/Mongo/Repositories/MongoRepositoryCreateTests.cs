@@ -30,6 +30,8 @@ namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
             var roberto = User.Create(Guid.NewGuid(), "Roberto bbdd");
             repository.Add(roberto);
 
+            repository.SaveChanges();
+
             Assert.Equal(roberto, repository.GetById(roberto.Id));
         }
     }

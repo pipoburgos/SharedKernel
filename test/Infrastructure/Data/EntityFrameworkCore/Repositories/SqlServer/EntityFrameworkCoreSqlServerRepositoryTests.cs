@@ -27,7 +27,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [Fact]
         public async Task SaveRepositoryOk()
         {
-            var dbContext = GetService<SharedKernelDbContext>();
+            var dbContext = GetRequiredService<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.MigrateAsync();
 
@@ -55,7 +55,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             repository.SaveChanges();
 
-            var repository2 = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
+            var repository2 = new UserEfCoreRepository(GetRequiredService<SharedKernelDbContext>());
             var repoUser = repository2.GetById(roberto.Id);
             repoUser.Name = "asdfass";
 
