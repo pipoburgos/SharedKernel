@@ -22,6 +22,6 @@ WORKDIR /app
 # Copy everything else and build
 COPY . ./
 
-RUN dotnet test "./test/Domain/SharedKernel.Domain.Tests.csproj" -c Release
-RUN dotnet test "./test/Application/SharedKernel.Application.Tests.csproj" -c Release
-RUN dotnet test "./test/Infrastructure/SharedKernel.Integration.Tests.csproj" -c Release
+RUN dotnet test "./test/Domain/SharedKernel.Domain.Tests.csproj" -c Release --framework net5.0
+RUN dotnet test "./test/Application/SharedKernel.Application.Tests.csproj" -c Release --framework net5.0
+RUN dotnet test "./test/Infrastructure/SharedKernel.Integration.Tests.csproj" -c Release --framework net5.0
