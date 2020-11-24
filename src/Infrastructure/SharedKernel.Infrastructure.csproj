@@ -16,6 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\docs\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FluentValidation" Version="9.3.0" />
@@ -42,17 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionCodes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Exceptions\ExceptionCodes.es-ES.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
@@ -61,10 +57,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\docs\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionCodes.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

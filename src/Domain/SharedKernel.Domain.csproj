@@ -15,7 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Exceptions\DomainException.cs" />
+    <None Include="..\..\docs\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\docs\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
     <None Include="Exceptions\ExceptionCodes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
