@@ -4,7 +4,7 @@ using SharedKernel.Domain.Aggregates;
 
 namespace SharedKernel.Domain.Repositories
 {
-    internal interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateRoot
+    public interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateRoot
     {
         Task<TAggregate> GetByIdAsync<TKey>(TKey key, CancellationToken cancellationToken);
 

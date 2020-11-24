@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Domain.Repositories
 {
-    internal interface IPersistRepository
+    public interface IPersistRepository
     {
         int Rollback();
 

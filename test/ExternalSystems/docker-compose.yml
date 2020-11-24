@@ -2,6 +2,24 @@ version: '3.8'
 
 services:
 
+    grafana:
+        container_name: grafana
+        image: grafana/grafana
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
+        restart: always
+        ports:
+            - 22226:3000
+
+    prometheus:
+        container_name: prometheus
+        image: prom/prometheus
+        restart: always
+        ports:
+            - 22227:9090
+        #volumes:
+         #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
     elasticsearch:
         container_name: elasticsearch
         image: elasticsearch:7.9.3
@@ -42,3 +60,5 @@ services:
             - MSSQL_PID=Developer
         ports:
             - 22220:1433
+        #volumes:
+         #   - ~/docker/sqlserver-data:/var/opt/mssql

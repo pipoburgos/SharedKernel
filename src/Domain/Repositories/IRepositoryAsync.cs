@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Domain.Repositories
 {
-    internal interface IRepositoryAsync<TAggregateRoot> : IRepository<TAggregateRoot>,
+    public interface IRepositoryAsync<TAggregateRoot> : IRepository<TAggregateRoot>,
         ICreateRepositoryAsync<TAggregateRoot>,
         IReadRepositoryAsync<TAggregateRoot>,
         IUpdateRepositoryAsync<TAggregateRoot>,

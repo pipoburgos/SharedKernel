@@ -9,7 +9,7 @@ namespace SharedKernel.Domain.Repositories
     ///     https://buildplease.com/pages/repositories-dto/
     /// </summary>
     /// <typeparam name="TAggregateRoot">Tipo de datos del repositorio</typeparam>
-    internal interface IReadSpecificationRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+    public interface IReadSpecificationRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
     {
         List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec);
 

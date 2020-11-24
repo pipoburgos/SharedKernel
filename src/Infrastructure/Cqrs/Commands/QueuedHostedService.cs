@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands
 {
@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     public class QueuedHostedService : BackgroundService
     {
         private readonly IBackgroundTaskQueue _taskQueue;
-        private readonly ILogger<QueuedHostedService> _logger;
+        private readonly ICustomLogger<QueuedHostedService> _logger;
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <param name="taskQueue"></param>
         /// <param name="logger"></param>
         public QueuedHostedService(IBackgroundTaskQueue taskQueue,
-            ILogger<QueuedHostedService> logger)
+            ICustomLogger<QueuedHostedService> logger)
         {
             _taskQueue = taskQueue;
             _logger = logger;
@@ -33,7 +33,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Queued Hosted Service is running for async commands");
+            _logger.Info("Queued Hosted Service is running for async commands");
 
             await BackgroundProcessing(stoppingToken);
         }
@@ -56,7 +56,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                    _logger.Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -69,7 +69,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <returns></returns>
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Queued Hosted Service is stopping.");
+            _logger.Info("Queued Hosted Service is stopping.");
 
             while (_taskQueue.Any())
             {
@@ -82,12 +82,12 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                    _logger.Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
-            _logger.LogInformation("Queued Hosted Service is stopped.");
+            _logger.Info("Queued Hosted Service is stopped.");
 
             await base.StopAsync(stoppingToken);
         }

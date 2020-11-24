@@ -6,7 +6,7 @@ using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Domain.Repositories
 {
-    internal interface IFileRepository
+    public interface IFileRepository
     {
         Task AddAsync(FileEntity file, CancellationToken cancellationToken);
 

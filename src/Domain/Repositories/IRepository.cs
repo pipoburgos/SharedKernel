@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Domain.Repositories
 {
-    internal interface IRepository<TAggregateRoot> :
+    public interface IRepository<TAggregateRoot> :
         ICreateRepository<TAggregateRoot>,
         IReadRepository<TAggregateRoot>,
         IUpdateRepository<TAggregateRoot>,

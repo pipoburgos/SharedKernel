@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Domain.Repositories
 {
-    internal interface IPersistRepositoryAsync
+    public interface IPersistRepositoryAsync
     {
         Task<int> RollbackAsync(CancellationToken cancellationToken);
 
