@@ -262,3 +262,4 @@ __pycache__/
 /Src/Apps/Api/tempkey.jwk
 *.cmd
 /.vscode
+/test/ExternalSystems/SqlServer/
