@@ -42,7 +42,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
             repository.SaveChanges();
 
             var repoUser = repository.GetById(roberto.Id);
-            repoUser.Name = "asdfass";
+            repoUser.ChangeName("asdfass");
 
             Assert.Equal(roberto.Id, repoUser.Id);
             Assert.Equal(roberto.Name, repoUser.Name);

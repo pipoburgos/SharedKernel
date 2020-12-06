@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Integration.Tests.Shared;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
@@ -33,12 +33,15 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             var repository = new UserEfCoreRepository(dbContext);
 
-            var roberto = User.Create(Guid.NewGuid(), "Roberto bbdd");
+            var roberto = UserMother.Create();
             repository.Add(roberto);
 
             await repository.SaveChangesAsync(CancellationToken.None);
 
             Assert.Equal(roberto, repository.GetById(roberto.Id));
+
+            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.Database.MigrateAsync();
         }
 
         [Fact]
@@ -50,17 +53,32 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             var repository = new UserEfCoreRepository(dbContext);
 
-            var roberto = User.Create(Guid.NewGuid(), "Roberto bbaa");
+            var roberto = UserMother.Create();
+
+            for (var i = 0; i < 10; i++)
+            {
+                roberto.AddAddress(AddressMother.Create());
+            }
+
+            for (var i = 0; i < 5; i++)
+            {
+                roberto.AddEmail(EmailMother.Create());
+            }
+
             repository.Add(roberto);
 
             repository.SaveChanges();
 
             var repository2 = new UserEfCoreRepository(GetRequiredService<SharedKernelDbContext>());
             var repoUser = repository2.GetById(roberto.Id);
-            repoUser.Name = "asdfass";
 
             Assert.Equal(roberto.Id, repoUser.Id);
-            Assert.NotEqual(roberto.Name, repoUser.Name);
+            Assert.Equal(roberto.Name, repoUser.Name);
+            Assert.Equal(5, repoUser.Emails.Count());
+            Assert.Equal(10, repoUser.Addresses.Count());
+
+            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.Database.MigrateAsync();
         }
     }
 }

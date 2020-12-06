@@ -46,16 +46,14 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 
             mailMessage.To.Add(email);
 
-            using (var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort)
+            using var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort)
             {
                 EnableSsl = _smtp.RequireSsl,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password)
-            })
-            {
-                await client.SendMailAsync(mailMessage);
-            }
+            };
+            await client.SendMailAsync(mailMessage);
         }
     }
 }

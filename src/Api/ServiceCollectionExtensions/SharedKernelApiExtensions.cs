@@ -1,5 +1,4 @@
 ﻿using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +11,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 {
     public static class SharedKernelApiExtensions
     {
+        public static string MyAllowSpecificOrigins = "CorsPolicy";
+
         public static IServiceCollection AddSharedKernelApi<TValidatorsAssembly>(this IServiceCollection services, IConfiguration configuration)
         {
             services
@@ -35,8 +36,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 
             return services;
         }
-
-        public static string MyAllowSpecificOrigins = "CorsPolicy";
 
         public static IServiceCollection AddGatewayApi<TAssembly>(this IServiceCollection services, IConfiguration configuration)
         {
@@ -87,20 +86,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 config.AssumeDefaultVersionWhenUnspecified = true;
                 // Advertise the API versions supported for the particular endpoint
                 config.ReportApiVersions = true;
-            });
-
-            // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
-            services.Configure<IISOptions>(iis =>
-            {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
-            });
-
-            // configures IIS in-proc settings
-            services.Configure<IISServerOptions>(iis =>
-            {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
             });
 
             return services;

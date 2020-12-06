@@ -81,22 +81,7 @@ namespace SharedKernel.Infrastructure
                 .Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
         }
 
-        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
 
-            return services
-                //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover
-                .AddTransient<ExecuteMiddlewaresService>()
-                .AddScoped<IEventBus, RabbitMqEventBus>()
-                .AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>()
-                .AddScoped<InMemoryEventBus>()
-                .AddScoped<RabbitMqPublisher>()
-                .AddScoped<RabbitMqConfig>()
-                .AddScoped<RabbitMqDomainEventsConsumer>()
-                .AddScoped<DomainEventsInformation>()
-                .AddScoped<DomainEventJsonDeserializer>();
-        }
 
         public static IServiceCollection AddInMemmoryQueryBus(this IServiceCollection services)
         {
@@ -110,6 +95,31 @@ namespace SharedKernel.Infrastructure
             return services
                 .AddTransient<ExecuteMiddlewaresService>()
                 .AddTransient<ICommandBus, InMemoryCommandBus>();
+        }
+
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<ExecuteMiddlewaresService>()
+                .AddScoped<IEventBus, InMemoryEventBus>()
+                .AddScoped<DomainEventsInformation>()
+                .AddScoped<DomainEventJsonDeserializer>();
+        }
+
+        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
+
+            return services
+                //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover
+                .AddTransient<ExecuteMiddlewaresService>()
+                .AddScoped<IEventBus, RabbitMqEventBus>()
+                .AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>()
+                .AddScoped<RabbitMqPublisher>()
+                .AddScoped<RabbitMqConfig>()
+                .AddScoped<RabbitMqDomainEventsConsumer>()
+                .AddScoped<DomainEventsInformation>()
+                .AddScoped<DomainEventJsonDeserializer>();
         }
     }
 }

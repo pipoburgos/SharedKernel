@@ -5,7 +5,8 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqConfig
     {
-        public ConnectionFactory ConnectionFactory { get; private set; }
+        private readonly ConnectionFactory _connectionFactory;
+
         private static IConnection ConnectionPrivate { get; set; }
         private static IModel ChannelPrivate { get; set; }
 
@@ -13,7 +14,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         {
             var configParams = rabbitMqParams.Value;
 
-            ConnectionFactory = new ConnectionFactory
+            _connectionFactory = new ConnectionFactory
             {
                 HostName = configParams.HostName,
                 UserName = configParams.Username,
@@ -22,14 +23,14 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             };
         }
 
-        public IConnection Connection()
+        private IConnection Connection()
         {
-            return ConnectionPrivate ?? (ConnectionPrivate = ConnectionFactory.CreateConnection());
+            return ConnectionPrivate ??= _connectionFactory.CreateConnection();
         }
 
         public IModel Channel()
         {
-            return ChannelPrivate ?? (ChannelPrivate = Connection().CreateModel());
+            return ChannelPrivate ??= Connection().CreateModel();
         }
     }
 }

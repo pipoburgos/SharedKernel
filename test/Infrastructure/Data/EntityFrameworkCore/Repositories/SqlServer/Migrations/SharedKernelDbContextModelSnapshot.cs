@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Migrations
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
     [DbContext(typeof(SharedKernelDbContext))]
     partial class SharedKernelDbContextModelSnapshot : ModelSnapshot
@@ -16,18 +16,25 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("skr")
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("SharedKernel.Domain.Tests.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Addresses")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("JsonAddresses");
+
+                    b.Property<string>("Emails")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 

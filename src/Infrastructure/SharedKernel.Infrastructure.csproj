@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
     <PackageReference Include="NEST" Version="7.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
