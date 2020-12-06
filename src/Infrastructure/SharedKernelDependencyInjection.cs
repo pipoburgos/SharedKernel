@@ -29,6 +29,7 @@ using SharedKernel.Infrastructure.Data.FileSystem;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
+using SharedKernel.Infrastructure.HealthChecks;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Security.Cryptography;
@@ -39,13 +40,16 @@ using SharedKernel.Infrastructure.Validators;
 
 namespace SharedKernel.Infrastructure
 {
-    public static class SharedKernelComponent
+    public static class SharedKernelDependencyInjection
     {
-        public static IServiceCollection AddSharedKernelComponent(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddSharedKernel(this IServiceCollection services)
         {
-            services
-                .AddMemoryCache()
-                .AddLogging();
+            services.AddLogging();
+
+            services.AddHealthChecks()
+                .AddCheck("google.com", new PingHealthCheck("google.com", 20))
+                .AddCheck("bing.com", new PingHealthCheck("bing.com", 20))
+                .AddCheck<SystemMemoryHealthcheck>("Memory");
 
             return services
                 .AddHostedService<QueuedHostedService>()
@@ -58,12 +62,10 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IAuditableService, AuditableService>()
                 .AddTransient<IBase64, Base64>()
                 .AddTransient<IBinarySerializer, BinarySerializer>()
-                .AddTransient<ICacheHelper, InMemoryCacheHelper>()
                 .AddTransient<ICulture, ThreadUiCulture>()
                 .AddTransient<ICustomLogger, DefaultCustomLogger>()
                 .AddTransient<IDateTime, MachineDateTime>()
                 .AddTransient<IDirectoryRepositoryAsync, DirectoryRepositoryAsync>()
-                .AddTransient<IEmailSender, SmtpEmailSender>()
                 .AddTransient<IEncryptionHexHelper, EncryptionHexHelper>()
                 .AddTransient<IFileRepositoryAsync, FileRepositoryAsync>()
                 .AddTransient<IGuid, GuidGenerator>()
@@ -77,11 +79,21 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IStringHelper, StringHelper>()
                 .AddTransient<ITripleDes, TripleDes>()
                 .AddTransient<ITypeAdapterFactory, AutoMapperTypeAdapterFactory>()
-                .AddTransient<IWeb, WebUtils>()
-                .Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
+                .AddTransient<IWeb, WebUtils>();
         }
 
+        public static IServiceCollection AddInMemmoryCache(this IServiceCollection services)
+        {
+            return services
+                .AddMemoryCache()
+                .AddTransient<ICacheHelper, InMemoryCacheHelper>();
+        }
 
+        public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
+            return services.AddTransient<IEmailSender, SmtpEmailSender>();
+        }
 
         public static IServiceCollection AddInMemmoryQueryBus(this IServiceCollection services)
         {
@@ -109,6 +121,10 @@ namespace SharedKernel.Infrastructure
         public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
+
+            services
+                .AddHealthChecks()
+                .AddRabbitMQ(sp => sp.GetRequiredService<RabbitMqConfig>().Connection());
 
             return services
                 //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover

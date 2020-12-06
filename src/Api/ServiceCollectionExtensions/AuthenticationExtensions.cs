@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
 
             services
+                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

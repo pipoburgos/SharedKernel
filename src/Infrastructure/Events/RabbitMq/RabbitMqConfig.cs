@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             };
         }
 
-        private IConnection Connection()
+        public IConnection Connection()
         {
             return ConnectionPrivate ??= _connectionFactory.CreateConnection();
         }
