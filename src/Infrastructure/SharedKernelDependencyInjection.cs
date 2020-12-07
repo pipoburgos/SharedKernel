@@ -50,9 +50,10 @@ namespace SharedKernel.Infrastructure
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #endif
             services.AddHealthChecks()
-                .AddCheck("google.com", new PingHealthCheck("google.com", 20))
-                .AddCheck("bing.com", new PingHealthCheck("bing.com", 20))
-                .AddCheck<SystemMemoryHealthcheck>("Memory");
+                .AddCheck("google.com", new PingHealthCheck("google.com", 200))
+                .AddCheck("bing.com", new PingHealthCheck("bing.com", 200))
+                .AddCheck<RamHealthcheck>("RAM")
+                .AddCheck<CpuHealthCheck>("CPU");
 
             return services
                 .AddHostedService<QueuedHostedService>()
