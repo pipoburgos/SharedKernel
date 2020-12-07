@@ -50,9 +50,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <returns></returns>
         public static IServiceCollection AddOpenApi(this IServiceCollection services, IConfiguration configuration)
         {
-            var openIdOptions = new OpenIdOptions();
-            configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
-
             var openApiOptions = new OpenApiOptions();
             configuration.GetSection(nameof(OpenApiOptions)).Bind(openApiOptions);
 
@@ -61,7 +58,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
-                //c.SwaggerDoc("v2", new OpenApiInfo {Title = "Autoescuela API", Version = "v2"});
 
                 // Set the comments path for the Swagger JSON and UI.
                 string xmlPath = null;
@@ -73,31 +69,36 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 
                 c.AddFluentValidationRules();
 
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                var openIdOptions = new OpenIdOptions();
+                configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
+
+                if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
                 {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
+                    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                     {
-                        Password = new OpenApiOAuthFlow
+                        Type = SecuritySchemeType.OAuth2,
+                        Flows = new OpenApiOAuthFlows
                         {
-                            AuthorizationUrl = new Uri(openIdOptions.Authority),
-                            TokenUrl = new Uri(openIdOptions.Authority + "/connect/token"),
-                            Scopes = new Dictionary<string, string> { { openIdOptions.Scope, "Scope" } }
+                            Password = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri(openIdOptions.Authority),
+                                TokenUrl = new Uri(openIdOptions.Authority + "/connect/token"),
+                                Scopes = new Dictionary<string, string> { { openIdOptions.Scope, "Scope" } }
+                            }
                         }
-                    }
-                });
+                    });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
-                        new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}
-                        },
-                        new[] { openIdOptions.Audience}
-                    }
-                });
-
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}
+                            },
+                            new[] { openIdOptions.Audience}
+                        }
+                    });
+                }
 
                 c.AddEnumsWithValuesFixFilters(services, o =>
                 {
@@ -149,7 +150,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", options?.Value?.Name ?? "Open API v1");
-                //c.SwaggerEndpoint("/swagger/v2/swagger.json", "Autoescuela API v2");
                 c.RoutePrefix = string.Empty;
                 c.OAuthAppName(options?.Value?.AppName ?? "Open API specification");
                 c.OAuthScopeSeparator(" ");
