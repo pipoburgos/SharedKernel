@@ -46,6 +46,9 @@ namespace SharedKernel.Infrastructure
         {
             services.AddLogging();
 
+#if NET461
+            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
+#endif
             services.AddHealthChecks()
                 .AddCheck("google.com", new PingHealthCheck("google.com", 20))
                 .AddCheck("bing.com", new PingHealthCheck("bing.com", 20))

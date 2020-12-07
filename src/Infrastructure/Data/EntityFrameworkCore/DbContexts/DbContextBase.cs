@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 {
-    public class DbContextBase : DbContext, IQueryableUnitOfWork, IReadContext
+    public class DbContextBase : DbContext, IQueryableUnitOfWork
     {
         #region Members
 

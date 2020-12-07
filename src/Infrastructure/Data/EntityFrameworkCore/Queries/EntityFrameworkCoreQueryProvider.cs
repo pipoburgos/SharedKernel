@@ -2,36 +2,33 @@
 using SharedKernel.Application.Adapter;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Application.Extensions;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Extensions;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 {
-    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : IReadContext
+    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContextBase
     {
-        private readonly Func<TDbContextBase> _factory;
+        private readonly IDbContextFactory<TDbContextBase> _factory;
 
-        private readonly List<TDbContextBase> _contexts;
-
-        public EntityFrameworkCoreQueryProvider(Func<TDbContextBase> factory)
+        public EntityFrameworkCoreQueryProvider(IDbContextFactory<TDbContextBase> factory)
         {
-            _contexts = new List<TDbContextBase>();
             _factory = factory;
         }
 
         public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
         {
-            var query = CreateDbContext().Set<TEntity>().AsNoTracking();
+            using var context = _factory.CreateDbContext();
+            var query = context.Set<TEntity>().AsNoTracking();
 
             if (!showDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(TEntity)))
             {
@@ -49,7 +46,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
             Expression<Func<T, TResult>> selector = null, CancellationToken cancellationToken = default)
             where T : class where TResult : class
         {
-            var query = CreateDbContext().Set<T>().AsNoTracking();
+            await using var context = _factory.CreateDbContext();
+            var query = context.Set<T>().AsNoTracking();
 
             var totalBefore = await query.CountAsync(cancellationToken);
 
@@ -102,39 +100,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 
 
             return new PagedList<TResult>(totalBefore, totalAfter, elements);
-        }
-
-        #region Private Methods
-
-        private TDbContextBase CreateDbContext()
-        {
-            var context = _factory.Invoke();
-
-            _contexts.Add(context);
-
-            return context;
-        }
-
-        #endregion
-
-        private void ReleaseUnmanagedResources()
-        {
-            foreach (var dbContextBase in _contexts)
-            {
-                //dbContextBase?.GetConnection?.Dispose();
-                dbContextBase?.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~EntityFrameworkCoreQueryProvider()
-        {
-            ReleaseUnmanagedResources();
         }
     }
 }
