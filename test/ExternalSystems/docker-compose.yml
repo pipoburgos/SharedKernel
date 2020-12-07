@@ -2,33 +2,6 @@ version: '3.8'
 
 services:
 
-    # grafana:
-    #     image: grafana/grafana
-    #     container_name: shared-kernel-grafana
-    #     environment:
-    #         - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
-    #     restart: always
-    #     ports:
-    #         - 22226:3000
-    # 
-    # prometheus:
-    #     image: prom/prometheus
-    #     container_name: shared-kernel-prometheus
-    #     restart: always
-    #     ports:
-    #         - 22227:9090
-    #     volumes:
-    #        - ./Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    # 
-    # elasticsearch:
-    #     image: elasticsearch:7.9.3
-    #     container_name: shared-kernel-elasticsearch
-    #     environment:
-    #         - discovery.type=single-node
-    #     ports:
-    #         - 22224:9200
-    #         - 22225:9300
-
     sqlserver:
         image: mcr.microsoft.com/mssql/server
         container_name: shared-kernel-sqlserver
