@@ -27,8 +27,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 
         public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
         {
-            using var context = _factory.CreateDbContext();
-            var query = context.Set<TEntity>().AsNoTracking();
+            var query = _factory.CreateDbContext().Set<TEntity>().AsNoTracking();
 
             if (!showDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(TEntity)))
             {
@@ -46,8 +45,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
             Expression<Func<T, TResult>> selector = null, CancellationToken cancellationToken = default)
             where T : class where TResult : class
         {
-            await using var context = _factory.CreateDbContext();
-            var query = context.Set<T>().AsNoTracking();
+            var query = _factory.CreateDbContext().Set<T>().AsNoTracking();
 
             var totalBefore = await query.CountAsync(cancellationToken);
 

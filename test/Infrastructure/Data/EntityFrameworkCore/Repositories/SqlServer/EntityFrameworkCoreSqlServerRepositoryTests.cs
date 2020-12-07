@@ -21,7 +21,9 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("SharedKernelSqlServer");
-            return services.AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection), ServiceLifetime.Transient);
+            return services
+                .AddTransient<UserEfCoreRepository>()
+                .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection), ServiceLifetime.Transient);
         }
 
         [Fact]
@@ -31,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.MigrateAsync();
 
-            var repository = new UserEfCoreRepository(dbContext);
+            var repository = GetRequiredService<UserEfCoreRepository>();
 
             var roberto = UserMother.Create();
             repository.Add(roberto);
@@ -51,7 +53,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.MigrateAsync();
 
-            var repository = new UserEfCoreRepository(dbContext);
+            var repository = GetRequiredService<UserEfCoreRepository>();
 
             var roberto = UserMother.Create();
 
@@ -69,7 +71,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             repository.SaveChanges();
 
-            var repository2 = new UserEfCoreRepository(GetRequiredService<SharedKernelDbContext>());
+            var repository2 = GetRequiredService<UserEfCoreRepository>();
             var repoUser = repository2.GetById(roberto.Id);
 
             Assert.Equal(roberto.Id, repoUser.Id);
