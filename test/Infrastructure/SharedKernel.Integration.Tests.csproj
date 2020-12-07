@@ -121,14 +121,4 @@
     <ProjectReference Include="..\Domain\SharedKernel.Domain.Tests.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\EntityFrameworkCore\Repositories\Cosmos\" />
-    <Folder Include="Data\EntityFrameworkCore\Repositories\MySQL\" />
-    <Folder Include="Data\EntityFrameworkCore\Repositories\Oracle\" />
-    <Folder Include="Data\EntityFrameworkCore\Repositories\PostgreSQL\" />
-    <Folder Include="Data\EntityFrameworkCore\Repositories\Sqlite\" />
-    <Folder Include="Data\Mongo\Conventions\" />
-  </ItemGroup>
-
-
 </Project>

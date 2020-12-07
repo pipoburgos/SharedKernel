@@ -6,6 +6,7 @@ using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
+using SharedKernel.Infrastructure;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
@@ -21,11 +22,7 @@ namespace SharedKernel.Integration.Tests.Caching
         {
             return services
                 .AddTransient<IBinarySerializer, BinarySerializer>()
-                .AddDistributedRedisCache(opt =>
-                {
-                    opt.Configuration = Configuration.GetSection("RedisCacheOptions:Configuration").Value;
-                    opt.InstanceName = Configuration.GetSection("RedisCacheOptions:InstanceName").Value;
-                });
+                .AddRedisDistributedCache(Configuration);
         }
 
         [Fact]

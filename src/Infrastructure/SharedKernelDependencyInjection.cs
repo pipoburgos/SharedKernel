@@ -92,6 +92,21 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<ICacheHelper, InMemoryCacheHelper>();
         }
 
+        public static IServiceCollection AddRedisDistributedCache(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddHealthChecks()
+                .AddRedis(configuration.GetSection("RedisCacheOptions:ConnectionString").Value);
+
+            return services
+                .AddDistributedRedisCache(opt =>
+                {
+                    opt.Configuration = configuration.GetSection("RedisCacheOptions:Configuration").Value;
+                    opt.InstanceName = configuration.GetSection("RedisCacheOptions:InstanceName").Value;
+                })
+                .AddTransient<ICacheHelper, DistributedCacheHelper>();
+        }
+
         public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
@@ -127,7 +142,7 @@ namespace SharedKernel.Infrastructure
 
             services
                 .AddHealthChecks()
-                .AddRabbitMQ(sp => sp.GetRequiredService<RabbitMqConfig>().Connection());
+                .AddRabbitMQ(sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConfig>().Connection());
 
             return services
                 //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover
