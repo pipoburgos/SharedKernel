@@ -41,7 +41,7 @@ namespace SharedKernel.Infrastructure.Events
             }
         }
 
-        public string FormatRabbitMqQueueName()
+        public string SubscriberName()
         {
             // return $"{ToSnake(ContextName)}.{ToSnake(ModuleName)}.{ToSnake(ClassName)}";
             return ToSnake(ClassName);

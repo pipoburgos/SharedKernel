@@ -55,7 +55,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             var repository = new UserEfCoreRepository(dbContext);
 
             var tasks = new List<Task>();
-            for (var i = 0; i < 500; i++)
+            for (var i = 0; i < 50; i++)
             {
                 var roberto = UserMother.Create();
 

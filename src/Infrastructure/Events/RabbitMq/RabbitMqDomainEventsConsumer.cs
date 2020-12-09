@@ -1,55 +1,47 @@
-using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SharedKernel.Domain.Events;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Events;
-using SharedKernel.Application.Reflection;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
-        private DomainEventSubscribersInformation _information;
-        private readonly RabbitMqConfig _config;
+        private readonly RabbitMqConnectionFactory _config;
+        private readonly DomainEventSubscribersInformation _information;
         private readonly DomainEventJsonDeserializer _deserializer;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly Dictionary<string, object> _domainEventSubscribers = new Dictionary<string, object>();
+        private readonly DomainEventMediator _domainEventMediator;
         private const int MaxRetries = 2;
         private const string HeaderRedelivery = "redelivery_count";
 
         public RabbitMqDomainEventsConsumer(
             DomainEventSubscribersInformation information,
             DomainEventJsonDeserializer deserializer,
-            IServiceProvider serviceProvider,
-            RabbitMqConfig config)
+            DomainEventMediator domainEventMediator,
+            RabbitMqConnectionFactory config)
         {
             _information = information;
             _deserializer = deserializer;
-            _serviceProvider = serviceProvider;
+            _domainEventMediator = domainEventMediator;
             _config = config;
         }
 
         public Task Consume(CancellationToken cancellationToken)
         {
-            _information.RabbitMqFormattedNames().ForEach(queue => ConsumeMessages(queue, cancellationToken));
+            _information.GetAllEventsSubscribers().ForEach(eventSubscriber => ConsumeMessages(eventSubscriber, cancellationToken));
             return Task.CompletedTask;
         }
 
-        public void ConsumeMessages(string queue, CancellationToken cancellationToken, ushort prefetchCount = 10)
+        private void ConsumeMessages(string eventSubscriber, CancellationToken cancellationToken, ushort prefetchCount = 10)
         {
             var channel = _config.Channel();
 
-            DeclareQueue(channel, queue);
+            DeclareQueue(channel, eventSubscriber);
 
             channel.BasicQos(0, prefetchCount, false);
-            var scope = _serviceProvider.CreateScope();
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += async (model, ea) =>
             {
@@ -57,55 +49,24 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 var message = Encoding.UTF8.GetString(body);
                 var @event = _deserializer.Deserialize(message);
 
-                var subscriber = _domainEventSubscribers.ContainsKey(queue)
-                    ? _domainEventSubscribers[queue]
-                    : SubscribeFor(queue, scope);
-
                 try
                 {
-                    await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
+                    await _domainEventMediator.ExecuteOn(@event, eventSubscriber, cancellationToken);
                 }
                 catch
                 {
-                    HandleConsumptionError(ea, queue);
+                    HandleConsumptionError(ea, eventSubscriber);
                 }
 
                 channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            channel.BasicConsume(queue, false, consumer);
-        }
-
-        public void WithSubscribersInformation(DomainEventSubscribersInformation information)
-        {
-            _information = information;
-        }
-
-        private object SubscribeFor(string queue, IServiceScope scope)
-        {
-            var queueParts = queue.Split('.');
-            var subscriberName = ToCamelFirstUpper(queueParts.Last());
-
-            var t = ReflectionHelper.GetType(subscriberName);
-
-            var subscriber = scope.ServiceProvider.GetRequiredService(t);
-            _domainEventSubscribers.Add(queue, subscriber);
-            return subscriber;
-        }
-
-        private string ToCamelFirstUpper(string text)
-        {
-            var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
-            return textInfo.ToTitleCase(text).Replace("_", string.Empty);
+            channel.BasicConsume(eventSubscriber, false, consumer);
         }
 
         private void DeclareQueue(IModel channel, string queue)
         {
-            channel.QueueDeclare(queue,
-                true,
-                false,
-                false
-            );
+            channel.QueueDeclare(queue, true, false, false);
         }
 
         private void HandleConsumptionError(BasicDeliverEventArgs ea, string queue)
@@ -142,10 +103,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             headers[HeaderRedelivery] = (int)headers[HeaderRedelivery] + 1;
             properties.Headers = headers;
 
-            channel.BasicPublish(exchange,
-                queue,
-                properties,
-                body);
+            channel.BasicPublish(exchange, queue, properties, body);
         }
     }
 }

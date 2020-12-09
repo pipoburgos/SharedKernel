@@ -4,7 +4,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     {
         public static string Format(DomainEventSubscriberInformation information)
         {
-            return information.FormatRabbitMqQueueName();
+            return information.SubscriberName();
         }
 
         public static string FormatRetry(DomainEventSubscriberInformation information)

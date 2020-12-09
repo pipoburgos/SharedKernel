@@ -4,9 +4,9 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
-    public static class DomainEventJsonSerializer
+    public class DomainEventJsonSerializer
     {
-        public static string Serialize(DomainEvent domainEvent)
+        public string Serialize(DomainEvent domainEvent)
         {
             if (domainEvent == null) return "";
 

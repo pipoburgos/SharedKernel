@@ -1,9 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -59,6 +59,5 @@ namespace SharedKernel.Infrastructure.Events
 
             return services;
         }
-
     }
 }

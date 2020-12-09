@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
+using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Exceptions;
-using SharedKernel.Infrastructure.Settings;
 using SharedKernel.Integration.Tests.Shared;
 using Xunit;
 
@@ -23,9 +23,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>));
-            services.Configure<SmtpSettings>(Configuration.GetSection(nameof(SmtpSettings)));
-            return services;
+            return services.AddSmtp(Configuration);
         }
 
         [Fact]

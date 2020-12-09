@@ -14,17 +14,21 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     {
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly RabbitMqPublisher _rabbitMqPublisher;
+        private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
+
         private readonly string _exchangeName;
         // private readonly MsSqlEventBus _failOverPublisher;
 
         public RabbitMqEventBus(
             ExecuteMiddlewaresService executeMiddlewaresService,
             RabbitMqPublisher rabbitMqPublisher,
+            DomainEventJsonSerializer domainEventJsonSerializer,
             // MsSqlEventBus failOverPublisher,
             string exchangeName = "domain_events")
         {
             _executeMiddlewaresService = executeMiddlewaresService;
             _rabbitMqPublisher = rabbitMqPublisher;
+            _domainEventJsonSerializer = domainEventJsonSerializer;
             // _failOverPublisher = failOverPublisher;
             _exchangeName = exchangeName;
         }
@@ -40,7 +44,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             {
                 _executeMiddlewaresService.Execute(@event);
 
-                var serializedDomainEvent = DomainEventJsonSerializer.Serialize(@event);
+                var serializedDomainEvent = _domainEventJsonSerializer.Serialize(@event);
                 _rabbitMqPublisher.Publish(_exchangeName, @event.GetEventName(), serializedDomainEvent);
             }
             catch (RabbitMQClientException)

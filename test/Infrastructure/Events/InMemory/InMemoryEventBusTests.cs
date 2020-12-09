@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Events;
@@ -6,26 +6,21 @@ using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Events.RabbitMq
+namespace SharedKernel.Integration.Tests.Events.InMemory
 {
-    public class RabbitMqEventBusShould : InfrastructureTestCase
+    public class InMemoryEventBusTests : InfrastructureTestCase
     {
-        protected override string GetJsonFile()
-        {
-            return "Events/RabbitMq/appsettings.rabbitMq.json";
-        }
-
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddRabbitMqEventBus(Configuration)
+                .AddInMemoryEventBus()
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
                 .AddDomainEventSubscribersInformation()
                 .AddSingleton<PublishUserCreatedDomainEvent>();
         }
 
         [Fact]
-        public async Task PublishDomainEventFromRabbitMq()
+        public async Task PublishDomainEventFromMemory()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
                 GetRequiredService<PublishUserCreatedDomainEvent>());

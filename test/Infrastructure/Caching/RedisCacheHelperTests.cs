@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
@@ -20,9 +19,7 @@ namespace SharedKernel.Integration.Tests.Caching
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services
-                .AddTransient<IBinarySerializer, BinarySerializer>()
-                .AddRedisDistributedCache(Configuration);
+            return services.AddRedisDistributedCache(Configuration);
         }
 
         [Fact]

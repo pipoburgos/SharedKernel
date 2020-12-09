@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
 
-namespace SharedKernel.Integration.Tests.Events.RabbitMq
+namespace SharedKernel.Integration.Tests.Events
 {
-    internal class TestAllWorksOnRabbitMqEventsPublishedSubscriber : DomainEventSubscriber<UserCreated>
+    internal class SetUserIdWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {
-        private readonly SingletonValueContainer _singletonValueContainer;
+        private readonly PublishUserCreatedDomainEvent _singletonValueContainer;
 
-        public TestAllWorksOnRabbitMqEventsPublishedSubscriber(
-            SingletonValueContainer singletonValueContainer)
+        public SetUserIdWhenUserCreatedSubscriber(
+            PublishUserCreatedDomainEvent singletonValueContainer)
         {
             _singletonValueContainer = singletonValueContainer;
         }
@@ -22,7 +22,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
             if (@event == default)
                 throw new ArgumentNullException(nameof(@event));
 
-            _singletonValueContainer.UserId = @event.Id;
+            _singletonValueContainer.SetUser(@event.Id);
             return Task.CompletedTask;
         }
     }

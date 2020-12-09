@@ -3,14 +3,14 @@ using RabbitMQ.Client;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
-    public class RabbitMqConfig
+    public class RabbitMqConnectionFactory
     {
         private readonly ConnectionFactory _connectionFactory;
 
         private static IConnection ConnectionPrivate { get; set; }
         private static IModel ChannelPrivate { get; set; }
 
-        public RabbitMqConfig(IOptions<RabbitMqConfigParams> rabbitMqParams)
+        public RabbitMqConnectionFactory(IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             var configParams = rabbitMqParams.Value;
 

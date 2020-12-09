@@ -6,10 +6,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqPublisher
     {
-        private readonly RabbitMqConfig _config;
+        private readonly RabbitMqConnectionFactory _config;
         private const string HeaderReDelivery = "redelivery_count";
 
-        public RabbitMqPublisher(RabbitMqConfig config)
+        public RabbitMqPublisher(RabbitMqConnectionFactory config)
         {
             _config = config;
         }

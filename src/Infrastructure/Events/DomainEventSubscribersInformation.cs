@@ -18,9 +18,9 @@ namespace SharedKernel.Infrastructure.Events
             return _information.Values;
         }
 
-        public List<string> RabbitMqFormattedNames()
+        public List<string> GetAllEventsSubscribers()
         {
-            return _information.Values.Select(x => x.FormatRabbitMqQueueName()).ToList();
+            return _information.Values.Select(x => x.SubscriberName()).ToList();
         }
     }
 }

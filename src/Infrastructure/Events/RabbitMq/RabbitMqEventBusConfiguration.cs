@@ -1,22 +1,24 @@
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using SharedKernel.Application.Reflection;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
-    public class RabbitMqEventBusConfiguration : IEventBusConfiguration
+    public class RabbitMqEventBusConfiguration : BackgroundService
     {
         private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
         private readonly RabbitMqDomainEventsConsumer _rabbitMqDomainEventsConsumer;
-        private readonly RabbitMqConfig _config;
+        private readonly RabbitMqConnectionFactory _config;
 
         private readonly string _domainEventExchange;
 
         public RabbitMqEventBusConfiguration(
             DomainEventSubscribersInformation domainEventSubscribersInformation,
             RabbitMqDomainEventsConsumer rabbitMqDomainEventsConsumer,
-            RabbitMqConfig config,
+            RabbitMqConnectionFactory config,
             string domainEventExchange = "domain_events")
         {
             _domainEventSubscribersInformation = domainEventSubscribersInformation;
@@ -25,7 +27,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             _domainEventExchange = domainEventExchange;
         }
 
-        public void Configure()
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var channel = _config.Channel();
 
@@ -57,7 +59,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 channel.QueueBind(queue, _domainEventExchange, subscribedEvent);
             }
 
-            _rabbitMqDomainEventsConsumer.Consume(CancellationToken.None);
+            return _rabbitMqDomainEventsConsumer.Consume(stoppingToken);
         }
 
         private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,

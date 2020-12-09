@@ -29,6 +29,7 @@ using SharedKernel.Infrastructure.Data.FileSystem;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
+using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.HealthChecks;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Security;
@@ -37,6 +38,7 @@ using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Settings;
 using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validators;
+using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure
 {
@@ -97,21 +99,23 @@ namespace SharedKernel.Infrastructure
         {
             services
                 .AddHealthChecks()
-                .AddRedis(configuration.GetSection("RedisCacheOptions:ConnectionString").Value);
+                .AddRedis(GetRedisConfiguration(configuration));
 
             return services
-                .AddDistributedRedisCache(opt =>
+                .AddStackExchangeRedisCache(opt =>
                 {
-                    opt.Configuration = configuration.GetSection("RedisCacheOptions:Configuration").Value;
-                    opt.InstanceName = configuration.GetSection("RedisCacheOptions:InstanceName").Value;
+                    opt.Configuration = GetRedisConfiguration(configuration);
                 })
+                .AddTransient<IBinarySerializer, BinarySerializer>()
                 .AddTransient<ICacheHelper, DistributedCacheHelper>();
         }
 
         public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
-            return services.AddTransient<IEmailSender, SmtpEmailSender>();
+            return services
+                .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
+                .AddTransient<IEmailSender, SmtpEmailSender>();
         }
 
         public static IServiceCollection AddInMemmoryQueryBus(this IServiceCollection services)
@@ -128,13 +132,22 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<ICommandBus, InMemoryCommandBus>();
         }
 
+        private static IServiceCollection AddEventBus(this IServiceCollection services)
+        {
+            return services
+                .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>))
+                .AddTransient<ExecuteMiddlewaresService>()
+                .AddTransient<DomainEventMediator>()
+                .AddTransient<DomainEventsInformation>()
+                .AddTransient<DomainEventJsonSerializer>()
+                .AddTransient<DomainEventJsonDeserializer>();
+        }
+
         public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
         {
             return services
-                .AddTransient<ExecuteMiddlewaresService>()
-                .AddScoped<IEventBus, InMemoryEventBus>()
-                .AddScoped<DomainEventsInformation>()
-                .AddScoped<DomainEventJsonDeserializer>();
+                .AddEventBus()
+                .AddTransient<IEventBus, InMemoryEventBus>();
         }
 
         public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
@@ -143,18 +156,30 @@ namespace SharedKernel.Infrastructure
 
             services
                 .AddHealthChecks()
-                .AddRabbitMQ(sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConfig>().Connection());
+                .AddRabbitMQ(sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection());
 
             return services
+                .AddHostedService<RabbitMqEventBusConfiguration>()
+                .AddEventBus()
                 //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover
-                .AddTransient<ExecuteMiddlewaresService>()
                 .AddScoped<IEventBus, RabbitMqEventBus>()
-                .AddScoped<IEventBusConfiguration, RabbitMqEventBusConfiguration>()
-                .AddScoped<RabbitMqPublisher>()
-                .AddScoped<RabbitMqConfig>()
-                .AddScoped<RabbitMqDomainEventsConsumer>()
-                .AddScoped<DomainEventsInformation>()
-                .AddScoped<DomainEventJsonDeserializer>();
+                .AddTransient<RabbitMqPublisher>()
+                .AddTransient<RabbitMqConnectionFactory>()
+                .AddTransient<RabbitMqDomainEventsConsumer>();
+        }
+
+        public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            return services
+                .AddHostedService<RedisConsumer>()
+                .AddEventBus()
+                .AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
+                .AddTransient<IEventBus, RedisEventBus>();
+        }
+
+        private static string GetRedisConfiguration(IConfiguration configuration)
+        {
+            return configuration.GetSection("RedisCacheOptions:Configuration").Value;
         }
     }
 }

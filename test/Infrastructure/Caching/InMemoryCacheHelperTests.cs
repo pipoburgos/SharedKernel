@@ -5,6 +5,7 @@ using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Logging;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace SharedKernel.Integration.Tests.Caching
         {
             return services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddMemoryCache();
+                .AddInMemmoryCache();
         }
 
         [Fact]
