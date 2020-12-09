@@ -190,7 +190,7 @@ namespace SharedKernel.Infrastructure
             return configuration.GetSection("RedisCacheOptions:Configuration").Value;
         }
 
-        private static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName) where TContext : DbContext
         {
             services.AddHealthChecks()
