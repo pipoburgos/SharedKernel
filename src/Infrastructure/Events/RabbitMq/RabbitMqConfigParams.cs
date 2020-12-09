@@ -8,6 +8,8 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
         public string HostName { get; set; }
 
+        public string ExchangeName { get; set; }
+
         public int Port { get; set; }
     }
 }

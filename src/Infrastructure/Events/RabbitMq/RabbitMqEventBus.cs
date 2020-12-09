@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 // using SharedKernel.Infrastructure.Events.MsSql;
 
@@ -12,25 +13,24 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqEventBus : IEventBus
     {
+        // private readonly MsSqlEventBus _failOverPublisher;
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly RabbitMqPublisher _rabbitMqPublisher;
         private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
-
-        private readonly string _exchangeName;
-        // private readonly MsSqlEventBus _failOverPublisher;
+        private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
         public RabbitMqEventBus(
+            // MsSqlEventBus failOverPublisher,
             ExecuteMiddlewaresService executeMiddlewaresService,
             RabbitMqPublisher rabbitMqPublisher,
             DomainEventJsonSerializer domainEventJsonSerializer,
-            // MsSqlEventBus failOverPublisher,
-            string exchangeName = "domain_events")
+            IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
+            // _failOverPublisher = failOverPublisher;
             _executeMiddlewaresService = executeMiddlewaresService;
             _rabbitMqPublisher = rabbitMqPublisher;
             _domainEventJsonSerializer = domainEventJsonSerializer;
-            // _failOverPublisher = failOverPublisher;
-            _exchangeName = exchangeName;
+            _rabbitMqParams = rabbitMqParams;
         }
 
         public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 _executeMiddlewaresService.Execute(@event);
 
                 var serializedDomainEvent = _domainEventJsonSerializer.Serialize(@event);
-                _rabbitMqPublisher.Publish(_exchangeName, @event.GetEventName(), serializedDomainEvent);
+                _rabbitMqPublisher.Publish(_rabbitMqParams.Value.ExchangeName, @event.GetEventName(), serializedDomainEvent);
             }
             catch (RabbitMQClientException)
             {

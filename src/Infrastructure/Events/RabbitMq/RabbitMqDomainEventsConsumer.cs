@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqDomainEventsConsumer : IDomainEventsConsumer
     {
         private readonly RabbitMqConnectionFactory _config;
+        private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
         private readonly DomainEventSubscribersInformation _information;
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly DomainEventMediator _domainEventMediator;
@@ -21,12 +23,14 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             DomainEventSubscribersInformation information,
             DomainEventJsonDeserializer deserializer,
             DomainEventMediator domainEventMediator,
-            RabbitMqConnectionFactory config)
+            RabbitMqConnectionFactory config,
+            IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             _information = information;
             _deserializer = deserializer;
             _domainEventMediator = domainEventMediator;
             _config = config;
+            _rabbitMqParams = rabbitMqParams;
         }
 
         public Task Consume(CancellationToken cancellationToken)
@@ -84,12 +88,12 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
         private void SendToRetry(BasicDeliverEventArgs ea, string queue)
         {
-            SendMessageTo(RabbitMqExchangeNameFormatter.Retry("domain_events"), ea, queue);
+            SendMessageTo(RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName), ea, queue);
         }
 
         private void SendToDeadLetter(BasicDeliverEventArgs ea, string queue)
         {
-            SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter("domain_events"), ea, queue);
+            SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName), ea, queue);
         }
 
         private void SendMessageTo(string exchange, BasicDeliverEventArgs ea, string queue)

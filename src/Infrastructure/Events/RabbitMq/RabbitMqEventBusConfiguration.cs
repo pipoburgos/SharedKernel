@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using SharedKernel.Application.Reflection;
 
@@ -12,29 +13,28 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
         private readonly RabbitMqDomainEventsConsumer _rabbitMqDomainEventsConsumer;
         private readonly RabbitMqConnectionFactory _config;
-
-        private readonly string _domainEventExchange;
+        private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
         public RabbitMqEventBusConfiguration(
             DomainEventSubscribersInformation domainEventSubscribersInformation,
             RabbitMqDomainEventsConsumer rabbitMqDomainEventsConsumer,
             RabbitMqConnectionFactory config,
-            string domainEventExchange = "domain_events")
+            IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             _domainEventSubscribersInformation = domainEventSubscribersInformation;
             _rabbitMqDomainEventsConsumer = rabbitMqDomainEventsConsumer;
             _config = config;
-            _domainEventExchange = domainEventExchange;
+            _rabbitMqParams = rabbitMqParams;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var channel = _config.Channel();
 
-            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(_domainEventExchange);
-            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(_domainEventExchange);
+            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName);
+            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName);
 
-            channel.ExchangeDeclare(_domainEventExchange, ExchangeType.Topic);
+            channel.ExchangeDeclare(_rabbitMqParams.Value.ExchangeName, ExchangeType.Topic);
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
@@ -48,15 +48,15 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 var queue = channel.QueueDeclare(domainEventsQueueName, true, false, false);
 
                 var retryQueue = channel.QueueDeclare(retryQueueName, true, false, false,
-                    RetryQueueArguments(_domainEventExchange, domainEventsQueueName));
+                    RetryQueueArguments(_rabbitMqParams.Value.ExchangeName, domainEventsQueueName));
 
                 var deadLetterQueue = channel.QueueDeclare(deadLetterQueueName, true, false, false);
 
-                channel.QueueBind(queue, _domainEventExchange, domainEventsQueueName);
+                channel.QueueBind(queue, _rabbitMqParams.Value.ExchangeName, domainEventsQueueName);
                 channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);
                 channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName);
 
-                channel.QueueBind(queue, _domainEventExchange, subscribedEvent);
+                channel.QueueBind(queue, _rabbitMqParams.Value.ExchangeName, subscribedEvent);
             }
 
             return _rabbitMqDomainEventsConsumer.Consume(stoppingToken);
