@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.ActiveDirectory;
@@ -24,7 +25,9 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
+using SharedKernel.Infrastructure.Data.Dapper.Queries;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
 using SharedKernel.Infrastructure.Data.FileSystem;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
@@ -42,7 +45,7 @@ using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure
 {
-    public static class SharedKernelDependencyInjection
+    public static class ServiceCollectionServiceExtensions
     {
         public static IServiceCollection AddSharedKernel(this IServiceCollection services)
         {
@@ -61,6 +64,8 @@ namespace SharedKernel.Infrastructure
                 .AddHostedService<QueuedHostedService>()
                 .AddScoped<IFileSystemUnitOfWorkAsync, FileSystemUnitOfWork>()
                 .AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>()
+                .AddTransient(typeof(DapperQueryProvider<>))
+                .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>))
                 .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
@@ -180,6 +185,22 @@ namespace SharedKernel.Infrastructure
         private static string GetRedisConfiguration(IConfiguration configuration)
         {
             return configuration.GetSection("RedisCacheOptions:Configuration").Value;
+        }
+
+        private static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
+            IConfiguration configuration, string connectionStringName) where TContext : DbContext
+        {
+            services.AddDbContext<TContext>(s => s
+                .UseSqlServer(configuration.GetConnectionString(connectionStringName))
+                .EnableSensitiveDataLogging(), ServiceLifetime.Transient);
+
+#if NET461
+            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
+#else
+            services.AddDbContextFactory<TContext>(lifetime: ServiceLifetime.Transient);
+#endif
+
+            return services;
         }
     }
 }
