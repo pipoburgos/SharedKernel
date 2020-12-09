@@ -1,44 +1,39 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using SharedKernel.Application.Reflection;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqEventBusConfiguration : BackgroundService
     {
-        private readonly DomainEventSubscribersInformation _domainEventSubscribersInformation;
-        private readonly RabbitMqDomainEventsConsumer _rabbitMqDomainEventsConsumer;
-        private readonly RabbitMqConnectionFactory _config;
-        private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public RabbitMqEventBusConfiguration(
-            DomainEventSubscribersInformation domainEventSubscribersInformation,
-            RabbitMqDomainEventsConsumer rabbitMqDomainEventsConsumer,
-            RabbitMqConnectionFactory config,
-            IOptions<RabbitMqConfigParams> rabbitMqParams)
+        public RabbitMqEventBusConfiguration(IServiceScopeFactory serviceScopeFactory)
         {
-            _domainEventSubscribersInformation = domainEventSubscribersInformation;
-            _rabbitMqDomainEventsConsumer = rabbitMqDomainEventsConsumer;
-            _config = config;
-            _rabbitMqParams = rabbitMqParams;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var channel = _config.Channel();
+            using var scope = _serviceScopeFactory.CreateScope();
 
-            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName);
-            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName);
+            var channel = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Channel();
 
-            channel.ExchangeDeclare(_rabbitMqParams.Value.ExchangeName, ExchangeType.Topic);
+            var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ExchangeName;
+
+            var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(exchangeName);
+            var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(exchangeName);
+
+            channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
-            foreach (var subscriberInformation in _domainEventSubscribersInformation.All())
+            foreach (var subscriberInformation in scope.ServiceProvider.GetRequiredService<DomainEventSubscribersInformation>().All())
             {
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);
@@ -48,18 +43,18 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 var queue = channel.QueueDeclare(domainEventsQueueName, true, false, false);
 
                 var retryQueue = channel.QueueDeclare(retryQueueName, true, false, false,
-                    RetryQueueArguments(_rabbitMqParams.Value.ExchangeName, domainEventsQueueName));
+                    RetryQueueArguments(exchangeName, domainEventsQueueName));
 
                 var deadLetterQueue = channel.QueueDeclare(deadLetterQueueName, true, false, false);
 
-                channel.QueueBind(queue, _rabbitMqParams.Value.ExchangeName, domainEventsQueueName);
+                channel.QueueBind(queue, exchangeName, domainEventsQueueName);
                 channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);
                 channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName);
 
-                channel.QueueBind(queue, _rabbitMqParams.Value.ExchangeName, subscribedEvent);
+                channel.QueueBind(queue, exchangeName, subscribedEvent);
             }
 
-            return _rabbitMqDomainEventsConsumer.Consume(stoppingToken);
+            return scope.ServiceProvider.GetRequiredService<RabbitMqDomainEventsConsumer>().Consume(stoppingToken);
         }
 
         private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,

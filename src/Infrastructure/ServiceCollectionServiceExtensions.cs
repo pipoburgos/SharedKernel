@@ -145,6 +145,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<ExecuteMiddlewaresService>()
                 .AddTransient<DomainEventMediator>()
                 .AddTransient<DomainEventsInformation>()
+                .AddTransient<DomainEventSubscribersInformation>()
                 .AddTransient<DomainEventJsonSerializer>()
                 .AddTransient<DomainEventJsonDeserializer>();
         }
@@ -169,8 +170,8 @@ namespace SharedKernel.Infrastructure
             return services
                 .AddHostedService<RabbitMqEventBusConfiguration>()
                 .AddEventBus()
-                //.AddScoped<MsSqlEventBus, MsSqlEventBus>() // Failover
-                .AddScoped<IEventBus, RabbitMqEventBus>()
+                //.AddTransient<MsSqlEventBus, MsSqlEventBus>() // Failover
+                .AddTransient<IEventBus, RabbitMqEventBus>()
                 .AddTransient<RabbitMqPublisher>()
                 .AddTransient<RabbitMqConnectionFactory>()
                 .AddTransient<RabbitMqDomainEventsConsumer>();
@@ -194,7 +195,7 @@ namespace SharedKernel.Infrastructure
             IConfiguration configuration, string connectionStringName) where TContext : DbContext
         {
             services.AddHealthChecks()
-                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "sql",
+                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server",
                     HealthStatus.Unhealthy, new[] {"db", "sql", "SqlServer"});
 
             services.AddDbContext<TContext>(s => s

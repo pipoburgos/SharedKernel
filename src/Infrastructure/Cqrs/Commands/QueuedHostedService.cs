@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Logging;
 
@@ -11,19 +12,11 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     /// </summary>
     public class QueuedHostedService : BackgroundService
     {
-        private readonly IBackgroundTaskQueue _taskQueue;
-        private readonly ICustomLogger<QueuedHostedService> _logger;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="taskQueue"></param>
-        /// <param name="logger"></param>
-        public QueuedHostedService(IBackgroundTaskQueue taskQueue,
-            ICustomLogger<QueuedHostedService> logger)
+        public QueuedHostedService(IServiceScopeFactory serviceScopeFactory)
         {
-            _taskQueue = taskQueue;
-            _logger = logger;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <summary>
@@ -33,32 +26,30 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.Info("Queued Hosted Service is running for async commands");
+            using var scope = _serviceScopeFactory.CreateScope();
 
-            await BackgroundProcessing(stoppingToken);
-        }
+            scope.ServiceProvider
+                .GetRequiredService<ICustomLogger<QueuedHostedService>>()
+                .Info("Queued Hosted Service is running for async commands");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        private async Task BackgroundProcessing(CancellationToken stoppingToken)
-        {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var workItem = await _taskQueue.DequeueAsync(stoppingToken);
+                var workItem = await scope.ServiceProvider
+                    .GetRequiredService<IBackgroundTaskQueue>()
+                    .DequeueAsync(stoppingToken);
 
                 try
                 {
                     await workItem(stoppingToken);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                    scope.ServiceProvider
+                        .GetRequiredService<ICustomLogger<QueuedHostedService>>()
+                        .Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
+
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
         }
 
@@ -69,11 +60,16 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <returns></returns>
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.Info("Queued Hosted Service is stopping.");
+            using var scope = _serviceScopeFactory.CreateScope();
 
-            while (_taskQueue.Any())
+            scope.ServiceProvider
+                .GetRequiredService<ICustomLogger<QueuedHostedService>>().Info("Queued Hosted Service is stopping.");
+
+            while (scope.ServiceProvider.GetRequiredService<IBackgroundTaskQueue>().Any())
             {
-                var workItem = await _taskQueue.DequeueAsync(stoppingToken);
+                var workItem = await scope.ServiceProvider
+                    .GetRequiredService<IBackgroundTaskQueue>()
+                    .DequeueAsync(stoppingToken);
 
                 try
                 {
@@ -82,12 +78,14 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                    scope.ServiceProvider
+                        .GetRequiredService<ICustomLogger<QueuedHostedService>>().Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
-            _logger.Info("Queued Hosted Service is stopped.");
+            scope.ServiceProvider
+                .GetRequiredService<ICustomLogger<QueuedHostedService>>().Info("Queued Hosted Service is stopped.");
 
             await base.StopAsync(stoppingToken);
         }
