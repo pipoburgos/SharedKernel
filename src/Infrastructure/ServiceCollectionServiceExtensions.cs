@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SharedKernel.Application.ActiveDirectory;
 using SharedKernel.Application.Adapter;
 using SharedKernel.Application.Caching;
@@ -55,10 +56,10 @@ namespace SharedKernel.Infrastructure
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #endif
             services.AddHealthChecks()
-                .AddCheck("google.com", new PingHealthCheck("google.com", 200))
-                .AddCheck("bing.com", new PingHealthCheck("bing.com", 200))
-                .AddCheck<RamHealthcheck>("RAM")
-                .AddCheck<CpuHealthCheck>("CPU");
+                .AddCheck("google.com", new PingHealthCheck("google.com", 200), tags: new[] { "system", "ping", "google.com" })
+                .AddCheck("bing.com", new PingHealthCheck("bing.com", 200), tags: new[] { "system", "ping", "bing.com" })
+                .AddCheck<RamHealthcheck>("RAM", tags: new[] { "system", "RAM" })
+                .AddCheck<CpuHealthCheck>("CPU", tags: new[] { "system", "CPU" });
 
             return services
                 .AddHostedService<QueuedHostedService>()
@@ -104,7 +105,7 @@ namespace SharedKernel.Infrastructure
         {
             services
                 .AddHealthChecks()
-                .AddRedis(GetRedisConfiguration(configuration));
+                .AddRedis(GetRedisConfiguration(configuration), tags: new[] { "cache", "Redis" });
 
             return services
                 .AddStackExchangeRedisCache(opt =>
@@ -161,7 +162,9 @@ namespace SharedKernel.Infrastructure
 
             services
                 .AddHealthChecks()
-                .AddRabbitMQ(sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection());
+                .AddRabbitMQ(
+                    sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
+                    tags: new[] {"RabbitMq"});
 
             return services
                 .AddHostedService<RabbitMqEventBusConfiguration>()
@@ -190,6 +193,10 @@ namespace SharedKernel.Infrastructure
         private static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName) where TContext : DbContext
         {
+            services.AddHealthChecks()
+                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "sql",
+                    HealthStatus.Unhealthy, new[] {"db", "sql", "SqlServer"});
+
             services.AddDbContext<TContext>(s => s
                 .UseSqlServer(configuration.GetConnectionString(connectionStringName))
                 .EnableSensitiveDataLogging(), ServiceLifetime.Transient);
