@@ -6,10 +6,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
         public string Password { get; set; }
 
-        public string HostName { get; set; }
+        public string HostName { get; set; } = "localhost";
 
-        public string ExchangeName { get; set; }
+        public string ExchangeName => "domain_events";
 
-        public int Port { get; set; }
+        public int Port { get; set; } = 6379;
     }
 }
