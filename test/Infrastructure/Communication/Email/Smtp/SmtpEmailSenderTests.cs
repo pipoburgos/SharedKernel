@@ -1,15 +1,14 @@
-﻿using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
-using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Exceptions;
 using SharedKernel.Integration.Tests.Shared;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp

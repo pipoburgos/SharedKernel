@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SharedKernel.Application.Transactions;
+using System;
 using System.Diagnostics;
 using System.Transactions;
-using SharedKernel.Application.UnitOfWorks;
 
-namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
+namespace SharedKernel.Infrastructure.Data.Transactions
 {
     public class ModuleTransactionAsync : IModuleTransactionAsync
     {

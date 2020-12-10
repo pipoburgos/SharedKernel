@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Domain.Entities;
 
-namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
+namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
 {
     public class FileSystemUnitOfWork : IFileSystemUnitOfWorkAsync
     {

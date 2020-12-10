@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedKernel.Application.UnitOfWorks
+namespace SharedKernel.Application.Transactions
 {
     public interface IModuleTransactionAsync : IDisposable
     {

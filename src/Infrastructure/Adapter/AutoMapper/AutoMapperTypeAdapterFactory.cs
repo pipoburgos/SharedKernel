@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SharedKernel.Application.Adapter;
 
-namespace SharedKernel.Infrastructure.AutoMapper
+namespace SharedKernel.Infrastructure.Adapter.AutoMapper
 {
     public class AutoMapperTypeAdapterFactory : ITypeAdapterFactory
     {

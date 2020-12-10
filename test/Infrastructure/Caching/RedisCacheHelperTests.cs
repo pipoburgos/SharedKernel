@@ -5,7 +5,6 @@ using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
-using SharedKernel.Infrastructure;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
