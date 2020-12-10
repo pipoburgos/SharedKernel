@@ -11,7 +11,7 @@ namespace SharedKernel.Integration.Tests.Events
         public void SetUser(Guid id)
         {
             UserId = id;
-            Total++;
+            SumTotal();
         }
 
         public void SumTotal()

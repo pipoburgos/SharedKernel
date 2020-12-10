@@ -22,7 +22,7 @@ namespace SharedKernel.Integration.Tests.Events.InMemory
         public async Task PublishDomainEventFromMemory()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
-                GetRequiredService<PublishUserCreatedDomainEvent>());
+                GetRequiredService<PublishUserCreatedDomainEvent>(), 25);
         }
     }
 }

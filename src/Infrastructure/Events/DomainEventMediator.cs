@@ -14,15 +14,12 @@ namespace SharedKernel.Infrastructure.Events
 {
     public class DomainEventMediator
     {
-        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IServiceProvider _serviceProvider;
         private readonly Dictionary<string, object> _domainEventSubscribers = new Dictionary<string, object>();
 
         public DomainEventMediator(
-            ExecuteMiddlewaresService executeMiddlewaresService,
             IServiceProvider serviceProvider)
         {
-            _executeMiddlewaresService = executeMiddlewaresService;
             _serviceProvider = serviceProvider;
         }
 
@@ -30,20 +27,15 @@ namespace SharedKernel.Infrastructure.Events
         {
             foreach (var eventSubscriber in eventSubscribers)
             {
-                await _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken);
-
-                using var scope = _serviceProvider.CreateScope();
-                var subscriber = _domainEventSubscribers.ContainsKey(eventSubscriber)
-                    ? _domainEventSubscribers[eventSubscriber]
-                    : SubscribeFor(eventSubscriber, scope);
-                await((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
+                await ExecuteOn(@event, eventSubscriber, cancellationToken);
             }
         }
         public async Task ExecuteOn(DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
         {
-            await _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken);
-
             using var scope = _serviceProvider.CreateScope();
+
+            await scope.ServiceProvider.GetRequiredService<ExecuteMiddlewaresService>().ExecuteAsync(@event, cancellationToken);
+
             var subscriber = _domainEventSubscribers.ContainsKey(eventSubscriber)
                 ? _domainEventSubscribers[eventSubscriber]
                 : SubscribeFor(eventSubscriber, scope);

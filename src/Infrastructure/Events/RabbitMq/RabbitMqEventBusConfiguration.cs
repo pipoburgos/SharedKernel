@@ -50,11 +50,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 channel.QueueBind(queue, exchangeName, domainEventsQueueName);
                 channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);
                 channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName);
-
                 channel.QueueBind(queue, exchangeName, subscribedEvent);
             }
 
-            return scope.ServiceProvider.GetRequiredService<RabbitMqDomainEventsConsumer>().Consume(stoppingToken);
+            return scope.ServiceProvider.GetRequiredService<RabbitMqDomainEventsConsumer>().Consume();
         }
 
         private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,

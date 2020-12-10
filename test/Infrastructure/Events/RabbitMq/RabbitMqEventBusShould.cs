@@ -3,6 +3,7 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
+using SharedKernel.Infrastructure;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq
@@ -17,6 +18,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
+                .AddSharedKernel()
                 .AddRabbitMqEventBus(Configuration)
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
                 .AddDomainEventSubscribersInformation()
@@ -27,7 +29,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         public async Task PublishDomainEventFromRabbitMq()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
-                GetRequiredService<PublishUserCreatedDomainEvent>());
+                GetRequiredService<PublishUserCreatedDomainEvent>(), 500);
         }
     }
 }

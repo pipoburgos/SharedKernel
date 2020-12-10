@@ -17,14 +17,16 @@ namespace SharedKernel.Infrastructure.Events.Redis
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
+            using var initialScope = _serviceScopeFactory.CreateScope();
 
-            var redisSubscriber = scope.ServiceProvider
+            var redisSubscriber = initialScope.ServiceProvider
                 .GetRequiredService<IConnectionMultiplexer>()
                 .GetSubscriber();
 
             await redisSubscriber.SubscribeAsync("*", async (channel, value) =>
             {
+                using var scope = _serviceScopeFactory.CreateScope();
+
                 var @event = scope.ServiceProvider
                     .GetRequiredService<DomainEventJsonDeserializer>()
                     .Deserialize(value);
