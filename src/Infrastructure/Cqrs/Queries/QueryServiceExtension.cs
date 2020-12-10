@@ -25,6 +25,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         public static IServiceCollection AddInMemmoryQueryBus(this IServiceCollection services)
         {
             return services
+                .AddQueryBus()
                 .AddTransient<IQueryBus, InMemoryQueryBus>();
         }
 

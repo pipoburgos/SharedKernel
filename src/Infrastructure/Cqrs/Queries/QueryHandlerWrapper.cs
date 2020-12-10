@@ -16,7 +16,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
     {
         public override Task<TResponse> Handle(IQueryRequest<TResponse> query, IServiceProvider provider, CancellationToken cancellationToken)
         {
-            var handler = (IQueryRequestHandler<TQuery, TResponse>)provider.GetRequiredService(typeof(IQueryRequestHandler<TQuery, TResponse>));
+            var handler = (IQueryRequestHandler<TQuery, TResponse>) provider.CreateScope().ServiceProvider
+                .GetRequiredService(typeof(IQueryRequestHandler<TQuery, TResponse>));
 
             return handler.Handle((TQuery)query, cancellationToken);
         }

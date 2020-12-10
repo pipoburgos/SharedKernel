@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using SharedKernel.Api.Grids.DataTables;
 using SharedKernel.Api.Grids.KendoGrid;
@@ -22,9 +23,10 @@ namespace SharedKernel.Api.Grids
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<DataTablesResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
-            DataTablesRequest<T> request) where T : IQueryRequest<IPagedList<TResponse>>
+            DataTablesRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
         {
             var showDeleted = ReflectionHelper.GetProperty<T, bool>(request.Filter, DeletedKey);
 
@@ -39,7 +41,7 @@ namespace SharedKernel.Api.Grids
 
             ReflectionHelper.SetProperty(request.Filter, nameof(PageOptions), pageOptions);
 
-            var pagedList = await queryBus.Ask(request.Filter);
+            var pagedList = await queryBus.Ask(request.Filter, cancellationToken);
 
 
             return new DataTablesResponse<TResponse>(request.Draw, pagedList);
@@ -53,9 +55,10 @@ namespace SharedKernel.Api.Grids
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
         /// <param name="fillOtherProperties"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<DataTablesResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
-            DataTablesRequest request, Action<T> fillOtherProperties = null) where T : IQueryRequest<IPagedList<TResponse>>
+            DataTablesRequest request, Action<T> fillOtherProperties = null, CancellationToken cancellationToken = default) where T : IQueryRequest<IPagedList<TResponse>>
         {
             var obj = ReflectionHelper.CreateInstance<T>();
 
@@ -77,7 +80,7 @@ namespace SharedKernel.Api.Grids
 
             fillOtherProperties?.Invoke(obj);
 
-            var pagedList = await queryBus.Ask(obj);
+            var pagedList = await queryBus.Ask(obj, cancellationToken);
 
             return new DataTablesResponse<TResponse>(request.Draw, pagedList);
         }
@@ -91,7 +94,7 @@ namespace SharedKernel.Api.Grids
         /// <param name="request"></param>
         /// <returns></returns>
         public static async Task<KendoGridResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
-            KendoGridRequest<T> request) where T : IQueryRequest<IPagedList<TResponse>>
+            KendoGridRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
         {
             var showDeleted = ReflectionHelper.GetProperty<T, bool>(request.Filter, DeletedKey);
 
@@ -106,7 +109,7 @@ namespace SharedKernel.Api.Grids
 
             ReflectionHelper.SetProperty(request.Filter, nameof(PageOptions), pageOptions);
 
-            var pagedList = await queryBus.Ask(request.Filter);
+            var pagedList = await queryBus.Ask(request.Filter, cancellationToken);
 
             return new KendoGridResponse<TResponse>(pagedList.Items, pagedList.TotalRecordsFiltered);
         }

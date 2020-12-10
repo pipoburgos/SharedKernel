@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.HealthChecks
             _logger = logger;
         }
 
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             var process = Process.GetCurrentProcess();
 
@@ -35,9 +35,9 @@ namespace SharedKernel.Infrastructure.HealthChecks
                 status = HealthStatus.Unhealthy;
             }
 
-            var result = new HealthCheckResult(status);
+            var result = new HealthCheckResult(status, $"RAM {megabytes} megabytes");
 
-            return await Task.FromResult(result);
+            return Task.FromResult(result);
         }
     }
 }
