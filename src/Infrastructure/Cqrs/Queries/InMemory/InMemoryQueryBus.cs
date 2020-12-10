@@ -25,11 +25,6 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
             _serviceProvider = serviceProvider;
         }
 
-        public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query)
-        {
-            return Ask(query, CancellationToken.None);
-        }
-
         public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
         {
             _executeMiddlewaresService.Execute(query);

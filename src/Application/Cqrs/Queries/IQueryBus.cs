@@ -5,10 +5,8 @@ namespace SharedKernel.Application.Cqrs.Queries
 {
     public interface IQueryBus
     {
-        Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query);
-
         /// <summary>
-        /// Envía una consulta para su ejecucción
+        /// Ask a query and return a data transfer object
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="query"></param>
