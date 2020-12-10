@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Caching
         {
             services
                 .AddHealthChecks()
-                .AddRedis(GetRedisConfiguration(configuration), tags: new[] { "cache", "Redis" });
+                .AddRedis(GetRedisConfiguration(configuration), "Redis Cache", tags: new[] { "Cache", "Redis" });
 
             return services
                 .AddStackExchangeRedisCache(opt =>

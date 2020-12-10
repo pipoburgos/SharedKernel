@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHealthChecks()
                 .AddRabbitMQ(
                     sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
-                    tags: new[] { "RabbitMq" });
+                    "RabbitMq Event Bus", tags: new[] {"Event Bus", "RabbitMq"});
 
             return services
                 .AddHostedService<RabbitMqEventBusConfiguration>()
@@ -42,6 +42,10 @@ namespace SharedKernel.Infrastructure.Events
 
         public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
         {
+            services
+                .AddHealthChecks()
+                .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] {"Event Bus", "Redis"});
+
             return services
                 .AddHostedService<RedisConsumer>()
                 .AddEventBus()

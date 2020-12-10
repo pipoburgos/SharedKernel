@@ -15,12 +15,12 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 {
     public static class EntityFrameworkCoreServiceExtensions
     {
-        public static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddEntityFrameworkCoreSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName) where TContext : DbContextBase
         {
             services.AddHealthChecks()
-                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server",
-                    HealthStatus.Unhealthy, new[] { "db", "sql", "SqlServer" });
+                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server EFCore",
+                    HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))

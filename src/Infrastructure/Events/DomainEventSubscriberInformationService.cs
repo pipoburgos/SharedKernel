@@ -37,6 +37,12 @@ namespace SharedKernel.Infrastructure.Events
         }
 
         public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
+            Type type)
+        {
+            return services.AddDomainEventsSubscribers(type.Assembly);
+        }
+
+        public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
             Assembly assembly)
         {
             var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass);

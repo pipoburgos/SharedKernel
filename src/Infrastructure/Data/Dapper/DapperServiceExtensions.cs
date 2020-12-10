@@ -11,12 +11,12 @@ namespace SharedKernel.Infrastructure.Data.Dapper
 {
     public static class DapperServiceExtensions
     {
-        public static IServiceCollection AddSqlServer<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddDapperSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName) where TContext : DbContext
         {
             services.AddHealthChecks()
-                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server",
-                    HealthStatus.Unhealthy, new[] { "db", "sql", "SqlServer" });
+                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server Dapper",
+                    HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddTransient(typeof(DapperQueryProvider<>));
 
