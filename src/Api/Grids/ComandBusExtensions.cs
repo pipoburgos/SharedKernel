@@ -92,6 +92,7 @@ namespace SharedKernel.Api.Grids
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<KendoGridResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
             KendoGridRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
