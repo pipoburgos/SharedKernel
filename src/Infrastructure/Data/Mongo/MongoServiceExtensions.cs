@@ -13,7 +13,7 @@ namespace SharedKernel.Infrastructure.Data.Mongo
             services.AddHealthChecks()
                 .AddMongoDb(
                     configuration.GetSection(nameof(MongoSettings) + ":" + nameof(MongoSettings.ConnectionString))
-                        .Value, name: "Mongo", HealthStatus.Unhealthy, new[] {"DB", "NoSql", "Mongo"});
+                        .Value, "Mongo", HealthStatus.Unhealthy, new[] {"DB", "NoSql", "Mongo"});
 
             return services;
         }

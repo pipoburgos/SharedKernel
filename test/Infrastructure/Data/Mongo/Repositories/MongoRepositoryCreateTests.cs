@@ -17,7 +17,7 @@ namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+            return services.AddMongo(Configuration);
         }
 
         [Fact]
