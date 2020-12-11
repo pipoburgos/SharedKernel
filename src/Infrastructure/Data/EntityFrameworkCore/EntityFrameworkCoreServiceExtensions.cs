@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddDbContext<TContext>(s => s
                 .UseSqlServer(configuration.GetConnectionString(connectionStringName))
-                .EnableSensitiveDataLogging(), ServiceLifetime.Transient);
+                .EnableSensitiveDataLogging());
 
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
