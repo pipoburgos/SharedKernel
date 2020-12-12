@@ -27,7 +27,7 @@ namespace SharedKernel.Integration.Tests.Events.Redis
         public async Task PublishDomainEventFromRedis()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
-                GetRequiredService<PublishUserCreatedDomainEvent>(), 750);
+                GetRequiredService<PublishUserCreatedDomainEvent>(), 2_000);
         }
     }
 }

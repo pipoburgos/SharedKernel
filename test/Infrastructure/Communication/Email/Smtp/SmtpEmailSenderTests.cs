@@ -30,7 +30,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         {
             var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
 
-            await sender.SendEmailAsync("sharedkerneltests@gmail.com", "Testing", "Prueba testing");
+            await sender.SendEmailAsync("Testing", "Prueba testing");
 
             Assert.True(true);
         }
@@ -44,7 +44,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
             var attachment = new EmailAttachment("Adjunto.jpg", bytes);
 
-            await sender.SendEmailAsync("sharedkerneltests@gmail.com", "Testing con adjunto",
+            await sender.SendEmailAsync("Testing con adjunto",
                 "Prueba testing con adjunto", attachment);
 
             Assert.True(true);

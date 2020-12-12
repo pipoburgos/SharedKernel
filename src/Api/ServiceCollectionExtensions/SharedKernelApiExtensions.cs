@@ -1,90 +1,55 @@
-﻿//using FluentValidation.AspNetCore;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Newtonsoft.Json;
-//using SharedKernel.Infrastructure;
-//using SharedKernel.Infrastructure.Validators;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using SharedKernel.Infrastructure.Validators;
 
-//namespace SharedKernel.Api.ServiceCollectionExtensions
-//{
-//    public static class SharedKernelApiExtensions
-//    {
-//        public static string MyAllowSpecificOrigins = "CorsPolicy";
+namespace SharedKernel.Api.ServiceCollectionExtensions
+{
+    public static class SharedKernelApiExtensions
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="policyName">The policy name of a configured policy.</param>
+        /// <param name="origins"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddApi<TValidator>(this IServiceCollection services, string policyName, string[] origins)
+        {
+            services
+                .AddOptions()
+                .AddMetrics()
+                .AddCors(options =>
+                {
+                    options.AddPolicy(policyName,
+                        builder => builder
+                            .WithOrigins(origins)
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials());
+                })
+                .AddApiVersioning(config =>
+                {
+                    // Specify the default API Version as 1.0
+                    config.DefaultApiVersion = new ApiVersion(1, 0);
+                    // If the client hasn't specified the API version in the request, use the default API version number
+                    config.AssumeDefaultVersionWhenUnspecified = true;
+                    // Advertise the API versions supported for the particular endpoint
+                    config.ReportApiVersions = true;
+                })
+                .AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssemblyContaining<TValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<PageOptionsValidator>();
+                })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
 
-//        public static IServiceCollection AddSharedKernelApi<TValidatorsAssembly>(this IServiceCollection services, IConfiguration configuration)
-//        {
-//            services
-//                .AddOptions()
-//                .AddApi(configuration)
-//                .AddSharedKernel()
-//                .AddInMemmoryCommandBus()
-//                .AddInMemmoryQueryBus()
-//                .AddRabbitMqEventBus(configuration)
-//                .AddControllers()
-//                .AddFluentValidation(fv =>
-//                {
-//                    fv.RegisterValidatorsFromAssemblyContaining<TValidatorsAssembly>();
-//                    fv.RegisterValidatorsFromAssemblyContaining<PageOptionsValidator>();
-//                })
-//                .AddNewtonsoftJson(options =>
-//                {
-//                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-//                });
-
-
-//            return services;
-//        }
-
-//        public static IServiceCollection AddGatewayApi<TAssembly>(this IServiceCollection services, IConfiguration configuration)
-//        {
-//            services
-//                .AddApi(configuration)
-//                .AddControllers()
-//                .AddFluentValidation(fv =>
-//                {
-//                    fv.RegisterValidatorsFromAssemblyContaining<TAssembly>();
-//                })
-//                .AddNewtonsoftJson(options =>
-//                {
-//                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-//                });
-
-//            return services;
-//        }
-
-//        public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
-//        {
-//            var origins = configuration.GetSection("Origins").Get<string[]>();
-
-//            services.AddCors(options =>
-//            {
-//                options.AddPolicy(MyAllowSpecificOrigins,
-//                    builder => builder
-//                        .WithOrigins(origins)
-//                        .AllowAnyMethod()
-//                        .AllowAnyHeader()
-//                        .AllowCredentials());
-//            });
-
-//            services.AddMvc();
-
-
-//            services.AddAuth(configuration);
-
-//            services.AddOpenApi(configuration);
-
-//            services.AddApiVersioning(config =>
-//            {
-//                // Specify the default API Version as 1.0
-//                config.DefaultApiVersion = new ApiVersion(1, 0);
-//                // If the client hasn't specified the API version in the request, use the default API version number
-//                config.AssumeDefaultVersionWhenUnspecified = true;
-//                // Advertise the API versions supported for the particular endpoint
-//                config.ReportApiVersions = true;
-//            });
-
-//            return services;
-//        }
-//    }
-//}
+            return services;
+        }
+    }
+}

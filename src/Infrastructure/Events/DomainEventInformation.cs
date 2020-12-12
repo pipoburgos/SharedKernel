@@ -12,11 +12,11 @@ namespace SharedKernel.Infrastructure.Events
 
         public DomainEventsInformation()
         {
-            GetDomainTypes().ForEach(eventType =>
+            foreach (var eventType in GetDomainTypes())
             {
                 if (!_indexedDomainEvents.ContainsKey(GetEventName(eventType)))
                     _indexedDomainEvents.Add(GetEventName(eventType), eventType);
-            });
+            }
         }
 
         public Type ForName(string name)
@@ -36,13 +36,24 @@ namespace SharedKernel.Infrastructure.Events
             return eventType.GetMethod(nameof(DomainEvent.GetEventName))?.Invoke(instance, null)?.ToString();
         }
 
-        private List<Type> GetDomainTypes()
+        private IEnumerable<Type> GetDomainTypes()
         {
-            var type = typeof(DomainEvent);
-
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract).ToList();
+            try
+            {
+                return AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
+            }
+            catch (Exception)
+            {
+                return AppDomain.CurrentDomain.GetAssemblies()
+#if !NETSTANDARD2_1 && !NET461
+                    .Where(a => a.FullName != null)
+#endif
+                    .Where(a => a.FullName.Contains("Domain"))
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
+            }
         }
     }
 }

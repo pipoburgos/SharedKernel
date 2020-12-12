@@ -17,7 +17,7 @@ namespace SharedKernel.Integration.Tests.Events
             await Task.Delay(millisecondsDelay, CancellationToken.None).ConfigureAwait(false);
 
             Assert.Equal(user.Id, singletonValueContainer.UserId);
-            Assert.Equal(2, singletonValueContainer.Total);
+            Assert.True(singletonValueContainer.Total >= 2);
         }
     }
 }

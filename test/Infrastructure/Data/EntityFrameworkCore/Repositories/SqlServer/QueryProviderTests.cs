@@ -37,13 +37,13 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
 
             var tasks = new List<Task<List<User>>>();
-            for (var i = 0; i < 50; i++)
+            for (var i = 0; i < 11; i++)
             {
                 tasks.Add(queryProvider.GetQuery<User>().Where(u => u.Name.Length != 23).ToListAsync());
             }
 
             var queries = await Task.WhenAll(tasks);
-            Assert.Equal(50, queries.Length);
+            Assert.Equal(11, queries.Length);
         }
 
         private async Task LoadTestDataAsync(CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             var repository = new UserEfCoreRepository(dbContext);
 
             var tasks = new List<Task>();
-            for (var i = 0; i < 50; i++)
+            for (var i = 0; i < 11; i++)
             {
                 var roberto = UserMother.Create();
 

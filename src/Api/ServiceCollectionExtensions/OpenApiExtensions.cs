@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
@@ -15,17 +16,6 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
-    public class OpenIdOptions
-    {
-        public string Authority { get; set; }
-        public bool RequireHttpsMetadata { get; set; }
-        public string Audience { get; set; }
-        public string ClientId { get; set; }
-        public string ClientSecret { get; set; }
-        public string Scope { get; set; }
-        public int AccessTokenSecondsLifetime { get; set; } = 300;
-    }
-
     public class OpenApiOptions
     {
         public string Title { get; set; }

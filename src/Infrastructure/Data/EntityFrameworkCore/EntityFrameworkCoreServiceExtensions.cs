@@ -16,7 +16,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
     public static class EntityFrameworkCoreServiceExtensions
     {
         public static IServiceCollection AddEntityFrameworkCoreSqlServer<TContext>(this IServiceCollection services,
-            IConfiguration configuration, string connectionStringName) where TContext : DbContextBase
+            IConfiguration configuration, string connectionStringName, ServiceLifetime serviceLifetime) where TContext : DbContext
         {
             services.AddHealthChecks()
                 .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server EFCore",
@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddDbContext<TContext>(s => s
                 .UseSqlServer(configuration.GetConnectionString(connectionStringName))
-                .EnableSensitiveDataLogging());
+                .EnableSensitiveDataLogging(), serviceLifetime);
 
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
