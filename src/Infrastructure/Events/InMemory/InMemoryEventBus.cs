@@ -1,5 +1,6 @@
 using SharedKernel.Domain.Events;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,15 +24,11 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             return Publish(new List<DomainEvent> { @event }, cancellationToken);
         }
 
-        public async Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
+        public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
         {
-            if (events == null)
-                return;
-
-            foreach (var @event in events)
-            {
-                await _domainEventMediator.ExecuteOn(@event, _information.GetAllEventsSubscribers(), cancellationToken);
-            }
+            return events == null
+                ? Task.CompletedTask
+                : Task.WhenAll(events.Select(@event => _domainEventMediator.ExecuteOn(@event, _information.GetAllEventsSubscribers(), cancellationToken)));
         }
     }
 }

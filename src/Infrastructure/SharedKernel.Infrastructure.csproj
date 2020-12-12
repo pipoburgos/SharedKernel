@@ -31,6 +31,8 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FluentValidation" Version="9.3.0" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.0.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" Condition="'$(TargetFramework)' != 'net461'" />

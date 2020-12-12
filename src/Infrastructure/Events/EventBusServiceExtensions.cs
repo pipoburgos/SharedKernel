@@ -1,9 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;
+using SharedKernel.Infrastructure.Events.MassTransit;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.Validators;
@@ -28,7 +35,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHealthChecks()
                 .AddRabbitMQ(
                     sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
-                    "RabbitMq Event Bus", tags: new[] {"Event Bus", "RabbitMq"});
+                    "RabbitMq Event Bus", tags: new[] { "Event Bus", "RabbitMq" });
 
             return services
                 .AddHostedService<RabbitMqEventBusConfiguration>()
@@ -44,7 +51,7 @@ namespace SharedKernel.Infrastructure.Events
         {
             services
                 .AddHealthChecks()
-                .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] {"Event Bus", "Redis"});
+                .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] { "Event Bus", "Redis" });
 
             return services
                 .AddHostedService<RedisConsumer>()
@@ -68,6 +75,55 @@ namespace SharedKernel.Infrastructure.Events
         private static string GetRedisConfiguration(IConfiguration configuration)
         {
             return configuration.GetSection("RedisCacheOptions:Configuration").Value;
+        }
+
+        public static IServiceCollection AddMassTransitEventBus(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
+        {
+            var config = new RabbitMqConfigParams();
+            configuration.GetSection("RabbitMq").Bind(config);
+
+            services
+                .AddHealthChecks()
+                .AddRabbitMQ(
+                    sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
+                    "MassTransit RabbitMq Event Bus", tags: new[] { "Event Bus", "RabbitMq" });
+
+            services.Configure<HealthCheckPublisherOptions>(options =>
+            {
+                options.Delay = TimeSpan.FromSeconds(2);
+                options.Predicate = check => check.Tags.Contains("ready");
+            });
+
+            return services
+                .AddMassTransitHostedService()
+                .AddTransient<IEventBus, MassTransitEventBus>()
+                .AddMassTransit(x =>
+                {
+                    x.UsingRabbitMq((context, cfg) =>
+                    {
+                        cfg.Host(new Uri($"rabbitmq://{config.HostName}:{config.Port}"), h =>
+                        {
+                            h.Username(config.Username);
+                            h.Password(config.Password);
+                        });
+
+                        cfg.MessageTopology.SetEntityNameFormatter(new EnvironmentNameFormatter(cfg.MessageTopology.EntityNameFormatter));
+                    });
+
+                    var timeout = TimeSpan.FromSeconds(10);
+                    var serviceAddress = new Uri($"rabbitmq://{config.HostName}:{config.Port}/{config.ExchangeName}");
+
+                    x.AddConsumers(assemblies);
+
+                    foreach (var assembly in assemblies)
+                    {
+                        foreach (var subscriber in assembly.GetTypes().Where(s => s.IsAssignableFrom(typeof(DomainEventSubscriber<>))))
+                        {
+                            x.AddRequestClient(subscriber, serviceAddress, timeout);
+                            //x.AddRequestClient<Usuario>(subscriber, serviceAddress, timeout);
+                        }
+                    }
+                });
         }
     }
 }
