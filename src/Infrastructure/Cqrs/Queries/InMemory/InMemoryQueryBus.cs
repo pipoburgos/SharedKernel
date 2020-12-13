@@ -25,16 +25,16 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
             _serviceProvider = serviceProvider;
         }
 
-        public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
+        public async Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
         {
-            _executeMiddlewaresService.Execute(query);
+            await _executeMiddlewaresService.ExecuteAsync(query, cancellationToken);
 
             var handler = GetWrappedHandlers(query);
 
             if (handler == null)
                 throw new QueryNotRegisteredError(query.ToString());
 
-            return handler.Handle(query, _serviceProvider, cancellationToken);
+            return await handler.Handle(query, _serviceProvider, cancellationToken);
         }
 
         private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)

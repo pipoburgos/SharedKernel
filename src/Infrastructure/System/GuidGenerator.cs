@@ -9,5 +9,10 @@ namespace SharedKernel.Infrastructure.System
         {
             return Guid.NewGuid();
         }
+
+        public Guid NewGuid(int value)
+        {
+            return new Guid($"00000000-0000-0000-0000-{value.ToString().PadLeft(12, '0')}");
+        }
     }
 }

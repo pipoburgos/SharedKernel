@@ -51,34 +51,30 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             _applicationLifetime = applicationLifetime;
         }
 
-        public Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
+        public async Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
         {
-            _executeMiddlewaresService.Execute(command);
+            await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
 
             var wrappedHandlers = GetWrappedHandlers(command);
 
             if (wrappedHandlers == null)
                 throw new CommandNotRegisteredError(command.ToString());
 
-            return wrappedHandlers.Handle(command, _serviceProvider, cancellationToken);
+            return await wrappedHandlers.Handle(command, _serviceProvider, cancellationToken);
         }
 
-        public Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
+        public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
         {
-            _executeMiddlewaresService.Execute(command);
+            await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
 
             var wrappedHandlers = GetWrappedHandlers(command);
 
             if (wrappedHandlers == null)
                 throw new CommandNotRegisteredError(command.ToString());
 
-            var tasks = new List<Task>();
-            foreach (var handler in wrappedHandlers)
-            {
-                tasks.Add(handler.Handle(command, _serviceProvider, cancellationToken));
-            }
+            var tasks = wrappedHandlers.Select(handler => handler.Handle(command, _serviceProvider, cancellationToken));
 
-            return Task.WhenAll(tasks);
+            await Task.WhenAll(tasks);
         }
 
         public Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken)
