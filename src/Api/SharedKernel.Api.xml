@@ -1,0 +1,644 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedKernel.Api</name>
+    </assembly>
+    <members>
+        <member name="T:SharedKernel.Api.Controllers.AuthBaseController">
+            <summary>
+            Auth base controller
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Controllers.BaseController">
+            <summary>
+            Base controller
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Controllers.BaseController.CommandBus">
+            <summary>
+            Gets the command bus
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Controllers.BaseController.QueryBus">
+            <summary>
+            Gets de query bus
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.CommandBusExtensions">
+            <summary>
+            Command bus extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest,System.Action{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="fillOtherProperties"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.KendoGrid.KendoGridRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.Column.#ctor(System.String,System.String,SharedKernel.Api.Grids.DataTables.Search,System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <param name="name"></param>
+            <param name="search"></param>
+            <param name="searchable"></param>
+            <param name="orderable"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Column.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Column.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Column.Search">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Column.Searchable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Column.Orderable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.DataTablesOrder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.DataTablesOrder.#ctor(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+            <param name="dir"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesOrder.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesOrder.Dir">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1">
+            <summary>
+            Datatables request
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.#ctor(`0,System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{SharedKernel.Api.Grids.DataTables.Column},System.Collections.Generic.IEnumerable{SharedKernel.Api.Grids.DataTables.DataTablesOrder},SharedKernel.Api.Grids.DataTables.Search)">
+            <summary>
+            
+            </summary>
+            <param name="filter"></param>
+            <param name="draw"></param>
+            <param name="start"></param>
+            <param name="length"></param>
+            <param name="search"></param>
+            <param name="columns"></param>
+            <param name="order"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Draw">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Start">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Length">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Search">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Columns">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Order">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest`1.Filter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.DataTablesRequest">
+            <summary>
+            Datatables request
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.DataTablesRequest.#ctor(System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{SharedKernel.Api.Grids.DataTables.Column},System.Collections.Generic.IEnumerable{SharedKernel.Api.Grids.DataTables.DataTablesOrder},SharedKernel.Api.Grids.DataTables.Search,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            
+            </summary>
+            <param name="draw"></param>
+            <param name="start"></param>
+            <param name="length"></param>
+            <param name="search"></param>
+            <param name="columns"></param>
+            <param name="order"></param>
+            <param name="additionalParameters"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Draw">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Start">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Length">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Search">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Columns">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.Order">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesRequest.AdditionalParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.#ctor(System.Int32,SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList{`0})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.Draw">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.RecordsTotal">
+            <summary>
+            Unfiltered records
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.RecordsFiltered">
+            <summary>
+            Records once the filter is done
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.Error">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.DataTablesResponse`1.AdditionalParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.Search">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.Search.#ctor(System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="isRegex"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Search.IsRegex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.DataTables.Search.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor.#ctor(System.String,System.Collections.Generic.IEnumerable{SharedKernel.Api.Grids.KendoGrid.FilterDescriptor})">
+            <summary>
+            
+            </summary>
+            <param name="logic"></param>
+            <param name="filters"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor.Logic">
+             <summary>
+             The logical operation to use when the `filter.filters` option is set.
+            
+             The supported values are:
+             * `"and"`
+             * `"or"`
+             </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor.Filters">
+            <summary>
+            The nested filter expressions
+            either [`FilterDescriptor`]({% slug api_kendo-data-query_filter_descriptor %}), or [`CompositeFilterDescriptor`]
+            ({% slug api_kendo-data-query_composite_filter_descriptor %}).
+            Supports the same options as `filter`. You can nest filters indefinitely.
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.DataStateChange">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.DataStateChange.#ctor(System.Boolean,System.Nullable{System.Int32},System.Int32,System.Int32,System.Collections.Generic.IEnumerable{SharedKernel.Api.Grids.KendoGrid.SortDescriptor},System.Collections.Generic.IEnumerable{SharedKernel.Api.Grids.KendoGrid.GroupDescriptor},SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor)">
+            <summary>
+            
+            </summary>
+            <param name="allRecords"></param>
+            <param name="limitRecords"></param>
+            <param name="skip"></param>
+            <param name="take"></param>
+            <param name="sort"></param>
+            <param name="group"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.AllRecords">
+            <summary>
+            Return all records without paging
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.LimitRecords">
+            <summary>
+            Exact number of records to display
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.Skip">
+            <summary>
+            The number of records to skip.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.Take">
+            <summary>
+            The number of records to take.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.Sort">
+            <summary>
+            The sort descriptors by which the data is sorted.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.Group">
+            <summary>
+            The group descriptors by which the data is grouped.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.DataStateChange.Filter">
+            <summary>
+            The filter descriptor by which the data is filtered.
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor.#ctor(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="field"></param>
+            <param name="operator"></param>
+            <param name="value"></param>
+            <param name="ignoreCase"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor.Field">
+            The data item field to which the filter operator is applied.
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor.Operator">
+             The filter operator (comparison).
+            
+             The supported operators are:
+             * `"eq"` (equal to)
+             * `"neq"` (not equal to)
+             * `"isnull"` (is equal to null)
+             * `"isnotnull"` (is not equal to null)
+             * `"lt"` (less than)
+             * `"lte"` (less than or equal to)
+             * `"gt"` (greater than)
+             * `"gte"` (greater than or equal to)
+            
+             The following operators are supported for string fields only:
+             * `"startswith"`
+             * `"endswith"`
+             * `"contains"`
+             * `"doesnotcontain"`
+             * `"isempty"`
+             * `"isnotempty"`
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor.Value">
+            The value to which the field is compared. Has to be of the same type as the field.
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.FilterDescriptor.IgnoreCase">
+            Determines if the string comparison is case-insensitive.
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.GroupDescriptor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.GroupDescriptor.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="field"></param>
+            <param name="dir"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.GroupDescriptor.Field">
+            <summary>
+            The field that is sorted.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.GroupDescriptor.Dir">
+             <summary>
+             The sort direction. If no direction is set, the descriptor will be skipped during processing.
+            
+             The available values are:
+             - `asc`
+             - `desc`
+             </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.KendoGridRequest`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.KendoGridRequest`1.#ctor(`0,SharedKernel.Api.Grids.KendoGrid.DataStateChange)">
+            <summary>
+            
+            </summary>
+            <param name="filter"></param>
+            <param name="state"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.KendoGridRequest`1.Filter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.KendoGridRequest`1.State">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.KendoGridResponse`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.KendoGridResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <param name="total"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.KendoGridResponse`1.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.KendoGridResponse`1.Total">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.SortDescriptor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.SortDescriptor.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="field"></param>
+            <param name="dir"></param>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.SortDescriptor.Field">
+            <summary>
+            The field that is sorted.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Grids.KendoGrid.SortDescriptor.Dir">
+             <summary>
+             The sort direction. If no direction is set, the descriptor will be skipped during processing.
+            
+             The available values are:
+             - `asc`
+             - `desc`
+             </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Middlewares.CurrentCultureMiddleware">
+            <summary>
+            Current culture middleware
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Middlewares.CurrentCultureMiddleware.UseCurrentCulture(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Configure Accept-Language header with english, spanish and chinese cultures
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Middlewares.ErrorsMiddleware">
+            <summary>
+            Errors middleware
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Middlewares.ErrorsMiddleware.UseErrors(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Writes de exceptions to response
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Middlewares.ServicesPageMiddleware">
+            <summary>
+            Service page extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Middlewares.ServicesPageMiddleware.UseServicesPage(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds a route /services to show the dependency container
+            </summary>
+            <param name="app"></param>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.AuthenticationExtensions">
+            <summary>
+            Authentication Extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.AuthenticationExtensions.AddAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            Configures OpenIdOptions, IHttpContextAccessor, Authentication, cookies and bearer token
+            </summary>
+            <param name="services">Specifies the contract for a collection of service descriptors.</param>
+            <param name="configuration">Represents a set of key/value application configuration properties.</param>
+            <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions">
+            <summary>
+            Http client extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions.AddClient``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            Add http client with bearer token
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="section"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions">
+            <summary>
+            Open api options
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Title">
+            <summary>
+            Open api info title
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.AppName">
+            <summary>
+            Application name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Name">
+            <summary>
+            Open api name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.XmlDocumentationFile">
+            <summary>
+            Documentation file name
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions">
+            <summary>
+            Swagger configuration
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Services configuration
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions})">
+            <summary>
+            Configure Open Api ui
+            </summary>
+            <param name="app"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions">
+            <summary>
+            Shared kernel api extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddApi``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[])">
+            <summary>
+            Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="policyName">The policy name of a configured policy.</param>
+            <param name="origins">All domains who calls the api</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

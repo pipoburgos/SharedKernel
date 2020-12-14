@@ -1,0 +1,370 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedKernel.Application</name>
+    </assembly>
+    <members>
+        <member name="T:SharedKernel.Application.Adapter.ITypeAdapter">
+            <summary>
+            Generic type adapter for mapping objects
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.ITypeAdapter.MapTo``1(System.Object)">
+            <summary>
+            Execute a mapping from the source object to a new destination object.
+            The source type is inferred from the source object.
+            </summary>
+            <typeparam name="TDestination">Destination type to create</typeparam>
+            <param name="source">Source object to map from</param>
+            <returns>Mapped destination object</returns>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.ITypeAdapter.MapTo``2(``0)">
+            <summary>
+            Execute a mapping from the source object to a new destination object.
+            </summary>
+            <typeparam name="TSource">Source type to use, regardless of the runtime type</typeparam>
+            <typeparam name="TDestination">Destination type to create</typeparam>
+            <param name="source">Source object to map from</param>
+            <returns>Mapped destination object</returns>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.ITypeAdapter.MapTo``2(``0,``1)">
+            <summary>
+            Execute a mapping from the source object to the existing destination object.
+            </summary>
+            <typeparam name="TSource">Source type to use</typeparam>
+            <typeparam name="TDestination">Destination type</typeparam>
+            <param name="source">Source object to map from</param>
+            <param name="destination">Destination object to map into</param>
+            <returns>The mapped destination object, same instance as the <paramref name="destination" /> object</returns>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.ITypeAdapter.ProjectTo``1(System.Linq.IQueryable)">
+            <summary>
+            Availability for LINQ to entities
+            </summary>
+            <typeparam name="TDestination"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Adapter.ITypeAdapterFactory">
+            <summary>
+            Base contract for adapter factory
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.ITypeAdapterFactory.Create">
+            <summary>
+            Create a generic type adapter for mapping objects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Adapter.TypeAdapterExtensions">
+            <summary>
+            Type adapter extensions for manage collections
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.TypeAdapterExtensions.MapTo``1(System.Object)">
+            <summary>
+            Project a type using a DTO
+            </summary>
+            <typeparam name="TProjection">The dto projection</typeparam>
+            <param name="aggregate">The source aggregate to project</param>
+            <returns>The projected type</returns>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.TypeAdapterExtensions.MapTo``1(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            projected a enumerable collection of items
+            </summary>
+            <typeparam name="TProjection">The dto projection type</typeparam>
+            <param name="items">the collection of entity items</param>
+            <returns>Projected collection</returns>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.TypeAdapterExtensions.ProjectTo``1(System.Linq.IQueryable)">
+            <summary>
+            projected a enumerable collection of items
+            </summary>
+            <typeparam name="TProjection">The dto projection type</typeparam>
+            <param name="items">the collection of entity items</param>
+            <returns>Projected collection</returns>
+        </member>
+        <member name="T:SharedKernel.Application.Adapter.TypeAdapterFactory">
+            <summary>
+            Mapper factory
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.TypeAdapterFactory.SetCurrent(SharedKernel.Application.Adapter.ITypeAdapterFactory)">
+            <summary>
+            Set the current type adapter factory
+            </summary>
+            <param name="adapterFactory">The adapter factory to set</param>
+        </member>
+        <member name="M:SharedKernel.Application.Adapter.TypeAdapterFactory.Create">
+            <summary>
+            Create a new type adapter from current factory
+            </summary>
+            <returns>Created type adapter</returns>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.Field">
+            The data item field to which the filter operator is applied.
+            
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.Value">
+            The value to which the field is compared. Has to be of the same type as the field.
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions">
+            <summary>
+            Base filter for Dapper queries
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1">
+            <summary>
+            Paged list
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Queries.IQueryBus.Ask``1(SharedKernel.Application.Cqrs.Queries.IQueryRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Ask a query and return a data transfer object
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="query"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Exceptions.ExceptionCodes">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Exceptions.ExceptionCodes.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Exceptions.ExceptionCodes.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Exceptions.ExceptionCodes.REFLEXION_001">
+            <summary>
+              Looks up a localized string similar to Error al setear el valor por reflexión.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.ToLambdaExpression``1(System.String)">
+            <summary>
+                Convert a string to lambda expression
+                Example => "Person.Child.Name" : x => x.Person.Child.Name
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.Order``1(System.Linq.IQueryable{``0},System.Collections.Generic.IList{SharedKernel.Application.Cqrs.Queries.Entities.Order})">
+            <summary>
+            Apply IQueryable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="sortedColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyOrderBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String,System.Boolean@)">
+            <summary>
+                Convert a string to lambda expression
+                Example => "Person.Child.Name" : x => x.Person.Child.Name
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="ascending"></param>
+            <param name="propertyName"></param>
+            <param name="success"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyThenBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String,System.Boolean@)">
+            <summary>
+                Convert a string to lambda expression
+                Example => "Person.Child.Name" : x => x.Person.Child.Name
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="ascending"></param>
+            <param name="propertyName"></param>
+            <param name="success"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:SharedKernel.Application.Extensions.StringExtensions.DictionaryToQueryString(System.Collections.Generic.Dictionary{System.String,System.Object})" -->
+        <member name="T:SharedKernel.Application.Logging.ICustomLogger">
+            <summary>
+            Provides logging interface and utility functions.
+            https://github.com/uhaciogullari/NLog.Interface/blob/master/NLog.Interface/ICustomLogger.cs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Verbose(System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Info</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Info</c> level.
+            </summary>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Debug(System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Info</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Info</c> level.
+            </summary>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Info(System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Info</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Info</c> level.
+            </summary>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Warn(System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Warn</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Warn</c> level.
+            </summary>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Warn(System.Exception,System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Warn</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Warn</c> level.
+            </summary>
+            <param name="exception"></param>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Error(System.Exception,System.String,System.Object[])">
+            <summary>
+            Writes the diagnostic message and exception at the <c>Error</c> level.
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Logging.ICustomLogger`1">
+            <summary>
+            A generic interface for logging where the category name is derived from the specified
+            <typeparamref name="TCategoryName" /> type name.
+            Generally used to enable activation of a named <see cref="T:Microsoft.Extensions.Logging.ICustomLogger" /> from dependency injection.
+            </summary>
+            <typeparam name="TCategoryName">The type who's name is used for the customLogger category name.</typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Encrypt(System.String)">
+            <summary>
+                Function for Text String Encryption
+                <param name="text">Text to encrypt</param>
+                <returns>Encrypted string</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Decrypt(System.String)">
+            <summary>
+                Function for decrypting text strings
+                <param name="text">Text to decrypt</param>
+                <returns>Decrypted string</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISha256.GetSignature(System.Byte[],System.String)">
+            <summary>
+            Get HMAC SHA256 signature with 3DES key
+            </summary>
+            <param name="tripeDesKey"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Settings.IOptionsService`1">
+            <summary>
+            Used to retrieve configured <typeparamref name="TOptions"/> instances.
+            </summary>
+            <typeparam name="TOptions">The type of options being requested.</typeparam>
+        </member>
+        <member name="P:SharedKernel.Application.Settings.IOptionsService`1.Value">
+            <summary>
+            The default configured <typeparamref name="TOptions"/> instance
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.IWeb.HtmlEncode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.IWeb.HtmlDecode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.IWeb.UrlEncode(System.String)">
+            <summary>
+            /
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.IWeb.UrlDecode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Validator.IEntityValidator`1">
+            <summary>
+            The entity validator base contract
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Validator.ValidationFailure">
+            <summary>Defines a validation failure</summary>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailure.#ctor(System.String,System.String,System.Object)">
+            <summary>Creates a new ValidationFailure.</summary>
+        </member>
+        <member name="P:SharedKernel.Application.Validator.ValidationFailure.PropertyName">
+            <summary>The name of the property.</summary>
+        </member>
+        <member name="P:SharedKernel.Application.Validator.ValidationFailure.ErrorMessage">
+            <summary>The error message</summary>
+        </member>
+        <member name="P:SharedKernel.Application.Validator.ValidationFailure.AttemptedValue">
+            <summary>The property value that caused the failure.</summary>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailure.ToString">
+            <summary>Creates a textual representation of the failure.</summary>
+        </member>
+        <member name="T:SharedKernel.Application.Validator.ValidationFailureException">
+            <summary>An exception that represents failed validation</summary>
+        </member>
+        <member name="P:SharedKernel.Application.Validator.ValidationFailureException.Errors">
+            <summary>Validation errors</summary>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailureException.#ctor(System.String)">
+            <summary>Creates a new ValidationException</summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailureException.#ctor(System.String,System.Collections.Generic.IEnumerable{SharedKernel.Application.Validator.ValidationFailure})">
+            <summary>Creates a new ValidationException</summary>
+            <param name="message"></param>
+            <param name="errors"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailureException.#ctor(System.Collections.Generic.IList{SharedKernel.Application.Validator.ValidationFailure})">
+            <summary>Creates a new ValidationException</summary>
+            <param name="errors"></param>
+        </member>
+    </members>
+</doc>

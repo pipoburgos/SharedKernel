@@ -4,9 +4,110 @@
         <name>SharedKernel.Domain</name>
     </assembly>
     <members>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRoot`1">
+            <summary>
+            This root aggregate contains your domain identifier and events
+            </summary>
+            <typeparam name="TKey">The data type of the identifier</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRoot`1.#ctor">
+            <summary>
+            Aggregate Root constructor for ORMs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRoot`1.#ctor(`0)">
+            <summary>
+            Aggregate Root constructor
+            </summary>
+            <param name="id">The identifier</param>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRoot`1.PullDomainEvents">
+            <summary>
+            Extracts the domain events that have the root aggregate
+            </summary>
+            <returns>All domain events recordered</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRoot`1.Record(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            Stores a domain event for later extraction
+            </summary>
+            <param name="domainEvent"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1">
+            <summary>
+            Root aggregate with creation and modification audit
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.#ctor">
+            <summary>
+            Aggregate Root Auditable constructor for ORMs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.#ctor(`0,System.DateTime,System.Guid)">
+            <summary>
+            Aggregate Root Auditable Constructor
+            </summary>
+            <param name="id">Identifier</param>
+            <param name="createdAt">Creation Date</param>
+            <param name="createdBy">Creation user identifier</param>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.CreatedBy">
+            <summary>
+            Creator user identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.CreatedAt">
+            <summary>
+            Creation date
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.LastModifiedBy">
+            <summary>
+            Modifier user identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditable`1.LastModifiedAt">
+            <summary>
+            Modification date
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Aggregates.IAggregateRoot">
+            <summary>
+            This root aggregate contains your domain identifier and events
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.IAggregateRoot.PullDomainEvents">
+            <summary>
+            Extracts the domain events that have the root aggregate
+            </summary>
+            <returns>All domain events recordered</returns>
+        </member>
         <member name="T:SharedKernel.Domain.Entities.Disposable">
             <inheritdoc />
             <summary>
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Entity`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.#ctor">
+            <summary>
+            Entity constructor for ORMs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.#ctor(`0)">
+            <summary>
+            Entity constructor
+            </summary>
+            <param name="id">The identifier</param>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Entity`1.Id">
+            <summary>
+            The object identifier
             </summary>
         </member>
         <member name="M:SharedKernel.Domain.Entities.Entity`1.IsTransient">
@@ -27,6 +128,41 @@
             <see cref="M:System.Object.GetHashCode"/>
             </summary>
             <returns><see cref="M:System.Object.GetHashCode"/></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.op_Equality(SharedKernel.Domain.Entities.Entity{`0},SharedKernel.Domain.Entities.Entity{`0})">
+            <summary>
+            Compare by identifier
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.op_Inequality(SharedKernel.Domain.Entities.Entity{`0},SharedKernel.Domain.Entities.Entity{`0})">
+            <summary>
+            Compare by identifier
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.EntityAuditable`1">
+            <summary>
+            An entity with creation and modification audit
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditable`1.#ctor">
+            <summary>
+            Entity constructor for ORMs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditable`1.#ctor(`0,System.DateTime,System.Guid)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Identifier</param>
+            <param name="createdAt">Creation Date</param>
+            <param name="createdBy">Creation user identifier</param>
         </member>
         <member name="T:SharedKernel.Domain.Entities.IEntityAuditable">
             <summary>
@@ -73,6 +209,62 @@
             The entity is being tracked by the context and exists in the database, and some or all of its
             property values have been modified.
             </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Events.DomainEvent">
+            <summary>
+            Generic domain event
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.#ctor">
+            <summary>
+            Domain Event serializable constructor
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Domain event constructor
+            </summary>
+            <param name="aggregateId"></param>
+            <param name="eventId"></param>
+            <param name="occurredOn"></param>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEvent.AggregateId">
+            <summary>
+            The aggregate root identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEvent.EventId">
+            <summary>
+            The event identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEvent.OccurredOn">
+            <summary>
+            When the event occurred
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.GetEventName">
+            <summary>
+            The event identifier for message queues
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.FromPrimitives(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.String)">
+            <summary>
+            Create a new Domain event with default values
+            </summary>
+            <param name="aggregateId"></param>
+            <param name="body"></param>
+            <param name="eventId"></param>
+            <param name="occurredOn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.ParseExact(System.String)">
+            <summary>
+            Parse body date to DateTime
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Exceptions.ExceptionCodes">
             <summary>
