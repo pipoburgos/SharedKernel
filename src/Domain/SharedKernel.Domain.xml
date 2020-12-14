@@ -1,0 +1,463 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedKernel.Domain</name>
+    </assembly>
+    <members>
+        <member name="T:SharedKernel.Domain.Entities.Disposable">
+            <inheritdoc />
+            <summary>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.IsTransient">
+            <summary>
+            Check if this entity is transient, ie, without identity at this moment
+            </summary>
+            <returns>True if entity is transient, else false</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.Equals(System.Object)">
+            <summary>
+            <see cref="M:System.Object.Equals"/>
+            </summary>
+            <param name="obj"><see cref="M:System.Object.Equals"/></param>
+            <returns><see cref="M:System.Object.Equals"/></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Entity`1.GetHashCode">
+            <summary>
+            <see cref="M:System.Object.GetHashCode"/>
+            </summary>
+            <returns><see cref="M:System.Object.GetHashCode"/></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.IEntityAuditable">
+            <summary>
+            https://stackoverflow.com/questions/26355486/entity-framework-6-audit-track-changes
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.MimeMappingEntity.GetMimeMapping(System.String)">
+            <summary>Returns the MIME mapping for the specified file name.</summary>
+            <param name="fileName">The file name that is used to determine the MIME type.</param>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.Property.Field">
+            The data item field to which the filter operator is applied.
+            
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.Property.Value">
+            The value to which the field is compared. Has to be of the same type as the field.
+        </member>
+        <member name="F:SharedKernel.Domain.Entities.State.Detached">
+            <summary>
+            The entity is not being tracked by the context.
+            An entity is in this state immediately after it has been created with the new operator
+            or with one of the <see cref="T:System.Data.Entity.DbSet" /> Create methods.
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Domain.Entities.State.Unchanged">
+            <summary>
+            The entity is being tracked by the context and exists in the database, and its property
+            values have not changed from the values in the database.
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Domain.Entities.State.Added">
+            <summary>
+            The entity is being tracked by the context but does not yet exist in the database.
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Domain.Entities.State.Deleted">
+            <summary>
+            The entity is being tracked by the context and exists in the database, but has been marked
+            for deletion from the database the next time SaveChanges is called.
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Domain.Entities.State.Modified">
+            <summary>
+            The entity is being tracked by the context and exists in the database, and some or all of its
+            property values have been modified.
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Exceptions.ExceptionCodes">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Exceptions.ExceptionCodes.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Exceptions.ExceptionCodes.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            ATTENTION, READ THE CONTENTS OF ALL FILES AND LOAD THEM IN MEMORY
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            ATTENTION, READ THE CONTENTS OF ALL FILES AND LOAD THEM IN MEMORY
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Security.IIdentityService">
+            <summary>
+            From: https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Ordering/Ordering.API/Infrastructure/Services/IIdentityService.cs
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Security.IIdentityService.UserAgent">
+            <summary>
+             http://www.useragentstring.com/
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.AndSpecification`1">
+            <inheritdoc />
+            <summary>
+            A logic AND Specification
+            </summary>
+            <typeparam name="T">Type of entity that check this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.AndSpecification`1.#ctor(SharedKernel.Domain.Specifications.Common.ISpecification{`0},SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            Default constructor for AndSpecification
+            </summary>
+            <param name="leftSide">Left side specification</param>
+            <param name="rightSide">Right side specification</param>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.AndSpecification`1.LeftSideSpecification">
+            <inheritdoc />
+            <summary>
+            Left side specification
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.AndSpecification`1.RightSideSpecification">
+            <inheritdoc />
+            <summary>
+            Right side specification
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.AndSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            <see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" />
+            </summary>
+            <returns><see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.CompositeSpecification`1">
+            <inheritdoc />
+            <summary>
+            Base class for composite specifications
+            </summary>
+            <typeparam name="TEntity">Type of entity that check this specification</typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.CompositeSpecification`1.LeftSideSpecification">
+            <summary>
+            Left side specification for this composite element
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.CompositeSpecification`1.RightSideSpecification">
+            <summary>
+            Right side specification for this composite element
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.DirectSpecification`1">
+            <inheritdoc />
+            <summary>
+            A Direct Specification is a simple implementation
+            of specification that acquire this from a lambda expression
+            in  constructor
+            </summary>
+            <typeparam name="TEntity">Type of entity that check this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.DirectSpecification`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Default constructor for Direct Specification
+            </summary>
+            <param name="matchingCriteria">A Matching Criteria</param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.DirectSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.ExpressionBuilder">
+            <summary>
+            Extension methods for adding AND and OR with parameters rebind
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.Compose``1(System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0},System.Func{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression})">
+            <summary>
+            Compose two expressions and merge all in a new expression
+            </summary>
+            <typeparam name="T">Type of params in expression</typeparam>
+            <param name="first">Expression instance</param>
+            <param name="second">Expression to merge</param>
+            <param name="merge">Function to merge</param>
+            <returns>New merged expression</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            And operator
+            </summary>
+            <typeparam name="T">Type of params in expression</typeparam>
+            <param name="first">Right Expression in AND operation</param>
+            <param name="second">Left Expression in And operation</param>
+            <returns>New AND expression</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Or operator
+            </summary>
+            <typeparam name="T">Type of param in expression</typeparam>
+            <param name="first">Right expression in OR operation</param>
+            <param name="second">Left expression in OR operation</param>
+            <returns>New Or expressions</returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.FalseSpecification`1">
+            <inheritdoc />
+            <summary>
+            True specification
+            </summary>
+            <typeparam name="TEntity">Type of entity in this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.FalseSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            <see cref="!: Specification{TEntity}" />
+            </summary>
+            <returns><see cref="!: Specification{TEntity}" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.ISpecification`1">
+            <summary>
+            Base contract for Specification pattern, for more information
+            about this pattern see http://martinfowler.com/apsupp/spec.pdf
+            or http://en.wikipedia.org/wiki/Specification_pattern.
+            This is really a variant implementation where we have added Linq and
+            lambda expression into this pattern.
+            </summary>
+            <typeparam name="TEntity">Type of entity</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ISpecification`1.SatisfiedBy">
+            <summary>
+            Check if this specification is satisfied by a
+            specific expression lambda
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.NotSpecification`1">
+            <inheritdoc />
+            <summary>
+            NotSpecification convert a original
+            specification with NOT logic operator
+            </summary>
+            <typeparam name="TEntity">Type of element for this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.NotSpecification`1.#ctor(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            Constructor for NotSpecification
+            </summary>
+            <param name="originalSpecification">Original specification</param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.NotSpecification`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Constructor for NotSpecification
+            </summary>
+            <param name="originalSpecification">Original specification</param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.NotSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            <see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" />
+            </summary>
+            <returns><see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.OrSpecification`1">
+            <inheritdoc />
+            <summary>
+            A Logic OR Specification
+            </summary>
+            <typeparam name="T">Type of entity that check this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.OrSpecification`1.#ctor(SharedKernel.Domain.Specifications.Common.ISpecification{`0},SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            Default constructor for AndSpecification
+            </summary>
+            <param name="leftSide">Left side specification</param>
+            <param name="rightSide">Right side specification</param>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.OrSpecification`1.LeftSideSpecification">
+            <inheritdoc />
+            <summary>
+            Left side specification
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.OrSpecification`1.RightSideSpecification">
+            <inheritdoc />
+            <summary>
+            Right side specification
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.OrSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            <see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" />
+            </summary>
+            <returns><see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.ParameterRebind">
+            <inheritdoc />
+            <summary>
+            Helper for rebind parameters without use Invoke method in expressions
+            ( this methods is not supported in all linq query providers,
+            for example in Linq2Entities is not supported)
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ParameterRebind.#ctor(System.Collections.Generic.Dictionary{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression})">
+            <inheritdoc />
+            <summary>
+            Default constructor
+            </summary>
+            <param name="map">Map specification</param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ParameterRebind.ReplaceParameters(System.Collections.Generic.Dictionary{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression},System.Linq.Expressions.Expression)">
+            <summary>
+            Replace parameters in expression with a Map information
+            </summary>
+            <param name="map">Map information</param>
+            <param name="exp">Expression to replace parameters</param>
+            <returns>Expression with parameters replaced</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ParameterRebind.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <inheritdoc />
+            <summary>
+            Visit pattern method
+            </summary>
+            <param name="p">A Parameter expression</param>
+            <returns>New visited expression</returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.Specification`1">
+            <inheritdoc />
+            <summary>
+            Represent a Expression Specification
+            <remarks>
+            Specification overload operators for create AND,OR or NOT specifications.
+            Additionally overload AND and OR operators with the same sense of ( binary And and binary Or ).
+            C# couldn't overload the AND and OR operators directly since the framework doesnt allow such craziness. But
+            with overloading false and true operators this is possible. For explain this behavior please read
+            http://msdn.microsoft.com/en-us/library/aa691312(VS.71).aspx
+            </remarks>
+            </summary>
+            <typeparam name="TEntity">Type of item in the criteria</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            IsSatisfied Specification pattern method,
+            </summary>
+            <returns>Expression that satisfy this specification</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.op_BitwiseAnd(SharedKernel.Domain.Specifications.Common.Specification{`0},SharedKernel.Domain.Specifications.Common.Specification{`0})">
+            <summary>
+             And operator
+            </summary>
+            <param name="leftSideSpecification">left operand in this AND operation</param>
+            <param name="rightSideSpecification">right operand in this AND operation</param>
+            <returns>New specification</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.op_BitwiseOr(SharedKernel.Domain.Specifications.Common.Specification{`0},SharedKernel.Domain.Specifications.Common.Specification{`0})">
+            <summary>
+            Or operator
+            </summary>
+            <param name="leftSideSpecification">left operand in this OR operation</param>
+            <param name="rightSideSpecification">left operand in this OR operation</param>
+            <returns>New specification </returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.op_LogicalNot(SharedKernel.Domain.Specifications.Common.Specification{`0})">
+            <summary>
+            Not specification
+            </summary>
+            <param name="specification">Specification to negate</param>
+            <returns>New specification</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.op_False(SharedKernel.Domain.Specifications.Common.Specification{`0})">
+            <summary>
+            Override operator false, only for support AND OR operators
+            </summary>
+            <param name="specification">Specification instance</param>
+            <returns>See False operator in C#</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.Specification`1.op_True(SharedKernel.Domain.Specifications.Common.Specification{`0})">
+            <summary>
+            Override operator True, only for support AND OR operators
+            </summary>
+            <param name="specification">Specification instance</param>
+            <returns>See True operator in C#</returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.TrueSpecification`1">
+            <inheritdoc />
+            <summary>
+            True specification
+            </summary>
+            <typeparam name="TEntity">Type of entity in this specification</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.TrueSpecification`1.SatisfiedBy">
+            <inheritdoc />
+            <summary>
+            <see cref="!: Specification{TEntity}" />
+            </summary>
+            <returns><see cref="!: Specification{TEntity}" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.ValueObject`1">
+            <inheritdoc />
+            <summary>
+            Base class for value objects in domain.
+            Value
+            </summary>
+            <typeparam name="TValueObject">The type of this value object</typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.ValueObject`1.Equals(`0)">
+            <inheritdoc />
+            <summary>
+            <see cref="M:System.Object.IEquatable{TValueObject}" />
+            </summary>
+            <param name="other"><see cref="M:System.Object.IEquatable{TValueObject}" /></param>
+            <returns><see cref="M:System.Object.IEquatable{TValueObject}" /></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.ValueObject`1.Equals(System.Object)">
+            <summary>
+            <see cref="M:System.Object.Equals"/>
+            </summary>
+            <param name="obj"><see cref="M:System.Object.Equals"/></param>
+            <returns><see cref="M:System.Object.Equals"/></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.ValueObject`1.GetHashCode">
+            <summary>
+            <see cref="M:System.Object.GetHashCode"/>
+            </summary>
+            <returns><see cref="M:System.Object.GetHashCode"/></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.ValueObject`1.op_Equality(SharedKernel.Domain.ValueObjects.ValueObject{`0},SharedKernel.Domain.ValueObjects.ValueObject{`0})">
+            <summary>
+            Return true if the value objects are the same
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.ValueObject`1.op_Inequality(SharedKernel.Domain.ValueObjects.ValueObject{`0},SharedKernel.Domain.ValueObjects.ValueObject{`0})">
+            <summary>
+            Return true if the value objects are distinct
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

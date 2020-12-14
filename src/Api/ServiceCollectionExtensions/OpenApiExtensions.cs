@@ -17,14 +17,29 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Open api options
+    /// </summary>
     public class OpenApiOptions
     {
+        /// <summary>
+        /// Open api info title
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Application name
+        /// </summary>
         public string AppName { get; set; }
 
+        /// <summary>
+        /// Open api name
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Documentation file name
+        /// </summary>
         public string XmlDocumentationFile { get; set; }
     }
 

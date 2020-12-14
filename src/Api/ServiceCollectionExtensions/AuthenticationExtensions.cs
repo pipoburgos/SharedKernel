@@ -9,9 +9,19 @@ using SharedKernel.Application.Security;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Authentication Extensions
+    /// </summary>
     public static class AuthenticationExtensions
     {
-        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
+        /// <summary>
+        /// Configures OpenIdOptions, IHttpContextAccessor, Authentication, cookies and bearer token
+        /// </summary>
+        /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
+        /// <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
+        /// <returns></returns>
+        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration, string cookieName = null)
         {
             var openIdOptions = new OpenIdOptions();
             configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
@@ -19,17 +29,13 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
 
-            services
+            var authenticationBuilder = services
                 .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddCookie("MyCookie", options =>
-                {
-                    options.ExpireTimeSpan = TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime);
                 })
                 .AddJwtBearer(options =>
                 {
@@ -53,6 +59,15 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            if (!string.IsNullOrWhiteSpace(cookieName))
+            {
+                authenticationBuilder.AddCookie("MyCookie", options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime);
+                });
+            }
+
 
             return services;
         }

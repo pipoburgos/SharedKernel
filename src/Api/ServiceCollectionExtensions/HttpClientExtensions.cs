@@ -11,8 +11,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Http client extensions
+    /// </summary>
     public static class HttpClientExtensions
     {
+        /// <summary>
+        /// Add http client with bearer token
+        /// </summary>
+        /// <typeparam name="TClient"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <param name="section"></param>
+        /// <returns></returns>
         public static IServiceCollection AddClient<TClient>(this IServiceCollection services, IConfiguration configuration, string section) where TClient : class
         {
             services.AddHttpClient<TClient>(section)
@@ -23,28 +34,15 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
+    internal class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="httpContextAccessor"></param>
         public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (_httpContextAccessor.HttpContext == null)

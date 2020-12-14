@@ -5,8 +5,16 @@ using Microsoft.AspNetCore.Builder;
 
 namespace SharedKernel.Api.Middlewares
 {
+    /// <summary>
+    /// Current culture middleware
+    /// </summary>
     public static class CurrentCultureMiddleware
     {
+        /// <summary>
+        /// Configure Accept-Language header with english, spanish and chinese cultures
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseCurrentCulture(this IApplicationBuilder app)
         {
             app.Use((context, next) =>

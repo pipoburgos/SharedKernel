@@ -11,6 +11,9 @@ using SharedKernel.Application.Reflection;
 
 namespace SharedKernel.Api.Grids
 {
+    /// <summary>
+    /// Command bus extensions
+    /// </summary>
     public static class CommandBusExtensions
     {
         private const string DeletedKey = "Deleted";

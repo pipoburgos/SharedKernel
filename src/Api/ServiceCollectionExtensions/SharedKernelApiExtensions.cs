@@ -6,14 +6,17 @@ using SharedKernel.Infrastructure.Validators;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Shared kernel api extensions
+    /// </summary>
     public static class SharedKernelApiExtensions
     {
         /// <summary>
-        /// 
+        /// Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The service collection</param>
         /// <param name="policyName">The policy name of a configured policy.</param>
-        /// <param name="origins"></param>
+        /// <param name="origins">All domains who calls the api</param>
         /// <returns></returns>
         public static IServiceCollection AddApi<TValidator>(this IServiceCollection services, string policyName, string[] origins)
         {

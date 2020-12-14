@@ -2,6 +2,9 @@
 
 namespace SharedKernel.Application.Adapter
 {
+    /// <summary>
+    /// Generic type adapter for mapping objects
+    /// </summary>
     public interface ITypeAdapter
     {
         /// <summary>

@@ -6,8 +6,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace SharedKernel.Api.Middlewares
 {
+    /// <summary>
+    /// Errors middleware
+    /// </summary>
     public static class ErrorsMiddleware
     {
+        /// <summary>
+        /// Writes de exceptions to response
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseErrors(this IApplicationBuilder app)
         {
             app.UseExceptionHandler(
@@ -30,7 +38,6 @@ namespace SharedKernel.Api.Middlewares
                                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                                     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-                                    //context.Response.AddApplicationError(error.Error.Message);
                                     await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
                                 }
                             }

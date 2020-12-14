@@ -6,8 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Api.Middlewares
 {
+    /// <summary>
+    /// Service page extensions
+    /// </summary>
     public static class ServicesPageMiddleware
     {
+        /// <summary>
+        /// Adds a route /services to show the dependency container
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseServicesPage(this IApplicationBuilder app, IServiceCollection services)
         {
             app.Map("/services", builder => builder.Run(async context =>

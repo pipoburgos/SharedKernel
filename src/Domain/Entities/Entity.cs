@@ -2,10 +2,35 @@ using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
     public abstract class Entity<TKey> : IEntity<TKey>
     {
+        #region Constructors
+
+        /// <summary>
+        /// Entity constructor for ORMs
+        /// </summary>
+        protected Entity() { }
+
+        /// <summary>
+        /// Entity constructor
+        /// </summary>
+        /// <param name="id">The identifier</param>
+        protected Entity(TKey id)
+        {
+            Id = id;
+        }
+
+        #endregion
+
         #region Properties
 
+        /// <summary>
+        /// The object identifier
+        /// </summary>
         public TKey Id { get; protected set; }
 
         #endregion
@@ -38,7 +63,7 @@ namespace SharedKernel.Domain.Entities
             if (ReferenceEquals(this, obj))
                 return true;
 
-            var item = (Entity<TKey>)obj;
+            var item = (Entity<TKey>) obj;
 
 
             return EqualityComparer<TKey>.Default.Equals(Id, item.Id);
@@ -59,11 +84,23 @@ namespace SharedKernel.Domain.Entities
             return Id.GetHashCode() ^ 31;
         }
 
+        /// <summary>
+        /// Compare by identifier
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(Entity<TKey> left, Entity<TKey> right)
         {
             return left?.Equals(right) ?? Equals(right, null);
         }
 
+        /// <summary>
+        /// Compare by identifier
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(Entity<TKey> left, Entity<TKey> right)
         {
             return !(left == right);
