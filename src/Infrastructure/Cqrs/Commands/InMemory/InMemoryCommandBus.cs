@@ -84,13 +84,11 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 
         public Task QueueInBackground(ICommandRequest command)
         {
-            _taskQueue.QueueBackground(async token =>
+            _taskQueue.QueueBackground(async _ =>
             {
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    var commandBus = scope.ServiceProvider.GetRequiredService<ICommandBus>();
-                    await commandBus.Dispatch(command, _applicationLifetime.ApplicationStopping);
-                }
+                using var scope = _serviceScopeFactory.CreateScope();
+                var commandBus = scope.ServiceProvider.GetRequiredService<ICommandBus>();
+                await commandBus.Dispatch(command, _applicationLifetime.ApplicationStopping);
             });
 
             return Task.CompletedTask;
@@ -105,7 +103,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var instance = handlers.Cast<object>()
-                .Select(handler => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType));
+                .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType));
 
             var wrappedHandlers = CommandHandlers
                 .GetOrAdd(command.GetType(), instance);
@@ -122,7 +120,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var wrappedHandlers = (CommandHandlerWrapperResponse<TResponse>)CommandHandlersResponse.GetOrAdd(command.GetType(), handlers.Cast<object>()
-                .Select(handler => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());
+                .Select(_ => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;
         }

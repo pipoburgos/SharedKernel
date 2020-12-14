@@ -10,8 +10,8 @@ namespace SharedKernel.Domain.Specifications.Common
     /// <remarks>
     /// Specification overload operators for create AND,OR or NOT specifications.
     /// Additionally overload AND and OR operators with the same sense of ( binary And and binary Or ).
-    /// C# couldn’t overload the AND and OR operators directly since the framework doesn’t allow such craziness. But
-    /// with overloading false and true operators this is posible. For explain this behavior please read
+    /// C# couldn't overload the AND and OR operators directly since the framework doesnt allow such craziness. But
+    /// with overloading false and true operators this is possible. For explain this behavior please read
     /// http://msdn.microsoft.com/en-us/library/aa691312(VS.71).aspx
     /// </remarks>
     /// </summary>
@@ -24,7 +24,7 @@ namespace SharedKernel.Domain.Specifications.Common
 
         /// <inheritdoc />
         /// <summary>
-        /// IsSatisFied Specification pattern method,
+        /// IsSatisfied Specification pattern method,
         /// </summary>
         /// <returns>Expression that satisfy this specification</returns>
         public abstract Expression<Func<TEntity, bool>> SatisfiedBy();

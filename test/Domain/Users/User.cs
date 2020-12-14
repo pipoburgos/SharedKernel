@@ -9,6 +9,7 @@ namespace SharedKernel.Domain.Tests.Users
         private readonly List<string> _emails;
         private readonly List<Address> _addresses;
 
+        // ReSharper disable once UnusedMember.Local
         private User() { }
 
         internal User(Guid id, string name, List<string> emails = default, List<Address> addresses = default)
@@ -27,8 +28,6 @@ namespace SharedKernel.Domain.Tests.Users
 
             return user;
         }
-
-        public override Guid Id { get; protected set; }
 
         public string Name { get; private set; }
 

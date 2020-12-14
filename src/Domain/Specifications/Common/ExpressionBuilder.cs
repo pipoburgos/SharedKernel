@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace SharedKernel.Domain.Specifications.Common
 {
     /// <summary>
-    /// Extension methods for adding AND and OR with parameters rebinder
+    /// Extension methods for adding AND and OR with parameters rebind
     /// </summary>
     public static class ExpressionBuilder
     {
@@ -25,7 +25,7 @@ namespace SharedKernel.Domain.Specifications.Common
                 .ToDictionary(p => p.s, p => p.f);
 
             // replace parameters in the second lambda expression with parameters from the first
-            var secondBody = ParameterRebinder.ReplaceParameters(map, second.Body);
+            var secondBody = ParameterRebind.ReplaceParameters(map, second.Body);
             // apply composition of lambda expression bodies to parameters from the first expression
             return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
         }

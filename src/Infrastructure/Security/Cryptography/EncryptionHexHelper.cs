@@ -9,13 +9,13 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
     {
         #region Properties
 
-        //Algorithmo TripleDES
+        // TripleDES Algorithm
         private static readonly TripleDESCryptoServiceProvider Des = new TripleDESCryptoServiceProvider();
 
-        //Objeto md5
-        private static readonly MD5CryptoServiceProvider Hashmd5 = new MD5CryptoServiceProvider();
+        // Objet md5
+        private static readonly MD5CryptoServiceProvider HashMd5 = new MD5CryptoServiceProvider();
 
-        //Clave secreta
+        // Secret key
         private const string MyKey = "TemplateWebApiSecretKey";
 
         #endregion Properties
@@ -23,9 +23,9 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         #region Private Functions
 
         /// <summary>
-        ///     Funcion para coger los bytes de una cadena de texto en hex
-        ///     <param name="hex">Texto con hex para pasar a bytes</param>
-        ///     <returns>Array de bytes con el valor de la cadena hexadecimal</returns>
+        ///     Function to get the bytes of a text string in hex
+        ///     <param name="hex">Text with hex to pass to bytes</param>
+        ///     <returns>Byte array with the hexadecimal string value</returns>
         /// </summary>
         private byte[] StringToByteArrayFastest(string hex)
         {
@@ -42,9 +42,9 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         }
 
         /// <summary>
-        ///     Funcion para el coger el valor entero de un caracter hex
-        ///     <param name="hex">Caracter hexadecimal para pasar a int</param>
-        ///     <returns>Int con el valor del caracter</returns>
+        ///     Function to get the integer value of a hex character
+        ///     <param name="hex">Hexadecimal character to pass to int</param>
+        ///     <returns>Int with the character value</returns>
         /// </summary>
         private int GetHexVal(char hex)
         {
@@ -62,26 +62,26 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         #region Funciones
 
         /// <summary>
-        ///     Funcion para el Encriptado de Cadenas de Texto
-        ///     <param name="texto">Texto a encriptar</param>
-        ///     <returns>Cadena encriptada</returns>
+        ///     Function for Text String Encryption
+        ///     <param name="text">Text to encrypt</param>
+        ///     <returns>Encrypted string</returns>
         /// </summary>
-        public string Encrypt(string texto)
+        public string Encrypt(string text)
         {
             string functionReturnValue = null;
-            if (string.IsNullOrEmpty(texto.Trim()))
+            if (string.IsNullOrEmpty(text.Trim()))
             {
                 functionReturnValue = "";
             }
             else
             {
-                Des.Key = Hashmd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
+                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
                 Des.Mode = CipherMode.ECB;
                 var encrypt = Des.CreateEncryptor();
 
-                var buff = Encoding.UTF8.GetBytes(texto);
+                var buff = Encoding.UTF8.GetBytes(text);
                 buff = encrypt.TransformFinalBlock(buff, 0, buff.Length);
-                //Convertimos los bytes a string de hex
+                // Convert bytes to string from hex
                 for (var i = 0; i < buff.Length; i++)
                     functionReturnValue += buff[i].ToString("X2");
             }
@@ -89,26 +89,24 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         }
 
         /// <summary>
-        ///     Funcion para el Desencriptado de Cadenas de Texto
-        ///     <param name="texto">Texto a desencriptar</param>
-        ///     <returns>Cadena desencriptada</returns>
+        ///     Function for Decrypting Text Strings
+        ///     <param name="text">Text to decrypt</param>
+        ///     <returns>Decrypted string</returns>
         /// </summary>
-        public string Decrypt(string texto)
+        public string Decrypt(string text)
         {
             string functionReturnValue;
-            if (string.IsNullOrEmpty(texto.Trim()))
+            if (string.IsNullOrEmpty(text.Trim()))
             {
                 functionReturnValue = "";
             }
             else
             {
-                Des.Key = Hashmd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
+                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
                 Des.Mode = CipherMode.ECB;
-                var desencrypta = Des.CreateDecryptor();
-
-                //Convertimos el string de hex a bytes
-                var buff = StringToByteArrayFastest(texto);
-                buff = desencrypta.TransformFinalBlock(buff, 0, buff.Length);
+                var decryptor = Des.CreateDecryptor();
+                var buff = StringToByteArrayFastest(text);
+                buff = decryptor.TransformFinalBlock(buff, 0, buff.Length);
                 functionReturnValue = Encoding.UTF8.GetString(buff);
             }
             return functionReturnValue;

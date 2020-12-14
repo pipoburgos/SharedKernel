@@ -27,9 +27,9 @@ namespace SharedKernel.Domain.Specifications
                 : PropertyInfo.PropertyType.GetMethod("Equals", new[] { PropertyInfo.PropertyType });
 
             if (methodInfo == null)
-                throw new Exception("Método no encontrado");
+                throw new Exception("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");
 
-            // Valor propiedad
+            // Property value
             object value;
             if (PropertyInfo.PropertyType != typeof(string))
                 value = Convert.ChangeType(Value, PropertyInfo.PropertyType);

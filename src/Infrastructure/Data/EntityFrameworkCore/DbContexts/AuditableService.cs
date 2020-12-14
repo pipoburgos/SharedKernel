@@ -71,7 +71,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
             foreach (var removed in auditedLogicalRemoveEntities)
             {
-                _customLogger.Info($"Borrando lógicamente la entidad {removed.Entity.GetType()}");
+                _customLogger.Verbose($"Logically deleting the entity {removed.Entity.GetType()}");
                 removed.Entity.Delete(now, user);
                 removed.State = EntityState.Modified;
             }
@@ -116,7 +116,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                 var registryId = Guid.Empty.ToString();
                 if (id == null)
                 {
-                    var exception = new Exception($"Propiedad id no encontrada en {string.Join(",", propertyNames)}");
+                    var exception = new Exception($"Property not found {string.Join(",", propertyNames)}");
                     _customLogger.Error(exception, exception.Message);
                 }
                 else

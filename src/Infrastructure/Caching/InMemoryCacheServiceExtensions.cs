@@ -5,7 +5,7 @@ namespace SharedKernel.Infrastructure.Caching
 {
     public static class InMemoryCacheServiceExtensions
     {
-        public static IServiceCollection AddInMemmoryCache(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryCache(this IServiceCollection services)
         {
             return services
                 .AddMemoryCache()

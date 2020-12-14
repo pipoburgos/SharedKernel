@@ -125,47 +125,12 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Migracionaes base de datos, cambiar
-
-            //modelBuilder.HasDefaultSchema(Schema);
-            //modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
-            //base.OnModelCreating(modelBuilder);
-            //foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            //    relationship.DeleteBehavior = DeleteBehavior.Restrict;
-
-
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(Schema);
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
         }
-
-        // YA ESTÁ IMPLEMENTADO EN ENTITY FRAMEWORK CORE
-        //protected virtual async Task<int> SaveChangesOptimisticConcurrencyAsync(CancellationToken cancellationToken)
-        //{
-        //    var rowsUpdated = 0;
-        //    bool saveFailed;
-
-        //    do
-        //    {
-        //        saveFailed = false;
-
-        //        try
-        //        {
-        //            rowsUpdated = await base.SaveChangesAsync(cancellationToken);
-        //        }
-        //        catch (DbUpdateConcurrencyException ex)
-        //        {
-        //            saveFailed = true;
-
-        //            // Update the values of the entity that failed to save from the store
-        //            ex.Entries.Single().Reload();
-        //        }
-        //    } while (saveFailed);
-
-        //    return rowsUpdated;
-        //}
 
         protected virtual void Validate()
         {

@@ -71,14 +71,12 @@ namespace SharedKernel.Infrastructure.Data.Dapper
 
                     _cancellationToken.ThrowIfCancellationRequested();
 
-                    using (var sqlConnection = new SqlConnection(_connectionString))
-                    using (var connection = new SqlConnectionWithDependency(sqlConnection, _sqlDependencyAsync.SqlDependency))
-                    {
-                        collection = await connection.QueryAsync<TReturn>(_sqlQuery, _param, _transaction, _commandTimeout, _commandType)
-                            as List<TReturn>; // Dapper uses an array for the results when not setting buffered=true; which we aren't
+                    using var sqlConnection = new SqlConnection(_connectionString);
+                    using var connection = new SqlConnectionWithDependency(sqlConnection, _sqlDependencyAsync.SqlDependency);
+                    collection = await connection.QueryAsync<TReturn>(_sqlQuery, _param, _transaction, _commandTimeout, _commandType)
+                        as List<TReturn>; // Dapper uses an array for the results when not setting buffered=true; which we aren't
 
-                        return collection;
-                    }
+                    return collection;
                 }
                 catch (Exception exception)
                 {

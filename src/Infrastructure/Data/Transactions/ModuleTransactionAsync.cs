@@ -34,7 +34,7 @@ namespace SharedKernel.Infrastructure.Data.Transactions
         protected virtual void Dispose(bool disposing)
         {
             ReleaseUnmanagedResources();
-            Debug.WriteLine("Transacción liberada!!!");
+            Debug.WriteLine("Transaction released !!!");
         }
 
         public void Dispose()

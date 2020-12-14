@@ -29,8 +29,8 @@ namespace SharedKernel.Api.Grids.KendoGrid
 
         /// <summary>
         /// The nested filter expressions
-        /// either [`FilterDescriptor`]({% slug api_kendo-data-query_filterdescriptor %}), or [`CompositeFilterDescriptor`]
-        /// ({% slug api_kendo-data-query_compositefilterdescriptor %}).
+        /// either [`FilterDescriptor`]({% slug api_kendo-data-query_filter_descriptor %}), or [`CompositeFilterDescriptor`]
+        /// ({% slug api_kendo-data-query_composite_filter_descriptor %}).
         /// Supports the same options as `filter`. You can nest filters indefinitely.
         /// </summary>
         public IEnumerable<FilterDescriptor> Filters { get; }

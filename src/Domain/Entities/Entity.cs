@@ -6,7 +6,7 @@ namespace SharedKernel.Domain.Entities
     {
         #region Properties
 
-        public virtual TKey Id { get; protected set; }
+        public TKey Id { get; protected set; }
 
         #endregion
 

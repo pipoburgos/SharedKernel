@@ -28,15 +28,15 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     /// </summary>
     public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
     {
-        private readonly IHttpContextAccessor _httpContextAccesor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="httpContextAccesor"></param>
-        public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccesor)
+        /// <param name="httpContextAccessor"></param>
+        public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccesor = httpContextAccesor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -47,18 +47,18 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <returns></returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (_httpContextAccesor.HttpContext == null)
+            if (_httpContextAccessor.HttpContext == null)
                 return await base.SendAsync(request, cancellationToken);
 
 
-            var authorizationHeader = _httpContextAccesor.HttpContext.Request.Headers["Authorization"];
+            var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
 
             if (!string.IsNullOrEmpty(authorizationHeader))
                 request.Headers.Add("Authorization", new List<string> { authorizationHeader });
 
             const string accessToken = "access_token";
 
-            var token = await _httpContextAccesor.HttpContext.GetTokenAsync(accessToken);
+            var token = await _httpContextAccessor.HttpContext.GetTokenAsync(accessToken);
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

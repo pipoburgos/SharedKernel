@@ -17,11 +17,17 @@ namespace SharedKernel.Infrastructure.Caching
             _customLogger = customLogger;
         }
 
+        public Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = null)
+        {
+            _memoryCache.Set(key, value);
+            return Task.CompletedTask;
+        }
+
         public Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
         {
             return _memoryCache.GetOrCreateAsync(key, entry =>
             {
-                _customLogger.Verbose($"Ejecutanto de la cache {key}");
+                _customLogger.Verbose($"Retrieving from cache {key}");
                 entry.SlidingExpiration = timeSpan;
                 return generator();
             });

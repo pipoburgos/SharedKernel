@@ -6,11 +6,11 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.HealthChecks
 {
-    public class RamHealthcheck : IHealthCheck
+    public class RamHealthCheck : IHealthCheck
     {
-        private readonly ICustomLogger<RamHealthcheck> _logger;
+        private readonly ICustomLogger<RamHealthCheck> _logger;
 
-        public RamHealthcheck(ICustomLogger<RamHealthcheck> logger)
+        public RamHealthCheck(ICustomLogger<RamHealthCheck> logger)
         {
             _logger = logger;
         }

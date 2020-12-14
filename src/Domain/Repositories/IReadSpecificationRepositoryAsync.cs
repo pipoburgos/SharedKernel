@@ -6,11 +6,6 @@ using SharedKernel.Domain.Specifications.Common;
 
 namespace SharedKernel.Domain.Repositories
 {
-    /// <summary>
-    ///     Interfaz para el repositorio de lectura
-    ///     https://buildplease.com/pages/repositories-dto/
-    /// </summary>
-    /// <typeparam name="TAggregateRoot">Tipo de datos del repositorio</typeparam>
     public interface IReadSpecificationRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
     {
         Task<List<TAggregateRoot>> WhereAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken);

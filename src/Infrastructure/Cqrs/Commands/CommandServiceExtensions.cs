@@ -25,7 +25,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
             return services.AddFromAssembly(type.Assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
-        public static IServiceCollection AddInMemmoryCommandBus(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryCommandBus(this IServiceCollection services)
         {
             return services
                 .AddCommandBus()

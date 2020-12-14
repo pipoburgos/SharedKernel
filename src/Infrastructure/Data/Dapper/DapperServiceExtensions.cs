@@ -12,7 +12,8 @@ namespace SharedKernel.Infrastructure.Data.Dapper
     public static class DapperServiceExtensions
     {
         public static IServiceCollection AddDapperSqlServer<TContext>(this IServiceCollection services,
-            IConfiguration configuration, string connectionStringName) where TContext : DbContext
+            IConfiguration configuration, string connectionStringName,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
             services.AddHealthChecks()
                 .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server Dapper",
@@ -22,12 +23,12 @@ namespace SharedKernel.Infrastructure.Data.Dapper
 
             services.AddDbContext<TContext>(s => s
                 .UseSqlServer(configuration.GetConnectionString(connectionStringName))
-                .EnableSensitiveDataLogging(), ServiceLifetime.Transient);
+                .EnableSensitiveDataLogging(), serviceLifetime);
 
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
-            services.AddDbContextFactory<TContext>(lifetime: ServiceLifetime.Transient);
+            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
 
             return services;

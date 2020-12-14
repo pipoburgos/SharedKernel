@@ -12,6 +12,7 @@
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
     <Description></Description>
+    <!--<DocumentationFile>SharedKernel.Domain.xml</DocumentationFile>-->
   </PropertyGroup>
 
   <ItemGroup>

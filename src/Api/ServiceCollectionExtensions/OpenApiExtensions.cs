@@ -13,6 +13,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
+// ReSharper disable CommentTypo
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
@@ -28,12 +29,12 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Configuración de Swagger
+    /// Swagger configuration
     /// </summary>
     public static class OpenApiExtensions
     {
         /// <summary>
-        /// Configurar servicios
+        /// Services configuration
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
@@ -129,14 +130,14 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         }
 
         /// <summary>
-        /// Configurar aplicación
+        /// Configure Open Api ui
         /// </summary>
         /// <param name="app"></param>
         /// <param name="options"></param>
         /// <returns></returns>
         public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IOptions<OpenApiOptions> options)
         {
-            app.UseSwagger(opt => { });
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", options?.Value?.Name ?? "Open API v1");

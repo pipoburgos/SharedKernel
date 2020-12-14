@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
 
@@ -8,10 +9,12 @@ namespace SharedKernel.Infrastructure.Events
 {
     public class DomainEventsInformation
     {
+        private readonly Assembly[] _domainAssemblies;
         private readonly Dictionary<string, Type> _indexedDomainEvents = new Dictionary<string, Type>();
 
-        public DomainEventsInformation()
+        public DomainEventsInformation(Assembly[] domainAssemblies)
         {
+            _domainAssemblies = domainAssemblies;
             foreach (var eventType in GetDomainTypes())
             {
                 if (!_indexedDomainEvents.ContainsKey(GetEventName(eventType)))
@@ -40,13 +43,13 @@ namespace SharedKernel.Infrastructure.Events
         {
             try
             {
-                return AppDomain.CurrentDomain.GetAssemblies()
+                return _domainAssemblies
                     .SelectMany(s => s.GetTypes())
                     .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
             }
             catch (Exception)
             {
-                return AppDomain.CurrentDomain.GetAssemblies()
+                return _domainAssemblies
 #if !NETSTANDARD2_1 && !NET461
                     .Where(a => a.FullName != null)
 #endif

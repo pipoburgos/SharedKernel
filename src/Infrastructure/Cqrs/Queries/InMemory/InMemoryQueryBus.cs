@@ -48,7 +48,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
             var wrappedHandlers = (QueryHandlerWrapper<TResponse>)QueryHandlers.GetOrAdd(query.GetType(), handlers.Cast<object>()
-                .Select(handler => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());
+                .Select(_ => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;
         }

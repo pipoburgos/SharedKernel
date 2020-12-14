@@ -1,7 +1,7 @@
+using SharedKernel.Domain.Events;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.System;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Application.Events
 {
@@ -12,7 +12,7 @@ namespace SharedKernel.Application.Events
             if (@event is TDomain msg)
                 return On(msg, cancellationToken);
 
-            return TaskHelper.CompletedTask;
+            throw new ArgumentException(nameof(@event));
         }
 
         protected abstract Task On(TDomain @event, CancellationToken cancellationToken);

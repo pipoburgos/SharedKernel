@@ -49,10 +49,8 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
 
         public void Add(TAggregateRoot aggregate)
         {
-            using (var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false))
-            {
-                outputFile.WriteLine(JsonConvert.SerializeObject(aggregate));
-            }
+            using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
+            outputFile.WriteLine(JsonConvert.SerializeObject(aggregate));
         }
 
         public void AddRange(IEnumerable<TAggregateRoot> aggregates)

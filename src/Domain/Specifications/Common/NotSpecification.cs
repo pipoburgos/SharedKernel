@@ -6,10 +6,10 @@ namespace SharedKernel.Domain.Specifications.Common
 {
     /// <inheritdoc />
     /// <summary>
-    /// NotEspecification convert a original
+    /// NotSpecification convert a original
     /// specification with NOT logic operator
     /// </summary>
-    /// <typeparam name="TEntity">Type of element for this specificaiton</typeparam>
+    /// <typeparam name="TEntity">Type of element for this specification</typeparam>
     public sealed class NotSpecification<TEntity>
         :Specification<TEntity>
         where TEntity : class
@@ -23,7 +23,7 @@ namespace SharedKernel.Domain.Specifications.Common
         #region Constructor
 
         /// <summary>
-        /// Constructor for NotSpecificaiton
+        /// Constructor for NotSpecification
         /// </summary>
         /// <param name="originalSpecification">Original specification</param>
         public NotSpecification(ISpecification<TEntity> originalSpecification)
@@ -37,7 +37,7 @@ namespace SharedKernel.Domain.Specifications.Common
         /// <summary>
         /// Constructor for NotSpecification
         /// </summary>
-        /// <param name="originalSpecification">Original specificaiton</param>
+        /// <param name="originalSpecification">Original specification</param>
         public NotSpecification(Expression<Func<TEntity,bool>> originalSpecification)
         {
             _originalCriteria = originalSpecification ?? throw new ArgumentNullException(nameof(originalSpecification));

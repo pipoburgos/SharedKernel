@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
                 .GetRequiredService<IConnectionMultiplexer>()
                 .GetSubscriber();
 
-            await redisSubscriber.SubscribeAsync("*", async (channel, value) =>
+            await redisSubscriber.SubscribeAsync("*", async (_, value) =>
             {
                 using var scope = _serviceScopeFactory.CreateScope();
 

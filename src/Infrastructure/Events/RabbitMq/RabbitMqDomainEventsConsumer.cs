@@ -52,7 +52,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
             channel.BasicQos(0, prefetchCount, false);
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += async (model, ea) =>
+            consumer.Received += async (_, ea) =>
             {
                 try
                 {

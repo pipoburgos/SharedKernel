@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
             return services.AddFromAssembly(type.Assembly, typeof(IQueryRequestHandler<,>));
         }
 
-        public static IServiceCollection AddInMemmoryQueryBus(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryQueryBus(this IServiceCollection services)
         {
             return services
                 .AddQueryBus()

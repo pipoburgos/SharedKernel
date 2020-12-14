@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         public static void AddDbContextFactory<TDataContext>(this IServiceCollection services,
             Action<DbContextOptionsBuilder> options)
             where TDataContext : DbContext
-            => AddDbContextFactory<TDataContext>(services, (provider, builder) => options.Invoke(builder));
+            => AddDbContextFactory<TDataContext>(services, (_, builder) => options.Invoke(builder));
 
         /// <summary>
         /// Configures the resolution of <typeparamref name="TDataContext"/>'s factory.
@@ -37,7 +37,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             var serviceProvider = services.BuildServiceProvider();
             var options = serviceProvider.GetService<DbContextOptions<TDataContext>>();
 
-            services.AddScoped<Func<TDataContext>>(ctx => () => (TDataContext)Activator.CreateInstance(typeof(TDataContext), options));
+            services.AddScoped<Func<TDataContext>>(_ => () => (TDataContext)Activator.CreateInstance(typeof(TDataContext), options));
         }
 
         private static void AddCoreServices<TContextImplementation>(

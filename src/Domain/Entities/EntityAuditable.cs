@@ -4,12 +4,6 @@ namespace SharedKernel.Domain.Entities
 {
     public abstract class EntityAuditable<TKey> : Entity<TKey>, IEntityAuditable
     {
-        protected EntityAuditable() { }
-
-        // ReSharper disable once UnusedParameter.Local
-        [Obsolete("Eliminar parmetro")]
-        protected EntityAuditable(bool force) { }
-
         #region Properties
 
         public Guid CreatedBy { get; private set; }

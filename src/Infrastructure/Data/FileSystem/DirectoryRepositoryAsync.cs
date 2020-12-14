@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
             return Task.FromResult(files);
         }
 
-        public Task<List<FileEntity>> GetFilesEntitesAsync(string path, CancellationToken cancellationToken)
+        public Task<List<FileEntity>> GetFilesEntitiesAsync(string path, CancellationToken cancellationToken)
         {
             var filesEntities = new ConcurrentBag<FileEntity>();
 #if NETSTANDARD2_1

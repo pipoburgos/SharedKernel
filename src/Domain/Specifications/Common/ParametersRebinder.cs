@@ -5,26 +5,26 @@ namespace SharedKernel.Domain.Specifications.Common
 {
     /// <inheritdoc />
     /// <summary>
-    /// Helper for rebinder parameters without use Invoke method in expressions
+    /// Helper for rebind parameters without use Invoke method in expressions
     /// ( this methods is not supported in all linq query providers,
     /// for example in Linq2Entities is not supported)
     /// </summary>
-    public sealed class ParameterRebinder : ExpressionVisitor
+    public sealed class ParameterRebind : ExpressionVisitor
     {
         private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
 
         /// <inheritdoc />
         /// <summary>
-        /// Default construcotr
+        /// Default constructor
         /// </summary>
         /// <param name="map">Map specification</param>
-        public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
+        public ParameterRebind(Dictionary<ParameterExpression, ParameterExpression> map)
         {
             _map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
         }
 
         /// <summary>
-        /// Replate parameters in expression with a Map information
+        /// Replace parameters in expression with a Map information
         /// </summary>
         /// <param name="map">Map information</param>
         /// <param name="exp">Expression to replace parameters</param>
@@ -32,7 +32,7 @@ namespace SharedKernel.Domain.Specifications.Common
         public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> map,
             Expression exp)
         {
-            return new ParameterRebinder(map).Visit(exp);
+            return new ParameterRebind(map).Visit(exp);
         }
 
         /// <inheritdoc />

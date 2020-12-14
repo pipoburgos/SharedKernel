@@ -12,12 +12,12 @@ namespace SharedKernel.Domain.Repositories
         Task<List<string>> GetFileNamesAsync(string path, CancellationToken cancellationToken);
 
         /// <summary>
-        /// ATENCIÓN, LEE EL CONTENIDO DE TODOS LOS FICHEROS Y LOS CARGA EN MEMORIA
+        /// ATTENTION, READ THE CONTENTS OF ALL FILES AND LOAD THEM IN MEMORY
         /// </summary>
         /// <param name="path"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<List<FileEntity>> GetFilesEntitesAsync(string path, CancellationToken cancellationToken);
+        Task<List<FileEntity>> GetFilesEntitiesAsync(string path, CancellationToken cancellationToken);
 
         Task<bool> ExistsAsync(string id, CancellationToken cancellationToken);
 

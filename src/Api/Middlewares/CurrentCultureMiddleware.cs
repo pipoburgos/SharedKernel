@@ -12,10 +12,10 @@ namespace SharedKernel.Api.Middlewares
             app.Use((context, next) =>
             {
                 //get client prefered language
-                var userLangs = context.Request.Headers["Accept-Language"].ToString();
-                var firstLang = userLangs.Split(',').FirstOrDefault();
+                var userLanguages = context.Request.Headers["Accept-Language"].ToString();
+                var firstLang = userLanguages.Split(',').FirstOrDefault();
 
-                //set allowed alanguage
+                //set allowed language
                 var lang = firstLang switch
                 {
                     "es" => "es-ES",

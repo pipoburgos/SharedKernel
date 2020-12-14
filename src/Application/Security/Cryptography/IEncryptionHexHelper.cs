@@ -3,17 +3,17 @@
     public interface IEncryptionHexHelper
     {
         /// <summary>
-        ///     Funcion para el Encriptado de Cadenas de Texto
-        ///     <param name="texto">Texto a encriptar</param>
-        ///     <returns>Cadena encriptada</returns>
+        ///     Function for Text String Encryption
+        ///     <param name="text">Text to encrypt</param>
+        ///     <returns>Encrypted string</returns>
         /// </summary>
-        string Encrypt(string texto);
+        string Encrypt(string text);
 
         /// <summary>
-        ///     Funcion para el Desencriptado de Cadenas de Texto
-        ///     <param name="texto">Texto a desencriptar</param>
-        ///     <returns>Cadena desencriptada</returns>
+        ///     Function for decrypting text strings
+        ///     <param name="text">Text to decrypt</param>
+        ///     <returns>Decrypted string</returns>
         /// </summary>
-        string Decrypt(string texto);
+        string Decrypt(string text);
     }
 }

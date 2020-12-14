@@ -11,12 +11,12 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
             var key = Encoding.GetEncoding(1252).GetBytes(textKey);
             var iv = new byte[8];
             var data = Encoding.GetEncoding(1252).GetBytes(content);
-            var tdes = TripleDES.Create();
-            tdes.IV = iv;
-            tdes.Key = key;
-            tdes.Mode = CipherMode.CBC;
-            tdes.Padding = PaddingMode.Zeros;
-            var ict = tdes.CreateEncryptor();
+            var tripleDes = TripleDES.Create();
+            tripleDes.IV = iv;
+            tripleDes.Key = key;
+            tripleDes.Mode = CipherMode.CBC;
+            tripleDes.Padding = PaddingMode.Zeros;
+            var ict = tripleDes.CreateEncryptor();
             var enc = ict.TransformFinalBlock(data, 0, data.Length);
             return Encoding.GetEncoding(1252).GetString(enc);
         }

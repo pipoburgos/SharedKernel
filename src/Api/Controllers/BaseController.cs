@@ -17,7 +17,7 @@ namespace SharedKernel.Api.Controllers
         protected ICommandBus CommandBus => HttpContext.RequestServices.GetRequiredService<ICommandBus>();
 
         /// <summary>
-        /// Gets de querybus
+        /// Gets de query bus
         /// </summary>
         protected IQueryBus QueryBus => HttpContext.RequestServices.GetRequiredService<IQueryBus>();
     }

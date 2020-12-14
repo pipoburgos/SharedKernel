@@ -44,7 +44,7 @@ namespace SharedKernel.Domain.Specifications.Common
 
         /// <inheritdoc />
         /// <summary>
-        /// Righ side specification
+        /// Right side specification
         /// </summary>
         public override ISpecification<T> RightSideSpecification => _rightSideSpecification;
 

@@ -13,9 +13,9 @@ using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
 {
     /// <summary>
-    ///     ENTITY FRAMEWORK BASE REPOSITORY
+    ///     ENTITY FRAMEWORK CORE REPOSITORY
     /// </summary>
-    /// <typeparam name="TAggregateRoot">Tipo de datos del repositorio</typeparam>
+    /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
     {
         #region Members

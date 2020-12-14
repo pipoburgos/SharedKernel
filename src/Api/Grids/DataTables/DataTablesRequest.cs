@@ -3,7 +3,7 @@
 namespace SharedKernel.Api.Grids.DataTables
 {
     /// <summary>
-    /// Petición datatables
+    /// Datatables request
     /// </summary>
     public class DataTablesRequest<T>
     {
@@ -66,7 +66,7 @@ namespace SharedKernel.Api.Grids.DataTables
     }
 
     /// <summary>
-    /// Petición datatables
+    /// Datatables request
     /// </summary>
     public class DataTablesRequest
     {

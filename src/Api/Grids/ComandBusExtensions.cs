@@ -11,13 +11,13 @@ using SharedKernel.Application.Reflection;
 
 namespace SharedKernel.Api.Grids
 {
-    public static class ComandBusExtensions
+    public static class CommandBusExtensions
     {
         private const string DeletedKey = "Deleted";
         private const string OnlyDeletedKey = "OnlyDeleted";
 
         /// <summary>
-        /// Crear consulta y enviarla por el bus de comnados y consultas
+        /// Create query and send it over the command and query bus
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResponse"></typeparam>
@@ -48,7 +48,7 @@ namespace SharedKernel.Api.Grids
         }
 
         /// <summary>
-        /// Crear consulta y enviarla por el bus de comnados y consultas
+        /// Create query and send it over the command and query bus
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResponse"></typeparam>
@@ -86,7 +86,7 @@ namespace SharedKernel.Api.Grids
         }
 
         /// <summary>
-        /// Crear consulta y enviarla por el bus de comandos y consultas
+        /// Create query and send it over the command and query bus
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResponse"></typeparam>

@@ -16,7 +16,7 @@ namespace SharedKernel.Integration.Tests.Caching
         {
             return services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddInMemmoryCache();
+                .AddInMemoryCache();
         }
 
         [Fact]

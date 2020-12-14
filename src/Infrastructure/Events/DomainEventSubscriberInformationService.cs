@@ -10,7 +10,7 @@ namespace SharedKernel.Infrastructure.Events
     public static class DomainEventSubscriberInformationService
     {
         /// <summary>
-        /// LLamar siempre al final ya que busca en el contenedor
+        /// Call just before compiling service collections
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Events
                 information.Add(subscriberClass, new DomainEventSubscriberInformation(subscriberClass, eventType));
             }
 
-            services.AddScoped(s => new DomainEventSubscribersInformation(information));
+            services.AddScoped(_ => new DomainEventSubscribersInformation(information));
             return services;
         }
 
@@ -56,10 +56,10 @@ namespace SharedKernel.Infrastructure.Events
 
                 foreach (var handlerInterfaceType in interfaces)
                 {
-                    var inter = handlerInterfaceType.AsType();
-                    var clas = type.AsType();
-                    services.AddScoped(inter, clas);
-                    services.AddScoped(clas);
+                    var @interface = handlerInterfaceType.AsType();
+                    var @class = type.AsType();
+                    services.AddScoped( @interface, @class);
+                    services.AddScoped(@class);
                 }
             }
 

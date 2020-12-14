@@ -1,4 +1,5 @@
-﻿namespace SharedKernel.Api.Grids.KendoGrid
+﻿// ReSharper disable CommentTypo
+namespace SharedKernel.Api.Grids.KendoGrid
 {
     /// <summary>
     /// 

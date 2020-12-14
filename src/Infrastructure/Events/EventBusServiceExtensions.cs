@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
@@ -13,14 +14,14 @@ namespace SharedKernel.Infrastructure.Events
 {
     public static class EventBusServiceExtensions
     {
-        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, Assembly[] domainAssemblies)
         {
             return services
-                .AddEventBus()
+                .AddEventBus(domainAssemblies)
                 .AddTransient<IEventBus, InMemoryEventBus>();
         }
 
-        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration, Assembly[] domainAssemblies)
         {
             services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
 
@@ -32,7 +33,7 @@ namespace SharedKernel.Infrastructure.Events
 
             return services
                 .AddHostedService<RabbitMqEventBusConfiguration>()
-                .AddEventBus()
+                .AddEventBus(domainAssemblies)
                 //.AddTransient<MsSqlEventBus, MsSqlEventBus>() // Failover
                 .AddTransient<IEventBus, RabbitMqEventBus>()
                 .AddTransient<RabbitMqPublisher>()
@@ -40,7 +41,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddTransient<RabbitMqDomainEventsConsumer>();
         }
 
-        public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration, Assembly[] domainAssemblies)
         {
             services
                 .AddHealthChecks()
@@ -48,18 +49,18 @@ namespace SharedKernel.Infrastructure.Events
 
             return services
                 .AddHostedService<RedisConsumer>()
-                .AddEventBus()
-                .AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
+                .AddEventBus(domainAssemblies)
+                .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
                 .AddTransient<IEventBus, RedisEventBus>();
         }
 
-        private static IServiceCollection AddEventBus(this IServiceCollection services)
+        private static IServiceCollection AddEventBus(this IServiceCollection services, Assembly[] domainAssemblies)
         {
             return services
                 .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>))
                 .AddTransient<ExecuteMiddlewaresService>()
                 .AddTransient<DomainEventMediator>()
-                .AddTransient<DomainEventsInformation>()
+                .AddTransient(_ => new DomainEventsInformation(domainAssemblies))
                 .AddTransient<DomainEventSubscribersInformation>()
                 .AddTransient<DomainEventJsonSerializer>()
                 .AddTransient<DomainEventJsonDeserializer>();

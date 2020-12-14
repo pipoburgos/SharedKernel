@@ -27,12 +27,12 @@ namespace SharedKernel.Api.Grids.DataTables
         public int Draw { get; }
 
         /// <summary>
-        /// Registros sin filtrar
+        /// Unfiltered records
         /// </summary>
         public int RecordsTotal { get;  }
 
         /// <summary>
-        /// Registros una vez se realice el filtro
+        /// Records once the filter is done
         /// </summary>
         public int RecordsFiltered { get; }
 

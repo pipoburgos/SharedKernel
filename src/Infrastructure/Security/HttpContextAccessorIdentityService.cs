@@ -7,7 +7,7 @@ using SharedKernel.Domain.Security;
 namespace SharedKernel.Infrastructure.Security
 {
     /// <summary>
-    /// Autenticación del usuario
+    /// User authentication
     /// </summary>
     public class HttpContextAccessorIdentityService : IIdentityService
     {
@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Security
         {
             if (httpContextAccessor == null)
             {
-                logger.Info("IHttpContextAccessor not inyected");
+                logger.Info("IHttpContextAccessor not registered");
                 return;
             }
 
@@ -41,17 +41,17 @@ namespace SharedKernel.Infrastructure.Security
         }
 
         /// <summary>
-        /// Identificador
+        /// Identifier
         /// </summary>
         public Guid UserId => GetUserId();
 
         /// <summary>
-        /// Usuario
+        /// User
         /// </summary>
         public ClaimsPrincipal User { get; }
 
         /// <summary>
-        /// Contiene un rol
+        /// Contains a role
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
@@ -75,12 +75,12 @@ namespace SharedKernel.Infrastructure.Security
         public string BasePath { get; }
 
         /// <summary>
-        /// Navegador
+        /// Browser
         /// </summary>
         public string UserAgent { get; }
 
         /// <summary>
-        /// Dirección ip remota
+        /// Remote ip address
         /// </summary>
         public string RemoteIpAddress { get; }
 

@@ -147,7 +147,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         /// <returns></returns>
         public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IOptions<OpenApiOptions> options)
         {
-            app.UseSwagger(opt => { });
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", options?.Value?.Name ?? "Open API v1");

@@ -83,7 +83,7 @@ namespace SharedKernel.Application.Extensions
 
         private static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
-            return source.OrderBy(x => Guid.NewGuid());
+            return source.OrderBy(_ => Guid.NewGuid());
         }
 
         #endregion Random
@@ -109,7 +109,7 @@ namespace SharedKernel.Application.Extensions
                 return query;
 
             query = properties.Where(f => !string.IsNullOrWhiteSpace(f.Value)).Aggregate(query,
-                (current, filtro) => current.Where(GetExpressionContainsString<T>(filtro.Field, filtro.Value).Compile()));
+                (current, filter) => current.Where(GetExpressionContainsString<T>(filter.Field, filter.Value).Compile()));
 
             return query;
         }
@@ -118,7 +118,7 @@ namespace SharedKernel.Application.Extensions
         {
             var propertyInfo = typeof(T).GetProperties().SingleOrDefault(t => t.Name.ToUpper() == propertyName.ToUpper());
             if (propertyInfo == null)
-                throw new Exception($"Propiedad {propertyName} no encontrada");
+                throw new Exception($"Property {propertyName} not found");
 
             // Expression
             var parameterExp = Expression.Parameter(typeof(T), "type");
@@ -127,7 +127,7 @@ namespace SharedKernel.Application.Extensions
             // Method
             var method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
             if (method == null)
-                throw new Exception("Método Contains no encontrado");
+                throw new Exception("Method Contains not found");
 
             // Value
             var someValue = Expression.Constant(propertyValue, typeof(string));

@@ -17,15 +17,13 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
 
         public string HashHmac(string data, string key)
         {
-            key = key ?? "";
+            key ??= "";
             var encoding = Encoding.GetEncoding(1252);
             var keyByte = encoding.GetBytes(key);
             var messageBytes = encoding.GetBytes(data);
-            using (var hmacsha256 = new HMACSHA256(keyByte))
-            {
-                var hashmessage = hmacsha256.ComputeHash(messageBytes);
-                return Convert.ToBase64String(hashmessage);
-            }
+            using var hmacSha256 = new HMACSHA256(keyByte);
+            var hashMessage = hmacSha256.ComputeHash(messageBytes);
+            return Convert.ToBase64String(hashMessage);
         }
 
         /// <summary>
@@ -36,11 +34,8 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// <returns></returns>
         public string GetSignature(byte[] tripeDesKey, string value)
         {
-            string signature;
-            using (var hmac = new HMACSHA256(tripeDesKey))
-            {
-                signature = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(value)));
-            }
+            using var hmac = new HMACSHA256(tripeDesKey);
+            var signature = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(value)));
 
             return signature;
         }

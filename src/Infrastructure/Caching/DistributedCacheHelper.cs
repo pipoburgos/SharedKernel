@@ -21,11 +21,24 @@ namespace SharedKernel.Infrastructure.Caching
             _binarySerializer = binarySerializer;
         }
 
+        public async Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = null)
+        {
+            try
+            {
+                await Semaphore.WaitAsync();
+                await _distributedCache.SetAsync(key, _binarySerializer.Serialize(value),
+                    new DistributedCacheEntryOptions());
+            }
+            finally
+            {
+                Semaphore.Release();
+            }
+        }
+
         public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
         {
             try
             {
-
                 await Semaphore.WaitAsync();
                 var value = await _distributedCache.GetAsync(key);
 

@@ -243,6 +243,15 @@
 	<s:Boolean x:Key="/Default/Environment/Feedback/ShouldPrompt/@EntryValue">False</s:Boolean>
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue">72</s:Int64>
 	<s:String x:Key="/Default/Environment/Hierarchy/PsiConfigurationSettingsKey/LocationType/@EntryValue">SOLUTION_FOLDER</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CppParameterNameHintsOptions2/ShowParameterNameHints/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CppTypeNameHintsOptions/ShowMethodReturnTypeNameHints/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CppTypeNameHintsOptions/ShowTypeNameHintsForImplicitlyTypedVariables/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/ShowParameterNameHints/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/ShowMethodReturnTypeNameHints/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/ShowTypeNameHintsForImplicitlyTypedVariables/@EntryValue">Never</s:String>
+	<s:String x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/ShowTypeNameHintsForLambdaExpressionParameters/@EntryValue">Never</s:String>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/GeneralInlayHintsOptions/EnableInlayHints/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/ShowParameterNameHints/@EntryValue">Never</s:String>
 	<s:Boolean x:Key="/Default/Environment/InlayHintsOptions/ShowInlayHints/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/OpenDocument/OpenDocumentAfterModification/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/ShowParameterNameHints/@EntryValue">False</s:Boolean>
@@ -270,6 +279,12 @@
 	<s:Int64 x:Key="/Default/Environment/SearchAndNavigation/DefaultOccurrencesGroupingIndices/=JetBrains_002EReSharper_002EFeatures_002EInspections_002EAnalyzeReferences_002EAnalyzeReferencesDescriptor/@EntryIndexedValue">2</s:Int64>
 	<s:Int64 x:Key="/Default/Environment/SearchAndNavigation/DefaultOccurrencesGroupingIndices/=JetBrains_002EReSharper_002EFeatures_002EInspections_002EAnalyzeReferences_002ERemoveUnused_002EUnusedReferencesDescriptor/@EntryIndexedValue">0</s:Int64>
 	<s:Int64 x:Key="/Default/Environment/SearchAndNavigation/DefaultOccurrencesGroupingIndices/=JetBrains_002EReSharper_002EFeature_002EServices_002ENavigation_002EDescriptors_002ESearchUsagesDescriptor/@EntryIndexedValue">12</s:Int64>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECpp_002EDaemon_002EInlayHints_002EParameterHints_002ECppParameterNameHintsOptionsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECpp_002EDaemon_002EInlayHints_002ETypeNameHints_002ECppTypeNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002EParameterNameHints_002ECSharpParameterNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002ETypeNameHints_002ECSharpTypeNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002EInlayHints_002EInlayHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002EVB_002EParameterNameHints_002EVBParameterNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/ShowMethodReturnTypeNameHints/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/ShowTypeNameHintsForImplicitlyTypedVariables/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/ShowTypeNameHintsForLambdaExpressionParameters/@EntryValue">False</s:Boolean>

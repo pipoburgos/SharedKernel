@@ -22,11 +22,11 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
                 _serviceProvider.GetService(typeof(IEntityValidator<IRequest>));
 
             if(validator == null)
-                throw new Exception("Falta registrar la interfaz IEntityValidator<>");
+                throw new ArgumentNullException(nameof(IEntityValidator<IRequest>));
 
             validator.Validate(request);
 
-            // Todo ejecutar middlewares
+            // Todo run middlewares
             //var middlewares = _serviceProvider.GetServices<IMiddleware<IRequest>>();
 
             //foreach (var middleware in middlewares)
@@ -41,11 +41,11 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
                 _serviceProvider.GetService(typeof(IEntityValidator<IRequest>));
 
             if (validator == null)
-                throw new Exception("Falta registrar la interfaz IEntityValidator<>");
+                throw new ArgumentNullException(nameof(IEntityValidator<IRequest>));
 
             return validator.ValidateAsync(request, cancellationToken);
 
-            // Todo ejecutar middlewares
+            // Todo run middlewares
             //var middlewares = _serviceProvider.GetServices<IMiddleware<IRequest>>();
 
             //foreach (var middleware in middlewares)

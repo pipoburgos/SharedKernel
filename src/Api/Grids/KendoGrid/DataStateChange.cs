@@ -30,12 +30,12 @@ namespace SharedKernel.Api.Grids.KendoGrid
         }
 
         /// <summary>
-        /// Devolver todos los registros sin paginar
+        /// Return all records without paging
         /// </summary>
         public bool AllRecords { get; }
 
         /// <summary>
-        /// Número exacto de registros a visualizar
+        /// Exact number of records to display
         /// </summary>
         public int? LimitRecords { get; }
 

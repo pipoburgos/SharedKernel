@@ -11,7 +11,7 @@ namespace SharedKernel.Infrastructure.Validators
     /// <summary>
     /// Validator based on Data Annotations.
     /// This validator use IValidatableObject interface and
-    /// ValidationAttribute ( hierachy of this) for
+    /// ValidationAttribute ( hierarchy of this) for
     /// perform validation
     /// </summary>
     public class FluentValidator<TRequest> : IEntityValidator<TRequest>

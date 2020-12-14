@@ -6,6 +6,6 @@ namespace SharedKernel.Application.System
 {
     public interface ISemaphore
     {
-        Task BlockAsync(SemaphoreSlim vari, Func<Task> executeAsync, CancellationToken cancellationToken);
+        Task BlockAsync(SemaphoreSlim semaphoreSlim, Func<Task> executeAsync, CancellationToken cancellationToken);
     }
 }
