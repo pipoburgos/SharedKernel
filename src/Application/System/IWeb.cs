@@ -1,5 +1,8 @@
 ﻿namespace SharedKernel.Application.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IWeb
     {
         /// <summary>

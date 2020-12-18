@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Application.Cqrs.Queries
 {
+    /// <summary>
+    /// Query bus abstraction
+    /// </summary>
     public interface IQueryBus
     {
         /// <summary>

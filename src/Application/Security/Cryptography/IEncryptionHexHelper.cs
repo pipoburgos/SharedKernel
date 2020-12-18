@@ -1,5 +1,8 @@
 ﻿namespace SharedKernel.Application.Security.Cryptography
 {
+    /// <summary>
+    /// Encription helper
+    /// </summary>
     public interface IEncryptionHexHelper
     {
         /// <summary>

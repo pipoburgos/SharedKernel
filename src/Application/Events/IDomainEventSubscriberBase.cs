@@ -4,8 +4,17 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Application.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IDomainEventSubscriberBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task On(DomainEvent @event, CancellationToken cancellationToken);
     }
 }

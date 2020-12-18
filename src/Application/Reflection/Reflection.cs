@@ -7,8 +7,16 @@ using SharedKernel.Application.Exceptions;
 
 namespace SharedKernel.Application.Reflection
 {
+    /// <summary>
+    /// Reflection helper
+    /// </summary>
     public static class ReflectionHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Assembly GetAssemblyByName(string name)
         {
             if (name == null) return null;
@@ -22,6 +30,11 @@ namespace SharedKernel.Application.Reflection
                     );
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Type GetType(string name)
         {
             if (string.IsNullOrEmpty(name)) return null;
@@ -30,6 +43,12 @@ namespace SharedKernel.Application.Reflection
                 .FirstOrDefault(type => type.Name.Equals(name, StringComparison.InvariantCulture));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assemblyName"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Type GetType(string assemblyName, string name)
         {
             if (string.IsNullOrEmpty(assemblyName) && string.IsNullOrEmpty(name)) return null;
@@ -39,6 +58,12 @@ namespace SharedKernel.Application.Reflection
             return GetType(assembly, name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Type GetType(Assembly assembly, string name)
         {
             if (assembly == null) return null;
@@ -47,6 +72,12 @@ namespace SharedKernel.Application.Reflection
                 .FirstOrDefault(type => type.Name.Equals(name, StringComparison.InvariantCulture));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static T CreateInstance<T>(Type type)
         {
             var instance = (T)FormatterServices.GetUninitializedObject(type);
@@ -57,6 +88,11 @@ namespace SharedKernel.Application.Reflection
             return instance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T CreateInstance<T>()
         {
             var instance = (T)FormatterServices.GetUninitializedObject(typeof(T));
@@ -67,6 +103,13 @@ namespace SharedKernel.Application.Reflection
             return instance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public static void SetProperty<T>(T obj, string name, object value)
         {
             var propertyInfo = typeof(T).GetProperty(name);
@@ -108,6 +151,13 @@ namespace SharedKernel.Application.Reflection
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public static void SetField<T>(T obj, string name, object value)
         {
             if (value == default)
@@ -142,6 +192,14 @@ namespace SharedKernel.Application.Reflection
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static TResult GetProperty<T, TResult>(T obj, string name)
         {
             var propertyInfo = typeof(T).GetProperty(name);

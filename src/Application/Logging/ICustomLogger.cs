@@ -64,16 +64,20 @@ namespace SharedKernel.Application.Logging
         /// <summary>
         /// Writes the diagnostic message and exception at the <c>Error</c> level.
         /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="message">The value to be written.</param>
+        /// <param name="args"></param>
         void Error(Exception exception, string message, params object[] args);
 
-        ///// <overloads>
-        ///// Writes the diagnostic message at the <c>Fatal</c> level using the specified format provider and format parameters.
-        ///// </overloads>
-        ///// <summary>
-        ///// Writes the diagnostic message at the <c>Fatal</c> level.
-        ///// </summary>
-        ///// <typeparam name="T">Type of the value.</typeparam>
-        ///// <param name="value">The value to be written.</param>
+        /// <overloads>
+        /// Writes the diagnostic message at the <c>Fatal</c> level using the specified format provider and format parameters.
+        /// </overloads>
+        /// <summary>
+        /// Writes the diagnostic message at the <c>Fatal</c> level.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="message">The value to be written.</param>
+        /// <param name="args"></param>
         void Fatal(Exception exception, string message, params object[] args);
     }
 

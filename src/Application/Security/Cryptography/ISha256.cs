@@ -1,7 +1,16 @@
 ﻿namespace SharedKernel.Application.Security.Cryptography
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ISha256
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         string HashHmac(string data, string key);
 
         /// <summary>

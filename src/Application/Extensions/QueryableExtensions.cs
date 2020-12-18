@@ -8,15 +8,31 @@ using SharedKernel.Domain.Specifications.Common;
 
 namespace SharedKernel.Application.Extensions
 {
+    /// <summary>
+    /// Queryable extensions
+    /// </summary>
     public static class QueryableExtensions
     {
         #region Random
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public static IQueryable<T> PickRandom<T>(this IQueryable<T> source, int count)
         {
             return source.Shuffle().Take(count);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         private static IQueryable<T> Shuffle<T>(this IQueryable<T> source)
         {
             return source.OrderBy(x => Guid.NewGuid());
@@ -26,6 +42,14 @@ namespace SharedKernel.Application.Extensions
 
         #region Paging
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="spec"></param>
+        /// <returns></returns>
         public static IQueryable<TResult> SatisfiedBy<T, TResult>(this IQueryable<T> queryable, ISpecification<TResult> spec) where TResult : class
         {
             return queryable
@@ -33,6 +57,13 @@ namespace SharedKernel.Application.Extensions
                 .Where(spec.SatisfiedBy());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="pageOptions"></param>
+        /// <returns></returns>
         public static IQueryable<T> OrderAndPaged<T>(this IQueryable<T> queryable, PageOptions pageOptions) where T : class
         {
             if (pageOptions.Orders == null || !pageOptions.Orders.Any())
@@ -44,6 +75,14 @@ namespace SharedKernel.Application.Extensions
                 .Take(pageOptions.Take);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="pageOptions"></param>
+        /// <param name="spec"></param>
+        /// <returns></returns>
         public static PagedList<T> ToPagedList<T>(this IQueryable<T> queryable, PageOptions pageOptions,
             ISpecification<T> spec) where T : class
         {

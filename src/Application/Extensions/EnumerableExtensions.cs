@@ -8,8 +8,18 @@ using SharedKernel.Domain.Specifications.Common;
 
 namespace SharedKernel.Application.Extensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class EnumerableExtensions
     {
+        /// <summary>
+        /// Inserts an item to the enumerable first position
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public static IEnumerable<T> AddFirst<T>(this IEnumerable<T> items, T item)
         {
             var itemsList = items == null ? new List<T>() : items.ToList();
@@ -20,6 +30,13 @@ namespace SharedKernel.Application.Extensions
             return itemsList;
         }
 
+        /// <summary>
+        /// Sum time stamp
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         public static TimeSpan SumTimeSpan<TSource>(this IEnumerable<TSource> source, Func<TSource, TimeSpan> selector)
         {
             return source.Select(selector).Aggregate(TimeSpan.Zero, (t1, t2) => t1 + t2);
@@ -58,6 +75,11 @@ namespace SharedKernel.Application.Extensions
             return lambda;
         }
 
+        /// <summary>
+        /// Returns if two elements are consecutive
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <returns></returns>
         public static bool AreConsecutive(this IEnumerable<int> elements)
         {
             return !elements.Select((i, j) => i - j).Distinct().Skip(1).Any();
@@ -65,6 +87,13 @@ namespace SharedKernel.Application.Extensions
 
         #region Specifications
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAggregateRoot"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="spec"></param>
+        /// <returns></returns>
         public static IEnumerable<TAggregateRoot> AllMatching<TAggregateRoot>(
             this IEnumerable<TAggregateRoot> items, ISpecification<TAggregateRoot> spec)
             where TAggregateRoot : class, IAggregateRoot
@@ -76,6 +105,13 @@ namespace SharedKernel.Application.Extensions
 
         #region Random
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
         {
             return source.Shuffle().Take(count);
@@ -88,6 +124,13 @@ namespace SharedKernel.Application.Extensions
 
         #endregion Random
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         public static IEnumerable<T> ContainsText<T>(this IEnumerable<T> query, string searchText)
         {
             Expression<Func<T, bool>> allExpressions = null;
@@ -103,6 +146,13 @@ namespace SharedKernel.Application.Extensions
             return query;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         public static IEnumerable<T> FilterContainsProperties<T>(this IEnumerable<T> query, IEnumerable<FilterProperty> properties)
         {
             if (properties == null)

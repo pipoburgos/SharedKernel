@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SharedKernel.Application.Extensions
 {
+    /// <summary>
+    /// String extensions
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
@@ -64,12 +67,22 @@ namespace SharedKernel.Application.Extensions
             return first ? "" : sb.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
         public static string ConvertTimeSpanToString(TimeSpan time)
         {
             var formattedTimeSpan = $"{time.Hours:D2}:{time.Minutes:D2}";
             return formattedTimeSpan;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string CapitalizeFirstLetter(this string str)
         {
             if (str.Length == 0)
