@@ -3,6 +3,7 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
+using SharedKernel.Domain.Tests.Users;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.InMemory
@@ -12,7 +13,7 @@ namespace SharedKernel.Integration.Tests.Events.InMemory
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddInMemoryEventBus(new [] { typeof(SetCountWhenUserCreatedSubscriber).Assembly })
+                .AddInMemoryEventBus(new [] { typeof(UserCreated).Assembly })
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
                 .AddDomainEventSubscribersInformation()
                 .AddSingleton<PublishUserCreatedDomainEvent>();

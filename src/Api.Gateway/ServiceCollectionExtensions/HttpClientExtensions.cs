@@ -43,7 +43,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {

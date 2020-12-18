@@ -10,7 +10,7 @@ namespace SharedKernel.Application.Cqrs.Queries
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="query"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken);
     }

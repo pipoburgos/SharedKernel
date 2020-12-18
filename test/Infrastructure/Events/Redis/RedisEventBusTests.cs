@@ -3,6 +3,7 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
+using SharedKernel.Domain.Tests.Users;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.Redis
@@ -17,7 +18,7 @@ namespace SharedKernel.Integration.Tests.Events.Redis
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddRedisEventBus(Configuration, new[] { typeof(SetCountWhenUserCreatedSubscriber).Assembly })
+                .AddRedisEventBus(Configuration, new[] { typeof(UserCreated).Assembly })
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
                 .AddDomainEventSubscribersInformation()
                 .AddSingleton<PublishUserCreatedDomainEvent>();

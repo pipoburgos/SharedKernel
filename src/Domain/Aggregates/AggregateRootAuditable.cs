@@ -54,12 +54,22 @@ namespace SharedKernel.Domain.Aggregates
 
         #endregion
 
+        /// <summary>
+        /// Sets the creation auditable properties
+        /// </summary>
+        /// <param name="createdAt"></param>
+        /// <param name="createdBy"></param>
         public void Create(DateTime createdAt, Guid createdBy)
         {
             CreatedAt = createdAt;
             CreatedBy = createdBy;
         }
 
+        /// <summary>
+        /// Sets the modification auditable properties
+        /// </summary>
+        /// <param name="lastModifiedAt"></param>
+        /// <param name="lastModifiedBy"></param>
         public void Change(DateTime lastModifiedAt, Guid lastModifiedBy)
         {
             LastModifiedAt = lastModifiedAt;

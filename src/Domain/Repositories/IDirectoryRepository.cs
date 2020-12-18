@@ -15,7 +15,7 @@ namespace SharedKernel.Domain.Repositories
         /// ATTENTION, READ THE CONTENTS OF ALL FILES AND LOAD THEM IN MEMORY
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<List<FileEntity>> GetFilesEntitiesAsync(string path, CancellationToken cancellationToken);
 

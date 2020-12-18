@@ -1,11 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Reporting;
 using SharedKernel.Application.Security.Cryptography;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Security;
 using SharedKernel.Infrastructure.Logging;
+using SharedKernel.Infrastructure.Reporting;
 using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;
@@ -31,6 +33,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IGuid, GuidGenerator>()
                 .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
+                .AddTransient<IReportRenderer, ReportRenderer>()
                 .AddTransient<ISemaphore, CustomSemaphore>()
                 .AddTransient<ISha256, Sha256>()
                 .AddTransient<IStreamHelper, StreamHelper>()

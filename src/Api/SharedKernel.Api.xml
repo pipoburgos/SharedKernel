@@ -37,7 +37,7 @@
             <typeparam name="TResponse"></typeparam>
             <param name="queryBus"></param>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest,System.Action{``0},System.Threading.CancellationToken)">
@@ -49,7 +49,7 @@
             <param name="queryBus"></param>
             <param name="request"></param>
             <param name="fillOtherProperties"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.KendoGrid.KendoGridRequest{``0},System.Threading.CancellationToken)">
@@ -60,7 +60,7 @@
             <typeparam name="TResponse"></typeparam>
             <param name="queryBus"></param>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Api.Grids.DataTables.Column">

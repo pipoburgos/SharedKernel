@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<Func<CancellationToken, Task>> DequeueAsync(CancellationToken cancellationToken);
     }

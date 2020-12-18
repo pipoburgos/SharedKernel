@@ -3,6 +3,7 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
+using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         {
             return services
                 .AddSharedKernel()
-                .AddRabbitMqEventBus(Configuration, new[] { typeof(SetCountWhenUserCreatedSubscriber).Assembly })
+                .AddRabbitMqEventBus(Configuration, new[] { typeof(UserCreated).Assembly })
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
                 .AddDomainEventSubscribersInformation()
                 .AddSingleton<PublishUserCreatedDomainEvent>();

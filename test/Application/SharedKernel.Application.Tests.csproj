@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netcoreapp3.1;net5</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <AssemblyName>SharedKernel.Application.Tests</AssemblyName>
-    <RootNamespace>SharedKernel.Application.Tests</RootNamespace>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 

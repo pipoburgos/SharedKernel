@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
     sqlserver:
-        image: mcr.microsoft.com/mssql/server
+        image: mcr.microsoft.com/mssql/server:latest
         container_name: shared-kernel-sqlserver
         hostname: sqlserver
         environment:
@@ -18,20 +18,20 @@ services:
             - .\SqlServer\data:/var/opt/mssql/data
      
     mongo:
-        image: mongo
+        image: mongo:latest
         container_name: shared-kernel-mongo
         restart: always
         ports:
             - 22221:27017
 
     redis:
-        image: redis
+        image: redis:latest
         container_name: shared-kernel-redis
         ports:
             - 22222:6379
 
     rabbitmq:
-        image: rabbitmq
+        image: rabbitmq:latest
         container_name: shared-kernel-rabbitmq
         environment:
             - RABBITMQ_DEFAULT_USER=user
@@ -40,7 +40,7 @@ services:
             - 22223:5672
 
     smtp:
-        image: namshi/smtp
+        image: namshi/smtp:latest
         container_name: shared-kernel-smtp
         restart: always
         ports:

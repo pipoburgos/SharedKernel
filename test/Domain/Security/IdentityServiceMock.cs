@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using SharedKernel.Domain.Security;
 
-namespace SharedKernel.Domain.Tests
+namespace SharedKernel.Domain.Tests.Security
 {
     internal class IdentityServiceMock : IIdentityService
     {

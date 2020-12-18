@@ -10,12 +10,14 @@ namespace SharedKernel.Infrastructure.Events
     public class DomainEventsInformation
     {
         private readonly Assembly[] _domainAssemblies;
-        private readonly Dictionary<string, Type> _indexedDomainEvents = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> _indexedDomainEvents;
 
         public DomainEventsInformation(Assembly[] domainAssemblies)
         {
+            _indexedDomainEvents = new Dictionary<string, Type>();
             _domainAssemblies = domainAssemblies;
-            foreach (var eventType in GetDomainTypes())
+            var domainTypes = GetDomainTypes();
+            foreach (var eventType in domainTypes)
             {
                 if (!_indexedDomainEvents.ContainsKey(GetEventName(eventType)))
                     _indexedDomainEvents.Add(GetEventName(eventType), eventType);

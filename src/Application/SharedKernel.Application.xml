@@ -4,6 +4,24 @@
         <name>SharedKernel.Application</name>
     </assembly>
     <members>
+        <member name="T:SharedKernel.Application.ActiveDirectory.IActiveDirectoryService">
+            <summary>
+            LDAP manager
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.ActiveDirectory.IActiveDirectoryService.IsConfigured">
+            <summary>
+            Checks if ActiveDirectorySettings object is on appsettings.json
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.ActiveDirectory.IActiveDirectoryService.Exists(System.String,System.String)">
+            <summary>
+            Check that a user exists in the domain
+            </summary>
+            <param name="user"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Adapter.ITypeAdapter">
             <summary>
             Generic type adapter for mapping objects
@@ -102,6 +120,123 @@
             </summary>
             <returns>Created type adapter</returns>
         </member>
+        <member name="T:SharedKernel.Application.Caching.ICacheHelper">
+            <summary>
+            Cache helper
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Caching.ICacheHelper.SetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            Save into cache the T value
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="timeSpan"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Caching.ICacheHelper.GetOrCreateAsync``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Nullable{System.TimeSpan})">
+            <summary>
+            Validate if key exists on cache, and if not, call generator function and cache response
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="generator"></param>
+            <param name="timeSpan"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Caching.ICacheHelper.Remove(System.String)">
+            <summary>
+            Remove cache entry
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="T:SharedKernel.Application.Communication.Email.EmailAttachment">
+            <summary>
+            An email attachment
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Communication.Email.EmailAttachment.#ctor(System.String,System.Byte[])">
+            <summary>
+            An email attachment
+            </summary>
+            <param name="filename"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:SharedKernel.Application.Communication.Email.EmailAttachment.Filename">
+            <summary>
+            Filename with extension
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Communication.Email.EmailAttachment.Data">
+            <summary>
+            Attachment contents
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Communication.Email.IEmailSender">
+            <summary>
+            Email sender manager
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Communication.Email.IEmailSender.SendEmailAsync(System.String,System.String,SharedKernel.Application.Communication.Email.EmailAttachment)">
+            <summary>
+            Sends an email to default email from
+            </summary>
+            <param name="subject">Subject</param>
+            <param name="message">Message in HTML</param>
+            <param name="attachment">File attachemnt</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Communication.Email.IEmailSender.SendEmailAsync(System.String,System.String,System.String,SharedKernel.Application.Communication.Email.EmailAttachment)">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="email">From</param>
+            <param name="subject">Subject</param>
+            <param name="message">Message in HTML</param>
+            <param name="attachment">File attachemnt</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError">
+            <summary>
+            Command not register exception
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError.#ctor(System.String)">
+            <summary>
+            Command not register exception
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.Handlers.ICommandRequestHandler`1">
+            <summary>
+            Handler of a command that does not return anything
+            </summary>
+            <typeparam name="TCommand"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.Handlers.ICommandRequestHandler`1.Handle(`0,System.Threading.CancellationToken)">
+            <summary>
+            The implementation of the command
+            </summary>
+            <param name="command">Command</param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.Handlers.ICommandRequestHandler`2">
+            <summary>
+            Handler of a command that returns a response
+            </summary>
+            <typeparam name="TCommand"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.Handlers.ICommandRequestHandler`2.Handle(`0,System.Threading.CancellationToken)">
+            <summary>
+            The implementation of the command
+            </summary>
+            <param name="command">Command</param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
         <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.Field">
             The data item field to which the filter operator is applied.
             
@@ -126,7 +261,7 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
             <param name="query"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Exceptions.ExceptionCodes">
@@ -262,6 +397,66 @@
             Generally used to enable activation of a named <see cref="T:Microsoft.Extensions.Logging.ICustomLogger" /> from dependency injection.
             </summary>
             <typeparam name="TCategoryName">The type who's name is used for the customLogger category name.</typeparam>
+        </member>
+        <member name="T:SharedKernel.Application.Reporting.ExportReportType">
+            <summary>
+            Output file extension for SQL Server Reporting Services render
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Word">
+            <summary>
+            word 2003-2007 .doc
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.WordOpenXml">
+            <summary>
+            word 2010-2016 .docx
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Excel">
+            <summary>
+            excel 2003-2007 .xls
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.ExcelOpenXml">
+            <summary>
+            excel 2010-2016 .xlsx
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Pdf">
+            <summary>
+            pdf file
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Image">
+            <summary>
+            image
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Html">
+            <summary>
+            html5
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Application.Reporting.ExportReportType.Rpl">
+            <summary>
+            RPL
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Reporting.IReportRenderer">
+            <summary>
+            SQL Server Reporting Services report renderer (rdlc extension)
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Reporting.IReportRenderer.RenderRdlc(System.String,SharedKernel.Application.Reporting.ExportReportType,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Render a rdlc (SQL Server Reporting Services)
+            </summary>
+            <param name="reportPath">Absolute file path</param>
+            <param name="exportReportType">Export file extension</param>
+            <param name="parameters">Report parameters</param>
+            <param name="dataSources">Report datasources</param>
+            <returns>Array file contents</returns>
         </member>
         <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Encrypt(System.String)">
             <summary>

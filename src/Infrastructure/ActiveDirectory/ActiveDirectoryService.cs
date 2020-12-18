@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Application.ActiveDirectory;
 using System.DirectoryServices;
 using System.Linq;
+using SharedKernel.Application.Settings;
 
 namespace SharedKernel.Infrastructure.ActiveDirectory
 {
@@ -9,17 +10,20 @@ namespace SharedKernel.Infrastructure.ActiveDirectory
     {
         private readonly ActiveDirectorySettings _settings;
 
-        public ActiveDirectoryService(ActiveDirectorySettings settings)
+        public ActiveDirectoryService(
+            IOptionsService<ActiveDirectorySettings> settings)
         {
-            _settings = settings;
+            _settings = settings.Value;
         }
 
 
-        public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings.Path);
+        public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings?.Path);
 
 #pragma warning disable CA1416 // Validate platform compatibility
         public bool Exists(string user, string password)
         {
+            if (!IsConfigured)
+                return true;
 
             var directorySearcher = new DirectorySearcher(new DirectoryEntry("LDAP://" + _settings.Path, user, password))
             {

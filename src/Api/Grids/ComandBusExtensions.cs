@@ -26,7 +26,7 @@ namespace SharedKernel.Api.Grids
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public static async Task<DataTablesResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
             DataTablesRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
@@ -58,7 +58,7 @@ namespace SharedKernel.Api.Grids
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
         /// <param name="fillOtherProperties"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public static async Task<DataTablesResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
             DataTablesRequest request, Action<T> fillOtherProperties = null, CancellationToken cancellationToken = default) where T : IQueryRequest<IPagedList<TResponse>>
@@ -95,7 +95,7 @@ namespace SharedKernel.Api.Grids
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="queryBus"></param>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public static async Task<KendoGridResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
             KendoGridRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
