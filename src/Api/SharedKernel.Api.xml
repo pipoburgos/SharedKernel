@@ -592,21 +592,6 @@
             <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions">
-            <summary>
-            Http client extensions
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions.AddSharedKernelClient``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
-            <summary>
-            Add http client with bearer token
-            </summary>
-            <typeparam name="TClient"></typeparam>
-            <param name="services"></param>
-            <param name="configuration"></param>
-            <param name="section"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions">
             <summary>
             Open api options
