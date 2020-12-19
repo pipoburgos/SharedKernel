@@ -1,7 +1,9 @@
 ﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Prometheus;
 using SharedKernel.Infrastructure.Validators;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
@@ -18,7 +20,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="policyName">The policy name of a configured policy.</param>
         /// <param name="origins">All domains who calls the api</param>
         /// <returns></returns>
-        public static IServiceCollection AddApi<TValidator>(this IServiceCollection services, string policyName, string[] origins)
+        public static IServiceCollection AddSharedKernelApi<TValidator>(this IServiceCollection services, string policyName, string[] origins)
         {
             services
                 .AddOptions()
@@ -53,6 +55,18 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 });
 
             return services;
+        }
+
+        /// <summary>
+        /// Adds metrics with prometheus
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseSharedKernelMetrics(this IApplicationBuilder app)
+        {
+            return app
+                .UseMetricServer()
+                .UseHttpMetrics();
         }
     }
 }

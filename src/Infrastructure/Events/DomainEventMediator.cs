@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Events
     public class DomainEventMediator
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly Dictionary<string, object> _domainEventSubscribers = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _domainEventSubscribers = new();
 
         public DomainEventMediator(
             IServiceProvider serviceProvider)

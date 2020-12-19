@@ -7,58 +7,38 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
-    public class DomainEventsInformation
+    public static class DomainEventsInformation
     {
-        private readonly Assembly[] _domainAssemblies;
-        private readonly Dictionary<string, Type> _indexedDomainEvents;
+        private static readonly Dictionary<string, Type> IndexedDomainEvents = new();
 
-        public DomainEventsInformation(Assembly[] domainAssemblies)
+        public static void Register(Assembly domainAssembly)
         {
-            _indexedDomainEvents = new Dictionary<string, Type>();
-            _domainAssemblies = domainAssemblies;
-            var domainTypes = GetDomainTypes();
+            var domainTypes = GetDomainTypes(domainAssembly);
             foreach (var eventType in domainTypes)
             {
-                if (!_indexedDomainEvents.ContainsKey(GetEventName(eventType)))
-                    _indexedDomainEvents.Add(GetEventName(eventType), eventType);
+                var eventName = GetEventName(eventType);
+                if (!IndexedDomainEvents.ContainsKey(eventName))
+                    IndexedDomainEvents.Add(eventName, eventType);
             }
         }
 
-        public Type ForName(string name)
+        public static Type ForName(string name)
         {
-            _indexedDomainEvents.TryGetValue(name, out var value);
+            IndexedDomainEvents.TryGetValue(name, out var value);
             return value;
         }
 
-        public string ForClass(DomainEvent domainEvent)
-        {
-            return _indexedDomainEvents.FirstOrDefault(x => x.Value == domainEvent.GetType()).Key;
-        }
-
-        private string GetEventName(Type eventType)
+        private static string GetEventName(Type eventType)
         {
             var instance = ReflectionHelper.CreateInstance<DomainEvent>(eventType);
             return eventType.GetMethod(nameof(DomainEvent.GetEventName))?.Invoke(instance, null)?.ToString();
         }
 
-        private IEnumerable<Type> GetDomainTypes()
+        private static IEnumerable<Type> GetDomainTypes(Assembly domainAssembly)
         {
-            try
-            {
-                return _domainAssemblies
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
-            }
-            catch (Exception)
-            {
-                return _domainAssemblies
-#if !NETSTANDARD2_1 && !NET461
-                    .Where(a => a.FullName != null)
-#endif
-                    .Where(a => a.FullName.Contains("Domain"))
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
-            }
+            return domainAssembly
+                .GetTypes()
+                .Where(p => typeof(DomainEvent).IsAssignableFrom(p) && !p.IsAbstract);
         }
     }
 }

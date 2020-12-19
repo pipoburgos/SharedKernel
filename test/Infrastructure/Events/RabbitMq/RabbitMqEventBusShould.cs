@@ -20,9 +20,10 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         {
             return services
                 .AddSharedKernel()
-                .AddRabbitMqEventBus(Configuration, new[] { typeof(UserCreated).Assembly })
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
-                .AddDomainEventSubscribersInformation()
+                .AddDomainEvents(typeof(UserCreated))
+                .AddRabbitMqEventBus(Configuration)
+                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
+                .AddDomainEventSubscribers()
                 .AddSingleton<PublishUserCreatedDomainEvent>();
         }
 

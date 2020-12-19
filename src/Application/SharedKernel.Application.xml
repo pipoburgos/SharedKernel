@@ -199,12 +199,12 @@
         </member>
         <member name="T:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError">
             <summary>
-            Command not register exception
+             Exception thrown if the command handler is not registered in the dependency container
             </summary>
         </member>
         <member name="M:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError.#ctor(System.String)">
             <summary>
-            Command not register exception
+             Exception thrown if the command handler is not registered in the dependency container
             </summary>
             <param name="command"></param>
         </member>
@@ -237,23 +237,299 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.ICommandBus">
+            <summary>
+            Command bus
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.Dispatch``1(SharedKernel.Application.Cqrs.Commands.ICommandRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Dispatch a command that returns a response
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.Dispatch(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch a command request that does not return anything
+            </summary>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.DispatchInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch a command request in a background process
+            </summary>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.QueueInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest)">
+            <summary>
+            Queue a command request to background service
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.ICommandRequest">
+            <summary>
+            Command request that does not return anything
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Commands.ICommandRequest`1">
+            <summary>
+            Command request that returns a response
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Middlewares.IMiddleware`1">
+            <summary>
+            Middleware that runs both on the command bus, as well as on the query and event bus
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Middlewares.IMiddleware`1.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            Middleware that runs both on the command bus, as well as on the query and event bus
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Middlewares.IMiddleware`2">
+            <summary>
+            Middleware that runs both on the command bus, as well as on the query and event bus
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Middlewares.IMiddleware`2.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            Middleware that runs both on the command bus, as well as on the query and event bus
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Middlewares.IRequest`1">
+            <summary>
+            Request made to a bus
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList`1">
+            <summary>
+            A paged result
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList`1.TotalRecords">
+            <summary>
+            Total records before filtered
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList`1.TotalRecordsFiltered">
+            <summary>
+            Total records after filtered
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList`1.Items">
+            <summary>
+            Paged items
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.ComboDto`1">
+            <summary>
+            Combo item
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.ComboDto`1.Value">
+            <summary>
+            Combo value
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.ComboDto`1.Text">
+            <summary>
+            Combo text
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty">
+            <summary>
+            Filter by a property
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="field"></param>
+            <param name="value"></param>
+        </member>
         <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.Field">
+            <summary>
             The data item field to which the filter operator is applied.
-            
+            </summary>
         </member>
         <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty.Value">
+            <summary>
             The value to which the field is compared. Has to be of the same type as the field.
+            </summary>
         </member>
         <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions">
             <summary>
             Base filter for Dapper queries
             </summary>
         </member>
-        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1">
+        <member name="M:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{SharedKernel.Application.Cqrs.Queries.Entities.Order},System.Collections.Generic.IEnumerable{SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty})">
             <summary>
-            Paged list
+            Constructor
+            </summary>
+            <param name="skip"></param>
+            <param name="take"></param>
+            <param name="searchText"></param>
+            <param name="showDeleted"></param>
+            <param name="showOnlyDeleted"></param>
+            <param name="orders"></param>
+            <param name="filterProperties"></param>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.Skip">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.Take">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.SearchText">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.ShowDeleted">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.ShowOnlyDeleted">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.Orders">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PageOptions.FilterProperties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.ListItemBase`1">
+            <summary>
+            
             </summary>
             <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.ListItemBase`1.Deleted">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.ListItemBase`1.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.Order">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Queries.Entities.Order.#ctor(System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="field"></param>
+            <param name="ascending"></param>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Order.Field">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Order.Ascending">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1">
+            <summary>
+            A paged result
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1.#ctor(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="totalRecords"></param>
+            <param name="totalRecordsFiltered"></param>
+            <param name="items"></param>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1.TotalRecords">
+            <summary>
+            Total records before filtered
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1.TotalRecordsFiltered">
+            <summary>
+            Total records after filtered
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.PagedList`1.Items">
+            <summary>
+            Paged items
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.Entities.Results`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Results`1.Draw">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Results`1.RecordsTotal">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Results`1.RecordsFiltered">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Cqrs.Queries.Entities.Results`1.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.IQueryBus">
+            <summary>
+            Query bus abstraction
+            </summary>
         </member>
         <member name="M:SharedKernel.Application.Cqrs.Queries.IQueryBus.Ask``1(SharedKernel.Application.Cqrs.Queries.IQueryRequest{``0},System.Threading.CancellationToken)">
             <summary>
@@ -262,6 +538,58 @@
             <typeparam name="TResponse"></typeparam>
             <param name="query"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.IQueryRequest`1">
+            <summary>
+            Query bus request abstaction
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredError">
+            <summary>
+            Exception thrown if the query handler is not registered in the dependency container
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredError.#ctor(System.String)">
+            <summary>
+            Exception thrown if the query handler is not registered in the dependency container
+            </summary>
+            <param name="query"></param>
+        </member>
+        <member name="T:SharedKernel.Application.Events.DomainEventSubscriber`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TDomain"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Application.Events.DomainEventSubscriber`1.On(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Events.DomainEventSubscriber`1.On(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Events.IDomainEventSubscriberBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Events.IDomainEventSubscriberBase.On(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Exceptions.ExceptionCodes">
@@ -285,6 +613,47 @@
               Looks up a localized string similar to Error al setear el valor por reflexión.
             </summary>
         </member>
+        <member name="T:SharedKernel.Application.Exceptions.SharedKernelApplicationException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Exceptions.SharedKernelApplicationException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Exceptions.SharedKernelApplicationException.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:SharedKernel.Application.Extensions.EnumerableExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.AddFirst``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>
+            Inserts an item to the enumerable first position
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.SumTimeSpan``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.TimeSpan})">
+            <summary>
+            Sum time stamp
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.ToLambdaExpression``1(System.String)">
             <summary>
                 Convert a string to lambda expression
@@ -292,6 +661,123 @@
             </summary>
             <typeparam name="TAggregate"></typeparam>
             <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.AreConsecutive(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Returns if two elements are consecutive
+            </summary>
+            <param name="elements"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.AllMatching``1(System.Collections.Generic.IEnumerable{``0},SharedKernel.Domain.Specifications.Common.ISpecification{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <param name="items"></param>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.PickRandom``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.ContainsText``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="searchText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.FilterContainsProperties``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{SharedKernel.Application.Cqrs.Queries.Entities.FilterProperty})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Extensions.ListExtensions">
+            <summary>
+            List extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.ListExtensions.Previous``1(System.Collections.Generic.List{``0},``0)">
+            <summary>
+            Get the previus value of a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="current"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.ListExtensions.Next``1(System.Collections.Generic.List{``0},``0)">
+            <summary>
+            Get the next value of the list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="current"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Extensions.QueryableExtensions">
+            <summary>
+            Queryable extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.PickRandom``1(System.Linq.IQueryable{``0},System.Int32)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.Shuffle``1(System.Linq.IQueryable{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.SatisfiedBy``2(System.Linq.IQueryable{``0},SharedKernel.Domain.Specifications.Common.ISpecification{``1})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="queryable"></param>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.OrderAndPaged``1(System.Linq.IQueryable{``0},SharedKernel.Application.Cqrs.Queries.Entities.PageOptions)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryable"></param>
+            <param name="pageOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ToPagedList``1(System.Linq.IQueryable{``0},SharedKernel.Application.Cqrs.Queries.Entities.PageOptions,SharedKernel.Domain.Specifications.Common.ISpecification{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="queryable"></param>
+            <param name="pageOptions"></param>
+            <param name="spec"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.Order``1(System.Linq.IQueryable{``0},System.Collections.Generic.IList{SharedKernel.Application.Cqrs.Queries.Entities.Order})">
@@ -327,7 +813,26 @@
             <param name="success"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Application.Extensions.StringExtensions">
+            <summary>
+            String extensions
+            </summary>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:SharedKernel.Application.Extensions.StringExtensions.DictionaryToQueryString(System.Collections.Generic.Dictionary{System.String,System.Object})" -->
+        <member name="M:SharedKernel.Application.Extensions.StringExtensions.ConvertTimeSpanToString(System.TimeSpan)">
+            <summary>
+            
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.StringExtensions.CapitalizeFirstLetter(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Logging.ICustomLogger">
             <summary>
             Provides logging interface and utility functions.
@@ -389,6 +894,20 @@
             <summary>
             Writes the diagnostic message and exception at the <c>Error</c> level.
             </summary>
+            <param name="exception"></param>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Logging.ICustomLogger.Fatal(System.Exception,System.String,System.Object[])">
+            <overloads>
+            Writes the diagnostic message at the <c>Fatal</c> level using the specified format provider and format parameters.
+            </overloads>
+            <summary>
+            Writes the diagnostic message at the <c>Fatal</c> level.
+            </summary>
+            <param name="exception"></param>
+            <param name="message">The value to be written.</param>
+            <param name="args"></param>
         </member>
         <member name="T:SharedKernel.Application.Logging.ICustomLogger`1">
             <summary>
@@ -397,6 +916,84 @@
             Generally used to enable activation of a named <see cref="T:Microsoft.Extensions.Logging.ICustomLogger" /> from dependency injection.
             </summary>
             <typeparam name="TCategoryName">The type who's name is used for the customLogger category name.</typeparam>
+        </member>
+        <member name="T:SharedKernel.Application.Reflection.ReflectionHelper">
+            <summary>
+            Reflection helper
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.GetAssemblyByName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.GetType(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.GetType(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="assemblyName"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.GetType(System.Reflection.Assembly,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="assembly"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.CreateInstance``1(System.Type)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.CreateInstance``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.SetProperty``1(``0,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.SetField``1(``0,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Reflection.ReflectionHelper.GetProperty``2(``0,System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="obj"></param>
+            <param name="name"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Reporting.ExportReportType">
             <summary>
@@ -458,6 +1055,30 @@
             <param name="dataSources">Report datasources</param>
             <returns>Array file contents</returns>
         </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.IBase64">
+            <summary>
+            Base 64 helper
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.IBase64.EncodeTo64(System.String)">
+            <summary>
+            Encode to base 64 string
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.IBase64.DecodeFrom64(System.String)">
+            <summary>
+            Decode from base 64 string
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper">
+            <summary>
+            Encription helper
+            </summary>
+        </member>
         <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Encrypt(System.String)">
             <summary>
                 Function for Text String Encryption
@@ -472,12 +1093,174 @@
                 <returns>Decrypted string</returns>
             </summary>
         </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.IRandomNumberGenerator">
+            <summary>
+            Random number generator
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.IRandomNumberGenerator.GetRandom(System.Int32,System.Int32)">
+            <summary>
+            Generates a random number
+            </summary>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.ISecureHashAlgorithm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISecureHashAlgorithm.Generate512String(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inputString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISecureHashAlgorithm.Generate512String(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISecureHashAlgorithm.Generate256String(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inputString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISecureHashAlgorithm.Generate256String(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.ISha256">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ISha256.HashHmac(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Security.Cryptography.ISha256.GetSignature(System.Byte[],System.String)">
             <summary>
             Get HMAC SHA256 signature with 3DES key
             </summary>
             <param name="tripeDesKey"></param>
             <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Security.Cryptography.ITripleDes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Security.Cryptography.ITripleDes.Encrypt(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="textKey"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Security.OpenIdOptions">
+            <summary>
+            Authentication configuration
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.Authority">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.RequireHttpsMetadata">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.Audience">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.ClientId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.ClientSecret">
+            <summary>
+            /
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.Scope">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.AccessTokenSecondsLifetime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Serializers.IBinarySerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Serializers.IBinarySerializer.Serialize``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Serializers.IBinarySerializer.Deserialize``1(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Serializers.IJsonSerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Serializers.IJsonSerializer.Serialize(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Serializers.IJsonSerializer.Deserialize``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Serializers.IJsonSerializer.DeserializeAnonymousType``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="obj"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Settings.IOptionsService`1">
@@ -489,6 +1272,11 @@
         <member name="P:SharedKernel.Application.Settings.IOptionsService`1.Value">
             <summary>
             The default configured <typeparamref name="TOptions"/> instance
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.System.IWeb">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:SharedKernel.Application.System.IWeb.HtmlEncode(System.String)">

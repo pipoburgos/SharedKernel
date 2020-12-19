@@ -24,45 +24,6 @@
             Gets de query bus
             </summary>
         </member>
-        <member name="T:SharedKernel.Api.Grids.CommandBusExtensions">
-            <summary>
-            Command bus extensions
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest{``0},System.Threading.CancellationToken)">
-            <summary>
-            Create query and send it over the command and query bus
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="TResponse"></typeparam>
-            <param name="queryBus"></param>
-            <param name="request"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest,System.Action{``0},System.Threading.CancellationToken)">
-            <summary>
-            Create query and send it over the command and query bus
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="TResponse"></typeparam>
-            <param name="queryBus"></param>
-            <param name="request"></param>
-            <param name="fillOtherProperties"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Api.Grids.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.KendoGrid.KendoGridRequest{``0},System.Threading.CancellationToken)">
-            <summary>
-            Create query and send it over the command and query bus
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="TResponse"></typeparam>
-            <param name="queryBus"></param>
-            <param name="request"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Api.Grids.DataTables.Column">
             <summary>
             
@@ -102,6 +63,34 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.DataTables.CommandBusExtensions">
+            <summary>
+            Command bus extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.DataTables.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.DataTables.DataTablesRequest,System.Action{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="fillOtherProperties"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Api.Grids.DataTables.DataTablesOrder">
             <summary>
@@ -291,6 +280,22 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Grids.KendoGrid.CommandBusExtensions">
+            <summary>
+            Command bus extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Grids.KendoGrid.CommandBusExtensions.SendAsync``2(SharedKernel.Application.Cqrs.Queries.IQueryBus,SharedKernel.Api.Grids.KendoGrid.KendoGridRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Create query and send it over the command and query bus
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+            <param name="queryBus"></param>
+            <param name="request"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Api.Grids.KendoGrid.CompositeFilterDescriptor">
             <summary>
@@ -551,12 +556,34 @@
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Api.ProgramExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ProgramExtensions.RunAsync``1(System.String[])">
+            <summary>
+            Populate database and then runs the api asynchronous.
+            Needs to call services.AddSharedKernel()
+            Needs to register IPopulateDatabase in service collection. <see cref="T:SharedKernel.Infrastructure.Data.IPopulateDatabase"/>
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.ProgramExtensions.CreateWebHostBuilder``1(System.String[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="TStartup"></typeparam>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.AuthenticationExtensions">
             <summary>
             Authentication Extensions
             </summary>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.AuthenticationExtensions.AddAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.AuthenticationExtensions.AddSharedKernelAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
             <summary>
             Configures OpenIdOptions, IHttpContextAccessor, Authentication, cookies and bearer token
             </summary>
@@ -570,7 +597,7 @@
             Http client extensions
             </summary>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions.AddClient``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.HttpClientExtensions.AddSharedKernelClient``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
             <summary>
             Add http client with bearer token
             </summary>
@@ -610,7 +637,7 @@
             Swagger configuration
             </summary>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.AddSharedKernelOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Services configuration
             </summary>
@@ -618,7 +645,7 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions})">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseSharedKernelOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions})">
             <summary>
             Configure Open Api ui
             </summary>
@@ -631,13 +658,20 @@
             Shared kernel api extensions
             </summary>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddApi``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[])">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddSharedKernelApi``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[])">
             <summary>
             Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
             </summary>
             <param name="services">The service collection</param>
             <param name="policyName">The policy name of a configured policy.</param>
             <param name="origins">All domains who calls the api</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.UseSharedKernelMetrics(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds metrics with prometheus
+            </summary>
+            <param name="app"></param>
             <returns></returns>
         </member>
     </members>

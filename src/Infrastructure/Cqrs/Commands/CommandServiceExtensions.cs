@@ -14,15 +14,15 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     public static class CommandServiceExtensions
     {
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
-            Assembly assembly)
+            Assembly applicationAssembly)
         {
-            return services.AddFromAssembly(assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
+            return services.AddFromAssembly(applicationAssembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
-            Type type)
+            Type commandHandlerType)
         {
-            return services.AddFromAssembly(type.Assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
+            return services.AddFromAssembly(commandHandlerType.Assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
         public static IServiceCollection AddInMemoryCommandBus(this IServiceCollection services)

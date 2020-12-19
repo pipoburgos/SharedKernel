@@ -18,9 +18,10 @@ namespace SharedKernel.Integration.Tests.Events.Redis
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddRedisEventBus(Configuration, new[] { typeof(UserCreated).Assembly })
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber).Assembly)
-                .AddDomainEventSubscribersInformation()
+                .AddRedisEventBus(Configuration)
+                .AddDomainEvents(typeof(UserCreated))
+                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
+                .AddDomainEventSubscribers()
                 .AddSingleton<PublishUserCreatedDomainEvent>();
         }
 

@@ -14,7 +14,7 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDomainEventSubscribersInformation(this IServiceCollection services)
+        public static IServiceCollection AddDomainEventSubscribers(this IServiceCollection services)
         {
             var information = new Dictionary<Type, DomainEventSubscriberInformation>();
 

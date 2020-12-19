@@ -54,7 +54,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddOpenApi(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddSharedKernelOpenApi(this IServiceCollection services, IConfiguration configuration)
         {
             var openApiOptions = new OpenApiOptions();
             configuration.GetSection(nameof(OpenApiOptions)).Bind(openApiOptions);
@@ -150,7 +150,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="app"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IOptions<OpenApiOptions> options)
+        public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app, IOptions<OpenApiOptions> options)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>

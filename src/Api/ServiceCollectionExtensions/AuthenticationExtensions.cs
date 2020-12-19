@@ -21,7 +21,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
         /// <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
         /// <returns></returns>
-        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration, string cookieName = null)
+        public static IServiceCollection AddSharedKernelAuth(this IServiceCollection services, IConfiguration configuration, string cookieName = null)
         {
             var openIdOptions = new OpenIdOptions();
             configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);

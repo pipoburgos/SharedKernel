@@ -12,14 +12,14 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
 {
     public static class QueryServiceExtension
     {
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Assembly infrastructureAssembly)
         {
-            return services.AddFromAssembly(assembly, typeof(IQueryRequestHandler<,>));
+            return services.AddFromAssembly(infrastructureAssembly, typeof(IQueryRequestHandler<,>));
         }
 
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type type)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type queryHandlerType)
         {
-            return services.AddFromAssembly(type.Assembly, typeof(IQueryRequestHandler<,>));
+            return services.AddFromAssembly(queryHandlerType.Assembly, typeof(IQueryRequestHandler<,>));
         }
 
         public static IServiceCollection AddInMemoryQueryBus(this IServiceCollection services)

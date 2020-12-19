@@ -8,13 +8,6 @@ namespace SharedKernel.Infrastructure.Events
 {
     public class DomainEventJsonDeserializer
     {
-        private readonly DomainEventsInformation _information;
-
-        public DomainEventJsonDeserializer(DomainEventsInformation information)
-        {
-            _information = information;
-        }
-
         public DomainEvent Deserialize(string body)
         {
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
@@ -24,7 +17,7 @@ namespace SharedKernel.Infrastructure.Events
 
             var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributesString!);
 
-            var domainEventType = _information.ForName((string) data["type"]);
+            var domainEventType = DomainEventsInformation.ForName((string) data["type"]);
 
             var instance = ReflectionHelper.CreateInstance<DomainEvent>(domainEventType);
 

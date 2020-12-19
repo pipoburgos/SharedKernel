@@ -13,17 +13,14 @@ namespace SharedKernel.Infrastructure.Events.MsSql
     public class MsSqlDomainEventsConsumer
     {
         private readonly DbContext _context;
-        private readonly DomainEventsInformation _domainEventsInformation;
         private readonly InMemoryEventBus _bus;
         private const int Chunk = 200;
 
         public MsSqlDomainEventsConsumer(
             InMemoryEventBus bus,
-            DomainEventsInformation domainEventsInformation,
             DbContext context)
         {
             _bus = bus;
-            _domainEventsInformation = domainEventsInformation;
             _context = context;
         }
 
@@ -40,7 +37,7 @@ namespace SharedKernel.Infrastructure.Events.MsSql
 
         private async Task ExecuteSubscribersAsync(DomainEventPrimitive domainEventPrimitive, CancellationToken cancellationToken)
         {
-            var domainEventType = _domainEventsInformation.ForName(domainEventPrimitive.Name);
+            var domainEventType = DomainEventsInformation.ForName(domainEventPrimitive.Name);
 
             var instance = (DomainEvent)Activator.CreateInstance(domainEventType);
 

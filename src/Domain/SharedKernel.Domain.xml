@@ -280,6 +280,11 @@
             <param name="date"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Domain.Events.IRequest">
+            <summary>
+            Request made to a bus
+            </summary>
+        </member>
         <member name="T:SharedKernel.Domain.Exceptions.ExceptionCodes">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
@@ -312,14 +317,49 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Domain.Repositories.IRepositoryAsync`1">
+            <summary>
+            An asynchronous generic repository pattern with all crud actions
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
         <member name="T:SharedKernel.Domain.Security.IIdentityService">
             <summary>
             From: https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Ordering/Ordering.API/Infrastructure/Services/IIdentityService.cs
             </summary>
         </member>
+        <member name="P:SharedKernel.Domain.Security.IIdentityService.UserId">
+            <summary>
+            User logged identifier
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Security.IIdentityService.IsInRole(System.String)">
+            <summary>
+            User logged is in role
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Security.IIdentityService.IsAuthenticated">
+            <summary>
+            If user is logged in
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Security.IIdentityService.BasePath">
+            <summary>
+            Site base url
+            </summary>
+        </member>
         <member name="P:SharedKernel.Domain.Security.IIdentityService.UserAgent">
             <summary>
+            Request user agent
              http://www.useragentstring.com/
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Security.IIdentityService.RemoteIpAddress">
+            <summary>
+            Request user ip address
             </summary>
         </member>
         <member name="T:SharedKernel.Domain.Specifications.Common.AndSpecification`1">
