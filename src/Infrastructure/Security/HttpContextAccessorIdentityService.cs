@@ -37,7 +37,7 @@ namespace SharedKernel.Infrastructure.Security
                 UserAgent = request.Headers["User-Agent"].ToString();
             }
 
-            RemoteIpAddress = httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            RemoteIpAddress = httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
         }
 
         /// <summary>
