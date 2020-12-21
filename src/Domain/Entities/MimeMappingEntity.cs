@@ -5,6 +5,9 @@ using System.IO;
 
 namespace SharedKernel.Domain.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MimeMappingEntity
     {
         private static readonly MimeMappingDictionaryBase MappingDictionary = new MimeMappingDictionaryClassic();

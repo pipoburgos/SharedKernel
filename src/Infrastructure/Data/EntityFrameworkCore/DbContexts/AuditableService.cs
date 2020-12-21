@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AuditableService : IAuditableService
     {
         private readonly IIdentityService _identityService;
@@ -17,6 +20,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         private readonly IGuid _guid;
         private readonly ICustomLogger<AuditableService> _customLogger;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="identityService"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="guid"></param>
+        /// <param name="customLogger"></param>
         public AuditableService(IIdentityService identityService, IDateTime dateTime,
             IGuid guid, ICustomLogger<AuditableService> customLogger)
         {
@@ -26,6 +36,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             _customLogger = customLogger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dbContext"></param>
         public void Audit(DbContext dbContext)
         {
             ModifyAuditableEntities(dbContext);

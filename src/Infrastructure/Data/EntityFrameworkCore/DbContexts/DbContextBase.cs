@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 {
+    /// <summary>
+    /// Shared kernel DbContext
+    /// </summary>
     public class DbContextBase : DbContext, IQueryableUnitOfWork
     {
         #region Members
@@ -26,6 +29,14 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="schema"></param>
+        /// <param name="assemblyConfigurations"></param>
+        /// <param name="auditableService"></param>
+        /// <param name="eventBus"></param>
         public DbContextBase(DbContextOptions options, string schema, Assembly assemblyConfigurations,
             IAuditableService auditableService, IEventBus eventBus) : base(options)
         {
@@ -42,29 +53,52 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         #region Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Schema { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public IDbConnection GetConnection => Database.GetDbConnection();
 
         #endregion
 
         #region IUnitOfWorkAsync Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Rollback()
         {
             return RollbackAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int SaveChanges()
         {
             return SaveChangesAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Task<int> SaveChangesAsync()
         {
             return SaveChangesAsync(CancellationToken.None);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             try
@@ -114,6 +148,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         #region IQueryableUnitOfWork Members
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAggregateRoot"></typeparam>
+        /// <returns></returns>
         public DbSet<TAggregateRoot> SetAggregate<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot
         {
             return base.Set<TAggregateRoot>();

@@ -11,12 +11,20 @@ using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class InMemoryQueryBus : IQueryBus
     {
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IServiceProvider _serviceProvider;
         private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new ConcurrentDictionary<Type, object>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="executeMiddlewaresService"></param>
+        /// <param name="serviceProvider"></param>
         public InMemoryQueryBus(
             ExecuteMiddlewaresService executeMiddlewaresService,
             IServiceProvider serviceProvider)
@@ -25,6 +33,13 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
         {
             await _executeMiddlewaresService.ExecuteAsync(query, cancellationToken);

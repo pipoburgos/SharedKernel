@@ -6,8 +6,17 @@ using SharedKernel.Infrastructure.Serializers;
 
 namespace SharedKernel.Infrastructure.Caching
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DistributedCacheServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRedisDistributedCache(this IServiceCollection services, IConfiguration configuration)
         {
             services

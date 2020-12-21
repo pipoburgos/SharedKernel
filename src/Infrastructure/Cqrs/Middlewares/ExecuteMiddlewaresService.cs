@@ -6,16 +6,27 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExecuteMiddlewaresService
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceProvider"></param>
         public ExecuteMiddlewaresService(
             IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
         public void Execute(IRequest request)
         {
             var validator = (IEntityValidator<IRequest>)
@@ -35,6 +46,12 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
             //}
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task ExecuteAsync(IRequest request, CancellationToken cancellationToken)
         {
             var validator = (IEntityValidator<IRequest>)

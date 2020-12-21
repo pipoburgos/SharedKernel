@@ -3,6 +3,9 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class StreamHelper : IStreamHelper
     {
         /// <summary>

@@ -12,10 +12,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TDbContextBase"></typeparam>
     public sealed class DapperQueryProvider<TDbContextBase> where TDbContextBase : DbContextBase
     {
         private readonly IDbContextFactory<TDbContextBase> _factory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="factory"></param>
         public DapperQueryProvider(IDbContextFactory<TDbContextBase> factory)
         {
             _factory = factory;

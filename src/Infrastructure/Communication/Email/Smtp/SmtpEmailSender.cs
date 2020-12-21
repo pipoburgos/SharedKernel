@@ -8,21 +8,43 @@ using SharedKernel.Infrastructure.Exceptions;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SmtpEmailSender : IEmailSender
     {
         private readonly SmtpSettings _smtp;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="emailSettings"></param>
         public SmtpEmailSender(
             IOptionsService<SmtpSettings> emailSettings)
         {
             _smtp = emailSettings.Value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <param name="attachment"></param>
+        /// <returns></returns>
         public Task SendEmailAsync(string subject, string message, EmailAttachment attachment = null)
         {
             return SendEmailAsync(_smtp.SenderName, subject, message, attachment);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <param name="attachment"></param>
+        /// <returns></returns>
         public async Task SendEmailAsync(string email, string subject, string message, EmailAttachment attachment = null)
         {
             if(string.IsNullOrWhiteSpace(_smtp.Password))

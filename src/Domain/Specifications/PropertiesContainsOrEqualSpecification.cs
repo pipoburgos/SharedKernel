@@ -7,15 +7,27 @@ using SharedKernel.Domain.Specifications.Common;
 
 namespace SharedKernel.Domain.Specifications
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PropertiesContainsOrEqualSpecification<T> : ISpecification<T> where T : class
     {
         private readonly IEnumerable<Property> _properties;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="properties"></param>
         public PropertiesContainsOrEqualSpecification(IEnumerable<Property> properties)
         {
             _properties = properties;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Expression<Func<T, bool>> SatisfiedBy()
         {
             ISpecification<T> filter = new TrueSpecification<T>();

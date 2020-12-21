@@ -9,8 +9,20 @@ using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Infrastructure.Data.Dapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DapperServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <param name="connectionStringName"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDapperSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext

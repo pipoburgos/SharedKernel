@@ -6,8 +6,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace SharedKernel.Api.Gateway.Middlewares
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ErrorsMiddleware
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseErrors(this IApplicationBuilder app)
         {
             app.UseExceptionHandler(

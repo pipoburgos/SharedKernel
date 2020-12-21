@@ -8,10 +8,23 @@ using Newtonsoft.Json;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class SharedKernelGatewayApiExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static string MyAllowSpecificOrigins = "CorsPolicy";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAssembly"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddGatewayApi<TAssembly>(this IServiceCollection services, IConfiguration configuration)
         {
             services
@@ -29,6 +42,12 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
         {
             var origins = configuration.GetSection("Origins").Get<string[]>();

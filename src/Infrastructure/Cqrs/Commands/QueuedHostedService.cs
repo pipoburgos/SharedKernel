@@ -14,6 +14,10 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceScopeFactory"></param>
         public QueuedHostedService(IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;

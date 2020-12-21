@@ -15,25 +15,71 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class OpenIdOptions
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Authority { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool RequireHttpsMetadata { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Audience { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string ClientId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string ClientSecret { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Scope { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int AccessTokenSecondsLifetime { get; set; } = 300;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class OpenApiOptions
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string AppName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string XmlDocumentationFile { get; set; }
     }
 

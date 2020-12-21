@@ -30,11 +30,25 @@ namespace SharedKernel.Domain.Specifications.Common
             return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static ISpecification<T> And<T>(this ISpecification<T> first, ISpecification<T> second) where T: class
         {
             return new AndSpecification<T>(first, second);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static ISpecification<T> Or<T>(this ISpecification<T> first, ISpecification<T> second) where T : class
         {
             return new OrSpecification<T>(first, second);

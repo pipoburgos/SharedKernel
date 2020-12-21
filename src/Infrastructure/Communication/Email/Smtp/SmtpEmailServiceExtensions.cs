@@ -6,8 +6,17 @@ using SharedKernel.Infrastructure.Settings;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class SmtpEmailServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));

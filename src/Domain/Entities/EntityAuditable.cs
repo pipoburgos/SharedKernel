@@ -33,22 +33,44 @@ namespace SharedKernel.Domain.Entities
 
         #region Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Guid CreatedBy { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime CreatedAt { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Guid? LastModifiedBy { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime? LastModifiedAt { get; private set; }
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="createdAt"></param>
+        /// <param name="createdBy"></param>
         public void Create(DateTime createdAt, Guid createdBy)
         {
             CreatedAt = createdAt;
             CreatedBy = createdBy;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lastModifiedAt"></param>
+        /// <param name="lastModifiedBy"></param>
         public void Change(DateTime lastModifiedAt, Guid lastModifiedBy)
         {
             LastModifiedAt = lastModifiedAt;

@@ -7,8 +7,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class AuthenticationExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
             var openIdOptions = new OpenIdOptions();

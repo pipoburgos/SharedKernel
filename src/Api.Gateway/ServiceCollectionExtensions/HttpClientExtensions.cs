@@ -11,8 +11,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class HttpClientExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TClient"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <param name="section"></param>
+        /// <returns></returns>
         public static IServiceCollection AddClient<TClient>(this IServiceCollection services, IConfiguration configuration, string section) where TClient : class
         {
             services.AddHttpClient<TClient>(section)

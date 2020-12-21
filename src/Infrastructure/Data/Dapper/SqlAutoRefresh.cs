@@ -10,6 +10,10 @@ using Microsoft.Data.SqlClient;
 
 namespace SharedKernel.Infrastructure.Data.Dapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TReturn"></typeparam>
     public class SqlAutoRefresh<TReturn> : IDisposable
     {
         private readonly string _sqlQuery;
@@ -21,6 +25,16 @@ namespace SharedKernel.Infrastructure.Data.Dapper
         private readonly CommandType? _commandType;
         private readonly SqlDependencyAsync _sqlDependencyAsync;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType"></param>
         public SqlAutoRefresh(string sqlQuery,
             string connectionString,
             CancellationToken cancellationToken,
@@ -41,6 +55,15 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             SqlDependency.Start(_connectionString);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType"></param>
         public SqlAutoRefresh(string sqlQuery,
             string connectionString,
             object param = null,
@@ -60,6 +83,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             SqlDependency.Start(_connectionString);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<TReturn>> GetLatest()
         {
             List<TReturn> collection = null;
@@ -90,6 +117,9 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             return collection;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             SqlDependency.Stop(_connectionString);

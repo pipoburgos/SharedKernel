@@ -2,6 +2,9 @@
 
 namespace SharedKernel.Domain.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Flags]
     public enum State
     {

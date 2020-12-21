@@ -9,6 +9,10 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
     /// </summary>
     public interface IBackgroundTaskQueue
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         bool Any();
 
         /// <summary>

@@ -5,10 +5,25 @@ using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Domain.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IDirectoryRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<List<string>> GetFilesAsync(string path, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<List<string>> GetFileNamesAsync(string path, CancellationToken cancellationToken);
 
         /// <summary>
@@ -19,8 +34,20 @@ namespace SharedKernel.Domain.Repositories
         /// <returns></returns>
         Task<List<FileEntity>> GetFilesEntitiesAsync(string path, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<bool> ExistsAsync(string id, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task AddAsync(DirectoryEntity directory, CancellationToken cancellationToken);
     }
 }

@@ -4,8 +4,14 @@ using SharedKernel.Application.Cqrs.Queries.Entities;
 
 namespace SharedKernel.Infrastructure.Validators
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PageOptionsValidator : AbstractValidator<PageOptions>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public PageOptionsValidator()
         {
             RuleFor(a => a.Take).NotEmpty();

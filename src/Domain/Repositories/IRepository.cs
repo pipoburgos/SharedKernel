@@ -2,6 +2,10 @@
 
 namespace SharedKernel.Domain.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
     public interface IRepository<TAggregateRoot> :
         ICreateRepository<TAggregateRoot>,
         IReadRepository<TAggregateRoot>,

@@ -11,20 +11,40 @@ using SharedKernel.Infrastructure.Validators;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class CommandServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="applicationAssembly"></param>
+        /// <returns></returns>
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
             Assembly applicationAssembly)
         {
             return services.AddFromAssembly(applicationAssembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="commandHandlerType"></param>
+        /// <returns></returns>
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
             Type commandHandlerType)
         {
             return services.AddFromAssembly(commandHandlerType.Assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddInMemoryCommandBus(this IServiceCollection services)
         {
             return services

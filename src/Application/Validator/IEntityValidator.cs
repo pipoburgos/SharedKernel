@@ -8,8 +8,18 @@ namespace SharedKernel.Application.Validator
     /// </summary>
     public interface IEntityValidator<in TEntity>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
         void Validate(TEntity item);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task ValidateAsync(TEntity item, CancellationToken cancellationToken);
     }
 }

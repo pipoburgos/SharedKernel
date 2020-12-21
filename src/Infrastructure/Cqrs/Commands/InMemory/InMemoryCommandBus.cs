@@ -51,6 +51,13 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             _applicationLifetime = applicationLifetime;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
         {
             await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
@@ -63,6 +70,12 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             return await wrappedHandlers.Handle(command, _serviceProvider, cancellationToken);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
         {
             await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
@@ -77,11 +90,22 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             await Task.WhenAll(tasks);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken)
         {
             return Task.Run(async () => await Dispatch(command, cancellationToken), cancellationToken);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public Task QueueInBackground(ICommandRequest command)
         {
             _taskQueue.QueueBackground(async _ =>

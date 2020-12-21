@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <PackageId>Pipoburgos.SharedKernel.Api.Gateway</PackageId>
-    <Version>5.0.15</Version>
+    <Version>5.0.16</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -11,6 +11,11 @@
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
     <Description></Description>
+    <DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
+    <DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

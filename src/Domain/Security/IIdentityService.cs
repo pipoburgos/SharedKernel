@@ -16,6 +16,9 @@ namespace SharedKernel.Domain.Security
         Guid UserId { get; }
 
 #if !NET40
+        /// <summary>
+        /// Users claims
+        /// </summary>
         ClaimsPrincipal User { get; }
 #endif
 

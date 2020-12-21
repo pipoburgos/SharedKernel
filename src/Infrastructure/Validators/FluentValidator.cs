@@ -18,11 +18,19 @@ namespace SharedKernel.Infrastructure.Validators
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validators"></param>
         public FluentValidator(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
         public void Validate(TRequest item)
         {
             if (item == null)
@@ -40,6 +48,12 @@ namespace SharedKernel.Infrastructure.Validators
                 throw new ValidationFailureException(failures);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task ValidateAsync(TRequest item, CancellationToken cancellationToken)
         {
             if (item == null)

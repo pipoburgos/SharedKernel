@@ -3,20 +3,37 @@ using System.Globalization;
 
 namespace SharedKernel.Application.Utils.Dates
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DateTimeExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public static int ToWeekNumber(this DateTime dateTime)
         {
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek,
                 DayOfWeek.Monday);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="span"></param>
+        /// <returns></returns>
         public static string ToReadableString(this TimeSpan? span)
         {
             return span == default || span.Value == default ? "-" : span.Value.ToReadableString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="span"></param>
+        /// <returns></returns>
         public static string ToReadableString(this TimeSpan span)
         {
             //string formatted =
@@ -36,6 +53,12 @@ namespace SharedKernel.Application.Utils.Dates
             return formatted;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="maxValue"></param>
+        /// <param name="minValue"></param>
+        /// <returns></returns>
         public static int MonthDifference(this DateTime maxValue, DateTime minValue)
         {
             return maxValue.Month - minValue.Month + 12 * (maxValue.Year - minValue.Year);

@@ -42,12 +42,22 @@ namespace SharedKernel.Application.Validator
             return "Validation failed: " + string.Join(string.Empty, values);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected ValidationFailureException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             Errors = info.GetValue("errors", typeof(IEnumerable<ValidationFailure>)) as IEnumerable<ValidationFailure>;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
