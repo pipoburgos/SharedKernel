@@ -30,8 +30,11 @@ namespace SharedKernel.Infrastructure.Events
         public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
         {
             return services
+                .AddHostedService<InMemoryBackgroundService>()
+                .AddSingleton<DomainEventsToExecute>()
                 .AddEventBus()
-                .AddTransient<IEventBus, InMemoryEventBus>();
+                .AddScoped<InMemoryDomainEventsConsumer>()
+                .AddScoped<IEventBus, InMemoryEventBus>();
         }
 
         public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
@@ -48,10 +51,9 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHostedService<RabbitMqEventBusConfiguration>()
                 .AddEventBus()
                 //.AddTransient<MsSqlEventBus, MsSqlEventBus>() // Failover
-                .AddTransient<IEventBus, RabbitMqEventBus>()
-                .AddTransient<RabbitMqPublisher>()
-                .AddTransient<RabbitMqConnectionFactory>()
-                .AddTransient<RabbitMqDomainEventsConsumer>();
+                .AddScoped<IEventBus, RabbitMqEventBus>()
+                .AddScoped<RabbitMqConnectionFactory>()
+                .AddScoped<RabbitMqDomainEventsConsumer>();
         }
 
         public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
@@ -61,21 +63,20 @@ namespace SharedKernel.Infrastructure.Events
                 .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] { "Event Bus", "Redis" });
 
             return services
-                .AddHostedService<RedisConsumer>()
+                .AddHostedService<RedisDomainEventsConsumer>()
                 .AddEventBus()
                 .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
-                .AddTransient<IEventBus, RedisEventBus>();
+                .AddScoped<IEventBus, RedisEventBus>();
         }
 
         private static IServiceCollection AddEventBus(this IServiceCollection services)
         {
             return services
-                .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>))
-                .AddTransient<ExecuteMiddlewaresService>()
-                .AddTransient<DomainEventMediator>()
-                .AddTransient<DomainEventSubscribersInformation>()
-                .AddTransient<DomainEventJsonSerializer>()
-                .AddTransient<DomainEventJsonDeserializer>();
+                .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
+                .AddScoped<ExecuteMiddlewaresService>()
+                .AddScoped<DomainEventMediator>()
+                .AddScoped<DomainEventJsonSerializer>()
+                .AddScoped<DomainEventJsonDeserializer>();
         }
 
         private static string GetRedisConfiguration(IConfiguration configuration)

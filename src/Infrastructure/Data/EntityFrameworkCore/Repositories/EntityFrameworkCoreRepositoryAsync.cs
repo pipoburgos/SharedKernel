@@ -57,6 +57,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
             return GetQuery().AnyAsync(cancellationToken);
         }
 
+        public Task<int> CountAsync(CancellationToken cancellationToken)
+        {
+            return _dbSet.CountAsync(cancellationToken);
+        }
+
         public Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken)
         {
             return GetQuery().Cast<IEntity<TKey>>().AnyAsync(a => a.Id.Equals(key), cancellationToken);

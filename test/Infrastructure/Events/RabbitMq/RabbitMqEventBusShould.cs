@@ -31,7 +31,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         public async Task PublishDomainEventFromRabbitMq()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
-                GetRequiredService<PublishUserCreatedDomainEvent>(), 500);
+                GetRequiredService<PublishUserCreatedDomainEvent>(), 2_500);
         }
     }
 }

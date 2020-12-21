@@ -4,11 +4,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
     public static class DomainEventSubscriberInformationService
     {
+        private static Dictionary<Type, DomainEventSubscriberInformation> _information;
+
+        public static void Register(Dictionary<Type, DomainEventSubscriberInformation> information)
+        {
+            _information = information;
+        }
+
+        public static Dictionary<Type, DomainEventSubscriberInformation>.ValueCollection All()
+        {
+            return _information.Values;
+        }
+
+        public static List<string> GetAllEventsSubscribers()
+        {
+            return _information.Values.Select(x => x.SubscriberName()).ToList();
+        }
+
+        public static List<string> GetAllEventsSubscribers(DomainEvent @event)
+        {
+            var values = _information.Values
+                .Where(e => e.SubscribedEvent == @event.GetType());
+
+            return values
+                .Select(x => x.SubscriberName())
+                .ToList();
+        }
+
         /// <summary>
         /// Call just before compiling service collections
         /// </summary>
@@ -32,7 +60,7 @@ namespace SharedKernel.Infrastructure.Events
                 information.Add(subscriberClass, new DomainEventSubscriberInformation(subscriberClass, eventType));
             }
 
-            services.AddScoped(_ => new DomainEventSubscribersInformation(information));
+            _information = information;
             return services;
         }
 

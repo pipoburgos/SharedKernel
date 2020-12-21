@@ -12,6 +12,8 @@ namespace SharedKernel.Domain.Repositories
 
         Task<bool> AnyAsync(CancellationToken cancellationToken);
 
+        Task<int> CountAsync(CancellationToken cancellationToken);
+
         Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken);
     }
 }

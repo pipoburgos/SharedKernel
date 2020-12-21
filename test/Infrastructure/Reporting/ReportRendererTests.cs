@@ -63,7 +63,8 @@ namespace SharedKernel.Integration.Tests.Reporting
             var bytes = service.RenderRdlc(path, extension, parameters, dataSources);
 
             Assert.NotNull(bytes);
-            Assert.Equal(78_218, bytes.Length);
+            Assert.True(bytes.Length > 78_000);
+            Assert.True(bytes.Length < 79_000);
             File.WriteAllBytes(pathResult, bytes);
         }
     }

@@ -1,10 +1,10 @@
 ﻿using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
@@ -12,16 +12,16 @@ namespace SharedKernel.Infrastructure.Events.Redis
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
-        private readonly DomainEventJsonSerializer _jsonSerializer;
+        private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
 
         public RedisEventBus(
             IConnectionMultiplexer connectionMultiplexer,
             ExecuteMiddlewaresService executeMiddlewaresService,
-            DomainEventJsonSerializer jsonSerializer)
+            DomainEventJsonSerializer domainEventJsonSerializer)
         {
             _connectionMultiplexer = connectionMultiplexer;
             _executeMiddlewaresService = executeMiddlewaresService;
-            _jsonSerializer = jsonSerializer;
+            _domainEventJsonSerializer = domainEventJsonSerializer;
         }
 
         public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
@@ -29,12 +29,11 @@ namespace SharedKernel.Infrastructure.Events.Redis
             return Task.WhenAll(events.Select(@event => Publish(@event, cancellationToken)));
         }
 
-        public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
+        public async Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
-            _executeMiddlewaresService.Execute(@event);
-
-            var eventAsString = _jsonSerializer.Serialize(@event);
-            return _connectionMultiplexer.GetSubscriber().PublishAsync("*", eventAsString);
+            await _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken);
+            var eventAsString = _domainEventJsonSerializer.Serialize(@event);
+            await _connectionMultiplexer.GetSubscriber().PublishAsync("*", eventAsString);
         }
     }
 }

@@ -1,21 +1,23 @@
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
-    public class InMemoryEventBus : IEventBus
+    internal class InMemoryEventBus : IEventBus
     {
-        private readonly DomainEventSubscribersInformation _information;
-        private readonly DomainEventMediator _domainEventMediator;
+        private readonly InMemoryDomainEventsConsumer _inMemoryConsumer;
+        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
 
         public InMemoryEventBus(
-            DomainEventSubscribersInformation information,
-            DomainEventMediator domainEventMediator)
+            InMemoryDomainEventsConsumer inMemoryConsumer,
+            ExecuteMiddlewaresService executeMiddlewaresService)
         {
-            _information = information;
-            _domainEventMediator = domainEventMediator;
+            _inMemoryConsumer = inMemoryConsumer;
+            _executeMiddlewaresService = executeMiddlewaresService;
         }
 
         public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
@@ -25,13 +27,13 @@ namespace SharedKernel.Infrastructure.Events.InMemory
 
         public async Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
         {
-            if (events == null)
+            if (events == default)
                 return;
 
-            foreach (var @event in events)
-            {
-                await _domainEventMediator.ExecuteOn(@event, _information.GetAllEventsSubscribers(), cancellationToken);
-            }
+            await Task.WhenAll(events.Select(@event =>
+                _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken)));
+
+            events.ForEach(@event => _inMemoryConsumer.Consume(@event));
         }
     }
 }

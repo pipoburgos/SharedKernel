@@ -33,8 +33,10 @@ namespace SharedKernel.Api
             try
             {
                 logger.Info("Starting web host");
-                var populateDatabase = services.GetRequiredService<IPopulateDatabase>();
-                await populateDatabase.Populate(CancellationToken.None);
+                var populateDatabase = services.GetService<IPopulateDatabase>();
+                if (populateDatabase != default)
+                    await populateDatabase.Populate(CancellationToken.None);
+
                 await host.RunAsync();
             }
             catch (Exception ex)

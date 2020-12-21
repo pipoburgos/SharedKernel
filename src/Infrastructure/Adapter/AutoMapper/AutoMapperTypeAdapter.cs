@@ -14,7 +14,7 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
         public AutoMapperTypeAdapter(
             MapperConfiguration mapperConfiguration)
         {
-            _mapperConfiguration = mapperConfiguration ?? throw new Exception("Automapper not initialized");
+            _mapperConfiguration = mapperConfiguration ?? throw new Exception("AutoMapper not initialized");
 
             _mapper = _mapperConfiguration.CreateMapper();
         }

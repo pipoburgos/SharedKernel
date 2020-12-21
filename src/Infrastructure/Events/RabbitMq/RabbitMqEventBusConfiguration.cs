@@ -33,7 +33,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
-            foreach (var subscriberInformation in scope.ServiceProvider.GetRequiredService<DomainEventSubscribersInformation>().All())
+            foreach (var subscriberInformation in DomainEventSubscriberInformationService.All())
             {
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);

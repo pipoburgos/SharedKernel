@@ -7,40 +7,36 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
     public class RabbitMqDomainEventsConsumer
     {
         private readonly RabbitMqConnectionFactory _config;
-        private readonly IServiceScopeFactory _factory;
+        private readonly DomainEventMediator _domainEventMediator;
         private readonly ICustomLogger<RabbitMqDomainEventsConsumer> _logger;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
-        private readonly DomainEventSubscribersInformation _information;
         private readonly DomainEventJsonDeserializer _deserializer;
         private const int MaxRetries = 2;
         private const string HeaderRedelivery = "redelivery_count";
 
         public RabbitMqDomainEventsConsumer(
-            DomainEventSubscribersInformation information,
             DomainEventJsonDeserializer deserializer,
             RabbitMqConnectionFactory config,
-            IServiceScopeFactory factory,
+            DomainEventMediator domainEventMediator,
             ICustomLogger<RabbitMqDomainEventsConsumer> logger,
             IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
-            _information = information;
             _deserializer = deserializer;
             _config = config;
-            _factory = factory;
+            _domainEventMediator = domainEventMediator;
             _logger = logger;
             _rabbitMqParams = rabbitMqParams;
         }
 
         public Task Consume()
         {
-            _information.GetAllEventsSubscribers().ForEach(eventSubscriber => ConsumeMessages(eventSubscriber));
+            DomainEventSubscriberInformationService.GetAllEventsSubscribers().ForEach(eventSubscriber => ConsumeMessages(eventSubscriber));
             return Task.CompletedTask;
         }
 
@@ -61,8 +57,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
                     var @event = _deserializer.Deserialize(message);
 
-                    await _factory.CreateScope().ServiceProvider.GetRequiredService<DomainEventMediator>()
-                        .ExecuteOn(@event, eventSubscriber, CancellationToken.None);
+                    await _domainEventMediator.ExecuteOn(@event, eventSubscriber, CancellationToken.None);
                 }
                 catch(Exception ex)
                 {

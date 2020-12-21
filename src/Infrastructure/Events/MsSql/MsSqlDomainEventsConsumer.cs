@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.MsSql
 {
-    public class MsSqlDomainEventsConsumer
+    internal class MsSqlDomainEventsConsumer
     {
         private readonly DbContext _context;
         private readonly InMemoryEventBus _bus;

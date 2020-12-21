@@ -1,58 +1,35 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Reflection;
-using System;
-using System.Collections.Generic;
+using SharedKernel.Domain.Events;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Events;
-using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Events
 {
     public class DomainEventMediator
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly Dictionary<string, object> _domainEventSubscribers = new();
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public DomainEventMediator(
-            IServiceProvider serviceProvider)
+            IServiceScopeFactory serviceScopeFactory)
         {
-            _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task ExecuteOn(DomainEvent @event, List<string> eventSubscribers, CancellationToken cancellationToken)
-        {
-            foreach (var eventSubscriber in eventSubscribers)
-            {
-                await ExecuteOn(@event, eventSubscriber, cancellationToken);
-            }
-        }
         public async Task ExecuteOn(DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateScope();
-
-            await scope.ServiceProvider.GetRequiredService<ExecuteMiddlewaresService>().ExecuteAsync(@event, cancellationToken);
-
-            var subscriber = _domainEventSubscribers.ContainsKey(eventSubscriber)
-                ? _domainEventSubscribers[eventSubscriber]
-                : SubscribeFor(eventSubscriber, scope);
-
-            await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
-        }
-
-        private object SubscribeFor(string queue, IServiceScope scope)
-        {
-            var queueParts = queue.Split('.');
+            var queueParts = eventSubscriber.Split('.');
             var subscriberName = ToCamelFirstUpper(queueParts.Last());
 
-            var t = ReflectionHelper.GetType(subscriberName);
+            var subscriberType = ReflectionHelper.GetType(subscriberName);
 
-            var subscriber = scope.ServiceProvider.GetRequiredService(t);
-            _domainEventSubscribers.Add(queue, subscriber);
-            return subscriber;
+            using var scope = _serviceScopeFactory.CreateScope();
+            var subscriber = scope.ServiceProvider.GetRequiredService(subscriberType);
+
+            await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
         }
 
         private string ToCamelFirstUpper(string text)
