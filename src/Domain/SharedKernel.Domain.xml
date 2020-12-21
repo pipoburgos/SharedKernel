@@ -86,6 +86,72 @@
             <param name="lastModifiedAt"></param>
             <param name="lastModifiedBy"></param>
         </member>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRootAuditableLogicalRemove`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditableLogicalRemove`1.DeletedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootAuditableLogicalRemove`1.DeletedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRootAuditableLogicalRemove`1.Delete(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="deletedAt"></param>
+            <param name="deletedBy"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRootAuditableLogicalRemove`1.Restore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRootIsTranslatable`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Aggregates.AggregateRootIsTranslatable`5.Translations">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Aggregates.AggregateRootIsTranslatable`5.AddTranslation(`2)">
+            <summary>
+            
+            </summary>
+            <param name="translation"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRootIsTranslatable`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Aggregates.AggregateRootIsTranslatable`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
         <member name="T:SharedKernel.Domain.Aggregates.IAggregateRoot">
             <summary>
             This root aggregate contains your domain identifier and events
@@ -97,9 +163,80 @@
             </summary>
             <returns>All domain events recordered</returns>
         </member>
-        <member name="T:SharedKernel.Domain.Entities.Disposable">
-            <inheritdoc />
+        <member name="T:SharedKernel.Domain.Entities.AuditChange">
             <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.AuditChange.Create(System.Guid,System.String,System.String,System.String,System.String,System.String,System.DateTime,SharedKernel.Domain.Entities.State)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="registryId"></param>
+            <param name="table"></param>
+            <param name="property"></param>
+            <param name="originalValue"></param>
+            <param name="currentValue"></param>
+            <param name="date"></param>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.RegistryId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.Table">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.Property">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.OriginalValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.CurrentValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.Date">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.AuditChange.State">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.DirectoryEntity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.DirectoryEntity.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.DirectoryEntity.Create(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.DirectoryEntity.Name">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:SharedKernel.Domain.Entities.Entity`1">
@@ -178,21 +315,475 @@
             <param name="createdAt">Creation Date</param>
             <param name="createdBy">Creation user identifier</param>
         </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditable`1.CreatedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditable`1.CreatedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditable`1.LastModifiedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditable`1.LastModifiedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditable`1.Create(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="createdAt"></param>
+            <param name="createdBy"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditable`1.Change(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="lastModifiedAt"></param>
+            <param name="lastModifiedBy"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.EntityAuditableLogicalRemove`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditableLogicalRemove`1.DeletedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.EntityAuditableLogicalRemove`1.DeletedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditableLogicalRemove`1.Delete(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="deletedAt"></param>
+            <param name="deletedBy"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.EntityAuditableLogicalRemove`1.Restore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.FileEntity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.FileEntity.Create(System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.FileEntity.Create(System.String,System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+            <param name="extension"></param>
+            <param name="contentType"></param>
+            <param name="contents"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.FileEntity.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.FileEntity.Extension">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.FileEntity.ContentType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.FileEntity.Contents">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.FileEntity.ParentDirectory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityIsTranslatable`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityIsTranslatable`5.Translations">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Globalization.EntityIsTranslatable`5.AddTranslation(`2)">
+            <summary>
+            
+            </summary>
+            <param name="translation"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityIsTranslatable`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityIsTranslatable`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4.Translated">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4.EntityId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4.Entity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4.LanguageId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.EntityTranslated`4.Language">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityTranslated`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.EntityTranslated`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityIsTranslatable`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityIsTranslatable`1.Translations">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityIsTranslatable`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityIsTranslatable`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityIsTranslatable`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4.Translated">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4.EntityId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4.Entity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4.LanguageId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`4.Language">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.IEntityTranslated`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.Language">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Globalization.Language.Create(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.Language.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Globalization.LanguageTranslated">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Globalization.LanguageTranslated.Create(System.String,System.String,System.Boolean,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="entityId"></param>
+            <param name="languageId"></param>
+            <param name="translated"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Globalization.LanguageTranslated.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.IEntity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.IEntity`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntity`1.Id">
+            <summary>
+            The identifier of de entity
+            </summary>
+        </member>
         <member name="T:SharedKernel.Domain.Entities.IEntityAuditable">
             <summary>
             https://stackoverflow.com/questions/26355486/entity-framework-6-audit-track-changes
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditable.CreatedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditable.CreatedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditable.LastModifiedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditable.LastModifiedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.IEntityAuditable.Create(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="createdAt"></param>
+            <param name="createdBy"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.IEntityAuditable.Change(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="lastModifiedAt"></param>
+            <param name="lastModifiedBy"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.IEntityAuditableLogicalRemove">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditableLogicalRemove.DeletedBy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.IEntityAuditableLogicalRemove.DeletedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.IEntityAuditableLogicalRemove.Delete(System.DateTime,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="deletedAt"></param>
+            <param name="userId"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.IEntityAuditableLogicalRemove.Restore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.MimeMappingEntity">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:SharedKernel.Domain.Entities.MimeMappingEntity.GetMimeMapping(System.String)">
             <summary>Returns the MIME mapping for the specified file name.</summary>
             <param name="fileName">The file name that is used to determine the MIME type.</param>
         </member>
-        <member name="P:SharedKernel.Domain.Entities.Paged.Property.Field">
-            The data item field to which the filter operator is applied.
+        <member name="T:SharedKernel.Domain.Entities.Paged.DomainPagedList`1">
+            <summary>
             
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Paged.DomainPagedList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="items"></param>
+            <param name="total"></param>
+            <param name="totalFiltered"></param>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.DomainPagedList`1.Items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.DomainPagedList`1.Total">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.DomainPagedList`1.TotalFiltered">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.Paged.Property">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Entities.Paged.Property.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="field"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:SharedKernel.Domain.Entities.Paged.Property.Field">
+            <summary>
+            The data item field to which the filter operator is applied.
+            </summary>
         </member>
         <member name="P:SharedKernel.Domain.Entities.Paged.Property.Value">
+            <summary>
             The value to which the field is compared. Has to be of the same type as the field.
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Entities.State">
+            <summary>
+            
+            </summary>
         </member>
         <member name="F:SharedKernel.Domain.Entities.State.Detached">
             <summary>
@@ -280,6 +871,57 @@
             <param name="date"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Domain.Events.DomainEventPrimitive">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEventPrimitive.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEventPrimitive.AggregateId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEventPrimitive.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEventPrimitive.OccurredOn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Events.DomainEventPrimitive.Body">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Events.IEventBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            Publish an event to event bus
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            Publish a list of events to event bus
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Domain.Events.IRequest">
             <summary>
             Request made to a bus
@@ -301,12 +943,195 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="T:SharedKernel.Domain.Exceptions.ResourceException">
+            <summary>
+            Resource exception
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Exceptions.ResourceException.Code">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Exceptions.ResourceException.#ctor(System.String,System.String,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="resourcePath"></param>
+            <param name="assembly"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Exceptions.ResourceException.#ctor(System.String,System.String,System.Reflection.Assembly,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="resourcePath"></param>
+            <param name="assembly"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Exceptions.SharedKernelDomainException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Exceptions.SharedKernelDomainException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Exceptions.SharedKernelDomainException.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.ICreateRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.ICreateRepository`1.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.ICreateRepository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.ICreateRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.ICreateRepositoryAsync`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.ICreateRepositoryAsync`1.AddRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IDeleteRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDeleteRepository`1.Remove(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDeleteRepository`1.RemoveRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IDeleteRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDeleteRepositoryAsync`1.RemoveAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDeleteRepositoryAsync`1.RemoveRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IDirectoryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFilesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFileNamesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             ATTENTION, READ THE CONTENTS OF ALL FILES AND LOAD THEM IN MEMORY
             </summary>
             <param name="path"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.AddAsync(SharedKernel.Domain.Entities.DirectoryEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="directory"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFilesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFileNamesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
@@ -317,11 +1142,398 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.AddAsync(SharedKernel.Domain.Entities.DirectoryEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="directory"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IFileRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.AddAsync(SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ReadAllLinesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ReadAllBytesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.GetAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.DeleteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.CopyAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFileName"></param>
+            <param name="destFileName"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepository.MoveAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFileName"></param>
+            <param name="destFileName"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IFileRepositoryAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.AddAsync(SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ReadAllLinesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ReadAllBytesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.GetAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.DeleteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.CopyAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFileName"></param>
+            <param name="destFileName"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.MoveAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFileName"></param>
+            <param name="destFileName"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IPersistRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IPersistRepository.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IPersistRepository.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IPersistRepositoryAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IPersistRepositoryAsync.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IPersistRepositoryAsync.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`1.GetById``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`1.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`1.Any``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.GetByIdAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.GetDeleteByIdAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.AnyAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.CountAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.AnyAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1.Where(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1.Single(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1.SingleOrDefault(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1.Any(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.WhereAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.SingleAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.SingleOrDefaultAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
         <member name="T:SharedKernel.Domain.Repositories.IRepositoryAsync`1">
             <summary>
             An asynchronous generic repository pattern with all crud actions
             </summary>
             <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IUpdateRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IUpdateRepository`1.Update(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IUpdateRepository`1.UpdateRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IUpdateRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IUpdateRepositoryAsync`1.UpdateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IUpdateRepositoryAsync`1.UpdateRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="entities"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Security.IIdentityService">
             <summary>
@@ -331,6 +1543,11 @@
         <member name="P:SharedKernel.Domain.Security.IIdentityService.UserId">
             <summary>
             User logged identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Security.IIdentityService.User">
+            <summary>
+            Users claims
             </summary>
         </member>
         <member name="M:SharedKernel.Domain.Security.IIdentityService.IsInRole(System.String)">
@@ -433,6 +1650,37 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.IName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Specifications.Common.IName.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.Common.ExistsSpecification`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExistsSpecification`3.#ctor(`0,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExistsSpecification`3.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Domain.Specifications.Common.ExpressionBuilder">
             <summary>
             Extension methods for adding AND and OR with parameters rebind
@@ -447,6 +1695,24 @@
             <param name="second">Expression to merge</param>
             <param name="merge">Function to merge</param>
             <returns>New merged expression</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.And``1(SharedKernel.Domain.Specifications.Common.ISpecification{``0},SharedKernel.Domain.Specifications.Common.ISpecification{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.Or``1(SharedKernel.Domain.Specifications.Common.ISpecification{``0},SharedKernel.Domain.Specifications.Common.ISpecification{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Specifications.Common.ExpressionBuilder.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary>
@@ -659,6 +1925,146 @@
             <see cref="!: Specification{TEntity}" />
             </summary>
             <returns><see cref="!: Specification{TEntity}" /></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.DeletedSpecification`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.DeletedSpecification`1.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.EntityByIdSpecification`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.EntityByIdSpecification`2.#ctor(`1)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.EntityByIdSpecification`2.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.NotDeletedByIdSpecification`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.NotDeletedByIdSpecification`2.#ctor(`1)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.NotDeletedByIdSpecification`2.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.NotDeletedSpecification`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.NotDeletedSpecification`1.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.ObjectContainsOrEqualSpecification`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.ObjectContainsOrEqualSpecification`1.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.ObjectContainsOrEqualSpecification`1.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.PropertiesContainsOrEqualSpecification`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.PropertiesContainsOrEqualSpecification`1.#ctor(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Entities.Paged.Property})">
+            <summary>
+            
+            </summary>
+            <param name="properties"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.PropertiesContainsOrEqualSpecification`1.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.PropertyContainsOrEqualSpecification`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.PropertyContainsOrEqualSpecification`1.#ctor(System.Reflection.PropertyInfo,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="propertyInfo"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.PropertyContainsOrEqualSpecification`1.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.TranslatedSpecification`4">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Specifications.TranslatedSpecification`4.SatisfiedBy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Specifications.TranslatedSpecification`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
         </member>
         <member name="T:SharedKernel.Domain.ValueObjects.ValueObject`1">
             <inheritdoc />

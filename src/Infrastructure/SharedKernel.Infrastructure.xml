@@ -1,0 +1,1057 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedKernel.Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectoryServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectoryServiceExtensions.AddActiveDirectory(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectorySettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectorySettings.Path">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectorySettings.CommonNamesKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.ActiveDirectory.ActiveDirectorySettings.OrganizationalUnitsKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter.#ctor(AutoMapper.MapperConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="mapperConfiguration"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter.MapTo``1(System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter.MapTo``2(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter.MapTo``2(``0,``1)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <param name="source"></param>
+            <param name="destination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapter.ProjectTo``1(System.Linq.IQueryable)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TDestination"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapterFactory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapterFactory.#ctor(AutoMapper.Profile[])">
+            <summary>
+            
+            </summary>
+            <param name="profiles"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapterFactory.Create">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapterServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Adapter.AutoMapper.AutoMapperTypeAdapterServiceExtensions.AddAutoMapper``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,``0,System.Reflection.Assembly[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="TProfile"></typeparam>
+            <param name="services"></param>
+            <param name="profile"></param>
+            <param name="assemblies"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Caching.DistributedCacheServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Caching.DistributedCacheServiceExtensions.AddRedisDistributedCache(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Caching.InMemoryCacheServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Caching.InMemoryCacheServiceExtensions.AddInMemoryCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Communication.Email.EmailException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Communication.Email.EmailException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailSender">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailSender.#ctor(SharedKernel.Application.Settings.IOptionsService{SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings})">
+            <summary>
+            
+            </summary>
+            <param name="emailSettings"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailSender.SendEmailAsync(System.String,System.String,SharedKernel.Application.Communication.Email.EmailAttachment)">
+            <summary>
+            
+            </summary>
+            <param name="subject"></param>
+            <param name="message"></param>
+            <param name="attachment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailSender.SendEmailAsync(System.String,System.String,System.String,SharedKernel.Application.Communication.Email.EmailAttachment)">
+            <summary>
+            
+            </summary>
+            <param name="email"></param>
+            <param name="subject"></param>
+            <param name="message"></param>
+            <param name="attachment"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpEmailServiceExtensions.AddSmtp(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.MailServer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.RequireSsl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.RequireTls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.MailPort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.SenderName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.Sender">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Communication.Email.Smtp.SmtpSettings.Password">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Commands.BackgroundTaskQueue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.BackgroundTaskQueue.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.BackgroundTaskQueue.QueueBackground(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            
+            </summary>
+            <param name="workItem"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.BackgroundTaskQueue.DequeueAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Commands.CommandServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.CommandServiceExtensions.AddCommandsHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="applicationAssembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.CommandServiceExtensions.AddCommandsHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="commandHandlerType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.CommandServiceExtensions.AddInMemoryCommandBus(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Commands.IBackgroundTaskQueue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.IBackgroundTaskQueue.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.IBackgroundTaskQueue.QueueBackground(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            
+            </summary>
+            <param name="workItem"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.IBackgroundTaskQueue.DequeueAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.#ctor(System.IServiceProvider,Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,SharedKernel.Infrastructure.Cqrs.Commands.IBackgroundTaskQueue,SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService,Microsoft.Extensions.Hosting.IHostApplicationLifetime)">
+            <summary>
+            
+            </summary>
+            <param name="serviceProvider"></param>
+            <param name="serviceScopeFactory"></param>
+            <param name="taskQueue"></param>
+            <param name="executeMiddlewaresService"></param>
+            <param name="applicationLifetime"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.Dispatch``1(SharedKernel.Application.Cqrs.Commands.ICommandRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.Dispatch(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.DispatchInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.QueueInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Commands.QueuedHostedService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.QueuedHostedService.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.QueuedHostedService.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.QueuedHostedService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService.#ctor(System.IServiceProvider)">
+            <summary>
+            
+            </summary>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService.Execute(SharedKernel.Domain.Events.IRequest)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService.ExecuteAsync(SharedKernel.Domain.Events.IRequest,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.TimerBehaviour`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.TimerBehaviour`2.#ctor(SharedKernel.Application.Logging.ICustomLogger{`0},SharedKernel.Domain.Security.IIdentityService)">
+            <summary>
+            
+            </summary>
+            <param name="customLogger"></param>
+            <param name="identityService"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.TimerBehaviour`2.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.ValidationBehavior`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.ValidationBehavior`2.#ctor(SharedKernel.Application.Validator.IEntityValidator{`0})">
+            <summary>
+            
+            </summary>
+            <param name="entityValidator"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.ValidationBehavior`2.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Queries.InMemory.InMemoryQueryBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.InMemory.InMemoryQueryBus.#ctor(SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService,System.IServiceProvider)">
+            <summary>
+            
+            </summary>
+            <param name="executeMiddlewaresService"></param>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.InMemory.InMemoryQueryBus.Ask``1(SharedKernel.Application.Cqrs.Queries.IQueryRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="query"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Queries.IQueryRequestHandler`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.IQueryRequestHandler`2.Handle(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="infrastructureAssembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="queryHandlerType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddInMemoryQueryBus(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueryBus(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Dapper.DapperServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.DapperServiceExtensions.AddDapperSqlServer``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TContext"></typeparam>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="connectionStringName"></param>
+            <param name="serviceLifetime"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TDbContextBase"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
+            <summary>
+            
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TReturn"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1.#ctor(System.String,System.String,System.Threading.CancellationToken,System.Object,System.Data.IDbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
+            <summary>
+            
+            </summary>
+            <param name="sqlQuery"></param>
+            <param name="connectionString"></param>
+            <param name="cancellationToken"></param>
+            <param name="param"></param>
+            <param name="transaction"></param>
+            <param name="commandTimeout"></param>
+            <param name="commandType"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1.#ctor(System.String,System.String,System.Object,System.Data.IDbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
+            <summary>
+            
+            </summary>
+            <param name="sqlQuery"></param>
+            <param name="connectionString"></param>
+            <param name="param"></param>
+            <param name="transaction"></param>
+            <param name="commandTimeout"></param>
+            <param name="commandType"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1.GetLatest">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1.SqlConnectionWithDependency">
+            <summary>
+            The sole purpose is to intercept the <see cref="M:System.Data.Common.DbConnection.CreateDbCommand"/> call
+            and associate it with the <see cref="T:Microsoft.Data.SqlClient.SqlDependency"/> before Dapper executes the command
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient.Client">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient.#ctor(Nest.ElasticClient,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="client"></param>
+            <param name="indexPrefix"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient.Persist(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="id"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient.IndexFor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="moduleName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.LanguageTranslatedConfiguration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.LanguageTranslatedConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{SharedKernel.Domain.Entities.Globalization.LanguageTranslated})">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.PropertyBuilderExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.PropertyBuilderExtensions.Currency``1(Microsoft.EntityFrameworkCore.Metadata.Builders.PropertyBuilder{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="TProperty"></typeparam>
+            <param name="propertyBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.PropertyBuilderExtensions.OnlyDate``1(Microsoft.EntityFrameworkCore.Metadata.Builders.PropertyBuilder{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="TProperty"></typeparam>
+            <param name="propertyBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.AuditableService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.AuditableService.#ctor(SharedKernel.Domain.Security.IIdentityService,SharedKernel.Application.System.IDateTime,SharedKernel.Application.System.IGuid,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.AuditableService})">
+            <summary>
+            
+            </summary>
+            <param name="identityService"></param>
+            <param name="dateTime"></param>
+            <param name="guid"></param>
+            <param name="customLogger"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.AuditableService.Audit(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.AuditableService.ModifyAuditableEntities(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            https://stackoverflow.com/questions/26355486/entity-framework-6-audit-track-changes
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase">
+            <summary>
+            Shared kernel DbContext
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions,System.String,System.Reflection.Assembly,SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService,SharedKernel.Domain.Events.IEventBus)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="options"></param>
+            <param name="schema"></param>
+            <param name="assemblyConfigurations"></param>
+            <param name="auditableService"></param>
+            <param name="eventBus"></param>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.Schema">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.GetConnection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.SaveChangesAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.RollbackAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+            <summary>
+            Rollback all changes
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.SetAggregate``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.ServiceCollectionExtensions">
+            <summary>
+            Extensions to add AddDbContextFactory
+            https://github.com/vany0114/EF.DbContextFactory/blob/master/src/Extensions/EFCore.DbContextFactory/Extensions/ServiceCollectionExtensions.cs
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.ServiceCollectionExtensions.AddDbContextFactory``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures the resolution of <typeparamref name="TDataContext"/>'s factory.
+            </summary>
+            <typeparam name="TDataContext">The DbContext.</typeparam>
+            <param name="services"></param>
+            <param name="options">The DbContext options.</param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.ServiceCollectionExtensions.AddDbContextFactory``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{System.IServiceProvider,Microsoft.EntityFrameworkCore.DbContextOptionsBuilder})">
+            <summary>
+            Configures the resolution of <typeparamref name="TDataContext"/>'s factory.
+            </summary>
+            <typeparam name="TDataContext">The DbContext.</typeparam>
+            <param name="services"></param>
+            <param name="optionsAction">Service provider and DbContext options.</param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1">
+            <summary>
+                ENTITY FRAMEWORK CORE REPOSITORY
+            </summary>
+            <typeparam name="TAggregateRoot">Repository data type</typeparam>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1">
+            <summary>
+                ENTITY FRAMEWORK CORE REPOSITORY
+            </summary>
+            <typeparam name="TAggregateRoot">Repository data type</typeparam>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.IPopulateDatabase">
+             <summary>
+             <example>
+             Sample usage:
+             <code>
+             public virtual async Task Populate(CancellationToken cancellationToken)
+             {
+                 if (_dbContext.Database.IsSqlServer())
+                     await _dbContext.Database.MigrateAsync();
+            
+                 _dbContext.Set&lt;Entity&gt;().AddOrNothing(new Entity());
+                 _connection.Execute("INSERT INTO Entity VALUES (1)");
+             </code>
+             </example>
+             </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.IPopulateDatabase.Populate(System.Threading.CancellationToken)">
+             <summary>
+             <example>
+             Sample usage:
+             <code>
+             public virtual async Task Populate(CancellationToken cancellationToken)
+             {
+                 if (_dbContext.Database.IsSqlServer())
+                     await _dbContext.Database.MigrateAsync();
+            
+                 _dbContext.Set&lt;Entity&gt;().AddOrNothing(new Entity());
+                 _connection.Execute("INSERT INTO Entity VALUES (1)");
+             </code>
+             </example>
+             </summary>
+             <param name="cancellationToken"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer.Serialize(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            
+            </summary>
+            <param name="domainEvent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.AddDomainEventSubscribers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Call just before compiling service collections
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Exceptions.ExceptionCodes">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.EF_CORE_SAVE_CHANGES">
+            <summary>
+              Looks up a localized string similar to Problem saving changes..
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.EMAIL_ATTACH_EXT">
+            <summary>
+              Looks up a localized string similar to Attachment required..
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.REDIS_UPDATE">
+            <summary>
+              Looks up a localized string similar to Error in redis update operation..
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Exceptions.ExceptionCodes.SMT_PASS_EMPTY">
+            <summary>
+              Looks up a localized string similar to Smtp password required..
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
+            <summary>
+            Http client extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Add http client with bearer token
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="name"></param>
+            <param name="uri"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Reporting.ReportRenderer">
+            <summary>
+            SQL Server Reporting Services report renderer (rdlc extension)
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Reporting.ReportRenderer.RenderRdlc(System.String,SharedKernel.Application.Reporting.ExportReportType,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Render a rdlc (SQL Server Reporting Services)
+            </summary>
+            <param name="reportPath">Absolute file path</param>
+            <param name="exportReportType">Export file extension</param>
+            <param name="parameters">Report parameters</param>
+            <param name="dataSources">Report datasources</param>
+            <returns>Array file contents</returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.StringToByteArrayFastest(System.String)">
+            <summary>
+                Function to get the bytes of a text string in hex
+                <param name="hex">Text with hex to pass to bytes</param>
+                <returns>Byte array with the hexadecimal string value</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.GetHexVal(System.Char)">
+            <summary>
+                Function to get the integer value of a hex character
+                <param name="hex">Hexadecimal character to pass to int</param>
+                <returns>Int with the character value</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.Encrypt(System.String)">
+            <summary>
+                Function for Text String Encryption
+                <param name="text">Text to encrypt</param>
+                <returns>Encrypted string</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.Decrypt(System.String)">
+            <summary>
+                Function for Decrypting Text Strings
+                <param name="text">Text to decrypt</param>
+                <returns>Decrypted string</returns>
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.GetSignature(System.Byte[],System.String)">
+            <summary>
+            Get HMAC SHA256 signature with 3DES key
+            </summary>
+            <param name="tripeDesKey"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService">
+            <summary>
+            User authentication
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.UserId">
+            <summary>
+            Identifier
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.User">
+            <summary>
+            User
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.IsInRole(System.String)">
+            <summary>
+            Contains a role
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.IsAuthenticated">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.BasePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.UserAgent">
+            <summary>
+            Browser
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.RemoteIpAddress">
+            <summary>
+            Remote ip address
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions.AddSharedKernelHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/src/HealthChecks.System/DependencyInjection/SystemHealthCheckBuilderExtensions.cs
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.StreamHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.StreamHelper.ToByteArray(System.IO.Stream)">
+            <summary>
+            Read the sequence and transform it into bytes
+            Source: https://stackoverflow.com/questions/221925/creating-a-byte-array-from-a-stream
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Validators.FluentValidator`1">
+            <inheritdoc />
+            <summary>
+            Validator based on Data Annotations.
+            This validator use IValidatableObject interface and
+            ValidationAttribute ( hierarchy of this) for
+            perform validation
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{`0}})">
+            <summary>
+            
+            </summary>
+            <param name="validators"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.Validate(`0)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.ValidateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Validators.PageOptionsValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.PageOptionsValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

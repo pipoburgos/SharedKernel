@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedKernel.Api.Gateway</name>
+    </assembly>
+    <members>
+        <member name="T:SharedKernel.Api.Gateway.Middlewares.CurrentCultureMiddleware">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.Middlewares.CurrentCultureMiddleware.UseCurrentCulture(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.Middlewares.ErrorsMiddleware">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.Middlewares.ErrorsMiddleware.UseErrors(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.Middlewares.ServicesPageMiddleware">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.Middlewares.ServicesPageMiddleware.UseServicesPage(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.AuthenticationExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.AuthenticationExtensions.AddAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.HttpClientExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.HttpClientExtensions.AddClient``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="section"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.HttpClientAuthorizationDelegatingHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.HttpClientAuthorizationDelegatingHandler.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            
+            </summary>
+            <param name="httpContextAccesor"></param>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.HttpClientAuthorizationDelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.Authority">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.RequireHttpsMetadata">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.Audience">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.ClientId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.ClientSecret">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.Scope">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenIdOptions.AccessTokenSecondsLifetime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions.Title">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions.AppName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions.XmlDocumentationFile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiExtensions">
+            <summary>
+            Configuración de Swagger
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiExtensions.AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configurar servicios
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApiOptions})">
+            <summary>
+            Configurar aplicación
+            </summary>
+            <param name="app"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.Gateway.ServiceCollectionExtensions.SharedKernelGatewayApiExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Api.Gateway.ServiceCollectionExtensions.SharedKernelGatewayApiExtensions.MyAllowSpecificOrigins">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.SharedKernelGatewayApiExtensions.AddGatewayApi``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAssembly"></typeparam>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.Gateway.ServiceCollectionExtensions.SharedKernelGatewayApiExtensions.AddApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

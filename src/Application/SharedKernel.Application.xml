@@ -818,7 +818,30 @@
             String extensions
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SharedKernel.Application.Extensions.StringExtensions.DictionaryToQueryString(System.Collections.Generic.Dictionary{System.String,System.Object})" -->
+        <member name="M:SharedKernel.Application.Extensions.StringExtensions.DictionaryToQueryString(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+                    /// Example Usage:
+            -------------------------------------------------------
+            <code>
+            var queryParams = new Dictionary&lt;string&gt;()
+            {
+                { "x", "1" },
+                { "y", "2" },
+                { "foo", "bar" },
+                { "foo", "baz" },
+                { "special chars", "? = &#38;" },
+            };
+            string url = "http://example.com/stuff" + ToQueryString(queryParams);
+            
+            Console.WriteLine(url);
+            -------------------------------------------------------
+            Output:
+            <string>http://example.com/stuff?x=1&amp;y=2&amp;foo=bar&amp;foo=baz&amp;special%20chars=%3F%20%3D%20%26</string>
+            </code>
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Extensions.StringExtensions.ConvertTimeSpanToString(System.TimeSpan)">
             <summary>
             
@@ -1274,6 +1297,102 @@
             The default configured <typeparamref name="TOptions"/> instance
             </summary>
         </member>
+        <member name="T:SharedKernel.Application.System.ICulture">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.System.ICulture.LanguageId">
+            <summary>
+            Current user culture
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.System.ICulture.LanguageSpaId">
+            <summary>
+            Spanish default culture
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.System.IDateTime">
+            <summary>
+            Date time manager
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.System.IDateTime.UtcNow">
+            <summary>
+            Machine utc date time
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.System.IDateTime.MaxValue">
+            <summary>
+            Max date time value
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.System.IGuid">
+            <summary>
+            Random Guid generator
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.IGuid.NewGuid">
+            <summary>
+            Generate a random Guid
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.IGuid.NewGuid(System.Int32)">
+            <summary>
+            Generate a Guid from int
+            Sample: from number 15 generates 00000000-0000-0000-0000-000000000015
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.System.ISemaphore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.ISemaphore.BlockAsync(System.Threading.SemaphoreSlim,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="semaphoreSlim"></param>
+            <param name="executeAsync"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.System.IStreamHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.IStreamHelper.ToByteArray(System.IO.Stream)">
+            <summary>
+            
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.System.IStringHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.IStringHelper.ToLowerUnderscore(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.IStringHelper.Replace(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="dataSource"></param>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.System.IWeb">
             <summary>
             
@@ -1307,10 +1426,172 @@
             <param name="str"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Application.System.TaskHelper">
+            <summary>Gets a task that has already completed successfully.</summary>
+            <returns>The successfully completed task.</returns>
+        </member>
+        <member name="P:SharedKernel.Application.System.TaskHelper.CompletedTask">
+            <summary>Gets a task that has already completed successfully.</summary>
+            <returns>The successfully completed task.</returns>
+        </member>
+        <member name="T:SharedKernel.Application.Transactions.IModuleTransactionAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Transactions.IModuleTransactionAsync.Begin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Transactions.IModuleTransactionAsync.End">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.UnitOfWorks.IFileSystemUnitOfWorkAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.UnitOfWorks.IUnitOfWork">
+            <summary>
+            Synchronous unit of work pattern
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.UnitOfWorks.IUnitOfWork.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.UnitOfWorks.IUnitOfWork.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.UnitOfWorks.IUnitOfWorkAsync">
+            <summary>
+            Asynchronous unit of work pattern
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.UnitOfWorks.IUnitOfWorkAsync.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.UnitOfWorks.IUnitOfWorkAsync.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Utils.Dates.DateTimeExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Dates.DateTimeExtensions.ToWeekNumber(System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Dates.DateTimeExtensions.ToReadableString(System.Nullable{System.TimeSpan})">
+            <summary>
+            
+            </summary>
+            <param name="span"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Dates.DateTimeExtensions.ToReadableString(System.TimeSpan)">
+            <summary>
+            
+            </summary>
+            <param name="span"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Dates.DateTimeExtensions.MonthDifference(System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="maxValue"></param>
+            <param name="minValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Utils.Maths.MathUtils">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Maths.MathUtils.GetPercentage(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="num"></param>
+            <param name="total"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.Utils.Taxes.ValueAddedTaxExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Taxes.ValueAddedTaxExtensions.CalculateValueAddedTax(System.Single,System.Nullable{System.Double})">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="valueAddedTax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Taxes.ValueAddedTaxExtensions.CalculateValueAddedTax(System.Double,System.Nullable{System.Double})">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="valueAddedTax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Taxes.ValueAddedTaxExtensions.CalculateWithValueAddedTax(System.Single,System.Nullable{System.Double})">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="valueAddedTax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Utils.Taxes.ValueAddedTaxExtensions.CalculateWithValueAddedTax(System.Double,System.Nullable{System.Double})">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="valueAddedTax"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Validator.IEntityValidator`1">
             <summary>
             The entity validator base contract
             </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.Validate(`0)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.ValidateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Validator.ValidationFailure">
             <summary>Defines a validation failure</summary>
@@ -1348,6 +1629,20 @@
         <member name="M:SharedKernel.Application.Validator.ValidationFailureException.#ctor(System.Collections.Generic.IList{SharedKernel.Application.Validator.ValidationFailure})">
             <summary>Creates a new ValidationException</summary>
             <param name="errors"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailureException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:SharedKernel.Application.Validator.ValidationFailureException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
         </member>
     </members>
 </doc>

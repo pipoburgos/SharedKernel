@@ -20,7 +20,7 @@ namespace SharedKernel.Application.Extensions
         ///     { "y", "2" },
         ///     { "foo", "bar" },
         ///     { "foo", "baz" },
-        ///     { "special chars", "? = &" },
+        ///     { "special chars", "? = &#38;" },
         /// };
         /// string url = "http://example.com/stuff" + ToQueryString(queryParams);
         /// 
