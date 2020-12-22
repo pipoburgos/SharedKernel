@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Application.Security
+﻿using System.Collections.Generic;
+
+namespace SharedKernel.Application.Security
 {
     /// <summary>
     /// Authentication configuration
@@ -33,11 +35,29 @@
         /// <summary>
         /// 
         /// </summary>
-        public string Scope { get; set; }
+        public IEnumerable<Scope> Scopes { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         public int AccessTokenSecondsLifetime { get; set; } = 300;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Scope
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DisplayName { get; set; }
+
     }
 }

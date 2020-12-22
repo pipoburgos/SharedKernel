@@ -80,6 +80,9 @@ namespace SharedKernel.Application.Reflection
         /// <returns></returns>
         public static T CreateInstance<T>(Type type)
         {
+            if (type == default)
+                throw new ArgumentNullException(nameof(type));
+
             var instance = (T)FormatterServices.GetUninitializedObject(type);
 
             if (instance == null)
@@ -179,7 +182,7 @@ namespace SharedKernel.Application.Reflection
                         fieldInfo.SetValue(obj, null);
                     else
 #endif
-                        fieldInfo.SetValue(obj, new Guid(valueString));
+                    fieldInfo.SetValue(obj, new Guid(valueString));
                 }
                 else
                 {

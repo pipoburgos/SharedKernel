@@ -43,6 +43,6 @@
         /// <summary>
         /// RPL
         /// </summary>
-        Rpl = 7,
+        Rpl = 7
     }
 }

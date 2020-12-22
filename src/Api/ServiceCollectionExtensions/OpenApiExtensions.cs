@@ -89,7 +89,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                             {
                                 AuthorizationUrl = new Uri(openIdOptions.Authority),
                                 TokenUrl = new Uri(openIdOptions.Authority + "/connect/token"),
-                                Scopes = new Dictionary<string, string> { { openIdOptions.Scope, "Scope" } }
+                                Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
                             }
                         }
                     });
