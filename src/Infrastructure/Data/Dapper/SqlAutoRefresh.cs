@@ -30,7 +30,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper
         /// </summary>
         /// <param name="sqlQuery"></param>
         /// <param name="connectionString"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="param"></param>
         /// <param name="transaction"></param>
         /// <param name="commandTimeout"></param>

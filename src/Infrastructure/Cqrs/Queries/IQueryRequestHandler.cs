@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         /// 
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<TResponse> Handle(TRequest query, CancellationToken cancellationToken);
     }

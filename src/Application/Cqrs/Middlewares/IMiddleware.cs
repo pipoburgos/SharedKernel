@@ -15,7 +15,7 @@ namespace SharedKernel.Application.Cqrs.Middlewares
         /// Middleware that runs both on the command bus, as well as on the query and event bus
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="next"></param>
         /// <returns></returns>
         Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next);
@@ -32,7 +32,7 @@ namespace SharedKernel.Application.Cqrs.Middlewares
         /// Middleware that runs both on the command bus, as well as on the query and event bus
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="next"></param>
         /// <returns></returns>
         Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next);

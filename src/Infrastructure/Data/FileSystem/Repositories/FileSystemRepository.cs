@@ -2,8 +2,6 @@
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
-using SharedKernel.Domain.Specifications.Common;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,48 +9,52 @@ using System.IO;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
 {
-    public abstract class FileSystemRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
+    public abstract class FileSystemRepository<TAggregateRoot, TKey> :
+        ICreateRepository<TAggregateRoot>
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly string FilePath;
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected FileSystemRepository()
         {
             FilePath = Directory.GetCurrentDirectory() + typeof(TAggregateRoot);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         protected string FileName(string id)
         {
             return $"{FilePath}.{id}.repository";
         }
 
-        //public async Task Save(T course)
-        //{
-        //    await Task.Run(() =>
-        //    {
-        //        using (StreamWriter outputFile = new StreamWriter(FileName(course.Id.Value), false))
-        //        {
-        //            outputFile.WriteLine(JsonConvert.SerializeObject(course));
-        //        }
-        //    });
-        //}
-
-        //public async Task<T> Search(CourseId id)
-        //{
-        //    if (File.Exists(FileName(id.Value)))
-        //    {
-        //        var text = await File.ReadAllTextAsync(FileName(id.Value));
-        //        return JsonConvert.DeserializeObject<Course>(text);
-        //    }
-
-        //    return null;
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregate"></param>
         public void Add(TAggregateRoot aggregate)
         {
             using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
             outputFile.WriteLine(JsonConvert.SerializeObject(aggregate));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregates"></param>
         public void AddRange(IEnumerable<TAggregateRoot> aggregates)
         {
             foreach (var aggregateRoot in aggregates)
@@ -61,6 +63,12 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public TAggregateRoot GetById<TKey>(TKey key)
         {
             if (!File.Exists(FileName(key.ToString())))
@@ -70,61 +78,19 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
             return JsonConvert.DeserializeObject<TAggregateRoot>(text);
         }
 
-        public bool Any()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any<TKey>(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Rollback()
         {
             return 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return 0;

@@ -56,7 +56,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public async Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
         {
@@ -74,7 +74,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// 
         /// </summary>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
         {
@@ -94,7 +94,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// 
         /// </summary>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken)
         {

@@ -5,6 +5,9 @@ using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class EncryptionHexHelper : IEncryptionHexHelper
     {
         #region Properties

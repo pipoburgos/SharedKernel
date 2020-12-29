@@ -4,8 +4,17 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace SharedKernel.Infrastructure.Data.Mongo
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MongoServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddMongo(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<MongoSettings>(configuration.GetSection(nameof(MongoSettings)));

@@ -13,8 +13,20 @@ using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class EntityFrameworkCoreServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <param name="connectionStringName"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <returns></returns>
         public static IServiceCollection AddEntityFrameworkCoreSqlServer<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext

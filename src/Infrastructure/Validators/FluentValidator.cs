@@ -52,7 +52,7 @@ namespace SharedKernel.Infrastructure.Validators
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public async Task ValidateAsync(TRequest item, CancellationToken cancellationToken)
         {

@@ -7,10 +7,17 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DomainEventsInformation
     {
         private static readonly Dictionary<string, Type> IndexedDomainEvents = new();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainAssembly"></param>
         public static void Register(Assembly domainAssembly)
         {
             var domainTypes = GetDomainTypes(domainAssembly);
@@ -22,6 +29,11 @@ namespace SharedKernel.Infrastructure.Events
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Type ForName(string name)
         {
             IndexedDomainEvents.TryGetValue(name, out var value);

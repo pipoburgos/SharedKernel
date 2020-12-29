@@ -29,18 +29,40 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             _factory = factory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
         {
             using var context = _factory.CreateDbContext();
             return context.GetConnection.QueryFirstOrDefaultAsync<T>(sql, parameters);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public async Task<List<T>> ExecuteQueryAsync<T>(string sql, object parameters = null)
         {
             using var context = _factory.CreateDbContext();
             return (await context.GetConnection.QueryAsync<T>(sql, parameters)).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <param name="pageOptions"></param>
+        /// <returns></returns>
         public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions)
         {
             using var context = _factory.CreateDbContext();

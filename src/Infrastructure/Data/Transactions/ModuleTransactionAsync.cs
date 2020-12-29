@@ -5,6 +5,9 @@ using System.Transactions;
 
 namespace SharedKernel.Infrastructure.Data.Transactions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ModuleTransactionAsync : IModuleTransactionAsync
     {
         #region Members
@@ -13,12 +16,17 @@ namespace SharedKernel.Infrastructure.Data.Transactions
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Begin()
         {
-            if (_transaction == null)
-                _transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            _transaction ??= new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void End()
         {
             _transaction.Complete();
@@ -31,18 +39,29 @@ namespace SharedKernel.Infrastructure.Data.Transactions
             _transaction = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        // ReSharper disable once UnusedParameter.Global
         protected virtual void Dispose(bool disposing)
         {
             ReleaseUnmanagedResources();
             Debug.WriteLine("Transaction released !!!");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         ~ModuleTransactionAsync()
         {
             Dispose(false);

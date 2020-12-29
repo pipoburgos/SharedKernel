@@ -13,7 +13,7 @@ namespace SharedKernel.Application.Events
         /// 
         /// </summary>
         /// <param name="event"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task On(DomainEvent @event, CancellationToken cancellationToken);
     }

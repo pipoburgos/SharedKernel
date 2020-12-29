@@ -10,6 +10,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     /// </summary>
     public class DomainEventsToExecute
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly ConcurrentBag<Func<CancellationToken, Task>> Subscribers = new();
     }
 }

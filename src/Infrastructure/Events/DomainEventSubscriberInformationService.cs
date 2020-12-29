@@ -8,25 +8,45 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DomainEventSubscriberInformationService
     {
         private static Dictionary<Type, DomainEventSubscriberInformation> _information;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="information"></param>
         public static void Register(Dictionary<Type, DomainEventSubscriberInformation> information)
         {
             _information = information;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<Type, DomainEventSubscriberInformation>.ValueCollection All()
         {
             return _information.Values;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetAllEventsSubscribers()
         {
             return _information.Values.Select(x => x.SubscriberName()).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
         public static List<string> GetAllEventsSubscribers(DomainEvent @event)
         {
             var values = _information.Values
@@ -64,12 +84,24 @@ namespace SharedKernel.Infrastructure.Events
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
             Type type)
         {
             return services.AddDomainEventsSubscribers(type.Assembly);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
             Assembly assembly)
         {

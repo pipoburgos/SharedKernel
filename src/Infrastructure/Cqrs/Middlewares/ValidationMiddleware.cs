@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="next"></param>
         /// <returns></returns>
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)

@@ -3,11 +3,19 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MachineDateTime : IDateTime
     {
-        //public DateTime Now => DateTime.Now;
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime UtcNow => DateTime.UtcNow;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime MaxValue => DateTime.MaxValue;
     }
 }

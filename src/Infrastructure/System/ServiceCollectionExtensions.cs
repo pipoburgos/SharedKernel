@@ -5,8 +5,18 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="assembly"></param>
+        /// <param name="genericTypes"></param>
+        /// <returns></returns>
         public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly, params Type[] genericTypes)
         {
             var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass);

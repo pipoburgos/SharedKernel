@@ -33,7 +33,7 @@ namespace SharedKernel.Infrastructure.Data
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task Populate(CancellationToken cancellationToken);
     }

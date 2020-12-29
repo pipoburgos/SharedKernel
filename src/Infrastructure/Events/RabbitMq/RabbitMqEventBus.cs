@@ -11,6 +11,9 @@ using RabbitMQ.Client;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMqEventBus : IEventBus
     {
         private const string HeaderReDelivery = "redelivery_count";
@@ -20,6 +23,13 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         private readonly RabbitMqConnectionFactory _config;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="executeMiddlewaresService"></param>
+        /// <param name="domainEventJsonSerializer"></param>
+        /// <param name="config"></param>
+        /// <param name="rabbitMqParams"></param>
         public RabbitMqEventBus(
             // MsSqlEventBus failOverPublisher,
             ExecuteMiddlewaresService executeMiddlewaresService,
@@ -34,11 +44,23 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             _rabbitMqParams = rabbitMqParams;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="events"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
         {
             return Task.WhenAll(events.Select(@event => Publish(@event, cancellationToken)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
             try

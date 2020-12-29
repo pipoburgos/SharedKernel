@@ -3,6 +3,9 @@ using RabbitMQ.Client;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMqConnectionFactory
     {
         private readonly ConnectionFactory _connectionFactory;
@@ -10,6 +13,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         private static IConnection ConnectionPrivate { get; set; }
         private static IModel ChannelPrivate { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rabbitMqParams"></param>
         public RabbitMqConnectionFactory(IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             var configParams = rabbitMqParams.Value;
@@ -23,11 +30,19 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IConnection Connection()
         {
             return ConnectionPrivate ??= _connectionFactory.CreateConnection();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IModel Channel()
         {
             return ChannelPrivate ??= Connection().CreateModel();

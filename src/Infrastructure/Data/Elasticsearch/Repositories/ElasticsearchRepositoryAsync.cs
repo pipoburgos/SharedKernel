@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.Elasticsearch.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
     public abstract class ElasticsearchRepositoryAsync<TAggregateRoot> : ElasticsearchRepository<TAggregateRoot>,
         IPersistRepositoryAsync
         where TAggregateRoot : class, IAggregateRoot // , IEntity<TKey>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
         protected ElasticsearchRepositoryAsync(ElasticsearchClient client) : base(client)
         {
         }
@@ -89,11 +97,21 @@ namespace SharedKernel.Infrastructure.Data.Elasticsearch.Repositories
         //    throw new NotImplementedException();
         //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> RollbackAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(0);

@@ -13,7 +13,7 @@ namespace SharedKernel.Domain.Events
         /// Publish an event to event bus
         /// </summary>
         /// <param name="event"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task Publish(DomainEvent @event, CancellationToken cancellationToken);
 
@@ -21,7 +21,7 @@ namespace SharedKernel.Domain.Events
         /// Publish a list of events to event bus
         /// </summary>
         /// <param name="events"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task Publish(List<DomainEvent> events, CancellationToken cancellationToken);
     }

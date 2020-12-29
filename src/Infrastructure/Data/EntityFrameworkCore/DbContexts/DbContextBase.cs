@@ -97,7 +97,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
@@ -162,6 +162,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         #region Protected Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -171,6 +175,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void Validate()
         {
             var changedEntities = ChangeTracker

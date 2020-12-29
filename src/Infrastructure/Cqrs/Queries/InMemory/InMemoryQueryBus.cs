@@ -38,7 +38,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="query"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public async Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
         {

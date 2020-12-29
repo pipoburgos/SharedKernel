@@ -15,7 +15,7 @@ namespace SharedKernel.Domain.Repositories
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<TAggregate> GetByIdAsync<TKey>(TKey key, CancellationToken cancellationToken);
 
@@ -24,21 +24,21 @@ namespace SharedKernel.Domain.Repositories
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<TAggregate> GetDeleteByIdAsync<TKey>(TKey key, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<bool> AnyAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<int> CountAsync(CancellationToken cancellationToken);
 
@@ -47,7 +47,7 @@ namespace SharedKernel.Domain.Repositories
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken);
     }

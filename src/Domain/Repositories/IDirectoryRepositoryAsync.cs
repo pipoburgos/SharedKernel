@@ -14,7 +14,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<List<string>> GetFilesAsync(string path, CancellationToken cancellationToken);
 
@@ -22,7 +22,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<List<string>> GetFileNamesAsync(string path, CancellationToken cancellationToken);
 
@@ -38,7 +38,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<bool> ExistsAsync(string id, CancellationToken cancellationToken);
 
@@ -46,7 +46,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="directory"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task AddAsync(DirectoryEntity directory, CancellationToken cancellationToken);
     }

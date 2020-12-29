@@ -4,8 +4,17 @@ using System.Runtime.Serialization;
 
 namespace SharedKernel.Infrastructure.Serializers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class BinarySerializer : IBinarySerializer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public byte[] Serialize<T>(T value)
         {
             if (value == null)
@@ -17,6 +26,12 @@ namespace SharedKernel.Infrastructure.Serializers
             return ms.ToArray();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public T Deserialize<T>(byte[] value)
         {
             if (value == null)

@@ -4,8 +4,17 @@ using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RandomNumberGenerator : IRandomNumberGenerator
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        /// <returns></returns>
         public int GetRandom(int minValue, int maxValue)
         {
             var rng = new RNGCryptoServiceProvider();

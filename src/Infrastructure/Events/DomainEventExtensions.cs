@@ -4,8 +4,16 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DomainEventExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainEvent"></param>
+        /// <returns></returns>
         public static Dictionary<string, string> ToPrimitives(this DomainEvent domainEvent)
         {
             var primitives = new Dictionary<string, string>();

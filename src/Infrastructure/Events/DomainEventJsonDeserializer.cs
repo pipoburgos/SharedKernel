@@ -6,8 +6,16 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DomainEventJsonDeserializer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
         public DomainEvent Deserialize(string body)
         {
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);

@@ -15,7 +15,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="file"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task AddAsync(FileEntity file, CancellationToken cancellationToken);
 
@@ -23,7 +23,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<string[]> ReadAllLinesAsync(string path, CancellationToken cancellationToken);
 
@@ -31,7 +31,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken);
 
@@ -39,7 +39,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<bool> ExistsAsync(string id, CancellationToken cancellationToken);
 
@@ -47,7 +47,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<FileEntity> GetAsync(string id, CancellationToken cancellationToken);
 
@@ -55,7 +55,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task DeleteAsync(string id, CancellationToken cancellationToken);
 
@@ -64,7 +64,7 @@ namespace SharedKernel.Domain.Repositories
         /// </summary>
         /// <param name="sourceFileName"></param>
         /// <param name="destFileName"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task CopyAsync(FileEntity sourceFileName, FileEntity destFileName, CancellationToken cancellationToken);
 
@@ -73,7 +73,7 @@ namespace SharedKernel.Domain.Repositories
         /// </summary>
         /// <param name="sourceFileName"></param>
         /// <param name="destFileName"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task MoveAsync(FileEntity sourceFileName, FileEntity destFileName, CancellationToken cancellationToken);
     }

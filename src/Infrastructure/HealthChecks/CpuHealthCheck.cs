@@ -8,15 +8,28 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.HealthChecks
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CpuHealthCheck : IHealthCheck
     {
         private readonly ICustomLogger<CpuHealthCheck> _logger;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
         public CpuHealthCheck(ICustomLogger<CpuHealthCheck> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             var time = Process.GetCurrentProcess().TotalProcessorTime;

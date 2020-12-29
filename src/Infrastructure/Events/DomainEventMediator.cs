@@ -9,16 +9,30 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DomainEventMediator
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceScopeFactory"></param>
         public DomainEventMediator(
             IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="eventSubscriber"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task ExecuteOn(DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
         {
             var queueParts = eventSubscriber.Split('.');

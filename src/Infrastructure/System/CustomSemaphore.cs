@@ -5,8 +5,18 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CustomSemaphore : ISemaphore
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="semaphore"></param>
+        /// <param name="executeAsync"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task BlockAsync(SemaphoreSlim semaphore, Func<Task> executeAsync, CancellationToken cancellationToken)
         {
             // https://blog.cdemi.io/async-waiting-inside-c-sharp-locks/

@@ -7,8 +7,16 @@ using SharedKernel.Application.Cqrs.Queries.Entities;
 
 namespace SharedKernel.Infrastructure.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class EnumExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <returns></returns>
         public static Task<IEnumerable<ComboDto<int>>> FromEnumToComboListAsync<TEnum>() where TEnum : IConvertible
         {
             var list = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()

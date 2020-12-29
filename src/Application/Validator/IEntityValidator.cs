@@ -18,7 +18,7 @@ namespace SharedKernel.Application.Validator
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task ValidateAsync(TEntity item, CancellationToken cancellationToken);
     }

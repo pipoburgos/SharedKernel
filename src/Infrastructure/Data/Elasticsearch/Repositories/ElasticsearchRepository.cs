@@ -1,26 +1,43 @@
 ﻿using Nest;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Specifications.Common;
+using SharedKernel.Domain.Repositories;
 using SharedKernel.Infrastructure.Data.Elasticsearch.Client;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.Elasticsearch.Repositories
 {
-    public abstract class ElasticsearchRepository<TAggregateRoot> : Domain.Repositories.IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot // , IEntity<TKey>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    public abstract class ElasticsearchRepository<TAggregateRoot> :
+        IPersistRepository
+        where TAggregateRoot : class, IAggregateRoot // , IEntity<TKey>
     {
         private readonly ElasticsearchClient _client;
         //private readonly ElasticsearchCriteriaConverter<T> _criteriaConverter;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
         protected ElasticsearchRepository(ElasticsearchClient client)
         {
             _client = client;
             //_criteriaConverter = new ElasticsearchCriteriaConverter<T>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected abstract string ModuleName();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected async Task<IReadOnlyCollection<Dictionary<string, object>>> SearchAllInElastic()
         {
             var searchDescriptor = new SearchDescriptor<TAggregateRoot>();
@@ -37,81 +54,30 @@ namespace SharedKernel.Infrastructure.Data.Elasticsearch.Repositories
         //    return (await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor))?.Documents;
         //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
         protected async Task Persist(string id, string json)
         {
             await _client.Persist(_client.IndexFor(ModuleName()), id, json);
         }
 
-        public void Add(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddRange(IEnumerable<TAggregateRoot> aggregates)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot GetById<TKey>(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any<TKey>(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Rollback()
         {
             return 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return 0;

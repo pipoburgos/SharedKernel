@@ -5,9 +5,15 @@ using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Sha256 : ISha256
     {
 #if NETSTANDARD
+        /// <summary>
+        /// 
+        /// </summary>
         public Sha256()
         {
             // Fix: NotSupportedException: No data is available for encoding 1252
@@ -15,6 +21,12 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         }
 #endif
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string HashHmac(string data, string key)
         {
             key ??= "";

@@ -7,15 +7,27 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RedisDomainEventsConsumer : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceScopeFactory"></param>
         public RedisDomainEventsConsumer(IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var initialScope = _serviceScopeFactory.CreateScope();

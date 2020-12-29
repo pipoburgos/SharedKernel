@@ -15,7 +15,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task UpdateAsync(TAggregate entity, CancellationToken cancellationToken);
 
@@ -23,7 +23,7 @@ namespace SharedKernel.Domain.Repositories
         /// 
         /// </summary>
         /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task UpdateRangeAsync(IEnumerable<TAggregate> entities, CancellationToken cancellationToken);
     }

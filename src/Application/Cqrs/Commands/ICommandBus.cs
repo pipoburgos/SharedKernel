@@ -13,7 +13,7 @@ namespace SharedKernel.Application.Cqrs.Commands
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken);
 
@@ -21,7 +21,7 @@ namespace SharedKernel.Application.Cqrs.Commands
         /// Dispatch a command request that does not return anything
         /// </summary>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task Dispatch(ICommandRequest command, CancellationToken cancellationToken);
 
@@ -29,7 +29,7 @@ namespace SharedKernel.Application.Cqrs.Commands
         /// Dispatch a command request in a background process
         /// </summary>
         /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken);
 

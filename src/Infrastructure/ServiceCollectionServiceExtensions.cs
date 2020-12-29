@@ -19,8 +19,16 @@ using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ServiceCollectionServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddSharedKernel(this IServiceCollection services)
         {
             return services

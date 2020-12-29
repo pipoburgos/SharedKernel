@@ -7,21 +7,40 @@ using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events.MsSql
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MsSqlEventBus : IEventBus
     {
         private readonly DbContext _context;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventContext"></param>
         public MsSqlEventBus(DbContext eventContext)
         {
             _context = eventContext;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="events"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
         {
             await Task.WhenAll(events.Select(domainEvent => Publish(domainEvent, cancellationToken)));
             await _context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainEvent"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task Publish(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
             var value = new DomainEventPrimitive

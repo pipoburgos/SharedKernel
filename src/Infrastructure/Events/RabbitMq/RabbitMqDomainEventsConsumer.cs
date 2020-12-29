@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMqDomainEventsConsumer
     {
         private readonly RabbitMqConnectionFactory _config;
@@ -20,6 +23,14 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         private const int MaxRetries = 2;
         private const string HeaderRedelivery = "redelivery_count";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deserializer"></param>
+        /// <param name="config"></param>
+        /// <param name="domainEventMediator"></param>
+        /// <param name="logger"></param>
+        /// <param name="rabbitMqParams"></param>
         public RabbitMqDomainEventsConsumer(
             DomainEventJsonDeserializer deserializer,
             RabbitMqConnectionFactory config,
@@ -34,6 +45,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             _rabbitMqParams = rabbitMqParams;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Task Consume()
         {
             DomainEventSubscriberInformationService.GetAllEventsSubscribers().ForEach(eventSubscriber => ConsumeMessages(eventSubscriber));

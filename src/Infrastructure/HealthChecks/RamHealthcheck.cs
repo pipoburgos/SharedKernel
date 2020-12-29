@@ -6,15 +6,28 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.HealthChecks
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RamHealthCheck : IHealthCheck
     {
         private readonly ICustomLogger<RamHealthCheck> _logger;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
         public RamHealthCheck(ICustomLogger<RamHealthCheck> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             var process = Process.GetCurrentProcess();

@@ -16,15 +16,29 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TDbContextBase"></typeparam>
     public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContextBase
     {
         private readonly IDbContextFactory<TDbContextBase> _factory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="factory"></param>
         public EntityFrameworkCoreQueryProvider(IDbContextFactory<TDbContextBase> factory)
         {
             _factory = factory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="showDeleted"></param>
+        /// <returns></returns>
         public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
         {
             var query = _factory.CreateDbContext().Set<TEntity>().AsNoTracking();
@@ -40,6 +54,17 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
             return query;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="pageOptions"></param>
+        /// <param name="domainSpecification"></param>
+        /// <param name="dtoSpecification"></param>
+        /// <param name="selector"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task<IPagedList<TResult>> ToPagedListAsync<T, TResult>(PageOptions pageOptions,
             ISpecification<T> domainSpecification = null, ISpecification<TResult> dtoSpecification = null,
             Expression<Func<T, TResult>> selector = null, CancellationToken cancellationToken = default)

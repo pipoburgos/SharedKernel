@@ -5,18 +5,42 @@ using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
 using System;
 using System.Collections.Generic;
-using SharedKernel.Domain.Specifications.Common;
 
 #pragma warning disable 693
 
 namespace SharedKernel.Infrastructure.Data.Redis.Repositories
 {
-    public abstract class RedisRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
+    public abstract class RedisRepository<TAggregateRoot, TKey> :
+        IReadRepository<TAggregateRoot>,
+        IUpdateRepository<TAggregateRoot>,
+        IPersistRepository
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly IDistributedCache DistributedCache;
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly IBinarySerializer BinarySerializer;
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly string AggregateName;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="distributedCache"></param>
+        /// <param name="binarySerializer"></param>
         protected RedisRepository(
             IDistributedCache distributedCache,
             IBinarySerializer binarySerializer)
@@ -26,6 +50,12 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             BinarySerializer = binarySerializer;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public TAggregateRoot GetById<TKey>(TKey key)
         {
             var bytes = DistributedCache.Get(AggregateName + key);
@@ -36,11 +66,21 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             return BinarySerializer.Deserialize<TAggregateRoot>(bytes);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Any()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool Any<TKey>(TKey key)
         {
             var bytes = DistributedCache.Get(AggregateName + key);
@@ -48,11 +88,19 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             return bytes != default && bytes.Length > 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregate"></param>
         public void Update(TAggregateRoot aggregate)
         {
             DistributedCache.Set(AggregateName + aggregate.Id, BinarySerializer.Serialize(aggregate));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregates"></param>
         public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
         {
             foreach (var aggregateRoot in aggregates)
@@ -61,51 +109,19 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             }
         }
 
-        public void Add(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddRange(IEnumerable<TAggregateRoot> aggregates)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(TAggregateRoot aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any(ISpecification<TAggregateRoot> spec)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Rollback()
         {
             return 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return 0;

@@ -13,20 +13,40 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class EventBusServiceExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="eventType"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDomainEvents(this IServiceCollection services,
             Type eventType)
         {
             return services.AddDomainEvents(eventType.Assembly);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="domainAssembly"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDomainEvents(this IServiceCollection services, Assembly domainAssembly)
         {
             DomainEventsInformation.Register(domainAssembly);
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
         {
             return services
@@ -37,6 +57,12 @@ namespace SharedKernel.Infrastructure.Events
                 .AddScoped<IEventBus, InMemoryEventBus>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
@@ -56,6 +82,12 @@ namespace SharedKernel.Infrastructure.Events
                 .AddScoped<RabbitMqDomainEventsConsumer>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             services

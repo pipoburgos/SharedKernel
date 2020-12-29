@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RedisEventBus : IEventBus
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionMultiplexer"></param>
+        /// <param name="executeMiddlewaresService"></param>
+        /// <param name="domainEventJsonSerializer"></param>
         public RedisEventBus(
             IConnectionMultiplexer connectionMultiplexer,
             ExecuteMiddlewaresService executeMiddlewaresService,
@@ -24,11 +33,23 @@ namespace SharedKernel.Infrastructure.Events.Redis
             _domainEventJsonSerializer = domainEventJsonSerializer;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="events"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
         {
             return Task.WhenAll(events.Select(@event => Publish(@event, cancellationToken)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public async Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
             await _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken);

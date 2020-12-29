@@ -11,14 +11,14 @@ namespace SharedKernel.Application.UnitOfWorks
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<int> RollbackAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

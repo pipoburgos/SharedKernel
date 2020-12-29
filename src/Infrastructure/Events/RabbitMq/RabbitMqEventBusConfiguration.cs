@@ -9,15 +9,27 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMqEventBusConfiguration : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceScopeFactory"></param>
         public RabbitMqEventBusConfiguration(IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var scope = _serviceScopeFactory.CreateScope();

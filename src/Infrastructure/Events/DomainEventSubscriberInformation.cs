@@ -3,11 +3,23 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DomainEventSubscriberInformation
     {
         private readonly Type _subscriberClass;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Type SubscribedEvent { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subscriberClass"></param>
+        /// <param name="subscribedEvent"></param>
         public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
         {
             SubscribedEvent = subscribedEvent;
@@ -23,6 +35,10 @@ namespace SharedKernel.Infrastructure.Events
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string SubscriberName()
         {
             return ToSnake(ClassName);

@@ -7,18 +7,35 @@ using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileSystemUnitOfWork : IFileSystemUnitOfWorkAsync
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public ConcurrentBag<DirectoryEntity> Directories;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ConcurrentBag<FileEntity> Files;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public FileSystemUnitOfWork()
         {
             Directories = new ConcurrentBag<DirectoryEntity>();
             Files = new ConcurrentBag<FileEntity>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> RollbackAsync(CancellationToken cancellationToken)
         {
             Directories = new ConcurrentBag<DirectoryEntity>();
@@ -26,6 +43,11 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             foreach (var directory in Directories)
@@ -46,11 +68,19 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
             return Task.FromResult(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int Rollback()
         {
             return RollbackAsync(CancellationToken.None).GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return SaveChangesAsync(CancellationToken.None).GetAwaiter().GetResult();

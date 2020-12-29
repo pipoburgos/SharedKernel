@@ -14,6 +14,10 @@ namespace SharedKernel.Infrastructure.Reporting
     {
         private readonly ICustomLogger<ReportRenderer> _logger;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
         public ReportRenderer(
             ICustomLogger<ReportRenderer> logger)
         {

@@ -14,7 +14,7 @@ namespace SharedKernel.Application.System
         /// </summary>
         /// <param name="semaphoreSlim"></param>
         /// <param name="executeAsync"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task BlockAsync(SemaphoreSlim semaphoreSlim, Func<Task> executeAsync, CancellationToken cancellationToken);
     }

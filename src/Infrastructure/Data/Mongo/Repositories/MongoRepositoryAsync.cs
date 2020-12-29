@@ -10,90 +10,61 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
     public abstract class MongoRepositoryAsync<TAggregateRoot, TKey> : MongoRepository<TAggregateRoot, TKey>,
         ICreateRepositoryAsync<TAggregateRoot>,
         IPersistRepositoryAsync//, IRepositoryAsync<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mongoSettings"></param>
         protected MongoRepositoryAsync(IOptions<MongoSettings> mongoSettings) : base(mongoSettings)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregate"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
             return MongoCollection.InsertOneAsync(aggregate, cancellationToken: cancellationToken);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aggregates"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
             return MongoCollection.InsertManyAsync(aggregates, cancellationToken: cancellationToken);
         }
 
-        //public Task<TAggregateRoot> GetByIdAsync<TKey>(TKey key, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<TAggregateRoot> GetDeleteByIdAsync<TKey>(TKey key, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> AnyAsync(CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task UpdateAsync(TAggregateRoot entity, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task UpdateRangeAsync(IEnumerable<TAggregateRoot> entities, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task RemoveAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task RemoveRangeAsync(IEnumerable<TAggregateRoot> aggregate, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<List<TAggregateRoot>> WhereAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<TAggregateRoot> SingleAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<TAggregateRoot> SingleOrDefaultAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> AnyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> RollbackAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(0);
