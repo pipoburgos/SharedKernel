@@ -36,10 +36,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
+        public async Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
         {
             using var context = _factory.CreateDbContext();
-            return context.GetConnection.QueryFirstOrDefaultAsync<T>(sql, parameters);
+            return await context.GetConnection.QueryFirstOrDefaultAsync<T>(sql, parameters);
         }
 
         /// <summary>

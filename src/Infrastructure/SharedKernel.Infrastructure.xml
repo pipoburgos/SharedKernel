@@ -330,7 +330,7 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.Dispatch(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
@@ -338,7 +338,7 @@
             
             </summary>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.DispatchInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
@@ -346,7 +346,7 @@
             
             </summary>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Cqrs.Commands.InMemory.InMemoryCommandBus.QueueInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest)">
@@ -403,7 +403,7 @@
             
             </summary>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.TimerBehaviour`2">
@@ -425,7 +425,7 @@
             
             </summary>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="next"></param>
             <returns></returns>
         </member>
@@ -447,7 +447,7 @@
             
             </summary>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="next"></param>
             <returns></returns>
         </member>
@@ -469,7 +469,7 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
             <param name="query"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Cqrs.Queries.IQueryRequestHandler`2">
@@ -484,7 +484,7 @@
             
             </summary>
             <param name="query"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension">
@@ -544,11 +544,39 @@
             </summary>
             <typeparam name="TDbContextBase"></typeparam>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`0})">
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
             <summary>
             
             </summary>
             <param name="factory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.ExecuteQueryFirstOrDefaultAsync``1(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.ExecuteQueryAsync``1(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Dapper.Queries.DapperQueryProvider`1.ToPagedListAsync``1(System.String,System.Object,SharedKernel.Application.Cqrs.Queries.Entities.PageOptions)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <param name="pageOptions"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.Dapper.SqlAutoRefresh`1">
             <summary>
@@ -562,7 +590,7 @@
             </summary>
             <param name="sqlQuery"></param>
             <param name="connectionString"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="param"></param>
             <param name="transaction"></param>
             <param name="commandTimeout"></param>
@@ -628,6 +656,159 @@
             </summary>
             <param name="moduleName"></param>
             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.#ctor(SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient)">
+            <summary>
+            
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.ModuleName">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.SearchAllInElastic">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.Persist(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepository`1.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepositoryAsync`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepositoryAsync`1.#ctor(SharedKernel.Infrastructure.Data.Elasticsearch.Client.ElasticsearchClient)">
+            <summary>
+            
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepositoryAsync`1.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Elasticsearch.Repositories.ElasticsearchRepositoryAsync`1.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.AggregateRootIsTranslatableConfigurationBase`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.AggregateRootIsTranslatableConfigurationBase`5.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`1})">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.AggregateRootIsTranslatableConfigurationBase`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityIsTranslatableConfigurationBase`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityIsTranslatableConfigurationBase`5.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`1})">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityIsTranslatableConfigurationBase`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityTranslatedConfiguration`5">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityTranslated"></typeparam>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TLanguage"></typeparam>
+            <typeparam name="TLanguageKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityTranslatedConfiguration`5.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`0})">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.EntityTranslatedConfiguration`3">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntityTranslated"></typeparam>
+            <typeparam name="TEntityKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.LanguageConfiguration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.LanguageConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{SharedKernel.Domain.Entities.Globalization.Language})">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations.LanguageTranslatedConfiguration">
             <summary>
@@ -734,7 +915,7 @@
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.RollbackAsync(System.Threading.CancellationToken)">
@@ -750,48 +931,39 @@
             <typeparam name="TAggregateRoot"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
+            
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase.Validate">
+            <summary>
+            
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.#ctor(System.IServiceProvider)">
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService">
             <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
+            
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.CreateDbContext">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService.Audit(Microsoft.EntityFrameworkCore.DbContext)">
             <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
+            
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IQueryableUnitOfWork">
+            <summary>
+            
             </summary>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IQueryableUnitOfWork.SetAggregate``1">
             <summary>
-                Defines a factory for creating <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instances.
-                A service of this type is registered in the dependency injection container by the
-                <see cref="M:EntityFrameworkServiceCollectionExtensions.AddDbContextPool" /> methods.
+            
             </summary>
-            <typeparam name="TContext"> The <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> type to create. </typeparam>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1.CreateDbContext">
-            <summary>
-                <para>
-                    Creates a new <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instance.
-                </para>
-                <para>
-                    The caller is responsible for disposing the context; it will not be disposed by the dependency injection container.
-                </para>
-            </summary>
-            <returns> A new context instance. </returns>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.ServiceCollectionExtensions">
             <summary>
@@ -815,17 +987,614 @@
             <param name="services"></param>
             <param name="optionsAction">Service provider and DbContext options.</param>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.EntityFrameworkCoreServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.EntityFrameworkCoreServiceExtensions.AddEntityFrameworkCoreSqlServer``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TContext"></typeparam>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="connectionStringName"></param>
+            <param name="serviceLifetime"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions.DbSetExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions.DbSetExtensions.AddOrNothing``2(Microsoft.EntityFrameworkCore.DbSet{``0},System.Threading.CancellationToken,System.Collections.Generic.List{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="dbSet"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <param name="records"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TDbContextBase"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
+            <summary>
+            
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.GetQuery``1(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="showDeleted"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.ToPagedListAsync``2(SharedKernel.Application.Cqrs.Queries.Entities.PageOptions,SharedKernel.Domain.Specifications.Common.ISpecification{``0},SharedKernel.Domain.Specifications.Common.ISpecification{``1},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="pageOptions"></param>
+            <param name="domainSpecification"></param>
+            <param name="dtoSpecification"></param>
+            <param name="selector"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1">
             <summary>
                 ENTITY FRAMEWORK CORE REPOSITORY
             </summary>
             <typeparam name="TAggregateRoot">Repository data type</typeparam>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase)">
+            <summary>
+            
+            </summary>
+            <param name="dbContextBase"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetQuery(System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="tracking"></param>
+            <param name="showDeleted"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetAggregate(System.Linq.IQueryable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetById``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Any``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Where(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Single(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.SingleOrDefault(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Any(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoots"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Remove(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.RemoveRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Update(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.UpdateRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1">
             <summary>
                 ENTITY FRAMEWORK CORE REPOSITORY
             </summary>
             <typeparam name="TAggregateRoot">Repository data type</typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase)">
+            <summary>
+            
+            </summary>
+            <param name="dbContextBase"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.GetByIdAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.GetDeleteByIdAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.GetAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.AnyAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.CountAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.AnyAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.WhereAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.SingleAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.SingleOrDefaultAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.AddRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoots"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.RemoveAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.RemoveRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.UpdateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregateRoot"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.UpdateRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryAsync`1.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.#ctor(SharedKernel.Application.UnitOfWorks.IFileSystemUnitOfWorkAsync)">
+            <summary>
+            
+            </summary>
+            <param name="unitOfWork"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.AddAsync(SharedKernel.Domain.Entities.DirectoryEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="directory"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.GetFilesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.GetFileNamesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.DirectoryRepositoryAsync.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.#ctor(SharedKernel.Application.UnitOfWorks.IFileSystemUnitOfWorkAsync)">
+            <summary>
+            
+            </summary>
+            <param name="unitOfWork"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.ReadAllLinesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.ReadAllBytesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.ExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.AddAsync(SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.GetAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.DeleteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.CopyAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFile"></param>
+            <param name="destFile"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileRepositoryAsync.MoveAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="sourceFile"></param>
+            <param name="destFile"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.FileSystemServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.FileSystemServiceExtensions.AddFileSystemUnitOfWork(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.FilePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.FileName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.GetById``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepository`2.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepositoryAsync`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepositoryAsync`2.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.Repositories.FileSystemRepositoryAsync`2.AddRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.Directories">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.Files">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks.FileSystemUnitOfWork.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.IPopulateDatabase">
              <summary>
@@ -858,8 +1627,397 @@
              </code>
              </example>
              </summary>
-             <param name="cancellationToken"></param>
+             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
              <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Mongo.MongoServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.MongoServiceExtensions.AddMongo(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Mongo.MongoSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Data.Mongo.MongoSettings.ConnectionString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Data.Mongo.MongoSettings.Database">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.MongoCollection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.#ctor(Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Data.Mongo.MongoSettings})">
+            <summary>
+            
+            </summary>
+            <param name="mongoSettings"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.ToBsonDocument(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.ToBsonArray(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.GetById``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Any``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Update(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.UpdateRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Remove(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.RemoveRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Where(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Single(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.SingleOrDefault(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Any(SharedKernel.Domain.Specifications.Common.ISpecification{`0})">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2.#ctor(Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Data.Mongo.MongoSettings})">
+            <summary>
+            
+            </summary>
+            <param name="mongoSettings"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2.AddRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepositoryAsync`2.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.DistributedCache">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.BinarySerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.AggregateName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,SharedKernel.Application.Serializers.IBinarySerializer)">
+            <summary>
+            
+            </summary>
+            <param name="distributedCache"></param>
+            <param name="binarySerializer"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.GetById``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.Any``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.Update(`0)">
+            <summary>
+            
+            </summary>
+            <param name="aggregate"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.UpdateRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            
+            </summary>
+            <param name="aggregates"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.Rollback">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepository`2.SaveChanges">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepositoryAsync`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepositoryAsync`2.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,SharedKernel.Application.Serializers.IBinarySerializer)">
+            <summary>
+            
+            </summary>
+            <param name="distributedCache"></param>
+            <param name="binarySerializer"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepositoryAsync`2.RollbackAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Redis.Repositories.RedisRepositoryAsync`2.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync.Begin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync.End">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync.Dispose(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionAsync.Finalize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Transactions.ModuleTransactionServiceExtensions.AddTransactions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventExtensions.ToPrimitives(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            
+            </summary>
+            <param name="domainEvent"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventsInformation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventsInformation.Register(System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="domainAssembly"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventsInformation.ForName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer.Deserialize(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer">
             <summary>
@@ -873,6 +2031,79 @@
             <param name="domainEvent"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventMediator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.ExecuteOn(SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="eventSubscriber"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation.SubscribedEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation.#ctor(System.Type,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="subscriberClass"></param>
+            <param name="subscribedEvent"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation.SubscriberName">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.Register(System.Collections.Generic.Dictionary{System.Type,SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation})">
+            <summary>
+            
+            </summary>
+            <param name="information"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.All">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.GetAllEventsSubscribers">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.GetAllEventsSubscribers(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.AddDomainEventSubscribers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Call just before compiling service collections
@@ -880,10 +2111,334 @@
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.AddDomainEventsSubscribers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.AddDomainEventsSubscribers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.EventBusServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddDomainEvents(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="eventType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddDomainEvents(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="domainAssembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddInMemoryEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRabbitMqEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRedisEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute">
             <summary>
             
             </summary>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.Subscribers">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.InMemory.InMemoryBackgroundService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryBackgroundService.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryBackgroundService.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.MsSql.MsSqlEventBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.MsSql.MsSqlEventBus.#ctor(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            
+            </summary>
+            <param name="eventContext"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.MsSql.MsSqlEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.MsSql.MsSqlEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="domainEvent"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams.Username">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams.Password">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams.HostName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams.ExchangeName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams.Port">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory.#ctor(Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams})">
+            <summary>
+            
+            </summary>
+            <param name="rabbitMqParams"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory.Connection">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory.Channel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer.#ctor(SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer,SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory,SharedKernel.Infrastructure.Events.DomainEventMediator,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer},Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams})">
+            <summary>
+            
+            </summary>
+            <param name="deserializer"></param>
+            <param name="config"></param>
+            <param name="domainEventMediator"></param>
+            <param name="logger"></param>
+            <param name="rabbitMqParams"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer.Consume">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBus.#ctor(SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService,SharedKernel.Infrastructure.Events.DomainEventJsonSerializer,SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory,Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams})">
+            <summary>
+            
+            </summary>
+            <param name="executeMiddlewaresService"></param>
+            <param name="domainEventJsonSerializer"></param>
+            <param name="config"></param>
+            <param name="rabbitMqParams"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBusConfiguration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBusConfiguration.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqEventBusConfiguration.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqExchangeNameFormatter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqExchangeNameFormatter.Retry(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="exchangeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqExchangeNameFormatter.DeadLetter(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="exchangeName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqQueueNameFormatter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqQueueNameFormatter.Format(SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation)">
+            <summary>
+            
+            </summary>
+            <param name="information"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqQueueNameFormatter.FormatRetry(SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation)">
+            <summary>
+            
+            </summary>
+            <param name="information"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqQueueNameFormatter.FormatDeadLetter(SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation)">
+            <summary>
+            
+            </summary>
+            <param name="information"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.Redis.RedisDomainEventsConsumer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisDomainEventsConsumer.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisDomainEventsConsumer.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.Redis.RedisEventBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisEventBus.#ctor(StackExchange.Redis.IConnectionMultiplexer,SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService,SharedKernel.Infrastructure.Events.DomainEventJsonSerializer)">
+            <summary>
+            
+            </summary>
+            <param name="connectionMultiplexer"></param>
+            <param name="executeMiddlewaresService"></param>
+            <param name="domainEventJsonSerializer"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Exceptions.ExceptionCodes">
             <summary>
@@ -921,10 +2476,234 @@
               Looks up a localized string similar to Smtp password required..
             </summary>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Exceptions.SharedKernelInfrastructureException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Exceptions.SharedKernelInfrastructureException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Exceptions.SharedKernelInfrastructureException.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.HealthChecks.CpuHealthCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.CpuHealthCheck.#ctor(SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.HealthChecks.CpuHealthCheck})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.CpuHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.HealthChecks.PingHealthCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.PingHealthCheck.#ctor(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="host"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.PingHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.HealthChecks.RamHealthCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.RamHealthCheck.#ctor(SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.HealthChecks.RamHealthCheck})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.RamHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
+            <summary>
+            Http client extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Add http client with bearer token
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="name"></param>
+            <param name="uri"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.#ctor(Microsoft.Extensions.Logging.ILogger{`0})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Verbose(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Debug(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Info(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Warn(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Warn(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Error(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1.Fatal(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.#ctor(Microsoft.Extensions.Logging.ILogger{SharedKernel.Infrastructure.Logging.DefaultCustomLogger})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Verbose(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Debug(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Info(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Warn(System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Warn(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Error(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Logging.DefaultCustomLogger.Fatal(System.Exception,System.String,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="exception"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Reporting.ReportRenderer">
             <summary>
             SQL Server Reporting Services report renderer (rdlc extension)
             </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Reporting.ReportRenderer.#ctor(SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Reporting.ReportRenderer})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
         </member>
         <member name="M:SharedKernel.Infrastructure.Reporting.ReportRenderer.RenderRdlc(System.String,SharedKernel.Application.Reporting.ExportReportType,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
@@ -935,6 +2714,30 @@
             <param name="parameters">Report parameters</param>
             <param name="dataSources">Report datasources</param>
             <returns>Array file contents</returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Base64">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.EncodeTo64(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.DecodeFrom64(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper">
+            <summary>
+            
+            </summary>
         </member>
         <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.StringToByteArrayFastest(System.String)">
             <summary>
@@ -964,12 +2767,91 @@
                 <returns>Decrypted string</returns>
             </summary>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.RandomNumberGenerator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.RandomNumberGenerator.GetRandom(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm.Generate512String(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inputString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm.Generate512String(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm.Generate256String(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="inputString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm.Generate256String(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.SecureHashAlgorithm.GetStringFromHash(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="hash"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Sha256">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.HashHmac(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.GetSignature(System.Byte[],System.String)">
             <summary>
             Get HMAC SHA256 signature with 3DES key
             </summary>
             <param name="tripeDesKey"></param>
             <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.TripleDes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.TripleDes.Encrypt(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="textKey"></param>
+            <param name="content"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService">
@@ -1022,11 +2904,211 @@
             Remote ip address
             </summary>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Serializers.BinarySerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.BinarySerializer.Serialize``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.BinarySerializer.Deserialize``1(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Serializers.NetJsonSerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NetJsonSerializer.Serialize(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NetJsonSerializer.Deserialize``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NetJsonSerializer.DeserializeAnonymousType``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Serializers.NewtonsoftSerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NewtonsoftSerializer.Serialize(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NewtonsoftSerializer.Deserialize``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.NewtonsoftSerializer.DeserializeAnonymousType``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Serializers.SerializersServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.SerializersServiceExtensions.AddNetJsonSerializer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Serializers.SerializersServiceExtensions.AddNewtonsoftSerializer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions.AddSharedKernel(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions.AddSharedKernelHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/src/HealthChecks.System/DependencyInjection/SystemHealthCheckBuilderExtensions.cs
             </summary>
             <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Settings.OptionsService`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TOptions"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Settings.OptionsService`1.#ctor(Microsoft.Extensions.Options.IOptions{`0})">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Settings.OptionsService`1.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.CustomSemaphore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.CustomSemaphore.BlockAsync(System.Threading.SemaphoreSlim,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="semaphore"></param>
+            <param name="executeAsync"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.EnumExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.EnumExtensions.FromEnumToComboListAsync``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEnum"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.GuidGenerator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.GuidGenerator.NewGuid">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.GuidGenerator.NewGuid(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.MachineDateTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.System.MachineDateTime.UtcNow">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.System.MachineDateTime.MaxValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.ServiceCollectionExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.ServiceCollectionExtensions.AddFromAssembly(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Type[])">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="assembly"></param>
+            <param name="genericTypes"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.System.StreamHelper">
@@ -1040,6 +3122,96 @@
             Source: https://stackoverflow.com/questions/221925/creating-a-byte-array-from-a-stream
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.StringHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.StringHelper.ToLowerUnderscore(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.StringHelper.Replace(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="dataSource"></param>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.ThreadUiCulture">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.System.ThreadUiCulture.LanguageId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.System.ThreadUiCulture.LanguageSpaId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.WebUtils">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.WebUtils.HtmlEncode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.WebUtils.HtmlDecode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.WebUtils.UrlEncode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.WebUtils.UrlDecode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions.Uri``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions.PhoneNumber``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Validators.FluentValidator`1">
@@ -1068,7 +3240,7 @@
             
             </summary>
             <param name="item"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Validators.PageOptionsValidator">

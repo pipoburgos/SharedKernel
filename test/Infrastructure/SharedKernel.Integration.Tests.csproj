@@ -14,11 +14,15 @@
     <None Remove="appsettings.serilog.json" />
     <None Remove="appsettings.smtp.json" />
     <None Remove="appsettings.sqlServer.json" />
+    <None Remove="Data\Dapper\Queries\appsettings.sqlServer.json" />
     <None Remove="Events\Redis\appsettings.redis.json" />
     <None Remove="Photo.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Mongo\appsettings.mongo.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

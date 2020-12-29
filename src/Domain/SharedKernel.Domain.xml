@@ -911,7 +911,7 @@
             Publish an event to event bus
             </summary>
             <param name="event"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
@@ -919,7 +919,7 @@
             Publish a list of events to event bus
             </summary>
             <param name="events"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Events.IRequest">
@@ -1017,7 +1017,7 @@
             
             </summary>
             <param name="aggregate"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.ICreateRepositoryAsync`1.AddRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
@@ -1025,7 +1025,7 @@
             
             </summary>
             <param name="aggregates"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IDeleteRepository`1">
@@ -1057,7 +1057,7 @@
             
             </summary>
             <param name="aggregate"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDeleteRepositoryAsync`1.RemoveRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
@@ -1065,7 +1065,7 @@
             
             </summary>
             <param name="aggregate"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IDirectoryRepository">
@@ -1078,7 +1078,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFileNamesAsync(System.String,System.Threading.CancellationToken)">
@@ -1086,7 +1086,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
@@ -1102,7 +1102,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepository.AddAsync(SharedKernel.Domain.Entities.DirectoryEntity,System.Threading.CancellationToken)">
@@ -1110,7 +1110,7 @@
             
             </summary>
             <param name="directory"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync">
@@ -1123,7 +1123,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFileNamesAsync(System.String,System.Threading.CancellationToken)">
@@ -1131,7 +1131,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.GetFilesEntitiesAsync(System.String,System.Threading.CancellationToken)">
@@ -1147,7 +1147,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IDirectoryRepositoryAsync.AddAsync(SharedKernel.Domain.Entities.DirectoryEntity,System.Threading.CancellationToken)">
@@ -1155,7 +1155,7 @@
             
             </summary>
             <param name="directory"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IFileRepository">
@@ -1168,7 +1168,7 @@
             
             </summary>
             <param name="file"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ReadAllLinesAsync(System.String,System.Threading.CancellationToken)">
@@ -1176,7 +1176,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ReadAllBytesAsync(System.String,System.Threading.CancellationToken)">
@@ -1184,7 +1184,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.ExistsAsync(System.String,System.Threading.CancellationToken)">
@@ -1192,7 +1192,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.GetAsync(System.String,System.Threading.CancellationToken)">
@@ -1200,7 +1200,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.DeleteAsync(System.String,System.Threading.CancellationToken)">
@@ -1208,7 +1208,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.CopyAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
@@ -1217,7 +1217,7 @@
             </summary>
             <param name="sourceFileName"></param>
             <param name="destFileName"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepository.MoveAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
@@ -1226,7 +1226,7 @@
             </summary>
             <param name="sourceFileName"></param>
             <param name="destFileName"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IFileRepositoryAsync">
@@ -1239,7 +1239,7 @@
             
             </summary>
             <param name="file"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ReadAllLinesAsync(System.String,System.Threading.CancellationToken)">
@@ -1247,7 +1247,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ReadAllBytesAsync(System.String,System.Threading.CancellationToken)">
@@ -1255,7 +1255,7 @@
             
             </summary>
             <param name="path"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.ExistsAsync(System.String,System.Threading.CancellationToken)">
@@ -1263,7 +1263,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.GetAsync(System.String,System.Threading.CancellationToken)">
@@ -1271,7 +1271,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.DeleteAsync(System.String,System.Threading.CancellationToken)">
@@ -1279,7 +1279,7 @@
             
             </summary>
             <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.CopyAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
@@ -1288,7 +1288,7 @@
             </summary>
             <param name="sourceFileName"></param>
             <param name="destFileName"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IFileRepositoryAsync.MoveAsync(SharedKernel.Domain.Entities.FileEntity,SharedKernel.Domain.Entities.FileEntity,System.Threading.CancellationToken)">
@@ -1297,7 +1297,7 @@
             </summary>
             <param name="sourceFileName"></param>
             <param name="destFileName"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IPersistRepository">
@@ -1326,14 +1326,14 @@
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IPersistRepositoryAsync.SaveChangesAsync(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IReadRepository`1">
@@ -1376,7 +1376,7 @@
             </summary>
             <typeparam name="TKey"></typeparam>
             <param name="key"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.GetDeleteByIdAsync``1(``0,System.Threading.CancellationToken)">
@@ -1385,21 +1385,21 @@
             </summary>
             <typeparam name="TKey"></typeparam>
             <param name="key"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.AnyAsync(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.CountAsync(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1.AnyAsync``1(``0,System.Threading.CancellationToken)">
@@ -1408,7 +1408,7 @@
             </summary>
             <typeparam name="TKey"></typeparam>
             <param name="key"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IReadSpecificationRepository`1">
@@ -1456,7 +1456,7 @@
             
             </summary>
             <param name="spec"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.SingleAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
@@ -1464,7 +1464,7 @@
             
             </summary>
             <param name="spec"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.SingleOrDefaultAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
@@ -1472,7 +1472,7 @@
             
             </summary>
             <param name="spec"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IReadSpecificationRepositoryAsync`1.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
@@ -1480,7 +1480,7 @@
             
             </summary>
             <param name="spec"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IRepository`1">
@@ -1524,7 +1524,7 @@
             
             </summary>
             <param name="entity"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Domain.Repositories.IUpdateRepositoryAsync`1.UpdateRangeAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
@@ -1532,7 +1532,7 @@
             
             </summary>
             <param name="entities"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Domain.Security.IIdentityService">

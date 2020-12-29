@@ -248,7 +248,7 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.Dispatch(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
@@ -256,7 +256,7 @@
             Dispatch a command request that does not return anything
             </summary>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.DispatchInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest,System.Threading.CancellationToken)">
@@ -264,7 +264,7 @@
             Dispatch a command request in a background process
             </summary>
             <param name="command"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.QueueInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest)">
@@ -296,7 +296,7 @@
             Middleware that runs both on the command bus, as well as on the query and event bus
             </summary>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="next"></param>
             <returns></returns>
         </member>
@@ -312,7 +312,7 @@
             Middleware that runs both on the command bus, as well as on the query and event bus
             </summary>
             <param name="request"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="next"></param>
             <returns></returns>
         </member>
@@ -568,7 +568,7 @@
             
             </summary>
             <param name="event"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Events.DomainEventSubscriber`1.On(`0,System.Threading.CancellationToken)">
@@ -576,7 +576,7 @@
             
             </summary>
             <param name="event"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Events.IDomainEventSubscriberBase">
@@ -589,7 +589,7 @@
             
             </summary>
             <param name="event"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Exceptions.ExceptionCodes">
@@ -1372,7 +1372,7 @@
             </summary>
             <param name="semaphoreSlim"></param>
             <param name="executeAsync"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.System.IStreamHelper">
@@ -1495,14 +1495,14 @@
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.UnitOfWorks.IUnitOfWorkAsync.SaveChangesAsync(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Utils.Dates.DateTimeExtensions">
@@ -1605,7 +1605,7 @@
             
             </summary>
             <param name="item"></param>
-            <param name="cancellationToken"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Validator.ValidationFailure">
