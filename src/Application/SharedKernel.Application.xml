@@ -1226,12 +1226,27 @@
             /
             </summary>
         </member>
-        <member name="P:SharedKernel.Application.Security.OpenIdOptions.Scope">
+        <member name="P:SharedKernel.Application.Security.OpenIdOptions.Scopes">
             <summary>
             
             </summary>
         </member>
         <member name="P:SharedKernel.Application.Security.OpenIdOptions.AccessTokenSecondsLifetime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Application.Security.Scope">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.Scope.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Application.Security.Scope.DisplayName">
             <summary>
             
             </summary>

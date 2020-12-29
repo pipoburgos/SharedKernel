@@ -50,9 +50,9 @@ namespace SharedKernel.Infrastructure.Logging
 
     public class DefaultCustomLogger : Application.Logging.ICustomLogger
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<DefaultCustomLogger> _logger;
 
-        public DefaultCustomLogger(ILogger logger)
+        public DefaultCustomLogger(ILogger<DefaultCustomLogger> logger)
         {
             _logger = logger;
         }

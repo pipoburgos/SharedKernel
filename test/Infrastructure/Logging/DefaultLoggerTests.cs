@@ -37,7 +37,7 @@ namespace SharedKernel.Integration.Tests.Logging
         {
             var serilog = GetService<ILogger<DefaultLoggerTests>>();
 
-            var log = new DefaultCustomLogger(serilog);
+            var log = new DefaultCustomLogger<DefaultLoggerTests>(serilog);
 
             log.Info("Test info message");
 

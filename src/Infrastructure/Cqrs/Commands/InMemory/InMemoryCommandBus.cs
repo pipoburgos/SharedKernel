@@ -137,8 +137,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 
         private CommandHandlerWrapperResponse<TResponse> GetWrappedHandlers<TResponse>(ICommandRequest<TResponse> command)
         {
-            var handlerType = typeof(ICommandRequestHandler<,>).MakeGenericType(command.GetType());
-            var wrapperType = typeof(CommandHandlerWrapperResponse<,>).MakeGenericType(command.GetType());
+            var handlerType = typeof(ICommandRequestHandler<,>).MakeGenericType(command.GetType(), typeof(TResponse));
+            var wrapperType = typeof(CommandHandlerWrapperResponse<,>).MakeGenericType(command.GetType(), typeof(TResponse));
 
             var handlers =
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
