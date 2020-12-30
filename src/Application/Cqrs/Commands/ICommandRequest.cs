@@ -14,7 +14,7 @@ namespace SharedKernel.Application.Cqrs.Commands
     /// </summary>
     /// <typeparam name="TResponse"></typeparam>
     // ReSharper disable once UnusedTypeParameter
-    public interface ICommandRequest<out TResponse> : ICommandRequest
+    public interface ICommandRequest<out TResponse> : IRequest
     {
     }
 }

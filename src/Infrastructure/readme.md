@@ -6,29 +6,28 @@
 {
   "MongoSettings": {
     "ConnectionString": "mongodb://localhost:27017",
-    "Database": "ModuleName"
+    "Database": "XXX"
   }
 }
 ```
 ```cs
-namespace ModuleName.Infrastructure
+namespace XXX.Infrastructure
 {
-    public static class ModuleNameModule
+    public static class XXXModule
     {
-        public static IServiceCollection AddModuleNameModule(this IServiceCollection services,
+        public static IServiceCollection AddXXXModule(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName)
         {
             return services
-                .AddScoped<IPopulateDatabase, PopulateDatabase>()
-                .AddAutoMapper(new ModuleNameAutoMapperProfile(), typeof(ApplicationCommandHandler).Assembly,
+                .AddAutoMapper(new XXXAutoMapperProfile(), typeof(ApplicationCommandHandler).Assembly,
                     typeof(UserRegistered).Assembly,
-                    typeof(ModuleNameDbContext).Assembly)
-                .AddDomainEvents(typeof(UserRegistered))
-                .AddDomainEventsSubscribers(typeof(UserRegisteredSusbcriber))
+                    typeof(XXXDbContext).Assembly)
+                .AddDomainEvents(typeof(XXXEvent))
+                .AddDomainEventsSubscribers(typeof(XXXEventSusbcriber))
                 .AddCommandsHandlers(typeof(ApplicationCommandHandler))
-                .AddQueriesHandlers(typeof(ModuleNameDbContext))
-                .AddDapperSqlServer<ModuleNameDbContext>(configuration, connectionStringName)
-                .AddEntityFrameworkCoreSqlServer<ModuleNameDbContext>(configuration, connectionStringName)
+                .AddQueriesHandlers(typeof(InfrastructureQueryHandler))
+                .AddDapperSqlServer<XXXDbContext>(configuration, connectionStringName)
+                .AddEntityFrameworkCoreSqlServer<XXXDbContext>(configuration, connectionStringName)
                 .AddMongo(configuration)
                 .AddApplicationServices()
                 .AddDomainServices()
@@ -37,22 +36,21 @@ namespace ModuleName.Infrastructure
 
         private static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            return services;
+            return services
+                .AddTransient<SampleApplicationService>();
         }
         
         private static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             return services
-                .AddTransient<MakeModuleNameWithInvoice>();
+                .AddTransient<SampleDomainService>();
         }
 
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
-                .AddTransient<ICompanyRepository, CompanyEntityFrameworkCoreRepository>()
-                .AddTransient<IInvoiceRepository, InvoiceEntityFrameworkCoreRepository>()
-                .AddTransient<IUserRepository, UserEntityFrameworkCoreRepository>()
-                .AddTransient<IModuleNameMadeRepository, ModuleNameMadeEntityFrameworkCoreRepository>();
+                .AddTransient<IXXXRepository, XXXMongoRepository>();
+                .AddTransient<IXXXRepository, XXXEntityFrameworkCoreRepository>();
         }
     }
 }
