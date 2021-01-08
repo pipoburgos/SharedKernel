@@ -105,8 +105,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             {
                 Validate();
                 _auditableService?.Audit(this);
-                await DispatchDomainEventsAsync(cancellationToken);
                 var result = await base.SaveChangesAsync(cancellationToken);
+
+                if (_eventBus != default)
+                    await DispatchDomainEventsAsync(cancellationToken);
+
                 return result;
             }
             catch (Exception ex)

@@ -13,6 +13,8 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// <summary>
         /// 
         /// </summary>
-        public readonly ConcurrentBag<Func<CancellationToken, Task>> Subscribers = new();
+        public ConcurrentBag<Func<CancellationToken, Task>> Subscribers = new();
+
+        // TODO: Falta poner privado el ConcurrentBag y crear métodos públicos de acceso
     }
 }
