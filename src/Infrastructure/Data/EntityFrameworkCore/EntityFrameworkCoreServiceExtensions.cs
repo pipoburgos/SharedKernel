@@ -31,8 +31,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             IConfiguration configuration, string connectionStringName,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
+            var connectionString = configuration.GetConnectionString(connectionStringName);
+
             services.AddHealthChecks()
-                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server EFCore",
+                .AddSqlServer(connectionString, "SELECT 1;", "Sql Server EFCore",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services
@@ -44,7 +46,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
                 .AddTransient<IAuditableService, AuditableService>();
 
             services.AddDbContext<TContext>(s => s
-                .UseSqlServer(configuration.GetConnectionString(connectionStringName))
+                .UseSqlServer(connectionString)
                 .EnableSensitiveDataLogging(), serviceLifetime);
 
 #if NET461
@@ -52,6 +54,24 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 #else
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
+
+            return services;
+        }
+
+        /// <summary>
+        /// Add service PostgreSQL into IServiceCollection
+        /// </summary>
+        public static IServiceCollection AddPostgreSql<TContext>(this IServiceCollection services,
+            IConfiguration configuration, string connectionStringName) where TContext : DbContext
+        {
+            var connectionString = configuration.GetConnectionString(connectionStringName);
+
+            services.AddHealthChecks()
+                .AddNpgSql(connectionString);
+
+            services.AddDbContext<TContext>(p => p
+                .UseNpgsql(connectionString)
+            );
 
             return services;
         }
