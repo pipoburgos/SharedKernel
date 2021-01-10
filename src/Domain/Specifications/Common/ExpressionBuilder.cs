@@ -43,18 +43,6 @@ namespace SharedKernel.Domain.Specifications.Common
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static ISpecification<T> Or<T>(this ISpecification<T> first, ISpecification<T> second) where T : class
-        {
-            return new OrSpecification<T>(first, second);
-        }
-
-        /// <summary>
         /// And operator
         /// </summary>
         /// <typeparam name="T">Type of params in expression</typeparam>
@@ -65,6 +53,18 @@ namespace SharedKernel.Domain.Specifications.Common
             Expression<Func<T, bool>> second)
         {
             return first.Compose(second, Expression.And);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static ISpecification<T> Or<T>(this ISpecification<T> first, ISpecification<T> second) where T : class
+        {
+            return new OrSpecification<T>(first, second);
         }
 
         /// <summary>

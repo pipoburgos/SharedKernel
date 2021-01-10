@@ -47,7 +47,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
             var handler = GetWrappedHandlers(query);
 
             if (handler == null)
-                throw new QueryNotRegisteredError(query.ToString());
+                throw new QueryNotRegisteredException(query.ToString());
 
             return await handler.Handle(query, _serviceProvider, cancellationToken);
         }

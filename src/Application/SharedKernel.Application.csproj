@@ -14,6 +14,7 @@
     <Description></Description>
     <DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
     <PackageTags>C# CQRS CommandBus, EventBus SSRS UnitOfWork</PackageTags>
+    <CodeAnalysisRuleSet>..\..\.sonarlint\sharedkernelcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
@@ -22,6 +23,10 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="Exceptions\ExceptionCodes.es-ES.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\sharedkernel\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup>

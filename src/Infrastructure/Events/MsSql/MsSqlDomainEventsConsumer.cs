@@ -29,7 +29,6 @@ namespace SharedKernel.Infrastructure.Events.MsSql
             await Task.WhenAll(_context
                 .Set<DomainEventPrimitive>()
                 .Take(Chunk)
-                .ToList()
                 .Select(domainEvent => ExecuteSubscribersAsync(domainEvent, cancellationToken)));
 
             await _context.SaveChangesAsync(cancellationToken);

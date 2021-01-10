@@ -118,12 +118,12 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         /// 
         /// </summary>
         /// <param name="sourceFile"></param>
-        /// <param name="destFile"></param>
+        /// <param name="destFileName"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task CopyAsync(FileEntity sourceFile, FileEntity destFile, CancellationToken cancellationToken)
+        public Task CopyAsync(FileEntity sourceFile, FileEntity destFileName, CancellationToken cancellationToken)
         {
-            File.Copy(sourceFile.Id, destFile.Id);
+            File.Copy(sourceFile.Id, destFileName.Id);
             return Task.FromResult(0);
         }
 

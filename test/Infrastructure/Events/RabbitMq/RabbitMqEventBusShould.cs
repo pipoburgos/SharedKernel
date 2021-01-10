@@ -30,8 +30,10 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         [Fact]
         public async Task PublishDomainEventFromRabbitMq()
         {
-            await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
-                GetRequiredService<PublishUserCreatedDomainEvent>(), 2_500);
+            var user = await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>());
+            var singletonValueContainer = GetRequiredService<PublishUserCreatedDomainEvent>();
+            Assert.Equal(user.Id, singletonValueContainer.UserId);
+            Assert.True(singletonValueContainer.Total >= 2);
         }
     }
 }

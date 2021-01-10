@@ -12,11 +12,16 @@
     <Company>Roberto Fernández Salinas</Company>
     <Description></Description>
     <DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\..\.sonarlint\sharedkernelcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
     <DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\sharedkernel\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />

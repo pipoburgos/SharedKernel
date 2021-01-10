@@ -3,7 +3,7 @@ using System;
 
 namespace SharedKernel.Domain.Tests.Users
 {
-    internal class UserMother
+    internal static class UserMother
     {
         public static User Create(Guid id = default, string name = default)
         {
@@ -19,7 +19,7 @@ namespace SharedKernel.Domain.Tests.Users
         }
     }
 
-    internal class AddressMother
+    internal static class AddressMother
     {
         public static Address Create(string company = default, int number = default, string street = default, string city = default)
         {
@@ -41,7 +41,7 @@ namespace SharedKernel.Domain.Tests.Users
         }
     }
 
-    internal class EmailMother
+    internal static class EmailMother
     {
         public static string Create()
         {

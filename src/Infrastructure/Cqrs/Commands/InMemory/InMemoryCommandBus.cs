@@ -65,7 +65,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var wrappedHandlers = GetWrappedHandlers(command);
 
             if (wrappedHandlers == null)
-                throw new CommandNotRegisteredError(command.ToString());
+                throw new CommandNotRegisteredException(command.ToString());
 
             return await wrappedHandlers.Handle(command, _serviceProvider, cancellationToken);
         }
@@ -76,14 +76,14 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// <param name="command"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
+        public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken)
         {
             await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
 
             var wrappedHandlers = GetWrappedHandlers(command);
 
             if (wrappedHandlers == null)
-                throw new CommandNotRegisteredError(command.ToString());
+                throw new CommandNotRegisteredException(command.ToString());
 
             var tasks = wrappedHandlers.Select(handler => handler.Handle(command, _serviceProvider, cancellationToken));
 

@@ -21,8 +21,8 @@ namespace SharedKernel.Domain.Entities
         /// 
         /// </summary>
         /// <param name="deletedAt"></param>
-        /// <param name="userId"></param>
-        void Delete(DateTime deletedAt, Guid userId);
+        /// <param name="deletedBy"></param>
+        void Delete(DateTime deletedAt, Guid deletedBy);
 
         /// <summary>
         /// 

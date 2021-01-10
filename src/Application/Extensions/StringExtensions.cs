@@ -37,10 +37,6 @@ namespace SharedKernel.Application.Extensions
             if (parameters == null)
                 return string.Empty;
 
-            //if (parameters == null)
-            //    parameters = new Dictionary<string, object> { { "json", true } };
-            //else
-            //    parameters.Add("json", true);
             var sb = new StringBuilder("?");
 
             var first = true;
@@ -49,7 +45,7 @@ namespace SharedKernel.Application.Extensions
             {
                 if (!first)
                 {
-                    sb.Append("&");
+                    sb.Append('&');
                 }
 
                 parameters.TryGetValue(key, out var param);

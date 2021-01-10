@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using SharedKernel.Application.Security.Cryptography;
@@ -13,7 +14,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         #region Properties
 
         // TripleDES Algorithm
-        private static readonly TripleDESCryptoServiceProvider Des = new TripleDESCryptoServiceProvider();
+        private static readonly TripleDESCryptoServiceProvider Des = new();
 
         // Objet md5
         private static readonly MD5CryptoServiceProvider HashMd5 = new MD5CryptoServiceProvider();
@@ -30,7 +31,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         ///     <param name="hex">Text with hex to pass to bytes</param>
         ///     <returns>Byte array with the hexadecimal string value</returns>
         /// </summary>
-        private byte[] StringToByteArrayFastest(string hex)
+        private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
                 throw new Exception("The binary key cannot have an odd number of digits");
@@ -49,7 +50,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         ///     <param name="hex">Hexadecimal character to pass to int</param>
         ///     <returns>Int with the character value</returns>
         /// </summary>
-        private int GetHexVal(char hex)
+        private static int GetHexVal(char hex)
         {
             var val = (int)hex;
             //For uppercase A-F letters:
@@ -71,23 +72,18 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// </summary>
         public string Encrypt(string text)
         {
-            string functionReturnValue = null;
+            var functionReturnValue = "";
             if (string.IsNullOrEmpty(text.Trim()))
-            {
-                functionReturnValue = "";
-            }
-            else
-            {
-                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
-                Des.Mode = CipherMode.ECB;
-                var encrypt = Des.CreateEncryptor();
+                return functionReturnValue;
 
-                var buff = Encoding.UTF8.GetBytes(text);
-                buff = encrypt.TransformFinalBlock(buff, 0, buff.Length);
-                // Convert bytes to string from hex
-                for (var i = 0; i < buff.Length; i++)
-                    functionReturnValue += buff[i].ToString("X2");
-            }
+            Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
+            Des.Mode = CipherMode.ECB;
+            var encrypt = Des.CreateEncryptor();
+
+            var buff = Encoding.UTF8.GetBytes(text);
+            buff = encrypt.TransformFinalBlock(buff, 0, buff.Length);
+            // Convert bytes to string from hex
+            functionReturnValue = buff.Aggregate(functionReturnValue, (_, t) => t.ToString("X2"));
             return functionReturnValue;
         }
 

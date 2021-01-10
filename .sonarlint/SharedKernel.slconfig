@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://localhost:9000/",
+  "Organization": null,
+  "ProjectKey": "SharedKernel",
+  "ProjectName": "SharedKernel",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AXbkDidK9jJjgiUY65Fd",
+      "ProfileTimestamp": "2021-01-08T22:11:41Z"
+    }
+  }
+}

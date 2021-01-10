@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using SharedKernel.Application.Exceptions;
+using SharedKernel.Domain.Exceptions;
 
 namespace SharedKernel.Application.Reflection
 {
@@ -181,8 +182,11 @@ namespace SharedKernel.Application.Reflection
                     if (valueString == null)
                         fieldInfo.SetValue(obj, null);
                     else
-#endif
+                        fieldInfo.SetValue(obj, new Guid(valueString));
+#else
                     fieldInfo.SetValue(obj, new Guid(valueString));
+#endif
+
                 }
                 else
                 {
@@ -191,7 +195,7 @@ namespace SharedKernel.Application.Reflection
             }
             catch (Exception e)
             {
-                throw new ApplicationException(ExceptionCodes.REFLEXION_001, e);
+                throw new SharedKernelDomainException(ExceptionCodes.REFLEXION_001, e);
             }
         }
 

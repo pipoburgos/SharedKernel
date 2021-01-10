@@ -48,8 +48,6 @@ namespace SharedKernel.Domain.Tests.Entities
             SampleEntity entityLeft = null;
             var entityRight = new SampleEntity();
 
-            //entityRight.GenerateNewIdentity();
-
             //Act
             if (entityLeft != null) //this perform ==(left,right)
                 Assert.True(false, "error");

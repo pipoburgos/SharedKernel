@@ -168,7 +168,7 @@ namespace SharedKernel.Application.Extensions
         {
             var propertyInfo = typeof(T).GetProperties().SingleOrDefault(t => t.Name.ToUpper() == propertyName.ToUpper());
             if (propertyInfo == null)
-                throw new Exception($"Property {propertyName} not found");
+                throw new ArgumentOutOfRangeException($"Property {propertyName} not found");
 
             // Expression
             var parameterExp = Expression.Parameter(typeof(T), "type");

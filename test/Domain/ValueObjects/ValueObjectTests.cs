@@ -182,7 +182,7 @@ namespace SharedKernel.Domain.Tests.ValueObjects
             if (!address1.Equals(address2))
                 Assert.True(false, "error");
 
-            if (!(address1 == address2))
+            if (address1 != address2)
                 Assert.True(false, "error");
 
         }
