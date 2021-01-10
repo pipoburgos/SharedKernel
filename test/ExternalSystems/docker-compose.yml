@@ -5,22 +5,16 @@ services:
     sqlserver:
         image: mcr.microsoft.com/mssql/server:latest
         container_name: shared-kernel-sqlserver
-        hostname: sqlserver
         environment:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=yourStrong(!)Password
             - MSSQL_PID=Developer
         ports:
             - 22220:1433
-        volumes:
-            - .\SqlServer\backups:/var/opt/mssql/backups
-            - .\SqlServer\sqlserver:/var/opt/sqlserver
-            - .\SqlServer\data:/var/opt/mssql/data
      
     mongo:
         image: mongo:latest
         container_name: shared-kernel-mongo
-        restart: always
         ports:
             - 22221:27017
 
@@ -42,7 +36,6 @@ services:
     smtp:
         image: namshi/smtp:latest
         container_name: shared-kernel-smtp
-        restart: always
         ports:
          - "22224:25"
         environment:
@@ -52,3 +45,12 @@ services:
             - SMARTHOST_USER=shared-kernel@shared-kernel.com
             - SMARTHOST_PASSWORD=shared-kernel
             - SMARTHOST_ALIASES=*.shared-kernel.com
+            
+    postgres:
+        image: postgres:latest
+        container_name: shared-kernel-postgres
+        environment:
+            POSTGRES_USER: sa
+            POSTGRES_PASSWORD: yourStrong(!)Password
+        ports:
+            - 22225:5432
