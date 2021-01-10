@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
-    <Version>5.0.17</Version>
+    <Version>5.0.18</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net5.0'">
-    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="3.1.3"  />
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="3.1.3" />
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="3.1.4" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="3.1.2" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="3.2.0" />
