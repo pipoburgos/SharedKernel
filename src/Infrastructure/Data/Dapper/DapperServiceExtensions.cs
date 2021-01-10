@@ -27,14 +27,49 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             IConfiguration configuration, string connectionStringName,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
+            var connectionString = configuration.GetConnectionString(connectionStringName);
+
             services.AddHealthChecks()
-                .AddSqlServer(configuration.GetConnectionString(connectionStringName), "SELECT 1;", "Sql Server Dapper",
+                .AddSqlServer(connectionString, "SELECT 1;", "Sql Server Dapper",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddTransient(typeof(DapperQueryProvider<>));
 
             services.AddDbContext<TContext>(s => s
-                .UseSqlServer(configuration.GetConnectionString(connectionStringName))
+                .UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging(), serviceLifetime);
+
+#if NET461
+            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
+#else
+            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
+#endif
+
+            return services;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <param name="connectionStringName"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddDapperPostgreSql<TContext>(this IServiceCollection services,
+            IConfiguration configuration, string connectionStringName,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
+        {
+            var connectionString = configuration.GetConnectionString(connectionStringName);
+
+            services.AddHealthChecks()
+                .AddNpgSql(connectionString);
+
+            services.AddTransient(typeof(DapperQueryProvider<>));
+
+            services.AddDbContext<TContext>(s => s
+                .UseNpgsql(connectionString)
                 .EnableSensitiveDataLogging(), serviceLifetime);
 
 #if NET461

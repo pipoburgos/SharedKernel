@@ -37,13 +37,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
                 .AddSqlServer(connectionString, "SELECT 1;", "Sql Server EFCore",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
-            services
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
-                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
-                .AddTransient<IDateTime, MachineDateTime>()
-                .AddTransient<IGuid, GuidGenerator>()
-                .AddTransient<IAuditableService, AuditableService>();
+            services.AddCommonDataServices();
 
             services.AddDbContext<TContext>(s => s
                 .UseSqlServer(connectionString)
@@ -62,18 +56,32 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
         /// Add service PostgreSQL into IServiceCollection
         /// </summary>
         public static IServiceCollection AddPostgreSql<TContext>(this IServiceCollection services,
-            IConfiguration configuration, string connectionStringName) where TContext : DbContext
+            IConfiguration configuration, string connectionStringName,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
                 .AddNpgSql(connectionString);
 
+            services.AddCommonDataServices();
+
             services.AddDbContext<TContext>(p => p
                 .UseNpgsql(connectionString)
-            );
+                .EnableSensitiveDataLogging(), serviceLifetime);
 
             return services;
+        }
+
+        private static void AddCommonDataServices(this IServiceCollection services)
+        {
+            services
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
+                .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
+                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddTransient<IDateTime, MachineDateTime>()
+                .AddTransient<IGuid, GuidGenerator>()
+                .AddTransient<IAuditableService, AuditableService>();
         }
     }
 }
