@@ -1046,6 +1046,11 @@
             <param name="serviceLifetime"></param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.EntityFrameworkCoreServiceExtensions.AddPostgreSql``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            Add service PostgreSQL into IServiceCollection
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions.DbSetExtensions">
             <summary>
             
