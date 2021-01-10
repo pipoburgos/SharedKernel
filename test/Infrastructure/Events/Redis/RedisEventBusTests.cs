@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Threading.Tasks;
 using SharedKernel.Domain.Tests.Users;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Events.Redis
+namespace SharedKernel.Infraestructure.Tests.Events.Redis
 {
     public class RedisEventBusTests : InfrastructureTestCase
     {

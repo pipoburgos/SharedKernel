@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
 
-namespace SharedKernel.Integration.Tests.Events
+namespace SharedKernel.Infraestructure.Tests.Events
 {
     internal class SetCountWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {

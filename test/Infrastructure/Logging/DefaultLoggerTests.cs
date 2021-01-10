@@ -5,10 +5,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SharedKernel.Infrastructure.Logging;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Logging
+namespace SharedKernel.Infraestructure.Tests.Logging
 {
     public class DefaultLoggerTests : InfrastructureTestCase
     {

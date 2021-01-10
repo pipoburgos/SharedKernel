@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Events
+namespace SharedKernel.Infraestructure.Tests.Events
 {
     public static class PublishUserCreatedDomainEventCase
     {

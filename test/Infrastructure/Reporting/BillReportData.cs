@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SharedKernel.Integration.Tests.Reporting
+namespace SharedKernel.Infraestructure.Tests.Reporting
 {
     public class BillReportData
     {

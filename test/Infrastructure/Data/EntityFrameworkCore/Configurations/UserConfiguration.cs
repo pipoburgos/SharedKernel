@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using SharedKernel.Domain.Tests.Users;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Configurations
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Configurations
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {

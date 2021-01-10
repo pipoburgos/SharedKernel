@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SharedKernel.Domain.Tests.Users;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Repositories
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {

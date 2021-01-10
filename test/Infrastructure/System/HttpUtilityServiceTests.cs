@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Infrastructure.System;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.System
+namespace SharedKernel.Infraestructure.Tests.System
 {
     public class HttpUtilityServiceTests
     {

@@ -2,12 +2,12 @@
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Commands;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Cqrs.Commands
+namespace SharedKernel.Infraestructure.Tests.Cqrs.Commands
 {
     public class InMemoryCommandBusTests : InfrastructureTestCase
     {

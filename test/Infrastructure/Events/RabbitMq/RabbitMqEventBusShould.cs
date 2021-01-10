@@ -1,13 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Threading.Tasks;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Events.RabbitMq
+namespace SharedKernel.Infraestructure.Tests.Events.RabbitMq
 {
     public class RabbitMqEventBusShould : InfrastructureTestCase
     {

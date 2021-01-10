@@ -4,14 +4,14 @@ using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure.Communication.Email;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Exceptions;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
+namespace SharedKernel.Infraestructure.Tests.Communication.Email.Smtp
 {
     public class SmtpEmailSenderTests : InfrastructureTestCase
     {

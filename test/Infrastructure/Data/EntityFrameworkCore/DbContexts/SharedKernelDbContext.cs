@@ -2,7 +2,7 @@
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts
 {
     public class SharedKernelDbContext : DbContextBase
     {

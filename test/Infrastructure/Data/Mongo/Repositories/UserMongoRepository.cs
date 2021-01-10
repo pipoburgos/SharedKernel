@@ -6,7 +6,7 @@ using SharedKernel.Infrastructure.Data.Mongo.Repositories;
 using System;
 using System.Linq;
 
-namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
+namespace SharedKernel.Infraestructure.Tests.Data.Mongo.Repositories
 {
     internal class UserMongoRepository : MongoRepository<User, Guid>
     {

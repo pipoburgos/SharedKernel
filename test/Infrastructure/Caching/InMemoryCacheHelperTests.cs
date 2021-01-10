@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Logging;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Caching
+namespace SharedKernel.Infraestructure.Tests.Caching
 {
     public class InMemoryCacheHelperTests : InfrastructureTestCase
     {

@@ -3,15 +3,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
 {
     public class QueryProviderTests : InfrastructureTestCase
     {

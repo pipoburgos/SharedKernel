@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Domain.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Application.Tests", "test\Application\SharedKernel.Application.Tests.csproj", "{B984D663-C6E3-4635-96C5-66774BA04E4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Integration.Tests", "test\Infrastructure\SharedKernel.Integration.Tests.csproj", "{1FEE7368-2D05-4D02-BA61-4BAB6B10F44B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infraestructure.Tests", "test\Infrastructure\SharedKernel.Infraestructure.Tests.csproj", "{1FEE7368-2D05-4D02-BA61-4BAB6B10F44B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Api", "src\Api\SharedKernel.Api.csproj", "{2AFA1B22-DA17-4956-89AF-8DECF8FC7DE4}"
 EndProject

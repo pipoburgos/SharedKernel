@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedKernel.Integration.Tests.Events
+namespace SharedKernel.Infraestructure.Tests.Events
 {
     public class PublishUserCreatedDomainEvent
     {

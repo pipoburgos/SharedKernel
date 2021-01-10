@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
+namespace SharedKernel.Infraestructure.Tests.Data.Dapper.Queries
 {
     public class DapperQueryProviderTests : InfrastructureTestCase
     {

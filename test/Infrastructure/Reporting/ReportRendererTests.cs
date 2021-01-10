@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Reporting
+namespace SharedKernel.Infraestructure.Tests.Reporting
 {
     public class ReportRendererTests
     {

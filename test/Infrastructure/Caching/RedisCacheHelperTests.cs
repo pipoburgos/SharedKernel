@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Caching
+namespace SharedKernel.Infraestructure.Tests.Caching
 {
     public class RedisCacheHelperTests : InfrastructureTestCase
     {

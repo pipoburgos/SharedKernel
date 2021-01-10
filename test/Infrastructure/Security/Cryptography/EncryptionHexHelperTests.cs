@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Infrastructure.Security.Cryptography;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Security.Cryptography
+namespace SharedKernel.Infraestructure.Tests.Security.Cryptography
 {
     public class EncryptionHexHelperTests
     {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Integration.Tests.Cqrs.Commands
+namespace SharedKernel.Infraestructure.Tests.Cqrs.Commands
 {
     internal class SampleCommandWithResponseHandler : ICommandRequestHandler<SampleCommandWithResponse, int>
     {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Shared
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Shared
 {
     public static class DatabaseCleaner
     {

@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infraestructure.Tests.Shared;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Repositories.InMemory
 {
     public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase
     {

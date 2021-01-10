@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Options;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.Mongo;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infraestructure.Tests.Shared;
 using System.Linq;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
+namespace SharedKernel.Infraestructure.Tests.Data.Mongo.Repositories
 {
     public class MongoRepositoryCreateTests : InfrastructureTestCase
     {

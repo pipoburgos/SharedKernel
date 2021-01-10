@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts
 {
     public class SharedKernelDbContextFactory : IDesignTimeDbContextFactory<SharedKernelDbContext>
     {

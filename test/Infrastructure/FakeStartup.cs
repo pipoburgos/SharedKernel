@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Integration.Tests
+﻿namespace SharedKernel.Infraestructure.Tests
 {
     public class FakeStartup
     {

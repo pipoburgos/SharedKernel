@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
     public partial class InitialDatabase : Migration
     {

@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Commands;
 
-namespace SharedKernel.Integration.Tests.Cqrs.Commands
+namespace SharedKernel.Infraestructure.Tests.Cqrs.Commands
 {
     internal class SampleCommandWithResponse : ICommandRequest<int>
     {

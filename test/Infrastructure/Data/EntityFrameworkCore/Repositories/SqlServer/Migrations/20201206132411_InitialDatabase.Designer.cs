@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.DbContexts;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
+namespace SharedKernel.Infraestructure.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
     [DbContext(typeof(SharedKernelDbContext))]
     [Migration("20201206132411_InitialDatabase")]

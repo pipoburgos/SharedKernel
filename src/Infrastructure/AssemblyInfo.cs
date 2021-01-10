@@ -1,2 +1,2 @@
 ﻿using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("SharedKernel.Integration.Tests")]
+[assembly: InternalsVisibleTo("SharedKernel.Infraestructure.Tests")]

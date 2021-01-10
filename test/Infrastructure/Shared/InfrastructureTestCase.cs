@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 
-namespace SharedKernel.Integration.Tests.Shared
+namespace SharedKernel.Infraestructure.Tests.Shared
 {
     public abstract class InfrastructureTestCase : WebApplicationFactory<FakeStartup>
     {
