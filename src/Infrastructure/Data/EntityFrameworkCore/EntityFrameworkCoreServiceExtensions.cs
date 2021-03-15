@@ -62,7 +62,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddNpgSql(connectionString);
+                .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre EFCore");
 
             services.AddCommonDataServices();
 
