@@ -55,14 +55,14 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
         /// <summary>
         /// Add service PostgreSQL into IServiceCollection
         /// </summary>
-        public static IServiceCollection AddPostgreSql<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddEntityFrameworkCorePostgreSql<TContext>(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName,
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddNpgSql(connectionString);
+                .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre EFCore");
 
             services.AddCommonDataServices();
 

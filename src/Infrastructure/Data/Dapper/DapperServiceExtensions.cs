@@ -64,7 +64,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddNpgSql(connectionString);
+                .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre Dapper");
 
             services.AddTransient(typeof(DapperQueryProvider<>));
 
