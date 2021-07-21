@@ -9,6 +9,14 @@ namespace SharedKernel.Application.Caching
     public interface ICacheHelper
     {
         /// <summary>
+        /// Get from cache the T value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<T> GetAsync<T>(string key);
+
+        /// <summary>
         /// Save into cache the T value
         /// </summary>
         /// <typeparam name="T"></typeparam>

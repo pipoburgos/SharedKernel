@@ -21,6 +21,13 @@ namespace SharedKernel.Infrastructure.Caching
             _binarySerializer = binarySerializer;
         }
 
+        public async Task<T> GetAsync<T>(string key)
+        {
+            var value = await _distributedCache.GetAsync(key);
+
+            return value == default || value.Length == 0 ? default : _binarySerializer.Deserialize<T>(value);
+        }
+
         public async Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = null)
         {
             try

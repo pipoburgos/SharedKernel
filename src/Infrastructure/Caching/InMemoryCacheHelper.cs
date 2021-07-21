@@ -17,6 +17,11 @@ namespace SharedKernel.Infrastructure.Caching
             _customLogger = customLogger;
         }
 
+        public Task<T> GetAsync<T>(string key)
+        {
+            return Task.FromResult(_memoryCache.Get<T>(key));
+        }
+
         public Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = null)
         {
             _memoryCache.Set(key, value);
