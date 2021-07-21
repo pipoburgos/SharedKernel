@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
@@ -101,6 +101,8 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 
             services.AddSwaggerGenNewtonsoftSupport();
 
+            services.AddFluentValidationRulesToSwagger();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
@@ -112,8 +114,6 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
                     xmlPath = Path.Combine(AppContext.BaseDirectory, openApiOptions.XmlDocumentationFile);
                     c.IncludeXmlComments(xmlPath);
                 }
-
-                c.AddFluentValidationRules();
 
                 var openIdOptions = new OpenIdOptions();
                 configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);

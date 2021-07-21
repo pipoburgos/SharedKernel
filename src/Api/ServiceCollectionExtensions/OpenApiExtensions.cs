@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -9,8 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Security;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 // ReSharper disable CommentTypo
@@ -61,6 +61,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 
             services.AddSwaggerGenNewtonsoftSupport();
 
+            services.AddFluentValidationRulesToSwagger();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
@@ -72,8 +74,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     xmlPath = Path.Combine(AppContext.BaseDirectory, openApiOptions.XmlDocumentationFile);
                     c.IncludeXmlComments(xmlPath);
                 }
-
-                c.AddFluentValidationRules();
 
                 var openIdOptions = new OpenIdOptions();
                 configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);

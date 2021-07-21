@@ -9,7 +9,7 @@ namespace SharedKernel.Application.Validator
         private ValidationFailure() { }
 
         /// <summary>Creates a new ValidationFailure.</summary>
-        public ValidationFailure(string propertyName, string errorMessage, object attemptedValue = (object)null)
+        public ValidationFailure(string propertyName, string errorMessage, object attemptedValue = null)
         {
             PropertyName = propertyName;
             ErrorMessage = errorMessage;
