@@ -1016,7 +1016,7 @@
             <summary>
             
             </summary>
-            <param name="aggregate"></param>
+            <param name="aggregateRoot"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
@@ -1523,7 +1523,7 @@
             <summary>
             
             </summary>
-            <param name="entity"></param>
+            <param name="aggregateRoot"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
@@ -1531,7 +1531,7 @@
             <summary>
             
             </summary>
-            <param name="entities"></param>
+            <param name="aggregates"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>

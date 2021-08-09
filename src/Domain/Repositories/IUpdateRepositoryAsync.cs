@@ -14,17 +14,17 @@ namespace SharedKernel.Domain.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="aggregateRoot"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task UpdateAsync(TAggregate entity, CancellationToken cancellationToken);
+        Task UpdateAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="aggregates"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task UpdateRangeAsync(IEnumerable<TAggregate> entities, CancellationToken cancellationToken);
+        Task UpdateRangeAsync(IEnumerable<TAggregate> aggregates, CancellationToken cancellationToken);
     }
 }

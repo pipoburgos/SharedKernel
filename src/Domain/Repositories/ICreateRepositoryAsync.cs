@@ -14,10 +14,10 @@ namespace SharedKernel.Domain.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="aggregate"></param>
+        /// <param name="aggregateRoot"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task AddAsync(TAggregate aggregate, CancellationToken cancellationToken);
+        Task AddAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
