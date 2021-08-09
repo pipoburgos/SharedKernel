@@ -86,7 +86,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             channel.BasicConsume(eventSubscriber, false, consumer);
         }
 
-        private void DeclareQueue(IModel channel, string queue)
+        private static void DeclareQueue(IModel channel, string queue)
         {
             channel.QueueDeclare(queue, true, false, false);
         }
@@ -99,7 +99,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
                 SendToRetry(ea, queue);
         }
 
-        private bool HasBeenRedeliveredTooMuch(IDictionary<string, object> headers)
+        private static bool HasBeenRedeliveredTooMuch(IDictionary<string, object> headers)
         {
             return (int)(headers[HeaderRedelivery] ?? 0) >= MaxRetries;
         }

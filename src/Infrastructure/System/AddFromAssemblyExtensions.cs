@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.System
     /// <summary>
     /// 
     /// </summary>
-    public static class ServiceCollectionExtensions
+    public static class AddFromAssemblyExtensions
     {
         /// <summary>
         /// 

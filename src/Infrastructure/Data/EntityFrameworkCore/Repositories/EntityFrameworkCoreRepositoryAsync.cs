@@ -166,12 +166,12 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="aggregateRoots"></param>
+        /// <param name="aggregates"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregateRoots, CancellationToken cancellationToken)
+        public Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
-            return _dbSet.AddRangeAsync(aggregateRoots, cancellationToken);
+            return _dbSet.AddRangeAsync(aggregates, cancellationToken);
         }
 
         /// <summary>
