@@ -1467,7 +1467,7 @@
         </member>
         <member name="T:SharedKernel.Application.System.Threading.ISemaphoreStore">
             <summary>
-            
+            Create and manage SemaphoreSlim by dictionary keys
             </summary>
         </member>
         <member name="M:SharedKernel.Application.System.Threading.ISemaphoreStore.GetOrCreate(System.String)">
