@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SharedKernel.Infrastructure.Data.Mongo.Queries;
 
 namespace SharedKernel.Infrastructure.Data.Mongo
 {
@@ -22,7 +23,9 @@ namespace SharedKernel.Infrastructure.Data.Mongo
             services.AddHealthChecks()
                 .AddMongoDb(
                     configuration.GetSection(nameof(MongoSettings) + ":" + nameof(MongoSettings.ConnectionString))
-                        .Value, "Mongo", HealthStatus.Unhealthy, new[] {"DB", "NoSql", "Mongo"});
+                        .Value, "Mongo", HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
+
+            services.AddTransient<MongoQueryProvider>();
 
             return services;
         }
