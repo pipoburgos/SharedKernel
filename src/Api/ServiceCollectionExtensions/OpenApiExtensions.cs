@@ -149,13 +149,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// </summary>
         /// <param name="app"></param>
         /// <param name="options"></param>
+        /// <param name="openIdOptions"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app, IOptions<OpenApiOptions> options)
+        public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app,
+            IOptions<OpenApiOptions> options, IOptions<OpenIdOptions> openIdOptions)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", options?.Value?.Name ?? "Open API v1");
+
+                if (string.IsNullOrWhiteSpace(openIdOptions?.Value?.Authority))
+                    return;
+
                 c.RoutePrefix = string.Empty;
                 c.OAuthAppName(options?.Value?.AppName ?? "Open API specification");
                 c.OAuthScopeSeparator(" ");
