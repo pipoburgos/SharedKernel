@@ -630,12 +630,13 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseSharedKernelOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions})">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseSharedKernelOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions},Microsoft.Extensions.Options.IOptions{SharedKernel.Application.Security.OpenIdOptions})">
             <summary>
             Configure Open Api ui
             </summary>
             <param name="app"></param>
             <param name="options"></param>
+            <param name="openIdOptions"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions">
