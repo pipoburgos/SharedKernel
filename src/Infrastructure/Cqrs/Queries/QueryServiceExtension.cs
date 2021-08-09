@@ -21,20 +21,26 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         /// <param name="services"></param>
         /// <param name="infrastructureAssembly"></param>
         /// <returns></returns>
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Assembly infrastructureAssembly)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, params Assembly[] infrastructureAssembly)
         {
-            return services.AddFromAssembly(infrastructureAssembly, typeof(IQueryRequestHandler<,>));
+            foreach (var assembly in infrastructureAssembly)
+                services.AddFromAssembly(assembly, typeof(IQueryRequestHandler<,>));
+
+            return services;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="queryHandlerType"></param>
+        /// <param name="queryHandlerTypes"></param>
         /// <returns></returns>
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type queryHandlerType)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, params Type[] queryHandlerTypes)
         {
-            return services.AddFromAssembly(queryHandlerType.Assembly, typeof(IQueryRequestHandler<,>));
+            foreach (var queryHandlerType in queryHandlerTypes)
+                services.AddFromAssembly(queryHandlerType.Assembly, typeof(IQueryRequestHandler<,>));
+
+            return services;
         }
 
         /// <summary>
