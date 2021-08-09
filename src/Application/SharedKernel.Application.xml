@@ -125,6 +125,14 @@
             Cache helper
             </summary>
         </member>
+        <member name="M:SharedKernel.Application.Caching.ICacheHelper.GetAsync``1(System.String)">
+            <summary>
+            Get from cache the T value
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Caching.ICacheHelper.SetAsync``1(System.String,``0,System.Nullable{System.TimeSpan})">
             <summary>
             Save into cache the T value
@@ -1361,20 +1369,6 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Application.System.ISemaphore">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Application.System.ISemaphore.BlockAsync(System.Threading.SemaphoreSlim,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="semaphoreSlim"></param>
-            <param name="executeAsync"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Application.System.IStreamHelper">
             <summary>
             
@@ -1448,6 +1442,40 @@
         <member name="P:SharedKernel.Application.System.TaskHelper.CompletedTask">
             <summary>Gets a task that has already completed successfully.</summary>
             <returns>The successfully completed task.</returns>
+        </member>
+        <member name="T:SharedKernel.Application.System.Threading.ISemaphore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.ISemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+            <summary>
+            Create a SemaphoreSlim per key an block threads from given key
+            </summary>
+            <param name="funcion"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.ISemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+            <summary>
+            Create a SemaphoreSlim per key an block threads from given key
+            </summary>
+            <param name="funcion"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Application.System.Threading.ISemaphoreStore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.ISemaphoreStore.GetOrCreate(System.String)">
+            <summary>
+            Gets o create a SemaphoreSlim per key (Thread Safe)
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Transactions.IModuleTransactionAsync">
             <summary>

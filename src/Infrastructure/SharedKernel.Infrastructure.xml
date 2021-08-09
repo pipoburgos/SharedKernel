@@ -114,6 +114,18 @@
             <param name="assemblies"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.AddSharedKernelExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.AddSharedKernelExtensions.AddSharedKernel(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Caching.DistributedCacheServiceExtensions">
             <summary>
             
@@ -492,7 +504,7 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])">
             <summary>
             
             </summary>
@@ -500,12 +512,12 @@
             <param name="infrastructureAssembly"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddQueriesHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type[])">
             <summary>
             
             </summary>
             <param name="services"></param>
-            <param name="queryHandlerType"></param>
+            <param name="queryHandlerTypes"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Cqrs.Queries.QueryServiceExtension.AddInMemoryQueryBus(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -1297,7 +1309,7 @@
             <summary>
             
             </summary>
-            <param name="aggregateRoots"></param>
+            <param name="aggregates"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
@@ -1673,6 +1685,24 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.Mongo.Queries.MongoQueryProvider">
+            <summary>
+            Query provider for Mongo database
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Queries.MongoQueryProvider.#ctor(Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Data.Mongo.MongoSettings})">
+            <summary>
+            
+            </summary>
+            <param name="mongoSettings"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.Mongo.Queries.MongoQueryProvider.GetQuery``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.Mongo.Repositories.MongoRepository`2">
             <summary>
@@ -2510,6 +2540,18 @@
             <param name="code"></param>
             <param name="innerException"></param>
         </member>
+        <member name="T:SharedKernel.Infrastructure.HealthChecks.AddSharedKernelHealthChecksExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HealthChecks.AddSharedKernelHealthChecksExtensions.AddSharedKernelHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/src/HealthChecks.System/DependencyInjection/SystemHealthCheckBuilderExtensions.cs
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.HealthChecks.CpuHealthCheck">
             <summary>
             
@@ -3018,25 +3060,6 @@
             <param name="services"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions.AddSharedKernel(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            
-            </summary>
-            <param name="services"></param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.ServiceCollectionServiceExtensions.AddSharedKernelHealthChecks(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/src/HealthChecks.System/DependencyInjection/SystemHealthCheckBuilderExtensions.cs
-            </summary>
-            <param name="services"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Infrastructure.Settings.OptionsService`1">
             <summary>
             
@@ -3054,19 +3077,44 @@
             
             </summary>
         </member>
-        <member name="T:SharedKernel.Infrastructure.System.CustomSemaphore">
+        <member name="T:SharedKernel.Infrastructure.System.AddFromAssemblyExtensions">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.CustomSemaphore.BlockAsync(System.Threading.SemaphoreSlim,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.System.AddFromAssemblyExtensions.AddFromAssembly(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Type[])">
             <summary>
             
             </summary>
-            <param name="semaphore"></param>
-            <param name="executeAsync"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <param name="services"></param>
+            <param name="assembly"></param>
+            <param name="genericTypes"></param>
             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.AddFromMatchingInterfaceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.AddFromMatchingInterfaceExtensions.AddFromMatchingInterface(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type[])">
+            <summary>
+            Register all classes that implement an interface equal to its name in transient mode
+            Example: UserService -> IUserService.
+            </summary>
+            <param name="services"></param>
+            <param name="types"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.AddFromMatchingInterfaceExtensions.AddFromMatchingInterface(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Func{System.Type,System.Boolean},System.Type[])">
+            <summary>
+            Register all classes that implement an interface equal to its name in transient mode
+            Example: UserService -> IUserService.
+            </summary>
+            <param name="services"></param>
+            <param name="classesInclude"></param>
+            <param name="types"></param>
+            <returns></returns>
+            <exception cref="T:System.ServiceModel.ActionNotSupportedException"></exception>
         </member>
         <member name="T:SharedKernel.Infrastructure.System.EnumExtensions">
             <summary>
@@ -3113,20 +3161,6 @@
             
             </summary>
         </member>
-        <member name="T:SharedKernel.Infrastructure.System.ServiceCollectionExtensions">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.System.ServiceCollectionExtensions.AddFromAssembly(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Type[])">
-            <summary>
-            
-            </summary>
-            <param name="services"></param>
-            <param name="assembly"></param>
-            <param name="genericTypes"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Infrastructure.System.StreamHelper">
             <summary>
             
@@ -3160,6 +3194,59 @@
             <param name="dataSource"></param>
             <param name="pattern"></param>
             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.Threading.CustomSemaphore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.#ctor(SharedKernel.Application.System.Threading.ISemaphoreStore)">
+            <summary>
+            
+            </summary>
+            <param name="semaphoreStore"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+            <summary>
+            Create a SemaphoreSlim per key an block threads from given key
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="funcion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+            <summary>
+            Create a SemaphoreSlim per key an block threads from given key
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="funcion"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.GetOrCreate(System.String)">
+            <summary>
+            Gets o create a SemaphoreSlim per key (Thread Safe)
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.Remove(System.String)">
+            <summary>
+            Remove a SemaphoreSlim per key (Thread Safe)
+            </summary>
+            <param name="key"></param>
         </member>
         <member name="T:SharedKernel.Infrastructure.System.ThreadUiCulture">
             <summary>
@@ -3210,6 +3297,68 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions.Uri``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.DefaultValidatorExtensions.PhoneNumber``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Validators.FluentValidator`1">
+            <inheritdoc />
+            <summary>
+            Validator based on Data Annotations.
+            This validator use IValidatableObject interface and
+            ValidationAttribute ( hierarchy of this) for
+            perform validation
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{`0}})">
+            <summary>
+            
+            </summary>
+            <param name="validators"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.Validate(`0)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.ValidateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Validators.PageOptionsValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.PageOptionsValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>
+ure.Validators.DefaultValidatorExtensions">
             <summary>
             
             </summary>
