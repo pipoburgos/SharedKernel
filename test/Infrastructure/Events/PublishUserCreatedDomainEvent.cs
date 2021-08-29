@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SharedKernel.Integration.Tests.Events
 {
     public class PublishUserCreatedDomainEvent
     {
-        public Guid UserId { get; private set; }
+        public PublishUserCreatedDomainEvent()
+        {
+            Users = new List<Guid>();
+        }
+
+        public List<Guid> Users { get; }
 
         public int Total { get; private set; }
 
         public void SetUser(Guid id)
         {
-            UserId = id;
-            SumTotal();
+            Users.Add(id);
         }
 
         public void SumTotal()

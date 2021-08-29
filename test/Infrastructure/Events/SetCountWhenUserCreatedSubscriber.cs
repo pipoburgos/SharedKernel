@@ -23,6 +23,7 @@ namespace SharedKernel.Integration.Tests.Events
                 throw new ArgumentNullException(nameof(@event));
 
             _singletonValueContainer.SumTotal();
+
             return Task.CompletedTask;
         }
     }

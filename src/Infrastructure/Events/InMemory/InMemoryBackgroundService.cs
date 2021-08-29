@@ -1,12 +1,10 @@
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Cqrs.Commands;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
@@ -40,17 +38,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             {
                 try
                 {
-                    var domainEventsToExecute = scope.ServiceProvider.GetRequiredService<DomainEventsToExecute>();
-                    var subscribers = domainEventsToExecute.Subscribers.ToList();
-
-                    foreach (var subscriber in subscribers)
-                    {
-                        await subscriber(stoppingToken);
-                    }
-
-                    domainEventsToExecute.Subscribers = new ConcurrentBag<Func<CancellationToken, Task>>();
-
-                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                    await scope.ServiceProvider.GetRequiredService<DomainEventsToExecute>().ExecuteAll(stoppingToken);
                 }
                 catch (Exception ex)
                 {
@@ -58,8 +46,6 @@ namespace SharedKernel.Infrastructure.Events.InMemory
                         .GetRequiredService<ICustomLogger<QueuedHostedService>>()
                         .Error(ex, "Error occurred executing event.");
                 }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
         }
     }

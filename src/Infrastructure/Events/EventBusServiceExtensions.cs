@@ -10,6 +10,7 @@ using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
 using System;
 using System.Reflection;
+using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -46,12 +47,13 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="delayTimeSpan">Delay TimeSpan to execute domain events queue. Default 50ms</param>
         /// <returns></returns>
-        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, TimeSpan? delayTimeSpan = null)
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton<DomainEventsToExecute>()
+                .AddSingleton(s => new DomainEventsToExecute(s.GetService<ICustomLogger<DomainEventsToExecute>>(), delayTimeSpan ?? TimeSpan.FromMilliseconds(50)))
                 .AddEventBus()
                 .AddScoped<InMemoryDomainEventsConsumer>()
                 .AddScoped<IEventBus, InMemoryEventBus>();
