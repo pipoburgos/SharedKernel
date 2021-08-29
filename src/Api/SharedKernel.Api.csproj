@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <PackageId>Pipoburgos.SharedKernel.Api</PackageId>
-    <Version>5.0.20</Version>
+    <Version>5.0.21</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -25,18 +25,18 @@
     <PackageReference Include="App.Metrics.Formatters.Prometheus" Version="4.2.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.2" Condition="'$(TargetFramework)' != 'net5.0'" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" Condition="'$(TargetFramework)' == 'net5.0'" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.0" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.1.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" Condition="'$(TargetFramework)' != 'net5.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" Condition="'$(TargetFramework)' == 'net5.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" Condition="'$(TargetFramework)' == 'net5.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="4.2.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
-    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.5" />
+    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.8" />
   </ItemGroup>
 
   <ItemGroup>

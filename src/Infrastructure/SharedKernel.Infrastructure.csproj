@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
-    <Version>5.0.20</Version>
+    <Version>5.0.21</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,22 +42,22 @@
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Dapper" Version="2.0.90" />
-    <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.8" Condition="'$(TargetFramework)' != 'net461'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" Condition="'$(TargetFramework)' != 'net461'" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.10" Condition="'$(TargetFramework)' == 'net461'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" Condition="'$(TargetFramework)' != 'net461'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" Condition="'$(TargetFramework)' != 'net461'" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" Condition="'$(TargetFramework)' == 'net461'" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" Condition="'$(TargetFramework)' != 'net461'" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" Condition="'$(TargetFramework)' == 'net461'" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.9" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
-    <PackageReference Include="NEST" Version="7.13.2" />
+    <PackageReference Include="NEST" Version="7.14.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
