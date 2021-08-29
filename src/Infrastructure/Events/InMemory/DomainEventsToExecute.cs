@@ -69,11 +69,8 @@ namespace SharedKernel.Infrastructure.Events.InMemory
                 if(pending.Any())
                     _logger?.Info($" {pending.Count} subscribers with errors.");
 
-                Console.WriteLine($" {pending.Count} subscribers with errors.");
                 foreach (var func in pending)
-                {
                     _subscribers.Add(func);
-                }
 
                 await Task.Delay(_delayTimeSpan, cancellationToken);
             }
