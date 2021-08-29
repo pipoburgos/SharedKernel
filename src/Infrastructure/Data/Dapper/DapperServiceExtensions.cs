@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
-#if NET461
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
-#endif
 
 namespace SharedKernel.Infrastructure.Data.Dapper
 {
@@ -17,15 +14,14 @@ namespace SharedKernel.Infrastructure.Data.Dapper
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TContext"></typeparam>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <param name="connectionStringName"></param>
         /// <param name="serviceLifetime"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDapperSqlServer<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddDapperSqlServer(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName,
-            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
+            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
@@ -33,17 +29,8 @@ namespace SharedKernel.Infrastructure.Data.Dapper
                 .AddSqlServer(connectionString, "SELECT 1;", "Sql Server Dapper",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
-            services.AddTransient(typeof(DapperQueryProvider<>));
-
-            services.AddDbContext<TContext>(s => s
-                .UseSqlServer(connectionString)
-                .EnableSensitiveDataLogging(), serviceLifetime);
-
-#if NET461
-            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
-#else
-            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
-#endif
+            services.AddTransient<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+            services.Add(new ServiceDescriptor(typeof(DapperQueryProvider), typeof(DapperQueryProvider), serviceLifetime));
 
             return services;
         }
@@ -51,32 +38,22 @@ namespace SharedKernel.Infrastructure.Data.Dapper
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TContext"></typeparam>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <param name="connectionStringName"></param>
         /// <param name="serviceLifetime"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDapperPostgreSql<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddDapperPostgreSql(this IServiceCollection services,
             IConfiguration configuration, string connectionStringName,
-            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
+            ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
                 .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre Dapper");
 
-            services.AddTransient(typeof(DapperQueryProvider<>));
-
-            services.AddDbContext<TContext>(s => s
-                .UseNpgsql(connectionString)
-                .EnableSensitiveDataLogging(), serviceLifetime);
-
-#if NET461
-            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
-#else
-            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
-#endif
+            services.AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString));
+            services.Add(new ServiceDescriptor(typeof(DapperQueryProvider), typeof(DapperQueryProvider), serviceLifetime));
 
             return services;
         }

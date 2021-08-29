@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 {
-    public class DapperQueryProviderTests : InfrastructureTestCase
+    public class SqlServerDapperQueryProviderTests : InfrastructureTestCase
     {
         protected override string GetJsonFile()
         {
@@ -17,14 +16,13 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services
-                .AddDapperSqlServer<SharedKernelDbContext>(Configuration, "SharedKernelSqlServer");
+            return services.AddDapperSqlServer(Configuration, "SharedKernelSqlServer");
         }
 
         [Fact]
         public async Task ExecuteQuery()
         {
-            var result = await GetRequiredService<DapperQueryProvider<SharedKernelDbContext>>()
+            var result = await GetRequiredService<DapperQueryProvider>()
                 .ExecuteQueryFirstOrDefaultAsync<int>("SELECT 1");
 
             Assert.Equal(1, result);
