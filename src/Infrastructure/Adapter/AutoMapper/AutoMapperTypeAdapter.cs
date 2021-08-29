@@ -11,19 +11,18 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
     /// </summary>
     public class AutoMapperTypeAdapter : ITypeAdapter
     {
-        private readonly MapperConfiguration _mapperConfiguration;
+        private readonly IConfigurationProvider _configurationProvider;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="mapperConfiguration"></param>
-        public AutoMapperTypeAdapter(
-            MapperConfiguration mapperConfiguration)
+        /// <param name="configurationProvider"></param>
+        public AutoMapperTypeAdapter(IConfigurationProvider configurationProvider)
         {
-            _mapperConfiguration = mapperConfiguration ?? throw new Exception("AutoMapper not initialized");
+            _configurationProvider = configurationProvider ?? throw new Exception("AutoMapper not initialized");
 
-            _mapper = _mapperConfiguration.CreateMapper();
+            _mapper = _configurationProvider.CreateMapper();
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
         /// <returns></returns>
         public IQueryable<TDestination> ProjectTo<TDestination>(IQueryable source)
         {
-            return source.ProjectTo<TDestination>(_mapperConfiguration);
+            return source.ProjectTo<TDestination>(_configurationProvider);
         }
     }
 }

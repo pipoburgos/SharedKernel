@@ -8,21 +8,15 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
     /// </summary>
     public class AutoMapperTypeAdapterFactory : ITypeAdapterFactory
     {
-        private readonly MapperConfiguration _config;
+        private readonly IConfigurationProvider _configurationProvider;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="profiles"></param>
-        public AutoMapperTypeAdapterFactory(params Profile[] profiles)
+        /// <param name="configurationProvider"></param>
+        public AutoMapperTypeAdapterFactory(IConfigurationProvider configurationProvider)
         {
-            _config = new MapperConfiguration(cfg =>
-            {
-                foreach (var profile in profiles)
-                {
-                    cfg.AddProfile(profile);
-                }
-            });
+            _configurationProvider = configurationProvider;
         }
 
         /// <summary>
@@ -31,7 +25,7 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
         /// <returns></returns>
         public ITypeAdapter Create()
         {
-            return new AutoMapperTypeAdapter(_config);
+            return new AutoMapperTypeAdapter(_configurationProvider);
         }
     }
 }
