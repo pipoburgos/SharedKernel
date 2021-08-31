@@ -39,9 +39,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
-            services.AddDbContext<TContext>(s => s
-                .UseSqlServer(connectionString)
-                .EnableSensitiveDataLogging(), serviceLifetime);
+            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
 
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
@@ -66,9 +64,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
-            services.AddDbContext<TContext>(p => p
-                .UseNpgsql(connectionString)
-                .EnableSensitiveDataLogging(), serviceLifetime);
+            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString), serviceLifetime);
 
             return services;
         }
