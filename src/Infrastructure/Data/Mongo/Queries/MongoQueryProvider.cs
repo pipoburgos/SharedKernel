@@ -26,9 +26,9 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Queries
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IQueryable<T> GetQuery<T>()
+        public IQueryable<T> GetQuery<T>(AggregateOptions options = null)
         {
-            return _mongoDatabase.GetCollection<T>(typeof(T).Name).AsQueryable();
+            return _mongoDatabase.GetCollection<T>(typeof(T).Name).AsQueryable(options);
         }
     }
 }
