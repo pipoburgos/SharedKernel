@@ -69,7 +69,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             return services;
         }
 
-        private static void AddCommonDataServices(this IServiceCollection services)
+        /// <summary>
+        /// Register common Ef Core data services
+        /// </summary>
+        /// <param name="services"></param>
+        public static void AddCommonDataServices(this IServiceCollection services)
         {
             services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
