@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.System;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -23,7 +21,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         private readonly Assembly _assemblyConfigurations;
         private readonly IAuditableService _auditableService;
-        private readonly IEventBus _eventBus;
 
         #endregion
 
@@ -36,13 +33,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         /// <param name="schema"></param>
         /// <param name="assemblyConfigurations"></param>
         /// <param name="auditableService"></param>
-        /// <param name="eventBus"></param>
         public DbContextBase(DbContextOptions options, string schema, Assembly assemblyConfigurations,
-            IAuditableService auditableService, IEventBus eventBus) : base(options)
+            IAuditableService auditableService) : base(options)
         {
             _assemblyConfigurations = assemblyConfigurations;
             _auditableService = auditableService;
-            _eventBus = eventBus;
             Schema = schema;
             // ReSharper disable once VirtualMemberCallInConstructor
             ChangeTracker.LazyLoadingEnabled = false;
@@ -105,12 +100,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             {
                 Validate();
                 _auditableService?.Audit(this);
-                var result = await base.SaveChangesAsync(cancellationToken);
-
-                if (_eventBus != default)
-                    await DispatchDomainEventsAsync(cancellationToken);
-
-                return result;
+                return await base.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -194,16 +184,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                 var vc = new ValidationContext(e.Entity, null, null);
                 Validator.TryValidateObject(e.Entity, vc, errors, true);
             }
-        }
-
-        private Task DispatchDomainEventsAsync(CancellationToken cancellationToken)
-        {
-            var domainEvents = ChangeTracker
-                .Entries<IAggregateRoot>()
-                .SelectMany(x => x.Entity.PullDomainEvents())
-                .ToList();
-
-            return _eventBus != null ? _eventBus?.Publish(domainEvents, cancellationToken) : TaskHelper.CompletedTask;
         }
 
         #endregion
