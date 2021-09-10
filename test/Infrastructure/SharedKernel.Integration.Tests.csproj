@@ -115,8 +115,8 @@
     <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.11.0" />
     <!--TESTING-->
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.6" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.6" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <!--SERILOG-->
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
