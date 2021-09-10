@@ -166,6 +166,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 c.OAuthAppName(options?.Value?.AppName ?? "Open API specification");
                 c.OAuthScopeSeparator(" ");
                 c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+                c.OAuthClientId(openIdOptions.Value.ClientId);
+                c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
             });
 
             return app;
