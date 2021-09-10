@@ -44,24 +44,23 @@ namespace SharedKernel.Infrastructure.System
                 n.Name.EndsWith("Comparer");
 
             var classes = types
-                .SelectMany(a => a
-                    .Assembly
-                    .GetTypes()
-                    .Where(n => n.IsClass)
-                    .Where(classesInclude))
+                .SelectMany(a => a.Assembly.GetTypes().Where(n => n.IsClass).Where(classesInclude))
                 .ToList();
 
             foreach (var @class in classes)
             {
-                var interfaces = @class.FromMatchingInterface()
-                    .ToList();
+                services.AddTransient(@class);
 
-                if (interfaces.Count > 1)
-                    throw new ActionNotSupportedException($"Multiple inyecciones {@class.Name}");
+                var interfaces = @class.FromMatchingInterface().ToList();
 
-
-                if (interfaces.Count == 1)
-                    services.AddTransient(interfaces.Single(), @class);
+                switch (interfaces.Count)
+                {
+                    case > 1:
+                        throw new ActionNotSupportedException($"Multiple inyecciones {@class.Name}");
+                    case 1:
+                        services.AddTransient(interfaces.Single(), @class);
+                        break;
+                }
             }
 
             return services;
