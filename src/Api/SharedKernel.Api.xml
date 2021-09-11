@@ -24,6 +24,24 @@
             Gets de query bus
             </summary>
         </member>
+        <member name="M:SharedKernel.Api.Controllers.BaseController.OkTyped``1(``0)">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.ActionResult`1"/> object that produces an <see cref="F:Microsoft.AspNetCore.Http.StatusCodes.Status200OK"/> response.
+            </summary>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.ActionResult`1"/> for the response.</returns>
+        </member>
+        <member name="M:SharedKernel.Api.Controllers.BaseController.OkTyped">
+            <summary>
+            Creates a <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> object that produces an empty <see cref="F:Microsoft.AspNetCore.Http.StatusCodes.Status200OK"/> response.
+            </summary>
+            <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> for the response.</returns>
+        </member>
+        <member name="M:SharedKernel.Api.Controllers.BaseController.Streaming(System.String)">
+            <summary>
+            Read a file an return in streaming
+            </summary>
+            <param name="filePath"></param>
+        </member>
         <member name="T:SharedKernel.Api.Grids.DataTables.Column">
             <summary>
             
@@ -610,6 +628,11 @@
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Name">
             <summary>
             Open api name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Url">
+            <summary>
+            De Url of swagger.json. Default: "/swagger/v1/swagger.json"
             </summary>
         </member>
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.XmlDocumentationFile">

@@ -26,6 +26,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             var openIdOptions = new OpenIdOptions();
             configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
 
+            services.Configure<OpenIdOptions>(configuration.GetSection(nameof(OpenIdOptions)));
+
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
 
@@ -52,7 +54,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
 
-                        ValidateAudience = true,
+                        ValidateAudience = !string.IsNullOrWhiteSpace(openIdOptions.Audience),
                         ValidAudience = openIdOptions.Audience,
 
                         ValidateLifetime = true,

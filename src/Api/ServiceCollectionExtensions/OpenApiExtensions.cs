@@ -38,6 +38,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         public string Name { get; set; }
 
         /// <summary>
+        /// De Url of swagger.json. Default: "/swagger/v1/swagger.json"
+        /// </summary>
+        public string Url { get; set; } = "/swagger/v1/swagger.json";
+
+        /// <summary>
         /// Documentation file name
         /// </summary>
         public string XmlDocumentationFile { get; set; }
@@ -58,6 +63,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         {
             var openApiOptions = new OpenApiOptions();
             configuration.GetSection(nameof(OpenApiOptions)).Bind(openApiOptions);
+
+            services.Configure<OpenApiOptions>(configuration.GetSection(nameof(OpenApiOptions)));
 
             services.AddSwaggerGenNewtonsoftSupport();
 
@@ -123,22 +130,12 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     // get descriptions from DescriptionAttribute then from xml-comments
                     o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;
 
-                    // get descriptions from xml-file comments on the specified path
-                    // should use "options.IncludeXmlComments(xmlFilePath);" before
+                    // get descriptions from xml-file comments on the specified path should use "options.IncludeXmlComments(xmlFilePath);" before
                     if (!string.IsNullOrWhiteSpace(xmlPath))
                         o.IncludeXmlCommentsFrom(xmlPath);
-                    // the same for another xml-files...
                 });
 
-
-
-                //c.OperationFilter<RemoveVersionFromParameter>();
-                //c.DocumentFilter<ReplaceVersionWithExactValueInPath>();
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
-                //c.OperationFilter<FileOperation>();
-
-                // remove Paths and Defenitions from OpenApi documentation without accepted roles
-                // c.DocumentFilter<HidePathsAndDefinitionsByRolesDocumentFilter>(new List<string> { "AcceptedRole" });
             });
 
             return services;
@@ -154,16 +151,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app,
             IOptions<OpenApiOptions> options, IOptions<OpenIdOptions> openIdOptions)
         {
+            if (options.Value == default)
+                throw new ArgumentNullException(nameof(options));
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", options?.Value?.Name ?? "Open API v1");
+                c.SwaggerEndpoint(options.Value.Url, options.Value?.Name ?? "Open API v1");
 
                 if (string.IsNullOrWhiteSpace(openIdOptions?.Value?.Authority))
                     return;
 
                 c.RoutePrefix = string.Empty;
-                c.OAuthAppName(options?.Value?.AppName ?? "Open API specification");
+                c.OAuthAppName(options.Value?.AppName ?? "Open API specification");
                 c.OAuthScopeSeparator(" ");
                 c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
                 c.OAuthClientId(openIdOptions.Value.ClientId);
@@ -172,27 +172,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 
             return app;
         }
-
-        //private class RemoveVersionFromParameter : IOperationFilter
-        //{
-        //    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        //    {
-        //        var versionParameter = operation.Parameters.Single(p => p.Name == "version");
-        //        operation.Parameters.Remove(versionParameter);
-        //    }
-        //}
-
-        //private class ReplaceVersionWithExactValueInPath : IDocumentFilter
-        //{
-        //    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-        //    {
-        //        //swaggerDoc.Paths = swaggerDoc.Paths
-        //        //    .ToDictionary(
-        //        //        path => path.Key.Replace("v{version}", swaggerDoc.Info.Version),
-        //        //        path => path.Value
-        //        //    );
-        //    }
-        //}
 
         private class SecurityRequirementsOperationFilter : IOperationFilter
         {
@@ -211,11 +190,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
                 operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
 
-                //operation.Security = new List<IDictionary<string, IEnumerable<string>>>
-                //{
-                //    new Dictionary<string, IEnumerable<string>> {{"oauth2", new[] {"demo_api"}}}
-                //};
-
                 var oAuthScheme = new OpenApiSecurityScheme
                 {
                     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
@@ -230,18 +204,5 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 };
             }
         }
-
-        //private class FileOperation : IOperationFilter
-        //{
-
-        //    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        //    {
-        //        if (operation.OperationId.ToLower() == "apifileget")
-        //        {
-        //            operation.Produces = new[] { "application/octet-stream" };
-        //            operation.Responses["200"].Schema = new Schema { Type = "file", Description = "Download file" };
-        //        }
-        //    }
-        //}
     }
 }
