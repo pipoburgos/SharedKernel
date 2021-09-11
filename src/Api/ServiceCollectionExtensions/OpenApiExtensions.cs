@@ -38,9 +38,9 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         public string Name { get; set; }
 
         /// <summary>
-        /// De Url of swagger.json. Default: "/swagger/v1/swagger.json"
+        /// De Url of swagger.json. Default: "swagger/v1/swagger.json"
         /// </summary>
-        public string Url { get; set; } = "/swagger/v1/swagger.json";
+        public string Url { get; set; } = "swagger/v1/swagger.json";
 
         /// <summary>
         /// Documentation file name
