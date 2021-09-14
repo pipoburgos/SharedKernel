@@ -5,12 +5,19 @@ using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
+using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq
 {
+    [Collection("DockerHook")]
     public class RabbitMqEventBusShould : InfrastructureTestCase
     {
+        public RabbitMqEventBusShould(DockerHook dockerHook)
+        {
+            dockerHook.Run();
+        }
+
         protected override string GetJsonFile()
         {
             return "Events/RabbitMq/appsettings.rabbitMq.json";

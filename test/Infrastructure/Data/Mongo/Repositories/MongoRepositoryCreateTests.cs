@@ -4,12 +4,19 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.Mongo;
 using SharedKernel.Integration.Tests.Shared;
 using System.Linq;
+using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
 {
+    [Collection("DockerHook")]
     public class MongoRepositoryCreateTests : InfrastructureTestCase
     {
+        public MongoRepositoryCreateTests(DockerHook dockerHook)
+        {
+            dockerHook.Run();
+        }
+
         protected override string GetJsonFile()
         {
             return "Data/Mongo/appsettings.mongo.json";

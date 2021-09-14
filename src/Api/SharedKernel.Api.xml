@@ -632,7 +632,7 @@
         </member>
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Url">
             <summary>
-            De Url of swagger.json. Default: "/swagger/v1/swagger.json"
+            De Url of swagger.json. Default: "swagger/v1/swagger.json"
             </summary>
         </member>
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.XmlDocumentationFile">

@@ -5,9 +5,12 @@ namespace SharedKernel.Integration.Tests.Events
 {
     public class PublishUserCreatedDomainEvent
     {
+        private readonly object _lock;
+
         public PublishUserCreatedDomainEvent()
         {
             Users = new List<Guid>();
+            _lock = new object();
         }
 
         public List<Guid> Users { get; }
@@ -16,12 +19,19 @@ namespace SharedKernel.Integration.Tests.Events
 
         public void SetUser(Guid id)
         {
-            Users.Add(id);
+            lock (_lock)
+            {
+                Users.Add(id);
+            }
         }
 
         public void SumTotal()
         {
-            Total++;
+            lock (_lock)
+            {
+                Total++;
+            }
+
         }
     }
 }

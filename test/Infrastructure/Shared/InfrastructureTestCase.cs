@@ -21,8 +21,7 @@ namespace SharedKernel.Integration.Tests.Shared
             return Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(x =>
                 {
-                    x.UseStartup<FakeStartup>()
-                        .UseTestServer();
+                    x.UseStartup<FakeStartup>().UseTestServer();
                 });
         }
 

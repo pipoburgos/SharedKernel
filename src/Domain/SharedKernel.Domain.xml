@@ -1545,11 +1545,6 @@
             User logged identifier
             </summary>
         </member>
-        <member name="P:SharedKernel.Domain.Security.IIdentityService.User">
-            <summary>
-            Users claims
-            </summary>
-        </member>
         <member name="M:SharedKernel.Domain.Security.IIdentityService.IsInRole(System.String)">
             <summary>
             User logged is in role

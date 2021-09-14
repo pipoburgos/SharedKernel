@@ -3,12 +3,19 @@ using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
 using SharedKernel.Integration.Tests.Shared;
 using System.Threading.Tasks;
+using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 {
+    [Collection("DockerHook")]
     public class SqlServerDapperQueryProviderTests : InfrastructureTestCase
     {
+        public SqlServerDapperQueryProviderTests(DockerHook dockerHook)
+        {
+            dockerHook.Run();
+        }
+
         protected override string GetJsonFile()
         {
             return "Data/Dapper/Queries/appsettings.sqlServer.json";

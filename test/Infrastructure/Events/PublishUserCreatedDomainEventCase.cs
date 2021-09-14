@@ -2,7 +2,7 @@
 using SharedKernel.Domain.Tests.Users;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
+using FluentAssertions;
 
 namespace SharedKernel.Integration.Tests.Events
 {
@@ -19,15 +19,16 @@ namespace SharedKernel.Integration.Tests.Events
             domainEvents.AddRange(user2.PullDomainEvents());
             domainEvents.AddRange(user3.PullDomainEvents());
             domainEvents.AddRange(user4.PullDomainEvents());
-            await eventBus.Publish(domainEvents, CancellationToken.None).ConfigureAwait(false);
+            await eventBus.Publish(domainEvents, CancellationToken.None);
 
-            await Task.Delay(millisecondsDelay, CancellationToken.None).ConfigureAwait(false);
+            await Task.Delay(millisecondsDelay, CancellationToken.None);
 
-            Assert.Contains(singletonValueContainer.Users, u => u == user1.Id);
-            Assert.Contains(singletonValueContainer.Users, u => u == user2.Id);
-            Assert.Contains(singletonValueContainer.Users, u => u == user3.Id);
-            Assert.Contains(singletonValueContainer.Users, u => u == user4.Id);
-            Assert.True(singletonValueContainer.Total == 4);
+            singletonValueContainer.Total.Should().Be(4);
+
+            singletonValueContainer.Users.Should().Contain(u => u == user1.Id);
+            singletonValueContainer.Users.Should().Contain(u => u == user2.Id);
+            singletonValueContainer.Users.Should().Contain(u => u == user3.Id);
+            singletonValueContainer.Users.Should().Contain(u => u == user4.Id);
         }
     }
 }
