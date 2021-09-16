@@ -74,6 +74,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
 
+                c.DescribeAllParametersInCamelCase();
+
                 // Set the comments path for the Swagger JSON and UI.
                 string xmlPath = null;
                 if (!string.IsNullOrWhiteSpace(openApiOptions.XmlDocumentationFile))
