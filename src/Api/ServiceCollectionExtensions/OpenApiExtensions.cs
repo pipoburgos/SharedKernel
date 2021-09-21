@@ -1,14 +1,12 @@
 ﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
@@ -74,6 +72,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
 
+                c.SchemaFilter<RequireValueTypePropertiesSchemaFilter>();
                 c.DescribeAllParametersInCamelCase();
 
                 // Set the comments path for the Swagger JSON and UI.
@@ -173,38 +172,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             });
 
             return app;
-        }
-
-        private class SecurityRequirementsOperationFilter : IOperationFilter
-        {
-            public void Apply(OpenApiOperation operation, OperationFilterContext context)
-            {
-                // Policy names map to scopes
-                var requiredScopes = context.MethodInfo
-                    .GetCustomAttributes(true)
-                    .OfType<AuthorizeAttribute>()
-                    .Select(attr => attr.Policy)
-                    .Distinct()
-                    .ToList();
-
-                if (!requiredScopes.Any()) return;
-
-                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
-
-                var oAuthScheme = new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-                };
-
-                operation.Security = new List<OpenApiSecurityRequirement>
-                {
-                    new OpenApiSecurityRequirement
-                    {
-                        [ oAuthScheme ] = new[] {"demo_api"}
-                    }
-                };
-            }
         }
     }
 }

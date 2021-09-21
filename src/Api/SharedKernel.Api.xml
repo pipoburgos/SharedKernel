@@ -662,6 +662,30 @@
             <param name="openIdOptions"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.RequireValueTypePropertiesSchemaFilter">
+            <summary>
+            Sets required attribute to not nullable properties
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.RequireValueTypePropertiesSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Apply filter
+            </summary>
+            <param name="schema"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SecurityRequirementsOperationFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SecurityRequirementsOperationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Apply filter
+            </summary>
+            <param name="operation"></param>
+            <param name="context"></param>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions">
             <summary>
             Shared kernel api extensions
