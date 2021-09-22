@@ -40,16 +40,18 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
         /// <param name="query"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
+        public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
         {
-            await _executeMiddlewaresService.ExecuteAsync(query, cancellationToken);
+            return _executeMiddlewaresService.ExecuteAsync(query, cancellationToken, (req, c) =>
+            {
+                var handler = GetWrappedHandlers(req);
 
-            var handler = GetWrappedHandlers(query);
+                if (handler == null)
+                    throw new QueryNotRegisteredError(req.ToString());
 
-            if (handler == null)
-                throw new QueryNotRegisteredError(query.ToString());
+                return handler.Handle(req, _serviceProvider, c);
+            });
 
-            return await handler.Handle(query, _serviceProvider, cancellationToken);
         }
 
         private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)

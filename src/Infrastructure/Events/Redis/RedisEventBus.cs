@@ -1,10 +1,10 @@
 ﻿using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
@@ -50,11 +50,13 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// <param name="event"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task Publish(DomainEvent @event, CancellationToken cancellationToken)
+        public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
-            await _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken);
-            var eventAsString = _domainEventJsonSerializer.Serialize(@event);
-            await _connectionMultiplexer.GetSubscriber().PublishAsync("*", eventAsString);
+            return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, _) =>
+            {
+                var eventAsString = _domainEventJsonSerializer.Serialize(req);
+                return _connectionMultiplexer.GetSubscriber().PublishAsync("*", eventAsString);
+            });
         }
     }
 }

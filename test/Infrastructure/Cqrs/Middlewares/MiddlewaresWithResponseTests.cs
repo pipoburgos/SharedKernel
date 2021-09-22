@@ -1,18 +1,21 @@
-﻿using FluentAssertions;
-using FluentValidation;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Commands;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Validators;
+using SharedKernel.Integration.Tests.Cqrs.Commands;
 using SharedKernel.Integration.Tests.Shared;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Cqrs.Commands
+namespace SharedKernel.Integration.Tests.Cqrs.Middlewares
 {
-    public class InMemoryCommandBusTests : InfrastructureTestCase
+    public class MiddlewaresWithResponseTests : InfrastructureTestCase
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
@@ -20,6 +23,8 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
                 .AddSharedKernel()
                 .AddCommandsHandlers(typeof(SampleCommandWithResponseHandler))
                 .AddValidators(typeof(SampleCommandWithResponseHandler))
+                .AddScoped(typeof(IMiddleware<,>), typeof(TimerMiddleware<,>))
+                .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>))
                 .AddInMemoryCommandBus();
         }
 
@@ -31,15 +36,15 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
 
             var response = await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
 
-            Assert.Equal(value, response);
+            response.Should().Be(value);
         }
 
         [Fact]
-        public void RegisterValidators()
+        public async Task TestCommandHandlerWithResponseValidationError()
         {
-            var validator = GetService<IValidator<SampleCommandWithResponse>>();
-            validator.Should().NotBeNull();
+            var request = new SampleCommandWithResponse(default);
+            await Assert.ThrowsAsync<ValidationFailureException>(() =>
+                GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None));
         }
-
     }
 }

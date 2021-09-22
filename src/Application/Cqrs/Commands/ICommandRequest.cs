@@ -1,4 +1,5 @@
-﻿using SharedKernel.Domain.Events;
+﻿using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Application.Cqrs.Commands
 {
@@ -14,7 +15,7 @@ namespace SharedKernel.Application.Cqrs.Commands
     /// </summary>
     /// <typeparam name="TResponse"></typeparam>
     // ReSharper disable once UnusedTypeParameter
-    public interface ICommandRequest<out TResponse> : IRequest
+    public interface ICommandRequest<out TResponse> : IRequest<TResponse>
     {
     }
 }

@@ -1622,6 +1622,13 @@
             The entity validator base contract
             </summary>
         </member>
+        <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.ValidateList(`0)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.Validate(`0)">
             <summary>
             

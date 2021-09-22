@@ -1,7 +1,6 @@
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,10 +29,14 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             if (events == default)
                 return;
 
-            await Task.WhenAll(events.Select(@event =>
-                _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken)));
-
-            events.ForEach(@event => _inMemoryConsumer.Consume(@event));
+            foreach (var domainEvent in events)
+            {
+                await _executeMiddlewaresService.ExecuteAsync(domainEvent, cancellationToken, (req, _) =>
+                {
+                    _inMemoryConsumer.Consume(req);
+                    return Task.CompletedTask;
+                });
+            }
         }
     }
 }

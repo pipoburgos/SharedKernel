@@ -14,32 +14,50 @@ namespace SharedKernel.Infrastructure.Validators
     /// ValidationAttribute ( hierarchy of this) for
     /// perform validation
     /// </summary>
-    public class FluentValidator<TRequest> : IEntityValidator<TRequest>
+    public class FluentValidator<TEntity> : IEntityValidator<TEntity>
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private readonly IValidator<TEntity> _validator;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="validators"></param>
-        public FluentValidator(IEnumerable<IValidator<TRequest>> validators)
+        /// <param name="validator"></param>
+        public FluentValidator(IValidator<TEntity> validator)
         {
-            _validators = validators;
+            _validator = validator;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="item"></param>
-        public void Validate(TRequest item)
+        public List<ValidationFailure> ValidateList(TEntity item)
+        {
+            if (item == null)
+                return new List<ValidationFailure>();
+
+            var context = new ValidationContext<TEntity>(item);
+            return _validator
+                .Validate(context)
+                .Errors
+                .Where(f => f != null)
+                .Select(f => new ValidationFailure(f.PropertyName, f.ErrorMessage, f.AttemptedValue))
+                .ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        public void Validate(TEntity item)
         {
             if (item == null)
                 return;
 
-            var context = new ValidationContext<TRequest>(item);
-            var failures = _validators
-                .Select(v => v.Validate(context))
-                .SelectMany(result => result.Errors)
+            var context = new ValidationContext<TEntity>(item);
+            var failures = _validator
+                .Validate(context)
+                .Errors
                 .Where(f => f != null)
                 .Select(f => new ValidationFailure(f.PropertyName, f.ErrorMessage, f.AttemptedValue))
                 .ToList();
@@ -54,23 +72,20 @@ namespace SharedKernel.Infrastructure.Validators
         /// <param name="item"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task ValidateAsync(TRequest item, CancellationToken cancellationToken)
+        public async Task ValidateAsync(TEntity item, CancellationToken cancellationToken)
         {
             if (item == null)
                 return;
 
-            var context = new ValidationContext<TRequest>(item);
+            var context = new ValidationContext<TEntity>(item);
 
             var failures = new List<ValidationFailure>();
-            foreach (var validator in _validators)
-            {
-                var result = await validator.ValidateAsync(context, cancellationToken);
+            var result = await _validator.ValidateAsync(context, cancellationToken);
 
-                if(!result.IsValid)
-                    failures.AddRange(result.Errors
-                        .Select(f => new ValidationFailure(f.PropertyName, f.ErrorMessage, f.AttemptedValue))
-                        .ToList());
-            }
+            if (!result.IsValid)
+                failures.AddRange(result.Errors
+                    .Select(f => new ValidationFailure(f.PropertyName, f.ErrorMessage, f.AttemptedValue))
+                    .ToList());
 
             if (failures.Any())
                 throw new ValidationFailureException(failures);

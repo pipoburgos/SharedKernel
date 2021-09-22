@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Events;
-using SharedKernel.Integration.Tests.Shared;
-using System.Threading.Tasks;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
+using SharedKernel.Infrastructure.Events;
 using SharedKernel.Integration.Tests.Docker;
+using SharedKernel.Integration.Tests.Shared;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq
@@ -37,6 +37,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         [Fact]
         public async Task PublishDomainEventFromRabbitMq()
         {
+            await Task.Delay(5000);
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(GetRequiredService<IEventBus>(),
                 GetRequiredService<PublishUserCreatedDomainEvent>(), 2_500);
         }

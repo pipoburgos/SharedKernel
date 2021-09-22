@@ -1,8 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 {
@@ -10,18 +15,72 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
     /// 
     /// </summary>
     /// <typeparam name="TRequest"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
-    public class ValidationBehavior<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class ValidationMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : IRequest
     {
-        private readonly IEntityValidator<TRequest> _entityValidator;
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ValidationMiddleware(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="entityValidator"></param>
-        public ValidationBehavior(IEntityValidator<TRequest> entityValidator)
+        /// <param name="request"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <param name="next"></param>
+        /// <returns></returns>
+        public Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next)
         {
-            _entityValidator = entityValidator;
+            var validatorIsRegistered = _serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(request.GetType()));
+
+            if (validatorIsRegistered == default)
+                return next(request, cancellationToken);
+
+            var result = typeof(IEntityValidator<>).MakeGenericType(request.GetType());
+            var validator = _serviceProvider.CreateScope().ServiceProvider.GetService(result);
+
+            if (validator == default)
+                throw new Exception($"Validator '{result}'not found");
+
+            const string methodName = "ValidateList";
+            var method = validator.GetType().GetMethod(methodName);
+
+            if (method == default)
+                throw new Exception($"Method '{methodName}'not found");
+
+            var errors = method.Invoke(validator, new object[] { request });
+
+            var failures = (List<ValidationFailure>)errors;
+
+            if (failures != default && failures.Any())
+                throw new ValidationFailureException(failures);
+
+            return next(request, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
+    public class ValidationMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    {
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ValidationMiddleware(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -33,7 +92,29 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         /// <returns></returns>
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)
         {
-            _entityValidator.Validate(request);
+            var validatorIsRegistered = _serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(request.GetType()));
+
+            if (validatorIsRegistered == default)
+                return next(request, cancellationToken);
+
+            var result = typeof(IEntityValidator<>).MakeGenericType(request.GetType());
+            var validator = _serviceProvider.CreateScope().ServiceProvider.GetService(result);
+
+            if(validator == default)
+                throw new Exception($"Validator '{result}'not found");
+
+            const string methodName = "ValidateList";
+            var method = validator.GetType().GetMethod(methodName);
+
+            if (method == default)
+                throw new Exception($"Method '{methodName}'not found");
+
+            var errors = method.Invoke(validator, new object[] { request });
+
+            var failures = (List<ValidationFailure>)errors;
+
+            if (failures != default && failures.Any())
+                throw new ValidationFailureException(failures);
 
             return next(request, cancellationToken);
         }

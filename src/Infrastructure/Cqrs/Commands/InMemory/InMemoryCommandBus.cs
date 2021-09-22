@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SharedKernel.Application.Cqrs.Commands;
-using SharedKernel.Application.Cqrs.Commands.Handlers;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 {
@@ -24,10 +24,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IHostApplicationLifetime _applicationLifetime;
 
-        private static readonly ConcurrentDictionary<Type, IEnumerable<CommandHandlerWrapper>>
-            CommandHandlers = new ConcurrentDictionary<Type, IEnumerable<CommandHandlerWrapper>>();
-
-        private static readonly ConcurrentDictionary<Type, object> CommandHandlersResponse = new ConcurrentDictionary<Type, object>();
+        private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new ();
 
         /// <summary>
         /// 
@@ -58,16 +55,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// <param name="command"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
+        public Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
         {
-            await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
+            return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, c) =>
+            {
+                var handler = GetWrappedHandlers(req);
 
-            var wrappedHandlers = GetWrappedHandlers(command);
+                if (handler == null)
+                    throw new CommandNotRegisteredError(req.ToString());
 
-            if (wrappedHandlers == null)
-                throw new CommandNotRegisteredError(command.ToString());
-
-            return await wrappedHandlers.Handle(command, _serviceProvider, cancellationToken);
+                return handler.Handle(req, _serviceProvider, c);
+            });
         }
 
         /// <summary>
@@ -76,18 +74,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// <param name="command"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task Dispatch(ICommandRequest command, CancellationToken cancellationToken = default)
+        public Task Dispatch(ICommandRequest command, CancellationToken cancellationToken)
         {
-            await _executeMiddlewaresService.ExecuteAsync(command, cancellationToken);
+            return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, c) =>
+            {
+                var handler = GetWrappedHandlers(req);
 
-            var wrappedHandlers = GetWrappedHandlers(command);
+                if (handler == null)
+                    throw new CommandNotRegisteredError(req.ToString());
 
-            if (wrappedHandlers == null)
-                throw new CommandNotRegisteredError(command.ToString());
-
-            var tasks = wrappedHandlers.Select(handler => handler.Handle(command, _serviceProvider, cancellationToken));
-
-            await Task.WhenAll(tasks);
+                return handler.Handle(req, _serviceProvider, c);
+            });
         }
 
         /// <summary>
@@ -118,7 +115,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             return Task.CompletedTask;
         }
 
-        private IEnumerable<CommandHandlerWrapper> GetWrappedHandlers(ICommandRequest command)
+        private CommandHandlerWrapper GetWrappedHandlers(ICommandRequest command)
         {
             var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(command.GetType());
             var wrapperType = typeof(CommandHandlerWrapper<>).MakeGenericType(command.GetType());
@@ -126,13 +123,19 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var handlers =
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
-            var instance = handlers.Cast<object>()
-                .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType));
+            //var instance = handlers.Cast<object>()
+            //    .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)).FirstOrDefault();
 
-            var wrappedHandlers = CommandHandlers
-                .GetOrAdd(command.GetType(), instance);
+            var wrappedHandlers = (CommandHandlerWrapper)CommandHandlers.GetOrAdd(command.GetType(), handlers.Cast<object>()
+                .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;
+
+
+            //var wrappedHandlers = CommandHandlers
+            //    .GetOrAdd(command.GetType(), instance);
+
+            //return wrappedHandlers;
         }
 
         private CommandHandlerWrapperResponse<TResponse> GetWrappedHandlers<TResponse>(ICommandRequest<TResponse> command)
@@ -143,7 +146,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var handlers =
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
-            var wrappedHandlers = (CommandHandlerWrapperResponse<TResponse>)CommandHandlersResponse.GetOrAdd(command.GetType(), handlers.Cast<object>()
+            var wrappedHandlers = (CommandHandlerWrapperResponse<TResponse>)CommandHandlers.GetOrAdd(command.GetType(), handlers.Cast<object>()
                 .Select(_ => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;

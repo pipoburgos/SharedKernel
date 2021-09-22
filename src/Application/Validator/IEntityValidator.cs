@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SharedKernel.Application.Validator
@@ -8,6 +9,13 @@ namespace SharedKernel.Application.Validator
     /// </summary>
     public interface IEntityValidator<in TEntity>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        List<ValidationFailure> ValidateList(TEntity item);
+
         /// <summary>
         /// 
         /// </summary>
