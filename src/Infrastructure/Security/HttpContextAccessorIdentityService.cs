@@ -84,8 +84,11 @@ namespace SharedKernel.Infrastructure.Security
         /// </summary>
         public string RemoteIpAddress { get; }
 
-
-        private Guid GetUserId()
+        /// <summary>
+        /// Get user id from <see cref="ClaimTypes.NameIdentifier"/>
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Guid GetUserId()
         {
             var id = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
