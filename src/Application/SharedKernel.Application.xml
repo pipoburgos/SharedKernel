@@ -1443,38 +1443,65 @@
             <summary>Gets a task that has already completed successfully.</summary>
             <returns>The successfully completed task.</returns>
         </member>
-        <member name="T:SharedKernel.Application.System.Threading.ISemaphore">
+        <member name="T:SharedKernel.Application.System.Threading.IMutex">
             <summary>
-            
+            Object to release mutex
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.System.Threading.ISemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+        <member name="M:SharedKernel.Application.System.Threading.IMutex.Release">
             <summary>
-            Create a SemaphoreSlim per key an block threads from given key
+            Relase mutex
             </summary>
-            <param name="funcion"></param>
+        </member>
+        <member name="T:SharedKernel.Application.System.Threading.IMutexFactory">
+            <summary>
+            Create mutex objects
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.IMutexFactory.Create(System.String)">
+            <summary>
+            Create a mutex object by a key
+            </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Application.System.Threading.ISemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Application.System.Threading.IMutexFactory.CreateAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-            Create a SemaphoreSlim per key an block threads from given key
+            Create a mutex object by a key
             </summary>
-            <param name="funcion"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <param name="key"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Application.System.Threading.ISemaphoreStore">
+        <member name="T:SharedKernel.Application.System.Threading.IMutexManager">
             <summary>
-            Create and manage SemaphoreSlim by dictionary keys
+            Mutex manager
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.System.Threading.ISemaphoreStore.GetOrCreate(System.String)">
+        <member name="M:SharedKernel.Application.System.Threading.IMutexManager.RunOneAtATimeFromGivenKey(System.String,System.Action)">
             <summary>
-            Gets o create a SemaphoreSlim per key (Thread Safe)
+            Run one at time from given key
             </summary>
             <param name="key"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.IMutexManager.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+            <summary>
+            Run one at time from given key
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="function"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.Threading.IMutexManager.RunOneAtATimeFromGivenKeyAsync``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+            <summary>
+            Run one at time from given key
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="function"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Transactions.IModuleTransactionAsync">

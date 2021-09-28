@@ -3079,6 +3079,12 @@
             Remote ip address
             </summary>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Security.HttpContextAccessorIdentityService.GetUserId">
+            <summary>
+            Get user id from <see cref="F:System.Security.Claims.ClaimTypes.NameIdentifier"/>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Serializers.BinarySerializer">
             <summary>
             
@@ -3312,58 +3318,94 @@
             <param name="pattern"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.System.Threading.CustomSemaphore">
+        <member name="T:SharedKernel.Infrastructure.System.Threading.InMemory.InMemoryMutex">
             <summary>
-            
+            In memory mutex
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.#ctor(SharedKernel.Application.System.Threading.ISemaphoreStore)">
+        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemory.InMemoryMutex.#ctor(System.Threading.SemaphoreSlim)">
             <summary>
-            
+            Contructor
             </summary>
-            <param name="semaphoreStore"></param>
+            <param name="semaphoreSlim"></param>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemory.InMemoryMutex.Release">
             <summary>
-            Create a SemaphoreSlim per key an block threads from given key
+            Release in memory mutex
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.Threading.MutexManager">
+            <summary>
+            Mutex manager
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexManager.#ctor(SharedKernel.Application.System.Threading.IMutexFactory)">
+            <summary>
+            Mutex manager constructor
+            </summary>
+            <param name="lockerFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexManager.RunOneAtATimeFromGivenKey(System.String,System.Action)">
+            <summary>
+            Run one at time from given key
+            </summary>
+            <param name="key"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexManager.RunOneAtATimeFromGivenKey``1(System.String,System.Func{``0})">
+            <summary>
+            Run one at time from given key
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key"></param>
-            <param name="funcion"></param>
+            <param name="function"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.CustomSemaphore.RunOneAtATimeFromGivenKey``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexManager.RunOneAtATimeFromGivenKeyAsync``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
             <summary>
-            Create a SemaphoreSlim per key an block threads from given key
+            Run one at time from given key
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key"></param>
-            <param name="funcion"></param>
+            <param name="function"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore">
+        <member name="T:SharedKernel.Infrastructure.System.Threading.MutexServiceExtensions">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.#ctor">
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexServiceExtensions.AddInMemoryMutex(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            
+            Register in memory IMutexManager and IMutex factory
             </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.GetOrCreate(System.String)">
-            <summary>
-            Gets o create a SemaphoreSlim per key (Thread Safe)
-            </summary>
-            <param name="key"></param>
+            <param name="services"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.System.Threading.InMemorySemaphoreStore.Remove(System.String)">
+        <member name="M:SharedKernel.Infrastructure.System.Threading.MutexServiceExtensions.AddSqlServerMutex(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
             <summary>
-            Remove a SemaphoreSlim per key (Thread Safe)
+            Register in memory IMutexManager and IMutex factory
             </summary>
-            <param name="key"></param>
+            <param name="services"></param>
+            <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.Threading.SqlServerMutex.SqlServerMutex">
+            <summary>
+            Sql Server mutex
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.SqlServerMutex.SqlServerMutex.#ctor(Medallion.Threading.SqlServer.SqlDistributedLockHandle)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="sqlDistributedLockHandle"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.SqlServerMutex.SqlServerMutex.Release">
+            <summary>
+            Release Sql Server mutex
+            </summary>
         </member>
         <member name="T:SharedKernel.Infrastructure.System.ThreadUiCulture">
             <summary>

@@ -110,7 +110,7 @@
 
   <ItemGroup>
     <!--ELASTICSEARCH TESTING-->
-    <PackageReference Include="Ductus.FluentDocker" Version="2.10.14" />
+    <PackageReference Include="Ductus.FluentDocker" Version="2.10.21" />
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.11.0" />
@@ -122,7 +122,7 @@
     <!--SERILOG-->
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.2.0" />
-    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
