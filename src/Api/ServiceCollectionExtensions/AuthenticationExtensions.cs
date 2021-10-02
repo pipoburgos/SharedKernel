@@ -45,7 +45,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     options.Audience = openIdOptions.Audience;
                     options.RequireHttpsMetadata = openIdOptions.RequireHttpsMetadata;
                     options.SaveToken = true;
-                    //GetClaimsFromUserInfoEndpoint = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         // Validate Authority

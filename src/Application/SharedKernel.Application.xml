@@ -205,12 +205,12 @@
             <param name="attachment">File attachemnt</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError">
+        <member name="T:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredException">
             <summary>
              Exception thrown if the command handler is not registered in the dependency container
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredError.#ctor(System.String)">
+        <member name="M:SharedKernel.Application.Cqrs.Commands.CommandNotRegisteredException.#ctor(System.String)">
             <summary>
              Exception thrown if the command handler is not registered in the dependency container
             </summary>
@@ -554,12 +554,12 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="T:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredError">
+        <member name="T:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredException">
             <summary>
             Exception thrown if the query handler is not registered in the dependency container
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredError.#ctor(System.String)">
+        <member name="M:SharedKernel.Application.Cqrs.Queries.QueryNotRegisteredException.#ctor(System.String)">
             <summary>
             Exception thrown if the query handler is not registered in the dependency container
             </summary>

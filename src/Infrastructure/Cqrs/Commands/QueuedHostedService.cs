@@ -60,9 +60,9 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="stoppingToken"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override async Task StopAsync(CancellationToken stoppingToken)
+        public override async Task StopAsync(CancellationToken cancellationToken)
         {
             using var scope = _serviceScopeFactory.CreateScope();
 
@@ -73,25 +73,23 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
             {
                 var workItem = await scope.ServiceProvider
                     .GetRequiredService<IBackgroundTaskQueue>()
-                    .DequeueAsync(stoppingToken);
+                    .DequeueAsync(cancellationToken);
 
                 try
                 {
-                    await workItem(stoppingToken);
+                    await workItem(cancellationToken);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     scope.ServiceProvider
                         .GetRequiredService<ICustomLogger<QueuedHostedService>>().Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             scope.ServiceProvider
                 .GetRequiredService<ICustomLogger<QueuedHostedService>>().Info("Queued Hosted Service is stopped.");
 
-            await base.StopAsync(stoppingToken);
+            await base.StopAsync(cancellationToken);
         }
     }
 }

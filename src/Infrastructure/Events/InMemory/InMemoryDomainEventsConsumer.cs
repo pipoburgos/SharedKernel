@@ -24,8 +24,6 @@ namespace SharedKernel.Infrastructure.Events.InMemory
                 _domainEventsToExecute.Add(cancellationToken =>
                     _domainEventMediator.ExecuteOn(@event, subscriber, cancellationToken));
             }
-            //return Task.WhenAll(subscribers.Select(subscriber =>
-            //    _domainEventMediator.ExecuteOn(@event, subscriber, cancellationToken)));
         }
     }
 }

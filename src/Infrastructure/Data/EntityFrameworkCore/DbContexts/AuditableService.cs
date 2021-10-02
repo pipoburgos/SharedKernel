@@ -48,7 +48,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                 AddToAuditChangeDbSet(dbContext);
         }
 
-        private bool Exists<TEntity>(DbContext context) where TEntity : class
+        private static bool Exists<TEntity>(DbContext context) where TEntity : class
         {
             var metaData = context.Model.FindEntityType(typeof(TEntity));
 
@@ -113,19 +113,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                     propertyNames = originalValues.Properties.Select(p => p.Name).ToList();
                 }
 
-
-
                 if (context.Entry(entity).State != EntityState.Deleted)
                 {
                     currentValues = context.Entry(entity).CurrentValues;
                     propertyNames = currentValues.Properties.Select(p => p.Name).ToList();
                 }
 
-                //var keyProperties = context.GetKeysFor(typeof(T)).ToList();
-
-                //var values = keyProperties.Select(keyProp => keyProp.GetValue(entity, null)).ToList();
-                var id = propertyNames.Any(pn => pn == "Id") ? "Id" :
-                    propertyNames.Any(pn => pn == "EntityId") ? "EntityId" : null;
+                var id = (propertyNames.Any(pn => pn == "Id") ? "Id" : null) ?? (propertyNames.Any(pn => pn == "EntityId") ? "EntityId" : null);
 
                 var registryId = Guid.Empty.ToString();
                 if (id == null)

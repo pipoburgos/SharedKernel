@@ -1,16 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Logging;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
+using SharedKernel.Domain.Security;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
+using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
 using System;
 using System.Reflection;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -53,7 +55,8 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton(s => new DomainEventsToExecute(s.GetService<ICustomLogger<DomainEventsToExecute>>(), delayTimeSpan ?? TimeSpan.FromMilliseconds(50)))
+                .AddSingleton(s => new DomainEventsToExecute(s.GetService<ICustomLogger<DomainEventsToExecute>>(),
+                    delayTimeSpan ?? TimeSpan.FromMilliseconds(50)))
                 .AddEventBus()
                 .AddScoped<InMemoryDomainEventsConsumer>()
                 .AddScoped<IEventBus, InMemoryEventBus>();
@@ -107,6 +110,7 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
+                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddScoped<ExecuteMiddlewaresService>()
                 .AddScoped<DomainEventMediator>()
                 .AddScoped<DomainEventJsonSerializer>()

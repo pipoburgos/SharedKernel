@@ -62,7 +62,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 var handler = GetWrappedHandlers(req);
 
                 if (handler == null)
-                    throw new CommandNotRegisteredError(req.ToString());
+                    throw new CommandNotRegisteredException(req.ToString());
 
                 return handler.Handle(req, _serviceProvider, c);
             });
@@ -81,7 +81,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 var handler = GetWrappedHandlers(req);
 
                 if (handler == null)
-                    throw new CommandNotRegisteredError(req.ToString());
+                    throw new CommandNotRegisteredException(req.ToString());
 
                 return handler.Handle(req, _serviceProvider, c);
             });
@@ -123,19 +123,10 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             var handlers =
                 (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
-            //var instance = handlers.Cast<object>()
-            //    .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)).FirstOrDefault();
-
             var wrappedHandlers = (CommandHandlerWrapper)CommandHandlers.GetOrAdd(command.GetType(), handlers.Cast<object>()
                 .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)).FirstOrDefault());
 
             return wrappedHandlers;
-
-
-            //var wrappedHandlers = CommandHandlers
-            //    .GetOrAdd(command.GetType(), instance);
-
-            //return wrappedHandlers;
         }
 
         private CommandHandlerWrapperResponse<TResponse> GetWrappedHandlers<TResponse>(ICommandRequest<TResponse> command)

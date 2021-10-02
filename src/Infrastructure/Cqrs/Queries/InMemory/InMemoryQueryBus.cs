@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
     {
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IServiceProvider _serviceProvider;
-        private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new ConcurrentDictionary<Type, object>();
+        private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new();
 
         /// <summary>
         /// 
@@ -47,7 +47,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
                 var handler = GetWrappedHandlers(req);
 
                 if (handler == null)
-                    throw new QueryNotRegisteredError(req.ToString());
+                    throw new QueryNotRegisteredException(req.ToString());
 
                 return handler.Handle(req, _serviceProvider, c);
             });

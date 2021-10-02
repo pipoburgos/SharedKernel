@@ -1,9 +1,9 @@
+using SharedKernel.Application.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
@@ -14,11 +14,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     {
         private readonly ICustomLogger<DomainEventsToExecute> _logger;
         private readonly TimeSpan _delayTimeSpan;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private ConcurrentBag<Func<CancellationToken, Task>> _subscribers = new();
+        private readonly SemaphoreSlim _semaphore;
+        private readonly ConcurrentDictionary<Guid, Func<CancellationToken, Task>> _subscribers = new();
+        private readonly ConcurrentDictionary<Guid, int> _retries = new();
 
         /// <summary>
         /// 
@@ -29,6 +27,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         {
             _logger = logger;
             _delayTimeSpan = delayTimeSpan;
+            _semaphore = new SemaphoreSlim(1, 1);
         }
 
         /// <summary>
@@ -37,7 +36,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// <param name="func"></param>
         public void Add(Func<CancellationToken, Task> func)
         {
-            _subscribers.Add(func);
+            var functionId = Guid.NewGuid();
+            _subscribers.TryAdd(functionId, func);
+            _retries.TryAdd(functionId, 0);
         }
 
         /// <summary>
@@ -45,38 +46,43 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// </summary>
         public async Task ExecuteAll(CancellationToken cancellationToken)
         {
-            var semaphore = new SemaphoreSlim(1, 1);
-            await semaphore.WaitAsync(cancellationToken);
+            await _semaphore.WaitAsync(cancellationToken);
 
             try
             {
-                var pending = _subscribers.ToList();
-                foreach (var func in _subscribers.ToList())
+                foreach (var subscriber in _subscribers.ToList())
                 {
                     try
                     {
-                        await func(cancellationToken);
-                        pending.Remove(func);
+                        await subscriber.Value(cancellationToken);
+                        _subscribers.TryRemove(subscriber.Key, out _);
+                        _retries.TryRemove(subscriber.Key, out _);
                     }
                     catch (Exception e)
                     {
+                        var retry = _retries[subscriber.Key];
+                        _logger.Warn($"Retry number {retry}");
                         _logger?.Error(e, e.Message);
+                        _retries.TryRemove(subscriber.Key, out _);
+                        _retries.TryAdd(subscriber.Key, retry + 1);
+
+                        if (retry > 5)
+                        {
+                            _subscribers.TryRemove(subscriber.Key, out _);
+                            _retries.TryRemove(subscriber.Key, out _);
+                        }
                     }
                 }
 
-                _subscribers = new ConcurrentBag<Func<CancellationToken, Task>>();
-
-                if(pending.Any())
-                    _logger?.Info($" {pending.Count} subscribers with errors.");
-
-                foreach (var func in pending)
-                    _subscribers.Add(func);
+                if (_subscribers.Any())
+                    _logger?.Info($" {_subscribers.Count} subscribers with errors.");
 
                 await Task.Delay(_delayTimeSpan, cancellationToken);
             }
-            finally
+            catch (Exception e)
             {
-                semaphore.Release();
+                _semaphore.Release();
+                _logger?.Error(e, e.Message);
             }
         }
     }

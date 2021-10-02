@@ -17,12 +17,12 @@ namespace SharedKernel.Infrastructure.Security
         /// <param name="httpContextAccessor"></param>
         /// <param name="logger"></param>
         public HttpContextAccessorIdentityService(
-            IHttpContextAccessor httpContextAccessor,
-            ICustomLogger<HttpContextAccessorIdentityService> logger)
+            IHttpContextAccessor httpContextAccessor = null,
+            ICustomLogger<HttpContextAccessorIdentityService> logger = null)
         {
             if (httpContextAccessor == null)
             {
-                logger.Info("IHttpContextAccessor not registered");
+                logger?.Info("IHttpContextAccessor not registered");
                 return;
             }
 
