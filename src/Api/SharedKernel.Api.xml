@@ -610,42 +610,12 @@
             <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions">
-            <summary>
-            Open api options
-            </summary>
-        </member>
-        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Title">
-            <summary>
-            Open api info title
-            </summary>
-        </member>
-        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.AppName">
-            <summary>
-            Application name
-            </summary>
-        </member>
-        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Name">
-            <summary>
-            Open api name
-            </summary>
-        </member>
-        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.Url">
-            <summary>
-            De Url of swagger.json. Default: "swagger/v1/swagger.json"
-            </summary>
-        </member>
-        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions.XmlDocumentationFile">
-            <summary>
-            Documentation file name
-            </summary>
-        </member>
-        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions">
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiExtensions">
             <summary>
             Swagger configuration
             </summary>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.AddSharedKernelOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiExtensions.AddSharedKernelOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Services configuration
             </summary>
@@ -653,7 +623,7 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApiExtensions.UseSharedKernelOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApiOptions},Microsoft.Extensions.Options.IOptions{SharedKernel.Application.Security.OpenIdOptions})">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiExtensions.UseSharedKernelOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions},Microsoft.Extensions.Options.IOptions{SharedKernel.Application.Security.OpenIdOptions})">
             <summary>
             Configure Open Api ui
             </summary>
@@ -661,6 +631,41 @@
             <param name="options"></param>
             <param name="openIdOptions"></param>
             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions">
+            <summary>
+            Open api options
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.Title">
+            <summary>
+            Open api info title
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.AppName">
+            <summary>
+            Application name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.Name">
+            <summary>
+            Open api name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.Url">
+            <summary>
+            De Url of swagger.json. Default: "swagger/v1/swagger.json"
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.XmlDocumentationFile">
+            <summary>
+            Documentation file name
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.XmlDocumentationFiles">
+            <summary>
+            Documentation files names
+            </summary>
         </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.RequireValueTypePropertiesSchemaFilter">
             <summary>
@@ -674,6 +679,13 @@
             <param name="schema"></param>
             <param name="context"></param>
         </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.RequireValueTypePropertiesSchemaFilter.IsEnumRequired(System.Collections.Generic.KeyValuePair{System.String,Microsoft.OpenApi.Models.OpenApiSchema})">
+            <summary>
+            To know if is a required enum
+            </summary>
+            <param name="prop"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SecurityRequirementsOperationFilter">
             <summary>
             
@@ -685,6 +697,47 @@
             </summary>
             <param name="operation"></param>
             <param name="context"></param>
+        </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions">
+            <summary>
+            SwaggerGenOptions Extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>Add filters to fix enums in OpenApi document.</summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions" />.</param>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.</param>
+            <param name="xmlPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.AddSecurityDefinition(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,SharedKernel.Application.Security.OpenIdOptions)">
+            <summary>
+            Add one or more "securityDefinitions", describing how your API is protected, to the generated Swagger
+            </summary>
+            <param name="swaggerGenOptions"></param>
+            <param name="openIdOptions"><see cref="T:SharedKernel.Application.Security.OpenIdOptions"/></param>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.IncludeXmlComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions,System.Boolean)">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files
+            </summary>
+            <param name="swaggerGenOptions"></param>
+            <param name="openApiOptions"><see cref="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions"/></param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.IncludeXmlComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files
+            </summary>
+            <param name="swaggerGenOptions"></param>
+            <param name="filePaths">An absolute path to the file that contains XML Comments</param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
         </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions">
             <summary>
