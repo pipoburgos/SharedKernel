@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
-    <Version>5.0.28</Version>
+    <Version>5.0.29</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
