@@ -26,9 +26,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
             foreach (var prop in schema.Properties)
             {
-                if (_valueTypes.Contains(prop.Value))
+                if (_valueTypes.Contains(prop.Value) || IsEnumRequired(prop))
                     schema.Required.Add(prop.Key);
             }
+        }
+
+        /// <summary>
+        /// To know if is a required enum
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <returns></returns>
+        public virtual bool IsEnumRequired(KeyValuePair<string, OpenApiSchema> prop)
+        {
+            return prop.Value.Reference != default;
         }
     }
 }
