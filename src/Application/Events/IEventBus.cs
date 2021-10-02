@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Domain.Events
+namespace SharedKernel.Application.Events
 {
     /// <summary>
     /// 

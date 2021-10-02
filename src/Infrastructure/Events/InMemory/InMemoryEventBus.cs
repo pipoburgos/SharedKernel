@@ -24,7 +24,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             return Publish(new List<DomainEvent> { @event }, cancellationToken);
         }
 
-        public async Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
+        public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
         {
             if (events == default)
                 return;

@@ -39,7 +39,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// <param name="events"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
+        public Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
         {
             return Task.WhenAll(events.Select(@event => Publish(@event, cancellationToken)));
         }

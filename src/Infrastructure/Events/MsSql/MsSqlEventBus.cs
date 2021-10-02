@@ -29,7 +29,7 @@ namespace SharedKernel.Infrastructure.Events.MsSql
         /// <param name="events"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task Publish(List<DomainEvent> events, CancellationToken cancellationToken)
+        public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
         {
             await Task.WhenAll(events.Select(domainEvent => Publish(domainEvent, cancellationToken)));
             await _context.SaveChangesAsync(cancellationToken);

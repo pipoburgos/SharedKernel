@@ -864,13 +864,6 @@
             <param name="occurredOn"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Domain.Events.DomainEvent.ParseExact(System.String)">
-            <summary>
-            Parse body date to DateTime
-            </summary>
-            <param name="date"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Domain.Events.DomainEventPrimitive">
             <summary>
             
@@ -914,7 +907,7 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(System.Collections.Generic.List{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
             <summary>
             Publish a list of events to event bus
             </summary>

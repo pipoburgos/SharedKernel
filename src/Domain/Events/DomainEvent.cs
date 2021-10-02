@@ -7,7 +7,7 @@ namespace SharedKernel.Domain.Events
     /// <summary>
     /// Generic domain event
     /// </summary>
-    public class DomainEvent : IRequest
+    public abstract class DomainEvent : IRequest
     {
         #region Constructors
 
@@ -56,7 +56,7 @@ namespace SharedKernel.Domain.Events
         /// The event identifier for message queues
         /// </summary>
         /// <returns></returns>
-        public virtual string GetEventName() => string.Empty;
+        public abstract string GetEventName();
 
         /// <summary>
         /// Create a new Domain event with default values
@@ -66,18 +66,7 @@ namespace SharedKernel.Domain.Events
         /// <param name="eventId"></param>
         /// <param name="occurredOn"></param>
         /// <returns></returns>
-        public virtual DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
-            string occurredOn) => new DomainEvent(aggregateId, eventId, occurredOn);
-
-        /// <summary>
-        /// Parse body date to DateTime
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        protected DateTime ParseExact(string date)
-        {
-            return DateTime.Parse(date, new CultureInfo("es-ES"));
-        }
+        public abstract DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn);
 
         #endregion
     }

@@ -600,6 +600,27 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Application.Events.IEventBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Events.IEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            Publish an event to event bus
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Events.IEventBus.Publish(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            Publish a list of events to event bus
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Exceptions.ExceptionCodes">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
