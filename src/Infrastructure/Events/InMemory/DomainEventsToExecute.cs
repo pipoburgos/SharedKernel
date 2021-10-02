@@ -46,10 +46,10 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// </summary>
         public async Task ExecuteAll(CancellationToken cancellationToken)
         {
-            await _semaphore.WaitAsync(cancellationToken);
-
             try
             {
+                await _semaphore.WaitAsync(cancellationToken);
+
                 foreach (var subscriber in _subscribers.ToList())
                 {
                     try
@@ -81,8 +81,11 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             }
             catch (Exception e)
             {
-                _semaphore.Release();
                 _logger?.Error(e, e.Message);
+            }
+            finally
+            {
+                _semaphore.Release();
             }
         }
     }
