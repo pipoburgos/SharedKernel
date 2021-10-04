@@ -429,6 +429,75 @@
             <param name="last"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.IRetryPolicyExceptionHandler">
+            <summary>
+            RetryPolicyMiddleware Exception handler
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.IRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
+            <summary>
+            Check if an exception has to be retried
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyExceptionHandler">
+            <summary>
+            RetryPolicyMiddleware Exception handler
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
+            <summary>
+            Check if an exception has to be retried
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`1">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`1.#ctor(SharedKernel.Application.RetryPolicies.IRetriever,SharedKernel.Infrastructure.Cqrs.Middlewares.IRetryPolicyExceptionHandler)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="retryRetriever"></param>
+            <param name="retryPolicyExceptionHandler"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`1.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            Handle errors
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`2">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`2.#ctor(SharedKernel.Application.RetryPolicies.IRetriever,SharedKernel.Infrastructure.Cqrs.Middlewares.IRetryPolicyExceptionHandler)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="retryRetriever"></param>
+            <param name="retryPolicyExceptionHandler"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Cqrs.Middlewares.RetryPolicyMiddleware`2.Handle(`0,System.Threading.CancellationToken,System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            Handle errors
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Cqrs.Middlewares.TimerMiddleware`1">
             <summary>
             
@@ -1031,6 +1100,30 @@
             
             </summary>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.#ctor(System.IServiceProvider)">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.CreateDbContext">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService">
             <summary>
             
@@ -1041,6 +1134,25 @@
             
             </summary>
             <param name="dbContext"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1">
+            <summary>
+                Defines a factory for creating <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instances.
+                A service of this type is registered in the dependency injection container by the
+                <see cref="M:EntityFrameworkServiceCollectionExtensions.AddDbContextPool" /> methods.
+            </summary>
+            <typeparam name="TContext"> The <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> type to create. </typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1.CreateDbContext">
+            <summary>
+                <para>
+                    Creates a new <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instance.
+                </para>
+                <para>
+                    The caller is responsible for disposing the context; it will not be disposed by the dependency injection container.
+                </para>
+            </summary>
+            <returns> A new context instance. </returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IQueryableUnitOfWork">
             <summary>
@@ -1125,7 +1237,7 @@
             </summary>
             <typeparam name="TDbContextBase"></typeparam>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`0})">
             <summary>
             
             </summary>
@@ -2695,21 +2807,6 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
-            <summary>
-            Http client extensions
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
-            <summary>
-            Add http client with bearer token
-            </summary>
-            <typeparam name="TClient"></typeparam>
-            <param name="services"></param>
-            <param name="name"></param>
-            <param name="uri"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1">
             <summary>
             
@@ -2857,6 +2954,31 @@
             <param name="parameters">Report parameters</param>
             <param name="dataSources">Report datasources</param>
             <returns>Array file contents</returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.RetryPolicies.PollyRetriever">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.RetryPolicies.PollyRetriever.ExecuteAsync``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="action"></param>
+            <param name="needToRetryTheException"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.RetryPolicies.PollyRetriever.ExecuteAsync``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{``0}},System.Func{System.Exception,System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="action"></param>
+            <param name="needToRetryTheException"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Base64">
             <summary>

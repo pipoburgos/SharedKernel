@@ -1107,6 +1107,31 @@
             <param name="dataSources">Report datasources</param>
             <returns>Array file contents</returns>
         </member>
+        <member name="T:SharedKernel.Application.RetryPolicies.IRetriever">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.RetryPolicies.IRetriever.ExecuteAsync``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="action"></param>
+            <param name="needToRetryTheException"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.RetryPolicies.IRetriever.ExecuteAsync``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{``0}},System.Func{System.Exception,System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Retry retriever provides an ability to automatically re-invoke a failed operation
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="action"></param>
+            <param name="needToRetryTheException"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Security.Cryptography.IBase64">
             <summary>
             Base 64 helper
