@@ -1,7 +1,8 @@
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Domain.Events;
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,33 +13,38 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     /// </summary>
     public class DomainEventsToExecute
     {
+        private readonly DomainEventMediator _domainEventMediator;
+        private readonly DomainEventJsonSerializer _serializer;
+        private readonly DomainEventJsonDeserializer _deserializer;
         private readonly ICustomLogger<DomainEventsToExecute> _logger;
-        private readonly TimeSpan _delayTimeSpan;
-        private readonly SemaphoreSlim _semaphore;
-        private readonly ConcurrentDictionary<Guid, Func<CancellationToken, Task>> _subscribers = new();
-        private readonly ConcurrentDictionary<Guid, int> _retries = new();
+        private readonly IRetriever _retriever;
+        private readonly ConcurrentBag<DomainEvent> _events;
 
         /// <summary>
         /// 
         /// </summary>
         public DomainEventsToExecute(
+            DomainEventMediator domainEventMediator,
+            DomainEventJsonSerializer serializer,
+            DomainEventJsonDeserializer deserializer,
             ICustomLogger<DomainEventsToExecute> logger,
-            TimeSpan delayTimeSpan)
+            IRetriever retriever)
         {
+            _domainEventMediator = domainEventMediator;
+            _serializer = serializer;
+            _deserializer = deserializer;
             _logger = logger;
-            _delayTimeSpan = delayTimeSpan;
-            _semaphore = new SemaphoreSlim(1, 1);
+            _retriever = retriever;
+            _events = new ConcurrentBag<DomainEvent>();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="func"></param>
-        public void Add(Func<CancellationToken, Task> func)
+        /// <param name="domainEvent"></param>
+        public void Add(DomainEvent domainEvent)
         {
-            var functionId = Guid.NewGuid();
-            _subscribers.TryAdd(functionId, func);
-            _retries.TryAdd(functionId, 0);
+            _events.Add(domainEvent);
         }
 
         /// <summary>
@@ -46,47 +52,36 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// </summary>
         public async Task ExecuteAll(CancellationToken cancellationToken)
         {
-            try
+            while (_events.TryTake(out var domainEvent))
             {
-                await _semaphore.WaitAsync(cancellationToken);
+                await ExecuteDomainSubscribers(domainEvent, cancellationToken);
+            }
 
-                foreach (var subscriber in _subscribers.ToList())
+            await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);
+        }
+
+        private async Task ExecuteDomainSubscribers(DomainEvent @event, CancellationToken cancellationToken)
+        {
+            var subscribers = DomainEventSubscriberInformationService.GetAllEventsSubscribers(@event);
+            var eventSerialized = _serializer.Serialize(@event);
+            var eventDeserialized = _deserializer.Deserialize(eventSerialized);
+            foreach (var subscriber in subscribers)
+            {
+                try
                 {
-                    try
-                    {
-                        await subscriber.Value(cancellationToken);
-                        _subscribers.TryRemove(subscriber.Key, out _);
-                        _retries.TryRemove(subscriber.Key, out _);
-                    }
-                    catch (Exception e)
-                    {
-                        var retry = _retries[subscriber.Key];
-                        _logger.Warn($"Retry number {retry}");
-                        _logger?.Error(e, e.Message);
-                        _retries.TryRemove(subscriber.Key, out _);
-                        _retries.TryAdd(subscriber.Key, retry + 1);
-
-                        if (retry > 5)
-                        {
-                            _subscribers.TryRemove(subscriber.Key, out _);
-                            _retries.TryRemove(subscriber.Key, out _);
-                        }
-                    }
+                    await ExecuteDomainSubscriber(eventDeserialized, subscriber, cancellationToken);
                 }
+                catch (Exception e)
+                {
+                    _logger?.Error(e, e.Message);
+                }
+            }
+        }
 
-                if (_subscribers.Any())
-                    _logger?.Info($" {_subscribers.Count} subscribers with errors.");
-
-                await Task.Delay(_delayTimeSpan, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                _logger?.Error(e, e.Message);
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+        private Task ExecuteDomainSubscriber(DomainEvent domainEvent, string subscriber, CancellationToken cancellationToken)
+        {
+            return _retriever.ExecuteAsync<Task>(async ct => await _domainEventMediator.ExecuteOn(domainEvent, subscriber, ct),
+                _ => true, cancellationToken);
         }
     }
 }

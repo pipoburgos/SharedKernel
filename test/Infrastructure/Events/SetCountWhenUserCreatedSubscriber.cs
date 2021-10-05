@@ -22,6 +22,12 @@ namespace SharedKernel.Integration.Tests.Events
             if (@event == default)
                 throw new ArgumentNullException(nameof(@event));
 
+            var rnd = new Random();
+            var random = rnd.Next(1, 15);
+
+            if (random == 2)
+                throw new Exception("To retry");
+
             _singletonValueContainer.SumTotal();
 
             return Task.CompletedTask;

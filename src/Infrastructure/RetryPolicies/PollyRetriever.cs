@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Polly;
 using Polly.Retry;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Settings;
 
 namespace SharedKernel.Infrastructure.RetryPolicies
 {
@@ -12,6 +13,18 @@ namespace SharedKernel.Infrastructure.RetryPolicies
     /// </summary>
     public class PollyRetriever : IRetriever
     {
+        private readonly RetrieverOptions _options;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="options"></param>
+        public PollyRetriever(
+            IOptionsService<RetrieverOptions> options)
+        {
+            _options = options.Value;
+        }
+
         /// <summary>
         /// Retry retriever provides an ability to automatically re-invoke a failed operation
         /// </summary>
@@ -45,7 +58,7 @@ namespace SharedKernel.Infrastructure.RetryPolicies
         {
             return Policy
                 .Handle(needToRetryTheException)
-                .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100));
+                .WaitAndRetryAsync(_options.RetryCount, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100));
         }
     }
 }

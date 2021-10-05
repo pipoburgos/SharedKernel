@@ -21,7 +21,6 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         public InMemoryBackgroundService(IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
-            _serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <summary>

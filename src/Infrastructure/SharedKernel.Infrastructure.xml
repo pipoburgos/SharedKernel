@@ -2379,12 +2379,12 @@
             <param name="domainAssembly"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddInMemoryEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Nullable{System.TimeSpan})">
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddInMemoryEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
             <summary>
             
             </summary>
             <param name="services"></param>
-            <param name="delayTimeSpan">Delay TimeSpan to execute domain events queue. Default 50ms</param>
+            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRabbitMqEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
@@ -2408,16 +2408,16 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.#ctor(SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute},System.TimeSpan)">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.#ctor(SharedKernel.Infrastructure.Events.DomainEventMediator,SharedKernel.Infrastructure.Events.DomainEventJsonSerializer,SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute},SharedKernel.Application.RetryPolicies.IRetriever)">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.Add(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.Add(SharedKernel.Domain.Events.DomainEvent)">
             <summary>
             
             </summary>
-            <param name="func"></param>
+            <param name="domainEvent"></param>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.ExecuteAll(System.Threading.CancellationToken)">
             <summary>
@@ -2960,6 +2960,12 @@
             Retry retriever provides an ability to automatically re-invoke a failed operation
             </summary>
         </member>
+        <member name="M:SharedKernel.Infrastructure.RetryPolicies.PollyRetriever.#ctor(SharedKernel.Application.Settings.IOptionsService{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="M:SharedKernel.Infrastructure.RetryPolicies.PollyRetriever.ExecuteAsync``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Retry retriever provides an ability to automatically re-invoke a failed operation
@@ -2978,6 +2984,30 @@
             <param name="action"></param>
             <param name="needToRetryTheException"></param>
             <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions">
+            <summary>
+            Retriever options
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions.RetryCount">
+            <summary>
+            Number of retries
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.RetryPolicies.RetryPoliciesServiceExtensions">
+            <summary>
+            Retriever extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.RetryPolicies.RetryPoliciesServiceExtensions.AddPollyRetry(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Base64">

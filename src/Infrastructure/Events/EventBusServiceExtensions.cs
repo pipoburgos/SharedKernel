@@ -8,6 +8,8 @@ using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
+using SharedKernel.Infrastructure.Logging;
+using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
@@ -49,17 +51,19 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="delayTimeSpan">Delay TimeSpan to execute domain events queue. Default 50ms</param>
+        /// <param name="configuration"></param>
+        /// <param name="optionsConfiguration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, TimeSpan? delayTimeSpan = null)
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services,
+            IConfiguration configuration, Action<RetrieverOptions> optionsConfiguration = null)
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton(s => new DomainEventsToExecute(s.GetService<ICustomLogger<DomainEventsToExecute>>(),
-                    delayTimeSpan ?? TimeSpan.FromMilliseconds(50)))
+                .AddSingleton<DomainEventsToExecute>()
                 .AddEventBus()
-                .AddScoped<InMemoryDomainEventsConsumer>()
-                .AddScoped<IEventBus, InMemoryEventBus>();
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
+                .AddScoped<IEventBus, InMemoryEventBus>()
+                .AddPollyRetry(configuration, optionsConfiguration);
         }
 
         /// <summary>

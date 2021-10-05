@@ -9,14 +9,14 @@ namespace SharedKernel.Infrastructure.Events.InMemory
 {
     internal class InMemoryEventBus : IEventBus
     {
-        private readonly InMemoryDomainEventsConsumer _inMemoryConsumer;
+        private readonly DomainEventsToExecute _domainEventsToExecute;
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
 
         public InMemoryEventBus(
-            InMemoryDomainEventsConsumer inMemoryConsumer,
+            DomainEventsToExecute domainEventsToExecute,
             ExecuteMiddlewaresService executeMiddlewaresService)
         {
-            _inMemoryConsumer = inMemoryConsumer;
+            _domainEventsToExecute = domainEventsToExecute;
             _executeMiddlewaresService = executeMiddlewaresService;
         }
 
@@ -32,9 +32,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
 
             foreach (var domainEvent in events)
             {
-                await _executeMiddlewaresService.ExecuteAsync(domainEvent, cancellationToken, (req, _) =>
+                await _executeMiddlewaresService.ExecuteAsync(domainEvent, cancellationToken, (@event, _) =>
                 {
-                    _inMemoryConsumer.Consume(req);
+                    _domainEventsToExecute.Add(@event);
                     return Task.CompletedTask;
                 });
             }
