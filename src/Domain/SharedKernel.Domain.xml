@@ -894,27 +894,6 @@
             
             </summary>
         </member>
-        <member name="T:SharedKernel.Domain.Events.IEventBus">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
-            <summary>
-            Publish an event to event bus
-            </summary>
-            <param name="event"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Domain.Events.IEventBus.Publish(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
-            <summary>
-            Publish a list of events to event bus
-            </summary>
-            <param name="events"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Domain.Events.IRequest">
             <summary>
             Request made to a bus

@@ -1,8 +1,8 @@
-﻿using SharedKernel.Domain.Events;
+﻿using FluentAssertions;
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
 
 namespace SharedKernel.Integration.Tests.Events
 {

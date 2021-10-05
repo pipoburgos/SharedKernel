@@ -1,3 +1,4 @@
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System.Collections.Generic;

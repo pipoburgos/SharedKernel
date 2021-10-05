@@ -1,9 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using SharedKernel.Application.Events;
+using SharedKernel.Domain.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events.MsSql
 {

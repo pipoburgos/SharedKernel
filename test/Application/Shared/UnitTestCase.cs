@@ -1,4 +1,5 @@
 using Moq;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
 using System;

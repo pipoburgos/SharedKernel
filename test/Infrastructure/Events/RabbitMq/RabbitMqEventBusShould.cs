@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Domain.Events;
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Events;

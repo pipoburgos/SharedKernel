@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Validator;
-using SharedKernel.Domain.Events;
 using SharedKernel.Domain.Security;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;

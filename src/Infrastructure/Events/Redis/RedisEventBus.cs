@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using StackExchange.Redis;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
