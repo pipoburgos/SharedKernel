@@ -77,7 +77,8 @@ namespace SharedKernel.Infrastructure.Events
 
                 var eventType = subscriberClass.BaseType?.GenericTypeArguments.Single();
 
-                information.Add(subscriberClass, new DomainEventSubscriberInformation(subscriberClass, eventType));
+                if (!information.ContainsKey(subscriberClass))
+                    information.Add(subscriberClass, new DomainEventSubscriberInformation(subscriberClass, eventType));
             }
 
             _information = information;
@@ -118,7 +119,7 @@ namespace SharedKernel.Infrastructure.Events
                 {
                     var @interface = handlerInterfaceType.AsType();
                     var @class = type.AsType();
-                    services.AddScoped( @interface, @class);
+                    services.AddScoped(@interface, @class);
                     services.AddScoped(@class);
                 }
             }
