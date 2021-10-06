@@ -2471,6 +2471,34 @@
             <param name="stoppingToken"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus">
+            <summary>
+            In memory event bus
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.#ctor(SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute,SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="domainEventsToExecute"></param>
+            <param name="executeMiddlewaresService"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.Publish(SharedKernel.Domain.Events.DomainEvent,System.Threading.CancellationToken)">
+            <summary>
+            Publish an event to event bus
+            </summary>
+            <param name="event"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.Publish(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Events.DomainEvent},System.Threading.CancellationToken)">
+            <summary>
+            Publish an event to event bus
+            </summary>
+            <param name="events"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Events.MsSql.MsSqlEventBus">
             <summary>
             

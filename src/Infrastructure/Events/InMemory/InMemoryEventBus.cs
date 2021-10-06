@@ -7,11 +7,19 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
-    internal class InMemoryEventBus : IEventBus
+    /// <summary>
+    /// In memory event bus
+    /// </summary>
+    public class InMemoryEventBus : IEventBus
     {
         private readonly DomainEventsToExecute _domainEventsToExecute;
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="domainEventsToExecute"></param>
+        /// <param name="executeMiddlewaresService"></param>
         public InMemoryEventBus(
             DomainEventsToExecute domainEventsToExecute,
             ExecuteMiddlewaresService executeMiddlewaresService)
@@ -20,11 +28,23 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             _executeMiddlewaresService = executeMiddlewaresService;
         }
 
+        /// <summary>
+        /// Publish an event to event bus
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
             return Publish(new List<DomainEvent> { @event }, cancellationToken);
         }
 
+        /// <summary>
+        /// Publish an event to event bus
+        /// </summary>
+        /// <param name="events"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
         {
             if (events == default)
