@@ -1,13 +1,16 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
-using SharedKernel.Domain.Security;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -17,29 +20,25 @@ namespace SharedKernel.Infrastructure.Events
     public class DomainEventMediator
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IIdentityService _identityService;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="serviceScopeFactory"></param>
-        /// <param name="identityService"></param>
-        public DomainEventMediator(
-            IServiceScopeFactory serviceScopeFactory,
-            IIdentityService identityService)
+        public DomainEventMediator(IServiceScopeFactory serviceScopeFactory)
         {
             _serviceScopeFactory = serviceScopeFactory;
-            _identityService = identityService;
         }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="body"></param>
         /// <param name="event"></param>
         /// <param name="eventSubscriber"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task ExecuteOn(DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
+        public async Task ExecuteOn(string body, DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
         {
             var queueParts = eventSubscriber.Split('.');
             var subscriberName = ToCamelFirstUpper(queueParts.Last());
@@ -49,18 +48,7 @@ namespace SharedKernel.Infrastructure.Events
             using var scope = _serviceScopeFactory.CreateScope();
 
             var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
-            if (httpContextAccessor != default && _identityService.IsAuthenticated())
-            {
-#if !NET461 && !NETSTANDARD
-                httpContextAccessor.HttpContext ??= new DefaultHttpContext();
-#endif
-#pragma warning disable S1066 // Collapsible "if" statements should be merged
-                if (httpContextAccessor.HttpContext != default)
-#pragma warning restore S1066 // Collapsible "if" statements should be merged
-                {
-                    httpContextAccessor.HttpContext.User = _identityService.User;
-                }
-            }
+            AddIdentity(body, httpContextAccessor);
 
             var subscriber = scope.ServiceProvider.GetRequiredService(subscriberType);
             await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
@@ -70,6 +58,35 @@ namespace SharedKernel.Infrastructure.Events
         {
             var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
             return textInfo.ToTitleCase(text).Replace("_", string.Empty);
+        }
+
+        private static void AddIdentity(string body, IHttpContextAccessor httpContextAccessor)
+        {
+            if (httpContextAccessor == default)
+                return;
+
+            var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
+            if (eventData == default)
+                throw new ArgumentException(nameof(body));
+
+            var headers = eventData["headers"];
+            if (headers == default)
+                return;
+
+            var domainClaimsString = headers["claims"]?.ToString();
+            if (domainClaimsString == default)
+                return;
+
+            var domainClaims = JsonConvert.DeserializeObject<List<DomainClaim>>(domainClaimsString!);
+            if (domainClaims == default || !domainClaims.Any())
+                return;
+
+#if !NET461 && !NETSTANDARD
+            httpContextAccessor.HttpContext ??= new DefaultHttpContext();
+#endif
+
+            httpContextAccessor.HttpContext.User =
+                new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
         }
     }
 }

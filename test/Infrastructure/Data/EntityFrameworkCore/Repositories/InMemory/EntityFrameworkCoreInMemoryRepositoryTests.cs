@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Docker;
 using SharedKernel.Integration.Tests.Shared;
+using System;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory
@@ -12,11 +11,6 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
     [Collection("DockerHook")]
     public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase
     {
-        public EntityFrameworkCoreInMemoryRepositoryTests(DockerHook dockerHook)
-        {
-            dockerHook.Run();
-        }
-
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SharedKernelDbContext>(options =>

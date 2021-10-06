@@ -2207,6 +2207,28 @@
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Events.DomainClaim">
+            <summary>
+            Domain claim
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainClaim.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.DomainClaim.Type">
+            <summary>
+            Claim type
+            </summary>
+        </member>
+        <member name="P:SharedKernel.Infrastructure.Events.DomainClaim.Value">
+            <summary>
+            Claim value
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Events.DomainEventExtensions">
             <summary>
             
@@ -2254,6 +2276,12 @@
             
             </summary>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor"></param>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer.Serialize(SharedKernel.Domain.Events.DomainEvent)">
             <summary>
             
@@ -2266,17 +2294,17 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,SharedKernel.Domain.Security.IIdentityService)">
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
             <summary>
-            
+            Constructor
             </summary>
             <param name="serviceScopeFactory"></param>
-            <param name="identityService"></param>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.ExecuteOn(SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
             <summary>
             
             </summary>
+            <param name="body"></param>
             <param name="event"></param>
             <param name="eventSubscriber"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
@@ -2384,6 +2412,7 @@
             
             </summary>
             <param name="services"></param>
+            <param name="configuration"></param>
             <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>

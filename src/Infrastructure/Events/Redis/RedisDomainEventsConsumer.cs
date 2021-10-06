@@ -45,7 +45,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
                 var subscribers = DomainEventSubscriberInformationService.GetAllEventsSubscribers(@event);
 
                 await Task.WhenAll(subscribers.Select(subscriber =>
-                    domainEventMediator.ExecuteOn(@event, subscriber, stoppingToken)));
+                    domainEventMediator.ExecuteOn(value, @event, subscriber, stoppingToken)));
             });
         }
     }

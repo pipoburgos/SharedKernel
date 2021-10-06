@@ -5,7 +5,6 @@ using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Integration.Tests.Shared;
 using System;
 using System.Threading.Tasks;
-using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
@@ -13,11 +12,6 @@ namespace SharedKernel.Integration.Tests.Caching
     [Collection("DockerHook")]
     public class RedisCacheHelperTests : InfrastructureTestCase
     {
-        public RedisCacheHelperTests(DockerHook dockerHook)
-        {
-            dockerHook.Run();
-        }
-
         protected override string GetJsonFile()
         {
             return "Caching/appsettings.redis.json";

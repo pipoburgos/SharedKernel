@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
@@ -17,11 +16,6 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
     [Collection("DockerHook")]
     public class QueryProviderTests : InfrastructureTestCase
     {
-        public QueryProviderTests(DockerHook dockerHook)
-        {
-            dockerHook.Run();
-        }
-
         protected override string GetJsonFile()
         {
             return "Data/EntityFrameworkCore/Repositories/SqlServer/appsettings.sqlServer.json";

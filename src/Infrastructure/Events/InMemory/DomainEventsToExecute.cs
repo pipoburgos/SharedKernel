@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         private readonly DomainEventJsonDeserializer _deserializer;
         private readonly ICustomLogger<DomainEventsToExecute> _logger;
         private readonly IRetriever _retriever;
-        private readonly ConcurrentBag<DomainEvent> _events;
+        private readonly ConcurrentBag<string> _events;
 
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             _deserializer = deserializer;
             _logger = logger;
             _retriever = retriever;
-            _events = new ConcurrentBag<DomainEvent>();
+            _events = new ConcurrentBag<string>();
         }
 
         /// <summary>
@@ -44,7 +44,8 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// <param name="domainEvent"></param>
         public void Add(DomainEvent domainEvent)
         {
-            _events.Add(domainEvent);
+            var eventSerialized = _serializer.Serialize(domainEvent);
+            _events.Add(eventSerialized);
         }
 
         /// <summary>
@@ -60,16 +61,16 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);
         }
 
-        private async Task ExecuteDomainSubscribers(DomainEvent @event, CancellationToken cancellationToken)
+        private async Task ExecuteDomainSubscribers(string eventSerialized, CancellationToken cancellationToken)
         {
-            var subscribers = DomainEventSubscriberInformationService.GetAllEventsSubscribers(@event);
-            var eventSerialized = _serializer.Serialize(@event);
             var eventDeserialized = _deserializer.Deserialize(eventSerialized);
+            var subscribers = DomainEventSubscriberInformationService.GetAllEventsSubscribers(eventDeserialized);
+
             foreach (var subscriber in subscribers)
             {
                 try
                 {
-                    await ExecuteDomainSubscriber(eventDeserialized, subscriber, cancellationToken);
+                    await ExecuteDomainSubscriber(eventSerialized, eventDeserialized, subscriber, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -78,9 +79,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             }
         }
 
-        private Task ExecuteDomainSubscriber(DomainEvent domainEvent, string subscriber, CancellationToken cancellationToken)
+        private Task ExecuteDomainSubscriber(string body, DomainEvent domainEvent, string subscriber, CancellationToken cancellationToken)
         {
-            return _retriever.ExecuteAsync<Task>(async ct => await _domainEventMediator.ExecuteOn(domainEvent, subscriber, ct),
+            return _retriever.ExecuteAsync<Task>(async ct => await _domainEventMediator.ExecuteOn(body, domainEvent, subscriber, ct),
                 _ => true, cancellationToken);
         }
     }

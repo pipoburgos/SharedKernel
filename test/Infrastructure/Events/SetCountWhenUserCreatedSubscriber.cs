@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
 
@@ -8,11 +10,14 @@ namespace SharedKernel.Integration.Tests.Events
 {
     internal class SetCountWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PublishUserCreatedDomainEvent _singletonValueContainer;
 
         public SetCountWhenUserCreatedSubscriber(
+            IHttpContextAccessor httpContextAccessor,
             PublishUserCreatedDomainEvent singletonValueContainer)
         {
+            _httpContextAccessor = httpContextAccessor;
             _singletonValueContainer = singletonValueContainer;
         }
 
@@ -28,7 +33,8 @@ namespace SharedKernel.Integration.Tests.Events
             if (random == 2)
                 throw new Exception("To retry");
 
-            _singletonValueContainer.SumTotal();
+            if (_httpContextAccessor?.HttpContext?.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
+                _singletonValueContainer.SumTotal();
 
             return Task.CompletedTask;
         }

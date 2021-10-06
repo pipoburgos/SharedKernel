@@ -6,8 +6,18 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Docker
 {
     [CollectionDefinition("DockerHook")]
-    public class DockerHookCollection : ICollectionFixture<DockerHook>
+    public class DockerHookCollection : ICollectionFixture<DockerHook>, IDisposable
     {
+        private readonly DockerHook _dockerHook;
+        public DockerHookCollection(DockerHook dockerHook)
+        {
+            _dockerHook = dockerHook;
+        }
+
+        public void Dispose()
+        {
+            _dockerHook.Dispose();
+        }
     }
 
     public class DockerHook : IDisposable
@@ -23,10 +33,6 @@ namespace SharedKernel.Integration.Tests.Docker
                 .RemoveOrphans()
                 .Build()
                 .Start();
-        }
-
-        public void Run()
-        {
         }
 
         public void Dispose()

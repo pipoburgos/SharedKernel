@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -44,7 +44,7 @@ namespace SharedKernel.Infrastructure.Events
                     attributes["id"],
                     attributes,
                     data["id"].ToString(),
-                    data["occurred_on"].ToString()
+                    data["occurred_on"].ToString(),
                 });
 
             return domainEvent;

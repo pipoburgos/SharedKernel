@@ -9,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
@@ -17,11 +16,6 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
     [Collection("DockerHook")]
     public class SmtpEmailSenderTests : InfrastructureTestCase
     {
-        public SmtpEmailSenderTests(DockerHook dockerHook)
-        {
-            dockerHook.Run();
-        }
-
         protected override string GetJsonFile()
         {
             return "Communication/Email/Smtp/appsettings.smtp.json";

@@ -72,7 +72,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
                     var @event = _deserializer.Deserialize(message);
 
-                    await _domainEventMediator.ExecuteOn(@event, eventSubscriber, CancellationToken.None);
+                    await _domainEventMediator.ExecuteOn(message, @event, eventSubscriber, CancellationToken.None);
                 }
                 catch(Exception ex)
                 {

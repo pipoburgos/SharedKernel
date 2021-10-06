@@ -7,7 +7,6 @@ using SharedKernel.Integration.Tests.Shared;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Integration.Tests.Docker;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
@@ -15,11 +14,6 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
     [Collection("DockerHook")]
     public class EntityFrameworkCoreSqlServerRepositoryTests : InfrastructureTestCase
     {
-        public EntityFrameworkCoreSqlServerRepositoryTests(DockerHook dockerHook)
-        {
-            dockerHook.Run();
-        }
-
         protected override string GetJsonFile()
         {
             return "Data/EntityFrameworkCore/Repositories/SqlServer/appsettings.sqlServer.json";
