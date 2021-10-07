@@ -8,12 +8,12 @@ using System.Reflection;
 namespace SharedKernel.Infrastructure.Events
 {
     /// <summary>
-    /// 
+    /// Domain event deserializer
     /// </summary>
-    public class DomainEventJsonDeserializer
+    public class DomainEventJsonDeserializer : IDomainEventJsonDeserializer
     {
         /// <summary>
-        /// 
+        /// Domain event deserializer
         /// </summary>
         /// <param name="body"></param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace SharedKernel.Infrastructure.Events
                     attributes["id"],
                     attributes,
                     data["id"].ToString(),
-                    data["occurred_on"].ToString(),
+                    data["occurred_on"].ToString()
                 });
 
             return domainEvent;

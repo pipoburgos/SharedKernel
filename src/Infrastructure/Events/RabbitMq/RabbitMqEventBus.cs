@@ -19,9 +19,9 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     {
         private const string HeaderReDelivery = "redelivery_count";
         // private readonly MsSqlEventBus _failOverPublisher;
-        private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
+        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
         private readonly RabbitMqConnectionFactory _config;
-        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
+        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// <param name="rabbitMqParams"></param>
         public RabbitMqEventBus(
             // MsSqlEventBus failOverPublisher,
-            DomainEventJsonSerializer domainEventJsonSerializer,
+            IDomainEventJsonSerializer domainEventJsonSerializer,
             RabbitMqConnectionFactory config,
-            ExecuteMiddlewaresService executeMiddlewaresService,
+            IExecuteMiddlewaresService executeMiddlewaresService,
             IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             // _failOverPublisher = failOverPublisher;

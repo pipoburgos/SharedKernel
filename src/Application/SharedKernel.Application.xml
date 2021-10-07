@@ -660,6 +660,19 @@
             <param name="code"></param>
             <param name="innerException"></param>
         </member>
+        <member name="T:SharedKernel.Application.Extensions.AggregateRootExtensions">
+            <summary>
+            AggregateRoot extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.AggregateRootExtensions.PullDomainEvents``1(System.Collections.Generic.IEnumerable{SharedKernel.Domain.Aggregates.AggregateRoot{``0}})">
+            <summary>
+            Pull all domain events
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="aggregateRoots"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Extensions.EnumerableExtensions">
             <summary>
             
@@ -1488,6 +1501,28 @@
         <member name="P:SharedKernel.Application.System.TaskHelper.CompletedTask">
             <summary>Gets a task that has already completed successfully.</summary>
             <returns>The successfully completed task.</returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.DelayToUtcHour(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary> Create a task that will be completed when the time comes. </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.DelayToHour(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary> Create a task that will be completed when the time comes. </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Ejecutar una función asíncrona de forma síncrona
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Ejecutar una función asíncrona de forma síncrona
+            </summary>
+            <param name="func"></param>
         </member>
         <member name="T:SharedKernel.Application.System.Threading.IMutex">
             <summary>

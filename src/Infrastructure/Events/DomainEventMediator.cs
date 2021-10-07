@@ -17,7 +17,7 @@ namespace SharedKernel.Infrastructure.Events
     /// <summary>
     /// 
     /// </summary>
-    public class DomainEventMediator
+    public class DomainEventMediator : IDomainEventMediator
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 

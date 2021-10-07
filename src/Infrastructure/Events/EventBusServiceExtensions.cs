@@ -115,10 +115,10 @@ namespace SharedKernel.Infrastructure.Events
             return services
                 .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
                 .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
-                .AddTransient<ExecuteMiddlewaresService>()
-                .AddTransient<DomainEventMediator>()
-                .AddTransient<DomainEventJsonSerializer>()
-                .AddTransient<DomainEventJsonDeserializer>();
+                .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
+                .AddTransient<IDomainEventMediator, DomainEventMediator>()
+                .AddTransient<IDomainEventJsonSerializer, DomainEventJsonSerializer>()
+                .AddTransient<IDomainEventJsonDeserializer, DomainEventJsonDeserializer>();
         }
 
         private static string GetRedisConfiguration(IConfiguration configuration)

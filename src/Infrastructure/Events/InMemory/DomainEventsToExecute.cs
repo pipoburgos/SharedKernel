@@ -11,11 +11,11 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     /// <summary>
     /// 
     /// </summary>
-    public class DomainEventsToExecute
+    public class DomainEventsToExecute : IDomainEventsToExecute
     {
-        private readonly DomainEventMediator _domainEventMediator;
-        private readonly DomainEventJsonSerializer _serializer;
-        private readonly DomainEventJsonDeserializer _deserializer;
+        private readonly IDomainEventMediator _domainEventMediator;
+        private readonly IDomainEventJsonSerializer _serializer;
+        private readonly IDomainEventJsonDeserializer _deserializer;
         private readonly ICustomLogger<DomainEventsToExecute> _logger;
         private readonly IRetriever _retriever;
         private readonly ConcurrentBag<string> _events;
@@ -24,9 +24,9 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// 
         /// </summary>
         public DomainEventsToExecute(
-            DomainEventMediator domainEventMediator,
-            DomainEventJsonSerializer serializer,
-            DomainEventJsonDeserializer deserializer,
+            IDomainEventMediator domainEventMediator,
+            IDomainEventJsonSerializer serializer,
+            IDomainEventJsonDeserializer deserializer,
             ICustomLogger<DomainEventsToExecute> logger,
             IRetriever retriever)
         {

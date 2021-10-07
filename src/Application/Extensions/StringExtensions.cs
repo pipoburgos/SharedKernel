@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -37,10 +38,6 @@ namespace SharedKernel.Application.Extensions
             if (parameters == null)
                 return string.Empty;
 
-            //if (parameters == null)
-            //    parameters = new Dictionary<string, object> { { "json", true } };
-            //else
-            //    parameters.Add("json", true);
             var sb = new StringBuilder("?");
 
             var first = true;
@@ -72,26 +69,43 @@ namespace SharedKernel.Application.Extensions
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static string ConvertTimeSpanToString(TimeSpan time)
+        public static string ConvertTimeSpanToString(TimeSpan time) => $"{time.Hours:D2}:{time.Minutes:D2}";
+
+        /// <summary>
+        /// Capitalize first letter
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string CapitalizeFirstLetter(this string text)
         {
-            var formattedTimeSpan = $"{time.Hours:D2}:{time.Minutes:D2}";
-            return formattedTimeSpan;
+            switch (text.Length)
+            {
+                case 0:
+                    return text;
+                case 1:
+                    return text.ToUpper();
+                default:
+                    return char.ToUpper(text[0]) + text.Substring(1);
+            }
         }
 
         /// <summary>
-        /// 
+        /// Ignorar mayúsculas y minúsculas
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="source"></param>
+        /// <param name="toCheck"></param>
         /// <returns></returns>
-        public static string CapitalizeFirstLetter(this string str)
-        {
-            if (str.Length == 0)
-                return str;
+        public static bool ContainsIgnoreCase(this string source, string toCheck) =>
+            source?.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
 
-            if (str.Length == 1)
-                return str.ToUpper();
-
-            return char.ToUpper(str[0]) + str.Substring(1);
-        }
+        /// <summary>
+        /// Remove brackets
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string WithoutBrackets(this string text) =>
+            new string(text.Normalize(NormalizationForm.FormD)
+                    .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray())
+                .Normalize(NormalizationForm.FormC);
     }
 }

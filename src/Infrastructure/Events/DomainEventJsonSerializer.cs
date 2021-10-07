@@ -9,7 +9,7 @@ namespace SharedKernel.Infrastructure.Events
     /// <summary>
     /// 
     /// </summary>
-    public class DomainEventJsonSerializer
+    public class DomainEventJsonSerializer : IDomainEventJsonSerializer
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -16,10 +16,10 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     public class RabbitMqDomainEventsConsumer
     {
         private readonly RabbitMqConnectionFactory _config;
-        private readonly DomainEventMediator _domainEventMediator;
+        private readonly IDomainEventMediator _domainEventMediator;
         private readonly ICustomLogger<RabbitMqDomainEventsConsumer> _logger;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
-        private readonly DomainEventJsonDeserializer _deserializer;
+        private readonly IDomainEventJsonDeserializer _deserializer;
         private const int MaxRetries = 2;
         private const string HeaderRedelivery = "redelivery_count";
 
@@ -32,9 +32,9 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// <param name="logger"></param>
         /// <param name="rabbitMqParams"></param>
         public RabbitMqDomainEventsConsumer(
-            DomainEventJsonDeserializer deserializer,
+            IDomainEventJsonDeserializer deserializer,
             RabbitMqConnectionFactory config,
-            DomainEventMediator domainEventMediator,
+            IDomainEventMediator domainEventMediator,
             ICustomLogger<RabbitMqDomainEventsConsumer> logger,
             IOptions<RabbitMqConfigParams> rabbitMqParams)
         {

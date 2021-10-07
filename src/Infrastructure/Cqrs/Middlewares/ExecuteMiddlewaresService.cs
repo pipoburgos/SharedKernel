@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
     /// <summary>
     /// 
     /// </summary>
-    public class ExecuteMiddlewaresService
+    public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
     {
         private readonly IServiceProvider _serviceProvider;
 

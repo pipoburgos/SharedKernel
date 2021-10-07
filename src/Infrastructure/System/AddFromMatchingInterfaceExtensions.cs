@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.ServiceModel;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,44 @@ namespace SharedKernel.Infrastructure.System
     /// </summary>
     public static class AddFromMatchingInterfaceExtensions
     {
+        /// <summary>
+        /// Register all clases thats implements interface
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <param name="types"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
+            ServiceLifetime serviceLifetime, params Type[] types)
+        {
+            if (types == default)
+                return services;
+
+            return services.AddFromMatchingInterface<TInterface>(serviceLifetime,
+                types.Select(t => t.Assembly).ToArray());
+        }
+
+        /// <summary>
+        /// Register all clases thats implements interface
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <param name="assemblies"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
+            ServiceLifetime serviceLifetime, params Assembly[] assemblies)
+        {
+            if (assemblies == default)
+                return services;
+
+            assemblies
+                .SelectMany(a => a.GetTypes())
+                .Where(t => t.IsClass && typeof(TInterface).IsAssignableFrom(t))
+                .ToList()
+                .ForEach(type => services.Add(new ServiceDescriptor(typeof(TInterface), type, serviceLifetime)));
+
+            return services;
+        }
 
         /// <summary>
         /// Register all classes that implement an interface equal to its name in transient mode
@@ -33,7 +72,8 @@ namespace SharedKernel.Infrastructure.System
         /// <param name="types"></param>
         /// <returns></returns>
         /// <exception cref="ActionNotSupportedException"></exception>
-        public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services, Func<Type, bool> classesInclude, params Type[] types)
+        public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
+            Func<Type, bool> classesInclude, params Type[] types)
         {
             classesInclude ??= n =>
                 n.Name.EndsWith("Repository") ||
@@ -44,7 +84,7 @@ namespace SharedKernel.Infrastructure.System
                 n.Name.EndsWith("Comparer");
 
             var classes = types
-                .SelectMany(a => a.Assembly.GetTypes().Where(n => n.IsClass).Where(classesInclude))
+                .SelectMany(a => a.Assembly.GetTypes().Where(type => type.IsClass).Where(classesInclude))
                 .ToList();
 
             foreach (var @class in classes)

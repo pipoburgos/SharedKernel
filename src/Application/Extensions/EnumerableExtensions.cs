@@ -14,6 +14,21 @@ namespace SharedKernel.Application.Extensions
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Remove last element of an enumerable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> elements)
+        {
+            var folders = elements.ToList();
+            folders.Reverse();
+            folders = folders.Skip(1).ToList();
+            folders.Reverse();
+            return folders;
+        }
+
+        /// <summary>
         /// Inserts an item to the enumerable first position
         /// </summary>
         /// <typeparam name="T"></typeparam>

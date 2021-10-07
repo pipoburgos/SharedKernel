@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <PackageId>Pipoburgos.SharedKernel.Api.Gateway</PackageId>
-    <Version>5.0.35</Version>
+    <Version>5.0.37</Version>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -30,7 +30,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.2" />
-    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.11" />
+    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.12" />
   </ItemGroup>
 
   <ItemGroup>

@@ -36,7 +36,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             {
                 try
                 {
-                    await scope.ServiceProvider.GetRequiredService<DomainEventsToExecute>().ExecuteAll(stoppingToken);
+                    await scope.ServiceProvider.GetRequiredService<IDomainEventsToExecute>().ExecuteAll(stoppingToken);
                 }
                 catch (Exception ex)
                 {

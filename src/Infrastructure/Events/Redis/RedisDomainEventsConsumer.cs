@@ -32,9 +32,9 @@ namespace SharedKernel.Infrastructure.Events.Redis
         {
             using var initialScope = _serviceScopeFactory.CreateScope();
 
-            var domainEventJsonDeserializer = initialScope.ServiceProvider.GetRequiredService<DomainEventJsonDeserializer>();
+            var domainEventJsonDeserializer = initialScope.ServiceProvider.GetRequiredService<IDomainEventJsonDeserializer>();
 
-            var domainEventMediator = initialScope.ServiceProvider.GetRequiredService<DomainEventMediator>();
+            var domainEventMediator = initialScope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
 
             var redisSubscriber = initialScope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>().GetSubscriber();
 

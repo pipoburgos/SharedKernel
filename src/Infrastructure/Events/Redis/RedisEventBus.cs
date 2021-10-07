@@ -15,8 +15,8 @@ namespace SharedKernel.Infrastructure.Events.Redis
     public class RedisEventBus : IEventBus
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
-        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
-        private readonly DomainEventJsonSerializer _domainEventJsonSerializer;
+        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
 
         /// <summary>
         /// 
@@ -26,8 +26,8 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// <param name="domainEventJsonSerializer"></param>
         public RedisEventBus(
             IConnectionMultiplexer connectionMultiplexer,
-            ExecuteMiddlewaresService executeMiddlewaresService,
-            DomainEventJsonSerializer domainEventJsonSerializer)
+            IExecuteMiddlewaresService executeMiddlewaresService,
+            IDomainEventJsonSerializer domainEventJsonSerializer)
         {
             _connectionMultiplexer = connectionMultiplexer;
             _executeMiddlewaresService = executeMiddlewaresService;
