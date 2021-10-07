@@ -15,6 +15,7 @@ using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
 using System;
 using System.Reflection;
+using SharedKernel.Infrastructure.Events.Shared;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -59,7 +60,7 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton<DomainEventsToExecute>()
+                .AddSingleton<IDomainEventsToExecute, DomainEventsToExecute>()
                 .AddEventBus()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddScoped<IEventBus, InMemoryEventBus>()

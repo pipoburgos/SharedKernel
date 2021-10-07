@@ -2284,57 +2284,6 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer">
-            <summary>
-            Domain event deserializer
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonDeserializer.Deserialize(System.String)">
-            <summary>
-            Domain event deserializer
-            </summary>
-            <param name="body"></param>
-            <returns></returns>
-        </member>
-        <member name="T:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="httpContextAccessor"></param>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventJsonSerializer.Serialize(SharedKernel.Domain.Events.DomainEvent)">
-            <summary>
-            
-            </summary>
-            <param name="domainEvent"></param>
-            <returns></returns>
-        </member>
-        <member name="T:SharedKernel.Infrastructure.Events.DomainEventMediator">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="serviceScopeFactory"></param>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="body"></param>
-            <param name="event"></param>
-            <param name="eventSubscriber"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation">
             <summary>
             
@@ -2556,7 +2505,7 @@
             In memory event bus
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.#ctor(SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute,SharedKernel.Infrastructure.Cqrs.Middlewares.ExecuteMiddlewaresService)">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.#ctor(SharedKernel.Infrastructure.Events.InMemory.IDomainEventsToExecute,SharedKernel.Infrastructure.Cqrs.Middlewares.IExecuteMiddlewaresService)">
             <summary>
             Constructor
             </summary>
@@ -2817,6 +2766,57 @@
             
             </summary>
             <param name="event"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.Shared.DomainEventJsonDeserializer">
+            <summary>
+            Domain event deserializer
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventJsonDeserializer.Deserialize(System.String)">
+            <summary>
+            Domain event deserializer
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.Shared.DomainEventJsonSerializer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventJsonSerializer.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="httpContextAccessor"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventJsonSerializer.Serialize(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            
+            </summary>
+            <param name="domainEvent"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="body"></param>
+            <param name="event"></param>
+            <param name="eventSubscriber"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>

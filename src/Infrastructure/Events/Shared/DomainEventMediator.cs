@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using SharedKernel.Application.Events;
-using SharedKernel.Application.Reflection;
-using SharedKernel.Domain.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using SharedKernel.Application.Events;
+using SharedKernel.Application.Reflection;
+using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Infrastructure.Events
+namespace SharedKernel.Infrastructure.Events.Shared
 {
     /// <summary>
     /// 
@@ -67,7 +67,7 @@ namespace SharedKernel.Infrastructure.Events
 
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
             if (eventData == default)
-                throw new ArgumentException(nameof(body));
+                throw new ArgumentException(nameof(eventData));
 
             var headers = eventData["headers"];
             if (headers == default)

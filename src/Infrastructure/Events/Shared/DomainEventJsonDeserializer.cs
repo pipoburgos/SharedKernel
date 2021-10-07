@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
-using SharedKernel.Application.Reflection;
-using SharedKernel.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Newtonsoft.Json;
+using SharedKernel.Application.Reflection;
+using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Infrastructure.Events
+namespace SharedKernel.Infrastructure.Events.Shared
 {
     /// <summary>
     /// Domain event deserializer

@@ -4,7 +4,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Infrastructure.Events
+namespace SharedKernel.Infrastructure.Events.Shared
 {
     /// <summary>
     /// 
