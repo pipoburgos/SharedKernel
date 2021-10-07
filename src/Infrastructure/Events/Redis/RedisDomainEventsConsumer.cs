@@ -1,26 +1,29 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SharedKernel.Application.System;
+using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Events.Redis
 {
     /// <summary>
-    /// 
+    /// Redis domain event consumer background service
     /// </summary>
     public class RedisDomainEventsConsumer : BackgroundService
     {
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        private readonly IDomainEventMediator _domainEventMediator;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="serviceScopeFactory"></param>
         public RedisDomainEventsConsumer(IServiceScopeFactory serviceScopeFactory)
         {
-            _serviceScopeFactory = serviceScopeFactory;
+            using var scope = serviceScopeFactory.CreateScope();
+            _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+            _domainEventMediator = scope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
         }
 
         /// <summary>
@@ -28,24 +31,11 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// </summary>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var initialScope = _serviceScopeFactory.CreateScope();
-
-            var domainEventJsonDeserializer = initialScope.ServiceProvider.GetRequiredService<IDomainEventJsonDeserializer>();
-
-            var domainEventMediator = initialScope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
-
-            var redisSubscriber = initialScope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>().GetSubscriber();
-
-            await redisSubscriber.SubscribeAsync("*", async (_, value) =>
+            return _connectionMultiplexer.GetSubscriber().SubscribeAsync("*", (_, value) =>
             {
-                var @event = domainEventJsonDeserializer.Deserialize(value);
-
-                var subscribers = DomainEventSubscriberInformationService.GetAllEventsSubscribers(@event);
-
-                await Task.WhenAll(subscribers.Select(subscriber =>
-                    domainEventMediator.ExecuteOn(value, @event, subscriber, stoppingToken)));
+                TaskHelper.RunSync(_domainEventMediator.ExecuteDomainSubscribers(value, stoppingToken));
             });
         }
     }

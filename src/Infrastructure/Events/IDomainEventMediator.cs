@@ -18,5 +18,13 @@ namespace SharedKernel.Infrastructure.Events
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task ExecuteOn(string body, DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventSerialized"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ExecuteDomainSubscribers(string eventSerialized, CancellationToken cancellationToken);
     }
 }

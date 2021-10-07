@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Events;
+using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reflection;
+using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Events.InMemory;
 
 namespace SharedKernel.Infrastructure.Events.Shared
 {
@@ -20,14 +23,49 @@ namespace SharedKernel.Infrastructure.Events.Shared
     public class DomainEventMediator : IDomainEventMediator
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IDomainEventJsonDeserializer _deserializer;
+        private readonly ICustomLogger<InMemoryDomainEventsConsumer> _logger;
+        private readonly IRetriever _retriever;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="serviceScopeFactory"></param>
-        public DomainEventMediator(IServiceScopeFactory serviceScopeFactory)
+        public DomainEventMediator(
+            IServiceScopeFactory serviceScopeFactory,
+            IDomainEventJsonDeserializer deserializer,
+            ICustomLogger<InMemoryDomainEventsConsumer> logger,
+            IRetriever retriever)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _deserializer = deserializer;
+            _logger = logger;
+            _retriever = retriever;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventSerialized"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task ExecuteDomainSubscribers(string eventSerialized, CancellationToken cancellationToken)
+        {
+            var eventDeserialized = _deserializer.Deserialize(eventSerialized);
+            return Task.WhenAll(
+                DomainEventSubscriberInformationService
+                    .GetAllEventsSubscribers(eventDeserialized)
+                    .Select(subscriber =>
+                        ExecuteDomainSubscriber(eventSerialized, eventDeserialized, subscriber, cancellationToken)));
+        }
+
+        private Task ExecuteDomainSubscriber(string body, DomainEvent domainEvent, string subscriber, CancellationToken cancellationToken)
+        {
+            return _retriever.ExecuteAsync<Task>(async ct => await ExecuteOn(body, domainEvent, subscriber, ct),
+                e =>
+                {
+                    _logger?.Error(e, e.Message);
+                    return true;
+                }, cancellationToken);
         }
 
         /// <summary>

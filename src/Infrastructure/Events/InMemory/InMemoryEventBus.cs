@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     /// </summary>
     public class InMemoryEventBus : IEventBus
     {
-        private readonly IDomainEventsToExecute _domainEventsToExecute;
+        private readonly IInMemoryDomainEventsConsumer _domainEventsToExecute;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// <param name="domainEventsToExecute"></param>
         /// <param name="executeMiddlewaresService"></param>
         public InMemoryEventBus(
-            IDomainEventsToExecute domainEventsToExecute,
+            IInMemoryDomainEventsConsumer domainEventsToExecute,
             IExecuteMiddlewaresService executeMiddlewaresService)
         {
             _domainEventsToExecute = domainEventsToExecute;

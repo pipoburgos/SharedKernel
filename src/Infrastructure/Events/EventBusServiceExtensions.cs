@@ -60,10 +60,10 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton<IDomainEventsToExecute, DomainEventsToExecute>()
+                .AddSingleton<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
                 .AddEventBus()
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddScoped<IEventBus, InMemoryEventBus>()
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddPollyRetry(configuration, optionsConfiguration);
         }
 
@@ -97,8 +97,10 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <param name="optionsConfiguration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRedisEventBus(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRedisEventBus(this IServiceCollection services,
+            IConfiguration configuration, Action<RetrieverOptions> optionsConfiguration = null)
         {
             services
                 .AddHealthChecks()
@@ -108,7 +110,9 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHostedService<RedisDomainEventsConsumer>()
                 .AddEventBus()
                 .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
-                .AddScoped<IEventBus, RedisEventBus>();
+                .AddScoped<IEventBus, RedisEventBus>()
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
+                .AddPollyRetry(configuration, optionsConfiguration);
         }
 
         private static IServiceCollection AddEventBus(this IServiceCollection services)

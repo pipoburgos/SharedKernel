@@ -1,13 +1,13 @@
+using SharedKernel.Domain.Events;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IDomainEventsToExecute
+    public interface IInMemoryDomainEventsConsumer
     {
         /// <summary>
         /// 

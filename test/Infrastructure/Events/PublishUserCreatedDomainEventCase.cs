@@ -37,7 +37,8 @@ namespace SharedKernel.Integration.Tests.Events
 
             var eventBus = testCase.GetRequiredService<IEventBus>();
             var tasks = new List<Task>();
-            for (var i = 0; i < 25; i++)
+            const int total = 5;
+            for (var i = 0; i < total; i++)
             {
                 tasks.Add(eventBus.Publish(domainEvents, CancellationToken.None));
             }
@@ -48,7 +49,7 @@ namespace SharedKernel.Integration.Tests.Events
             await Task.Delay(5_000, CancellationToken.None);
 
             var singletonValueContainer = testCase.GetRequiredService<PublishUserCreatedDomainEvent>();
-            singletonValueContainer.Total.Should().Be(100);
+            singletonValueContainer.Total.Should().Be(total * 4);
 
             singletonValueContainer.Users.Should().Contain(u => u == user1.Id);
             singletonValueContainer.Users.Should().Contain(u => u == user2.Id);

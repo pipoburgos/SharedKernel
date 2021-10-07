@@ -31,7 +31,7 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         [Fact]
         public async Task PublishDomainEventFromRabbitMq()
         {
-            await Task.Delay(5000);
+            await Task.Delay(5_000);
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(this);
         }
     }

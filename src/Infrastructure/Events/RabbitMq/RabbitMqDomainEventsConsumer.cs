@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
@@ -63,7 +64,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
             channel.BasicQos(0, prefetchCount, false);
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += async (_, ea) =>
+            consumer.Received += (_, ea) =>
             {
                 try
                 {
@@ -72,7 +73,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
                     var @event = _deserializer.Deserialize(message);
 
-                    await _domainEventMediator.ExecuteOn(message, @event, eventSubscriber, CancellationToken.None);
+                    TaskHelper.RunSync(_domainEventMediator.ExecuteOn(message, @event, eventSubscriber, CancellationToken.None));
                 }
                 catch(Exception ex)
                 {
