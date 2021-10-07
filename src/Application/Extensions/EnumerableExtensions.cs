@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Specifications.Common;
 
@@ -183,7 +184,7 @@ namespace SharedKernel.Application.Extensions
         {
             var propertyInfo = typeof(T).GetProperties().SingleOrDefault(t => t.Name.ToUpper() == propertyName.ToUpper());
             if (propertyInfo == null)
-                throw new Exception($"Property {propertyName} not found");
+                throw new SharedKernelApplicationException($"Property {propertyName} not found");
 
             // Expression
             var parameterExp = Expression.Parameter(typeof(T), "type");
@@ -192,7 +193,7 @@ namespace SharedKernel.Application.Extensions
             // Method
             var method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
             if (method == null)
-                throw new Exception("Method Contains not found");
+                throw new SharedKernelApplicationException("Method Contains not found");
 
             // Value
             var someValue = Expression.Constant(propertyValue, typeof(string));

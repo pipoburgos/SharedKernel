@@ -60,15 +60,9 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         public Task<List<FileEntity>> GetFilesEntitiesAsync(string path, CancellationToken cancellationToken)
         {
             var filesEntities = new ConcurrentBag<FileEntity>();
-#if NETSTANDARD2_1
-            Parallel.ForEach(Directory.GetFiles(path), async id =>
-            {
-                var contents = await File.ReadAllBytesAsync(path, cancellationToken);
-#else
             Parallel.ForEach(Directory.GetFiles(path), id =>
             {
                 var contents = File.ReadAllBytes(path);
-#endif
                 filesEntities.Add(FileEntity.Create(id, Path.GetFileName(id), Path.GetExtension(id),
                     MimeMappingEntity.GetMimeMapping(id), contents));
             });

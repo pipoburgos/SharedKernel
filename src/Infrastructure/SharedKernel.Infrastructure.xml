@@ -2398,12 +2398,13 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRedisEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRedisEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
             <summary>
             
             </summary>
             <param name="services"></param>
             <param name="configuration"></param>
+            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer">
@@ -2445,39 +2446,26 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute">
+        <member name="M:SharedKernel.Infrastructure.Events.IDomainEventMediator.ExecuteDomainSubscribers(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="eventSerialized"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Events.InMemory.IInMemoryDomainEventsConsumer">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.#ctor(SharedKernel.Infrastructure.Events.IDomainEventMediator,SharedKernel.Infrastructure.Events.IDomainEventJsonSerializer,SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute},SharedKernel.Application.RetryPolicies.IRetriever)">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.Add(SharedKernel.Domain.Events.DomainEvent)">
-            <summary>
-            
-            </summary>
-            <param name="domainEvent"></param>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.DomainEventsToExecute.ExecuteAll(System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:SharedKernel.Infrastructure.Events.InMemory.IDomainEventsToExecute">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.IDomainEventsToExecute.Add(SharedKernel.Domain.Events.DomainEvent)">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.IInMemoryDomainEventsConsumer.Add(SharedKernel.Domain.Events.DomainEvent)">
             <summary>
             
             </summary>
             <param name="domainEvent"></param>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.IDomainEventsToExecute.ExecuteAll(System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.IInMemoryDomainEventsConsumer.ExecuteAll(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
@@ -2500,12 +2488,33 @@
             <param name="stoppingToken"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Events.InMemory.InMemoryDomainEventsConsumer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryDomainEventsConsumer.#ctor(SharedKernel.Infrastructure.Events.IDomainEventMediator,SharedKernel.Infrastructure.Events.IDomainEventJsonSerializer)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryDomainEventsConsumer.Add(SharedKernel.Domain.Events.DomainEvent)">
+            <summary>
+            
+            </summary>
+            <param name="domainEvent"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryDomainEventsConsumer.ExecuteAll(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus">
             <summary>
             In memory event bus
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.#ctor(SharedKernel.Infrastructure.Events.InMemory.IDomainEventsToExecute,SharedKernel.Infrastructure.Cqrs.Middlewares.IExecuteMiddlewaresService)">
+        <member name="M:SharedKernel.Infrastructure.Events.InMemory.InMemoryEventBus.#ctor(SharedKernel.Infrastructure.Events.InMemory.IInMemoryDomainEventsConsumer,SharedKernel.Infrastructure.Cqrs.Middlewares.IExecuteMiddlewaresService)">
             <summary>
             Constructor
             </summary>
@@ -2724,12 +2733,12 @@
         </member>
         <member name="T:SharedKernel.Infrastructure.Events.Redis.RedisDomainEventsConsumer">
             <summary>
-            
+            Redis domain event consumer background service
             </summary>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.Redis.RedisDomainEventsConsumer.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
             <summary>
-            
+            Constructor
             </summary>
             <param name="serviceScopeFactory"></param>
         </member>
@@ -2804,11 +2813,18 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory)">
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.InMemory.InMemoryDomainEventsConsumer},SharedKernel.Application.RetryPolicies.IRetriever)">
             <summary>
             Constructor
             </summary>
-            <param name="serviceScopeFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.ExecuteDomainSubscribers(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="eventSerialized"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
             <summary>

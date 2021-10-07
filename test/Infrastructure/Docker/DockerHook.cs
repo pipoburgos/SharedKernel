@@ -9,14 +9,24 @@ namespace SharedKernel.Integration.Tests.Docker
     public class DockerHookCollection : ICollectionFixture<DockerHook>, IDisposable
     {
         private readonly DockerHook _dockerHook;
+
         public DockerHookCollection(DockerHook dockerHook)
         {
             _dockerHook = dockerHook;
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+
+            _dockerHook?.Dispose();
+        }
+
         public void Dispose()
         {
-            _dockerHook.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 
@@ -35,10 +45,19 @@ namespace SharedKernel.Integration.Tests.Docker
                 .Start();
         }
 
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
+            if (!disposing)
+                return;
+
             _compositeService.Stop();
             _compositeService?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
