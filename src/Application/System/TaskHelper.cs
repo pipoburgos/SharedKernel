@@ -24,27 +24,31 @@ namespace SharedKernel.Application.System
         /// <returns></returns>
         public static Task DelayToUtcHour(int hour, int minute, int second, CancellationToken cancellationToken)
         {
-            var now = DateTime.UtcNow;
-            var next = new DateTime(now.Year, now.Month, now.Day, hour, minute, second);
-            var result = next - now;
-            return Task.Delay(result, cancellationToken);
+            return Task.Delay(DelayCommon(DateTime.UtcNow, hour, minute, second), cancellationToken);
         }
 
         /// <summary> Create a task that will be completed when the time comes. </summary>
         /// <returns></returns>
         public static Task DelayToHour(int hour, int minute, int second, CancellationToken cancellationToken)
         {
-            var now = DateTime.Now;
-            var next = new DateTime(now.Year, now.Month, now.Day, hour, minute, second);
-            var result = next - now;
-            return Task.Delay(result, cancellationToken);
+            return Task.Delay(DelayCommon(DateTime.Now, hour, minute, second), cancellationToken);
+        }
+
+        private static TimeSpan DelayCommon(DateTime dateTime, int hour, int minute = 0, int second = 0)
+        {
+            var next = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, second);
+
+            if (next < dateTime)
+                next = next.AddDays(1);
+
+            return next - dateTime;
         }
 
         private static readonly TaskFactory MyTaskFactory = new TaskFactory(CancellationToken.None,
             TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
 
         /// <summary>
-        /// Ejecutar una función asíncrona de forma síncrona
+        /// Execute an asynchronous function synchronously
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
@@ -55,12 +59,27 @@ namespace SharedKernel.Application.System
         }
 
         /// <summary>
-        /// Ejecutar una función asíncrona de forma síncrona
+        /// Execute an asynchronous function synchronously
         /// </summary>
-        /// <param name="func"></param>
         public static void RunSync(Func<Task> func)
         {
             MyTaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Wait for a task to finish
+        /// </summary>
+        public static TResult RunSync<TResult>(Task<TResult> task)
+        {
+            return MyTaskFactory.StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Wait for a task to finish
+        /// </summary>
+        public static void RunSync(Task task)
+        {
+            MyTaskFactory.StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
         }
 #endif
 

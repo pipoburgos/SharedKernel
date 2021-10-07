@@ -1535,7 +1535,7 @@
         </member>
         <member name="M:SharedKernel.Application.System.TaskHelper.RunSync``1(System.Func{System.Threading.Tasks.Task{``0}})">
             <summary>
-            Ejecutar una función asíncrona de forma síncrona
+            Execute an asynchronous function synchronously
             </summary>
             <typeparam name="TResult"></typeparam>
             <param name="func"></param>
@@ -1543,9 +1543,18 @@
         </member>
         <member name="M:SharedKernel.Application.System.TaskHelper.RunSync(System.Func{System.Threading.Tasks.Task})">
             <summary>
-            Ejecutar una función asíncrona de forma síncrona
+            Execute an asynchronous function synchronously
             </summary>
-            <param name="func"></param>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            Wait for a task to finish
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync(System.Threading.Tasks.Task)">
+            <summary>
+            Wait for a task to finish
+            </summary>
         </member>
         <member name="T:SharedKernel.Application.System.Threading.IMutex">
             <summary>
