@@ -678,6 +678,14 @@
             
             </summary>
         </member>
+        <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.SkipLast``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Remove last element of an enumerable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="elements"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Extensions.EnumerableExtensions.AddFirst``1(System.Collections.Generic.IEnumerable{``0},``0)">
             <summary>
             Inserts an item to the enumerable first position
@@ -893,9 +901,24 @@
         </member>
         <member name="M:SharedKernel.Application.Extensions.StringExtensions.CapitalizeFirstLetter(System.String)">
             <summary>
-            
+            Capitalize first letter
             </summary>
-            <param name="str"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.StringExtensions.ContainsIgnoreCase(System.String,System.String)">
+            <summary>
+            Ignorar mayúsculas y minúsculas
+            </summary>
+            <param name="source"></param>
+            <param name="toCheck"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.Extensions.StringExtensions.WithoutBrackets(System.String)">
+            <summary>
+            Remove brackets
+            </summary>
+            <param name="text"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Logging.ICustomLogger">
