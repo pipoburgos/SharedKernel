@@ -44,43 +44,30 @@ namespace SharedKernel.Application.System
             return next - dateTime;
         }
 
-        private static readonly TaskFactory MyTaskFactory = new TaskFactory(CancellationToken.None,
-            TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
-
         /// <summary>
         /// Execute an asynchronous function synchronously
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static TResult RunSync<TResult>(Func<Task<TResult>> func)
-        {
-            return MyTaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
-        }
+        public static TResult RunSync<TResult>(Func<Task<TResult>> func) => Create().StartNew(func).Unwrap().GetAwaiter().GetResult();
 
         /// <summary>
         /// Execute an asynchronous function synchronously
         /// </summary>
-        public static void RunSync(Func<Task> func)
-        {
-            MyTaskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
-        }
+        public static void RunSync(Func<Task> func) => Create().StartNew(func).Unwrap().GetAwaiter().GetResult();
 
         /// <summary>
         /// Wait for a task to finish
         /// </summary>
-        public static TResult RunSync<TResult>(Task<TResult> task)
-        {
-            return MyTaskFactory.StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
-        }
+        public static TResult RunSync<TResult>(Task<TResult> task) => Create().StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
 
         /// <summary>
         /// Wait for a task to finish
         /// </summary>
-        public static void RunSync(Task task)
-        {
-            MyTaskFactory.StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
-        }
+        public static void RunSync(Task task) => Create().StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
+
+        private static TaskFactory Create() => new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
 #endif
 
     }
