@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,11 +47,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.10" Condition="'$(TargetFramework)' == 'net461'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.10" Condition="'$(TargetFramework)' != 'net461'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.11" Condition="'$(TargetFramework)' != 'net461'" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" Condition="'$(TargetFramework)' == 'net461'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" Condition="'$(TargetFramework)' != 'net461'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" Condition="'$(TargetFramework)' != 'net461'" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.11" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
