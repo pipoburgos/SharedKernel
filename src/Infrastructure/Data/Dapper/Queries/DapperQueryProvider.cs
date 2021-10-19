@@ -15,14 +15,16 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
     /// </summary>
     public sealed class DapperQueryProvider : IDisposable
     {
-        private readonly DbConnection _connection;
+        private readonly IDbConnectionFactory _dbConnectionFactory;
+        private readonly List<DbConnection> _connections;
 
         /// <summary>
         /// 
         /// </summary>
         public DapperQueryProvider(IDbConnectionFactory dbConnectionFactory)
         {
-            _connection = dbConnectionFactory.GetConnection();
+            _dbConnectionFactory = dbConnectionFactory;
+            _connections = new List<DbConnection>();
         }
 
         /// <summary>
@@ -34,8 +36,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <returns></returns>
         public async Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
         {
-            await _connection.OpenAsync();
-            return await _connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
+            var connection = _dbConnectionFactory.GetConnection();
+            _connections.Add(connection);
+            await connection.OpenAsync();
+            return await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
         }
 
         /// <summary>
@@ -47,8 +51,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <returns></returns>
         public async Task<List<T>> ExecuteQueryAsync<T>(string sql, object parameters = null)
         {
-            await _connection.OpenAsync();
-            return (await _connection.QueryAsync<T>(sql, parameters)).ToList();
+            var connection = _dbConnectionFactory.GetConnection();
+            _connections.Add(connection);
+            await connection.OpenAsync();
+            return (await connection.QueryAsync<T>(sql, parameters)).ToList();
         }
 
         /// <summary>
@@ -61,8 +67,11 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <returns></returns>
         public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions)
         {
-            await _connection.OpenAsync();
-            var counting = _connection.QueryFirstOrDefaultAsync<int>($"SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
+            var connection = _dbConnectionFactory.GetConnection();
+            _connections.Add(connection);
+            await connection.OpenAsync();
+
+            var counting = connection.QueryFirstOrDefaultAsync<int>($"SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
 
             var queryString = sql;
             if (pageOptions.Orders != null && pageOptions.Orders.Any())
@@ -70,7 +79,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 
             queryString += $"{Environment.NewLine} OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
-            var gettingItems = _connection.QueryAsync<T>(queryString, parameters);
+            var gettingItems = connection.QueryAsync<T>(queryString, parameters);
 
             await Task.WhenAll(counting, gettingItems);
 
@@ -79,10 +88,13 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 
         private void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposing)
+                return;
+
+            foreach (var dbConnection in _connections)
             {
-                _connection.Close();
-                _connection?.Dispose();
+                dbConnection.Close();
+                dbConnection.Dispose();
             }
         }
 
