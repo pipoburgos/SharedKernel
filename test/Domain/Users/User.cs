@@ -1,28 +1,28 @@
-﻿using System;
+﻿using SharedKernel.Domain.Aggregates;
+using System;
 using System.Collections.Generic;
-using SharedKernel.Domain.Aggregates;
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace SharedKernel.Domain.Tests.Users
 {
     internal class User : AggregateRoot<Guid>
     {
-        private readonly List<string> _emails;
-        private readonly List<Address> _addresses;
+        private List<string> _emails;
+        private List<Address> _addresses;
 
-        // ReSharper disable once UnusedMember.Local
-        private User() { }
-
-        internal User(Guid id, string name, List<string> emails = default, List<Address> addresses = default)
+        protected User()
         {
-            Id = id;
-            Name = name;
-            _emails = emails ?? new List<string>();
-            _addresses = addresses ?? new List<Address>();
+            _emails = new List<string>();
+            _addresses = new List<Address>();
         }
 
         public static User Create(Guid id, string name)
         {
-            var user = new User(id, name);
+            var user = new User
+            {
+                Id = id,
+                Name = name
+            };
 
             user.Record(new UserCreated(id, name, id.ToString()));
 

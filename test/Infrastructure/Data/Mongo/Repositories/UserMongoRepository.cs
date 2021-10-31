@@ -4,7 +4,6 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.Mongo;
 using SharedKernel.Infrastructure.Data.Mongo.Repositories;
 using System;
-using System.Linq;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
 {
@@ -15,7 +14,8 @@ namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
             BsonClassMap.RegisterClassMap<User>(cm =>
             {
                 cm.AutoMap();
-                cm.MapCreator(p => new User(p.Id, p.Name, p.Emails.ToList(), p.Addresses.ToList()));
+                cm.MapField("_emails");
+                cm.MapField("_addresses");
             });
         }
 
