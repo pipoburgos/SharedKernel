@@ -662,6 +662,11 @@
             Documentation file name
             </summary>
         </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.Collapsed">
+            <summary>
+            Collapse actions of controllers
+            </summary>
+        </member>
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.XmlDocumentationFiles">
             <summary>
             Documentation files names
