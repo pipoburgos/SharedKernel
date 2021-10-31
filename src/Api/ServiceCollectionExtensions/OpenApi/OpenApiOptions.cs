@@ -33,6 +33,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         public string XmlDocumentationFile { get; set; }
 
         /// <summary>
+        /// Collapse actions of controllers
+        /// </summary>
+        public bool Collapsed { get; set; } = true;
+
+        /// <summary>
         /// Documentation files names
         /// </summary>
         public IEnumerable<string> XmlDocumentationFiles { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Security;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
@@ -70,6 +71,9 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint(options.Value.Url, options.Value?.Name ?? "Open API v1");
+
+                if (options.Value.Collapsed)
+                    c.DocExpansion(DocExpansion.None);
 
                 if (string.IsNullOrWhiteSpace(openIdOptions?.Value?.Authority))
                     return;
