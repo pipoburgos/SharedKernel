@@ -1,56 +1,56 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net40;net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.1;net5</TargetFrameworks>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageId>Pipoburgos.SharedKernel.Application</PackageId>
-    <Version>5.0.41</Version>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
-    <Description></Description>
-    <DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
-    <PackageTags>C# CQRS CommandBus, EventBus SSRS UnitOfWork</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net40;net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.1;net5;net6.0</TargetFrameworks>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageId>Pipoburgos.SharedKernel.Application</PackageId>
+		<Version>6.0.0-rc1</Version>
+		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageIcon>icon.png</PackageIcon>
+		<Authors>Roberto Fernández Salinas</Authors>
+		<Company>Roberto Fernández Salinas</Company>
+		<Description></Description>
+		<DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
+		<PackageTags>C# CQRS CommandBus, EventBus SSRS UnitOfWork</PackageTags>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
-    <DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+		<DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Remove="Exceptions\ExceptionCodes.es-ES.resx" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Remove="Exceptions\ExceptionCodes.es-ES.resx" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="Exceptions\ExceptionCodes.es-ES.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="Exceptions\ExceptionCodes.es-ES.resx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\SharedKernel.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Domain\SharedKernel.Domain.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionCodes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ExceptionCodes.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

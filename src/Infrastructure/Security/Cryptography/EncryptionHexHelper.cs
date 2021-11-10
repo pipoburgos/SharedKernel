@@ -13,10 +13,10 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         #region Properties
 
         // TripleDES Algorithm
-        private static readonly TripleDESCryptoServiceProvider Des = new TripleDESCryptoServiceProvider();
+        private static readonly TripleDESCryptoServiceProvider Des = new();
 
         // Objet md5
-        private static readonly MD5CryptoServiceProvider HashMd5 = new MD5CryptoServiceProvider();
+        private static readonly MD5CryptoServiceProvider HashMd5 = new();
 
         // Secret key
         private const string MyKey = "TemplateWebApiSecretKey";
@@ -30,7 +30,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         ///     <param name="hex">Text with hex to pass to bytes</param>
         ///     <returns>Byte array with the hexadecimal string value</returns>
         /// </summary>
-        private byte[] StringToByteArrayFastest(string hex)
+        private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
                 throw new Exception("The binary key cannot have an odd number of digits");
@@ -49,7 +49,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         ///     <param name="hex">Hexadecimal character to pass to int</param>
         ///     <returns>Int with the character value</returns>
         /// </summary>
-        private int GetHexVal(char hex)
+        private static int GetHexVal(char hex)
         {
             var val = (int)hex;
             //For uppercase A-F letters:

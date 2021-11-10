@@ -1525,6 +1525,37 @@
             <summary>Gets a task that has already completed successfully.</summary>
             <returns>The successfully completed task.</returns>
         </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.DelayToUtcHour(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary> Create a task that will be completed when the time comes. </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.DelayToHour(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary> Create a task that will be completed when the time comes. </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Execute an asynchronous function synchronously
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Execute an asynchronous function synchronously
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            Wait for a task to finish
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.System.TaskHelper.RunSync(System.Threading.Tasks.Task)">
+            <summary>
+            Wait for a task to finish
+            </summary>
+        </member>
         <member name="T:SharedKernel.Application.System.Threading.IMutex">
             <summary>
             Object to release mutex
