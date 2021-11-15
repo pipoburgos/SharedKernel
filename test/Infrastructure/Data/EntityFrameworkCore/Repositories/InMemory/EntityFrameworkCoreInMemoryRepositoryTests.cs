@@ -8,7 +8,6 @@ using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory
 {
-    [Collection("DockerHook")]
     public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
