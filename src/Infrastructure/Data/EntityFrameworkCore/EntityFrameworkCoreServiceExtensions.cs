@@ -41,12 +41,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
 
-#if NET461
-            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
-#else
-            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
-#endif
-
             return services;
         }
 
@@ -75,6 +69,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
         /// <param name="services"></param>
         public static void AddCommonDataServices(this IServiceCollection services)
         {
+
+#if NET461
+            services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
+#else
+            services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
+#endif
+
             services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
