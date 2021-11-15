@@ -1125,30 +1125,6 @@
             
             </summary>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1">
-            <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.#ctor(System.IServiceProvider)">
-            <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.CreateDbContext">
-            <summary>
-                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-                the same compatibility standards as public APIs. It may be changed or removed without notice in
-                any release. You should only use it directly in your code with extreme caution and knowing that
-                doing so can result in application failures when updating to a new Entity Framework Core release.
-            </summary>
-        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService">
             <summary>
             
@@ -1159,25 +1135,6 @@
             
             </summary>
             <param name="dbContext"></param>
-        </member>
-        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1">
-            <summary>
-                Defines a factory for creating <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instances.
-                A service of this type is registered in the dependency injection container by the
-                <see cref="M:EntityFrameworkServiceCollectionExtensions.AddDbContextPool" /> methods.
-            </summary>
-            <typeparam name="TContext"> The <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> type to create. </typeparam>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1.CreateDbContext">
-            <summary>
-                <para>
-                    Creates a new <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instance.
-                </para>
-                <para>
-                    The caller is responsible for disposing the context; it will not be disposed by the dependency injection container.
-                </para>
-            </summary>
-            <returns> A new context instance. </returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IQueryableUnitOfWork">
             <summary>
@@ -1262,7 +1219,7 @@
             </summary>
             <typeparam name="TDbContextBase"></typeparam>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`0})">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
             <summary>
             
             </summary>
@@ -3168,6 +3125,11 @@
             
             </summary>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.EncodeTo64(System.String)">
             <summary>
             
@@ -3269,6 +3231,11 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Sha256">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.#ctor">
             <summary>
             
             </summary>

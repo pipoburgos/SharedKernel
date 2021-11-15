@@ -52,10 +52,10 @@ namespace SharedKernel.Application.Extensions
                 parameters.TryGetValue(key, out var param);
 
                 var stringParam = Convert.ToString(param);
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
                 if (stringParam != null)
 #endif
-                    sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
+                sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
 
                 first = false;
 

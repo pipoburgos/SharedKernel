@@ -177,7 +177,7 @@ namespace SharedKernel.Application.Reflection
                 if (t == typeof(Guid) || t == typeof(Guid?))
                 {
                     var valueString = value.ToString();
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
                     if (valueString == null)
                         fieldInfo.SetValue(obj, null);
                     else
