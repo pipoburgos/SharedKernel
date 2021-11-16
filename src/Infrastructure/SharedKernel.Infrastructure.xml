@@ -2917,6 +2917,21 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
+            <summary>
+            Http client extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Add http client with bearer token
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="name"></param>
+            <param name="uri"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1">
             <summary>
             
@@ -3125,11 +3140,6 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.EncodeTo64(System.String)">
             <summary>
             
@@ -3231,11 +3241,6 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Sha256">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.#ctor">
             <summary>
             
             </summary>

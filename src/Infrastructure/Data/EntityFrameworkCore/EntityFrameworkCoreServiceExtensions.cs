@@ -39,13 +39,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
+            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
+
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
-
-            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
 
             return services;
         }
@@ -64,13 +64,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
+            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString), serviceLifetime);
+
 #if NET461
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
-
-            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString), serviceLifetime);
 
             return services;
         }

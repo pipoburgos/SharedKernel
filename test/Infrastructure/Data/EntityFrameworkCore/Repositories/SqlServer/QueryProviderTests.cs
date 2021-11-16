@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Integration.Tests.Shared;
@@ -23,10 +23,11 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("SharedKernelSqlServer2");
+            //var connection = Configuration.GetConnectionString("SharedKernelSqlServer2");
             return services
                 .AddTransient<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>()
-                .AddDbContextFactory<SharedKernelDbContext>(options => options.UseSqlServer(connection));
+                .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext>(Configuration, "SharedKernelSqlServer2");
+                //.AddDbContextFactory<SharedKernelDbContext>(options => options.UseSqlServer(connection));
         }
 
 
