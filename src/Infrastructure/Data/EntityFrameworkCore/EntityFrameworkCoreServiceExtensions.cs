@@ -41,7 +41,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
 
-#if NET461
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
@@ -66,7 +66,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString), serviceLifetime);
 
-#if NET461
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);

@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+#endif
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Integration.Tests.Shared;

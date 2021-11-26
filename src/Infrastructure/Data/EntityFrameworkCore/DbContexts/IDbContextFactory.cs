@@ -1,4 +1,4 @@
-﻿#if NET461
+﻿#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using Microsoft.EntityFrameworkCore;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts

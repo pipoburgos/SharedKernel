@@ -12,8 +12,9 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<UserEfCoreRepository>();
             services.AddDbContext<SharedKernelDbContext>(options =>
-                    options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+                    options.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);
 
             return services;
         }
@@ -21,33 +22,27 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
         [Fact]
         public void SaveRepositoryOk()
         {
-            var repository = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
-
             var roberto = User.Create(Guid.NewGuid(), "Roberto");
-            repository.Add(roberto);
+            GetService<UserEfCoreRepository>().Add(roberto);
 
-            repository.SaveChanges();
+            GetService<UserEfCoreRepository>().SaveChanges();
 
-            Assert.Equal(roberto, repository.GetById(roberto.Id));
+            Assert.Equal(roberto, GetService<UserEfCoreRepository>().GetById(roberto.Id));
         }
 
         [Fact]
         public void SaveRepositoryNameChanged()
         {
-            var repository = new UserEfCoreRepository(GetService<SharedKernelDbContext>());
-
             var roberto = User.Create(Guid.NewGuid(), "Roberto");
-            repository.Add(roberto);
+            GetService<UserEfCoreRepository>().Add(roberto);
 
-            repository.SaveChanges();
+            GetService<UserEfCoreRepository>().SaveChanges();
 
-            var repoUser = repository.GetById(roberto.Id);
+            var repoUser = GetService<UserEfCoreRepository>().GetById(roberto.Id);
             repoUser.ChangeName("asdfass");
 
             Assert.Equal(roberto.Id, repoUser.Id);
             Assert.Equal(roberto.Name, repoUser.Name);
         }
-
-
     }
 }

@@ -1,4 +1,4 @@
-﻿#if NET461
+﻿#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
