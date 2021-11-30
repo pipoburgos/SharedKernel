@@ -39,8 +39,8 @@ namespace SharedKernel.Domain.ValueObjects
                     var left = p.GetValue(this, null);
                     var right = p.GetValue(other, null);
 
-
-                    return left != null && (left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right));
+                    return left == default && right == default || left != null &&
+                        (left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right));
                 });
             }
             return true;

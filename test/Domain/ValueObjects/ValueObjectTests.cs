@@ -218,5 +218,18 @@ namespace SharedKernel.Domain.Tests.ValueObjects
 
             Assert.NotEqual(aReference, bReference);
         }
+
+        [Fact]
+        public void AllNullPropertiesEquals()
+        {
+            //Arrange
+            var address1 = new Address(null, null, null, null);
+            var address2 = new Address(null, null, null, null);
+
+            //Act
+
+            //Assert
+            Assert.Equal(address1, address2);
+        }
     }
 }
