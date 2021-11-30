@@ -610,6 +610,11 @@
             <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.ControllerDocumentationConvention">
+            <summary>
+            Para agrupar en swagger por la propiedad Name de la ruta del controlador
+            </summary>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiExtensions">
             <summary>
             Swagger configuration
