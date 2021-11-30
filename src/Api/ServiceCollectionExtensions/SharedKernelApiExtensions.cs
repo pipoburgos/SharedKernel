@@ -43,7 +43,10 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     // Advertise the API versions supported for the particular endpoint
                     config.ReportApiVersions = true;
                 })
-                .AddControllers()
+                .AddControllers(o =>
+                {
+                    o.Conventions.Add(new ControllerDocumentationConvention());
+                })
                 .AddFluentValidation(fv =>
                 {
                     fv.RegisterValidatorsFromAssemblyContaining<TValidator>();
