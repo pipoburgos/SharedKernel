@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace SharedKernel.Domain.Specifications.Common
@@ -67,6 +66,8 @@ namespace SharedKernel.Domain.Specifications.Common
             return new NotSpecification<TEntity>(specification);
         }
 
+#pragma warning disable IDE0060
+
         /// <summary>
         /// Override operator false, only for support AND OR operators
         /// </summary>
@@ -82,7 +83,6 @@ namespace SharedKernel.Domain.Specifications.Common
         /// </summary>
         /// <param name="specification">Specification instance</param>
         /// <returns>See True operator in C#</returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "specification")]
         public static bool operator true(Specification<TEntity> specification)
         {
             return false;
