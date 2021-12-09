@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
@@ -17,7 +16,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// <returns></returns>
         public int GetRandom(int minValue, int maxValue)
         {
-            var rng = new RNGCryptoServiceProvider();
+            var rng = global::System.Security.Cryptography.RandomNumberGenerator.Create();
             var rndBytes = new byte[4];
             rng.GetBytes(rndBytes);
             var rand = BitConverter.ToInt32(rndBytes, 0);

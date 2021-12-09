@@ -839,7 +839,7 @@
             <param name="sortedColumns"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyOrderBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String,System.Boolean@)">
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyOrderBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String)">
             <summary>
                 Convert a string to lambda expression
                 Example => "Person.Child.Name" : x => x.Person.Child.Name
@@ -848,10 +848,9 @@
             <param name="source"></param>
             <param name="ascending"></param>
             <param name="propertyName"></param>
-            <param name="success"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyThenBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String,System.Boolean@)">
+        <member name="M:SharedKernel.Application.Extensions.QueryableExtensions.ApplyThenBy``1(System.Linq.IQueryable{``0},System.Boolean,System.String)">
             <summary>
                 Convert a string to lambda expression
                 Example => "Person.Child.Name" : x => x.Person.Child.Name
@@ -860,7 +859,6 @@
             <param name="source"></param>
             <param name="ascending"></param>
             <param name="propertyName"></param>
-            <param name="success"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Extensions.StringExtensions">
@@ -1187,22 +1185,24 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper">
+        <member name="T:SharedKernel.Application.Security.Cryptography.IMd5Encryptor">
             <summary>
             Encription helper
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Encrypt(System.String)">
+        <member name="M:SharedKernel.Application.Security.Cryptography.IMd5Encryptor.Encrypt(System.String,System.String)">
             <summary>
                 Function for Text String Encryption
                 <param name="text">Text to encrypt</param>
+                <param name="secretKey">Secret key</param>
                 <returns>Encrypted string</returns>
             </summary>
         </member>
-        <member name="M:SharedKernel.Application.Security.Cryptography.IEncryptionHexHelper.Decrypt(System.String)">
+        <member name="M:SharedKernel.Application.Security.Cryptography.IMd5Encryptor.Decrypt(System.String,System.String)">
             <summary>
                 Function for decrypting text strings
                 <param name="text">Text to decrypt</param>
+                <param name="secretKey">Secret key</param>
                 <returns>Decrypted string</returns>
             </summary>
         </member>

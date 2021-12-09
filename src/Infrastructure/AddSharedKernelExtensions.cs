@@ -39,7 +39,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<ICulture, ThreadUiCulture>()
                 .AddTransient<ICustomLogger, DefaultCustomLogger>()
                 .AddTransient<IDateTime, MachineDateTime>()
-                .AddTransient<IEncryptionHexHelper, EncryptionHexHelper>()
+                .AddTransient<IMd5Encryptor, Md5Encryptor>()
                 .AddTransient<IGuid, GuidGenerator>()
                 .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()

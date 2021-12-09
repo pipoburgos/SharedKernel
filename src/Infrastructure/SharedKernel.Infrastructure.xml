@@ -2960,6 +2960,21 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
+            <summary>
+            Http client extensions
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Add http client with bearer token
+            </summary>
+            <typeparam name="TClient"></typeparam>
+            <param name="services"></param>
+            <param name="name"></param>
+            <param name="uri"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1">
             <summary>
             
@@ -3182,36 +3197,38 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper">
+        <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Md5Encryptor">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.StringToByteArrayFastest(System.String)">
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Md5Encryptor.StringToByteArrayFastest(System.String)">
             <summary>
                 Function to get the bytes of a text string in hex
                 <param name="hex">Text with hex to pass to bytes</param>
                 <returns>Byte array with the hexadecimal string value</returns>
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.GetHexVal(System.Char)">
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Md5Encryptor.GetHexVal(System.Char)">
             <summary>
                 Function to get the integer value of a hex character
                 <param name="hex">Hexadecimal character to pass to int</param>
                 <returns>Int with the character value</returns>
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.Encrypt(System.String)">
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Md5Encryptor.Encrypt(System.String,System.String)">
             <summary>
                 Function for Text String Encryption
                 <param name="text">Text to encrypt</param>
+                <param name="secretKey">Text to encrypt</param>
                 <returns>Encrypted string</returns>
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.EncryptionHexHelper.Decrypt(System.String)">
+        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Md5Encryptor.Decrypt(System.String,System.String)">
             <summary>
                 Function for Decrypting Text Strings
                 <param name="text">Text to decrypt</param>
+                <param name="secretKey">Text to encrypt</param>
                 <returns>Decrypted string</returns>
             </summary>
         </member>

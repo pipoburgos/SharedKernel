@@ -110,11 +110,11 @@ namespace SharedKernel.Application.Extensions
         private static IQueryable<T> Order<T>(this IQueryable<T> query, IList<Order> sortedColumns) where T : class
         {
             var firstColumn = sortedColumns.First();
-            query = ApplyOrderBy(query, firstColumn.Ascending, firstColumn.Field.CapitalizeFirstLetter(), out _);
+            query = ApplyOrderBy(query, firstColumn.Ascending, firstColumn.Field.CapitalizeFirstLetter());
 
             foreach (var column in sortedColumns.Skip(1))
             {
-                query = ApplyThenBy(query, column.Ascending, column.Field.CapitalizeFirstLetter(), out _);
+                query = ApplyThenBy(query, column.Ascending, column.Field.CapitalizeFirstLetter());
             }
 
             return query;
@@ -128,18 +128,15 @@ namespace SharedKernel.Application.Extensions
         /// <param name="source"></param>
         /// <param name="ascending"></param>
         /// <param name="propertyName"></param>
-        /// <param name="success"></param>
         /// <returns></returns>
         private static IQueryable<TResult> ApplyOrderBy<TResult>(IQueryable<TResult> source, bool ascending,
-            string propertyName, out bool success) where TResult : class
+            string propertyName) where TResult : class
         {
-            success = false;
             var expression = new PropertyAccessorCache<TResult>().Get(propertyName);
             if (expression == null) return source;
 
             var order = ascending ? nameof(Queryable.OrderBy) : nameof(Queryable.OrderByDescending);
 
-            success = true;
             var resultExpression = Expression.Call(
                 typeof(Queryable),
                 order,
@@ -158,18 +155,15 @@ namespace SharedKernel.Application.Extensions
         /// <param name="source"></param>
         /// <param name="ascending"></param>
         /// <param name="propertyName"></param>
-        /// <param name="success"></param>
         /// <returns></returns>
         private static IQueryable<TResult> ApplyThenBy<TResult>(IQueryable<TResult> source, bool ascending,
-            string propertyName, out bool success) where TResult : class
+            string propertyName) where TResult : class
         {
-            success = false;
             var expression = new PropertyAccessorCache<TResult>().Get(propertyName);
             if (expression == null) return source;
 
             var order = ascending ? nameof(Queryable.ThenBy) : nameof(Queryable.ThenByDescending);
 
-            success = true;
             var resultExpression = Expression.Call(
                 typeof(Queryable),
                 order,

@@ -35,22 +35,23 @@ namespace SharedKernel.Integration.Tests.Caching
 
             var id = Guid.NewGuid();
             var contador = 0;
-            Func<Task<Guid>> funcionGeneraValor = () =>
+
+            Task<Guid> FuncionGeneraValor()
             {
                 contador++;
                 return Task.FromResult(id);
-            };
+            }
 
-            var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", funcionGeneraValor);
+            var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", funcionGeneraValor);
+            var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
             Assert.Equal(id, await savingAndGetting);
             Assert.Equal(id, await getting);
             Assert.Equal(1, contador);
 
             inMemoryCacheHelper.Remove("prueba");
-            var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", funcionGeneraValor);
+            var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
             Assert.Equal(id, n3);
             Assert.Equal(2, contador);

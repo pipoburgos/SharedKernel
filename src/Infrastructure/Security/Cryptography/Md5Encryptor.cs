@@ -8,18 +8,16 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
     /// <summary>
     /// 
     /// </summary>
-    public class EncryptionHexHelper : IEncryptionHexHelper
+    public class Md5Encryptor : IMd5Encryptor
     {
         #region Properties
 
         // TripleDES Algorithm
-        private static readonly TripleDESCryptoServiceProvider Des = new();
+        private static readonly TripleDES Des = TripleDES.Create();
 
         // Objet md5
-        private static readonly MD5CryptoServiceProvider HashMd5 = new();
-
-        // Secret key
-        private const string MyKey = "TemplateWebApiSecretKey";
+        private static readonly MD5 HashMd5 = MD5.Create();
+        //private static readonly HMACMD5 HashMd5 = new();
 
         #endregion Properties
 
@@ -67,9 +65,10 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// <summary>
         ///     Function for Text String Encryption
         ///     <param name="text">Text to encrypt</param>
+        ///     <param name="secretKey">Text to encrypt</param>
         ///     <returns>Encrypted string</returns>
         /// </summary>
-        public string Encrypt(string text)
+        public string Encrypt(string text, string secretKey)
         {
             string functionReturnValue = null;
             if (string.IsNullOrEmpty(text.Trim()))
@@ -78,7 +77,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
             }
             else
             {
-                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
+                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
                 Des.Mode = CipherMode.ECB;
                 var encrypt = Des.CreateEncryptor();
 
@@ -94,9 +93,10 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// <summary>
         ///     Function for Decrypting Text Strings
         ///     <param name="text">Text to decrypt</param>
+        ///     <param name="secretKey">Text to encrypt</param>
         ///     <returns>Decrypted string</returns>
         /// </summary>
-        public string Decrypt(string text)
+        public string Decrypt(string text, string secretKey)
         {
             string functionReturnValue;
             if (string.IsNullOrEmpty(text.Trim()))
@@ -105,7 +105,7 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
             }
             else
             {
-                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(MyKey));
+                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
                 Des.Mode = CipherMode.ECB;
                 var decryptor = Des.CreateDecryptor();
                 var buff = StringToByteArrayFastest(text);

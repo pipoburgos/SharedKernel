@@ -37,7 +37,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             var serviceProvider = services.BuildServiceProvider();
             var options = serviceProvider.GetService<DbContextOptions<TDataContext>>();
 
-            services.AddScoped<Func<TDataContext>>(_ => () => (TDataContext)Activator.CreateInstance(typeof(TDataContext), options));
+            services.AddScoped(_ => (TDataContext)Activator.CreateInstance(typeof(TDataContext), options));
         }
 
         private static void AddCoreServices<TContextImplementation>(
