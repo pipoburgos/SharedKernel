@@ -36,11 +36,12 @@
             </summary>
             <returns>The created <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> for the response.</returns>
         </member>
-        <member name="M:SharedKernel.Api.Controllers.BaseController.Streaming(System.String)">
+        <member name="M:SharedKernel.Api.Controllers.BaseController.Streaming(System.String,System.Threading.CancellationToken)">
             <summary>
             Read a file an return in streaming
             </summary>
             <param name="filePath"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="T:SharedKernel.Api.Grids.DataTables.Column">
             <summary>

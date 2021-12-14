@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
@@ -26,11 +27,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            //var connection = Configuration.GetConnectionString("SharedKernelSqlServer2");
             return services
-                .AddTransient<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>()
                 .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext>(Configuration, "SharedKernelSqlServer2");
-                //.AddDbContextFactory<SharedKernelDbContext>(options => options.UseSqlServer(connection));
         }
 
 
@@ -79,6 +77,32 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             await Task.WhenAll(tasks);
             await repository.SaveChangesAsync(cancellationToken);
+        }
+
+        [Fact]
+        public async Task EntityFrameworkCoreQueryProviderJoin()
+        {
+            var cancellationToken = CancellationToken.None;
+            await using var dbContext = GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContext();
+            await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+            await dbContext.Database.MigrateAsync(cancellationToken);
+            var user = User.Create(Guid.NewGuid(), "a");
+            await dbContext.Set<User>().AddAsync(user, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+
+            var query =
+                from usuario1 in queryProvider.GetQuery<User>()
+                join usuario2 in queryProvider.Set<User>() on usuario1.Id equals usuario2.Id
+                select new
+                {
+                    NombresJuntos = usuario1.Name + usuario2.Name
+                };
+
+            var result = await query.FirstAsync(cancellationToken);
+
+            Assert.Equal(result.NombresJuntos, user.Name + user.Name);
         }
     }
 }

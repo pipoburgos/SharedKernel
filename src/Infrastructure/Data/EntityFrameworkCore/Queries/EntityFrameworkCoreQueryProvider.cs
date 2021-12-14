@@ -7,7 +7,9 @@ using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+#endif
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -20,9 +22,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
     /// 
     /// </summary>
     /// <typeparam name="TDbContextBase"></typeparam>
-    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContextBase
+    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContext
     {
         private readonly IDbContextFactory<TDbContextBase> _factory;
+        private TDbContextBase _dbContext;
 
         /// <summary>
         /// 
@@ -41,7 +44,22 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
         /// <returns></returns>
         public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
         {
-            var query = _factory.CreateDbContext().Set<TEntity>().AsNoTracking();
+            _dbContext = _factory.CreateDbContext();
+            return Set<TEntity>(showDeleted);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="showDeleted"></param>
+        /// <returns></returns>
+        public IQueryable<TEntity> Set<TEntity>(bool showDeleted = false) where TEntity : class
+        {
+            if (_dbContext == default)
+                throw new Exception("It is required to call the 'GetQuery' method before");
+
+            var query = _dbContext.Set<TEntity>().AsNoTracking();
 
             if (!showDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(TEntity)))
             {
