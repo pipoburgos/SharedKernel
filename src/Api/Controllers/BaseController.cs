@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,8 @@ namespace SharedKernel.Api.Controllers
         /// Read a file an return in streaming
         /// </summary>
         /// <param name="filePath"></param>
-        protected async Task Streaming(string filePath)
+        /// <param name="cancellationToken"></param>
+        protected async Task Streaming(string filePath, CancellationToken cancellationToken)
         {
             Response.StatusCode = 200;
             Response.Headers.Add(HeaderNames.ContentDisposition, $"attachment; filename=\"{Path.GetFileName(filePath)}\"");
@@ -53,13 +55,13 @@ namespace SharedKernel.Api.Controllers
             var buffer = new byte[bufferSize];
             while (true)
             {
-                var bytesRead = await inputStream.ReadAsync(buffer, 0, bufferSize);
+                var bytesRead = await inputStream.ReadAsync(buffer, 0, bufferSize, cancellationToken);
                 if (bytesRead == 0)
                     break;
 
-                await outputStream.WriteAsync(buffer, 0, bytesRead);
+                await outputStream.WriteAsync(buffer, 0, bytesRead, cancellationToken);
             }
-            await outputStream.FlushAsync();
+            await outputStream.FlushAsync(cancellationToken);
         }
     }
 }
