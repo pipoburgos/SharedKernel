@@ -8,7 +8,7 @@ namespace SharedKernel.Application.Security
     public class OpenIdOptions
     {
         /// <summary>
-        /// 
+        /// Authority
         /// </summary>
         public string Authority { get; set; }
 

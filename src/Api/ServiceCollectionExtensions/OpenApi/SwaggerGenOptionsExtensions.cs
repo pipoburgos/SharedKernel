@@ -52,9 +52,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         /// </summary>
         /// <param name="swaggerGenOptions"></param>
         /// <param name="openIdOptions"><see cref="OpenIdOptions"/></param>
-        public static void AddSecurityDefinition(this SwaggerGenOptions swaggerGenOptions, OpenIdOptions openIdOptions)
+        /// <param name="openApiOptions"><see cref="OpenApiOptions"/></param>
+        public static void AddSecurityDefinition(this SwaggerGenOptions swaggerGenOptions, OpenIdOptions openIdOptions, OpenApiOptions openApiOptions)
         {
-            if (string.IsNullOrWhiteSpace(openIdOptions.Authority))
+            var authority = openApiOptions?.Authority ?? openIdOptions?.Authority;
+            if (string.IsNullOrWhiteSpace(authority))
                 return;
 
             swaggerGenOptions.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -64,8 +66,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                 {
                     Password = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(openIdOptions.Authority),
-                        TokenUrl = new Uri(openIdOptions.Authority + "/connect/token"),
+                        AuthorizationUrl = new Uri(authority),
+                        TokenUrl = new Uri(authority + "/connect/token"),
                         Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
                     }
                 }

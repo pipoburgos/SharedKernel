@@ -38,6 +38,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         public bool Collapsed { get; set; } = true;
 
         /// <summary>
+        /// Authority
+        /// </summary>
+        public string Authority { get; set; }
+
+        /// <summary>
         /// Documentation files names
         /// </summary>
         public IEnumerable<string> XmlDocumentationFiles { get; set; }

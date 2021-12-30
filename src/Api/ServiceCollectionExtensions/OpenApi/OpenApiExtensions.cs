@@ -44,7 +44,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 var xmlPath = swaggerGenOptions.IncludeXmlComments(openApiOptions, true);
 
-                swaggerGenOptions.AddSecurityDefinition(openIdOptions);
+                swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
                 swaggerGenOptions.AddEnumsWithValuesFixFilters(services, xmlPath);
 
@@ -75,7 +75,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                 if (options.Value.Collapsed)
                     c.DocExpansion(DocExpansion.None);
 
-                if (string.IsNullOrWhiteSpace(openIdOptions?.Value?.Authority))
+                var authority = options.Value?.Authority ?? openIdOptions?.Value?.Authority;
+                if (string.IsNullOrWhiteSpace(authority))
                     return;
 
                 c.RoutePrefix = string.Empty;
