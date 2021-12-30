@@ -673,6 +673,11 @@
             Collapse actions of controllers
             </summary>
         </member>
+        <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.Authority">
+            <summary>
+            Authority
+            </summary>
+        </member>
         <member name="P:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions.XmlDocumentationFiles">
             <summary>
             Documentation files names
@@ -721,12 +726,13 @@
             <param name="xmlPath"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.AddSecurityDefinition(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,SharedKernel.Application.Security.OpenIdOptions)">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.AddSecurityDefinition(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,SharedKernel.Application.Security.OpenIdOptions,SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions)">
             <summary>
             Add one or more "securityDefinitions", describing how your API is protected, to the generated Swagger
             </summary>
             <param name="swaggerGenOptions"></param>
             <param name="openIdOptions"><see cref="T:SharedKernel.Application.Security.OpenIdOptions"/></param>
+            <param name="openApiOptions"><see cref="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions"/></param>
         </member>
         <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SwaggerGenOptionsExtensions.IncludeXmlComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiOptions,System.Boolean)">
             <summary>

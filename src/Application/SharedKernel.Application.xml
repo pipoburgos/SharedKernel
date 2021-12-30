@@ -1293,7 +1293,7 @@
         </member>
         <member name="P:SharedKernel.Application.Security.OpenIdOptions.Authority">
             <summary>
-            
+            Authority
             </summary>
         </member>
         <member name="P:SharedKernel.Application.Security.OpenIdOptions.RequireHttpsMetadata">

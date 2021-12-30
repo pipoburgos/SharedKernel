@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
 		<PackageId>Pipoburgos.SharedKernel.Api</PackageId>
-		<Version>6.0.3</Version>
+		<Version>6.0.4</Version>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -31,7 +31,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.11" Condition="'$(TargetFramework)' == 'net5.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
