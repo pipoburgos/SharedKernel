@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 
 namespace SharedKernel.Domain.ValueObjects
@@ -32,18 +33,32 @@ namespace SharedKernel.Domain.ValueObjects
             //compare all public properties
             var publicProperties = GetType().GetProperties();
 
-            if (publicProperties.Any())
-            {
-                return publicProperties.All(p =>
-                {
-                    var left = p.GetValue(this, null);
-                    var right = p.GetValue(other, null);
+            return !publicProperties.Any() ||
+                   publicProperties.All(p => EqualsObjects(p.GetValue(this, null), p.GetValue(other, null)));
+        }
 
-                    return left == default && right == default || left != null &&
-                        (left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right));
-                });
-            }
-            return true;
+        private bool EqualsObjects(object left, object right)
+        {
+            if (left == default && right == default)
+                return true;
+
+            if (left != default && left is TValueObject)
+                return ReferenceEquals(left, right);
+
+            if (left == default)
+                return false;
+
+            return left is IEnumerable enumerable
+                ? EqualEnumerable(enumerable, right as IEnumerable)
+                : left.Equals(right);
+        }
+
+        private static bool EqualEnumerable(IEnumerable left, IEnumerable right)
+        {
+            var a = left.OfType<object>().ToList();
+            var b = right.OfType<object>().ToList();
+            var equal = a.Count == b.Count && (!a.Except(b).Any() || !b.Except(a).Any());
+            return equal;
         }
 
         /// <summary>

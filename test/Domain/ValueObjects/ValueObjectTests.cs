@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using Xunit;
 
 namespace SharedKernel.Domain.Tests.ValueObjects
 {
@@ -230,6 +231,72 @@ namespace SharedKernel.Domain.Tests.ValueObjects
 
             //Assert
             Assert.Equal(address1, address2);
+        }
+
+        [Fact]
+        public void SameListAreEquals()
+        {
+            //Arrange
+            var integers1 = new Integers
+            {
+                Ints = new List<int> { 1, 3 }
+            };
+            var integers2 = new Integers
+            {
+                Ints = new List<int> { 1, 3 }
+            };
+
+            //Act
+
+            //Assert
+            Assert.True(integers1.Equals(integers2));
+            Assert.Equal(integers1, integers2);
+        }
+
+
+        [Fact]
+        public void SameListDistinctOrderAreEquals()
+        {
+            //Arrange
+            var integers1 = new Integers
+            {
+                Ints = new List<int> { 3, 1 }
+            };
+            var integers2 = new Integers
+            {
+                Ints = new List<int> { 1, 3 }
+            };
+
+            //Act
+
+            //Assert
+            Assert.True(integers1.Equals(integers2));
+            Assert.Equal(integers1, integers2);
+        }
+
+        [Fact]
+        public void IdenticalDataIsNotEqualOperatorIsFalseTestWithList()
+        {
+            //Arraneg
+            var integers1 = new Integers
+            {
+                Ints = new List<int> { 3, 1 }
+            };
+            var integers2 = new Integers
+            {
+                Ints = new List<int> { 1, 3 }
+            };
+
+            //Act
+            var resultEquals = integers1 != integers2;
+            var resultEqualsSimetric = integers2 != integers1;
+            // ReSharper disable once EqualExpressionComparison
+            //var resultEqualsOnThis = address1 != address1;
+
+            //Assert
+            Assert.False(resultEquals);
+            Assert.False(resultEqualsSimetric);
+            //Assert.False(resultEqualsOnThis);
         }
     }
 }
