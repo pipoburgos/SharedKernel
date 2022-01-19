@@ -26,12 +26,13 @@ namespace SharedKernel.Application.Cqrs.Commands
         Task Dispatch(ICommandRequest command, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Dispatch a command request in a background process
+        /// Dispatch a command request on a queue.
         /// </summary>
         /// <param name="command"></param>
+        /// <param name="queueName">Queue name</param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken);
+        Task DispatchOnQueue(ICommandRequest command, string queueName, CancellationToken cancellationToken);
 
         /// <summary>
         /// Queue a command request to background service

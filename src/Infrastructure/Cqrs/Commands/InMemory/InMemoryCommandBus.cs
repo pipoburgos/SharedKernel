@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Application.System;
+using SharedKernel.Application.System.Threading;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System;
 using System.Collections;
@@ -24,7 +26,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IHostApplicationLifetime _applicationLifetime;
 
-        private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new ();
+        private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new();
 
         /// <summary>
         /// 
@@ -88,14 +90,25 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         }
 
         /// <summary>
-        /// 
+        /// Dispatch a command request on a queue.
         /// </summary>
         /// <param name="command"></param>
+        /// <param name="queueName">Queue name</param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task DispatchInBackground(ICommandRequest command, CancellationToken cancellationToken)
+        public Task DispatchOnQueue(ICommandRequest command, string queueName, CancellationToken cancellationToken)
         {
-            return Task.Run(async () => await Dispatch(command, cancellationToken), cancellationToken);
+            using var scope = _serviceScopeFactory.CreateScope();
+            var mutexManager = scope.ServiceProvider.GetService<IMutexManager>();
+
+            if (mutexManager == default)
+                throw new InvalidOperationException("IMutexManager not registered");
+
+            return mutexManager.RunOneAtATimeFromGivenKeyAsync(queueName, async () =>
+            {
+                await Dispatch(command, cancellationToken);
+                return TaskHelper.CompletedTask;
+            }, cancellationToken);
         }
 
         /// <summary>

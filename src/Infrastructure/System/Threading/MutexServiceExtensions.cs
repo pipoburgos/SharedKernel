@@ -19,7 +19,7 @@ namespace SharedKernel.Infrastructure.System.Threading
         {
             return services
                 .AddTransient<IMutexManager, MutexManager>()
-                .AddScoped<IMutexFactory, InMemoryMutexFactory>();
+                .AddSingleton<IMutexFactory, InMemoryMutexFactory>();
         }
 
         /// <summary>
