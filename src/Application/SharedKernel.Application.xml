@@ -331,6 +331,18 @@
             </summary>
             <typeparam name="TResponse"></typeparam>
         </member>
+        <member name="T:SharedKernel.Application.Cqrs.Middlewares.IRetryPolicyExceptionHandler">
+            <summary>
+            RetryPolicyMiddleware Exception handler
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Application.Cqrs.Middlewares.IRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
+            <summary>
+            Check if an exception has to be retried
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Application.Cqrs.Queries.Contracts.IPagedList`1">
             <summary>
             A paged result

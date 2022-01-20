@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedKernel.Application.Cqrs.Middlewares;
+using System;
 
 namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 {

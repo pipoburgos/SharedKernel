@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedKernel.Infrastructure.Cqrs.Middlewares
+namespace SharedKernel.Application.Cqrs.Middlewares
 {
     /// <summary>
     /// RetryPolicyMiddleware Exception handler

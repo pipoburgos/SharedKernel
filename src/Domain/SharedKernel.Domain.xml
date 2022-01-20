@@ -2038,6 +2038,135 @@
             <typeparam name="TEntity"></typeparam>
             <typeparam name="TTranslation"></typeparam>
         </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif">
+            <summary> CIF </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif.#ctor">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif.#ctor(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif.Create(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif.Value">
+            <summary> CIF value. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif.IsValid">
+            <summary>
+            Validate cif value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.#ctor">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.#ctor(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.Create(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.Value">
+            <summary> CIF value. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.IsValid">
+            <summary>
+            Check if the value meets the validation rules or not
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.DeleteInvalidChars(System.String)">
+            <summary>
+            Removing all non-numeric characters or text string
+            </summary>
+            <param name="numero">Number such that the user writes</param>
+            <returns>String with no signs</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Dni.GetDniLetter(System.Int32)">
+            <summary>
+            Returns the letter of a DNI.
+            </summary>
+            <param name="number">DNI Number</param>
+            <returns>Control letter</returns>
+        </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.#ctor">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.#ctor(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.Create(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.Value">
+            <summary> NIE value. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.IsValid">
+            <summary>
+            Check if the value meets the validation rules or not
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.DeleteInvalidChars(System.String)">
+            <summary>
+            Removing all non-numeric characters or text string
+            </summary>
+            <param name="number">Number such that the user writes</param>
+            <returns>String with no signs</returns>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nie.GetNieLetter(System.Int32)">
+            <summary>
+            Returns the letter of a NIE.
+            </summary>
+            <param name="number">NIE Number</param>
+            <returns>Control letter</returns>
+        </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif.#ctor">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif.#ctor(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif.Create(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif.Value">
+            <summary> NIE value. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Nif.IsValid">
+            <summary>  </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif.#ctor">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif.#ctor(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif.Create(System.String)">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif.Value">
+            <summary> NIE value. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.ValueObjects.PersonalDocumentation.NifOrCif.IsValid">
+            <summary>  </summary>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Domain.ValueObjects.ValueObject`1">
             <inheritdoc />
             <summary>
