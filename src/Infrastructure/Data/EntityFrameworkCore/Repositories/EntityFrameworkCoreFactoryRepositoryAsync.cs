@@ -3,6 +3,7 @@ using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// </summary>
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TDbContext"></typeparam>
-    public abstract class EntityFrameworkCoreRepositoryFactoryAsync<TAggregateRoot, TDbContext> : EntityFrameworkCoreRepositoryAsync<TAggregateRoot>
+    public abstract class EntityFrameworkCoreFactoryRepositoryAsync<TAggregateRoot, TDbContext> : EntityFrameworkCoreRepositoryAsync<TAggregateRoot>, IDisposable
         where TAggregateRoot : class, IAggregateRoot
         where TDbContext : DbContextBase
     {
@@ -25,7 +26,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// Db Context Factory for concurrence async await operations
         /// </summary>
-        protected readonly IDbContextFactory<TDbContext> DbContextFactory;
+        private readonly IDbContextFactory<TDbContext> _dbContextFactory;
+
+        private readonly List<TDbContext> _contexts;
 
         #endregion Members
 
@@ -36,12 +39,20 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="dbContextBase"></param>
         /// <param name="dbContextFactory"></param>
-        protected EntityFrameworkCoreRepositoryFactoryAsync(DbContextBase dbContextBase, IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
+        protected EntityFrameworkCoreFactoryRepositoryAsync(DbContextBase dbContextBase, IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
         {
-            DbContextFactory = dbContextFactory;
+            _dbContextFactory = dbContextFactory;
+            _contexts = new List<TDbContext>();
         }
 
         #endregion Constructors
+
+        private IQueryable<TAggregateRoot> GetNewQuery(bool showDeleted = false)
+        {
+            var context = _dbContextFactory.CreateDbContext();
+            _contexts.Add(context);
+            return GetQuery(false, showDeleted, context);
+        }
 
         /// <summary>
         /// 
@@ -52,7 +63,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public virtual Task<TAggregateRoot> GetByIdNewContextAsync<TKey>(TKey key, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext())
+            return GetNewQuery()
                 .Cast<IEntity<TKey>>()
                 .Where(a => a.Id.Equals(key))
                 .Cast<TAggregateRoot>()
@@ -68,7 +79,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public virtual Task<TAggregateRoot> GetDeleteByIdNewContextAsync<TKey>(TKey key, CancellationToken cancellationToken)
         {
-            return GetQuery(false, true, DbContextFactory.CreateDbContext())
+            return GetNewQuery(true)
                 .Cast<IEntity<TKey>>()
                 .Where(a => a.Id.Equals(key))
                 .Cast<TAggregateRoot>()
@@ -82,7 +93,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public Task<List<TAggregateRoot>> GetAllNewContextAsync(CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).ToListAsync(cancellationToken);
+            return GetNewQuery().ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync(CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).AnyAsync(cancellationToken);
+            return GetNewQuery().AnyAsync(cancellationToken);
         }
 
         /// <summary>
@@ -102,7 +113,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<int> CountAsync(CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).CountAsync(cancellationToken);
+            return GetNewQuery().CountAsync(cancellationToken);
         }
 
         /// <summary>
@@ -114,7 +125,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext())
+            return GetNewQuery()
                 .Cast<IEntity<TKey>>()
                 .AnyAsync(a => a.Id.Equals(key), cancellationToken);
         }
@@ -127,7 +138,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public Task<List<TAggregateRoot>> WhereNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
+            return GetNewQuery().Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -138,7 +149,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public Task<TAggregateRoot> SingleNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).SingleAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetNewQuery().SingleAsync(spec.SatisfiedBy(), cancellationToken);
         }
 
         /// <summary>
@@ -149,7 +160,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public Task<TAggregateRoot> SingleOrDefaultNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetNewQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken);
         }
 
         /// <summary>
@@ -160,7 +171,18 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
         {
-            return GetQuery(false, false, DbContextFactory.CreateDbContext()).AnyAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetNewQuery().AnyAsync(spec.SatisfiedBy(), cancellationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (var dbContextBase in _contexts)
+            {
+                dbContextBase.Dispose();
+            }
         }
     }
 }

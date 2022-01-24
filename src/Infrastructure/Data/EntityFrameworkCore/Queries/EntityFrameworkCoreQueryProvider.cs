@@ -11,6 +11,7 @@ using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -22,10 +23,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
     /// 
     /// </summary>
     /// <typeparam name="TDbContextBase"></typeparam>
-    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContext
+    public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContext, IDisposable
     {
         private readonly IDbContextFactory<TDbContextBase> _factory;
-        private TDbContextBase _dbContext;
+        private TDbContextBase _lastDbContext;
+        private readonly List<TDbContextBase> _dbContexts;
 
         /// <summary>
         /// 
@@ -34,6 +36,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
         public EntityFrameworkCoreQueryProvider(IDbContextFactory<TDbContextBase> factory)
         {
             _factory = factory;
+            _dbContexts = new List<TDbContextBase>();
         }
 
         /// <summary>
@@ -44,7 +47,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
         /// <returns></returns>
         public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
         {
-            _dbContext = _factory.CreateDbContext();
+            _lastDbContext = _factory.CreateDbContext();
+            _dbContexts.Add(_lastDbContext);
             return Set<TEntity>(showDeleted);
         }
 
@@ -56,10 +60,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
         /// <returns></returns>
         public IQueryable<TEntity> Set<TEntity>(bool showDeleted = false) where TEntity : class
         {
-            if (_dbContext == default)
+            if (_lastDbContext == default)
                 throw new Exception("It is required to call the 'GetQuery' method before");
 
-            var query = _dbContext.Set<TEntity>().AsNoTracking();
+            var query = _lastDbContext.Set<TEntity>().AsNoTracking();
 
             if (!showDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(TEntity)))
             {
@@ -88,7 +92,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
             Expression<Func<T, TResult>> selector = null, CancellationToken cancellationToken = default)
             where T : class where TResult : class
         {
-            var query = _factory.CreateDbContext().Set<T>().AsNoTracking();
+            var dbContext = _factory.CreateDbContext();
+            _dbContexts.Add(dbContext);
+
+            var query = dbContext.Set<T>().AsNoTracking();
 
             var totalBefore = await query.CountAsync(cancellationToken);
 
@@ -99,7 +106,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
                     .Cast<IEntityAuditableLogicalRemove>()
                     .Where(new NotDeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
                     .Cast<T>();
-            if (pageOptions.ShowDeleted && pageOptions.ShowOnlyDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
+            if (pageOptions.ShowDeleted && pageOptions.ShowOnlyDeleted &&
+                typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
                 query = query
                     .Cast<IEntityAuditableLogicalRemove>()
                     .Where(new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
@@ -141,6 +149,18 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 
 
             return new PagedList<TResult>(totalBefore, totalAfter, elements);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (var dbContextBase in _dbContexts)
+            {
+                dbContextBase.Dispose();
+
+            }
         }
     }
 }
