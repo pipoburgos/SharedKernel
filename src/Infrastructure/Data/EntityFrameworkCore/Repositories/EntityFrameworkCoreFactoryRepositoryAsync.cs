@@ -47,7 +47,24 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
 
         #endregion Constructors
 
-        private IQueryable<TAggregateRoot> GetNewQuery(bool showDeleted = false)
+        /// <summary>
+        /// Creates a new DbContext an invoke Set method with no tracking
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        protected IQueryable<TEntity> SetNew<TEntity>() where TEntity : class
+        {
+            var context = _dbContextFactory.CreateDbContext();
+            _contexts.Add(context);
+            return context.Set<TEntity>().AsNoTracking();
+        }
+
+        /// <summary>
+        /// Creates a new DbContext an get aggregate with no tracking
+        /// </summary>
+        /// <param name="showDeleted"></param>
+        /// <returns></returns>
+        protected IQueryable<TAggregateRoot> GetNewQuery(bool showDeleted = false)
         {
             var context = _dbContextFactory.CreateDbContext();
             _contexts.Add(context);

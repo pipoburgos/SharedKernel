@@ -1310,6 +1310,20 @@
             <param name="dbContextBase"></param>
             <param name="dbContextFactory"></param>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.SetNew``1">
+            <summary>
+            Creates a new DbContext an invoke Set method with no tracking
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.GetNewQuery(System.Boolean)">
+            <summary>
+            Creates a new DbContext an get aggregate with no tracking
+            </summary>
+            <param name="showDeleted"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.GetByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
             <summary>
             
