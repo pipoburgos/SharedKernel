@@ -1286,6 +1286,115 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2">
+            <summary>
+                ENTITY FRAMEWORK CORE REPOSITORY
+            </summary>
+            <typeparam name="TAggregateRoot">Repository data type</typeparam>
+            <typeparam name="TDbContext"></typeparam>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2._dbContextFactory">
+            <summary>
+            Db Context Factory for concurrence async await operations
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase,SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`1})">
+            <summary>
+            
+            </summary>
+            <param name="dbContextBase"></param>
+            <param name="dbContextFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.GetByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.GetDeleteByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.GetAllNewContextAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.AnyAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.CountAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.AnyAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.WhereNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.SingleNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.SingleOrDefaultNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreFactoryRepositoryAsync`2.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1">
             <summary>
                 ENTITY FRAMEWORK CORE REPOSITORY
@@ -1566,105 +1675,6 @@
             <summary>
             
             </summary>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2">
-            <summary>
-                ENTITY FRAMEWORK CORE REPOSITORY
-            </summary>
-            <typeparam name="TAggregateRoot">Repository data type</typeparam>
-            <typeparam name="TDbContext"></typeparam>
-        </member>
-        <member name="F:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.DbContextFactory">
-            <summary>
-            Db Context Factory for concurrence async await operations
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase,SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`1})">
-            <summary>
-            
-            </summary>
-            <param name="dbContextBase"></param>
-            <param name="dbContextFactory"></param>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <param name="key"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetDeleteByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <param name="key"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetAllNewContextAsync(System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync(System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.CountAsync(System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync``1(``0,System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <param name="key"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.WhereNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="spec"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.SingleNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="spec"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.SingleOrDefaultNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="spec"></param>
-            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="spec"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
