@@ -13,7 +13,7 @@ namespace SharedKernel.Infrastructure.System.Threading
     /// <summary>
     /// Executes a for each operation on an <see cref="IEnumerable{TSource}"/> in which iterations may run in parallel
     /// </summary>
-    internal class Parallel : IParallel
+    public class Parallel : IParallel
     {
 #if NET6_0_OR_GREATER
         /// <summary>Executes a for each operation on an <see cref="IEnumerable{TSource}"/> in which iterations may run in parallel.</summary>
