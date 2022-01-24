@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Globalization;
@@ -9,6 +6,9 @@ using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
 {
@@ -20,22 +20,20 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     {
         #region Members
 
-        private readonly DbContextBase _dbContextBase;
-
-        private readonly DbSet<TAggregateRoot> _dbSet;
+        /// <summary> Db context base </summary>
+        protected readonly DbContextBase DbContextBase;
 
         #endregion Members
 
         #region Constructors
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="dbContextBase"></param>
         protected EntityFrameworkCoreRepository(DbContextBase dbContextBase)
         {
-            _dbContextBase = dbContextBase ?? throw new ArgumentNullException(nameof(dbContextBase));
-            _dbSet = dbContextBase.SetAggregate<TAggregateRoot>();
+            DbContextBase = dbContextBase ?? throw new ArgumentNullException(nameof(dbContextBase));
         }
 
         #endregion Constructors
@@ -47,10 +45,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="tracking"></param>
         /// <param name="showDeleted"></param>
+        /// <param name="dbContextBase"></param>
         /// <returns></returns>
-        protected IQueryable<TAggregateRoot> GetQuery(bool tracking = true, bool showDeleted = false)
+        protected IQueryable<TAggregateRoot> GetQuery(bool tracking = true, bool showDeleted = false, DbContextBase dbContextBase = default)
         {
-            IQueryable<TAggregateRoot> query = _dbSet;
+            IQueryable<TAggregateRoot> query = (dbContextBase ?? DbContextBase).SetAggregate<TAggregateRoot>();
 
             query = GetAggregate(query);
 
@@ -95,7 +94,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TAggregateRoot GetById<TKey>(TKey key)
+        public virtual TAggregateRoot GetById<TKey>(TKey key)
         {
             return GetQuery().Cast<IEntity<TKey>>().Where(a => a.Id.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault();
         }
@@ -104,9 +103,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool Any()
+        public virtual bool Any()
         {
-            return GetQuery().Any();
+            return GetQuery(false).Any();
         }
 
         /// <summary>
@@ -115,9 +114,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool Any<TKey>(TKey key)
+        public virtual bool Any<TKey>(TKey key)
         {
-            return GetQuery().Cast<IEntity<TKey>>().Where(a => a.Id.Equals(key)).Cast<TAggregateRoot>().Any();
+            return GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id.Equals(key)).Cast<TAggregateRoot>().Any();
         }
 
         /// <summary>
@@ -125,9 +124,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="spec"></param>
         /// <returns></returns>
-        public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
+        public virtual List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
         {
-            return GetQuery(false).Where(spec.SatisfiedBy()).ToList();
+            return GetQuery().Where(spec.SatisfiedBy()).ToList();
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <returns></returns>
 
-        public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
+        public virtual TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
         {
             return GetQuery().Single(spec.SatisfiedBy());
         }
@@ -146,7 +145,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="spec"></param>
         /// <returns></returns>
-        public TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
+        public virtual TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
         {
             return GetQuery().SingleOrDefault(spec.SatisfiedBy());
         }
@@ -156,7 +155,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="spec"></param>
         /// <returns></returns>
-        public bool Any(ISpecification<TAggregateRoot> spec)
+        public virtual bool Any(ISpecification<TAggregateRoot> spec)
         {
             return GetQuery(false).Any(spec.SatisfiedBy());
         }
@@ -165,54 +164,54 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// 
         /// </summary>
         /// <param name="aggregateRoot"></param>
-        public void Add(TAggregateRoot aggregateRoot)
+        public virtual void Add(TAggregateRoot aggregateRoot)
         {
-            _dbSet.Add(aggregateRoot);
+            DbContextBase.SetAggregate<TAggregateRoot>().Add(aggregateRoot);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aggregateRoots"></param>
-        public void AddRange(IEnumerable<TAggregateRoot> aggregateRoots)
+        public virtual void AddRange(IEnumerable<TAggregateRoot> aggregateRoots)
         {
-            _dbSet.AddRange(aggregateRoots);
+            DbContextBase.SetAggregate<TAggregateRoot>().AddRange(aggregateRoots);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aggregateRoot"></param>
-        public void Remove(TAggregateRoot aggregateRoot)
+        public virtual void Remove(TAggregateRoot aggregateRoot)
         {
-            _dbSet.Remove(aggregateRoot);
+            DbContextBase.SetAggregate<TAggregateRoot>().Remove(aggregateRoot);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aggregates"></param>
-        public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
+        public virtual void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
         {
-            _dbSet.RemoveRange(aggregates);
+            DbContextBase.SetAggregate<TAggregateRoot>().RemoveRange(aggregates);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aggregateRoot"></param>
-        public void Update(TAggregateRoot aggregateRoot)
+        public virtual void Update(TAggregateRoot aggregateRoot)
         {
-            _dbSet.Update(aggregateRoot);
+            DbContextBase.SetAggregate<TAggregateRoot>().Update(aggregateRoot);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="aggregates"></param>
-        public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
+        public virtual void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
         {
-            _dbSet.UpdateRange(aggregates);
+            DbContextBase.SetAggregate<TAggregateRoot>().UpdateRange(aggregates);
         }
 
         /// <summary>
@@ -221,7 +220,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public int Rollback()
         {
-            return _dbContextBase.Rollback();
+            return DbContextBase.Rollback();
         }
 
         /// <summary>
@@ -230,7 +229,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public int SaveChanges()
         {
-            return _dbContextBase.SaveChanges();
+            return DbContextBase.SaveChanges();
         }
     }
 }
