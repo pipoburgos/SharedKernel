@@ -1114,6 +1114,30 @@
             
             </summary>
         </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.#ctor(System.IServiceProvider)">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextFactory`1.CreateDbContext">
+            <summary>
+                This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+                the same compatibility standards as public APIs. It may be changed or removed without notice in
+                any release. You should only use it directly in your code with extreme caution and knowing that
+                doing so can result in application failures when updating to a new Entity Framework Core release.
+            </summary>
+        </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IAuditableService">
             <summary>
             
@@ -1124,6 +1148,25 @@
             
             </summary>
             <param name="dbContext"></param>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1">
+            <summary>
+                Defines a factory for creating <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instances.
+                A service of this type is registered in the dependency injection container by the
+                <see cref="M:EntityFrameworkServiceCollectionExtensions.AddDbContextPool" /> methods.
+            </summary>
+            <typeparam name="TContext"> The <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> type to create. </typeparam>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory`1.CreateDbContext">
+            <summary>
+                <para>
+                    Creates a new <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instance.
+                </para>
+                <para>
+                    The caller is responsible for disposing the context; it will not be disposed by the dependency injection container.
+                </para>
+            </summary>
+            <returns> A new context instance. </returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IQueryableUnitOfWork">
             <summary>
@@ -1208,7 +1251,7 @@
             </summary>
             <typeparam name="TDbContextBase"></typeparam>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{`0})">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries.EntityFrameworkCoreQueryProvider`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`0})">
             <summary>
             
             </summary>
@@ -1249,18 +1292,22 @@
             </summary>
             <typeparam name="TAggregateRoot">Repository data type</typeparam>
         </member>
+        <member name="F:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.DbContextBase">
+            <summary> Db context base </summary>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase)">
             <summary>
-            
+            Constructor
             </summary>
             <param name="dbContextBase"></param>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetQuery(System.Boolean,System.Boolean)">
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetQuery(System.Boolean,System.Boolean,SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase)">
             <summary>
             
             </summary>
             <param name="tracking"></param>
             <param name="showDeleted"></param>
+            <param name="dbContextBase"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepository`1.GetAggregate(System.Linq.IQueryable{`0})">
@@ -1519,6 +1566,105 @@
             <summary>
             
             </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2">
+            <summary>
+                ENTITY FRAMEWORK CORE REPOSITORY
+            </summary>
+            <typeparam name="TAggregateRoot">Repository data type</typeparam>
+            <typeparam name="TDbContext"></typeparam>
+        </member>
+        <member name="F:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.DbContextFactory">
+            <summary>
+            Db Context Factory for concurrence async await operations
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.#ctor(SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.DbContextBase,SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts.IDbContextFactory{`1})">
+            <summary>
+            
+            </summary>
+            <param name="dbContextBase"></param>
+            <param name="dbContextFactory"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetDeleteByIdNewContextAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.GetAllNewContextAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.CountAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.WhereNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.SingleNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.SingleOrDefaultNewContextAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories.EntityFrameworkCoreRepositoryFactoryAsync`2.AnyAsync(SharedKernel.Domain.Specifications.Common.ISpecification{`0},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="spec"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
@@ -2914,21 +3060,6 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
-        <member name="T:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions">
-            <summary>
-            Http client extensions
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.HttpClients.HttpClientExtensions.AddHttpClientBearerToken``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
-            <summary>
-            Add http client with bearer token
-            </summary>
-            <typeparam name="TClient"></typeparam>
-            <param name="services"></param>
-            <param name="name"></param>
-            <param name="uri"></param>
-            <returns></returns>
-        </member>
         <member name="T:SharedKernel.Infrastructure.Logging.DefaultCustomLogger`1">
             <summary>
             
@@ -3652,6 +3783,21 @@
             <param name="services"></param>
             <param name="connectionString"></param>
             <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Infrastructure.System.Threading.Parallel">
+            <summary>
+            Executes a for each operation on an <see cref="T:System.Collections.Generic.IEnumerable`1"/> in which iterations may run in parallel
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.System.Threading.Parallel.ForEachAsync``1(System.Collections.Generic.IEnumerable{``0},System.Threading.CancellationToken,System.Func{``0,System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>Executes a for each operation on an <see cref="T:System.Collections.Generic.IEnumerable`1"/> in which iterations may run in parallel.</summary>
+            <typeparam name="TSource">The type of the data in the source.</typeparam>
+            <param name="source">An enumerable data source.</param>
+            <param name="cancellationToken">A cancellation token that may be used to cancel the for each operation.</param>
+            <param name="body">An asynchronous delegate that is invoked once per element in the data source.</param>
+            <exception cref="T:System.ArgumentNullException">The exception that is thrown when the <paramref name="source"/> argument or <paramref name="body"/> argument is null.</exception>
+            <returns>A task that represents the entire for each operation.</returns>
+            <remarks>The operation will execute at most <see cref="P:System.Environment.ProcessorCount"/> operations in parallel.</remarks>
         </member>
         <member name="T:SharedKernel.Infrastructure.System.Threading.SqlServerMutex.SqlServerMutex">
             <summary>
