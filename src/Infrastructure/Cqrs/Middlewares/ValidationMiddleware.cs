@@ -37,16 +37,11 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         /// <returns></returns>
         public Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next)
         {
-            var validatorIsRegistered = _serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(request.GetType()));
-
-            if (validatorIsRegistered == default)
-                return next(request, cancellationToken);
-
             var result = typeof(IEntityValidator<>).MakeGenericType(request.GetType());
             var validator = _serviceProvider.CreateScope().ServiceProvider.GetService(result);
 
             if (validator == default)
-                throw new Exception($"Validator '{result}'not found");
+                return next(request, cancellationToken);
 
             const string methodName = "ValidateList";
             var method = validator.GetType().GetMethod(methodName);
@@ -100,7 +95,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
             var result = typeof(IEntityValidator<>).MakeGenericType(request.GetType());
             var validator = _serviceProvider.CreateScope().ServiceProvider.GetService(result);
 
-            if(validator == default)
+            if (validator == default)
                 throw new Exception($"Validator '{result}'not found");
 
             const string methodName = "ValidateList";
