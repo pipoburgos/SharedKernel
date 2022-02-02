@@ -34,7 +34,7 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
 
             var response = await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
 
-            Assert.Equal(value, response);
+            response.Should().Be(value);
         }
 
         [Fact]
@@ -43,7 +43,6 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
             var validator = GetService<IValidator<SampleCommandWithResponse>>();
             validator.Should().NotBeNull();
         }
-
 
         [Fact]
         public async Task DispatchInQueueSumTime()

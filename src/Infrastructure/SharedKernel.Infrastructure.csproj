@@ -5,7 +5,7 @@
 		<LangVersion>latest</LangVersion>
 		<NeutralLanguage>en</NeutralLanguage>
 		<PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
-		<Version>6.0.10</Version>
+		<Version>6.0.11</Version>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -57,11 +57,11 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
-		<PackageReference Include="NEST" Version="7.16.0" />
+		<PackageReference Include="NEST" Version="7.17.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netcoreapp3.1'" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" Condition="'$(TargetFramework)' == 'net5.0'" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Polly" Version="7.2.3" />
 		<PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
 		<PackageReference Include="System.CodeDom" Version="6.0.0" />

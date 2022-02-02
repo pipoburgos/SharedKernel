@@ -770,6 +770,15 @@
             <param name="origins">All domains who calls the api</param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddSharedKernelApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[])">
+            <summary>
+            Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="policyName">The policy name of a configured policy.</param>
+            <param name="origins">All domains who calls the api</param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.UseSharedKernelMetrics(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Adds metrics with prometheus

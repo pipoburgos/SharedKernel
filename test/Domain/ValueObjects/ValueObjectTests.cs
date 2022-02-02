@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace SharedKernel.Domain.Tests.ValueObjects
@@ -113,7 +114,7 @@ namespace SharedKernel.Domain.Tests.ValueObjects
         public void SameDataInDiferentPropertiesIsEqualsFalseTest()
         {
             //Arrange
-            var address1 = new Address("streetLine1", "streetLine2",null, null);
+            var address1 = new Address("streetLine1", "streetLine2", null, null);
             var address2 = new Address("streetLine2", "streetLine1", null, null);
 
             //Act
@@ -137,6 +138,38 @@ namespace SharedKernel.Domain.Tests.ValueObjects
 
             //Assert
             Assert.False(result);
+        }
+
+        [Fact]
+        public void NullableValueObjectEqualTrueTest()
+        {
+            //Arrange
+            Address address1 = null;
+            Address address2 = null;
+
+            //Act
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            var result = address1 == address2;
+
+
+            //Assert
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void NullablePropertiesValueObjectEqualTrueTest()
+        {
+            //Arrange
+            var address1 = new Address(null, null, null, null);
+            var address2 = new Address(null, null, null, null);
+
+            //Act
+            var result = address1 == address2;
+
+
+            //Assert
+            result.Should().BeTrue();
         }
 
         [Fact]

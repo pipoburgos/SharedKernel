@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Http;
+using SharedKernel.Application.Events;
+using SharedKernel.Domain.Tests.Users;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using SharedKernel.Application.Events;
-using SharedKernel.Domain.Tests.Users;
 
 namespace SharedKernel.Integration.Tests.Events
 {
@@ -28,7 +28,7 @@ namespace SharedKernel.Integration.Tests.Events
                 throw new ArgumentNullException(nameof(@event));
 
             var rnd = new Random();
-            var random = rnd.Next(1, 15);
+            var random = rnd.Next(1, 7);
 
             if (random == 2)
                 throw new Exception("To retry");
