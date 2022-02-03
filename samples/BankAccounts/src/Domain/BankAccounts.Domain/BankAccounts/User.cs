@@ -7,16 +7,16 @@ namespace BankAccounts.Domain.BankAccounts
     {
         protected User() { }
 
-        public User(Guid id, string name, string surname, DateTime dateOfBirth) : base(id)
+        public User(Guid id, string name, string surname, DateTime birthdate) : base(id)
         {
             Name = name;
             Surname = surname;
-            DateOfBirth = dateOfBirth;
+            Birthdate = birthdate;
         }
 
         public string Name { get; private set; }
 
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime Birthdate { get; private set; }
 
         public string Surname { get; private set; }
     }

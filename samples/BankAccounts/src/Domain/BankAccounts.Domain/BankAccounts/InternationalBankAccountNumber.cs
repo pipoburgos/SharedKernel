@@ -2,12 +2,12 @@
 
 namespace BankAccounts.Domain.BankAccounts
 {
-    public class Iban : ValueObject<Iban>
+    public class InternationalBankAccountNumber : ValueObject<InternationalBankAccountNumber>
     {
-        protected Iban() { }
+        protected InternationalBankAccountNumber() { }
 
-        public Iban(string countryCheckDigit, string entityCode, string officeNumber, string controlDigit,
-            string accountNumber)
+        public InternationalBankAccountNumber(string countryCheckDigit, string entityCode, string officeNumber,
+            string controlDigit, string accountNumber)
         {
             CountryCheckDigit = countryCheckDigit;
             EntityCode = entityCode;
