@@ -27,7 +27,7 @@ namespace BankAccounts.Domain.BankAccounts
 
         public User Owner { get; private set; }
 
-        public decimal Balance => _movements.Sum(m => m.Quantity);
+        public decimal Balance => _movements.Sum(m => m.Amount);
 
         public IEnumerable<Movement> Movements => _movements.AsReadOnly();
     }

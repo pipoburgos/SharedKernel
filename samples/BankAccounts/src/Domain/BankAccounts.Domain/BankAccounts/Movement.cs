@@ -7,15 +7,17 @@ namespace BankAccounts.Domain.BankAccounts
     {
         protected Movement() { }
 
-        public Movement(Guid id, string concept, decimal quantity, DateTime date) : base(id)
+        public Movement(Guid id, string concept, decimal amount, DateTime date) : base(id)
         {
             Concept = concept;
-            Quantity = quantity;
+            Amount = amount;
             Date = date;
         }
 
         public string Concept { get; private set; }
-        public decimal Quantity { get; private set; }
+
+        public decimal Amount { get; private set; }
+
         public DateTime Date { get; private set; }
     }
 }
