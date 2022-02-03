@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Domain", "Domain\BankAccounts.Domain\BankAccounts.Domain.csproj", "{092DAF55-2F05-41AE-8154-25CB831E1975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Domain", "src\Domain\BankAccounts.Domain\BankAccounts.Domain.csproj", "{092DAF55-2F05-41AE-8154-25CB831E1975}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2DB04E75-8F34-45B5-8E25-58F4F912890E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8B06AD73-DD1A-4A06-8453-1E3ABE47C48C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +22,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{092DAF55-2F05-41AE-8154-25CB831E1975} = {2DB04E75-8F34-45B5-8E25-58F4F912890E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {634FC0D3-1D93-4508-AE48-505CFAD5D10C}
