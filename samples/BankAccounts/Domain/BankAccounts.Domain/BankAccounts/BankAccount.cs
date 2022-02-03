@@ -14,15 +14,15 @@ namespace BankAccounts.Domain.BankAccounts
             _movements = new List<Movement>();
         }
 
-        public BankAccount(Guid id, AccountNumber accountNumber, User owner, Movement initialMovement) : base(id)
+        public BankAccount(Guid id, Iban iban, User owner, Movement initialMovement) : base(id)
         {
             _movements = new List<Movement>();
-            AccountNumber = accountNumber;
+            Iban = iban;
             Owner = owner;
             _movements.Add(initialMovement);
         }
 
-        public AccountNumber AccountNumber { get; private set; }
+        public Iban Iban { get; private set; }
 
         public User Owner { get; private set; }
 

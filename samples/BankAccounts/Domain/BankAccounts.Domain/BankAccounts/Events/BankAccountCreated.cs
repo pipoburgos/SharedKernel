@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Domain.Events;
 using System.Collections.Generic;
 
-namespace BankAccounts.Domain.BankAccounts
+namespace BankAccounts.Domain.BankAccounts.Events
 {
     public class BankAccountCreated : DomainEvent
     {
