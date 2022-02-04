@@ -92,5 +92,22 @@ namespace BankAccounts.Domain.UnitTests
             // Assert
             createFunction.Should().NotThrow();
         }
+
+        [Fact]
+        public void CheckBankAccountCreatedEvent()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var iban = Substitute.For<InternationalBankAccountNumber>();
+            var user = Substitute.For<User>();
+            var movement = Substitute.For<Movement>();
+
+            // Act
+            var bankAccount = BankAccountFactory.Create(id, iban, user, movement);
+
+            // Assert
+            var events = bankAccount.PullDomainEvents();
+            events.Count.Should().BeGreaterOrEqualTo(1);
+        }
     }
 }
