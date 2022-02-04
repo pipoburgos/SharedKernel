@@ -17,7 +17,18 @@ namespace BankAccounts.Domain.BankAccounts
         public BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
             Movement initialMovement) : base(id)
         {
-            _movements = new List<Movement>();
+            if (id == default)
+                throw new ArgumentNullException(nameof(id));
+
+            if (internationalBankAccountNumber == default)
+                throw new ArgumentNullException(nameof(internationalBankAccountNumber));
+
+            if (owner == default)
+                throw new ArgumentNullException(nameof(owner));
+
+            if (initialMovement == default)
+                throw new ArgumentNullException(nameof(initialMovement));
+
             InternationalBankAccountNumber = internationalBankAccountNumber;
             Owner = owner;
             _movements = new List<Movement> { initialMovement };
