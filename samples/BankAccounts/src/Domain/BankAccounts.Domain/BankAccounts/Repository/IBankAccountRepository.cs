@@ -6,8 +6,10 @@ namespace BankAccounts.Domain.BankAccounts.Repository
 {
     public interface IBankAccountRepository
     {
-        Task<BankAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task Add(BankAccount bankAccount, CancellationToken cancellationToken = default);
 
-        Task Update(BankAccount bankAccount);
+        Task Update(BankAccount bankAccount, CancellationToken cancellationToken = default);
+
+        Task<BankAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }
