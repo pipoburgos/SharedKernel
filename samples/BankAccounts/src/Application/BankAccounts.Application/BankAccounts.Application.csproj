@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 	  <Folder Include="BankAccounts\Queries\" />
+	  <Folder Include="Subcribers\SalaryHasBeenDepositedSubcribers\" />
 	</ItemGroup>
 
 	<ItemGroup>

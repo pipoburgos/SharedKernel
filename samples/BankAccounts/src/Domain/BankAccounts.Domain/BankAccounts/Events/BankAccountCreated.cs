@@ -11,7 +11,7 @@ namespace BankAccounts.Domain.BankAccounts.Events
 
         public override string GetEventName()
         {
-            return "bankAccount.Created";
+            return "bankAccounts.bankAccounts.bankAccountCreated";
         }
 
         public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
