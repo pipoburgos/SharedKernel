@@ -11,7 +11,8 @@ namespace BankAccounts.Domain.UnitTests.Specifications
         public void IsSpanishAccount()
         {
             // Arrange
-            var bankAccount = BankAccountTestFactory.Create(countryCheckDigit: "ES14");
+            var bankAccount =
+                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("ES14"));
 
             // Act
             var isSpanish = new IsASpanishBankAccountSpec().SatisfiedBy().Compile()(bankAccount);
@@ -24,7 +25,8 @@ namespace BankAccounts.Domain.UnitTests.Specifications
         public void IsNotSpanishAccount()
         {
             // Arrange
-            var bankAccount = BankAccountTestFactory.Create(countryCheckDigit: "DE14");
+            var bankAccount =
+                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("DE14"));
 
             // Act
             var isSpanish = new IsASpanishBankAccountSpec().SatisfiedBy().Compile()(bankAccount);

@@ -13,8 +13,8 @@ namespace BankAccounts.Domain.UnitTests.Services
         public void Ok()
         {
             // Arrange
-            var fromAccount = BankAccountTestFactory.Create(amount: 50);
-            var toAccount = BankAccountTestFactory.Create(amount: 50);
+            var fromAccount = BankAccountTestFactory.Create(initialMovement: MovementTestFactory.Create(amount: 50));
+            var toAccount = BankAccountTestFactory.Create(initialMovement: MovementTestFactory.Create(amount: 50));
             var amount = 10;
             var date = new DateTime(1996, 5, 12);
             var fromMovementId = Guid.NewGuid();
@@ -33,8 +33,8 @@ namespace BankAccounts.Domain.UnitTests.Services
         public void TransferNoMoney()
         {
             // Arrange
-            var fromAccount = BankAccountTestFactory.Create(amount: 50);
-            var toAccount = BankAccountTestFactory.Create(amount: 50);
+            var fromAccount = BankAccountTestFactory.Create(initialMovement: MovementTestFactory.Create(amount: 50));
+            var toAccount = BankAccountTestFactory.Create(initialMovement: MovementTestFactory.Create(amount: 50));
             var amount = 0;
             var date = new DateTime(1996, 5, 12);
             var fromMovementId = Guid.NewGuid();
