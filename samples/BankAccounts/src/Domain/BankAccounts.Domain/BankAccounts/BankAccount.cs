@@ -37,7 +37,7 @@ namespace BankAccounts.Domain.BankAccounts
                 throw new QuantityCannotBeNegativeException();
 
             if (!new AtLeast18YearsOldSpec(now).SatisfiedBy().Compile()(owner))
-                throw new QuantityCannotBeNegativeException();
+                throw new AtLeast18YearsOldException();
 
             InternationalBankAccountNumber = internationalBankAccountNumber;
             Owner = owner;

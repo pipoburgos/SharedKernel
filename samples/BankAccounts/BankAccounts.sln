@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8B06AD73
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Domain.UnitTests", "tests\BankAccounts.Domain.UnitTests\BankAccounts.Domain.UnitTests.csproj", "{0BDAB621-572A-4759-9B15-A8AC8AB65D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccounts.Application", "src\Application\BankAccounts.Application\BankAccounts.Application.csproj", "{C962B9CF-F9C3-474A-AA80-F9E978090603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Application", "src\Application\BankAccounts.Application\BankAccounts.Application.csproj", "{C962B9CF-F9C3-474A-AA80-F9E978090603}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccounts.UserCase.Tests", "tests\BankAccounts.UserCase.Tests\BankAccounts.UserCase.Tests.csproj", "{8880A88D-2927-4CD2-A149-00921A9E16E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.UseCases.Tests", "tests\BankAccounts.UseCases.Tests\BankAccounts.UseCases.Tests.csproj", "{8880A88D-2927-4CD2-A149-00921A9E16E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
