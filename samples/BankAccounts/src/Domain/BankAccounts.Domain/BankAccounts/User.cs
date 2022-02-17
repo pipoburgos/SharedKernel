@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Domain.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace BankAccounts.Domain.BankAccounts
 {
@@ -16,8 +17,10 @@ namespace BankAccounts.Domain.BankAccounts
 
         public string Name { get; private set; }
 
+        public string Surname { get; private set; }
+
         public DateTime Birthdate { get; private set; }
 
-        public string Surname { get; private set; }
+        public IEnumerable<string> Emails { get; private set; }
     }
 }

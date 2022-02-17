@@ -11,6 +11,9 @@ using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 
 namespace BankAccounts.Infrastructure.Shared
 {
+    /// <summary>
+    /// Configurar la inyección de dependencias
+    /// </summary>
     public static class BankAccountServiceCollection
     {
         public static IServiceCollection AddBankAccounts(this IServiceCollection serviceCollection,
