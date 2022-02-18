@@ -9,10 +9,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Subcribers\SalaryHasBeenDepositedSubcribers\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\..\Domain\BankAccounts.Domain\BankAccounts.Domain.csproj" />
 	</ItemGroup>
 

@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BankAccounts.Application.Subcribers.BankAccountCreatedSubcribers
+namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSubcribers
 {
     internal class SendEmailToOwnerSubcriber : DomainEventSubscriber<BankAccountCreated>
     {
