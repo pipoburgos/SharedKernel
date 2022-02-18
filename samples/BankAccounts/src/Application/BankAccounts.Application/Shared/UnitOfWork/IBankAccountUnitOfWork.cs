@@ -2,7 +2,7 @@
 
 namespace BankAccounts.Application.Shared.UnitOfWork
 {
-    public interface IBankAccountUnitOfWork : IUnitOfWorkAsync
+    internal interface IBankAccountUnitOfWork : IUnitOfWorkAsync
     {
     }
 }

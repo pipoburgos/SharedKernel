@@ -1,15 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using SharedKernel.Domain.Repositories;
 
 namespace BankAccounts.Domain.BankAccounts.Repository
 {
-    public interface IBankAccountRepository
+    public interface IBankAccountRepository : ICreateRepositoryAsync<BankAccount>,
+        IUpdateRepositoryAsync<BankAccount>, IReadRepositoryAsync<BankAccount>
     {
-        Task Add(BankAccount bankAccount, CancellationToken cancellationToken = default);
-
-        Task Update(BankAccount bankAccount, CancellationToken cancellationToken = default);
-
-        Task<BankAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

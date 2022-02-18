@@ -40,7 +40,7 @@ namespace BankAccounts.Application.BankAccounts.Commands
 
             var bankAccount = BankAccountFactory.Create(command.Id, iban, owner, movement, _dateTime.UtcNow);
 
-            await _bankAccountRepository.Add(bankAccount, cancellationToken);
+            await _bankAccountRepository.AddAsync(bankAccount, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _eventBus.Publish(bankAccount.PullDomainEvents(), cancellationToken);
         }

@@ -1,26 +1,13 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using BankAccounts.Infrastructure.Shared.Data;
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories;
 
 namespace BankAccounts.Infrastructure.BankAccounts
 {
-    internal class EntityFrameworkBankAccountRepository : IBankAccountRepository
+    internal class EntityFrameworkBankAccountRepository :
+        EntityFrameworkCoreRepositoryAsync<BankAccount>, IBankAccountRepository
     {
-        public async Task Add(BankAccount bankAccount, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Update(BankAccount bankAccount, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<BankAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+        public EntityFrameworkBankAccountRepository(BankAccountDbContext dbContext) : base(dbContext) { }
     }
 }
