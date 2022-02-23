@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BankAccounts.Application</name>
+    </assembly>
+    <members>
+        <member name="M:BankAccounts.Application.Shared.BankAccountRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
+            <summary>Check if an exception has to be retried</summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

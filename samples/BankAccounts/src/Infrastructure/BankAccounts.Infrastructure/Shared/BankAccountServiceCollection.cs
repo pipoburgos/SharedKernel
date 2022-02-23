@@ -63,7 +63,7 @@ namespace BankAccounts.Infrastructure.Shared
                     typeof(IBankAccountUnitOfWork));
 
             // Repositories
-            //serviceCollection.AddTransient<IBankAccountRepository, EntityFrameworkBankAccountRepository>();
+            serviceCollection.AddTransient<IBankAccountRepository, EntityFrameworkBankAccountRepository>();
 
             // Unit of work
             serviceCollection.AddScoped<IBankAccountUnitOfWork, BankAccountDbContext>();

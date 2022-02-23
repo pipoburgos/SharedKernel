@@ -15,7 +15,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Configurations
                 .ValueGeneratedNever();
 
             builder
-                .HasOne<BankAccount>()
+                .HasMany<BankAccount>()
                 .WithOne(e => e.Owner);
 
             builder
