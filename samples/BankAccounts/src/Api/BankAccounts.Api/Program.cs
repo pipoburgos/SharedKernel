@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace BankAccounts.Api
 {
+    /// <summary> Program start. </summary>
     public class Program
     {
         /// <summary> Main </summary>

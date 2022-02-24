@@ -4,16 +4,45 @@
         <name>BankAccounts.Api</name>
     </assembly>
     <members>
+        <member name="T:BankAccounts.Api.BankAccounts.CreateBankAccountEndpoint">
+            <summary> Create a bank account. </summary>
+        </member>
+        <member name="M:BankAccounts.Api.BankAccounts.CreateBankAccountEndpoint.Handle(SharedKernel.Application.Cqrs.Commands.ICommandBus,System.Guid,BankAccounts.Application.BankAccounts.Commands.CreateBankAccount,System.Threading.CancellationToken)">
+            <summary> Create a bank account. </summary>
+            <param name="commandBus"></param>
+            <param name="bankAccountId"></param>
+            <param name="createBankAccount"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint">
+            <summary> Create a bank account. </summary>
+        </member>
+        <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance,System.Threading.CancellationToken)">
+            <summary> Gets the balance. </summary>
+            <param name="queryBus"></param>
+            <param name="id"></param>
+            <param name="getBankAccountBalance"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BankAccounts.Api.Program">
+            <summary> Program start. </summary>
+        </member>
         <member name="M:BankAccounts.Api.Program.Main(System.String[])">
             <summary> Main </summary>
         </member>
         <member name="M:BankAccounts.Api.Program.CreateHostBuilder(System.String[])">
             <summary> CreateHostBuilder </summary>
         </member>
+        <member name="T:BankAccounts.Api.Shared.BankAccountBaseEndpoint">
+            <summary> Enpoint base. </summary>
+        </member>
         <member name="T:BankAccounts.Api.Startup">
-            <summary>
-            Arraque api
-            </summary>
+            <summary> Arraque api </summary>
+        </member>
+        <member name="M:BankAccounts.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary> Constructor. </summary>
         </member>
         <member name="M:BankAccounts.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>

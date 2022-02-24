@@ -17,13 +17,12 @@ using SharedKernel.Infrastructure.Events;
 
 namespace BankAccounts.Api
 {
-    /// <summary>
-    /// Arraque api
-    /// </summary>
+    /// <summary> Arraque api </summary>
     public class Startup
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary> Constructor. </summary>
         public Startup(
             IConfiguration configuration)
         {
@@ -33,24 +32,21 @@ namespace BankAccounts.Api
         /// <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBankAccounts(_configuration, "BankAccountConnection");
-
-            services.AddFluentValidation(options => options.AutomaticValidationEnabled = false);
-
-            services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                });
-
-            services.AddSharedKernelApi<InjectableLibrary>("cors",
-                _configuration.GetSection("Origins").Get<string[]>());
-
             services
                 .AddInMemoryCommandBus()
                 .AddInMemoryQueryBus()
                 .AddInMemoryEventBus(_configuration, options => options.RetryCount = 12)
-                .AddInMemoryCache();
+                .AddInMemoryCache()
+                .AddFluentValidation(options => options.AutomaticValidationEnabled = false)
+                .AddBankAccounts(_configuration, "BankAccountConnection")
+                .AddSharedKernelApi<InjectableLibrary>("cors",
+                    _configuration.GetSection("Origins").Get<string[]>())
+                .AddSharedKernelOpenApi(_configuration)
+                .AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
         }
 
         /// <summary> Configurar los middlewares </summary>

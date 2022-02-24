@@ -7,7 +7,7 @@
         <member name="T:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount">
             <summary> Create a bank account. </summary>
         </member>
-        <member name="M:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.#ctor(System.Guid,System.Guid,System.String,System.DateTime,System.String,System.Guid,System.Decimal)">
+        <member name="M:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.#ctor(System.Guid,System.String,System.DateTime,System.String,System.Guid,System.Decimal)">
             <summary> Constructor. </summary>
         </member>
         <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Id">
@@ -31,14 +31,25 @@
         <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Amount">
             <summary> Initial amount. </summary>
         </member>
+        <member name="M:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.AddId(System.Guid)">
+            <summary> Adds bank account identifier </summary>
+            <param name="id"></param>
+        </member>
         <member name="T:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance">
             <summary> Gets bank account balance. </summary>
         </member>
-        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.#ctor(System.Guid)">
+        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.#ctor(System.String)">
             <summary> Constructor. </summary>
+            <param name="ownerName"></param>
         </member>
         <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.BankAccountId">
             <summary> Bank account identifier. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.OwnerName">
+            <summary> Contains owner name. </summary>
+        </member>
+        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.AddId(System.Guid)">
+            <summary> Add bank account identifier. </summary>
         </member>
         <member name="M:BankAccounts.Application.Shared.BankAccountRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
             <summary>Check if an exception has to be retried</summary>

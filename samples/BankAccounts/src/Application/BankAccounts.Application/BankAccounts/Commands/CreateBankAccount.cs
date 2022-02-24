@@ -7,10 +7,9 @@ namespace BankAccounts.Application.BankAccounts.Commands
     public class CreateBankAccount : ICommandRequest
     {
         /// <summary> Constructor. </summary>
-        public CreateBankAccount(Guid id, Guid ownerId, string name, DateTime birthdate, string surname,
+        public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string surname,
             Guid movementId, decimal amount)
         {
-            Id = id;
             OwnerId = ownerId;
             Name = name;
             Birthdate = birthdate;
@@ -20,7 +19,7 @@ namespace BankAccounts.Application.BankAccounts.Commands
         }
 
         /// <summary> Bank account identifier. </summary>
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
         /// <summary> Owner identifier. </summary>
         public Guid OwnerId { get; }
@@ -39,5 +38,9 @@ namespace BankAccounts.Application.BankAccounts.Commands
 
         /// <summary> Initial amount. </summary>
         public decimal Amount { get; }
+
+        /// <summary> Adds bank account identifier </summary>
+        /// <param name="id"></param>
+        public void AddId(Guid id) => Id = id;
     }
 }
