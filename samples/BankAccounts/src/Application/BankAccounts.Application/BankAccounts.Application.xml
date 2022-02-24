@@ -4,6 +4,42 @@
         <name>BankAccounts.Application</name>
     </assembly>
     <members>
+        <member name="T:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount">
+            <summary> Create a bank account. </summary>
+        </member>
+        <member name="M:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.#ctor(System.Guid,System.Guid,System.String,System.DateTime,System.String,System.Guid,System.Decimal)">
+            <summary> Constructor. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Id">
+            <summary> Bank account identifier. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.OwnerId">
+            <summary> Owner identifier. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Name">
+            <summary> Owner name. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Surname">
+            <summary> Owner surname. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Birthdate">
+            <summary> Owner birthdate. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.MovementId">
+            <summary> Movement identifier. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Commands.CreateBankAccount.Amount">
+            <summary> Initial amount. </summary>
+        </member>
+        <member name="T:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance">
+            <summary> Gets bank account balance. </summary>
+        </member>
+        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.#ctor(System.Guid)">
+            <summary> Constructor. </summary>
+        </member>
+        <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.BankAccountId">
+            <summary> Bank account identifier. </summary>
+        </member>
         <member name="M:BankAccounts.Application.Shared.BankAccountRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
             <summary>Check if an exception has to be retried</summary>
             <param name="exception"></param>

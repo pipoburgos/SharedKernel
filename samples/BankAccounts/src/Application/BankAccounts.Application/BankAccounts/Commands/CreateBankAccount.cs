@@ -3,8 +3,10 @@ using System;
 
 namespace BankAccounts.Application.BankAccounts.Commands
 {
+    /// <summary> Create a bank account. </summary>
     public class CreateBankAccount : ICommandRequest
     {
+        /// <summary> Constructor. </summary>
         public CreateBankAccount(Guid id, Guid ownerId, string name, DateTime birthdate, string surname,
             Guid movementId, decimal amount)
         {
@@ -17,18 +19,25 @@ namespace BankAccounts.Application.BankAccounts.Commands
             Amount = amount;
         }
 
+        /// <summary> Bank account identifier. </summary>
         public Guid Id { get; }
 
+        /// <summary> Owner identifier. </summary>
         public Guid OwnerId { get; }
 
+        /// <summary> Owner name. </summary>
         public string Name { get; }
 
-        public DateTime Birthdate { get; }
-
+        /// <summary> Owner surname. </summary>
         public string Surname { get; }
 
+        /// <summary> Owner birthdate. </summary>
+        public DateTime Birthdate { get; }
+
+        /// <summary> Movement identifier. </summary>
         public Guid MovementId { get; }
 
+        /// <summary> Initial amount. </summary>
         public decimal Amount { get; }
     }
 }
