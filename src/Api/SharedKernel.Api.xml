@@ -616,6 +616,18 @@
             Para agrupar en swagger por la propiedad Name de la ruta del controlador
             </summary>
         </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.FromQueryModelFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.FromQueryModelFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Fix how shows Swashbuckle complex types in FromQuery params
+            </summary>
+            <param name="operation"></param>
+            <param name="context"></param>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OpenApiExtensions">
             <summary>
             Swagger configuration
@@ -756,6 +768,18 @@
             Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
             </param>
         </member>
+        <member name="T:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.TagReOrderDocumentFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.OpenApi.TagReOrderDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            
+            </summary>
+            <param name="swaggerDoc"></param>
+            <param name="context"></param>
+        </member>
         <member name="T:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions">
             <summary>
             Shared kernel api extensions
@@ -770,13 +794,14 @@
             <param name="origins">All domains who calls the api</param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddSharedKernelApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[])">
+        <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.AddSharedKernelApi(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String[],System.Action{Microsoft.AspNetCore.Mvc.MvcOptions})">
             <summary>
             Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
             </summary>
             <param name="services">The service collection</param>
             <param name="policyName">The policy name of a configured policy.</param>
             <param name="origins">All domains who calls the api</param>
+            <param name="configureControllers">Adds services for controllers to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>. This method will not register services used for views or pages.</param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Api.ServiceCollectionExtensions.SharedKernelApiExtensions.UseSharedKernelMetrics(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
