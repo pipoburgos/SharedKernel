@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Integration.Tests.Shared;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Logging
@@ -18,13 +18,10 @@ namespace SharedKernel.Integration.Tests.Logging
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
 
-            return Host.CreateDefaultBuilder()
-                .ConfigureWebHostDefaults(x =>
-                {
-                    x.UseStartup<FakeStartup>()
-                        .UseTestServer()
-                        .UseSerilog();
-                });
+            return Host
+                .CreateDefaultBuilder()
+                .UseSerilog()
+                .ConfigureWebHostDefaults(x => x.UseStartup<FakeStartup>().UseTestServer());
         }
 
         protected override string GetJsonFile()
