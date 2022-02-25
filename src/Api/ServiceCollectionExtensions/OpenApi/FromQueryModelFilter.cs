@@ -65,10 +65,12 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                 return operationParameters.First(p => p.Name == actionParameter.Name);
             }
 
+#if !NET5_0
             if (actionParameter.BindingInfo == default)
             {
                 return default;
             }
+#endif
 
             var generatedSchema = context.SchemaGenerator
                 .GenerateSchema(actionParameter.ParameterType, context.SchemaRepository);

@@ -60,8 +60,12 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
-                var basePath = AppDomain.CurrentDomain.BaseDirectory ??
-                               throw new NullReferenceException(nameof(AppDomain.CurrentDomain.BaseDirectory));
+#if NET5_0_OR_GREATER
+                var basePath = AppDomain.CurrentDomain.BaseDirectory;
+#else
+                var basePath = AppDomain.CurrentDomain.BaseDirectory
+                    ?? throw new NullReferenceException(nameof(AppDomain.CurrentDomain.BaseDirectory));
+#endif
 
                 foreach (var xmlDocumentationFile in openApiOptions.XmlDocumentationFiles)
                 {
