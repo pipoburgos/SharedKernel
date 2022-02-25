@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prometheus;
 using SharedKernel.Infrastructure.Validators;
+using System;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
@@ -20,6 +21,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="policyName">The policy name of a configured policy.</param>
         /// <param name="origins">All domains who calls the api</param>
         /// <returns></returns>
+        [Obsolete("Remove TValidator generic parameter")]
         public static IServiceCollection AddSharedKernelApi<TValidator>(this IServiceCollection services, string policyName, string[] origins)
         {
             services
@@ -49,6 +51,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 })
                 .AddFluentValidation(fv =>
                 {
+                    fv.AutomaticValidationEnabled = false;
                     fv.RegisterValidatorsFromAssemblyContaining<TValidator>();
                     fv.RegisterValidatorsFromAssemblyContaining<PageOptionsValidator>();
                 })
@@ -66,8 +69,10 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="services">The service collection</param>
         /// <param name="policyName">The policy name of a configured policy.</param>
         /// <param name="origins">All domains who calls the api</param>
+        /// <param name="configureControllers">Adds services for controllers to the specified <see cref="IServiceCollection"/>. This method will not register services used for views or pages.</param>
         /// <returns></returns>
-        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName, string[] origins)
+        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName,
+            string[] origins, Action<MvcOptions> configureControllers)
         {
             services
                 .AddOptions()
@@ -90,10 +95,13 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     // Advertise the API versions supported for the particular endpoint
                     config.ReportApiVersions = true;
                 })
-                .AddControllers(o =>
+                .AddFluentValidation(x =>
                 {
-                    o.Conventions.Add(new ControllerDocumentationConvention());
+                    x.AutomaticValidationEnabled = false;
+                    //ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
+                    //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("es");
                 })
+                .AddControllers(configureControllers)
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
