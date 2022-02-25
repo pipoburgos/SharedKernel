@@ -1,10 +1,10 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Logging;
+using SharedKernel.Domain.Events;
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 {
@@ -34,19 +34,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next)
+        public async Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next)
         {
             var name = typeof(TRequest).Name;
 
             _timer.Start();
 
-            var response = next(request, cancellationToken);
+            await next(request, cancellationToken);
 
             _timer.Stop();
 
             _logger.Verbose($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {request}");
-
-            return response;
         }
     }
 
@@ -77,13 +75,13 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)
         {
             var name = typeof(TRequest).Name;
 
             _timer.Start();
 
-            var response = next(request, cancellationToken);
+            var response = await next(request, cancellationToken);
 
             _timer.Stop();
 
