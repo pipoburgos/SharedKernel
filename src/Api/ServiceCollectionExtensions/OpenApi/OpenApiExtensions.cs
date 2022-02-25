@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.IO;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 {
@@ -38,17 +39,45 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             {
                 swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
 
+                swaggerGenOptions.OrderActionsBy(a =>
+                {
+                    // Sort actions in tags (controllers)
+                    var order = a.HttpMethod switch
+                    {
+                        "GET" => 1,
+                        "POST" => 2,
+                        "PATCH" => 3,
+                        "PUT" => 4,
+                        "DELETE" => 5,
+                        _ => 6
+                    };
+                    var path = $"{a.RelativePath?.Length.ToString().PadLeft(5, '0')}{a.RelativePath}{order}";
+
+                    return path;
+                });
+
                 swaggerGenOptions.SchemaFilter<RequireValueTypePropertiesSchemaFilter>();
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
-                var xmlPath = swaggerGenOptions.IncludeXmlComments(openApiOptions, true);
+                var basePath = AppDomain.CurrentDomain.BaseDirectory ??
+                               throw new NullReferenceException(nameof(AppDomain.CurrentDomain.BaseDirectory));
+
+                foreach (var xmlDocumentationFile in openApiOptions.XmlDocumentationFiles)
+                {
+                    swaggerGenOptions.IncludeXmlComments(Path.Combine(basePath, xmlDocumentationFile), true);
+                    swaggerGenOptions.AddEnumsWithValuesFixFilters(services, xmlDocumentationFile);
+                }
 
                 swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
-                swaggerGenOptions.AddEnumsWithValuesFixFilters(services, xmlPath);
-
                 swaggerGenOptions.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                swaggerGenOptions.OperationFilter<FromQueryModelFilter>();
+
+                swaggerGenOptions.CustomOperationIds(_ => default);
+
+                swaggerGenOptions.DocumentFilter<TagReOrderDocumentFilter>();
             });
 
             return services;

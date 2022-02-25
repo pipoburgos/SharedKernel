@@ -66,21 +66,10 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                 {
                     Password = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(authority),
+                        //AuthorizationUrl = new Uri(authority),
                         TokenUrl = new Uri(authority + "/connect/token"),
                         Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
                     }
-                }
-            });
-
-            swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}
-                    },
-                    new[] { openIdOptions.Audience}
                 }
             });
         }
