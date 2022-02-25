@@ -35,6 +35,9 @@
         <member name="M:BankAccounts.Api.Program.CreateHostBuilder(System.String[])">
             <summary> CreateHostBuilder </summary>
         </member>
+        <member name="T:BankAccounts.Api.Shared.ApiExceptionHandler">
+            <summary> Errors middleware. </summary>
+        </member>
         <member name="T:BankAccounts.Api.Shared.BankAccountBaseEndpoint">
             <summary> Enpoint base. </summary>
         </member>

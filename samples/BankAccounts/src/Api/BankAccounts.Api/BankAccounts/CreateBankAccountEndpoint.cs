@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BankAccounts.Api.BankAccounts
 {
     /// <summary> Create a bank account. </summary>
-    [Route("api/bankAccounts", Name = "Bank Acounts Controller")]
+    [Route("api/bankAccounts", Name = "Bank Accounts Controller")]
     public class CreateBankAccountEndpoint : BankAccountBaseEndpoint
     {
         /// <summary> Create a bank account. </summary>

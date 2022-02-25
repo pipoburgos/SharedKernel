@@ -38,10 +38,6 @@
         <member name="T:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance">
             <summary> Gets bank account balance. </summary>
         </member>
-        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.#ctor(System.String)">
-            <summary> Constructor. </summary>
-            <param name="ownerName"></param>
-        </member>
         <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.BankAccountId">
             <summary> Bank account identifier. </summary>
         </member>
