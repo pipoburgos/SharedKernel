@@ -1,4 +1,4 @@
-﻿#if !NET40 && !NET45
+﻿#if NET46_OR_GREATER || NET5_OR_GREATER || NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
 using System;
 using System.Threading;
 #endif
@@ -10,12 +10,8 @@ namespace SharedKernel.Application.System
     /// <returns>The successfully completed task.</returns>
     public static class TaskHelper
     {
-#if NET40 || NET45
-        /// <summary>Gets a task that has already completed successfully.</summary>
-    /// <returns>The successfully completed task.</returns>
-        public static Task CompletedTask => new Task(() => { });
-#else
 
+#if NET46_OR_GREATER || NET5_OR_GREATER || NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
         /// <summary>Gets a task that has already completed successfully.</summary>
         /// <returns>The successfully completed task.</returns>
         public static Task CompletedTask => Task.CompletedTask;
@@ -68,6 +64,11 @@ namespace SharedKernel.Application.System
         public static void RunSync(Task task) => Create().StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
 
         private static TaskFactory Create() => new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
+#else
+        /// <summary>Gets a task that has already completed successfully.</summary>
+        /// <returns>The successfully completed task.</returns>
+        public static Task CompletedTask => new Task(() => { });
+
 #endif
 
     }

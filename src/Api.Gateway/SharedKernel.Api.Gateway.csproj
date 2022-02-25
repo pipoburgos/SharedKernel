@@ -2,16 +2,20 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-		<PackageId>Pipoburgos.SharedKernel.Api.Gateway</PackageId>
-		<Version>6.0.12</Version>
-		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageIcon>icon.png</PackageIcon>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
-		<Description></Description>
+		<Description>C# DDD Distributed Services Layer</Description>
 		<DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageId>Pipoburgos.SharedKernel.Api.Gateway</PackageId>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+		<Version>6.0.13</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
