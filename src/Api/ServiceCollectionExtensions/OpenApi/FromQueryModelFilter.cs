@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.OpenApi.Models;
+using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Application.Cqrs.Queries;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
             operation.Parameters = CreateParameters(actionParameters, operation.Parameters, context)
                 .Where(e => e.Schema?.Reference?.Id != nameof(CancellationToken))
+                .Where(e => e.Schema?.Reference?.Id != nameof(IQueryBus))
+                .Where(e => e.Schema?.Reference?.Id != nameof(ICommandBus))
                 .ToList();
         }
 

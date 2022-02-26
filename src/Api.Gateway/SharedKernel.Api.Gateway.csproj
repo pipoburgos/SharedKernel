@@ -18,9 +18,10 @@
 		<Version>6.0.13</Version>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
-		<DocumentationFile>SharedKernel.Api.Gateway.xml</DocumentationFile>
-	</PropertyGroup>
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" PackagePath="" />
+		<None Include="readme.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
@@ -37,13 +38,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
 		<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.12" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="icon.png">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
 	</ItemGroup>
 
 </Project>
