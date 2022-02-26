@@ -18,11 +18,11 @@
         <member name="T:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint">
             <summary> Create a bank account. </summary>
         </member>
-        <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance,System.Threading.CancellationToken)">
+        <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,System.String,System.Threading.CancellationToken)">
             <summary> Gets the balance. </summary>
             <param name="queryBus"></param>
             <param name="id"></param>
-            <param name="getBankAccountBalance"></param>
+            <param name="ownerName"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>

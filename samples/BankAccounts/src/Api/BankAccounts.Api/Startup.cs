@@ -1,12 +1,10 @@
 ﻿using BankAccounts.Api.Shared;
-using BankAccounts.Infrastructure;
 using BankAccounts.Infrastructure.Shared;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
@@ -23,8 +21,7 @@ namespace BankAccounts.Api
         private readonly IConfiguration _configuration;
 
         /// <summary> Constructor. </summary>
-        public Startup(
-            IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -39,14 +36,9 @@ namespace BankAccounts.Api
                 .AddInMemoryCache()
                 .AddFluentValidation(options => options.AutomaticValidationEnabled = false)
                 .AddBankAccounts(_configuration, "BankAccountConnection")
-                .AddSharedKernelApi<InjectableLibrary>("cors",
-                    _configuration.GetSection("Origins").Get<string[]>())
-                .AddSharedKernelOpenApi(_configuration)
-                .AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                });
+                .AddSharedKernelApi("cors", _configuration.GetSection("Origins").Get<string[]>(),
+                    o => o.Conventions.Add(new ControllerDocumentationConvention()))
+                .AddSharedKernelOpenApi(_configuration);
         }
 
         /// <summary> Configurar los middlewares </summary>

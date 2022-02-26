@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pipoburgos.SharedKernel.Domain" Version="6.0.10" />
+		<PackageReference Include="Pipoburgos.SharedKernel.Domain" Version="6.0.13" />
 	</ItemGroup>
 
 </Project>

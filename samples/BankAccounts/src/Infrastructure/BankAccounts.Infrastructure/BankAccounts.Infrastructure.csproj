@@ -9,9 +9,9 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pipoburgos.SharedKernel.Infrastructure" Version="6.0.10" />
+		<PackageReference Include="Pipoburgos.SharedKernel.Infrastructure" Version="6.0.13" />
 		<!--Migrations-->
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

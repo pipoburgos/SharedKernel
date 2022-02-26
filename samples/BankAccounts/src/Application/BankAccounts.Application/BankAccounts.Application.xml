@@ -38,14 +38,14 @@
         <member name="T:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance">
             <summary> Gets bank account balance. </summary>
         </member>
+        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.#ctor(System.Guid,System.String)">
+            <summary> Gets bank account balance. </summary>
+        </member>
         <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.BankAccountId">
             <summary> Bank account identifier. </summary>
         </member>
         <member name="P:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.OwnerName">
             <summary> Contains owner name. </summary>
-        </member>
-        <member name="M:BankAccounts.Application.BankAccounts.Queries.GetBankAccountBalance.AddId(System.Guid)">
-            <summary> Add bank account identifier. </summary>
         </member>
         <member name="M:BankAccounts.Application.Shared.BankAccountRetryPolicyExceptionHandler.NeedToRetryTheException(System.Exception)">
             <summary>Check if an exception has to be retried</summary>
