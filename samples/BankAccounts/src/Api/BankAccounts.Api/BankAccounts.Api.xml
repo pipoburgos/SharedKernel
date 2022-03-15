@@ -5,26 +5,16 @@
     </assembly>
     <members>
         <member name="T:BankAccounts.Api.BankAccounts.CreateBankAccountEndpoint">
-            <summary> Create a bank account. </summary>
+            <summary> Bank accounts Controller. </summary>
         </member>
         <member name="M:BankAccounts.Api.BankAccounts.CreateBankAccountEndpoint.Handle(SharedKernel.Application.Cqrs.Commands.ICommandBus,System.Guid,BankAccounts.Application.BankAccounts.Commands.CreateBankAccount,System.Threading.CancellationToken)">
             <summary> Create a bank account. </summary>
-            <param name="commandBus"></param>
-            <param name="bankAccountId"></param>
-            <param name="createBankAccount"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
         <member name="T:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint">
-            <summary> Create a bank account. </summary>
+            <summary> Bank accounts Controller. </summary>
         </member>
         <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,System.String,System.Threading.CancellationToken)">
             <summary> Gets the balance. </summary>
-            <param name="queryBus"></param>
-            <param name="id"></param>
-            <param name="ownerName"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
         <member name="T:BankAccounts.Api.Program">
             <summary> Program start. </summary>
