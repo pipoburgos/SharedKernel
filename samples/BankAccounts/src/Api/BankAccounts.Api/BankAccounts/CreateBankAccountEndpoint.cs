@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace BankAccounts.Api.BankAccounts
 {
-    /// <summary> Create a bank account. </summary>
-    [Route("api/bankAccounts", Name = "Bank Accounts Controller")]
+    /// <summary> Bank accounts Controller. </summary>
+    [Route("api/bankAccounts", Name = "Bank Accounts")]
     public class CreateBankAccountEndpoint : BankAccountBaseEndpoint
     {
         /// <summary> Create a bank account. </summary>
-        /// <param name="commandBus"></param>
-        /// <param name="bankAccountId"></param>
-        /// <param name="createBankAccount"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [HttpPost("{bankAccountId:guid}")]
         public async Task<IActionResult> Handle([FromServices] ICommandBus commandBus, [FromRoute] Guid bankAccountId,
             [FromBody] CreateBankAccount createBankAccount, CancellationToken cancellationToken)

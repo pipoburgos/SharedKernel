@@ -8,21 +8,16 @@ using System.Threading.Tasks;
 
 namespace BankAccounts.Api.BankAccounts
 {
-    /// <summary> Create a bank account. </summary>
-    [Route("api/bankAccounts", Name = "Bank Accounts Controller")]
+    /// <summary> Bank accounts Controller. </summary>
+    [Route("api/bankAccounts", Name = "Bank Accounts")]
     public class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
     {
         /// <summary> Gets the balance. </summary>
-        /// <param name="queryBus"></param>
-        /// <param name="id"></param>
-        /// <param name="ownerName"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet("{id:guid}/balance"), ResponseCache(Duration = 60)]
+        [HttpGet("{bankAccountId:guid}/balance"), ResponseCache(Duration = 60)]
         public async Task<ActionResult<decimal>> Handle([FromServices] IQueryBus queryBus,
-            [FromRoute] Guid id, [FromQuery] string ownerName, CancellationToken cancellationToken)
+            [FromRoute] Guid bankAccountId, [FromQuery] string ownerName, CancellationToken cancellationToken)
         {
-            return Ok(await queryBus.Ask(new GetBankAccountBalance(id, ownerName), cancellationToken));
+            return Ok(await queryBus.Ask(new GetBankAccountBalance(bankAccountId, ownerName), cancellationToken));
         }
     }
 }
