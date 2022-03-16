@@ -15,7 +15,7 @@
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.13</Version>
+		<Version>6.0.14</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,19 +24,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
 		<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.4.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" Condition="'$(TargetFramework)' == 'net5.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.11" Condition="'$(TargetFramework)' == 'net5.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.0" />
 		<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.12" />
 	</ItemGroup>
 

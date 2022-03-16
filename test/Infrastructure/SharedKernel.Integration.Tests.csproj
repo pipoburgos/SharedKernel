@@ -111,16 +111,16 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -128,12 +128,12 @@
 
 	<ItemGroup>
 		<!--ELASTICSEARCH TESTING-->
-		<PackageReference Include="Ductus.FluentDocker" Version="2.10.44" />
+		<PackageReference Include="Ductus.FluentDocker" Version="2.10.45" />
 		<PackageReference Include="FluentAssertions" Version="6.5.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.1.0" />
 		<!--TESTING-->
-		<PackageReference Include="Moq" Version="4.16.1" />
+		<PackageReference Include="Moq" Version="4.17.2" />
 		<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
 		<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
