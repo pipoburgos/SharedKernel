@@ -16,9 +16,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// </summary>
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TDbContext"></typeparam>
-    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TDbContext> : EntityFrameworkCoreRepositoryAsync<TAggregateRoot>, IDisposable
-        where TAggregateRoot : class, IAggregateRoot
-        where TDbContext : DbContextBase
+    /// <typeparam name="TKey"></typeparam>
+    public abstract class EntityFrameworkCoreKeyFactoryRepositoryAsync<TAggregateRoot, TDbContext, TKey>
+        : EntityFrameworkCoreKeyRepositoryAsync<TAggregateRoot, TKey>,
+            IDisposable where TAggregateRoot : class, IAggregateRoot where TDbContext : DbContextBase
     {
 
         #region Members
@@ -39,7 +40,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="dbContextBase"></param>
         /// <param name="dbContextFactory"></param>
-        protected EntityFrameworkCoreRepositoryAsync(TDbContext dbContextBase, IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
+        protected EntityFrameworkCoreKeyFactoryRepositoryAsync(TDbContext dbContextBase,
+            IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
         {
             _dbContextFactory = dbContextFactory;
             _contexts = new List<TDbContext>();
@@ -74,11 +76,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetByIdNewContextAsync<TKey>(TKey key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot> GetByIdParallelAsync(TKey key, CancellationToken cancellationToken)
         {
             return GetNewQuery()
                 .Cast<IEntity<TKey>>()
@@ -90,11 +91,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetDeleteByIdNewContextAsync<TKey>(TKey key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot> GetDeleteByIdParallelAsync(TKey key,
+            CancellationToken cancellationToken)
         {
             return GetNewQuery(true)
                 .Cast<IEntity<TKey>>()
@@ -108,7 +109,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<List<TAggregateRoot>> GetAllNewContextAsync(CancellationToken cancellationToken)
+        public Task<List<TAggregateRoot>> GetAllParallelAsync(CancellationToken cancellationToken)
         {
             return GetNewQuery().ToListAsync(cancellationToken);
         }
@@ -136,11 +137,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public override Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken)
+        public override Task<bool> AnyAsync(TKey key, CancellationToken cancellationToken)
         {
             return GetNewQuery()
                 .Cast<IEntity<TKey>>()
@@ -153,7 +153,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<List<TAggregateRoot>> WhereNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
+        public Task<List<TAggregateRoot>> WhereParallelAsync(ISpecification<TAggregateRoot> spec,
+            CancellationToken cancellationToken)
         {
             return GetNewQuery().Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
         }
@@ -164,7 +165,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<TAggregateRoot> SingleNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
+        public Task<TAggregateRoot> SingleParallelAsync(ISpecification<TAggregateRoot> spec,
+            CancellationToken cancellationToken)
         {
             return GetNewQuery().SingleAsync(spec.SatisfiedBy(), cancellationToken);
         }
@@ -175,7 +177,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<TAggregateRoot> SingleOrDefaultNewContextAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
+        public Task<TAggregateRoot> SingleOrDefaultParallelAsync(ISpecification<TAggregateRoot> spec,
+            CancellationToken cancellationToken)
         {
             return GetNewQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken);
         }

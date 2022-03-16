@@ -1336,6 +1336,33 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`2.GetById(`1)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`2.Any">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepository`2.Any(`1)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Domain.Repositories.IReadRepositoryAsync`1">
             <summary>
             
@@ -1379,6 +1406,51 @@
             
             </summary>
             <typeparam name="TKey"></typeparam>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregate"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2.GetByIdAsync(`1,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2.GetDeleteByIdAsync(`1,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2.AnyAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2.CountAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Domain.Repositories.IReadRepositoryAsync`2.AnyAsync(`1,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
             <param name="key"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
@@ -1461,11 +1533,25 @@
             </summary>
             <typeparam name="TAggregateRoot"></typeparam>
         </member>
+        <member name="T:SharedKernel.Domain.Repositories.IRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
         <member name="T:SharedKernel.Domain.Repositories.IRepositoryAsync`1">
             <summary>
             An asynchronous generic repository pattern with all crud actions
             </summary>
             <typeparam name="TAggregateRoot"></typeparam>
+        </member>
+        <member name="T:SharedKernel.Domain.Repositories.IRepositoryAsync`2">
+            <summary>
+            An asynchronous generic repository pattern with all crud actions
+            </summary>
+            <typeparam name="TAggregateRoot"></typeparam>
+            <typeparam name="TKey"></typeparam>
         </member>
         <member name="T:SharedKernel.Domain.Repositories.IUpdateRepository`1">
             <summary>
