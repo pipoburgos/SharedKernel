@@ -17,8 +17,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityFrameworkCoreKeyFactoryRepositoryAsync<TAggregateRoot, TDbContext, TKey>
-        : EntityFrameworkCoreKeyRepositoryAsync<TAggregateRoot, TKey>,
+    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey, TDbContext>
+        : EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey>,
             IDisposable where TAggregateRoot : class, IAggregateRoot where TDbContext : DbContextBase
     {
 
@@ -40,7 +40,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="dbContextBase"></param>
         /// <param name="dbContextFactory"></param>
-        protected EntityFrameworkCoreKeyFactoryRepositoryAsync(TDbContext dbContextBase,
+        protected EntityFrameworkCoreRepositoryAsync(TDbContext dbContextBase,
             IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
         {
             _dbContextFactory = dbContextFactory;

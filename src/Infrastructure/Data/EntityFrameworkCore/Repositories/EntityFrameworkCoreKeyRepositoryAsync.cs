@@ -17,7 +17,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// </summary>
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityFrameworkCoreKeyRepositoryAsync<TAggregateRoot, TKey> : EntityFrameworkCoreKeyRepository<TAggregateRoot, TKey>, IRepositoryAsync<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot
+    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey> : EntityFrameworkCoreRepository<TAggregateRoot, TKey>, IRepositoryAsync<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot
     {
         #region Constructors
 
@@ -25,7 +25,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// 
         /// </summary>
         /// <param name="dbContextBase"></param>
-        protected EntityFrameworkCoreKeyRepositoryAsync(DbContextBase dbContextBase) : base(dbContextBase)
+        protected EntityFrameworkCoreRepositoryAsync(DbContextBase dbContextBase) : base(dbContextBase)
         {
         }
 

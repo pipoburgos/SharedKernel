@@ -17,7 +17,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// </summary>
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityFrameworkCoreKeyRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot
+    public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot
     {
         #region Members
 
@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// Constructor
         /// </summary>
         /// <param name="dbContextBase"></param>
-        protected EntityFrameworkCoreKeyRepository(DbContextBase dbContextBase)
+        protected EntityFrameworkCoreRepository(DbContextBase dbContextBase)
         {
             DbContextBase = dbContextBase ?? throw new ArgumentNullException(nameof(dbContextBase));
         }
