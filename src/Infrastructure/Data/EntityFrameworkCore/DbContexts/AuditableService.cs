@@ -157,7 +157,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                     if (currentValues != null)
                         current = currentValues[propertyName];
 
-                    if (original == default && current == default || Equals(original, current))
+                    if ((original == default && current == default) || Equals(original, current))
                         continue;
 
                     var auditChange = AuditChange.Create(_guid.NewGuid(), registryId, entity.GetType().Name,

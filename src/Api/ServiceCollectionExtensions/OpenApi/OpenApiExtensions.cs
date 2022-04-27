@@ -51,7 +51,12 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                         "DELETE" => 5,
                         _ => 6
                     };
-                    var path = $"{a.RelativePath?.Length.ToString().PadLeft(5, '0')}{a.RelativePath}{order}";
+#if NET5_0
+                    var relativePath = a.RelativePath;
+#else
+                    var relativePath = a.RelativePath ?? string.Empty;
+#endif
+                    var path = $"{relativePath.Length.ToString().PadLeft(5, '0')}{relativePath}{order}";
 
                     return path;
                 });
@@ -105,7 +110,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             {
                 c.SwaggerEndpoint(options.Value.Url, options.Value?.Name ?? "Open API v1");
 
-                if (options.Value.Collapsed)
+                if (options.Value?.Collapsed == true)
                     c.DocExpansion(DocExpansion.None);
 
                 var authority = options.Value?.Authority ?? openIdOptions?.Value?.Authority;
