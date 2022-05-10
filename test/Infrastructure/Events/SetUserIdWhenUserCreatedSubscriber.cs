@@ -1,19 +1,19 @@
+using SharedKernel.Application.Events;
+using SharedKernel.Domain.Tests.Users;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Events;
-using SharedKernel.Domain.Tests.Users;
 
 namespace SharedKernel.Integration.Tests.Events
 {
     internal class SetUserIdWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {
-        private readonly PublishUserCreatedDomainEvent _singletonValueContainer;
+        private readonly PublishUserCreatedDomainEvent _publishUserCreatedDomainEvent;
 
         public SetUserIdWhenUserCreatedSubscriber(
-            PublishUserCreatedDomainEvent singletonValueContainer)
+            PublishUserCreatedDomainEvent publishUserCreatedDomainEvent)
         {
-            _singletonValueContainer = singletonValueContainer;
+            _publishUserCreatedDomainEvent = publishUserCreatedDomainEvent;
         }
 
 
@@ -22,7 +22,7 @@ namespace SharedKernel.Integration.Tests.Events
             if (@event == default)
                 throw new ArgumentNullException(nameof(@event));
 
-            _singletonValueContainer.SetUser(@event.Id);
+            _publishUserCreatedDomainEvent.SetUser(@event.Id);
             return Task.CompletedTask;
         }
     }

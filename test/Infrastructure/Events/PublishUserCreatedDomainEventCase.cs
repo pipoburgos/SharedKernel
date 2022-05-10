@@ -46,10 +46,13 @@ namespace SharedKernel.Integration.Tests.Events
             await Task.WhenAll(tasks);
 
             // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
-            await Task.Delay(5_000, CancellationToken.None);
-
             var singletonValueContainer = testCase.GetRequiredService<PublishUserCreatedDomainEvent>();
-            singletonValueContainer.Total.Should().Be(total * 4);
+            var salir = 0;
+            while (singletonValueContainer.Total != total * 4 || salir <= 50)
+            {
+                await Task.Delay(50, CancellationToken.None);
+                salir++;
+            }
 
             singletonValueContainer.Users.Should().Contain(u => u == user1.Id);
             singletonValueContainer.Users.Should().Contain(u => u == user2.Id);

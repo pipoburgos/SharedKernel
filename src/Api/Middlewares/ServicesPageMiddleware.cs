@@ -1,22 +1,15 @@
-﻿using System.Linq;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Text;
 
 namespace SharedKernel.Api.Middlewares
 {
-    /// <summary>
-    /// Service page extensions
-    /// </summary>
+    /// <summary> Service page extensions. </summary>
     public static class ServicesPageMiddleware
     {
-        /// <summary>
-        /// Adds a route /services to show the dependency container
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="services"></param>
-        /// <returns></returns>
+        /// <summary> Adds a route /services to show the dependency container. </summary>
         public static IApplicationBuilder UseServicesPage(this IApplicationBuilder app, IServiceCollection services)
         {
             app.Map("/services", builder => builder.Run(async context =>

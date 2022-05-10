@@ -563,17 +563,10 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Api.Middlewares.ServicesPageMiddleware">
-            <summary>
-            Service page extensions
-            </summary>
+            <summary> Service page extensions. </summary>
         </member>
         <member name="M:SharedKernel.Api.Middlewares.ServicesPageMiddleware.UseServicesPage(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Adds a route /services to show the dependency container
-            </summary>
-            <param name="app"></param>
-            <param name="services"></param>
-            <returns></returns>
+            <summary> Adds a route /services to show the dependency container. </summary>
         </member>
         <member name="T:SharedKernel.Api.ProgramExtensions">
             <summary>

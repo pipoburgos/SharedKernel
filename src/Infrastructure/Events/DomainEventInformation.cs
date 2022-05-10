@@ -1,9 +1,9 @@
+using SharedKernel.Application.Reflection;
+using SharedKernel.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SharedKernel.Application.Reflection;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="domainAssembly"></param>
-        public static void Register(Assembly domainAssembly)
+        public static void Register(this Assembly domainAssembly)
         {
             var domainTypes = GetDomainTypes(domainAssembly);
             foreach (var eventType in domainTypes)

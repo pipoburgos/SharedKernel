@@ -1,6 +1,7 @@
-﻿using System.Threading;
+﻿using SharedKernel.Domain.Events;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -17,7 +18,7 @@ namespace SharedKernel.Infrastructure.Events
         /// <param name="eventSubscriber"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task ExecuteOn(string body, DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken);
+        Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken);
 
         /// <summary>
         /// 

@@ -11,14 +11,14 @@ namespace SharedKernel.Integration.Tests.Events
     internal class SetCountWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly PublishUserCreatedDomainEvent _singletonValueContainer;
+        private readonly PublishUserCreatedDomainEvent _publishUserCreatedDomainEvent;
 
         public SetCountWhenUserCreatedSubscriber(
             IHttpContextAccessor httpContextAccessor,
-            PublishUserCreatedDomainEvent singletonValueContainer)
+            PublishUserCreatedDomainEvent publishUserCreatedDomainEvent)
         {
             _httpContextAccessor = httpContextAccessor;
-            _singletonValueContainer = singletonValueContainer;
+            _publishUserCreatedDomainEvent = publishUserCreatedDomainEvent;
         }
 
 
@@ -30,11 +30,11 @@ namespace SharedKernel.Integration.Tests.Events
             var rnd = new Random();
             var random = rnd.Next(1, 7);
 
-            if (random == 2)
+            if (random == 1)
                 throw new Exception("To retry");
 
             if (_httpContextAccessor?.HttpContext?.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
-                _singletonValueContainer.SumTotal();
+                _publishUserCreatedDomainEvent.SumTotal();
 
             return Task.CompletedTask;
         }

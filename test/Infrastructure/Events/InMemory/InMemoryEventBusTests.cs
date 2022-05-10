@@ -9,6 +9,11 @@ namespace SharedKernel.Integration.Tests.Events.InMemory
 {
     public class InMemoryEventBusTests : InfrastructureTestCase
     {
+        protected override string GetJsonFile()
+        {
+            return "Events/InMemory/appsettings.inMemory.json";
+        }
+
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services

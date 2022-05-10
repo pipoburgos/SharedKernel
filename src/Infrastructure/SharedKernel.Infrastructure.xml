@@ -2703,11 +2703,11 @@
             <param name="subscriberClass"></param>
             <param name="subscribedEvent"></param>
         </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation.GetSubscriber">
+            <summary> Gets the type of the subscriber class. </summary>
+        </member>
         <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformation.SubscriberName">
-            <summary>
-            
-            </summary>
-            <returns></returns>
+            <summary> Gets the name of the subscriber class. </summary>
         </member>
         <member name="T:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService">
             <summary>
@@ -2721,6 +2721,12 @@
             <param name="information"></param>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.All">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Events.DomainEventSubscriberInformationService.GetAllEventsSubscribersInfo">
             <summary>
             
             </summary>
@@ -2783,13 +2789,12 @@
             <param name="domainAssembly"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddInMemoryEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddInMemoryEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
             </summary>
             <param name="services"></param>
             <param name="configuration"></param>
-            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRabbitMqEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
@@ -2800,13 +2805,12 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRedisEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
+        <member name="M:SharedKernel.Infrastructure.Events.EventBusServiceExtensions.AddRedisEventBus(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
             </summary>
             <param name="services"></param>
             <param name="configuration"></param>
-            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer">
@@ -2838,7 +2842,7 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.IDomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.Events.IDomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.Type,System.Threading.CancellationToken)">
             <summary>
             
             </summary>
@@ -3024,7 +3028,7 @@
             
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer.#ctor(SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer,SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory,SharedKernel.Infrastructure.Events.IDomainEventMediator,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer},Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams})">
+        <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer.#ctor(SharedKernel.Infrastructure.Events.IDomainEventJsonDeserializer,SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConnectionFactory,SharedKernel.Infrastructure.Events.IDomainEventMediator,SharedKernel.Application.Logging.ICustomLogger{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer},Microsoft.Extensions.Options.IOptions{SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqConfigParams},SharedKernel.Application.Settings.IOptionsService{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
             <summary>
             
             </summary>
@@ -3033,6 +3037,7 @@
             <param name="domainEventMediator"></param>
             <param name="logger"></param>
             <param name="rabbitMqParams"></param>
+            <param name="options"></param>
         </member>
         <member name="M:SharedKernel.Infrastructure.Events.RabbitMq.RabbitMqDomainEventsConsumer.Consume">
             <summary>
@@ -3228,7 +3233,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.String,System.Threading.CancellationToken)">
+        <member name="M:SharedKernel.Infrastructure.Events.Shared.DomainEventMediator.ExecuteOn(System.String,SharedKernel.Domain.Events.DomainEvent,System.Type,System.Threading.CancellationToken)">
             <summary>
             
             </summary>
@@ -3556,21 +3561,15 @@
             Retriever extensions
             </summary>
         </member>
-        <member name="M:SharedKernel.Infrastructure.RetryPolicies.RetryPoliciesServiceExtensions.AddPollyRetry(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Action{SharedKernel.Infrastructure.RetryPolicies.RetrieverOptions})">
+        <member name="M:SharedKernel.Infrastructure.RetryPolicies.RetryPoliciesServiceExtensions.AddPollyRetry(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
             </summary>
             <param name="services"></param>
             <param name="configuration"></param>
-            <param name="optionsConfiguration"></param>
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Base64">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Base64.#ctor">
             <summary>
             
             </summary>
@@ -3678,11 +3677,6 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Infrastructure.Security.Cryptography.Sha256">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SharedKernel.Infrastructure.Security.Cryptography.Sha256.#ctor">
             <summary>
             
             </summary>
@@ -4231,6 +4225,14 @@
             
             </summary>
             <param name="item"></param>
+        </member>
+        <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.ValidateListAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
         </member>
         <member name="M:SharedKernel.Infrastructure.Validators.FluentValidator`1.ValidateAsync(`0,System.Threading.CancellationToken)">
             <summary>

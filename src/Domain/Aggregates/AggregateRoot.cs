@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Domain.Entities;
-using System.Collections.Generic;
 using SharedKernel.Domain.Events;
+using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Aggregates
 {
@@ -40,6 +40,7 @@ namespace SharedKernel.Domain.Aggregates
         {
             var events = _domainEvents;
             _domainEvents = new List<DomainEvent>();
+            events.ForEach(e => e.SetAggregateId(Id.ToString()));
             return events;
         }
 

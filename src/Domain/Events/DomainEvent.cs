@@ -4,24 +4,22 @@ using System.Globalization;
 
 namespace SharedKernel.Domain.Events
 {
-    /// <summary>
-    /// Generic domain event
-    /// </summary>
+    /// <summary> Generic domain event. </summary>
     public abstract class DomainEvent : IRequest
     {
         #region Constructors
 
-        /// <summary>
-        /// Domain Event serializable constructor
-        /// </summary>
+        /// <summary> Domain event serializable constructor. </summary>
         protected DomainEvent() { }
 
-        /// <summary>
-        /// Domain event constructor
-        /// </summary>
-        /// <param name="aggregateId"></param>
-        /// <param name="eventId"></param>
-        /// <param name="occurredOn"></param>
+        /// <summary> Domain event constructor. </summary>
+        protected DomainEvent(string eventId = null, string occurredOn = null)
+        {
+            EventId = eventId ?? Guid.NewGuid().ToString();
+            OccurredOn = occurredOn ?? DateTime.Now.ToString("s", CultureInfo.CurrentCulture);
+        }
+
+        /// <summary> Domain event constructor. </summary>
         protected DomainEvent(string aggregateId, string eventId = null, string occurredOn = null)
         {
             AggregateId = aggregateId;
@@ -33,39 +31,29 @@ namespace SharedKernel.Domain.Events
 
         #region Properties
 
-        /// <summary>
-        /// The aggregate root identifier
-        /// </summary>
-        public string AggregateId { get; }
+        /// <summary> The aggregate root identifier. </summary>
+        public string AggregateId { get; private set; }
 
-        /// <summary>
-        /// The event identifier
-        /// </summary>
+        /// <summary> The event identifier. </summary>
         public string EventId { get; }
 
-        /// <summary>
-        /// When the event occurred
-        /// </summary>
+        /// <summary> When the event occurred. </summary>
         public string OccurredOn { get; }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// The event identifier for message queues
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> Sets aggregate id. </summary>
+        public void SetAggregateId(string id)
+        {
+            AggregateId = id;
+        }
+
+        /// <summary> The event identifier for message queues. </summary>
         public abstract string GetEventName();
 
-        /// <summary>
-        /// Create a new Domain event with default values
-        /// </summary>
-        /// <param name="aggregateId"></param>
-        /// <param name="body"></param>
-        /// <param name="eventId"></param>
-        /// <param name="occurredOn"></param>
-        /// <returns></returns>
+        /// <summary> Create a new Domain event with default values. </summary>
         public abstract DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn);
 
         #endregion

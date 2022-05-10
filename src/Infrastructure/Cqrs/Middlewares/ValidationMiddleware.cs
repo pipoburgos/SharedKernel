@@ -48,20 +48,25 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
             if (validator == default)
                 throw new Exception($"Validator '{result}'not found");
 
-            const string methodName = "ValidateList";
+            return ValidateAsync(request, cancellationToken, next, validator);
+        }
+
+        private static async Task ValidateAsync(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next, object validator)
+        {
+            const string methodName = "ValidateListAsync";
             var method = validator.GetType().GetMethod(methodName);
 
             if (method == default)
                 throw new Exception($"Method '{methodName}'not found");
 
-            var errors = method.Invoke(validator, new object[] { request });
+            var errors = method.Invoke(validator, new object[] { request, cancellationToken });
 
-            var failures = (List<ValidationFailure>)errors;
+            var failures = await ((Task<List<ValidationFailure>>)errors)!;
 
             if (failures != default && failures.Any())
                 throw new ValidationFailureException(failures);
 
-            return next(request, cancellationToken);
+            await next(request, cancellationToken);
         }
     }
 
@@ -103,20 +108,25 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
             if (validator == default)
                 throw new Exception($"Validator '{result}'not found");
 
-            const string methodName = "ValidateList";
+            return ValidateAsync(request, cancellationToken, next, validator);
+        }
+
+        private async Task<TResponse> ValidateAsync(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next, object validator)
+        {
+            const string methodName = "ValidateListAsync";
             var method = validator.GetType().GetMethod(methodName);
 
             if (method == default)
                 throw new Exception($"Method '{methodName}'not found");
 
-            var errors = method.Invoke(validator, new object[] { request });
+            var errors = method.Invoke(validator, new object[] { request, cancellationToken });
 
-            var failures = (List<ValidationFailure>)errors;
+            var failures = await ((Task<List<ValidationFailure>>)errors)!;
 
             if (failures != default && failures.Any())
                 throw new ValidationFailureException(failures);
 
-            return next(request, cancellationToken);
+            return await next(request, cancellationToken);
         }
     }
 }

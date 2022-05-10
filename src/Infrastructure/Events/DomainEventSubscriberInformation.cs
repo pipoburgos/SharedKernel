@@ -35,10 +35,13 @@ namespace SharedKernel.Infrastructure.Events
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> Gets the type of the subscriber class. </summary>
+        public Type GetSubscriber()
+        {
+            return _subscriberClass;
+        }
+
+        /// <summary> Gets the name of the subscriber class. </summary>
         public string SubscriberName()
         {
             return ToSnake(ClassName);

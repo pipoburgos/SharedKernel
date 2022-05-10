@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.Reflection;
 using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.Shared
 {
@@ -58,7 +56,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
                         ExecuteDomainSubscriber(eventSerialized, eventDeserialized, subscriber, cancellationToken)));
         }
 
-        private Task ExecuteDomainSubscriber(string body, DomainEvent domainEvent, string subscriber, CancellationToken cancellationToken)
+        private Task ExecuteDomainSubscriber(string body, DomainEvent domainEvent, Type subscriber, CancellationToken cancellationToken)
         {
             return _retriever.ExecuteAsync<Task>(async ct => await ExecuteOn(body, domainEvent, subscriber, ct),
                 e =>
@@ -76,27 +74,28 @@ namespace SharedKernel.Infrastructure.Events.Shared
         /// <param name="eventSubscriber"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task ExecuteOn(string body, DomainEvent @event, string eventSubscriber, CancellationToken cancellationToken)
+        public async Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken)
         {
-            var queueParts = eventSubscriber.Split('.');
-            var subscriberName = ToCamelFirstUpper(queueParts.Last());
+            //var queueParts = eventSubscriber.Split('.');
+            //var subscriberName = ToCamelFirstUpper(queueParts.Last());
+            //var subscriberType = ReflectionHelper.GetType(subscriberName);
 
-            var subscriberType = ReflectionHelper.GetType(subscriberName);
+            //var subscriberType = DomainEventsInformation.ForName(@event.GetEventName());
 
             using var scope = _serviceScopeFactory.CreateScope();
 
             var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
             AddIdentity(body, httpContextAccessor);
 
-            var subscriber = scope.ServiceProvider.GetRequiredService(subscriberType);
+            var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
             await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
         }
 
-        private static string ToCamelFirstUpper(string text)
-        {
-            var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
-            return textInfo.ToTitleCase(text).Replace("_", string.Empty);
-        }
+        //private static string ToCamelFirstUpper(string text)
+        //{
+        //    var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
+        //    return textInfo.ToTitleCase(text).Replace("_", string.Empty);
+        //}
 
         private static void AddIdentity(string body, IHttpContextAccessor httpContextAccessor)
         {

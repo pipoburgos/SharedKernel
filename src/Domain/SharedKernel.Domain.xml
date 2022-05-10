@@ -816,53 +816,34 @@
             </summary>
         </member>
         <member name="T:SharedKernel.Domain.Events.DomainEvent">
-            <summary>
-            Generic domain event
-            </summary>
+            <summary> Generic domain event. </summary>
         </member>
         <member name="M:SharedKernel.Domain.Events.DomainEvent.#ctor">
-            <summary>
-            Domain Event serializable constructor
-            </summary>
+            <summary> Domain event serializable constructor. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.#ctor(System.String,System.String)">
+            <summary> Domain event constructor. </summary>
         </member>
         <member name="M:SharedKernel.Domain.Events.DomainEvent.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Domain event constructor
-            </summary>
-            <param name="aggregateId"></param>
-            <param name="eventId"></param>
-            <param name="occurredOn"></param>
+            <summary> Domain event constructor. </summary>
         </member>
         <member name="P:SharedKernel.Domain.Events.DomainEvent.AggregateId">
-            <summary>
-            The aggregate root identifier
-            </summary>
+            <summary> The aggregate root identifier. </summary>
         </member>
         <member name="P:SharedKernel.Domain.Events.DomainEvent.EventId">
-            <summary>
-            The event identifier
-            </summary>
+            <summary> The event identifier. </summary>
         </member>
         <member name="P:SharedKernel.Domain.Events.DomainEvent.OccurredOn">
-            <summary>
-            When the event occurred
-            </summary>
+            <summary> When the event occurred. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Events.DomainEvent.SetAggregateId(System.String)">
+            <summary> Sets aggregate id. </summary>
         </member>
         <member name="M:SharedKernel.Domain.Events.DomainEvent.GetEventName">
-            <summary>
-            The event identifier for message queues
-            </summary>
-            <returns></returns>
+            <summary> The event identifier for message queues. </summary>
         </member>
         <member name="M:SharedKernel.Domain.Events.DomainEvent.FromPrimitives(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.String)">
-            <summary>
-            Create a new Domain event with default values
-            </summary>
-            <param name="aggregateId"></param>
-            <param name="body"></param>
-            <param name="eventId"></param>
-            <param name="occurredOn"></param>
-            <returns></returns>
+            <summary> Create a new Domain event with default values. </summary>
         </member>
         <member name="T:SharedKernel.Domain.Events.DomainEventPrimitive">
             <summary>

@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
+using SharedKernel.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -37,9 +37,18 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <returns></returns>
-        public static List<string> GetAllEventsSubscribers()
+        public static List<DomainEventSubscriberInformation> GetAllEventsSubscribersInfo()
         {
-            return _information.Values.Select(x => x.SubscriberName()).ToList();
+            return _information.Values.Select(e => e).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<Type> GetAllEventsSubscribers()
+        {
+            return _information.Values.Select(x => x.GetSubscriber()).ToList();
         }
 
         /// <summary>
@@ -47,14 +56,16 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="event"></param>
         /// <returns></returns>
-        public static List<string> GetAllEventsSubscribers(DomainEvent @event)
+        public static List<Type> GetAllEventsSubscribers(DomainEvent @event)
         {
             var values = _information.Values
                 .Where(e => e.SubscribedEvent == @event.GetType());
 
-            return values
-                .Select(x => x.SubscriberName())
+            var x = values
+                .Select(x => x.GetSubscriber())
                 .ToList();
+
+            return x;
         }
 
         /// <summary>

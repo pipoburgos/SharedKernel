@@ -22,7 +22,7 @@ namespace SharedKernel.Application.Events
             if (@event is TDomain msg)
                 return On(msg, cancellationToken);
 
-            throw new ArgumentException(nameof(@event));
+            throw new ArgumentException($"Unable cast {@event.GetType()} to {typeof(TDomain)}");
         }
 
         /// <summary>

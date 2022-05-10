@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
+using SharedKernel.Application.Validator;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
-using SharedKernel.Application.Validator;
 
 namespace SharedKernel.Infrastructure.Validators
 {
@@ -64,6 +64,28 @@ namespace SharedKernel.Infrastructure.Validators
 
             if (failures.Any())
                 throw new ValidationFailureException(failures);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
+        public async Task<List<ValidationFailure>> ValidateListAsync(TEntity item, CancellationToken cancellationToken)
+        {
+            if (item == null)
+                return new List<ValidationFailure>();
+
+            var context = new ValidationContext<TEntity>(item);
+
+            var errors = await _validator.ValidateAsync(context, cancellationToken);
+
+            return errors
+                .Errors
+                .Where(f => f != null)
+                .Select(f => new ValidationFailure(f.PropertyName, f.ErrorMessage, f.AttemptedValue))
+                .ToList();
         }
 
         /// <summary>

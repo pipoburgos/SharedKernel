@@ -1795,27 +1795,25 @@
             <returns></returns>
         </member>
         <member name="T:SharedKernel.Application.Validator.IEntityValidator`1">
-            <summary>
-            The entity validator base contract
-            </summary>
+            <summary> The entity validator base contract. </summary>
         </member>
         <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.ValidateList(`0)">
-            <summary>
-            
-            </summary>
+            <summary>  </summary>
             <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.Validate(`0)">
-            <summary>
-            
-            </summary>
+            <summary>  </summary>
             <param name="item"></param>
         </member>
+        <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.ValidateListAsync(`0,System.Threading.CancellationToken)">
+            <summary>  </summary>
+            <param name="item"></param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Validator.IEntityValidator`1.ValidateAsync(`0,System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
+            <summary>  </summary>
             <param name="item"></param>
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>

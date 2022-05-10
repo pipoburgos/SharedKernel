@@ -8,6 +8,7 @@ using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
+using SharedKernel.Infrastructure.Events.Shared;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Security;
@@ -15,7 +16,6 @@ using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
 using System;
 using System.Reflection;
-using SharedKernel.Infrastructure.Events.Shared;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -44,7 +44,7 @@ namespace SharedKernel.Infrastructure.Events
         /// <returns></returns>
         public static IServiceCollection AddDomainEvents(this IServiceCollection services, Assembly domainAssembly)
         {
-            DomainEventsInformation.Register(domainAssembly);
+            domainAssembly.Register();
             return services;
         }
 
@@ -53,10 +53,9 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        /// <param name="optionsConfiguration"></param>
         /// <returns></returns>
         public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services,
-            IConfiguration configuration, Action<RetrieverOptions> optionsConfiguration = null)
+            IConfiguration configuration)
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
@@ -64,7 +63,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddEventBus()
                 .AddScoped<IEventBus, InMemoryEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddPollyRetry(configuration, optionsConfiguration);
+                .AddPollyRetry(configuration);
         }
 
         /// <summary>
@@ -73,7 +72,8 @@ namespace SharedKernel.Infrastructure.Events
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
 
@@ -97,10 +97,9 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        /// <param name="optionsConfiguration"></param>
         /// <returns></returns>
         public static IServiceCollection AddRedisEventBus(this IServiceCollection services,
-            IConfiguration configuration, Action<RetrieverOptions> optionsConfiguration = null)
+            IConfiguration configuration)
         {
             services
                 .AddHealthChecks()
@@ -112,7 +111,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
                 .AddScoped<IEventBus, RedisEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddPollyRetry(configuration, optionsConfiguration);
+                .AddPollyRetry(configuration);
         }
 
         private static IServiceCollection AddEventBus(this IServiceCollection services)
