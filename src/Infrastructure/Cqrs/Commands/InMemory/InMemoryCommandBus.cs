@@ -112,6 +112,25 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         }
 
         /// <summary>
+        /// Dispatch a command request on a queue.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="queueName">Queue name</param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
+        public Task<TResponse> DispatchOnQueue<TResponse>(ICommandRequest<TResponse> command, string queueName, CancellationToken cancellationToken)
+        {
+            using var scope = _serviceScopeFactory.CreateScope();
+            var mutexManager = scope.ServiceProvider.GetService<IMutexManager>();
+
+            if (mutexManager == default)
+                throw new InvalidOperationException("IMutexManager not registered");
+
+            return mutexManager.RunOneAtATimeFromGivenKeyAsync(queueName, () => Dispatch(command, cancellationToken),
+                cancellationToken);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="command"></param>

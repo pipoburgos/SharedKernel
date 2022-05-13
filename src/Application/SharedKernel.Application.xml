@@ -276,6 +276,16 @@
             <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
             <returns></returns>
         </member>
+        <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.DispatchOnQueue``1(SharedKernel.Application.Cqrs.Commands.ICommandRequest{``0},System.String,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch a command request on a queue.
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="command"></param>
+            <param name="queueName">Queue name</param>
+            <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+            <returns></returns>
+        </member>
         <member name="M:SharedKernel.Application.Cqrs.Commands.ICommandBus.QueueInBackground(SharedKernel.Application.Cqrs.Commands.ICommandRequest)">
             <summary>
             Queue a command request to background service

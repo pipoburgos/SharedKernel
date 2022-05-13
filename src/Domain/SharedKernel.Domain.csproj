@@ -15,14 +15,14 @@
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.17</Version>
+		<Version>6.0.19</Version>
 		<!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="icon.png" Pack="true" PackagePath="" />
 		<None Include="readme.md" Pack="true" PackagePath="" />
-		<None Include="Exceptions\ExceptionCodes.resx" Generator="ResXFileCodeGenerator" LastGenOutput="ExceptionCodes.Designer.cs" CopyToOutputDirectory="Always"/>
+		<None Include="Exceptions\ExceptionCodes.resx" Generator="ResXFileCodeGenerator" LastGenOutput="ExceptionCodes.Designer.cs" CopyToOutputDirectory="Always" />
 		<EmbeddedResource Remove="Exceptions\ExceptionCodes.resx" />
 	</ItemGroup>
 
