@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +9,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using IValidatableObject = SharedKernel.Domain.Validators.IValidatableObject;
+using ValidationContext = SharedKernel.Domain.Validators.ValidationContext;
+using ValidationResult = SharedKernel.Domain.Validators.ValidationResult;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 {
@@ -98,14 +101,15 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         {
             try
             {
+                ValidateDomainEntities();
                 Validate();
                 _auditableService?.Audit(this);
                 return await base.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await RollbackAsync(cancellationToken);
-                throw new SharedKernelInfrastructureException(nameof(ExceptionCodes.EF_CORE_SAVE_CHANGES), ex);
+                throw;// new SharedKernelInfrastructureException(nameof(ExceptionCodes.EF_CORE_SAVE_CHANGES), ex);
             }
         }
 
@@ -178,12 +182,32 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
                 .Where(_ => _.State == EntityState.Added ||
                             _.State == EntityState.Modified);
 
-            var errors = new List<ValidationResult>(); // all errors are here
+            var errors = new List<global::System.ComponentModel.DataAnnotations.ValidationResult>(); // all errors are here
             foreach (var e in changedEntities)
             {
-                var vc = new ValidationContext(e.Entity, null, null);
+                var vc = new global::System.ComponentModel.DataAnnotations.ValidationContext(e.Entity, null, null);
                 Validator.TryValidateObject(e.Entity, vc, errors, true);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void ValidateDomainEntities()
+        {
+            var context = new ValidationContext();
+            var validationResult = new List<ValidationResult>();
+            foreach (var validatedEntity in ChangeTracker.Entries<IValidatableObject>())
+            {
+                validationResult.AddRange(validatedEntity.Entity.Validate(context));
+            }
+
+            var errors = validationResult
+                .Select(e => new ValidationFailure(string.Join(",", e.MemberNames), e.ErrorMessage))
+                .ToList();
+
+            if (errors.Any())
+                throw new ValidationFailureException("Validation errors.", errors);
         }
 
         #endregion

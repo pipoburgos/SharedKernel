@@ -2113,6 +2113,39 @@
             <typeparam name="TEntity"></typeparam>
             <typeparam name="TTranslation"></typeparam>
         </member>
+        <member name="T:SharedKernel.Domain.Validators.IValidatableObject">
+            <summary> Validate entity or agregate root. </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Validators.IValidatableObject.Validate(SharedKernel.Domain.Validators.ValidationContext)">
+            <summary> Validate. </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedKernel.Domain.Validators.ValidationContext">
+            <summary> </summary>
+        </member>
+        <member name="T:SharedKernel.Domain.Validators.ValidationResult">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Validators.ValidationResult.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary> </summary>
+            <param name="errorMessage"></param>
+            <param name="memberNames"></param>
+        </member>
+        <member name="M:SharedKernel.Domain.Validators.ValidationResult.#ctor(SharedKernel.Domain.Validators.ValidationResult)">
+            <summary> </summary>
+            <param name="validationResult"></param>
+        </member>
+        <member name="P:SharedKernel.Domain.Validators.ValidationResult.MemberNames">
+            <summary> </summary>
+        </member>
+        <member name="P:SharedKernel.Domain.Validators.ValidationResult.ErrorMessage">
+            <summary> </summary>
+        </member>
+        <member name="M:SharedKernel.Domain.Validators.ValidationResult.ToString">
+            <summary> </summary>
+            <returns></returns>
+        </member>
         <member name="T:SharedKernel.Domain.ValueObjects.PersonalDocumentation.Cif">
             <summary> CIF </summary>
         </member>
