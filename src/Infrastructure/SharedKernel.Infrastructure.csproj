@@ -5,7 +5,7 @@
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Infrastructure Layer</Description>
-		<DocumentationFile>SharedKernel.Infrastructure.xml</DocumentationFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
 		<NeutralLanguage>en</NeutralLanguage>
@@ -15,7 +15,7 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.21</Version>
+		<Version>6.0.23</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,7 +53,7 @@
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-		<PackageReference Include="MongoDB.Driver" Version="2.16.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.16.1" />
 		<PackageReference Include="NEST" Version="7.17.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netcoreapp3.1'" />

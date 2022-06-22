@@ -5,7 +5,7 @@
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Application Layer</Description>
-		<DocumentationFile>SharedKernel.Application.xml</DocumentationFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
 		<NeutralLanguage>en</NeutralLanguage>
@@ -15,7 +15,7 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.21</Version>
+		<Version>6.0.23</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

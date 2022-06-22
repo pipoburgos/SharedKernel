@@ -1,17 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Aggregates;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using IValidatableObject = SharedKernel.Domain.Validators.IValidatableObject;
-using ValidationContext = SharedKernel.Domain.Validators.ValidationContext;
-using ValidationResult = SharedKernel.Domain.Validators.ValidationResult;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 {
@@ -24,6 +18,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
 
         private readonly Assembly _assemblyConfigurations;
         private readonly IAuditableService _auditableService;
+        private readonly IValidatableObjectService _validatableObjectService;
 
         #endregion
 
@@ -36,11 +31,13 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         /// <param name="schema"></param>
         /// <param name="assemblyConfigurations"></param>
         /// <param name="auditableService"></param>
+        /// <param name="validatableObjectService"></param>
         public DbContextBase(DbContextOptions options, string schema, Assembly assemblyConfigurations,
-            IAuditableService auditableService) : base(options)
+            IValidatableObjectService validatableObjectService, IAuditableService auditableService) : base(options)
         {
             _assemblyConfigurations = assemblyConfigurations;
             _auditableService = auditableService;
+            _validatableObjectService = validatableObjectService;
             Schema = schema;
             // ReSharper disable once VirtualMemberCallInConstructor
             ChangeTracker.LazyLoadingEnabled = false;
@@ -101,8 +98,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         {
             try
             {
-                ValidateDomainEntities();
-                Validate();
+                _validatableObjectService?.ValidateDomainEntities(this);
+                _validatableObjectService?.Validate(this);
                 _auditableService?.Audit(this);
                 return await base.SaveChangesAsync(cancellationToken);
             }
@@ -170,44 +167,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void Validate()
-        {
-            var changedEntities = ChangeTracker
-                .Entries()
-                .Where(_ => _.State == EntityState.Added ||
-                            _.State == EntityState.Modified);
-
-            var errors = new List<global::System.ComponentModel.DataAnnotations.ValidationResult>(); // all errors are here
-            foreach (var e in changedEntities)
-            {
-                var vc = new global::System.ComponentModel.DataAnnotations.ValidationContext(e.Entity, null, null);
-                Validator.TryValidateObject(e.Entity, vc, errors, true);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void ValidateDomainEntities()
-        {
-            var context = new ValidationContext();
-            var validationResult = new List<ValidationResult>();
-            foreach (var validatedEntity in ChangeTracker.Entries<IValidatableObject>())
-            {
-                validationResult.AddRange(validatedEntity.Entity.Validate(context));
-            }
-
-            var errors = validationResult
-                .Select(e => new ValidationFailure(string.Join(",", e.MemberNames), e.ErrorMessage))
-                .ToList();
-
-            if (errors.Any())
-                throw new ValidationFailureException("Validation errors.", errors);
         }
 
         #endregion

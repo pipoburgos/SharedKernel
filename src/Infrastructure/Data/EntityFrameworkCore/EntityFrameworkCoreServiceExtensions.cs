@@ -87,7 +87,8 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
                 .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IDateTime, MachineDateTime>()
                 .AddTransient<IGuid, GuidGenerator>()
-                .AddTransient<IAuditableService, AuditableService>();
+                .AddTransient<IAuditableService, AuditableService>()
+                .AddTransient<IValidatableObjectService, ValidatableObjectService>();
         }
     }
 }

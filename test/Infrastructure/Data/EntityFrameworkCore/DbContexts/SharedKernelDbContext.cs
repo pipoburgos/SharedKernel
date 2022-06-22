@@ -5,7 +5,10 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts
 {
     public class SharedKernelDbContext : DbContextBase
     {
-        public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options, IAuditableService auditable = null)
-            : base(options, "skr", typeof(SharedKernelDbContext).Assembly, auditable) { }
+        public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options,
+            IValidatableObjectService validatableObjectService = null, IAuditableService auditable = null)
+            : base(options, "skr", typeof(SharedKernelDbContext).Assembly, validatableObjectService, auditable)
+        {
+        }
     }
 }
