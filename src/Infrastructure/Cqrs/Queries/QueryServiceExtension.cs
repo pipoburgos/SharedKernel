@@ -1,12 +1,12 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.System;
-using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
+using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validators;
+using System;
+using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries
 {
@@ -63,7 +63,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         private static IServiceCollection AddQueryBus(this IServiceCollection services)
         {
             return services
-                .AddTransient<ExecuteMiddlewaresService>()
+                .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
                 .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>));
         }
     }

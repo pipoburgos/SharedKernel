@@ -44,7 +44,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 
             _timer.Stop();
 
-            _logger.Verbose($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {request}");
+            if (_timer.ElapsedMilliseconds > 50)
+                _logger.Verbose($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {request}");
         }
     }
 
@@ -85,8 +86,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 
             _timer.Stop();
 
-            _logger.Verbose($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {request}");
-            //_logger.Info($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {_identityService.UserId} {request}");
+            if (_timer.ElapsedMilliseconds > 50)
+                _logger.Verbose($"TimerBehaviour: {name} ({_timer.ElapsedMilliseconds} milliseconds) {request}");
 
             return response;
         }

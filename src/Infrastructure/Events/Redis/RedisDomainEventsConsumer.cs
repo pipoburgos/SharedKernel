@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
 using StackExchange.Redis;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IDomainEventMediator _domainEventMediator;
+        private readonly ICustomLogger<RedisDomainEventsConsumer> _logger;
 
         /// <summary>
         /// Constructor
@@ -22,8 +25,10 @@ namespace SharedKernel.Infrastructure.Events.Redis
         public RedisDomainEventsConsumer(IServiceScopeFactory serviceScopeFactory)
         {
             using var scope = serviceScopeFactory.CreateScope();
+
             _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
             _domainEventMediator = scope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
+            _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisDomainEventsConsumer>>();
         }
 
         /// <summary>
@@ -35,7 +40,14 @@ namespace SharedKernel.Infrastructure.Events.Redis
         {
             return _connectionMultiplexer.GetSubscriber().SubscribeAsync("*", (_, value) =>
             {
-                TaskHelper.RunSync(_domainEventMediator.ExecuteDomainSubscribers(value, stoppingToken));
+                try
+                {
+                    TaskHelper.RunSync(_domainEventMediator.ExecuteDomainSubscribers(value, stoppingToken));
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, ex.Message);
+                }
             });
         }
     }

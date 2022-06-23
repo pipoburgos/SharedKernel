@@ -34,16 +34,22 @@ namespace SharedKernel.Infrastructure.Events.InMemory
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                try
-                {
-                    await scope.ServiceProvider.GetRequiredService<IInMemoryDomainEventsConsumer>().ExecuteAll(CancellationToken.None);
-                }
-                catch (Exception ex)
-                {
-                    scope.ServiceProvider
-                        .GetRequiredService<ICustomLogger<InMemoryBackgroundService>>()
-                        .Error(ex, "Error occurred executing event.");
-                }
+                await Execute(scope);
+            }
+        }
+
+        private static async Task Execute(IServiceScope scope)
+        {
+            try
+            {
+                await scope.ServiceProvider.GetRequiredService<IInMemoryDomainEventsConsumer>()
+                    .ExecuteAll(CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                scope.ServiceProvider
+                    .GetRequiredService<ICustomLogger<InMemoryBackgroundService>>()
+                    .Error(ex, "Error occurred executing event.");
             }
         }
     }

@@ -1,6 +1,7 @@
 using SharedKernel.Domain.Events;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     {
         private readonly IDomainEventMediator _domainEventMediator;
         private readonly IDomainEventJsonSerializer _serializer;
-        private readonly ConcurrentBag<string> _events;
+        private readonly ConcurrentQueue<string> _events;
 
         /// <summary>
         /// 
@@ -24,7 +25,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         {
             _domainEventMediator = domainEventMediator;
             _serializer = serializer;
-            _events = new ConcurrentBag<string>();
+            _events = new ConcurrentQueue<string>();
         }
 
         /// <summary>
@@ -34,7 +35,20 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         public void Add(DomainEvent domainEvent)
         {
             var eventSerialized = _serializer.Serialize(domainEvent);
-            _events.Add(eventSerialized);
+            _events.Enqueue(eventSerialized);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainEvents"></param>
+        public void AddRange(IEnumerable<DomainEvent> domainEvents)
+        {
+            foreach (var @event in domainEvents)
+            {
+                var eventSerialized = _serializer.Serialize(@event);
+                _events.Enqueue(eventSerialized);
+            }
         }
 
         /// <summary>
@@ -42,7 +56,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// </summary>
         public async Task ExecuteAll(CancellationToken cancellationToken)
         {
-            while (_events.TryTake(out var domainEvent))
+            while (_events.TryDequeue(out var domainEvent))
             {
                 await _domainEventMediator.ExecuteDomainSubscribers(domainEvent, cancellationToken);
             }

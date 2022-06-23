@@ -2,10 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
-using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Events.InMemory;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +20,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IDomainEventJsonDeserializer _deserializer;
-        private readonly ICustomLogger<InMemoryDomainEventsConsumer> _logger;
-        private readonly IRetriever _retriever;
+        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
 
         /// <summary>
         /// Constructor
@@ -31,13 +28,11 @@ namespace SharedKernel.Infrastructure.Events.Shared
         public DomainEventMediator(
             IServiceScopeFactory serviceScopeFactory,
             IDomainEventJsonDeserializer deserializer,
-            ICustomLogger<InMemoryDomainEventsConsumer> logger,
-            IRetriever retriever)
+            IExecuteMiddlewaresService executeMiddlewaresService)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _deserializer = deserializer;
-            _logger = logger;
-            _retriever = retriever;
+            _executeMiddlewaresService = executeMiddlewaresService;
         }
 
         /// <summary>
@@ -53,17 +48,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 DomainEventSubscriberInformationService
                     .GetAllEventsSubscribers(eventDeserialized)
                     .Select(subscriber =>
-                        ExecuteDomainSubscriber(eventSerialized, eventDeserialized, subscriber, cancellationToken)));
-        }
-
-        private Task ExecuteDomainSubscriber(string body, DomainEvent domainEvent, Type subscriber, CancellationToken cancellationToken)
-        {
-            return _retriever.ExecuteAsync<Task>(async ct => await ExecuteOn(body, domainEvent, subscriber, ct),
-                e =>
-                {
-                    _logger?.Error(e, e.Message);
-                    return true;
-                }, cancellationToken);
+                        ExecuteOn(eventSerialized, eventDeserialized, subscriber, cancellationToken)));
         }
 
         /// <summary>
@@ -74,28 +59,18 @@ namespace SharedKernel.Infrastructure.Events.Shared
         /// <param name="eventSubscriber"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public async Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken)
+        public Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken)
         {
-            //var queueParts = eventSubscriber.Split('.');
-            //var subscriberName = ToCamelFirstUpper(queueParts.Last());
-            //var subscriberType = ReflectionHelper.GetType(subscriberName);
+            return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, ct) =>
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
+                AddIdentity(body, httpContextAccessor);
 
-            //var subscriberType = DomainEventsInformation.ForName(@event.GetEventName());
-
-            using var scope = _serviceScopeFactory.CreateScope();
-
-            var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
-            AddIdentity(body, httpContextAccessor);
-
-            var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
-            await ((IDomainEventSubscriberBase)subscriber).On(@event, cancellationToken);
+                var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
+                return ((IDomainEventSubscriberBase)subscriber).On(req, ct);
+            });
         }
-
-        //private static string ToCamelFirstUpper(string text)
-        //{
-        //    var textInfo = new CultureInfo(CultureInfo.CurrentCulture.ToString(), false).TextInfo;
-        //    return textInfo.ToTitleCase(text).Replace("_", string.Empty);
-        //}
 
         private static void AddIdentity(string body, IHttpContextAccessor httpContextAccessor)
         {

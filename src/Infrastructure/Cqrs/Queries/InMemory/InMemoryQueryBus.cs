@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Cqrs.Queries;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Cqrs.Queries;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
 {
@@ -16,7 +16,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
     /// </summary>
     public class InMemoryQueryBus : IQueryBus
     {
-        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
+        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IServiceProvider _serviceProvider;
         private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new();
 
@@ -26,7 +26,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory
         /// <param name="executeMiddlewaresService"></param>
         /// <param name="serviceProvider"></param>
         public InMemoryQueryBus(
-            ExecuteMiddlewaresService executeMiddlewaresService,
+            IExecuteMiddlewaresService executeMiddlewaresService,
             IServiceProvider serviceProvider)
         {
             _executeMiddlewaresService = executeMiddlewaresService;

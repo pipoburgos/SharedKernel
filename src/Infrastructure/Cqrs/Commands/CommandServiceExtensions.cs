@@ -1,6 +1,4 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Validator;
@@ -8,6 +6,8 @@ using SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validators;
+using System;
+using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands
 {
@@ -57,7 +57,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
             return services
                 .AddHostedService<QueuedHostedService>()
                 .AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>()
-                .AddTransient<ExecuteMiddlewaresService>()
+                .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
                 .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>));
         }
     }

@@ -48,7 +48,7 @@ namespace SharedKernel.Integration.Tests.Events
             // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
             var singletonValueContainer = testCase.GetRequiredService<PublishUserCreatedDomainEvent>();
             var salir = 0;
-            while (singletonValueContainer.Total != total * 4 || salir <= 50)
+            while (singletonValueContainer.Total != total * 4 && salir <= 50)
             {
                 await Task.Delay(50, CancellationToken.None);
                 salir++;

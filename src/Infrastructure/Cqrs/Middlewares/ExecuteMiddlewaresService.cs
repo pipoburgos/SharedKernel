@@ -14,16 +14,16 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
     /// </summary>
     public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="serviceScopeFactory"></param>
         public ExecuteMiddlewaresService(
-            IServiceProvider serviceProvider)
+            IServiceScopeFactory serviceScopeFactory)
         {
-            _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         public Task ExecuteAsync<TRequest>(TRequest request, CancellationToken cancellationToken,
             Func<TRequest, CancellationToken, Task> last) where TRequest : IRequest
         {
-            var middlewares = _serviceProvider.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest>>().ToList();
+            var middlewares = _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest>>().ToList();
             return !middlewares.Any()
                 ? last(request, cancellationToken)
                 : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
@@ -54,7 +54,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         public Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
             Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>
         {
-            var middlewares = _serviceProvider.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest, TResponse>>().ToList();
+            var middlewares = _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest, TResponse>>().ToList();
             return !middlewares.Any()
                 ? last(request, cancellationToken)
                 : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));

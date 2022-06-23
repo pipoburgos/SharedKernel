@@ -75,7 +75,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
 
                     var body = Encoding.UTF8.GetBytes(serializedDomainEvent);
                     var properties = channel.CreateBasicProperties();
-                    properties.Headers = new Dictionary<string, object> {{HeaderReDelivery, 0}};
+                    properties.Headers = new Dictionary<string, object> { { HeaderReDelivery, 0 } };
 
                     channel.BasicPublish(_rabbitMqParams.Value.ExchangeName, req.GetEventName(), properties, body);
                 }

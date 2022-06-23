@@ -52,18 +52,14 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
                 .AddSingleton<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
                 .AddEventBus()
-                .AddScoped<IEventBus, InMemoryEventBus>()
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddPollyRetry(configuration);
+                .AddScoped<IEventBus, InMemoryEventBus>();
         }
 
         /// <summary>
@@ -118,6 +114,7 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
                 .AddTransient<IDomainEventMediator, DomainEventMediator>()

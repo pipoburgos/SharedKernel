@@ -1,6 +1,5 @@
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,19 +12,15 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     public class InMemoryEventBus : IEventBus
     {
         private readonly IInMemoryDomainEventsConsumer _domainEventsToExecute;
-        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="domainEventsToExecute"></param>
-        /// <param name="executeMiddlewaresService"></param>
         public InMemoryEventBus(
-            IInMemoryDomainEventsConsumer domainEventsToExecute,
-            IExecuteMiddlewaresService executeMiddlewaresService)
+            IInMemoryDomainEventsConsumer domainEventsToExecute)
         {
             _domainEventsToExecute = domainEventsToExecute;
-            _executeMiddlewaresService = executeMiddlewaresService;
         }
 
         /// <summary>
@@ -45,19 +40,14 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         /// <param name="events"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
+        public Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
         {
             if (events == default)
-                return;
+                return Task.CompletedTask;
 
-            foreach (var domainEvent in events)
-            {
-                await _executeMiddlewaresService.ExecuteAsync(domainEvent, cancellationToken, (@event, _) =>
-                {
-                    _domainEventsToExecute.Add(@event);
-                    return Task.CompletedTask;
-                });
-            }
+            _domainEventsToExecute.AddRange(events);
+
+            return Task.CompletedTask;
         }
     }
 }

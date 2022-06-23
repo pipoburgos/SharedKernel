@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Domain.Events;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Cqrs.Middlewares
 {

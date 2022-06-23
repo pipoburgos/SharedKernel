@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         private readonly IServiceProvider _serviceProvider;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IBackgroundTaskQueue _taskQueue;
-        private readonly ExecuteMiddlewaresService _executeMiddlewaresService;
+        private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IHostApplicationLifetime _applicationLifetime;
 
         private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new();
@@ -40,7 +40,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             IServiceProvider serviceProvider,
             IServiceScopeFactory serviceScopeFactory,
             IBackgroundTaskQueue taskQueue,
-            ExecuteMiddlewaresService executeMiddlewaresService,
+            IExecuteMiddlewaresService executeMiddlewaresService,
             IHostApplicationLifetime applicationLifetime)
         {
             _serviceProvider = serviceProvider;
