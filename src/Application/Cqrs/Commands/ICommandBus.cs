@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SharedKernel.Application.Cqrs.Commands
@@ -24,6 +25,14 @@ namespace SharedKernel.Application.Cqrs.Commands
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         Task Dispatch(ICommandRequest command, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Dispatch a command request that does not return anything
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
+        Task Dispatch(IEnumerable<ICommandRequest> commands, CancellationToken cancellationToken);
 
         /// <summary>
         /// Dispatch a command request on a queue.

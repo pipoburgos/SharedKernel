@@ -25,6 +25,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         private readonly IBackgroundTaskQueue _taskQueue;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IHostApplicationLifetime _applicationLifetime;
+        private readonly IParallel _parallel;
 
         private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new();
 
@@ -36,18 +37,21 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// <param name="taskQueue"></param>
         /// <param name="executeMiddlewaresService"></param>
         /// <param name="applicationLifetime"></param>
+        /// <param name="parallel"></param>
         public InMemoryCommandBus(
             IServiceProvider serviceProvider,
             IServiceScopeFactory serviceScopeFactory,
             IBackgroundTaskQueue taskQueue,
             IExecuteMiddlewaresService executeMiddlewaresService,
-            IHostApplicationLifetime applicationLifetime)
+            IHostApplicationLifetime applicationLifetime,
+            IParallel parallel)
         {
             _serviceProvider = serviceProvider;
             _serviceScopeFactory = serviceScopeFactory;
             _taskQueue = taskQueue;
             _executeMiddlewaresService = executeMiddlewaresService;
             _applicationLifetime = applicationLifetime;
+            _parallel = parallel;
         }
 
         /// <summary>
@@ -87,6 +91,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 
                 return handler.Handle(req, _serviceProvider, c);
             });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task Dispatch(IEnumerable<ICommandRequest> commands, CancellationToken cancellationToken)
+        {
+            return _parallel.ForEachAsync(commands, cancellationToken, Dispatch);
         }
 
         /// <summary>
