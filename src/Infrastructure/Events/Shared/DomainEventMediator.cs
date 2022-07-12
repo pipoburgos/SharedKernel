@@ -61,14 +61,14 @@ namespace SharedKernel.Infrastructure.Events.Shared
         /// <returns></returns>
         public Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken)
         {
-            return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, ct) =>
+            return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, async (req, ct) =>
             {
                 using var scope = _serviceScopeFactory.CreateScope();
                 var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
                 AddIdentity(body, httpContextAccessor);
 
                 var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
-                return ((IDomainEventSubscriberBase)subscriber).On(req, ct);
+                await ((IDomainEventSubscriberBase)subscriber).On(req, ct);
             });
         }
 

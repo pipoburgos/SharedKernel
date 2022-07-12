@@ -2,13 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.System;
 using System;
+using System.Globalization;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Validators
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     public static class FluentValidatorsExtensions
     {
         /// <summary>
@@ -16,9 +15,12 @@ namespace SharedKernel.Infrastructure.Validators
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assembly"></param>
+        /// <param name="cultureInfo"></param>
         /// <returns></returns>
-        public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly, string cultureInfo = "en")
         {
+            ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo(cultureInfo);
+
             return services.AddFromAssembly(assembly, typeof(IValidator<>), typeof(AbstractValidator<>));
         }
 
@@ -27,10 +29,11 @@ namespace SharedKernel.Infrastructure.Validators
         /// </summary>
         /// <param name="services"></param>
         /// <param name="type"></param>
+        /// <param name="cultureInfo"></param>
         /// <returns></returns>
-        public static IServiceCollection AddValidators(this IServiceCollection services, Type type)
+        public static IServiceCollection AddValidators(this IServiceCollection services, Type type, string cultureInfo = "en")
         {
-            return services.AddFromAssembly(type.Assembly, typeof(IValidator<>), typeof(AbstractValidator<>));
+            return services.AddValidators(type.Assembly, cultureInfo);
         }
     }
 }

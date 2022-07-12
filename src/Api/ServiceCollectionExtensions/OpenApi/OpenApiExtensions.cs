@@ -80,7 +80,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
-                swaggerGenOptions.OperationFilter<SecurityRequirementsOperationFilter>();
+                swaggerGenOptions.OperationFilter<SecurityAllAuthorizeExceptAllowAnonymousOperationFilter>();
 
                 swaggerGenOptions.OperationFilter<FromQueryModelFilter>();
 

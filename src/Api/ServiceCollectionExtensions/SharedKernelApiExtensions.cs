@@ -6,6 +6,10 @@ using Newtonsoft.Json;
 using Prometheus;
 using SharedKernel.Infrastructure.Validators;
 using System;
+#if NET5_0_OR_GREATER
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+#endif
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {
@@ -121,5 +125,40 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 .UseMetricServer()
                 .UseHttpMetrics();
         }
+
+#if NET5_0_OR_GREATER
+        /// <summary>
+        /// AddRequestLocalization.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSpanish(this IServiceCollection services)
+        {
+            return services
+               .AddLocalization()
+               .AddRequestLocalization(options =>
+               {
+                   var supportedCultures = new[] { new CultureInfo("es") };
+                   options.DefaultRequestCulture = new RequestCulture("es");
+                   options.SupportedCultures = supportedCultures;
+                   options.SupportedUICultures = supportedCultures;
+                   options.ApplyCurrentCultureToResponseHeaders = true;
+               })
+               .Configure<MvcOptions>(options =>
+               {
+                   options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(x => $"El valor '{x}' es inválido.");
+                   options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(_ => "El campo tiene que ser numérico.");
+                   options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor(x => $"El valor de la propiedad '{x}' es requerido.");
+                   options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"El valor '{x}' no es válido para {y}.");
+                   options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(() => "El valor es requerido");
+                   options.ModelBindingMessageProvider.SetUnknownValueIsInvalidAccessor(x => $"El valor proporcionado no es válido para {x}");
+                   options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"El valor '{x}' es requerido.");
+                   options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor(x => $"El valor '{x}' es inválido.");
+                   options.ModelBindingMessageProvider.SetNonPropertyUnknownValueIsInvalidAccessor(() => "Propiedad inválida.");
+                   options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => "La propiedad tiene que ser numérica.");
+                   options.ModelBindingMessageProvider.SetMissingRequestBodyRequiredValueAccessor(() => "Se requiere un cuerpo de solicitud no vacío.");
+               });
+        }
+#endif
     }
 }

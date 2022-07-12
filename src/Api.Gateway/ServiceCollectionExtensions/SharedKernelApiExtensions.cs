@@ -16,7 +16,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         /// <summary>
         /// 
         /// </summary>
-        public static string MyAllowSpecificOrigins = "CorsPolicy";
+        public static readonly string MyAllowSpecificOrigins = "CorsPolicy";
 
         /// <summary>
         /// 
