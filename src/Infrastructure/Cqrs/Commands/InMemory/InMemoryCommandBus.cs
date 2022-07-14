@@ -105,6 +105,18 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <param name="queueName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task DispatchOnQueue(IEnumerable<ICommandRequest> commands, string queueName, CancellationToken cancellationToken)
+        {
+            return _parallel.ForEachAsync(commands, cancellationToken, (command, ct) => DispatchOnQueue(command, queueName, ct));
+        }
+
+        /// <summary>
         /// Dispatch a command request on a queue.
         /// </summary>
         /// <param name="command"></param>

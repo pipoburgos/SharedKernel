@@ -63,10 +63,11 @@ namespace SharedKernel.Domain.Entities
             if (ReferenceEquals(this, obj))
                 return true;
 
-            var item = (Entity<TKey>) obj;
+            var item = (Entity<TKey>)obj;
 
+            var equals = Id.Equals(item.Id);
 
-            return EqualityComparer<TKey>.Default.Equals(Id, item.Id);
+            return equals;
         }
 
         /// <summary>

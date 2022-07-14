@@ -33,8 +33,9 @@ namespace SharedKernel.Domain.ValueObjects
             //compare all public properties
             var publicProperties = GetType().GetProperties();
 
-            return !publicProperties.Any() ||
-                   publicProperties.All(p => EqualsObjects(p.GetValue(this, null), p.GetValue(other, null)));
+            var equals = !publicProperties.Any() || publicProperties.All(p => EqualsObjects(p.GetValue(this, null), p.GetValue(other, null)));
+
+            return equals;
         }
 
         private bool EqualsObjects(object left, object right)
@@ -48,6 +49,9 @@ namespace SharedKernel.Domain.ValueObjects
             if (left == default)
                 return false;
 
+            if (left is string)
+                return left.Equals(right);
+
             return left is IEnumerable enumerable
                 ? EqualEnumerable(enumerable, right as IEnumerable)
                 : left.Equals(right);
@@ -57,8 +61,8 @@ namespace SharedKernel.Domain.ValueObjects
         {
             var a = left.OfType<object>().ToList();
             var b = right.OfType<object>().ToList();
-            var equal = a.Count == b.Count && (!a.Except(b).Any() || !b.Except(a).Any());
-            return equal;
+            var equals = a.Count == b.Count && (!a.Except(b).Any() || !b.Except(a).Any());
+            return equals;
         }
 
         /// <summary>
