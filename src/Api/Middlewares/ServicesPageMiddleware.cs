@@ -10,7 +10,7 @@ namespace SharedKernel.Api.Middlewares
     public static class ServicesPageMiddleware
     {
         /// <summary> Adds a route /services to show the dependency container. </summary>
-        public static IApplicationBuilder UseServicesPage(this IApplicationBuilder app, IServiceCollection services)
+        public static IApplicationBuilder UseSharedKernelServicesPage(this IApplicationBuilder app, IServiceCollection services)
         {
             app.Map("/services", builder => builder.Run(async context =>
             {

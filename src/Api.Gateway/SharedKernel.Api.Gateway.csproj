@@ -15,7 +15,7 @@
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.28</Version>
+		<Version>6.0.29</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,8 +35,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.2" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
 		<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.6.12" />
 	</ItemGroup>
 

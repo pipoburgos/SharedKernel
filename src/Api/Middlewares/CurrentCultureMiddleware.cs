@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using Microsoft.AspNetCore.Builder;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Microsoft.AspNetCore.Builder;
 
 namespace SharedKernel.Api.Middlewares
 {
@@ -15,7 +15,7 @@ namespace SharedKernel.Api.Middlewares
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseCurrentCulture(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSharedKernelCurrentCulture(this IApplicationBuilder app)
         {
             app.Use((context, next) =>
             {

@@ -56,7 +56,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 #else
                     var relativePath = a.RelativePath ?? string.Empty;
 #endif
-                    var path = $"{relativePath.Length.ToString().PadLeft(5, '0')}{relativePath}{order}";
+                    var path = $"{relativePath}_{relativePath.Length.ToString().PadLeft(5, '0')}{order}";
 
                     return path;
                 });

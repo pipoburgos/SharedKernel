@@ -54,7 +54,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        protected IQueryable<TEntity> SetNew<TEntity>() where TEntity : class
+        protected IQueryable<TEntity> SetReadOnly<TEntity>() where TEntity : class
         {
             var context = _dbContextFactory.CreateDbContext();
             _contexts.Add(context);
@@ -66,7 +66,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="showDeleted"></param>
         /// <returns></returns>
-        protected IQueryable<TAggregateRoot> GetNewQuery(bool showDeleted = false)
+        protected IQueryable<TAggregateRoot> GetReadOnlyQuery(bool showDeleted = false)
         {
             var context = _dbContextFactory.CreateDbContext();
             _contexts.Add(context);
@@ -79,9 +79,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetByIdParallelAsync(TKey key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot> GetByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken)
         {
-            return GetNewQuery()
+            return GetReadOnlyQuery()
                 .Cast<IEntity<TKey>>()
                 .Where(a => a.Id.Equals(key))
                 .Cast<TAggregateRoot>()
@@ -94,10 +94,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetDeleteByIdParallelAsync(TKey key,
+        public virtual Task<TAggregateRoot> GetDeleteByIdReadOnlyAsync(TKey key,
             CancellationToken cancellationToken)
         {
-            return GetNewQuery(true)
+            return GetReadOnlyQuery(true)
                 .Cast<IEntity<TKey>>()
                 .Where(a => a.Id.Equals(key))
                 .Cast<TAggregateRoot>()
@@ -109,9 +109,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<List<TAggregateRoot>> GetAllParallelAsync(CancellationToken cancellationToken)
+        public Task<List<TAggregateRoot>> GetAllReadOnlyAsync(CancellationToken cancellationToken)
         {
-            return GetNewQuery().ToListAsync(cancellationToken);
+            return GetReadOnlyQuery().ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync(CancellationToken cancellationToken)
         {
-            return GetNewQuery().AnyAsync(cancellationToken);
+            return GetReadOnlyQuery().AnyAsync(cancellationToken);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<int> CountAsync(CancellationToken cancellationToken)
         {
-            return GetNewQuery().CountAsync(cancellationToken);
+            return GetReadOnlyQuery().CountAsync(cancellationToken);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync(TKey key, CancellationToken cancellationToken)
         {
-            return GetNewQuery()
+            return GetReadOnlyQuery()
                 .Cast<IEntity<TKey>>()
                 .AnyAsync(a => a.Id.Equals(key), cancellationToken);
         }
@@ -153,10 +153,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<List<TAggregateRoot>> WhereParallelAsync(ISpecification<TAggregateRoot> spec,
+        public Task<List<TAggregateRoot>> WhereReadOnlyAsync(ISpecification<TAggregateRoot> spec,
             CancellationToken cancellationToken)
         {
-            return GetNewQuery().Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
+            return GetReadOnlyQuery().Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -165,10 +165,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<TAggregateRoot> SingleParallelAsync(ISpecification<TAggregateRoot> spec,
+        public Task<TAggregateRoot> SingleReadOnlyAsync(ISpecification<TAggregateRoot> spec,
             CancellationToken cancellationToken)
         {
-            return GetNewQuery().SingleAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetReadOnlyQuery().SingleAsync(spec.SatisfiedBy(), cancellationToken);
         }
 
         /// <summary>
@@ -177,10 +177,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<TAggregateRoot> SingleOrDefaultParallelAsync(ISpecification<TAggregateRoot> spec,
+        public Task<TAggregateRoot> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec,
             CancellationToken cancellationToken)
         {
-            return GetNewQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetReadOnlyQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public override Task<bool> AnyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
         {
-            return GetNewQuery().AnyAsync(spec.SatisfiedBy(), cancellationToken);
+            return GetReadOnlyQuery().AnyAsync(spec.SatisfiedBy(), cancellationToken);
         }
 
         /// <summary>

@@ -143,7 +143,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="NSubstitute" Version="4.4.0" />
 		<!--SERILOG-->
-		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
 		<PackageReference Include="xunit" Version="2.4.1" />

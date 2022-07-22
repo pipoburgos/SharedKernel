@@ -39,11 +39,14 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
+
             services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString), serviceLifetime);
 
-#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
+            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString,
+                    e => e.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), serviceLifetime);
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
 
@@ -64,11 +67,15 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddCommonDataServices();
 
+#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
+
             services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString), serviceLifetime);
 
-#if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
+            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString,
+                            e => e.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), serviceLifetime);
+
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
 

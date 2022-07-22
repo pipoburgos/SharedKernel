@@ -1,8 +1,8 @@
-﻿using System;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Security;
+using System;
+using System.Security.Claims;
 
 namespace SharedKernel.Infrastructure.Security
 {
@@ -64,7 +64,7 @@ namespace SharedKernel.Infrastructure.Security
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool IsAuthenticated()
+        public virtual bool IsAuthenticated()
         {
             return User?.Identity?.IsAuthenticated == true;
         }

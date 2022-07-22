@@ -1,50 +1,98 @@
-﻿using System.Net;
-using System.Security.Authentication;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using SharedKernel.Application.Validator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Security.Authentication;
 
 namespace SharedKernel.Api.Middlewares
 {
-    /// <summary>
-    /// Errors middleware
-    /// </summary>
-    public static class ErrorsMiddleware
+    internal static class ApiExceptionHandler
     {
-        /// <summary>
-        /// Writes de exceptions to response
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseErrors(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSharedKernelErrors(this IApplicationBuilder app, string appName,
+            string internalServerErrorMessage = "Se ha producido un error. Consulte con el administrador")
         {
-            app.UseExceptionHandler(
-                builder =>
+            app.UseExceptionHandler(builder =>
+            {
+                builder.Run(async context =>
                 {
-                    builder.Run(
-                        async context =>
-                        {
-                            var error = context.Features.Get<IExceptionHandlerFeature>();
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    context.Response.Headers.Add("Content-Type", "application/json;charset=utf-8");
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error == default)
+                        return;
 
-                            if (error != null)
-                            {
-                                if (error.Error.GetType() == typeof(AuthenticationException))
-                                {
-                                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                                }
-                                else
-                                {
-                                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    var serializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    };
 
-                                    await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
-                                }
-                            }
-                        });
+                    var errorType = error.Error.GetType();
+                    if (errorType.ToString().ToLower().StartsWith(appName))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+                        var errorSerialized = JsonConvert.SerializeObject(error.Error.Message, serializerSettings);
+                        await context.Response.WriteAsync(errorSerialized).ConfigureAwait(false);
+                        return;
+                    }
+
+                    switch (errorType.Name)
+                    {
+                        case nameof(AuthenticationException):
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            break;
+                        case nameof(UnauthorizedAccessException):
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            break;
+                        case "ValidationFailureException":
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            var errors = new ValidationError(error.Error as ValidationFailureException);
+                            var errorsSerialized = JsonConvert.SerializeObject(errors, serializerSettings);
+                            await context.Response.WriteAsync(errorsSerialized).ConfigureAwait(false);
+                            break;
+                        default:
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            await context.Response.WriteAsync(internalServerErrorMessage).ConfigureAwait(false);
+                            break;
+                    }
+
                 });
+            });
 
             return app;
         }
+    }
+
+    internal static class StringExtension
+    {
+        public static string ToCamelCase(this string str) =>
+            string.IsNullOrEmpty(str) || str.Length < 2
+                ? str
+                : char.ToLowerInvariant(str[0]) + str[1..];
+    }
+
+    internal class ValidationError
+    {
+        public ValidationError(ValidationFailureException exception)
+        {
+            Errors = exception.Errors
+                .GroupBy(e => e.PropertyName)
+                .ToDictionary(a => a.Key.ToCamelCase(), b => b.Select(z => z.ErrorMessage).ToArray());
+        }
+
+        public Dictionary<string, string[]> Errors { get; }
+
+        public static string Type => "https://tools.ietf.org/html/rfc7231#section-6.5.1";
+
+        public static string Title => "One or more validation errors occurred.";
+
+        public static int Status => 400;
+
+        public static string TraceId => Guid.NewGuid().ToString();
     }
 }

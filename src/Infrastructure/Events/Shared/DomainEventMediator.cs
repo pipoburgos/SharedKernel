@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Events;
+using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System;
@@ -18,6 +19,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
     /// </summary>
     public class DomainEventMediator : IDomainEventMediator
     {
+        private readonly ICustomLogger<DomainEventMediator> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IDomainEventJsonDeserializer _deserializer;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
@@ -26,10 +28,12 @@ namespace SharedKernel.Infrastructure.Events.Shared
         /// Constructor
         /// </summary>
         public DomainEventMediator(
+            ICustomLogger<DomainEventMediator> logger,
             IServiceScopeFactory serviceScopeFactory,
             IDomainEventJsonDeserializer deserializer,
             IExecuteMiddlewaresService executeMiddlewaresService)
         {
+            _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
             _deserializer = deserializer;
             _executeMiddlewaresService = executeMiddlewaresService;
@@ -68,6 +72,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 AddIdentity(body, httpContextAccessor);
 
                 var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
+                _logger.Info($"Executing {eventSubscriber.FullName} with data: {body}");
                 await ((IDomainEventSubscriberBase)subscriber).On(req, ct);
             });
         }
@@ -82,11 +87,9 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 throw new ArgumentException(nameof(eventData));
 
             var headers = eventData["headers"];
-            if (headers == default)
-                return;
 
-            var domainClaimsString = headers["claims"]?.ToString();
-            if (domainClaimsString == default)
+            var domainClaimsString = headers?["claims"]?.ToString();
+            if (domainClaimsString == null)
                 return;
 
             var domainClaims = JsonConvert.DeserializeObject<List<DomainClaim>>(domainClaimsString!);
