@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         }
 
         /// <summary>  </summary>
-        public static IServiceCollection AddTimerMiddleware(this IServiceCollection services, int milliseconds = 50)
+        public static IServiceCollection AddTimerMiddleware(this IServiceCollection services, int milliseconds = 100)
         {
             return services
                 .AddTransient<ITimeHandler>(s => new TimeHandler(s.GetRequiredService<ICustomLogger<TimeHandler>>(), milliseconds))

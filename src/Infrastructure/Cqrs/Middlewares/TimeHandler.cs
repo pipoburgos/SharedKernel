@@ -22,6 +22,6 @@ public class TimeHandler : ITimeHandler
         var name = typeof(TRequest).Name;
 
         if (timer.ElapsedMilliseconds > _milliseconds)
-            _logger.Verbose($"TimerBehaviour: {name} ({timer.ElapsedMilliseconds} milliseconds) {request}");
+            _logger.Warn($"TimerBehaviour: {name} ({timer.ElapsedMilliseconds} milliseconds) {request}");
     }
 }
