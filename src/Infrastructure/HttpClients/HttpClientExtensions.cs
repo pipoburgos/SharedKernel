@@ -1,16 +1,10 @@
 ﻿#if !NET461 && !NETSTANDARD2_1
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
-using SharedKernel.Application.Settings;
+using SharedKernel.Infrastructure.HealthChecks;
 using SharedKernel.Infrastructure.RetryPolicies;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.HttpClients
 {
@@ -24,67 +18,61 @@ namespace SharedKernel.Infrastructure.HttpClients
         /// <param name="services"></param>
         /// <param name="name"></param>
         /// <param name="uri"></param>
-        /// <param name="options"></param>
+        /// <param name="configuration"></param>
+        /// <param name="healthCheckEndpoint"></param>
         /// <returns></returns>
         public static IServiceCollection AddHttpClientBearerToken<TClient>(this IServiceCollection services,
-            string name, string uri, IOptionsService<RetrieverOptions> options) where TClient : class
-
+            IConfiguration configuration, string name, string uri, string healthCheckEndpoint = "index.html")
+            where TClient : class
         {
-            services.AddHttpClient<TClient>(name)
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(uri))
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddTransientHttpErrorPolicy(policyBuilder =>
-                    policyBuilder.WaitAndRetryAsync(options.Value.RetryCount, options.Value.RetryAttempt()));
-
-            return services;
+            return services
+                .AddHttpClient<TClient>(name)
+                .ConfigureHttpClient(services, configuration, name, uri, healthCheckEndpoint);
         }
 
         /// <summary> Add http client with bearer token. </summary>
         /// <param name="services"></param>
         /// <param name="name"></param>
         /// <param name="uri"></param>
-        /// <param name="options"></param>
+        /// <param name="configuration"></param>
+        /// <param name="healthCheckEndpoint"></param>
         /// <returns></returns>
         public static IServiceCollection AddHttpClientBearerToken(this IServiceCollection services,
-            string name, string uri, IOptionsService<RetrieverOptions> options)
-
+            IConfiguration configuration, string name, string uri, string healthCheckEndpoint = "index.html")
         {
-            services.AddHttpClient(name)
+            return services
+                .AddHttpClient(name)
+                .ConfigureHttpClient(services, configuration, name, uri, healthCheckEndpoint);
+        }
+
+        /// <summary>  </summary>
+        public static IServiceCollection ConfigureHttpClient(this IHttpClientBuilder clientBuilder, IServiceCollection services,
+            IConfiguration configuration, string name, string uri, string healthCheckEndpoint = "index.html")
+        {
+            var retrieverOptions = RetrieverOptions(services, configuration, name, healthCheckEndpoint);
+
+            clientBuilder
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(uri))
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddTransientHttpErrorPolicy(policyBuilder =>
-                    policyBuilder.WaitAndRetryAsync(options.Value.RetryCount, options.Value.RetryAttempt()));
+                    policyBuilder.WaitAndRetryAsync(retrieverOptions.RetryCount, retrieverOptions.RetryAttempt()));
 
             return services;
         }
-    }
 
-    internal class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
+        /// <summary>  </summary>
+        public static RetrieverOptions RetrieverOptions(IServiceCollection services, IConfiguration configuration, string name,
+            string healthCheckEndpoint)
         {
-            _httpContextAccessor = httpContextAccessor;
-        }
+            var retrieverOptions = new RetrieverOptions();
+            configuration.GetSection("RetrieverOptions").Bind(retrieverOptions);
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            if (_httpContextAccessor.HttpContext == null)
-                return await base.SendAsync(request, cancellationToken);
+            services.AddHealthChecks().AddCheck<HttpClientHealthCheck>(name);
 
-            var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-
-            if (!string.IsNullOrEmpty(authorizationHeader))
-                request.Headers.Add("Authorization", new List<string> { authorizationHeader });
-
-            const string accessToken = "access_token";
-
-            var token = await _httpContextAccessor.HttpContext.GetTokenAsync(accessToken);
-
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            return await base.SendAsync(request, cancellationToken);
+            services
+                .AddTransient<HttpClientAuthorizationDelegatingHandler>()
+                .AddTransient(_ => new HttpClientHealthCheckConfiguration(name, healthCheckEndpoint));
+            return retrieverOptions;
         }
     }
 }
