@@ -1,44 +1,79 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 {
-    /// <summary>
-    /// Sets required attribute to not nullable properties
-    /// </summary>
-    public class RequireValueTypePropertiesSchemaFilter : ISchemaFilter
+    /// <summary>  </summary>
+    public class AssignPropertyRequiredFilter : ISchemaFilter
     {
-        private readonly HashSet<OpenApiSchema> _valueTypes = new HashSet<OpenApiSchema>();
-
-        /// <summary>
-        /// Apply filter
-        /// </summary>
-        /// <param name="schema"></param>
-        /// <param name="context"></param>
-        public virtual void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        /// <summary>  </summary>
+        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (context.Type.IsValueType)
-                _valueTypes.Add(schema);
-
-            if (schema.Properties == null)
-                return;
-
-            foreach (var prop in schema.Properties)
+            if (schema.Properties == null || schema.Properties.Count == 0)
             {
-                if (_valueTypes.Contains(prop.Value) || IsEnumRequired(prop))
-                    schema.Required.Add(prop.Key);
+                return;
+            }
+
+            var typeProperties = context.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var property in schema.Properties)
+            {
+                if (IsSourceTypePropertyNullable(typeProperties, property.Key) || property.Value.Nullable)
+                {
+                    continue;
+                }
+
+                // "null", "boolean", "object", "array", "number", or "string"), or "integer" which matches any number with a zero fractional part.
+                // see also: https://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1.1
+                switch (property.Value.Type)
+                {
+                    case "boolean":
+                    case "integer":
+                    case "number":
+                        AddPropertyToRequired(schema, property.Key);
+                        break;
+                    case "string":
+                        switch (property.Value.Format)
+                        {
+                            case "date-time":
+                            case "uuid":
+                                AddPropertyToRequired(schema, property.Key);
+                                break;
+                        }
+                        break;
+                    default:
+                        if (schema.Type != "object")
+                            AddPropertyToRequired(schema, property.Key);
+                        break;
+                }
             }
         }
 
-        /// <summary>
-        /// To know if is a required enum
-        /// </summary>
-        /// <param name="prop"></param>
-        /// <returns></returns>
-        public virtual bool IsEnumRequired(KeyValuePair<string, OpenApiSchema> prop)
+        private bool IsNullable(Type type)
         {
-            return prop.Value.Reference != default;
+            return Nullable.GetUnderlyingType(type) != null;
+        }
+
+        private bool IsSourceTypePropertyNullable(PropertyInfo[] typeProperties, string propertyName)
+        {
+            return typeProperties.Any(info => info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase)
+                                            && IsNullable(info.PropertyType));
+        }
+
+        private void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
+        {
+            if (schema.Required == null)
+            {
+                schema.Required = new HashSet<string>();
+            }
+
+            if (!schema.Required.Contains(propertyName))
+            {
+                schema.Required.Add(propertyName);
+            }
         }
     }
 }

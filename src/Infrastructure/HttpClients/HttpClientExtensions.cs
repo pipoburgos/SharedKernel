@@ -1,13 +1,16 @@
 ﻿#if !NET461 && !NETSTANDARD2_1
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using SharedKernel.Application.Settings;
+using SharedKernel.Infrastructure.RetryPolicies;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.HttpClients
 {
@@ -16,19 +19,41 @@ namespace SharedKernel.Infrastructure.HttpClients
     /// </summary>
     public static class HttpClientExtensions
     {
-        /// <summary>
-        /// Add http client with bearer token
-        /// </summary>
+        /// <summary> Add http client with bearer token. </summary>
         /// <typeparam name="TClient"></typeparam>
         /// <param name="services"></param>
         /// <param name="name"></param>
         /// <param name="uri"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public static IServiceCollection AddHttpClientBearerToken<TClient>(this IServiceCollection services, string name, string uri) where TClient : class
+        public static IServiceCollection AddHttpClientBearerToken<TClient>(this IServiceCollection services,
+            string name, string uri, IOptionsService<RetrieverOptions> options) where TClient : class
+
         {
             services.AddHttpClient<TClient>(name)
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(uri))
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.WaitAndRetryAsync(options.Value.RetryCount, options.Value.RetryAttempt()));
+
+            return services;
+        }
+
+        /// <summary> Add http client with bearer token. </summary>
+        /// <param name="services"></param>
+        /// <param name="name"></param>
+        /// <param name="uri"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddHttpClientBearerToken(this IServiceCollection services,
+            string name, string uri, IOptionsService<RetrieverOptions> options)
+
+        {
+            services.AddHttpClient(name)
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(uri))
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.WaitAndRetryAsync(options.Value.RetryCount, options.Value.RetryAttempt()));
 
             return services;
         }
@@ -47,7 +72,6 @@ namespace SharedKernel.Infrastructure.HttpClients
         {
             if (_httpContextAccessor.HttpContext == null)
                 return await base.SendAsync(request, cancellationToken);
-
 
             var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
 

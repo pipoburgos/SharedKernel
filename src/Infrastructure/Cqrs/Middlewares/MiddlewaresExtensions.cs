@@ -28,6 +28,15 @@ namespace SharedKernel.Infrastructure.Cqrs.Middlewares
         }
 
         /// <summary>  </summary>
+        public static IServiceCollection AddTimerMiddleware<TTimeHandler>(this IServiceCollection services) where TTimeHandler : class, ITimeHandler
+        {
+            return services
+                .AddTransient<ITimeHandler, TTimeHandler>()
+                .AddTransient(typeof(IMiddleware<>), typeof(TimerMiddleware<>))
+                .AddTransient(typeof(IMiddleware<,>), typeof(TimerMiddleware<,>));
+        }
+
+        /// <summary>  </summary>
         public static IServiceCollection AddTimerMiddleware(this IServiceCollection services, int milliseconds = 100)
         {
             return services

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Polly;
+﻿using Polly;
 using Polly.Retry;
 using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Application.Settings;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.RetryPolicies
 {
@@ -58,7 +58,7 @@ namespace SharedKernel.Infrastructure.RetryPolicies
         {
             return Policy
                 .Handle(needToRetryTheException)
-                .WaitAndRetryAsync(_options.RetryCount, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100));
+                .WaitAndRetryAsync(_options.RetryCount, _options.RetryAttempt());
         }
     }
 }

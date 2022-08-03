@@ -85,14 +85,14 @@ namespace SharedKernel.Infrastructure.Security
         public string RemoteIpAddress { get; }
 
         /// <summary>
-        /// Get user id from <see cref="ClaimTypes.NameIdentifier"/>
+        /// Get user id from <see cref="ClaimTypes.Sid"/>
         /// </summary>
         /// <returns></returns>
         protected virtual Guid GetUserId()
         {
-            var id = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var id = User?.FindFirst(ClaimTypes.Sid)?.Value;
 
-            return string.IsNullOrWhiteSpace(id) ? Guid.Empty : new Guid(id);
+            return !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out _) ? new Guid(id) : Guid.Empty;
         }
     }
 }

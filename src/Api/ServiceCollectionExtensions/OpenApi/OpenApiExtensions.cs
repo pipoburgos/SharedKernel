@@ -61,7 +61,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                     return path;
                 });
 
-                swaggerGenOptions.SchemaFilter<RequireValueTypePropertiesSchemaFilter>();
+                swaggerGenOptions.SchemaFilter<AssignPropertyRequiredFilter>();
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
