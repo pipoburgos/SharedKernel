@@ -15,7 +15,7 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.35</Version>
+		<Version>6.0.37</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,6 +30,7 @@
 		<PackageReference Include="AspNetCore.HealthChecks.Redis" Version="6.0.4" />
 		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.2" />
 		<PackageReference Include="AspNetCore.HealthChecks.System" Version="6.0.5" />
+		<PackageReference Include="AspNetCore.HealthChecks.Uris" Version="6.0.3" />
 		<PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" Condition="'$(TargetFramework)' == 'net461'" />
 		<PackageReference Include="AutoMapper" Version="10.1.1" Condition="'$(TargetFramework)' == 'net461'" />
