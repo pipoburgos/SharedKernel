@@ -23,6 +23,8 @@ namespace SharedKernel.Integration.Tests.Events
 #endif
                 httpContextAccessor.HttpContext.User =
                     new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
+
+                httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", "Prueba");
             }
 
             var user1 = UserMother.Create();

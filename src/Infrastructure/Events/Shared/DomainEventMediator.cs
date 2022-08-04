@@ -63,7 +63,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
         /// <param name="eventSubscriber"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber, CancellationToken cancellationToken)
+        public Task ExecuteOn(string body, DomainEvent @event, Type eventSubscriber,
+            CancellationToken cancellationToken)
         {
             return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, async (req, ct) =>
             {
@@ -88,7 +89,11 @@ namespace SharedKernel.Infrastructure.Events.Shared
 
             var headers = eventData["headers"];
 
-            var domainClaimsString = headers?["claims"]?.ToString();
+            var authorization = headers?["authorization"]?.ToString();
+            if (authorization == null)
+                return;
+
+            var domainClaimsString = headers["claims"]?.ToString();
             if (domainClaimsString == null)
                 return;
 
@@ -102,6 +107,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
 
             httpContextAccessor.HttpContext.User =
                 new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
+
+            httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", headers["authorization"]?.ToString());
         }
     }
 }

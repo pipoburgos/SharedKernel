@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Http;
+using SharedKernel.Domain.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Infrastructure.Events.Shared
 {
@@ -39,11 +39,14 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 .Select(c => new DomainClaim(c.Type, c.Value))
                 .ToList();
 
+            var authorizationHeader = _httpContextAccessor?.HttpContext?.Request.Headers["Authorization"];
+
             return JsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
             {
                 {"headers", new Dictionary<string, object>
                     {
-                        {"claims", domainClaims}
+                        {"claims", domainClaims},
+                        {"authorization", authorizationHeader}
                     }},
                 {"data", new Dictionary<string,object>
                     {
