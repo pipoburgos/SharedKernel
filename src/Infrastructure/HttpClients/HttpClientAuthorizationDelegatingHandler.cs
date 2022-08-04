@@ -24,13 +24,9 @@ namespace SharedKernel.Infrastructure.HttpClients
             if (_httpContextAccessor.HttpContext == null)
                 return base.SendAsync(request, cancellationToken);
 
-            foreach (var header in _httpContextAccessor.HttpContext.Request.Headers)
-            {
-                foreach (var stringValue in header.Value)
-                {
-                    request.Headers.Add(header.Key, stringValue);
-                }
-            }
+            var header = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+            if (!string.IsNullOrWhiteSpace(header))
+                request.Headers.Add("Authorization", header.ToString());
 
             return base.SendAsync(request, cancellationToken);
         }

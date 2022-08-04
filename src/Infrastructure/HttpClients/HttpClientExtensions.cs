@@ -5,6 +5,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using SharedKernel.Infrastructure.RetryPolicies;
 using System;
+using System.Net.Http;
 
 namespace SharedKernel.Infrastructure.HttpClients
 {
@@ -13,22 +14,6 @@ namespace SharedKernel.Infrastructure.HttpClients
     /// </summary>
     public static class HttpClientExtensions
     {
-        /// <summary> Add http client with bearer token. </summary>
-        /// <typeparam name="TClient"></typeparam>
-        /// <param name="services"></param>
-        /// <param name="name"></param>
-        /// <param name="uri"></param>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddHttpClientBearerToken<TClient>(this IServiceCollection services,
-            IConfiguration configuration, string name, Uri uri)
-            where TClient : class
-        {
-            return services
-                .AddHttpClient<TClient>(name)
-                .ConfigureHttpClient(services, configuration, name, uri);
-        }
-
         /// <summary> Add http client with bearer token. </summary>
         /// <param name="services"></param>
         /// <param name="name"></param>
@@ -40,18 +25,49 @@ namespace SharedKernel.Infrastructure.HttpClients
         {
             return services
                 .AddHttpClient(name)
-                .ConfigureHttpClient(services, configuration, name, uri);
+                .ConfigureHttpClient<HttpClientAuthorizationDelegatingHandler>(services, configuration, name, uri);
+        }
+
+        /// <summary> Add http client with bearer token. </summary>
+        /// <param name="services"></param>
+        /// <param name="name"></param>
+        /// <param name="uri"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddHttpClientBearerToken<THandler>(this IServiceCollection services,
+            IConfiguration configuration, string name, Uri uri) where THandler : DelegatingHandler
+        {
+            return services
+                .AddHttpClient(name)
+                .ConfigureHttpClient<THandler>(services, configuration, name, uri);
+        }
+
+        /// <summary> Add http client with bearer token. </summary>
+        /// <typeparam name="TClient"></typeparam>
+        /// <typeparam name="THandler"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="name"></param>
+        /// <param name="uri"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddHttpClientBearerToken<TClient, THandler>(this IServiceCollection services,
+            IConfiguration configuration, string name, Uri uri) where THandler : DelegatingHandler
+            where TClient : class
+        {
+            return services
+                .AddHttpClient<TClient>(name)
+                .ConfigureHttpClient<THandler>(services, configuration, name, uri);
         }
 
         /// <summary>  </summary>
-        public static IServiceCollection ConfigureHttpClient(this IHttpClientBuilder clientBuilder, IServiceCollection services,
-            IConfiguration configuration, string name, Uri uri)
+        public static IServiceCollection ConfigureHttpClient<THandler>(this IHttpClientBuilder clientBuilder, IServiceCollection services,
+            IConfiguration configuration, string name, Uri uri) where THandler : DelegatingHandler
         {
-            var retrieverOptions = RetrieverOptions(services, configuration, name, uri);
+            var retrieverOptions = RetrieverOptions<THandler>(services, configuration, name, uri);
 
             clientBuilder
                 .ConfigureHttpClient(c => c.BaseAddress = uri)
-                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<THandler>()
                 .AddTransientHttpErrorPolicy(policyBuilder =>
                     policyBuilder.WaitAndRetryAsync(retrieverOptions.RetryCount, retrieverOptions.RetryAttempt()));
 
@@ -59,8 +75,8 @@ namespace SharedKernel.Infrastructure.HttpClients
         }
 
         /// <summary>  </summary>
-        public static RetrieverOptions RetrieverOptions(IServiceCollection services, IConfiguration configuration, string name,
-            Uri uri)
+        public static RetrieverOptions RetrieverOptions<THandler>(IServiceCollection services, IConfiguration configuration, string name,
+            Uri uri) where THandler : DelegatingHandler
         {
             var retrieverOptions = new RetrieverOptions();
             configuration.GetSection("RetrieverOptions").Bind(retrieverOptions);
@@ -68,7 +84,7 @@ namespace SharedKernel.Infrastructure.HttpClients
             services.AddHealthChecks()
                 .AddUrlGroup(uri, name, HealthStatus.Degraded);
 
-            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+            services.AddTransient<THandler>();
 
             return retrieverOptions;
         }
