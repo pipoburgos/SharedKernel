@@ -46,7 +46,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 {"headers", new Dictionary<string, object>
                     {
                         {"claims", domainClaims},
-                        {"authorization", authorizationHeader}
+                        {"authorization", authorizationHeader?.ToString()}
                     }},
                 {"data", new Dictionary<string,object>
                     {

@@ -89,10 +89,6 @@ namespace SharedKernel.Infrastructure.Events.Shared
 
             var headers = eventData["headers"];
 
-            var authorization = headers?["authorization"]?.ToString();
-            if (authorization == null)
-                return;
-
             var domainClaimsString = headers["claims"]?.ToString();
             if (domainClaimsString == null)
                 return;
@@ -108,7 +104,9 @@ namespace SharedKernel.Infrastructure.Events.Shared
             httpContextAccessor.HttpContext.User =
                 new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
 
-            httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", headers["authorization"]?.ToString());
+            var authorization = headers["authorization"]?.ToString();
+            if (!string.IsNullOrWhiteSpace(authorization))
+                httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", authorization);
         }
     }
 }
