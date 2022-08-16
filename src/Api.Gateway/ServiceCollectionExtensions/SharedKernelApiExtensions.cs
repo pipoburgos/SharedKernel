@@ -1,5 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,19 +20,14 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TAssembly"></typeparam>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddGatewayApi<TAssembly>(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddGatewayApi(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddApi(configuration)
                 .AddControllers()
-                .AddFluentValidation(fv =>
-                {
-                    fv.RegisterValidatorsFromAssemblyContaining<TAssembly>();
-                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;

@@ -101,12 +101,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     // Advertise the API versions supported for the particular endpoint
                     config.ReportApiVersions = true;
                 })
-                .AddFluentValidation(x =>
-                {
-                    x.AutomaticValidationEnabled = false;
-                    //ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
-                    //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("es");
-                })
                 .AddControllers(configureControllers)
                 .AddNewtonsoftJson(options =>
                 {
