@@ -37,6 +37,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                         builder => builder
                             .WithOrigins(origins)
                             .AllowAnyMethod()
+                            .SetIsOriginAllowed(_ => true)
                             .AllowAnyHeader()
                             .AllowCredentials());
                 })
@@ -87,6 +88,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                         builder => builder
                             .WithOrigins(origins)
                             .AllowAnyMethod()
+                            .SetIsOriginAllowed(_ => true)
                             .AllowAnyHeader()
                             .AllowCredentials());
                 })
