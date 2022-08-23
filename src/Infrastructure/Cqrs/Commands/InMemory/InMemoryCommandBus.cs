@@ -108,6 +108,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
         /// 
         /// </summary>
         /// <param name="commands"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<TResponse[]> Dispatch<TResponse>(IEnumerable<ICommandRequest<TResponse>> commands, CancellationToken cancellationToken)
+        {
+            return Task.WhenAll(commands.Select(command => Dispatch(command, cancellationToken)));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commands"></param>
         /// <param name="queueName"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>

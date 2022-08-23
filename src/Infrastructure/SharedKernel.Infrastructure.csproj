@@ -15,8 +15,12 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>6.0.41</Version>
+		<Version>6.0.42</Version>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Events\Shared\RegisterEventSubscribers\DomainEventSubscriberInformationSingleton.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="icon.png" Pack="true" PackagePath="" />

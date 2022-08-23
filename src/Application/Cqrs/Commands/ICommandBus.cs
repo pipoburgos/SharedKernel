@@ -35,6 +35,14 @@ namespace SharedKernel.Application.Cqrs.Commands
         Task Dispatch(IEnumerable<ICommandRequest> commands, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Dispatch commands requests that return something
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+        /// <returns></returns>
+        Task<TResponse[]> Dispatch<TResponse>(IEnumerable<ICommandRequest<TResponse>> commands, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Dispatch commands requests on a queue.
         /// </summary>
         /// <param name="commands"></param>

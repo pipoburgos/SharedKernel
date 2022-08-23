@@ -1,17 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Events.Shared.RegisterDomainEvents;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Events.Shared
 {
     /// <summary>
     /// Domain event deserializer
     /// </summary>
-    public class DomainEventJsonDeserializer : IDomainEventJsonDeserializer
+    internal class DomainEventJsonDeserializer : IDomainEventJsonDeserializer
     {
+        private readonly IDomainEventProviderFactory _domainEventProviderFactory;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="domainEventProviderFactory"></param>
+        public DomainEventJsonDeserializer(
+            IDomainEventProviderFactory domainEventProviderFactory)
+        {
+            _domainEventProviderFactory = domainEventProviderFactory;
+        }
+
         /// <summary>
         /// Domain event deserializer
         /// </summary>
@@ -32,7 +45,7 @@ namespace SharedKernel.Infrastructure.Events.Shared
             if (attributes == default)
                 throw new ArgumentException(nameof(body));
 
-            var domainEventType = DomainEventsInformation.ForName((string)data["type"]);
+            var domainEventType = _domainEventProviderFactory.Get((string)data["type"]);
 
             var instance = ReflectionHelper.CreateInstance<DomainEvent>(domainEventType);
 

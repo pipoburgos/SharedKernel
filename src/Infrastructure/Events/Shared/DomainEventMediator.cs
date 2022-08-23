@@ -5,6 +5,7 @@ using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,13 @@ namespace SharedKernel.Infrastructure.Events.Shared
     /// <summary>
     /// 
     /// </summary>
-    public class DomainEventMediator : IDomainEventMediator
+    internal class DomainEventMediator : IDomainEventMediator
     {
         private readonly ICustomLogger<DomainEventMediator> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IDomainEventJsonDeserializer _deserializer;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+        private readonly IDomainEventSubscriberProviderFactory _domainEventSubscriberProviderFactory;
 
         /// <summary>
         /// Constructor
@@ -31,12 +33,14 @@ namespace SharedKernel.Infrastructure.Events.Shared
             ICustomLogger<DomainEventMediator> logger,
             IServiceScopeFactory serviceScopeFactory,
             IDomainEventJsonDeserializer deserializer,
-            IExecuteMiddlewaresService executeMiddlewaresService)
+            IExecuteMiddlewaresService executeMiddlewaresService,
+            IDomainEventSubscriberProviderFactory domainEventSubscriberProviderFactory)
         {
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
             _deserializer = deserializer;
             _executeMiddlewaresService = executeMiddlewaresService;
+            _domainEventSubscriberProviderFactory = domainEventSubscriberProviderFactory;
         }
 
         /// <summary>
@@ -49,8 +53,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
         {
             var eventDeserialized = _deserializer.Deserialize(eventSerialized);
             return Task.WhenAll(
-                DomainEventSubscriberInformationService
-                    .GetAllEventsSubscribers(eventDeserialized)
+                _domainEventSubscriberProviderFactory
+                    .GetSubscribers(eventDeserialized)
                     .Select(subscriber =>
                         ExecuteOn(eventSerialized, eventDeserialized, subscriber, cancellationToken)));
         }

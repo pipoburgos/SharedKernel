@@ -1,9 +1,9 @@
-namespace SharedKernel.Infrastructure.Events
+namespace SharedKernel.Infrastructure.Events.Shared
 {
     /// <summary>
     /// Domain claim
     /// </summary>
-    public class DomainClaim
+    internal class DomainClaim
     {
         /// <summary>
         /// Constructor

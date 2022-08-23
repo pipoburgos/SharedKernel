@@ -182,7 +182,7 @@ namespace SharedKernel.Application.Reflection
                         fieldInfo.SetValue(obj, null);
                     else
 #endif
-                    fieldInfo.SetValue(obj, new Guid(valueString));
+                        fieldInfo.SetValue(obj, new Guid(valueString));
                 }
                 else
                 {
@@ -215,6 +215,73 @@ namespace SharedKernel.Application.Reflection
                 ? default
                 : (TResult)Convert.ChangeType(propertyInfo.GetValue(obj, new object[0]), typeof(TResult));
 #endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static TResult GetProperty<TResult>(Type type, object obj, string name)
+        {
+            var propertyInfo = type.GetProperty(name);
+#if !NET40
+            return propertyInfo == null || !propertyInfo.CanRead
+                ? default
+                : (TResult)Convert.ChangeType(propertyInfo.GetValue(obj), typeof(TResult));
+#else
+            return propertyInfo == null || !propertyInfo.CanRead
+                ? default
+                : (TResult)Convert.ChangeType(propertyInfo.GetValue(obj, new object[0]), typeof(TResult));
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyInfo"></param>
+        /// <param name="type"></param>
+        /// <param name="object"></param>
+        /// <returns></returns>
+        public static string GetStringValue(this PropertyInfo propertyInfo, Type type, object @object)
+        {
+            if (propertyInfo.PropertyType.GetTypeNotNullable().IsEnum)
+            {
+#if NETFRAMEWORK || NETSTANDARD2_0
+                var tempPriority =
+                    Enum.Parse(propertyInfo.PropertyType.GetTypeNotNullable(),
+                        propertyInfo.GetValue(@object, null)?.ToString()!);
+                return ((int)tempPriority).ToString();
+#else
+                Enum.TryParse(propertyInfo.PropertyType.GetTypeNotNullable(),
+                    propertyInfo.GetValue(@object, null)?.ToString(), out var tempPriority);
+                return tempPriority == default ? default : Convert.ToInt32(tempPriority).ToString();
+#endif
+            }
+
+            if (propertyInfo.PropertyType == typeof(DateTime))
+                return GetProperty<DateTime>(type, @object, propertyInfo.Name).ToString("O");
+
+
+            if (propertyInfo.PropertyType == typeof(DateTime?))
+                return GetProperty<DateTime?>(type, @object, propertyInfo.Name)?.ToString("O");
+
+            return propertyInfo.GetValue(@object, null)?.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Type GetTypeNotNullable(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
+                ? Nullable.GetUnderlyingType(type)
+                : type;
         }
     }
 }

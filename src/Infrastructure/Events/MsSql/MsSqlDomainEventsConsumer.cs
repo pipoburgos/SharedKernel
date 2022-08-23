@@ -1,27 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Events.InMemory;
+using SharedKernel.Infrastructure.Events.Shared.RegisterDomainEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Events.InMemory;
 
 namespace SharedKernel.Infrastructure.Events.MsSql
 {
     internal class MsSqlDomainEventsConsumer
     {
         private readonly DbContext _context;
+        private readonly IDomainEventProviderFactory _domainEventProviderFactory;
         private readonly InMemoryEventBus _bus;
         private const int Chunk = 200;
 
         public MsSqlDomainEventsConsumer(
             InMemoryEventBus bus,
-            DbContext context)
+            DbContext context,
+            IDomainEventProviderFactory domainEventProviderFactory)
         {
             _bus = bus;
             _context = context;
+            _domainEventProviderFactory = domainEventProviderFactory;
         }
 
         public async Task Consume(CancellationToken cancellationToken)
@@ -37,7 +41,7 @@ namespace SharedKernel.Infrastructure.Events.MsSql
 
         private async Task ExecuteSubscribersAsync(DomainEventPrimitive domainEventPrimitive, CancellationToken cancellationToken)
         {
-            var domainEventType = DomainEventsInformation.ForName(domainEventPrimitive.Name);
+            var domainEventType = _domainEventProviderFactory.Get(domainEventPrimitive.Name);
 
             var instance = (DomainEvent)Activator.CreateInstance(domainEventType);
 

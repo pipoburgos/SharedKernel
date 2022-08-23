@@ -1,11 +1,13 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using SharedKernel.Application.Reflection;
+using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
@@ -35,6 +37,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             using var scope = _serviceScopeFactory.CreateScope();
 
             var channel = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Channel();
+            var domainEventSubscriberProviderFactory = scope.ServiceProvider.GetRequiredService<IDomainEventSubscriberProviderFactory>();
 
             var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ExchangeName;
 
@@ -45,12 +48,12 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
             channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
-            foreach (var subscriberInformation in DomainEventSubscriberInformationService.All())
+            foreach (var subscriberInformation in domainEventSubscriberProviderFactory.GetAll())
             {
                 var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(subscriberInformation);
                 var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(subscriberInformation);
                 var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(subscriberInformation);
-                var subscribedEvent = EventNameSubscribed(subscriberInformation);
+                var subscribedEvent = EventNameSubscribed(subscriberInformation.SubscribedEvent);
 
                 var queue = channel.QueueDeclare(domainEventsQueueName, true, false, false);
 
@@ -79,9 +82,9 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             };
         }
 
-        private string EventNameSubscribed(DomainEventSubscriberInformation subscriberInformation)
+        private string EventNameSubscribed(Type subscribedEvent)
         {
-            var domainEvent = ReflectionHelper.CreateInstance<dynamic>(subscriberInformation.SubscribedEvent);
+            var domainEvent = ReflectionHelper.CreateInstance<dynamic>(subscribedEvent);
             return domainEvent.GetEventName();
         }
     }

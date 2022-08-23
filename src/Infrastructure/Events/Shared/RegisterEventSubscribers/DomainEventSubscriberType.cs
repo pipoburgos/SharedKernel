@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 
-namespace SharedKernel.Infrastructure.Events
+namespace SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DomainEventSubscriberInformation
+    public class DomainEventSubscriberType : IDomainEventSubscriberType
     {
         private readonly Type _subscriberClass;
 
@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="subscriberClass"></param>
         /// <param name="subscribedEvent"></param>
-        public DomainEventSubscriberInformation(Type subscriberClass, Type subscribedEvent)
+        public DomainEventSubscriberType(Type subscriberClass, Type subscribedEvent)
         {
             SubscribedEvent = subscribedEvent;
             _subscriberClass = subscriberClass;

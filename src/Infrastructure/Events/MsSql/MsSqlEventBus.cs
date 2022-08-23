@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Events.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

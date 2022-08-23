@@ -4,6 +4,7 @@ using RabbitMQ.Client.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
+using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
 using SharedKernel.Infrastructure.RetryPolicies;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,13 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     /// <summary>
     /// 
     /// </summary>
-    public class RabbitMqDomainEventsConsumer
+    internal class RabbitMqDomainEventsConsumer
     {
         private readonly RabbitMqConnectionFactory _config;
         private readonly IDomainEventMediator _domainEventMediator;
         private readonly ICustomLogger<RabbitMqDomainEventsConsumer> _logger;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
+        private readonly IDomainEventSubscriberProviderFactory _domainEventSubscriberProviderFactory;
         private readonly IDomainEventJsonDeserializer _deserializer;
         private readonly RetrieverOptions _retrieverOptions;
         private const string HeaderRedelivery = "redelivery_count";
@@ -35,19 +37,22 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// <param name="logger"></param>
         /// <param name="rabbitMqParams"></param>
         /// <param name="options"></param>
+        /// <param name="domainEventSubscriberProviderFactory"></param>
         public RabbitMqDomainEventsConsumer(
             IDomainEventJsonDeserializer deserializer,
             RabbitMqConnectionFactory config,
             IDomainEventMediator domainEventMediator,
             ICustomLogger<RabbitMqDomainEventsConsumer> logger,
             IOptions<RabbitMqConfigParams> rabbitMqParams,
-            IOptionsService<RetrieverOptions> options)
+            IOptionsService<RetrieverOptions> options,
+            IDomainEventSubscriberProviderFactory domainEventSubscriberProviderFactory)
         {
             _deserializer = deserializer;
             _config = config;
             _domainEventMediator = domainEventMediator;
             _logger = logger;
             _rabbitMqParams = rabbitMqParams;
+            _domainEventSubscriberProviderFactory = domainEventSubscriberProviderFactory;
             _retrieverOptions = options.Value;
         }
 
@@ -57,7 +62,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// <returns></returns>
         public Task Consume()
         {
-            DomainEventSubscriberInformationService.GetAllEventsSubscribersInfo().ForEach(a => ConsumeMessages(a.SubscriberName(), a.GetSubscriber()));
+            _domainEventSubscriberProviderFactory.GetAll().ForEach(a => ConsumeMessages(a.SubscriberName(), a.GetSubscriber()));
             return Task.CompletedTask;
         }
 
