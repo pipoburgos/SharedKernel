@@ -25,7 +25,7 @@ namespace SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers
 
         public IEnumerable<Type> GetSubscribers(DomainEvent @event)
         {
-            return _dictionary[@event.GetType()];
+            return _dictionary.ContainsKey(@event.GetType()) ? _dictionary[@event.GetType()] : Enumerable.Empty<Type>();
         }
 
         public List<IDomainEventSubscriberType> GetAll()
