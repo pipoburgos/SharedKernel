@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
     sqlserver:
-        image: mcr.microsoft.com/mssql/server:latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
         container_name: shared-kernel-sqlserver
         environment:
             - ACCEPT_EULA=Y
