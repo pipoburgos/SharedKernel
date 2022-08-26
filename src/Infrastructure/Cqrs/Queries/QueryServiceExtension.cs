@@ -20,6 +20,35 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         /// </summary>
         /// <param name="services"></param>
         /// <param name="serviceLifetime"></param>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+            Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        {
+            services.AddFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+            return services;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type type,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        {
+            services.AddFromAssembly(type.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="infrastructureAssembly"></param>
         /// <returns></returns>
         public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,

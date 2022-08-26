@@ -12,6 +12,7 @@ using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.Events.Shared;
 using SharedKernel.Infrastructure.Events.Shared.RegisterDomainEvents;
+using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Security;
@@ -21,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
 
 namespace SharedKernel.Infrastructure.Events
 {
@@ -37,22 +37,31 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="eventType"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
         public static IServiceCollection AddDomainEvents(this IServiceCollection services,
-            Type eventType)
+            Type eventType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
-            return services.AddDomainEvents(eventType.Assembly);
+            return services.AddDomainEvents(eventType.Assembly, serviceLifetime);
         }
 
-        /// <summary>  </summary>
-        public static IServiceCollection AddDomainEvents(this IServiceCollection services, Assembly domainAssembly)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="domainAssembly"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddDomainEvents(this IServiceCollection services, Assembly domainAssembly,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
             var domainTypes = GetDomainTypes(domainAssembly);
             foreach (var eventType in domainTypes)
             {
                 var eventName = GetEventName(eventType);
 
-                services.AddTransient<IDomainEventType>(_ => new DomainEventType(eventName, eventType));
+                services.Add(new ServiceDescriptor(typeof(IDomainEventType),
+                    _ => new DomainEventType(eventName, eventType), serviceLifetime));
             }
 
             return services;
@@ -80,11 +89,12 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="type"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
-            Type type)
+        public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services, Type type,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
-            return services.AddDomainEventsSubscribers(type.Assembly);
+            return services.AddDomainEventsSubscribers(type.Assembly, serviceLifetime);
         }
 
         /// <summary>
@@ -92,9 +102,10 @@ namespace SharedKernel.Infrastructure.Events
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assembly"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
         public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
-            Assembly assembly)
+            Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
             var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass);
 
@@ -109,8 +120,8 @@ namespace SharedKernel.Infrastructure.Events
                 {
                     var @interface = handlerInterfaceType.AsType();
                     var @class = type.AsType();
-                    services.AddScoped(@interface, @class);
-                    services.AddScoped(@class);
+                    services.Add(new ServiceDescriptor(@interface, @class, serviceLifetime));
+                    services.Add(new ServiceDescriptor(@class, @class, serviceLifetime));
                 }
             }
 
@@ -120,8 +131,10 @@ namespace SharedKernel.Infrastructure.Events
 
         /// <summary> Call just before compiling service collections </summary>
         /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDomainEventSubscribers(this IServiceCollection services)
+        public static IServiceCollection AddDomainEventSubscribers(this IServiceCollection services,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
             var subscribers = services.Where(s => s.ServiceType.IsAssignableFrom(typeof(DomainEventSubscriber<>))).ToList();
 
@@ -134,7 +147,8 @@ namespace SharedKernel.Infrastructure.Events
 
                 var eventType = subscriberClass.BaseType?.GenericTypeArguments.Single();
 
-                services.AddTransient<IDomainEventSubscriberType>(_ => new DomainEventSubscriberType(subscriberClass, eventType));
+                services.Add(new ServiceDescriptor(typeof(IDomainEventSubscriberType),
+                    _ => new DomainEventSubscriberType(subscriberClass, eventType), serviceLifetime));
             }
 
             return services;
