@@ -2,11 +2,14 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Commands;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.System.Threading;
 using SharedKernel.Infrastructure.Validators;
 using SharedKernel.Integration.Tests.Shared;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +24,10 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
             return services
                 .AddSharedKernel()
                 .AddCommandsHandlers(typeof(SampleCommandWithResponseHandler))
-                .AddValidators(typeof(SampleCommandWithResponseHandler))
+                .AddValidators(typeof(SampleCommandValidator))
                 .AddInMemoryCommandBus()
-                .AddInMemoryMutex();
+                .AddInMemoryMutex()
+                .AddValidationMiddleware();
         }
 
         [Fact]
@@ -35,6 +39,28 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
             var response = await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
 
             response.Should().Be(value);
+        }
+
+        [Fact]
+        public void TestCommandValidatorEmpty()
+        {
+            var request = new SampleCommand(default);
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            Func<Task> response = async () => await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
+
+            response.Should().ThrowAsync<ValidationFailureException>().WithMessage("0 is invalid.");
+        }
+
+        [Fact]
+        public void TestCommandValidatorWithResponseEmpty()
+        {
+            var request = new SampleCommandWithResponse(default);
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            Func<Task> response = async () => await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
+
+            response.Should().ThrowAsync<ValidationFailureException>().WithMessage("'Value' must not be empty.");
         }
 
         [Fact]

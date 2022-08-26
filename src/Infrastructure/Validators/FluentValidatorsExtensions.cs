@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.System;
 using System;
 using System.Globalization;
 using System.Reflection;
@@ -15,11 +14,13 @@ namespace SharedKernel.Infrastructure.Validators
         /// </summary>
         /// <param name="services"></param>
         /// <param name="type"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="cultureInfo"></param>
         /// <returns></returns>
-        public static IServiceCollection AddValidators(this IServiceCollection services, Type type, string cultureInfo = "en")
+        public static IServiceCollection AddValidators(this IServiceCollection services, Type type,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
         {
-            return services.AddValidators(type.Assembly, cultureInfo);
+            return services.AddValidators(type.Assembly, serviceLifetime, cultureInfo);
         }
 
         /// <summary>
@@ -27,13 +28,15 @@ namespace SharedKernel.Infrastructure.Validators
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assembly"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="cultureInfo"></param>
         /// <returns></returns>
-        public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly, string cultureInfo = "en")
+        public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
         {
             ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo(cultureInfo);
             ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
-            return services.AddFromAssembly(assembly, typeof(IValidator<>), typeof(AbstractValidator<>));
+            return services.AddValidatorsFromAssembly(assembly, serviceLifetime, includeInternalTypes: true);
         }
     }
 }

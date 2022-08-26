@@ -16,6 +16,9 @@ namespace SharedKernel.Api.Middlewares
             {
                 var sb = new StringBuilder();
                 sb.Append($"<h1>Registered {services.Count} Services</h1>");
+                sb.Append($"<h1>Registered {services.Count(s => s.Lifetime == ServiceLifetime.Singleton)} Singleton Services</h1>");
+                sb.Append($"<h1>Registered {services.Count(s => s.Lifetime == ServiceLifetime.Scoped)} Scoped Services</h1>");
+                sb.Append($"<h1>Registered {services.Count(s => s.Lifetime == ServiceLifetime.Transient)} Transient Services</h1>");
                 sb.Append("<table><thead>");
                 sb.Append("<tr><th>Lifetime</th><th>Class</th><th>Interface</th></tr>");
 

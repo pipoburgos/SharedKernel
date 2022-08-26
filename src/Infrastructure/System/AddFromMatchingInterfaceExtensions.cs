@@ -1,9 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.System
 {
@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.System
         /// <param name="types"></param>
         /// <returns></returns>
         public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
-            ServiceLifetime serviceLifetime, params Type[] types)
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] types)
         {
             if (types == default)
                 return services;
@@ -37,7 +37,7 @@ namespace SharedKernel.Infrastructure.System
         /// <param name="assemblies"></param>
         /// <returns></returns>
         public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
-            ServiceLifetime serviceLifetime, params Assembly[] assemblies)
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] assemblies)
         {
             if (assemblies == default)
                 return services;
@@ -56,11 +56,13 @@ namespace SharedKernel.Infrastructure.System
         /// Example: UserService -> IUserService.
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="types"></param>
         /// <returns></returns>
-        public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services, params Type[] types)
+        public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] types)
         {
-            return services.AddFromMatchingInterface(default, types);
+            return services.AddFromMatchingInterface(default, serviceLifetime, types);
         }
 
         /// <summary>
@@ -69,11 +71,13 @@ namespace SharedKernel.Infrastructure.System
         /// </summary>
         /// <param name="services"></param>
         /// <param name="classesInclude"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="types"></param>
         /// <returns></returns>
         /// <exception cref="ActionNotSupportedException"></exception>
         public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
-            Func<Type, bool> classesInclude, params Type[] types)
+            Func<Type, bool> classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
+            params Type[] types)
         {
             classesInclude ??= n =>
                 n.Name.EndsWith("Repository") ||
@@ -96,9 +100,9 @@ namespace SharedKernel.Infrastructure.System
                 switch (interfaces.Count)
                 {
                     case > 1:
-                        throw new ActionNotSupportedException($"Multiple inyecciones {@class.Name}");
+                        throw new ActionNotSupportedException($"multiple injections for the class {@class.Name}");
                     case 1:
-                        services.AddTransient(interfaces.Single(), @class);
+                        services.Add(new ServiceDescriptor(interfaces.Single(), @class, serviceLifetime));
                         break;
                 }
             }

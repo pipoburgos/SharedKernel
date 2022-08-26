@@ -19,12 +19,14 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         /// 
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="infrastructureAssembly"></param>
         /// <returns></returns>
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, params Assembly[] infrastructureAssembly)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] infrastructureAssembly)
         {
             foreach (var assembly in infrastructureAssembly)
-                services.AddFromAssembly(assembly, typeof(IQueryRequestHandler<,>));
+                services.AddFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
 
             return services;
         }
@@ -33,12 +35,14 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         /// 
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
         /// <param name="queryHandlerTypes"></param>
         /// <returns></returns>
-        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, params Type[] queryHandlerTypes)
+        public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+            ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] queryHandlerTypes)
         {
             foreach (var queryHandlerType in queryHandlerTypes)
-                services.AddFromAssembly(queryHandlerType.Assembly, typeof(IQueryRequestHandler<,>));
+                services.AddFromAssembly(queryHandlerType.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
 
             return services;
         }

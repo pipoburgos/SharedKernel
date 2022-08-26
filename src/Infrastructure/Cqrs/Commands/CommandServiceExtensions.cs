@@ -21,11 +21,13 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// </summary>
         /// <param name="services"></param>
         /// <param name="applicationAssembly"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
-            Assembly applicationAssembly)
+            Assembly applicationAssembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
-            return services.AddFromAssembly(applicationAssembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
+            return services.AddFromAssembly(applicationAssembly, serviceLifetime,
+                typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
         /// <summary>
@@ -33,11 +35,13 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands
         /// </summary>
         /// <param name="services"></param>
         /// <param name="commandHandlerType"></param>
+        /// <param name="serviceLifetime"></param>
         /// <returns></returns>
         public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
-            Type commandHandlerType)
+            Type commandHandlerType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
-            return services.AddFromAssembly(commandHandlerType.Assembly, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
+            return services.AddFromAssembly(commandHandlerType.Assembly, serviceLifetime,
+                typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
         }
 
         /// <summary>

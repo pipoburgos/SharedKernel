@@ -132,7 +132,7 @@
 
 	<ItemGroup>
 		<!--ELASTICSEARCH TESTING-->
-		<PackageReference Include="Ductus.FluentDocker" Version="2.10.55" />
+		<PackageReference Include="Ductus.FluentDocker" Version="2.10.56" />
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
 		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.3.0" />
