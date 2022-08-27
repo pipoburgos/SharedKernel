@@ -78,6 +78,16 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public bool NotAny()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -86,6 +96,19 @@ namespace SharedKernel.Infrastructure.Data.Redis.Repositories
             var bytes = DistributedCache.Get(AggregateName + key);
 
             return bytes != default && bytes.Length > 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey1"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool NotAny<TKey1>(TKey1 key)
+        {
+            var bytes = DistributedCache.Get(AggregateName + key);
+
+            return bytes == default || bytes.Length == 0;
         }
 
         /// <summary>

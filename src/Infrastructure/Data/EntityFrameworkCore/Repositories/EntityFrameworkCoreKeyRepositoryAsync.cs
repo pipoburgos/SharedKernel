@@ -78,6 +78,16 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> NotAnyAsync(CancellationToken cancellationToken)
+        {
+            return !await GetQuery(false).AnyAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
         public virtual Task<int> CountAsync(CancellationToken cancellationToken)
@@ -94,6 +104,17 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         public virtual Task<bool> AnyAsync(TKey key, CancellationToken cancellationToken)
         {
             return GetQuery(false).Cast<IEntity<TKey>>().AnyAsync(a => a.Id.Equals(key), cancellationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<bool> NotAnyAsync(TKey key, CancellationToken cancellationToken)
+        {
+            return GetQuery(false).Cast<IEntity<TKey>>().AllAsync(a => !a.Id.Equals(key), cancellationToken);
         }
 
         /// <summary>

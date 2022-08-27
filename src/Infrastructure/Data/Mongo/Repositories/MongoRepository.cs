@@ -8,6 +8,7 @@ using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications.Common;
 using System.Collections.Generic;
 using System.Linq;
+using NotImplementedException = System.NotImplementedException;
 
 #pragma warning disable 693
 
@@ -91,12 +92,32 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public bool NotAny()
+        {
+            return !MongoCollection.AsQueryable().Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public bool Any<TKey>(TKey key)
         {
             return MongoCollection.Find(a => a.Id.Equals(key)).Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey1"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool NotAny<TKey1>(TKey1 key)
+        {
+            return !MongoCollection.Find(a => a.Id.Equals(key)).Any();
         }
 
         /// <summary>
@@ -179,6 +200,17 @@ namespace SharedKernel.Infrastructure.Data.Mongo.Repositories
         public bool Any(ISpecification<TAggregateRoot> spec)
         {
             return MongoCollection.AsQueryable().Any(spec.SatisfiedBy());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public bool NotAny(ISpecification<TAggregateRoot> spec)
+        {
+            return !MongoCollection.AsQueryable().Any(spec.SatisfiedBy());
         }
 
         /// <summary>

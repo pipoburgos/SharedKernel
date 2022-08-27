@@ -111,12 +111,32 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public bool NotAny()
+        {
+            return !GetQuery(false).Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public virtual bool Any<TKey>(TKey key)
         {
             return GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id.Equals(key)).Cast<TAggregateRoot>().Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool NotAny<TKey>(TKey key)
+        {
+            return !GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id.Equals(key)).Cast<TAggregateRoot>().Any();
         }
 
         /// <summary>
@@ -158,6 +178,16 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
         public virtual bool Any(ISpecification<TAggregateRoot> spec)
         {
             return GetQuery(false).Any(spec.SatisfiedBy());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <returns></returns>
+        public bool NotAny(ISpecification<TAggregateRoot> spec)
+        {
+            return !GetQuery(false).Any(spec.SatisfiedBy());
         }
 
         /// <summary>

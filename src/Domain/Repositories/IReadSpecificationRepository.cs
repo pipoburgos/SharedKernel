@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using SharedKernel.Domain.Aggregates;
+﻿using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Specifications.Common;
+using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Repositories
 {
@@ -37,5 +37,12 @@ namespace SharedKernel.Domain.Repositories
         /// <param name="spec"></param>
         /// <returns></returns>
         bool Any(ISpecification<TAggregateRoot> spec);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <returns></returns>
+        bool NotAny(ISpecification<TAggregateRoot> spec);
     }
 }

@@ -25,10 +25,24 @@ namespace SharedKernel.Domain.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        bool NotAny();
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         bool Any<TKey>(TKey key);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool NotAny<TKey>(TKey key);
     }
 
     /// <summary>
@@ -54,8 +68,21 @@ namespace SharedKernel.Domain.Repositories
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        bool NotAny();
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         bool Any(TKey key);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool NotAny(TKey key);
     }
 }
