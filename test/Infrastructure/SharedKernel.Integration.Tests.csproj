@@ -115,16 +115,16 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -134,8 +134,8 @@
 		<!--ELASTICSEARCH TESTING-->
 		<PackageReference Include="Ductus.FluentDocker" Version="2.10.56" />
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
-		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.3.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
+		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.3.1" />
 		<!--TESTING-->
 		<PackageReference Include="Moq" Version="4.18.2" />
 		<PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -144,7 +144,7 @@
 		<PackageReference Include="NSubstitute" Version="4.4.0" />
 		<!--SERILOG-->
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
