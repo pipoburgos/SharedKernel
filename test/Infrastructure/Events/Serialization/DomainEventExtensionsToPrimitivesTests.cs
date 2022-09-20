@@ -34,6 +34,31 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
             result[nameof(UserCreatedGenderNullable.GenderNullable)].Should().BeNull();
         }
 
+
+        [Fact]
+        public void CastDatetTimeNullableToPrimitives()
+        {
+            var @event = new UserCreatedDateTimeNullable(default, default, Guid.NewGuid().ToString());
+
+            var result = @event.ToPrimitives();
+
+            result[nameof(UserCreatedDateTimeNullable.DateTime)].Should().BeNull();
+        }
+
+        [Fact]
+        public void CastListNullableNullableToPrimitives()
+        {
+            var ids = new List<int?> { 2, 3, default, 6, default, 2 };
+            var @event = new UserCreatedListNullable(ids, default, Guid.NewGuid().ToString());
+
+            var x = SendToBus(@event);
+
+            if (x is UserCreatedListNullable evento2)
+            {
+                evento2.Ids.Should().Contain(ids);
+            }
+        }
+
         [Fact]
         public void CastEnumNullableToInt()
         {
@@ -56,6 +81,17 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
 
             primitives[nameof(UserCreatedGenderNullable.GenderNullable)].Should().Be(gender.ToString("D"));
 
+            var x = SendToBus(@event);
+
+            if (x is UserCreatedGenderNullable evento2)
+            {
+                evento2.GenderNullable.Should().Be(gender);
+                evento2.DateTime.Should().Be(@event.DateTime);
+            }
+        }
+
+        private static object SendToBus(DomainEvent @event)
+        {
             var serializer = new DomainEventJsonSerializer();
             var body = serializer.Serialize(@event);
 
@@ -72,11 +108,9 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
             if (attributes == default)
                 throw new ArgumentException(nameof(body));
 
-            var domainEventType = typeof(UserCreatedGenderNullable);
+            var instance = ReflectionHelper.CreateInstance<DomainEvent>(@event.GetType());
 
-            var instance = ReflectionHelper.CreateInstance<DomainEvent>(domainEventType);
-
-            var x = domainEventType
+            var x = @event.GetType()
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
                 ?.Invoke(instance, new object[]
@@ -86,12 +120,7 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
                     data["id"].ToString(),
                     data["occurred_on"].ToString()
                 });
-
-            if (x is UserCreatedGenderNullable evento2)
-            {
-                evento2.GenderNullable.Should().Be(gender);
-                evento2.DateTime.Should().Be(@event.DateTime);
-            }
+            return x;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Exceptions;
 using System;
+using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -228,10 +229,11 @@ namespace SharedKernel.Application.Reflection
         public static TResult GetProperty<TResult>(Type type, object obj, string name)
         {
             var propertyInfo = type.GetProperty(name);
+
 #if !NET40
-            return propertyInfo == null || !propertyInfo.CanRead
-                ? default
-                : (TResult)Convert.ChangeType(propertyInfo.GetValue(obj), typeof(TResult));
+            return propertyInfo == null || !propertyInfo.CanRead ? default :
+                propertyInfo.GetValue(obj) == default ? default :
+                (TResult)Convert.ChangeType(propertyInfo.GetValue(obj), typeof(TResult));
 #else
             return propertyInfo == null || !propertyInfo.CanRead
                 ? default
@@ -268,6 +270,18 @@ namespace SharedKernel.Application.Reflection
 
             if (propertyInfo.PropertyType == typeof(DateTime?))
                 return GetProperty<DateTime?>(type, @object, propertyInfo.Name)?.ToString("O");
+
+            if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
+            {
+                var enumerable = (IEnumerable)propertyInfo.GetValue(@object, null);
+
+                if (enumerable == default)
+                    return string.Empty;
+
+                var a = string.Join(",", enumerable.Cast<object>().Select(e => e?.ToString()));
+
+                return a;
+            }
 
             return propertyInfo.GetValue(@object, null)?.ToString();
         }
