@@ -31,6 +31,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                 });
 
             return services;

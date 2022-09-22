@@ -63,6 +63,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                 });
 
             return services;
