@@ -43,6 +43,31 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
             var result = @event.ToPrimitives();
 
             result[nameof(UserCreatedDateTimeNullable.DateTime)].Should().BeNull();
+
+            var x = SendToBus(@event);
+
+            if (x is UserCreatedDateTimeNullable evento2)
+            {
+                evento2.DateTime.Should().BeNull();
+            }
+        }
+
+        [Fact]
+        public void CastDatetTimeNullableToPrimitivesWithValue()
+        {
+            var now = DateTime.Now;
+            var @event = new UserCreatedDateTimeNullable(now, default, Guid.NewGuid().ToString());
+
+            var result = @event.ToPrimitives();
+
+            result[nameof(UserCreatedDateTimeNullable.DateTime)].Should().Be(now.ToString("O"));
+
+            var x = SendToBus(@event);
+
+            if (x is UserCreatedDateTimeNullable evento2)
+            {
+                evento2.DateTime.Should().Be(now);
+            }
         }
 
         [Fact]

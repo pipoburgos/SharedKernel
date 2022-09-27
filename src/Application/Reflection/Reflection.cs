@@ -269,7 +269,11 @@ namespace SharedKernel.Application.Reflection
 
 
             if (propertyInfo.PropertyType == typeof(DateTime?))
-                return GetProperty<DateTime?>(type, @object, propertyInfo.Name)?.ToString("O");
+            {
+                var date = GetProperty<DateTime>(type, @object, propertyInfo.Name);
+
+                return date == default ? default : date.ToString("O");
+            }
 
             if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
             {
