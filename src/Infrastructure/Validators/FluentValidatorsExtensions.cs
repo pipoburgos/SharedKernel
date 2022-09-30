@@ -36,6 +36,10 @@ namespace SharedKernel.Infrastructure.Validators
         {
             ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo(cultureInfo);
             ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
+
+            services.AddValidatorsFromAssembly(typeof(PageOptionsValidator).Assembly, serviceLifetime,
+                includeInternalTypes: true);
+
             return services.AddValidatorsFromAssembly(assembly, serviceLifetime, includeInternalTypes: true);
         }
     }
