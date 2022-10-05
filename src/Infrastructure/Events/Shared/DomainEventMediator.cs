@@ -109,7 +109,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
 
             var authorization = headers["authorization"]?.ToString();
-            if (!string.IsNullOrWhiteSpace(authorization))
+            if (!string.IsNullOrWhiteSpace(authorization) &&
+                !httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Authorization"))
                 httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", authorization);
         }
     }

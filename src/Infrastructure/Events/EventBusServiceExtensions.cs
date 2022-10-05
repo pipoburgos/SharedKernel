@@ -13,6 +13,7 @@ using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.Events.Shared;
 using SharedKernel.Infrastructure.Events.Shared.RegisterDomainEvents;
 using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
+using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Security;
@@ -155,6 +156,18 @@ namespace SharedKernel.Infrastructure.Events
         }
 
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSynchronousEventBus(this IServiceCollection services)
+        {
+            return services
+                .AddEventBus()
+                .AddScoped<IEventBus, SynchronousEventBus>();
+        }
 
         /// <summary>
         /// 

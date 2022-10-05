@@ -17,6 +17,7 @@
 		<None Remove="Data\Dapper\Queries\appsettings.sqlServer.json" />
 		<None Remove="Events\InMemory\appsettings.inMemory.json" />
 		<None Remove="Events\Redis\appsettings.redis.json" />
+		<None Remove="Events\SynchronousEventBus\appsettings.synchronous.json" />
 		<None Remove="Photo.jpg" />
 	</ItemGroup>
 
@@ -32,6 +33,9 @@
 		</Content>
 		<Content Include="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Events\SynchronousEventBus\appsettings.synchronous.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Include="Events\InMemory\appsettings.inMemory.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
