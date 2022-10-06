@@ -24,7 +24,7 @@ namespace SharedKernel.Infrastructure.RetryPolicies
             services.Configure<RetrieverOptions>(configuration.GetSection(nameof(RetrieverOptions)));
 
             return services
-                .AddTransient<IRetriever, PollyRetriever>()
+                .AddTransient<IRetriever, PollyRetrieverWrap>()
                 .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>));
         }
     }
