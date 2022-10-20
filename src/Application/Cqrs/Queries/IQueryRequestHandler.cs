@@ -1,8 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using SharedKernel.Application.Cqrs.Queries;
 
-namespace SharedKernel.Infrastructure.Cqrs.Queries
+namespace SharedKernel.Application.Cqrs.Queries
 {
     /// <summary>
     /// 
