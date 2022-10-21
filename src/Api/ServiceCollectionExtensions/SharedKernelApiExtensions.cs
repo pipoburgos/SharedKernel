@@ -1,5 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -31,8 +30,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             services
                 .AddOptions()
                 .AddMetrics()
-                .AddFluentValidationAutoValidation()
-                .AddFluentValidationClientsideAdapters()
                 .AddCors(options =>
                 {
                     options.AddPolicy(policyName,
