@@ -96,6 +96,18 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
         }
 
         [Fact]
+        public void CastStringEvent()
+        {
+            const string name = "Roberto Fernández";
+
+            var @event = new UserCreatedName(name, Guid.NewGuid().ToString());
+
+            var result = @event.ToPrimitives();
+
+            result[nameof(UserCreatedName.Name)].Should().Be(name);
+        }
+
+        [Fact]
         public void CastEnumNullableToInt2()
         {
             const Gender gender = Gender.Male;

@@ -26,7 +26,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddSqlServer(connectionString, "SELECT 1;", "Sql Server Dapper",
+                .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server Dapper",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddTransient<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
@@ -50,7 +50,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre Dapper");
+                .AddNpgSql(connectionString!, "SELECT 1;", null, "Postgre Dapper");
 
             services.AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString));
             services.Add(new ServiceDescriptor(typeof(DapperQueryProvider), typeof(DapperQueryProvider), serviceLifetime));

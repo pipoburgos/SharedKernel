@@ -51,7 +51,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder => builder
-                        .WithOrigins(origins)
+                        .WithOrigins(origins!)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());

@@ -20,10 +20,11 @@ namespace SharedKernel.Infrastructure.Data.Mongo
         {
             services.Configure<MongoSettings>(configuration.GetSection(nameof(MongoSettings)));
 
+            var connectionString = configuration
+                .GetSection($"{nameof(MongoSettings)}:{nameof(MongoSettings.ConnectionString)}").Value;
+
             services.AddHealthChecks()
-                .AddMongoDb(
-                    configuration.GetSection(nameof(MongoSettings) + ":" + nameof(MongoSettings.ConnectionString))
-                        .Value, "Mongo", HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
+                .AddMongoDb(connectionString!, "Mongo", HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
 
             services.AddTransient<MongoQueryProvider>();
 

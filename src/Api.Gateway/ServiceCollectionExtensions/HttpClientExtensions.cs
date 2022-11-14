@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
@@ -27,7 +27,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
         public static IServiceCollection AddClient<TClient>(this IServiceCollection services, IConfiguration configuration, string section) where TClient : class
         {
             services.AddHttpClient<TClient>(section)
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection(section).Value))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection(section).Value!))
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
             return services;

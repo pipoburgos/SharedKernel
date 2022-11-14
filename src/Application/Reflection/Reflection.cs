@@ -183,7 +183,7 @@ namespace SharedKernel.Application.Reflection
                         fieldInfo.SetValue(obj, null);
                     else
 #endif
-                        fieldInfo.SetValue(obj, new Guid(valueString));
+                    fieldInfo.SetValue(obj, new Guid(valueString));
                 }
                 else
                 {
@@ -275,7 +275,8 @@ namespace SharedKernel.Application.Reflection
                 return date == default ? default : date.ToString("O");
             }
 
-            if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
+            if (propertyInfo.PropertyType != typeof(string) &&
+                typeof(IEnumerable).IsAssignableFrom(propertyInfo.PropertyType))
             {
                 var enumerable = (IEnumerable)propertyInfo.GetValue(@object, null);
 

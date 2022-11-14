@@ -34,7 +34,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddSqlServer(connectionString, "SELECT 1;", "Sql Server EFCore",
+                .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server EFCore",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddCommonDataServices();
@@ -63,7 +63,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre EFCore");
+                .AddNpgSql(connectionString!, "SELECT 1;", null, "Postgre EFCore");
 
             services.AddCommonDataServices();
 

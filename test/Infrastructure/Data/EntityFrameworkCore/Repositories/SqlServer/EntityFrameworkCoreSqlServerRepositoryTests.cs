@@ -24,7 +24,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             var connection = Configuration.GetConnectionString("SharedKernelSqlServer");
             return services
                 .AddTransient<UserEfCoreRepository>()
-                .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection), ServiceLifetime.Transient);
+                .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient);
         }
 
         [Fact]
