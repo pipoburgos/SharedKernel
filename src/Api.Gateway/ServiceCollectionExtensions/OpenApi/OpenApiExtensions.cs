@@ -4,12 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.IO;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
+namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
 {
     /// <summary>
     /// Swagger configuration

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 {
@@ -65,7 +66,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
 
             services.AddAuth(configuration);
 
-            services.AddOpenApi(configuration);
+            services.AddSharedKernelOpenApi(configuration);
 
             services.AddApiVersioning(config =>
             {
