@@ -173,14 +173,16 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
                 .AddSingleton<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
                 .AddEventBus()
-                .AddScoped<IEventBus, InMemoryEventBus>();
+                .AddScoped<IEventBus, InMemoryEventBus>()
+                .AddPollyRetry(configuration);
         }
 
         /// <summary>

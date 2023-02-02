@@ -31,7 +31,7 @@ namespace SharedKernel.Integration.Tests.Events.InMemory
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddInMemoryEventBus()
+                .AddInMemoryEventBus(Configuration)
                 .AddDomainEvents(typeof(UserCreated))
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
                 .AddDomainEventSubscribers()
