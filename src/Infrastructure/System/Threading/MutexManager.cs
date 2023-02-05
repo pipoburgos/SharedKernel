@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AsyncKeyedLock;
 using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.System.Threading
@@ -10,15 +12,15 @@ namespace SharedKernel.Infrastructure.System.Threading
     /// </summary>
     public class MutexManager : IMutexManager
     {
-        private readonly IMutexFactory _lockerFactory;
+        private readonly AsyncKeyedLocker<string> _asyncKeyedLocker;
 
         /// <summary>
         /// Mutex manager constructor
         /// </summary>
-        /// <param name="lockerFactory"></param>
-        public MutexManager(IMutexFactory lockerFactory)
+        /// <param name="asyncKeyedLocker"></param>
+        public MutexManager(AsyncKeyedLocker<string> asyncKeyedLocker)
         {
-            _lockerFactory = lockerFactory;
+            _asyncKeyedLocker = asyncKeyedLocker;
         }
 
         /// <summary>
@@ -26,16 +28,12 @@ namespace SharedKernel.Infrastructure.System.Threading
         /// </summary>
         /// <param name="key"></param>
         /// <param name="action"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void RunOneAtATimeFromGivenKey(string key, Action action)
         {
-            var locker = _lockerFactory.Create(key);
-            try
+            using (_asyncKeyedLocker.Lock(key))
             {
                 action();
-            }
-            finally
-            {
-                locker.Release();
             }
         }
 
@@ -46,16 +44,12 @@ namespace SharedKernel.Infrastructure.System.Threading
         /// <param name="key"></param>
         /// <param name="function"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T RunOneAtATimeFromGivenKey<T>(string key, Func<T> function)
         {
-            var locker = _lockerFactory.Create(key);
-            try
+            using (_asyncKeyedLocker.Lock(key))
             {
                 return function();
-            }
-            finally
-            {
-                locker.Release();
             }
         }
 
@@ -67,16 +61,12 @@ namespace SharedKernel.Infrastructure.System.Threading
         /// <param name="function"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async Task<T> RunOneAtATimeFromGivenKeyAsync<T>(string key, Func<Task<T>> function, CancellationToken cancellationToken)
         {
-            var locker = await _lockerFactory.CreateAsync(key, cancellationToken);
-            try
+            using (await _asyncKeyedLocker.LockAsync(key, cancellationToken).ConfigureAwait(false))
             {
                 return await function();
-            }
-            finally
-            {
-                locker.Release();
             }
         }
     }
