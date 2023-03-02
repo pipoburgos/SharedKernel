@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#if !NET461 && !NETSTANDARD2_1 && !NETCOREAPP3_1
+using System;
+#endif
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -45,8 +48,10 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
-            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString,
-                    e => e.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), serviceLifetime);
+            services.AddDbContext<TContext>(s => s.UseSqlServer(connectionString, e => e
+                .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1), default)), serviceLifetime);
+
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
 
@@ -73,8 +78,9 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
 
             services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
-            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString,
-                            e => e.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)), serviceLifetime);
+            services.AddDbContext<TContext>(p => p.UseNpgsql(connectionString, e => e
+                .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1), default)), serviceLifetime);
 
             services.AddDbContextFactory<TContext>(lifetime: serviceLifetime);
 #endif
