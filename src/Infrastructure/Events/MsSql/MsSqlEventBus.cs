@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Events.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,14 +13,19 @@ namespace SharedKernel.Infrastructure.Events.MsSql
     /// </summary>
     public class MsSqlEventBus : IEventBus
     {
+        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
         private readonly DbContext _context;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="domainEventJsonSerializer"></param>
         /// <param name="eventContext"></param>
-        public MsSqlEventBus(DbContext eventContext)
+        public MsSqlEventBus(
+            IDomainEventJsonSerializer domainEventJsonSerializer,
+            DbContext eventContext)
         {
+            _domainEventJsonSerializer = domainEventJsonSerializer;
             _context = eventContext;
         }
 
@@ -49,7 +53,7 @@ namespace SharedKernel.Infrastructure.Events.MsSql
             {
                 Id = domainEvent.EventId,
                 AggregateId = domainEvent.AggregateId,
-                Body = domainEvent.ToPrimitives(),
+                Body = _domainEventJsonSerializer.Serialize(domainEvent),
                 Name = domainEvent.GetEventName(),
                 OccurredOn = domainEvent.OccurredOn
             };

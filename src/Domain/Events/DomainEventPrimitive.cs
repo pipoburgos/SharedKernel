@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace SharedKernel.Domain.Events
 {
     /// <summary>
@@ -30,6 +28,6 @@ namespace SharedKernel.Domain.Events
         /// <summary>
         /// 
         /// </summary>
-        public Dictionary<string, string> Body { get; set; }
+        public string Body { get; set; }
     }
 }
