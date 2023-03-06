@@ -10,9 +10,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// specification with NOT logic operator
     /// </summary>
     /// <typeparam name="TEntity">Type of element for this specification</typeparam>
-    public sealed class NotSpecification<TEntity>
-        :Specification<TEntity>
-        where TEntity : class
+    public sealed class NotSpecification<TEntity> : Specification<TEntity>
     {
         #region Members
 
@@ -38,7 +36,7 @@ namespace SharedKernel.Domain.Specifications.Common
         /// Constructor for NotSpecification
         /// </summary>
         /// <param name="originalSpecification">Original specification</param>
-        public NotSpecification(Expression<Func<TEntity,bool>> originalSpecification)
+        public NotSpecification(Expression<Func<TEntity, bool>> originalSpecification)
         {
             _originalCriteria = originalSpecification ?? throw new ArgumentNullException(nameof(originalSpecification));
         }

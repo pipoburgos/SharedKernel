@@ -57,6 +57,14 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             return (await connection.QueryAsync<T>(sql, parameters)).ToList();
         }
 
+        /// <summary>  </summary>
+        public QueryBuilder Set(PageOptions pageOptions)
+        {
+            var connection = _dbConnectionFactory.GetConnection();
+            _connections.Add(connection);
+            return new QueryBuilder(connection.ConnectionString, pageOptions);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,7 +85,8 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             if (pageOptions.Orders != null && pageOptions.Orders.Any())
                 queryString += $"{Environment.NewLine} ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (order.Ascending ? string.Empty : " DESC")))}";
 
-            queryString += $"{Environment.NewLine} OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
+            if (pageOptions.Take.HasValue)
+                queryString += $"{Environment.NewLine} OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
             var gettingItems = connection.QueryAsync<T>(queryString, parameters);
 

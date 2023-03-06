@@ -8,9 +8,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// True specification
     /// </summary>
     /// <typeparam name="TEntity">Type of entity in this specification</typeparam>
-    public sealed class TrueSpecification<TEntity>
-        : ISpecification<TEntity>
-        where TEntity : class
+    public sealed class TrueSpecification<TEntity> : ISpecification<TEntity>
     {
         #region Specification overrides
 

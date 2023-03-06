@@ -11,7 +11,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// lambda expression into this pattern.
     /// </summary>
     /// <typeparam name="TEntity">Type of entity</typeparam>
-    public interface ISpecification<TEntity> where TEntity : class
+    public interface ISpecification<TEntity>
     {
         /// <summary>
         /// Check if this specification is satisfied by a

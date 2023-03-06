@@ -21,7 +21,7 @@ namespace SharedKernel.Domain.Specifications.Common
             Func<Expression, Expression, Expression> merge)
         {
             // build parameter map (from parameters of second to parameters of first)
-            var map = first.Parameters.Select((f, i) => new {f, s = second.Parameters[i]})
+            var map = first.Parameters.Select((f, i) => new { f, s = second.Parameters[i] })
                 .ToDictionary(p => p.s, p => p.f);
 
             // replace parameters in the second lambda expression with parameters from the first
@@ -37,7 +37,7 @@ namespace SharedKernel.Domain.Specifications.Common
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static ISpecification<T> And<T>(this ISpecification<T> first, ISpecification<T> second) where T: class
+        public static ISpecification<T> And<T>(this ISpecification<T> first, ISpecification<T> second)
         {
             return new AndSpecification<T>(first, second);
         }
@@ -49,7 +49,7 @@ namespace SharedKernel.Domain.Specifications.Common
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public static ISpecification<T> Or<T>(this ISpecification<T> first, ISpecification<T> second) where T : class
+        public static ISpecification<T> Or<T>(this ISpecification<T> first, ISpecification<T> second)
         {
             return new OrSpecification<T>(first, second);
         }

@@ -17,8 +17,8 @@ namespace SharedKernel.Application.Cqrs.Queries.Entities
         /// <param name="showOnlyDeleted"></param>
         /// <param name="orders"></param>
         /// <param name="filterProperties"></param>
-        public PageOptions(int skip, int take, string searchText, bool showDeleted, bool showOnlyDeleted, IEnumerable<Order> orders,
-            IEnumerable<FilterProperty> filterProperties)
+        public PageOptions(int? skip, int? take, string searchText, bool showDeleted, bool showOnlyDeleted,
+            IEnumerable<Order> orders, IEnumerable<FilterProperty> filterProperties)
         {
             Skip = skip;
             Take = take;
@@ -32,12 +32,12 @@ namespace SharedKernel.Application.Cqrs.Queries.Entities
         /// <summary>
         /// 
         /// </summary>
-        public int Skip { get; }
+        public int? Skip { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int Take { get; }
+        public int? Take { get; }
 
         /// <summary>
         /// 

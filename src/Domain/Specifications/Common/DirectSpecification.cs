@@ -10,9 +10,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// in  constructor
     /// </summary>
     /// <typeparam name="TEntity">Type of entity that check this specification</typeparam>
-    public sealed class DirectSpecification<TEntity>
-        : Specification<TEntity>
-        where TEntity : class
+    public sealed class DirectSpecification<TEntity> : Specification<TEntity>
     {
         #region Members
 

@@ -5,17 +5,26 @@ namespace SharedKernel.Domain.Tests.Users
 {
     internal class UserMother
     {
-        public static User Create(Guid id = default, string name = default)
+        public static User Create(Guid id = default, string name = default, DateTime birthday = default, int numberOfChildren = default)
         {
             var faker = new Faker();
 
-            if(id == default)
+            if (id == default)
                 id = faker.Random.Uuid();
 
             if (name == default)
                 name = faker.Random.Word();
 
-            return User.Create(id, name);
+            if (birthday == default)
+                birthday = faker.Date.Past();
+
+            if (birthday == default)
+                birthday = faker.Person.DateOfBirth;
+
+            if (numberOfChildren == default)
+                numberOfChildren = faker.Person.Random.Number(110);
+
+            return User.Create(id, name, birthday, numberOfChildren);
         }
     }
 

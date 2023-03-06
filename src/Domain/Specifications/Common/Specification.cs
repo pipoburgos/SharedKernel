@@ -15,9 +15,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// </remarks>
     /// </summary>
     /// <typeparam name="TEntity">Type of item in the criteria</typeparam>
-    public abstract class Specification<TEntity>
-         : ISpecification<TEntity>
-         where TEntity : class
+    public abstract class Specification<TEntity> : ISpecification<TEntity>
     {
         #region ISpecification<TEntity> Members
 

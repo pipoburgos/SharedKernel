@@ -8,9 +8,7 @@ namespace SharedKernel.Domain.Specifications.Common
     /// A Logic OR Specification
     /// </summary>
     /// <typeparam name="T">Type of entity that check this specification</typeparam>
-    public sealed class OrSpecification<T>
-         : CompositeSpecification<T>
-         where T : class
+    public sealed class OrSpecification<T> : CompositeSpecification<T>
     {
         #region Members
 

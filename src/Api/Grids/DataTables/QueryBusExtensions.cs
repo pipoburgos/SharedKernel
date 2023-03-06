@@ -12,7 +12,7 @@ namespace SharedKernel.Api.Grids.DataTables
     /// <summary>
     /// Command bus extensions
     /// </summary>
-    public static class CommandBusExtensions
+    public static class QueryBusExtensions
     {
         private const string DeletedKey = "Deleted";
         private const string OnlyDeletedKey = "OnlyDeleted";
@@ -26,7 +26,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <param name="request"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public static async Task<DataTablesResponse<TResponse>> SendAsync<T, TResponse>(this IQueryBus queryBus,
+        public static async Task<DataTablesResponse<TResponse>> Ask<T, TResponse>(this IQueryBus queryBus,
             DataTablesRequest<T> request, CancellationToken cancellationToken) where T : IQueryRequest<IPagedList<TResponse>>
         {
             var showDeleted = ReflectionHelper.GetProperty<T, bool>(request.Filter, DeletedKey);
@@ -37,8 +37,8 @@ namespace SharedKernel.Api.Grids.DataTables
 
             var orders = request.Order.Select(c => new Order(columns[c.Column], c.Dir == "asc"));
 
-            var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted,showOnlyDeleted, orders,
-                null);
+            var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted,
+                showOnlyDeleted, orders, null);
 
             ReflectionHelper.SetProperty(request.Filter, nameof(PageOptions), pageOptions);
 
@@ -71,7 +71,7 @@ namespace SharedKernel.Api.Grids.DataTables
 
             var orders = request.Order.Select(c => new Order(columns[c.Column - 1], c.Dir == "asc"));
 
-            var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted,showOnlyDeleted, orders,
+            var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted, showOnlyDeleted, orders,
                 null);
 
             ReflectionHelper.SetProperty(obj, nameof(PageOptions), pageOptions);

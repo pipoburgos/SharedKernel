@@ -22,7 +22,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
         [Fact]
         public void SaveRepositoryOk()
         {
-            var roberto = User.Create(Guid.NewGuid(), "Roberto");
+            var roberto = UserMother.Create(Guid.NewGuid(), "Roberto");
             GetService<UserEfCoreRepository>().Add(roberto);
 
             GetService<UserEfCoreRepository>().SaveChanges();
@@ -33,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
         [Fact]
         public void SaveRepositoryNameChanged()
         {
-            var roberto = User.Create(Guid.NewGuid(), "Roberto");
+            var roberto = UserMother.Create(Guid.NewGuid(), "Roberto");
             GetService<UserEfCoreRepository>().Add(roberto);
 
             GetService<UserEfCoreRepository>().SaveChanges();

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Tests.Users
 {
-    internal class User : AggregateRoot<Guid>
+    internal class User : AggregateRootAuditable<Guid>
     {
         private List<string> _emails;
         private List<Address> _addresses;
@@ -16,12 +16,14 @@ namespace SharedKernel.Domain.Tests.Users
             _addresses = new List<Address>();
         }
 
-        public static User Create(Guid id, string name)
+        public static User Create(Guid id, string name, DateTime birthdate, int numberOfChildren)
         {
             var user = new User
             {
                 Id = id,
-                Name = name
+                Name = name,
+                Birthdate = birthdate,
+                NumberOfChildren = numberOfChildren
             };
 
             user.Record(new UserCreated(id, name, id.ToString()));
@@ -30,6 +32,10 @@ namespace SharedKernel.Domain.Tests.Users
         }
 
         public string Name { get; private set; }
+
+        public int NumberOfChildren { get; private set; }
+
+        public DateTime Birthdate { get; private set; }
 
         public IEnumerable<string> Emails => _emails;
 
