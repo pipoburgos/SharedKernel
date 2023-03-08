@@ -1,6 +1,6 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
 using BankAccounts.Domain.BankAccounts.Repository;
-using SharedKernel.Infrastructure.Cqrs.Queries;
+using SharedKernel.Application.Cqrs.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 

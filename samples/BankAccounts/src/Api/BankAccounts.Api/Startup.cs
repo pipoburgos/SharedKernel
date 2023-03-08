@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Infrastructure.Shared;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,9 +31,8 @@ namespace BankAccounts.Api
             services
                 .AddInMemoryCommandBus()
                 .AddInMemoryQueryBus()
-                .AddInMemoryEventBus(_configuration, options => options.RetryCount = 12)
+                .AddInMemoryEventBus(_configuration)
                 .AddInMemoryCache()
-                .AddFluentValidation(options => options.AutomaticValidationEnabled = false)
                 .AddBankAccounts(_configuration, "BankAccountConnection")
                 .AddSharedKernelApi("cors", _configuration.GetSection("Origins").Get<string[]>(),
                     o => o.Conventions.Add(new ControllerDocumentationConvention()))

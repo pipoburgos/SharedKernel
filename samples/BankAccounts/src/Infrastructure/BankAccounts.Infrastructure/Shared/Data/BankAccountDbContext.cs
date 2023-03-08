@@ -6,7 +6,9 @@ namespace BankAccounts.Infrastructure.Shared.Data
 {
     internal class BankAccountDbContext : DbContextBase, IBankAccountUnitOfWork
     {
-        public BankAccountDbContext(DbContextOptions<BankAccountDbContext> options, IAuditableService auditable = null)
-            : base(options, "dbo", typeof(BankAccountDbContext).Assembly, auditable) { }
+        public BankAccountDbContext(DbContextOptions<BankAccountDbContext> options,
+            IValidatableObjectService validatableObjectService, IAuditableService auditable = null)
+            : base(options, "dbo", typeof(BankAccountDbContext).Assembly, validatableObjectService, auditable)
+        { }
     }
 }

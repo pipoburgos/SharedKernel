@@ -59,8 +59,8 @@ namespace BankAccounts.Infrastructure.Shared
 
 
             serviceCollection
-                .AddFromMatchingInterface(typeof(IBankAccountRepository), typeof(EntityFrameworkBankAccountRepository),
-                    typeof(IBankAccountUnitOfWork));
+                .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
+                    typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork));
 
             // Repositories
             serviceCollection.AddTransient<IBankAccountRepository, EntityFrameworkBankAccountRepository>();
