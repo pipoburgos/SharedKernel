@@ -44,13 +44,13 @@
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="DistributedLock.SqlServer" Version="1.0.2" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" Condition="'$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.25" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.3" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.25" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.3" />
@@ -59,8 +59,8 @@
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
 		<PackageReference Include="NEST" Version="7.17.5" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
 		<PackageReference Include="System.CodeDom" Version="7.0.0" />

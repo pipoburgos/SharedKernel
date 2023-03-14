@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 using System;
@@ -17,9 +18,11 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey, TDbContext>
-        : EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey>,
-            IDisposable where TAggregateRoot : class, IAggregateRoot where TDbContext : DbContextBase
+    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey, TDbContext> :
+        EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey>,
+        IReadOnlyRepositoryAsync<TAggregateRoot, TKey>,
+        IReadOnlySpecificationRepositoryAsync<TAggregateRoot>,
+        IDisposable where TAggregateRoot : class, IAggregateRoot where TDbContext : DbContextBase
     {
 
         #region Members
