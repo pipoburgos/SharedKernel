@@ -4,6 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prometheus;
 using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using SharedKernel.Application.System;
+using SharedKernel.Infrastructure.System;
 #if NET5_0_OR_GREATER
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
@@ -16,6 +20,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     /// </summary>
     public static class SharedKernelApiExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddClientServerDateTime(this IServiceCollection services)
+        {
+            return services
+                .RemoveAll<IDateTime>()
+                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                .AddTransient<IDateTime, ClientServerDateTime>();
+        }
+
         /// <summary>
         /// Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
         /// </summary>
