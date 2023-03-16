@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Api.Grids.DataTables
+﻿namespace SharedKernel.Application.Cqrs.Queries.DataTables
 {
     /// <summary>
     /// 
@@ -31,17 +31,17 @@
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get;  }
+        public string Name { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Search Search { get;  }
+        public Search Search { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Searchable { get;  }
+        public bool Searchable { get; }
 
         /// <summary>
         /// 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.Cqrs.Queries.Entities;
 #if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
@@ -7,12 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SharedKernel.Infrastructure.Data.Queryable;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Threading;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
-using SharedKernel.Domain.Specifications.Common;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions;
 
 namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 {
@@ -47,36 +40,6 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
                 .Set<TEntity>()
                 .AsNoTracking()
                 .Where(showDeleted, false);
-        }
-
-        /// <summary>  </summary>
-        public QueryBuilder<TEntity> Set<TEntity>(PageOptions pageOptions, int numberOfConcurrentQueries = 3)
-            where TEntity : class
-        {
-            return new QueryBuilder<TEntity>(GetDbContext(),
-                numberOfConcurrentQueries < 2 ? default : GetDbContext(),
-                numberOfConcurrentQueries < 3 ? default : GetDbContext(), pageOptions);
-        }
-
-        /// <summary>  </summary>
-        public QueryBuilderDto<TEntity, TResult> Set<TEntity, TResult>(PageOptions pageOptions,
-            int numberOfConcurrentQueries = 3) where TEntity : class
-        {
-            return new QueryBuilderDto<TEntity, TResult>(GetDbContext(),
-                numberOfConcurrentQueries < 2 ? default : GetDbContext(),
-                numberOfConcurrentQueries < 3 ? default : GetDbContext(), pageOptions);
-        }
-
-        /// <summary>  </summary>
-        public Task<IPagedList<TResult>> ToPagedListAsync<T, TResult>(PageOptions pageOptions,
-            ISpecification<T> domainSpecification = null, ISpecification<TResult> dtoSpecification = null,
-            Expression<Func<T, TResult>> selector = null, CancellationToken cancellationToken = default)
-            where T : class
-        {
-            return GetDbContext()
-                .Set<T>()
-                .AsNoTracking()
-                .ToPagedListAsync(pageOptions, domainSpecification, dtoSpecification, selector, cancellationToken);
         }
 
         private TDbContextBase GetDbContext()

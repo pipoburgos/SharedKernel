@@ -15,6 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions;
+using SharedKernel.Infrastructure.Data.Queryable;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
@@ -52,64 +54,45 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         }
 
 
-        [Fact]
-        public async Task ToPagedListOneQuery()
-        {
-            const int total = 50;
-            await LoadTestDataAsync(CancellationToken.None, total);
+        //[Fact]
+        //public async Task ToPagedListOneQuery()
+        //{
+        //    const int total = 50;
+        //    await LoadTestDataAsync(CancellationToken.None, total);
 
-            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+        //    var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
 
-            var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-                new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
+        //    var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
+        //        new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
 
-            var result = await queryProvider
-                .Set<User, User>(pageOptions, 1)
-                .ToPagedListAsync(CancellationToken.None);
+        //    var result = await queryProvider
+        //        .GetQuery<User>(pageOptions)
+        //       .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-            result.Items.Count().Should().Be(total);
-            result.TotalRecordsFiltered.Should().Be(total);
-        }
-
-
-        [Fact]
-        public async Task ToPagedListTwoQueries()
-        {
-            const int total = 50;
-            await LoadTestDataAsync(CancellationToken.None, total);
-
-            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
-
-            var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-                new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
-
-            var result = await queryProvider
-                .Set<User, User>(pageOptions, 2)
-                .ToPagedListAsync(CancellationToken.None);
-
-            result.Items.Count().Should().Be(total);
-            result.TotalRecordsFiltered.Should().Be(total);
-        }
+        //    result.Items.Count().Should().Be(total);
+        //    result.TotalRecordsFiltered.Should().Be(total);
+        //}
 
 
-        [Fact]
-        public async Task ToPagedListThreeQueries()
-        {
-            const int total = 50;
-            await LoadTestDataAsync(CancellationToken.None, total);
+        //[Fact]
+        //public async Task ToPagedListTwoQueries()
+        //{
+        //    const int total = 50;
+        //    await LoadTestDataAsync(CancellationToken.None, total);
 
-            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+        //    var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
 
-            var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-                new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
+        //    var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
+        //        new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
 
-            var result = await queryProvider
-                .Set<User, User>(pageOptions)
-                .ToPagedListAsync(CancellationToken.None);
+        //    var result = await queryProvider
+        //        .GetQuery<User, User>(pageOptions, 2)
+        //       .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-            result.Items.Count().Should().Be(total);
-            result.TotalRecordsFiltered.Should().Be(total);
-        }
+        //    result.Items.Count().Should().Be(total);
+        //    result.TotalRecordsFiltered.Should().Be(total);
+        //}
+
         [Fact]
         public async Task ToPagedListNotStartsWith()
         {
@@ -121,8 +104,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                 new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
 
             var result = await queryProvider
-                .Set<User, User>(pageOptions)
-                .ToPagedListAsync(CancellationToken.None);
+                .GetQuery<User>()
+               .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(10);
             result.TotalRecordsFiltered.Should().Be(11);
@@ -139,8 +122,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                 new List<FilterProperty>());
 
             var result = await queryProvider
-                .Set<User, User>(pageOptions)
-                .ToPagedListAsync(CancellationToken.None);
+                .GetQuery<User>()
+               .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().BeGreaterThan(1);
             result.TotalRecordsFiltered.Should().BeGreaterThan(1);
@@ -159,12 +142,11 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                 new List<FilterProperty> { new("CreatedAt", today.ToUniversalTime().ToString("O")) });
 
             var result = await queryProvider
-                .Set<User, User>(pageOptions)
-                .Select(x => x)
-                .ToPagedListAsync(CancellationToken.None);
+                .GetQuery<User>()
+                .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(10);
-            result.TotalRecords.Should().Be(11);
+            result.TotalRecordsFiltered.Should().Be(11);
         }
 
         [Fact]
@@ -181,8 +163,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                     {new("CreatedAt", today.ToUniversalTime().ToString("O"), FilterOperator.NotDateEqual)});
 
             var result = await queryProvider
-                .Set<User, User>(pageOptions)
-                .ToPagedListAsync(CancellationToken.None);
+                .GetQuery<User>()
+               .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(0);
             result.TotalRecordsFiltered.Should().Be(0);
@@ -205,10 +187,10 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                 new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
 
             var result = await queryProvider
-                .Set<User, int>(pageOptions)
+                .GetQuery<User>()
                 .Where(number.HasValue, x => x.NumberOfChildren != number.Value)
                 .Select(x => x.NumberOfChildren)
-                .ToPagedListAsync(CancellationToken.None);
+                .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(total);
 
@@ -231,9 +213,9 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
                 new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
 
             var result = await queryProvider
-                .Set<User, int>(pageOptions)
+                .GetQuery<User>()
                 .Select(x => x.NumberOfChildren)
-                .ToPagedListAsync(CancellationToken.None);
+                .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(total);
 

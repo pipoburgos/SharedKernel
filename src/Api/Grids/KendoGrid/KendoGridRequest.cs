@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Api.Grids.KendoGrid
+﻿using SharedKernel.Application.Cqrs.Queries.Kendo;
+
+namespace SharedKernel.Api.Grids.KendoGrid
 {
     /// <summary>
     /// 
@@ -19,7 +21,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public T Filter { get;  }
+        public T Filter { get; }
 
         /// <summary>
         /// 

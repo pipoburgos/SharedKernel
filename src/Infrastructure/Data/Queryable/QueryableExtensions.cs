@@ -24,6 +24,19 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryable"></param>
+        /// <param name="mustFilter"></param>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, bool mustFilter, Expression<Func<T, bool>> expr)
+        {
+            return !mustFilter ? queryable : queryable.Where(expr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryable"></param>
         /// <param name="specs"></param>
         /// <returns></returns>
         public static IQueryable<T> Where<T>(this IQueryable<T> queryable, IEnumerable<ISpecification<T>> specs)
@@ -31,7 +44,6 @@ namespace SharedKernel.Infrastructure.Data.Queryable
             var properties = specs?.ToList();
             if (specs == default || !properties.Any())
                 return queryable;
-
 
             ISpecification<T> all = new DirectSpecification<T>(e => true);
             var final = properties.Aggregate(all, (current, dtoSpecification) => current.And(dtoSpecification));
@@ -123,26 +135,21 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         }
 
         /// <summary>  </summary>
-        public static IPagedList<TResult> ToPagedList<T, TResult>(this IQueryable<T> queryable, PageOptions pageOptions,
-            ISpecification<T> domainSpecification = null, ISpecification<TResult> dtoSpecification = null,
-            Expression<Func<T, TResult>> selector = null) where T : class
+        public static IPagedList<T> ToPagedList<T>(this IQueryable<T> queryable, PageOptions pageOptions) where T : class
         {
             var query = queryable
-                .Where(pageOptions.ShowDeleted, pageOptions.ShowOnlyDeleted)
                 .Where(pageOptions.FilterProperties)
-                .Where(domainSpecification?.SatisfiedBy() ?? new TrueSpecification<T>().SatisfiedBy())
-                .MapToDto(selector)
-                .Where(dtoSpecification?.SatisfiedBy() ?? new TrueSpecification<TResult>().SatisfiedBy())
                 .Where(pageOptions.SearchText);
 
             var total = query.Count();
 
+            if (total == default)
+                return PagedList<T>.Empty();
+
             var elements = query.OrderAndPaged(pageOptions).ToList();
 
-            return new PagedList<TResult>(total, total, elements);
+            return new PagedList<T>(total, elements);
         }
-
-
 
         #region OrderAndPaged
 

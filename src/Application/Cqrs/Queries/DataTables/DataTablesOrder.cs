@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Api.Grids.DataTables
+﻿namespace SharedKernel.Application.Cqrs.Queries.DataTables
 {
     /// <summary>
     /// 

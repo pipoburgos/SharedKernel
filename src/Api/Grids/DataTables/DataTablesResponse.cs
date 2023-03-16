@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
+﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
+using System.Collections.Generic;
 
 namespace SharedKernel.Api.Grids.DataTables
 {
@@ -15,7 +15,7 @@ namespace SharedKernel.Api.Grids.DataTables
         public DataTablesResponse(int draw, IPagedList<T> pagedList)
         {
             Draw = draw + 1;
-            RecordsTotal = pagedList.TotalRecords;
+            RecordsTotal = pagedList.TotalRecordsFiltered;
             RecordsFiltered = pagedList.TotalRecordsFiltered;
             Data = pagedList.Items;
             AdditionalParameters = new Dictionary<string, object>();
@@ -29,7 +29,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <summary>
         /// Unfiltered records
         /// </summary>
-        public int RecordsTotal { get;  }
+        public int RecordsTotal { get; }
 
         /// <summary>
         /// Records once the filter is done

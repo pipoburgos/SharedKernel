@@ -79,7 +79,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             _connections.Add(connection);
             await connection.OpenAsync();
 
-            var counting = connection.QueryFirstOrDefaultAsync<int>($"SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
+            var total = await connection.QueryFirstOrDefaultAsync<int>($"SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
+
+            if (total == default)
+                return PagedList<T>.Empty();
 
             var queryString = sql;
             if (pageOptions.Orders != null && pageOptions.Orders.Any())
@@ -88,11 +91,9 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             if (pageOptions.Take.HasValue)
                 queryString += $"{Environment.NewLine} OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
-            var gettingItems = connection.QueryAsync<T>(queryString, parameters);
+            var elements = await connection.QueryAsync<T>(queryString, parameters);
 
-            await Task.WhenAll(counting, gettingItems);
-
-            return new PagedList<T>(counting.Result, counting.Result, gettingItems.Result);
+            return new PagedList<T>(total, elements);
         }
 
         private void Dispose(bool disposing)

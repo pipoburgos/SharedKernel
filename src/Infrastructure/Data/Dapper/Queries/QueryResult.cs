@@ -63,15 +63,14 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 
             await connection.OpenAsync(cancellationToken);
 
-            var itemsTask = connection.QueryAsync<TResult>(PagedQuery, Parameters);
-            var countTask = connection.QueryFirstOrDefaultAsync<int>(CountQuery, Parameters);
+            var total = await connection.QueryFirstOrDefaultAsync<int>(CountQuery, Parameters);
 
-            await Task.WhenAll(itemsTask, countTask);
+            if (total == default)
+                return PagedList<TResult>.Empty();
 
-            var items = await itemsTask;
-            var count = await countTask;
+            var elements = await connection.QueryAsync<TResult>(PagedQuery, Parameters);
 
-            return new PagedList<TResult>(count, count, items.ToList());
+            return new PagedList<TResult>(total, elements);
         }
     }
 }
