@@ -5,9 +5,6 @@ namespace SharedKernel.Application.Cqrs.Queries.Kendo
     /// <summary> Paginación desde base de datos </summary>
     public class DataStateChange
     {
-        ///// <summary> Devolver todos los registros sin paginar </summary>
-        //public bool? AllRecords { get; set; }
-
         /// <summary> The number of records to skip. </summary>
         public int? Skip { get; set; }
 
