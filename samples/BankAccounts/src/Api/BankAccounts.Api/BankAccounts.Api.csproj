@@ -10,14 +10,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-		<PackageReference Include="Pipoburgos.SharedKernel.Api" Version="7.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\src\Api\SharedKernel.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\BankAccounts.Infrastructure\BankAccounts.Infrastructure.csproj" />
 	</ItemGroup>
 

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pipoburgos.SharedKernel.Domain" Version="7.0.3" />
+	  <ProjectReference Include="..\..\..\..\..\src\Domain\SharedKernel.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

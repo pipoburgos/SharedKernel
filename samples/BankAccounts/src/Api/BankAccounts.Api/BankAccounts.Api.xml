@@ -34,7 +34,7 @@
         <member name="T:BankAccounts.Api.Startup">
             <summary> Arraque api </summary>
         </member>
-        <member name="M:BankAccounts.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:BankAccounts.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary> Constructor. </summary>
         </member>
         <member name="M:BankAccounts.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">

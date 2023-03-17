@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Application\BankAccounts.Application\BankAccounts.Application.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pipoburgos.SharedKernel.Infrastructure" Version="7.0.3" />
-		<!--Migrations-->
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
