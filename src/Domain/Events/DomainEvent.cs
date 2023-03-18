@@ -16,7 +16,7 @@ namespace SharedKernel.Domain.Events
         protected DomainEvent(string eventId = null, string occurredOn = null)
         {
             EventId = eventId ?? Guid.NewGuid().ToString();
-            OccurredOn = occurredOn ?? DateTime.Now.ToString("s", CultureInfo.CurrentCulture);
+            OccurredOn = occurredOn ?? DateTime.UtcNow.ToString("s", CultureInfo.CurrentCulture);
         }
 
         /// <summary> Domain event constructor. </summary>
@@ -24,7 +24,7 @@ namespace SharedKernel.Domain.Events
         {
             AggregateId = aggregateId;
             EventId = eventId ?? Guid.NewGuid().ToString();
-            OccurredOn = occurredOn ?? DateTime.Now.ToString("s", CultureInfo.CurrentCulture);
+            OccurredOn = occurredOn ?? DateTime.UtcNow.ToString("s", CultureInfo.CurrentCulture);
         }
 
         #endregion
