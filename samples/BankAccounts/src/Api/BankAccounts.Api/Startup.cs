@@ -1,10 +1,6 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Infrastructure.Shared;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -24,13 +20,11 @@ namespace BankAccounts.Api
         private const string CorsPolicy = "CorsPolicy";
 
         private readonly IConfiguration _configuration;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
         /// <summary> Constructor. </summary>
-        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>
@@ -45,15 +39,15 @@ namespace BankAccounts.Api
                 .AddSharedKernelOpenApi(_configuration)
                 .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>(), o =>
                 {
-                    var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+                    //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
 
-                    policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
-                        ? "FakeBearer"
-                        : JwtBearerDefaults.AuthenticationScheme);
+                    //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
+                    //    ? "FakeBearer"
+                    //    : JwtBearerDefaults.AuthenticationScheme);
 
-                    var policy = policyBuilder.Build();
+                    //var policy = policyBuilder.Build();
 
-                    o.Filters.Add(new AuthorizeFilter(policy));
+                    //o.Filters.Add(new AuthorizeFilter(policy));
                     o.Conventions.Add(new ControllerDocumentationConvention());
                 });
         }

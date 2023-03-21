@@ -1,16 +1,17 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
+using BankAccounts.Domain.BankAccounts.Repository;
 using FluentValidation;
-using System;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries.Validators
 {
     internal class GetBankAccountBalanceValidator : AbstractValidator<GetBankAccountBalance>
     {
-        public GetBankAccountBalanceValidator(IServiceProvider serviceProvider)
+        public GetBankAccountBalanceValidator(
+            IBankAccountRepository bankAccountRepository)
         {
             RuleFor(e => e.BankAccountId)
                 .NotEmpty()
-                .BankAccountExists(serviceProvider);
+                .BankAccountExists(bankAccountRepository);
         }
     }
 }

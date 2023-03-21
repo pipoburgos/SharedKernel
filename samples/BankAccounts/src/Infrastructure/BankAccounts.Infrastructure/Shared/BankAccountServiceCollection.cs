@@ -6,8 +6,6 @@ using BankAccounts.Infrastructure.BankAccounts;
 using BankAccounts.Infrastructure.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
@@ -16,7 +14,6 @@ using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Events;
-using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.System;
 
 namespace BankAccounts.Infrastructure.Shared
@@ -73,18 +70,9 @@ namespace BankAccounts.Infrastructure.Shared
             serviceCollection.AddDapperSqlServer(configuration, connectionStringName);
 
             serviceCollection
-                .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>))
-
-                .AddTransient<IRetriever, PollyRetriever>()
-                .AddTransient<IRetryPolicyExceptionHandler, BankAccountRetryPolicyExceptionHandler>()
-
-                .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
-
-
-                .AddTransient(typeof(IMiddleware<>), typeof(TimerMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(TimerMiddleware<,>));
+                .AddValidationMiddleware()
+                .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>()
+                .AddTimerMiddleware();
 
             return serviceCollection;
         }

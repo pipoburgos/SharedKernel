@@ -7,16 +7,12 @@ namespace BankAccounts.Application.BankAccounts.Queries
     public class GetBankAccountBalance : IQueryRequest<decimal>
     {
         /// <summary> Gets bank account balance. </summary>
-        public GetBankAccountBalance(Guid bankAccountId, string ownerName)
+        public GetBankAccountBalance(Guid bankAccountId)
         {
             BankAccountId = bankAccountId;
-            OwnerName = ownerName;
         }
 
         /// <summary> Bank account identifier. </summary>
         public Guid BankAccountId { get; private set; }
-
-        /// <summary> Contains owner name. </summary>
-        public string OwnerName { get; private set; }
     }
 }

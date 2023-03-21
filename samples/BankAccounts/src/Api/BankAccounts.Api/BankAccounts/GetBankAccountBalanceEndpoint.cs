@@ -15,9 +15,9 @@ namespace BankAccounts.Api.BankAccounts
         /// <summary> Gets the balance. </summary>
         [HttpGet("{bankAccountId:guid}/balance"), ResponseCache(Duration = 60)]
         public async Task<ActionResult<decimal>> Handle([FromServices] IQueryBus queryBus,
-            [FromRoute] Guid bankAccountId, [FromQuery] string ownerName, CancellationToken cancellationToken)
+            [FromRoute] Guid bankAccountId, CancellationToken cancellationToken)
         {
-            return Ok(await queryBus.Ask(new GetBankAccountBalance(bankAccountId, ownerName), cancellationToken));
+            return Ok(await queryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
         }
     }
 }

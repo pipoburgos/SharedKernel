@@ -13,7 +13,7 @@
         <member name="T:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint">
             <summary> Bank accounts Controller. </summary>
         </member>
-        <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,System.String,System.Threading.CancellationToken)">
+        <member name="M:BankAccounts.Api.BankAccounts.GetBankAccountBalanceEndpoint.Handle(SharedKernel.Application.Cqrs.Queries.IQueryBus,System.Guid,System.Threading.CancellationToken)">
             <summary> Gets the balance. </summary>
         </member>
         <member name="T:BankAccounts.Api.Program">
@@ -34,7 +34,7 @@
         <member name="T:BankAccounts.Api.Startup">
             <summary> Arraque api </summary>
         </member>
-        <member name="M:BankAccounts.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+        <member name="M:BankAccounts.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary> Constructor. </summary>
         </member>
         <member name="M:BankAccounts.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
