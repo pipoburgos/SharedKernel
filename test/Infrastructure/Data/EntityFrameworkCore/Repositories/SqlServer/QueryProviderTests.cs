@@ -196,7 +196,12 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
             var repository = new UserEfCoreRepository(dbContext);
-            var expected = (await repository.GetAllAsync(CancellationToken.None)).Select(x => x.NumberOfChildren).OrderBy(x => x).Take(total);
+            var expected = (await repository.GetAllAsync(CancellationToken.None))
+                .Select(x => x.NumberOfChildren)
+                .Where(x => x != number)
+                .OrderBy(x => x)
+                .Take(total);
+
             result.Items.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
         }
 
