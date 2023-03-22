@@ -9,7 +9,6 @@ namespace SharedKernel.Application.Cqrs.Queries.Entities
     public class PagedList<T> : IPagedList<T>
     {
         /// <summary>  </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static PagedList<T> Empty() => new(0, Enumerable.Empty<T>());
 
