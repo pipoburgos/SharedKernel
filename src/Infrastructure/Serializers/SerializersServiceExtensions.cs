@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Serializers
@@ -16,6 +17,7 @@ namespace SharedKernel.Infrastructure.Serializers
         public static IServiceCollection AddNetJsonSerializer(this IServiceCollection services)
         {
             return services
+                .RemoveAll<IJsonSerializer>()
                 .AddTransient<IJsonSerializer, NetJsonSerializer>();
         }
 
@@ -27,6 +29,7 @@ namespace SharedKernel.Infrastructure.Serializers
         public static IServiceCollection AddNewtonsoftSerializer(this IServiceCollection services)
         {
             return services
+                .RemoveAll<IJsonSerializer>()
                 .AddTransient<IJsonSerializer, NewtonsoftSerializer>();
         }
     }
