@@ -6,14 +6,10 @@ using SharedKernel.Infrastructure.Settings;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     public static class SmtpEmailServiceExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>  </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>

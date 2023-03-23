@@ -26,7 +26,8 @@ namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSub
             var bankAccountId = new Guid(@event.AggregateId);
             var bankAccount = await _bankAccountRepository.GetByIdAsync(bankAccountId, cancellationToken);
 
-            await _emailSender.SendEmailAsync(bankAccount.Owner.Name, "Bank account created");
+            var email = new Mail(bankAccount.Owner.Name, "Bank account created", "subject");
+            await _emailSender.SendEmailAsync(email, cancellationToken);
         }
     }
 }

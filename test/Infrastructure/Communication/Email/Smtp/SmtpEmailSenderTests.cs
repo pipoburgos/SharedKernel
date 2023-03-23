@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure.Communication.Email;
@@ -31,9 +32,9 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         {
             var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
 
-            await sender.SendEmailAsync("Testing", "Prueba testing");
+            var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(), CancellationToken.None);
 
-            Assert.True(true);
+            await result.Should().NotThrowAsync();
         }
 
         [Fact]
@@ -43,12 +44,11 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
             var bytes = await GetPhotoBinary();
 
-            var attachment = new EmailAttachment("Adjunto.jpg", bytes);
+            var attachment = new MailAttachment("Adjunto.jpg", bytes);
 
-            await sender.SendEmailAsync("Testing con adjunto",
-                "Prueba testing con adjunto", attachment);
+            var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(attachment), CancellationToken.None);
 
-            Assert.True(true);
+            await result.Should().NotThrowAsync();
         }
 
         [Fact]
@@ -58,24 +58,17 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
             var bytes = await GetPhotoBinary();
 
-            var attachment = new EmailAttachment("Adjunto", bytes);
+            var attachment = new MailAttachment("Adjunto", bytes);
 
-            Task Action()
-            {
-                return sender.SendEmailAsync("sharedkerneltests@gmail.com", "Testing con adjunto",
-                    "Prueba testing con adjunto", attachment);
-            }
+            var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(attachment), CancellationToken.None);
 
-            var exception = await Assert.ThrowsAsync<EmailException>(Action);
-            //The thrown exception can be used for even more detailed assertions.
-            Assert.Equal(ExceptionCodes.EMAIL_ATTACH_EXT, exception.Message);
+            await result.Should().ThrowAsync<EmailException>().WithMessage(ExceptionCodes.EMAIL_ATTACH_EXT);
         }
 
-        private static async Task<byte[]> GetPhotoBinary()
+        private static Task<FileStream> GetPhotoBinary()
         {
             var path = $"{Directory.GetCurrentDirectory()}/Photo.jpg";
-            var bytes = await File.ReadAllBytesAsync(path);
-            return bytes;
+            return Task.FromResult(new FileStream(path, FileMode.Open, FileAccess.Read));
         }
 
         [Fact]
@@ -87,17 +80,11 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
             var bytes = await GetPhotoBinary();
 
-            var attachment = new EmailAttachment("Adjunto", bytes);
+            var attachment = new MailAttachment("Adjunto", bytes);
 
-            Task Action()
-            {
-                return sender.SendEmailAsync("sharedkerneltests@gmail.com", "Testing con adjunto",
-                    "Prueba testing con adjunto", attachment);
-            }
+            var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(attachment), CancellationToken.None);
 
-            var exception = await Assert.ThrowsAsync<EmailException>(Action);
-            //The thrown exception can be used for even more detailed assertions.
-            Assert.Equal(ExceptionCodes.SMT_PASS_EMPTY, exception.Message);
+            await result.Should().ThrowAsync<EmailException>().WithMessage(ExceptionCodes.SMT_PASS_EMPTY);
         }
 
         [Fact]
@@ -112,17 +99,11 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
             var bytes = await GetPhotoBinary();
 
-            var attachment = new EmailAttachment("Adjunto", bytes);
+            var attachment = new MailAttachment("Adjunto", bytes);
 
-            Task Action()
-            {
-                return sender.SendEmailAsync("sharedkerneltests@gmail.com", "Testing con adjunto",
-                    "Prueba testing con adjunto", attachment);
-            }
+            var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(attachment), CancellationToken.None);
 
-            var exception = await Assert.ThrowsAsync<EmailException>(Action);
-            //The thrown exception can be used for even more detailed assertions.
-            Assert.Equal(ExceptionCodes.SMT_PASS_EMPTY, exception.Message);
+            await result.Should().ThrowAsync<EmailException>().WithMessage(ExceptionCodes.SMT_PASS_EMPTY);
 
             Thread.CurrentThread.CurrentUICulture = defaultCulture;
         }

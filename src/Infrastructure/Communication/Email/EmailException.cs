@@ -1,5 +1,5 @@
-﻿using System;
-using SharedKernel.Infrastructure.Exceptions;
+﻿using SharedKernel.Infrastructure.Exceptions;
+using System;
 
 namespace SharedKernel.Infrastructure.Communication.Email
 {
@@ -9,10 +9,10 @@ namespace SharedKernel.Infrastructure.Communication.Email
     [Serializable]
     public class EmailException : SharedKernelInfrastructureException
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="code"></param>
+        /// <summary>  </summary>
         public EmailException(string code) : base(code) { }
+
+        /// <summary>  </summary>
+        public EmailException(Exception ex) : base("exc", ex) { }
     }
 }

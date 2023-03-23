@@ -1,29 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Application.Communication.Email
 {
-    /// <summary>
-    /// Email sender manager
-    /// </summary>
+    /// <summary> Email sender manager. </summary>
     public interface IEmailSender
     {
-        /// <summary>
-        /// Sends an email to default email from
-        /// </summary>
-        /// <param name="subject">Subject</param>
-        /// <param name="message">Message in HTML</param>
-        /// <param name="attachment">File attachemnt</param>
+        /// <summary> Sends an email to default email from. </summary>
         /// <returns></returns>
-        Task SendEmailAsync(string subject, string message, EmailAttachment attachment = null);
+        Task SendEmailAsync(Mail email, CancellationToken cancellationToken);
 
-        /// <summary>
-        /// Sends an email
-        /// </summary>
-        /// <param name="email">From</param>
-        /// <param name="subject">Subject</param>
-        /// <param name="message">Message in HTML</param>
-        /// <param name="attachment">File attachemnt</param>
+        /// <summary> Sends emails to default email from. </summary>
         /// <returns></returns>
-        Task SendEmailAsync(string email, string subject, string message, EmailAttachment attachment = null);
+        Task SendEmailAsync(IEnumerable<Mail> emails, CancellationToken cancellationToken);
     }
 }
