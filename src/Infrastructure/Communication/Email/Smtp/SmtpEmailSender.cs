@@ -1,7 +1,6 @@
 ﻿using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -50,55 +49,58 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
             if (string.IsNullOrWhiteSpace(_smtp.Password))
                 throw new EmailException(nameof(ExceptionCodes.SMT_PASS_EMPTY));
 
-            try
+            //try
+            //{
+
+            var tasks = new List<Task>();
+
+
+            using var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort)
             {
+                EnableSsl = _smtp.RequireSsl,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password)
+            };
 
-                var tasks = new List<Task>();
-
-
-                using var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort)
+            foreach (var email in emails)
+            {
+                var mailMessage = new MailMessage
                 {
-                    EnableSsl = _smtp.RequireSsl,
-                    UseDefaultCredentials = false,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password)
+                    From = new MailAddress(email.From ?? _smtp.Sender),
+                    Subject = email.Subject,
+                    Body = email.Body,
+                    IsBodyHtml = true
                 };
 
-                foreach (var email in emails)
+                mailMessage.To.Add(string.Join(";", email.To));
+
+                if (email.Attachments != default && email.Attachments.Any())
                 {
-                    var mailMessage = new MailMessage
+                    if (_smtp.MaxSendSize.HasValue && email.Attachments.Sum(a => a.ContentStream.Length) > _smtp.MaxSendSize)
+                        throw new EmailException(nameof(ExceptionCodes.EMAIL_ATTACH_EXT));
+
+                    foreach (var attachment in email.Attachments)
                     {
-                        From = new MailAddress(email.From ?? _smtp.Sender),
-                        Subject = email.Subject,
-                        Body = email.Body,
-                        IsBodyHtml = true
-                    };
+                        if (!attachment.Filename.Contains("."))
+                            throw new EmailException(nameof(ExceptionCodes.EMAIL_ATTACH_EXT));
 
-                    mailMessage.To.Add(string.Join(";", email.To));
-
-                    if (email.Attachments != default && email.Attachments.Any())
-                    {
-                        foreach (var attachment in email.Attachments)
-                        {
-                            if (!attachment.Filename.Contains("."))
-                                throw new EmailException(nameof(ExceptionCodes.EMAIL_ATTACH_EXT));
-
-                            mailMessage.Attachments.Add(new Attachment(attachment.ContentStream, attachment.Filename));
-                        }
+                        mailMessage.Attachments.Add(new Attachment(attachment.ContentStream, attachment.Filename));
                     }
+                }
 
 #if NET6_0_OR_GREATER
-                    tasks.Add(client.SendMailAsync(mailMessage, cancellationToken));
+                tasks.Add(client.SendMailAsync(mailMessage, cancellationToken));
 #else
                     tasks.Add(client.SendMailAsync(mailMessage));
 #endif
-                }
-                await Task.WhenAll(tasks);
             }
-            catch (Exception e)
-            {
-                throw new EmailException(e);
-            }
+            await Task.WhenAll(tasks);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new EmailException(e);
+            //}
         }
     }
 }
