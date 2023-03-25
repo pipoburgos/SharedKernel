@@ -22,17 +22,23 @@
 	<ItemGroup>
 		<None Include="icon.png" Pack="true" PackagePath="" />
 		<None Include="readme.md" Pack="true" PackagePath="" />
-		<None Include="Exceptions\ExceptionCodes.resx" Generator="ResXFileCodeGenerator" LastGenOutput="ExceptionCodes.Designer.cs" CopyToOutputDirectory="Always" />
-		<EmbeddedResource Remove="Exceptions\ExceptionCodes.resx" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="Exceptions\ExceptionCodes.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>ExceptionCodes.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionCodes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 	<!--<ItemGroup>
 	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">

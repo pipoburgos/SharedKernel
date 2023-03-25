@@ -81,7 +81,7 @@
 		<EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
 
