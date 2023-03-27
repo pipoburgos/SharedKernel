@@ -23,13 +23,16 @@ namespace SharedKernel.Infrastructure.HttpClients
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="domain"></param>
+        /// <param name="tags"></param>
         /// <returns></returns>
         public static IServiceCollection AddHttpClientNetworkCredential(this IServiceCollection services,
-            IConfiguration configuration, string name, Uri uri, string userName, string password, string domain)
+            IConfiguration configuration, string name, Uri uri, string userName, string password, string domain, params string[] tags)
         {
+            services.AddUriHealthChecks(uri, name, tags);
+
             return services
                 .AddHttpClient(name)
-                .ConfigureHttpClientNetworkCredential(services, configuration, name, uri, userName, password, domain);
+                .ConfigureHttpClientNetworkCredential(services, configuration, uri, userName, password, domain);
         }
 
         /// <summary> Add http client with bearer token. </summary>
@@ -97,11 +100,9 @@ namespace SharedKernel.Infrastructure.HttpClients
         }
 
         /// <summary>  </summary>
-        public static IServiceCollection ConfigureHttpClientNetworkCredential(this IHttpClientBuilder clientBuilder, IServiceCollection services,
-            IConfiguration configuration, string name, Uri uri, string userName, string password, string domain)
+        private static IServiceCollection ConfigureHttpClientNetworkCredential(this IHttpClientBuilder clientBuilder, IServiceCollection services,
+            IConfiguration configuration, Uri uri, string userName, string password, string domain)
         {
-            services.AddUriHealthChecks(uri, name);
-
             var retrieverOptions = GetRetrieverOptions(configuration);
 
             clientBuilder
@@ -125,9 +126,9 @@ namespace SharedKernel.Infrastructure.HttpClients
         }
 
         /// <summary>  </summary>
-        public static IServiceCollection AddUriHealthChecks(this IServiceCollection services, Uri uri, string name)
+        public static IServiceCollection AddUriHealthChecks(this IServiceCollection services, Uri uri, string name, params string[] tags)
         {
-            services.AddHealthChecks().AddUrlGroup(uri, name, HealthStatus.Degraded);
+            services.AddHealthChecks().AddUrlGroup(uri, name, HealthStatus.Degraded, tags);
             return services;
         }
     }

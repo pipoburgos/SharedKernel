@@ -30,6 +30,7 @@
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="6.0.2" />
 		<PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.2" />
+		<PackageReference Include="AspNetCore.HealthChecks.Network" Version="6.0.4" />
 		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.2" />
 		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="6.0.2" />
 		<PackageReference Include="AspNetCore.HealthChecks.Redis" Version="6.0.4" />

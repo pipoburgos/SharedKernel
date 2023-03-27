@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Data.Elasticsearch
 
             services
                 .AddHealthChecks()
-                .AddElasticsearch(uri.ToString());
+                .AddElasticsearch(uri.ToString(), "Elasticsearch", tags: new[] { "DB", "Elasticsearch" });
 
             return services;
         }
