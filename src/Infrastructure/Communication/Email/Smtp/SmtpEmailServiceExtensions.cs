@@ -29,7 +29,7 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
                     setup.ConnectionType = smtpSettings.RequireSsl ? SmtpConnectionType.SSL :
                         smtpSettings.RequireTls ? SmtpConnectionType.TLS : SmtpConnectionType.AUTO;
                     setup.LoginWith(smtpSettings.Sender, smtpSettings.Password);
-                    //setup.AllowInvalidRemoteCertificates = true;
+                    setup.AllowInvalidRemoteCertificates = true;
                 }, tags: new[] { "smtp" });
 
 
