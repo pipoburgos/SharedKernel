@@ -26,7 +26,8 @@ namespace SharedKernel.Infrastructure.Serializers
         /// <returns></returns>
         public T Deserialize<T>(string value)
         {
-            return JsonSerializer.Deserialize<T>(value);
+            return JsonSerializer.Deserialize<T>(value,
+                new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
 
         /// <summary>
