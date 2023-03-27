@@ -72,24 +72,30 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <param name="pageOptions"></param>
+        /// <param name="preselect"></param>
         /// <returns></returns>
-        public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions)
+        public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
+            string preselect = default)
         {
             var connection = _dbConnectionFactory.GetConnection();
             _connections.Add(connection);
             await connection.OpenAsync();
 
-            var total = await connection.QueryFirstOrDefaultAsync<int>($"SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
+            var pre = string.Empty;
+            if (!string.IsNullOrWhiteSpace(preselect))
+                pre = $"{preselect} {Environment.NewLine}";
+
+            var total = await connection.QueryFirstOrDefaultAsync<int>($"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
 
             if (total == default)
                 return PagedList<T>.Empty();
 
-            var queryString = sql;
+            var queryString = $"{preselect}{sql}";
             if (pageOptions.Orders != null && pageOptions.Orders.Any())
-                queryString += $"{Environment.NewLine} ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (order.Ascending ? string.Empty : " DESC")))}";
+                queryString += $"{Environment.NewLine}ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (order.Ascending ? string.Empty : " DESC")))}";
 
             if (pageOptions.Take.HasValue)
-                queryString += $"{Environment.NewLine} OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
+                queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
             var elements = await connection.QueryAsync<T>(queryString, parameters);
 
