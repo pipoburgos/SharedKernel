@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
+using SharedKernel.Infrastructure.Logging;
 
 namespace SharedKernel.Infrastructure.Data.Dapper
 {
@@ -28,6 +30,9 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             services.AddHealthChecks()
                 .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server Dapper",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
+
+            services.AddLogging()
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
 
             services.AddTransient<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
             services.Add(new ServiceDescriptor(typeof(DapperQueryProvider), typeof(DapperQueryProvider), serviceLifetime));

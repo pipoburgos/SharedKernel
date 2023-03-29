@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,18 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
     /// </summary>
     public sealed class DapperQueryProvider : IDisposable
     {
+        private readonly ICustomLogger<DapperQueryProvider> _logger;
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly List<DbConnection> _connections;
 
         /// <summary>
         /// 
         /// </summary>
-        public DapperQueryProvider(IDbConnectionFactory dbConnectionFactory)
+        public DapperQueryProvider(
+            ICustomLogger<DapperQueryProvider> logger,
+            IDbConnectionFactory dbConnectionFactory)
         {
+            _logger = logger;
             _dbConnectionFactory = dbConnectionFactory;
             _connections = new List<DbConnection>();
         }
@@ -85,7 +90,10 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             if (!string.IsNullOrWhiteSpace(preselect))
                 pre = $"{preselect} {Environment.NewLine}";
 
-            var total = await connection.QueryFirstOrDefaultAsync<int>($"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS", parameters);
+            var queryCountString = $"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS";
+
+            _logger.Verbose(queryCountString);
+            var total = await connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
 
             if (total == default)
                 return PagedList<T>.Empty();
@@ -97,6 +105,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             if (pageOptions.Take.HasValue)
                 queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
+            _logger.Verbose(queryString);
             var elements = await connection.QueryAsync<T>(queryString, parameters);
 
             return new PagedList<T>(total, elements);
