@@ -40,7 +40,10 @@ public static class ExpressionHelper
         {
             return Expression.Constant(isString
                 ? value
-                : Convert.ChangeType(value, propertyInfo != default ? propertyInfo.PropertyType : typeof(T)));
+                : isDate
+                    ? ((DateTime?)Convert.ChangeType(value,
+                        propertyInfo != default ? propertyInfo.PropertyType : typeof(T)))?.ToUniversalTime()
+                    : Convert.ChangeType(value, propertyInfo != default ? propertyInfo.PropertyType : typeof(T)));
         }
 
         Expression binaryExpression;
