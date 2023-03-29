@@ -23,12 +23,14 @@ namespace SharedKernel.Infrastructure.HttpClients
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="domain"></param>
+        /// <param name="uriHealthChecks"></param>
         /// <param name="tags"></param>
         /// <returns></returns>
         public static IServiceCollection AddHttpClientNetworkCredential(this IServiceCollection services,
-            IConfiguration configuration, string name, Uri uri, string userName, string password, string domain, params string[] tags)
+            IConfiguration configuration, string name, Uri uri, string userName, string password, string domain,
+            Uri uriHealthChecks = default, params string[] tags)
         {
-            services.AddUriHealthChecks(uri, name, tags);
+            services.AddUriHealthChecks(uriHealthChecks ?? uri, name, tags);
 
             return services
                 .AddHttpClient(name)
@@ -109,7 +111,17 @@ namespace SharedKernel.Infrastructure.HttpClients
                 .ConfigureHttpClient(c => c.BaseAddress = uri)
                 .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
                 {
-                    Credentials = new NetworkCredential(userName, password, domain)
+                    Credentials = new CredentialCache
+                    {
+                        {
+                            new Uri("http://" + uri.Host), "NTLM", new NetworkCredential
+                            {
+                                UserName = userName,
+                                Password = password,
+                                Domain = domain
+                            }
+                        }
+                    }
                 })
                 .AddTransientHttpErrorPolicy(policyBuilder =>
                     policyBuilder.WaitAndRetryAsync(retrieverOptions.RetryCount, retrieverOptions.RetryAttempt()));
