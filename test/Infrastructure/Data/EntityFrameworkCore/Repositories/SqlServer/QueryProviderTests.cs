@@ -174,7 +174,6 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [InlineData(365)]
         [InlineData(0)]
         [InlineData(default)]
-        [InlineData(null)]
         public async Task ToPagedListOfPrimaryDto(int? number)
         {
             await LoadTestDataAsync(CancellationToken.None);
