@@ -11,15 +11,15 @@ namespace SharedKernel.Infrastructure.Hosting
     public abstract class BackgroundServiceBase : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly int _minutesDelay;
+        private readonly TimeSpan? _delay;
 
         /// <summary>  </summary>
         /// <param name="serviceScopeFactory"></param>
-        /// <param name="minutesDelay"></param>
-        protected BackgroundServiceBase(IServiceScopeFactory serviceScopeFactory, int minutesDelay = 2)
+        /// <param name="delay">Set to 5 minutes by default. </param>
+        protected BackgroundServiceBase(IServiceScopeFactory serviceScopeFactory, TimeSpan? delay = default)
         {
             _serviceScopeFactory = serviceScopeFactory;
-            _minutesDelay = minutesDelay;
+            _delay = delay;
         }
 
         /// <summary>  </summary>
@@ -27,7 +27,7 @@ namespace SharedKernel.Infrastructure.Hosting
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Delay(TimeSpan.FromMinutes(_minutesDelay), stoppingToken);
+            await Task.Delay(_delay ?? TimeSpan.FromMinutes(5), stoppingToken);
 
             using var scope = _serviceScopeFactory.CreateScope();
 
