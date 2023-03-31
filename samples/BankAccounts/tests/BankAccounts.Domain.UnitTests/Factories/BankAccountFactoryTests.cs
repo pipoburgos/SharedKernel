@@ -1,9 +1,5 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Factories;
-using FluentAssertions;
-using NSubstitute;
-using System;
-using Xunit;
 
 // ReSharper disable ExpressionIsAlwaysNull
 

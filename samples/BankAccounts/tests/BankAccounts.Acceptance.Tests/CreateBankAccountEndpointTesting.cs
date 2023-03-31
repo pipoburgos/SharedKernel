@@ -1,10 +1,6 @@
-﻿using BankAccounts.Application.BankAccounts.Commands;
-using FluentAssertions;
-using System;
-using System.Net;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using Xunit;
+﻿using BankAccounts.Acceptance.Tests.Shared;
+using BankAccounts.Acceptance.Tests.Shared.Extensions;
+using BankAccounts.Application.BankAccounts.Commands;
 
 namespace BankAccounts.Acceptance.Tests
 {
@@ -21,7 +17,7 @@ namespace BankAccounts.Acceptance.Tests
         [Fact]
         public async Task CreateBankAccountOk()
         {
-            var client = _bankAccountClientFactory.CreateClient();
+            var client = await _bankAccountClientFactory.CreateClientAsync();
 
             var bankAccountId = Guid.NewGuid();
             var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández",
@@ -36,18 +32,16 @@ namespace BankAccounts.Acceptance.Tests
         [Fact]
         public async Task CreateBankAccountNameMoreThan100()
         {
-            var client = _bankAccountClientFactory.CreateClient();
+            var client = await _bankAccountClientFactory.CreateClientAsync();
 
             var bankAccountId = Guid.NewGuid();
-            var body = new CreateBankAccount(Guid.NewGuid(), "Robertooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
-                new DateTime(2022, 5, 5), "Fernández", Guid.NewGuid(), 250);
+            var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
+                new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-            var result = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+            var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
 
-
-            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            var text = await result.Content.ReadAsStringAsync();
-            text.Should().Contain("18");
+            var ex = await response.GetErrorResponse();
+            ex.Should("Name", "The length of 'Name' must be 100 characters or fewer. You entered 101 characters.");
         }
     }
 }

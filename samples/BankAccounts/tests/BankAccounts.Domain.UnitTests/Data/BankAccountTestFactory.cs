@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Events;
-using System;
 
 namespace BankAccounts.Domain.Tests.Data
 {

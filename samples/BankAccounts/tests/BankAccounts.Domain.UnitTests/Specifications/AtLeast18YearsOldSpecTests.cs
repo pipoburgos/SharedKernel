@@ -1,8 +1,5 @@
 ﻿using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Specifications;
-using FluentAssertions;
-using System;
-using Xunit;
 
 namespace BankAccounts.Domain.Tests.Specifications
 {

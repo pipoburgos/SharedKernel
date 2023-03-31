@@ -1,8 +1,10 @@
 ﻿using BankAccounts.Application.Shared;
 using BankAccounts.Application.Shared.UnitOfWork;
+using BankAccounts.Domain.BankAccounts.Events;
 using BankAccounts.Domain.BankAccounts.Repository;
 using BankAccounts.Domain.Services;
 using BankAccounts.Infrastructure.BankAccounts;
+using BankAccounts.Infrastructure.BankAccounts.Commands.Validators;
 using BankAccounts.Infrastructure.Shared.Data;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
@@ -13,6 +15,7 @@ using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.System;
+using SharedKernel.Infrastructure.Validators;
 
 namespace BankAccounts.Infrastructure.Shared
 {
@@ -41,9 +44,11 @@ namespace BankAccounts.Infrastructure.Shared
         private static IServiceCollection AddApplication(this IServiceCollection serviceCollection)
         {
             return serviceCollection
+                .AddDomainEvents(typeof(BankAccountCreated))
+                .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork).Assembly)
                 .AddCommandsHandlers(typeof(IBankAccountUnitOfWork))
                 .AddQueriesHandlers(typeof(BankAccountDbContext))
-                .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork).Assembly);
+                .AddValidators(typeof(CreateBankAccountValidator));
         }
 
         private static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection,

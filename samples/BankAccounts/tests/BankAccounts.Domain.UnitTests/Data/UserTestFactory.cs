@@ -1,5 +1,4 @@
 ﻿using BankAccounts.Domain.BankAccounts;
-using System;
 
 namespace BankAccounts.Domain.Tests.Data
 {

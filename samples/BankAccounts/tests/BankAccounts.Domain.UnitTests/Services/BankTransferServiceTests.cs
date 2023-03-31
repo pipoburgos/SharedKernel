@@ -1,9 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts.Exceptions;
 using BankAccounts.Domain.Services;
 using BankAccounts.Domain.Tests.Data;
-using FluentAssertions;
-using System;
-using Xunit;
 
 namespace BankAccounts.Domain.Tests.Services
 {

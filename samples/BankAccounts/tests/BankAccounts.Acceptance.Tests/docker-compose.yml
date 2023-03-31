@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+
+    sql_server:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: ${DOCKER_REGISTRY-}sql_server-test
+        restart: always 
+        user: root
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrong(!)Password
+        ports:
+            - 8765:1433
+
+    #mongo:
+    #    image: mongo:latest
+    #    container_name: ${DOCKER_REGISTRY-}mongo-test
+    #    restart: always 
+    #    ports:
+    #    - 8061:27017
+
+    smtp:
+        image: namshi/smtp:latest
+        container_name: shared-kernel-smtp
+        ports:
+         - "22224:25"
+        environment:
+            - MAILNAME=smtp.shared-kernel.com
+            - SMARTHOST_ADDRESS=smtp.shared-kernel.com
+            - SMARTHOST_PORT=587
+            - SMARTHOST_USER=shared-kernel@shared-kernel.com
+            - SMARTHOST_PASSWORD=shared-kernel
+            - SMARTHOST_ALIASES=*.shared-kernel.com

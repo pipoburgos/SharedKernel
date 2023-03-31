@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Application.Validator;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Authentication;
 
 namespace BankAccounts.Api.Shared
@@ -17,31 +20,51 @@ namespace BankAccounts.Api.Shared
                 {
                     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                     context.Response.Headers.Add("Content-Type", "application/json;charset=utf-8");
+
                     var error = context.Features.Get<IExceptionHandlerFeature>();
                     if (error == default)
                         return;
 
-                    if (error.Error.GetType().ToString().StartsWith("BankAccounts"))
+                    var exception = error.Error;
+
+                    if (exception.GetType() == typeof(FallbackException))
+                        exception = error.Error.InnerException;
+
+                    if (exception == default)
+                        return;
+
+                    var serializerSettings = new JsonSerializerSettings
                     {
-                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    };
+
+                    var errorType = exception.GetType();
+                    if (errorType.ToString().ToLower().StartsWith("bankaccount"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+                        var errorSerialized = JsonConvert.SerializeObject(exception.Message, serializerSettings);
+                        await context.Response.WriteAsync(errorSerialized).ConfigureAwait(false);
                         return;
                     }
 
-                    switch (error.Error.GetType().ToString())
+                    switch (errorType.Name)
                     {
                         case nameof(AuthenticationException):
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             break;
-                        case "eReges.Domain.Shared.EregesException":
-                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                            await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                        case nameof(UnauthorizedAccessException):
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             break;
-                        case "SharedKernel.Application.Validator.ValidationFailureException":
+                        case nameof(SwaggerGeneratorException):
                             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                            var validationErrors = new ValidationError(error.Error as ValidationFailureException);
-                            var errorsText = JsonConvert.SerializeObject(validationErrors);
-                            await context.Response.WriteAsync(errorsText).ConfigureAwait(false);
+                            var errorsSerialized2 = JsonConvert.SerializeObject(exception, serializerSettings);
+                            await context.Response.WriteAsync(errorsSerialized2).ConfigureAwait(false);
+                            break;
+                        case nameof(ValidationFailureException):
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            var errors = new ValidationError(exception as ValidationFailureException);
+                            var errorsSerialized = JsonConvert.SerializeObject(errors, serializerSettings);
+                            await context.Response.WriteAsync(errorsSerialized).ConfigureAwait(false);
                             break;
                         default:
                             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

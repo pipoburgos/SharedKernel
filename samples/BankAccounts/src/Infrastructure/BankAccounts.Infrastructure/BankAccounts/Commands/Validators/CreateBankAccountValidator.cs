@@ -5,12 +5,11 @@ namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators
 {
     internal class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
     {
-        public CreateBankAccountValidator(IServiceProvider serviceProvider)
+        public CreateBankAccountValidator(IBankAccountRepository bankAccountRepository)
         {
             RuleFor(e => e.Id)
                 .NotEmpty()
-                .MustAsync(async (prop, c) => !await
-                    serviceProvider.GetRequiredService<IBankAccountRepository>().AnyAsync(prop, c));
+                .MustAsync(async (prop, c) => !await bankAccountRepository.AnyAsync(prop, c));
 
             RuleFor(e => e.Name)
                 .NotEmpty()

@@ -9,6 +9,7 @@ global using System.Threading.Tasks;
 
 using System.Runtime.CompilerServices;
 [assembly:
+    InternalsVisibleTo("DynamicProxyGenAssembly2"),
     InternalsVisibleTo("BankAccounts.Infrastructure"),
     InternalsVisibleTo("BankAccounts.UseCases.Tests"),
-    InternalsVisibleTo("DynamicProxyGenAssembly2")]
+    InternalsVisibleTo("BankAccounts.Acceptance.Tests")]

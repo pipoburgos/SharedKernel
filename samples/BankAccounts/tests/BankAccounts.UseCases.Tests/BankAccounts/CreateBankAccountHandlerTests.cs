@@ -2,16 +2,6 @@
 using BankAccounts.Application.Shared.UnitOfWork;
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
-using FluentAssertions;
-using NSubstitute;
-using SharedKernel.Application.Events;
-using SharedKernel.Application.System;
-using SharedKernel.Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace BankAccounts.UseCases.Tests.BankAccounts
 {

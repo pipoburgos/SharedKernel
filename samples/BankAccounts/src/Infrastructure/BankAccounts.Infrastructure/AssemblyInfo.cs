@@ -12,8 +12,5 @@ global using System.Threading.Tasks;
 
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2"),
-           InternalsVisibleTo("eReges.Integration.Tests"),
-           InternalsVisibleTo("eReges.Acceptance.Tests"),
-
-           InternalsVisibleTo("BankAccounts.Integration.SharedKernel.Tests"),
-           InternalsVisibleTo("BankAccounts.Acceptance.SharedKernel.Tests")]
+           InternalsVisibleTo("BankAccounts.Integration.Tests"),
+           InternalsVisibleTo("BankAccounts.Acceptance.Tests")]
