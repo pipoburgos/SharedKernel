@@ -4,8 +4,6 @@ using BankAccounts.Domain.BankAccounts.Repository;
 using BankAccounts.Domain.Services;
 using BankAccounts.Infrastructure.BankAccounts;
 using BankAccounts.Infrastructure.Shared.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;

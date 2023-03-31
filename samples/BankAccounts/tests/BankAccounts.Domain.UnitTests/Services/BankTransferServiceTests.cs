@@ -1,11 +1,11 @@
 ﻿using BankAccounts.Domain.BankAccounts.Exceptions;
 using BankAccounts.Domain.Services;
-using BankAccounts.Domain.UnitTests.Data;
+using BankAccounts.Domain.Tests.Data;
 using FluentAssertions;
 using System;
 using Xunit;
 
-namespace BankAccounts.Domain.UnitTests.Services
+namespace BankAccounts.Domain.Tests.Services
 {
     public class BankTransferServiceTests
     {

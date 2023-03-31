@@ -1,10 +1,6 @@
-﻿using SharedKernel.Domain.Entities;
-using System;
-using System.Collections.Generic;
-
-namespace BankAccounts.Domain.BankAccounts
+﻿namespace BankAccounts.Domain.BankAccounts
 {
-    public class User : Entity<Guid>
+    internal class User : Entity<Guid>
     {
         protected User() { }
 

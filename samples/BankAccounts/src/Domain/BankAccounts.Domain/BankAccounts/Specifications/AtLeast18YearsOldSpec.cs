@@ -1,10 +1,6 @@
-﻿using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Linq.Expressions;
-
-namespace BankAccounts.Domain.BankAccounts.Specifications
+﻿namespace BankAccounts.Domain.BankAccounts.Specifications
 {
-    public class AtLeast18YearsOldSpec : ISpecification<User>
+    internal class AtLeast18YearsOldSpec : ISpecification<User>
     {
         private readonly DateTime _date;
 

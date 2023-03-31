@@ -1,8 +1,5 @@
 ﻿using BankAccounts.Domain.BankAccounts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations
 {

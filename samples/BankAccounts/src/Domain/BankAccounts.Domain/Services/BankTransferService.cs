@@ -1,10 +1,9 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Exceptions;
-using System;
 
 namespace BankAccounts.Domain.Services
 {
-    public class BankTransferService
+    internal class BankTransferService
     {
         public void Transfer(BankAccount fromBankAccount, BankAccount toBankAccount, decimal quantity, DateTime date,
             Guid fromMovementId, Guid toMovementId)

@@ -1,10 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts.Events;
 using BankAccounts.Domain.BankAccounts.Repository;
 using SharedKernel.Application.Communication.Email;
-using SharedKernel.Application.Events;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSubcribers
 {

@@ -1,9 +1,8 @@
 ﻿using BankAccounts.Domain.BankAccounts.Events;
-using System;
 
 namespace BankAccounts.Domain.BankAccounts.Factories
 {
-    public static class BankAccountFactory
+    internal static class BankAccountFactory
     {
         public static BankAccount Create(Guid id, InternationalBankAccountNumber accountNumber, User owner, Movement initialMovement, DateTime now)
         {

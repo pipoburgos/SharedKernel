@@ -7,7 +7,7 @@ using Xunit;
 
 // ReSharper disable ExpressionIsAlwaysNull
 
-namespace BankAccounts.Domain.UnitTests.Factories
+namespace BankAccounts.Domain.Tests.Factories
 {
     public class BankAccountFactoryTests
     {

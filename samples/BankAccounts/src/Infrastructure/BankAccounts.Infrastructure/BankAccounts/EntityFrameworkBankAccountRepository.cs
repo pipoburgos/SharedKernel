@@ -1,7 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
 using BankAccounts.Infrastructure.Shared.Data;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories;
 
 namespace BankAccounts.Infrastructure.BankAccounts
 {

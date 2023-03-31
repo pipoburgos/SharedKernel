@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BankAccounts.Domain.BankAccounts.Exceptions
+﻿namespace BankAccounts.Domain.BankAccounts.Exceptions
 {
-    public class InvalidIbanException : Exception
+    internal class InvalidIbanException : Exception
     {
         public InvalidIbanException() : base("Invalid Iban.") { }
     }

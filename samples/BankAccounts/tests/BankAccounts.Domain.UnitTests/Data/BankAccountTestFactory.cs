@@ -2,9 +2,9 @@
 using BankAccounts.Domain.BankAccounts.Events;
 using System;
 
-namespace BankAccounts.Domain.UnitTests.Data
+namespace BankAccounts.Domain.Tests.Data
 {
-    public static class BankAccountTestFactory
+    internal static class BankAccountTestFactory
     {
         public static BankAccount Create(Guid? id = default, InternationalBankAccountNumber iban = default,
             User owner = default, Movement initialMovement = default)

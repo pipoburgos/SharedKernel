@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Domain.Shared;
 using SharedKernel.Application.Cqrs.Middlewares;
-using System;
 
 namespace BankAccounts.Application.Shared
 {

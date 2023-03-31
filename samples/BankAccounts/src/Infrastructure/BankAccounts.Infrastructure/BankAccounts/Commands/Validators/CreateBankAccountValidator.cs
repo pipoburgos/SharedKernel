@@ -1,12 +1,8 @@
 ﻿using BankAccounts.Application.BankAccounts.Commands;
 using BankAccounts.Domain.BankAccounts.Repository;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators
 {
-    // FluentValidation
     internal class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
     {
         public CreateBankAccountValidator(IServiceProvider serviceProvider)

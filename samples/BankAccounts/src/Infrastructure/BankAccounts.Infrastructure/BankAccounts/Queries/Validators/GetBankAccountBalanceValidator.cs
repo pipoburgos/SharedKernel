@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
 using BankAccounts.Domain.BankAccounts.Repository;
-using FluentValidation;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries.Validators
 {

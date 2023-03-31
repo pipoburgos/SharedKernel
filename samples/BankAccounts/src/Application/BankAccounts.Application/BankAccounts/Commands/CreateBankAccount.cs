@@ -1,7 +1,4 @@
-﻿using SharedKernel.Application.Cqrs.Commands;
-using System;
-
-namespace BankAccounts.Application.BankAccounts.Commands
+﻿namespace BankAccounts.Application.BankAccounts.Commands
 {
     /// <summary> Create a bank account. </summary>
     public class CreateBankAccount : ICommandRequest

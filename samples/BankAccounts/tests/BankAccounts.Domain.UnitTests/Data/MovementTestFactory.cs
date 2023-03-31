@@ -1,9 +1,9 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using System;
 
-namespace BankAccounts.Domain.UnitTests.Data
+namespace BankAccounts.Domain.Tests.Data
 {
-    public static class MovementTestFactory
+    internal static class MovementTestFactory
     {
         public static Movement Create(Guid? id = default, decimal? amount = default)
         {

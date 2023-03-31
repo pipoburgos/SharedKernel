@@ -1,9 +1,9 @@
 ﻿using BankAccounts.Domain.BankAccounts.Specifications;
-using BankAccounts.Domain.UnitTests.Data;
+using BankAccounts.Domain.Tests.Data;
 using FluentAssertions;
 using Xunit;
 
-namespace BankAccounts.Domain.UnitTests.Specifications
+namespace BankAccounts.Domain.Tests.Specifications
 {
     public class IsASpanishBankAccountSpecTests
     {

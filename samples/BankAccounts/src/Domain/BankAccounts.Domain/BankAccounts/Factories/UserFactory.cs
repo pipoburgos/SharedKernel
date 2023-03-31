@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BankAccounts.Domain.BankAccounts.Factories
+﻿namespace BankAccounts.Domain.BankAccounts.Factories
 {
-    public static class UserFactory
+    internal static class UserFactory
     {
         public static User CreateUser(Guid id, string name, string surname, DateTime dateOfBirth)
         {

@@ -1,10 +1,6 @@
-﻿using SharedKernel.Domain.Events;
-using System;
-using System.Collections.Generic;
-
-namespace BankAccounts.Domain.BankAccounts.Events
+﻿namespace BankAccounts.Domain.BankAccounts.Events
 {
-    public class SalaryHasBeenDeposited : DomainEvent
+    internal class SalaryHasBeenDeposited : DomainEvent
     {
         public SalaryHasBeenDeposited(Guid movementId, string aggregateId, string eventId = null,
             string occurredOn = null) : base(aggregateId, eventId, occurredOn)

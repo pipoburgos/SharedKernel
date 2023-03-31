@@ -1,5 +1,4 @@
 ﻿using BankAccounts.Application.Shared.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 
 namespace BankAccounts.Infrastructure.Shared.Data

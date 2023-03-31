@@ -4,7 +4,7 @@ using FluentAssertions;
 using System;
 using Xunit;
 
-namespace BankAccounts.Domain.UnitTests.Specifications
+namespace BankAccounts.Domain.Tests.Specifications
 {
     public class AtLeast18YearsOldSpecTests
     {

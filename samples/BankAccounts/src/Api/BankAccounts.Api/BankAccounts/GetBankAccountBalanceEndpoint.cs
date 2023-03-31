@@ -1,10 +1,5 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Application.BankAccounts.Queries;
-using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Application.Cqrs.Queries;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BankAccounts.Api.BankAccounts
 {
@@ -14,10 +9,9 @@ namespace BankAccounts.Api.BankAccounts
     {
         /// <summary> Gets the balance. </summary>
         [HttpGet("{bankAccountId:guid}/balance"), ResponseCache(Duration = 60)]
-        public async Task<ActionResult<decimal>> Handle([FromServices] IQueryBus queryBus,
-            [FromRoute] Guid bankAccountId, CancellationToken cancellationToken)
+        public async Task<ActionResult<decimal>> Handle(Guid bankAccountId, CancellationToken cancellationToken)
         {
-            return Ok(await queryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
+            return Ok(await QueryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
         }
     }
 }

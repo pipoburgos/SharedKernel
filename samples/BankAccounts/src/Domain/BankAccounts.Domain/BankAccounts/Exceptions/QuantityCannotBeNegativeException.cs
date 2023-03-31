@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BankAccounts.Domain.BankAccounts.Exceptions
+﻿namespace BankAccounts.Domain.BankAccounts.Exceptions
 {
-    public class QuantityCannotBeNegativeException : Exception
+    internal class QuantityCannotBeNegativeException : Exception
     {
         public QuantityCannotBeNegativeException() : base("Quantity cannot be negative.") { }
     }

@@ -1,9 +1,6 @@
-﻿using SharedKernel.Domain.Entities;
-using System;
-
-namespace BankAccounts.Domain.BankAccounts
+﻿namespace BankAccounts.Domain.BankAccounts
 {
-    public class Movement : Entity<Guid>
+    internal class Movement : Entity<Guid>
     {
         protected Movement() { }
 

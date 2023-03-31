@@ -1,7 +1,4 @@
-﻿using SharedKernel.Application.Cqrs.Queries;
-using System;
-
-namespace BankAccounts.Application.BankAccounts.Queries
+﻿namespace BankAccounts.Application.BankAccounts.Queries
 {
     /// <summary> Gets bank account balance. </summary>
     public class GetBankAccountBalance : IQueryRequest<decimal>

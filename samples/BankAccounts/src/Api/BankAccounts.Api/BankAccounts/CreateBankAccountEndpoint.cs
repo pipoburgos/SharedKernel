@@ -1,10 +1,5 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Application.BankAccounts.Commands;
-using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Application.Cqrs.Commands;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BankAccounts.Api.BankAccounts
 {
@@ -14,11 +9,11 @@ namespace BankAccounts.Api.BankAccounts
     {
         /// <summary> Create a bank account. </summary>
         [HttpPost("{bankAccountId:guid}")]
-        public async Task<IActionResult> Handle([FromServices] ICommandBus commandBus, [FromRoute] Guid bankAccountId,
-            [FromBody] CreateBankAccount createBankAccount, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(Guid bankAccountId, CreateBankAccount createBankAccount,
+            CancellationToken cancellationToken)
         {
             createBankAccount?.AddId(bankAccountId);
-            await commandBus.Dispatch(createBankAccount, cancellationToken);
+            await CommandBus.Dispatch(createBankAccount, cancellationToken);
             return Ok();
         }
     }

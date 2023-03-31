@@ -1,9 +1,9 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using System;
 
-namespace BankAccounts.Domain.UnitTests.Data
+namespace BankAccounts.Domain.Tests.Data
 {
-    public static class UserTestFactory
+    internal static class UserTestFactory
     {
         public static User Create(Guid? id = default, string name = default, string surname = default,
             DateTime? birthdate = default)

@@ -2,14 +2,10 @@
 using BankAccounts.Domain.BankAccounts.Exceptions;
 using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Specifications;
-using SharedKernel.Domain.Aggregates;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BankAccounts.Domain.BankAccounts
 {
-    public class BankAccount : AggregateRoot<Guid>
+    internal class BankAccount : AggregateRoot<Guid>
     {
         private readonly List<Movement> _movements;
 

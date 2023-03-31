@@ -1,8 +1,6 @@
-﻿using SharedKernel.Domain.ValueObjects;
-
-namespace BankAccounts.Domain.BankAccounts
+﻿namespace BankAccounts.Domain.BankAccounts
 {
-    public class InternationalBankAccountNumber : ValueObject<InternationalBankAccountNumber>
+    internal class InternationalBankAccountNumber : ValueObject<InternationalBankAccountNumber>
     {
         protected InternationalBankAccountNumber() { }
 

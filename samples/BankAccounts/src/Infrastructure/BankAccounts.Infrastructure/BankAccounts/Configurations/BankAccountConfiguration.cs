@@ -1,6 +1,4 @@
 ﻿using BankAccounts.Domain.BankAccounts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations
 {

@@ -1,10 +1,6 @@
-﻿using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Linq.Expressions;
-
-namespace BankAccounts.Domain.BankAccounts.Specifications
+﻿namespace BankAccounts.Domain.BankAccounts.Specifications
 {
-    public class IsThePayroll : ISpecification<Movement>
+    internal class IsThePayroll : ISpecification<Movement>
     {
         public Expression<Func<Movement, bool>> SatisfiedBy()
         {

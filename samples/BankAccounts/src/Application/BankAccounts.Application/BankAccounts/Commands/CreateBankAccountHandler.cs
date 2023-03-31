@@ -2,11 +2,6 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Repository;
-using SharedKernel.Application.Cqrs.Commands.Handlers;
-using SharedKernel.Application.Events;
-using SharedKernel.Application.System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BankAccounts.Application.BankAccounts.Commands
 {

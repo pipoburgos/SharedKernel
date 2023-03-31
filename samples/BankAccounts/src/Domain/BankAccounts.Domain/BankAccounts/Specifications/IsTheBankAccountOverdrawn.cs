@@ -1,10 +1,6 @@
-﻿using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Linq.Expressions;
-
-namespace BankAccounts.Domain.BankAccounts.Specifications
+﻿namespace BankAccounts.Domain.BankAccounts.Specifications
 {
-    public class IsTheBankAccountOverdrawn : ISpecification<BankAccount>
+    internal class IsTheBankAccountOverdrawn : ISpecification<BankAccount>
     {
         public Expression<Func<BankAccount, bool>> SatisfiedBy()
         {

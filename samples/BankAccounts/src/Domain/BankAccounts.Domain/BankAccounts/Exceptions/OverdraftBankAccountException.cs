@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BankAccounts.Domain.BankAccounts.Exceptions
+﻿namespace BankAccounts.Domain.BankAccounts.Exceptions
 {
-    public class OverdraftBankAccountException : Exception
+    internal class OverdraftBankAccountException : Exception
     {
         public OverdraftBankAccountException() : base("You can't withdraw money from an overdraft account") { }
     }

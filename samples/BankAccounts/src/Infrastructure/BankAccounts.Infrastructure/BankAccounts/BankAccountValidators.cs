@@ -1,6 +1,4 @@
 ﻿using BankAccounts.Domain.BankAccounts.Repository;
-using FluentValidation;
-using System;
 
 namespace BankAccounts.Infrastructure.BankAccounts
 {

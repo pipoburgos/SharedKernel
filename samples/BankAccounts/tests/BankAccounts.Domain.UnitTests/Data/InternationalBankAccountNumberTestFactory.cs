@@ -1,8 +1,8 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 
-namespace BankAccounts.Domain.UnitTests.Data
+namespace BankAccounts.Domain.Tests.Data
 {
-    public static class InternationalBankAccountNumberTestFactory
+    internal static class InternationalBankAccountNumberTestFactory
     {
         public static InternationalBankAccountNumber Create(string countryCheckDigit = default,
             string entityCode = default, string officeNumber = default, string controlDigit = default,
