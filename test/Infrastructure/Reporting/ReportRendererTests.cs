@@ -26,9 +26,9 @@ namespace SharedKernel.Integration.Tests.Reporting
         public void TestReport()
         {
             var service = new ReportRenderer(null);
-            var path = $"{Directory.GetCurrentDirectory()}\\Reporting\\BillExample.rdlc";
+            var path = $"{Directory.GetCurrentDirectory()}/Reporting/BillExample.rdlc";
             const ExportReportType extension = ExportReportType.Pdf;
-            var pathResult = $"{Directory.GetCurrentDirectory()}\\Reporting\\BillExample{Guid.NewGuid()}.pdf";
+            var pathResult = $"{Directory.GetCurrentDirectory()}/Reporting/BillExample{Guid.NewGuid()}.pdf";
 
             var billReportData = new BillReportData
             {

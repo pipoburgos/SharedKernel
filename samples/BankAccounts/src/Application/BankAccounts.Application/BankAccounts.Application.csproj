@@ -2,12 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\..\src\Application\SharedKernel.Application.csproj" />
-	  <ProjectReference Include="..\..\Domain\BankAccounts.Domain\BankAccounts.Domain.csproj" />
+		<ProjectReference Include="..\..\..\..\..\src\Application\SharedKernel.Application.csproj" />
+		<ProjectReference Include="..\..\Domain\BankAccounts.Domain\BankAccounts.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

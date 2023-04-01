@@ -6,13 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="appsettings.testing.json" />
+		<None Remove="appsettings.testing.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="appsettings.testing.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="appsettings.testing.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -20,7 +20,7 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.3" />
 		<PackageReference Include="FluentAssertions" Version="6.10.0" />
-    <PackageReference Include="Ductus.FluentDocker" Version="2.10.59" />
+		<PackageReference Include="Ductus.FluentDocker" Version="2.10.59" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,13 +33,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Api\BankAccounts.Api\BankAccounts.Api.csproj" />
+		<ProjectReference Include="..\..\src\Api\BankAccounts.Api\BankAccounts.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="docker-compose.yml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="docker-compose.yml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
