@@ -133,7 +133,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             if (xml == default)
                 return null;
 
-            var swaggerFile = $"{AppContext.BaseDirectory}\\SwaggerFile.xml";
+            var swaggerFile = $"{AppContext.BaseDirectory}/SwaggerFile.xml";
             xml.Save(swaggerFile);
             swaggerGenOptions.IncludeXmlComments(swaggerFile, includeControllerXmlComments);
 
