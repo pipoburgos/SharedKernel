@@ -25,7 +25,7 @@ namespace BankAccounts.Acceptance.Tests.Shared.Tests
                             config.Sources.Clear();
                             config.AddConfiguration(hostingContext.Configuration);
                             config.AddJsonFile("appsettings.json");
-                            config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Testing.json"), false);
+                            config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.testing.json"), false);
                             startup = new Startup(config.Build());
                         })
                         .ConfigureServices(sc =>
