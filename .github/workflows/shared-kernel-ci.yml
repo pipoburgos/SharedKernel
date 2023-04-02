@@ -50,10 +50,9 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
         project: ['test/Domain/SharedKernel.Domain.Tests.csproj', 'test/Application/SharedKernel.Application.Tests.csproj', 'test/Infrastructure/SharedKernel.Integration.Tests.csproj']
 
-    runs-on: ${{ matrix.os }}
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
 
     services:
     
