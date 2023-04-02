@@ -73,7 +73,6 @@ jobs:
 
       redis:
         image: redis:latest
-        container_name: shared-kernel-redis
         ports:
             - 22222:6379
 
