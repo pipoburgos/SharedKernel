@@ -50,9 +50,65 @@ jobs:
 
     strategy:
       matrix:
-        project: ['test/Domain/SharedKernel.Domain.Tests.csproj', 'test/Application/SharedKernel.Application.Tests.csproj']
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        project: ['test/Domain/SharedKernel.Domain.Tests.csproj', 'test/Application/SharedKernel.Application.Tests.csproj', 'test/Infrastructure/SharedKernel.Integration.Tests.csproj']
 
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    services:
+
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: shared-kernel-sqlserver
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrong(!)Password
+            - MSSQL_PID=Developer
+        ports:
+            - 22220:1433
+     
+      mongo:
+        image: mongo:latest
+        container_name: shared-kernel-mongo
+        ports:
+            - 22221:27017
+
+      redis:
+        image: redis:latest
+        container_name: shared-kernel-redis
+        ports:
+            - 22222:6379
+
+      rabbitmq:
+        image: rabbitmq:latest
+        container_name: shared-kernel-rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password
+        ports:
+            - 22223:5672
+
+      smtp:
+        image: namshi/smtp:latest
+        container_name: shared-kernel-smtp
+        ports:
+         - "22224:25"
+        environment:
+            - MAILNAME=smtp.shared-kernel.com
+            - SMARTHOST_ADDRESS=smtp.shared-kernel.com
+            - SMARTHOST_PORT=587
+            - SMARTHOST_USER=shared-kernel@shared-kernel.com
+            - SMARTHOST_PASSWORD=shared-kernel
+            - SMARTHOST_ALIASES=*.shared-kernel.com
+            
+      postgres:
+        image: postgres:latest
+        container_name: shared-kernel-postgres
+        environment:
+            POSTGRES_USER: sa
+            POSTGRES_PASSWORD: yourStrong(!)Password
+        ports:
+            - 22225:5432
 
     steps:
     - name: Checkout
@@ -74,5 +130,5 @@ jobs:
     - name: Execute unit tests
       run: |
         for project in ${{ matrix.project }}; do
-          dotnet test $project
+          dotnet test $project --configuration Release
         done
