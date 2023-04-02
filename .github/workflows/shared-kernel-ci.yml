@@ -10,8 +10,8 @@
 #
 # To configure this workflow:
 #
-# 1. Configure environment variables
-# GitHub sets default environment variables for every workflow run.
+# 1. Configure env variables
+# GitHub sets default env variables for every workflow run.
 # Replace the variables relative to your project in the "env" section below.
 #
 # 2. Signing
@@ -59,7 +59,7 @@ jobs:
 
       sqlserver:
         image: mcr.microsoft.com/mssql/server:2022-latest
-        environment:
+        env:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=yourStrong(!)Password
             - MSSQL_PID=Developer
@@ -78,7 +78,7 @@ jobs:
 
       rabbitmq:
         image: rabbitmq:latest
-        environment:
+        env:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=password
         ports:
@@ -88,7 +88,7 @@ jobs:
         image: namshi/smtp:latest
         ports:
          - "22224:25"
-        environment:
+        env:
             - MAILNAME=smtp.shared-kernel.com
             - SMARTHOST_ADDRESS=smtp.shared-kernel.com
             - SMARTHOST_PORT=587
@@ -98,7 +98,7 @@ jobs:
             
       postgres:
         image: postgres:latest
-        environment:
+        env:
             POSTGRES_USER: sa
             POSTGRES_PASSWORD: yourStrong(!)Password
         ports:
