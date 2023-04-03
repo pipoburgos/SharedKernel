@@ -4,7 +4,6 @@ services:
 
     sqlserver:
         image: mcr.microsoft.com/mssql/server:2022-latest
-        container_name: shared-kernel-sqlserver
         environment:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=yourStrong(!)Password
@@ -14,19 +13,16 @@ services:
      
     mongo:
         image: mongo:latest
-        container_name: shared-kernel-mongo
         ports:
             - 22221:27017
 
     redis:
         image: redis:latest
-        container_name: shared-kernel-redis
         ports:
             - 22222:6379
 
     rabbitmq:
         image: rabbitmq:latest
-        container_name: shared-kernel-rabbitmq
         environment:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=password
@@ -35,7 +31,6 @@ services:
 
     smtp:
         image: namshi/smtp:latest
-        container_name: shared-kernel-smtp
         ports:
          - "22224:25"
         environment:
@@ -48,7 +43,6 @@ services:
             
     postgres:
         image: postgres:latest
-        container_name: shared-kernel-postgres
         environment:
             POSTGRES_USER: sa
             POSTGRES_PASSWORD: yourStrong(!)Password

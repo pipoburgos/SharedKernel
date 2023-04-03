@@ -120,8 +120,6 @@
 		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.5.0" />
 		<!--TESTING-->
 		<PackageReference Include="Moq" Version="4.18.4" />
-		<PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-		<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="NSubstitute" Version="5.0.0" />
 		<!--SERILOG-->

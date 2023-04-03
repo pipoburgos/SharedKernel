@@ -9,14 +9,26 @@ namespace BankAccounts.Acceptance.Tests.Shared.Docker
 
         public DockerHook()
         {
-            _compositeService = new Builder()
+            var a = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile("./docker-compose.yml")
                 .RemoveOrphans()
                 .WaitForPort("sql_server", "8765")
-                .Build()
-                .Start();
+                .Build();
+
+            Thread.Sleep(TimeSpan.FromSeconds(20));
+
+            _compositeService = a.Start();
+
+            //_compositeService = new Builder()
+            //    .UseContainer()
+            //    .UseCompose()
+            //    .FromFile("./docker-compose.yml")
+            //    .RemoveOrphans()
+            //    .WaitForPort("sql_server", "8765")
+            //    .Build()
+            //    .Start();
         }
 
         public void Dispose()

@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Acceptance.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.Domain.Tests", "samples\BankAccounts\tests\BankAccounts.Domain.UnitTests\BankAccounts.Domain.Tests.csproj", "{4050086F-00C6-4E84-86C6-73069E833AA8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Integration.Tests", "test\Infrastructure\SharedKernel.Integration.Tests.csproj", "{51C471F0-0C0A-4BBC-A571-C8A05D756A24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{4050086F-00C6-4E84-86C6-73069E833AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4050086F-00C6-4E84-86C6-73069E833AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4050086F-00C6-4E84-86C6-73069E833AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C471F0-0C0A-4BBC-A571-C8A05D756A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C471F0-0C0A-4BBC-A571-C8A05D756A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C471F0-0C0A-4BBC-A571-C8A05D756A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C471F0-0C0A-4BBC-A571-C8A05D756A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{D13EF32B-F298-43D6-98E0-F1F4B57F7DD7} = {873B33B1-770A-4C7F-93BD-C56C67DB43B0}
 		{6CC89F1F-250C-46A7-A31D-C223D1C60AAA} = {873B33B1-770A-4C7F-93BD-C56C67DB43B0}
 		{4050086F-00C6-4E84-86C6-73069E833AA8} = {873B33B1-770A-4C7F-93BD-C56C67DB43B0}
+		{51C471F0-0C0A-4BBC-A571-C8A05D756A24} = {D305A245-5E12-41D1-AD64-E2485946FB75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

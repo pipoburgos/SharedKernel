@@ -1,6 +1,7 @@
 ﻿using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
 using System;
+using System.Threading;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Docker
@@ -36,13 +37,21 @@ namespace SharedKernel.Integration.Tests.Docker
 
         public DockerHook()
         {
-            _compositeService = new Builder()
+            var a = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile("./docker-compose.yml")
                 .RemoveOrphans()
-                .Build()
-                .Start();
+                .WaitForPort("sql_server", "8038")
+                .WaitForPort("mongo", "22221")
+                .WaitForPort("redis", "22222")
+                .WaitForPort("smtp", "22224")
+                .WaitForPort("postgres", "22225")
+                .Build();
+
+            Thread.Sleep(TimeSpan.FromMinutes(1));
+
+            _compositeService = a.Start();
         }
 
         protected virtual void Dispose(bool disposing)
