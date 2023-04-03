@@ -33,7 +33,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Api\BankAccounts.Api\BankAccounts.Api.csproj" />
+		<ProjectReference Include="..\..\src\Api\BankAccounts.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
