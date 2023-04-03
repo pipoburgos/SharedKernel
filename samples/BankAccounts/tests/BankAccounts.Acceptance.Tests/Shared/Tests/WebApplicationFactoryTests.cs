@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Api;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +48,7 @@ namespace BankAccounts.Acceptance.Tests.Shared.Tests
         [Fact]
         public async Task SwaggerGenerateJsonOk()
         {
-            var client = new WebApplicationFactory<Startup>().CreateClient();
+            var client = new BankAccountClientFactory().CreateClient();
 
             var response = await client.GetAsync("swagger/v1/swagger.json");
 
