@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Application\BankAccounts.Application\BankAccounts.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\Application\BankAccounts.Application.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

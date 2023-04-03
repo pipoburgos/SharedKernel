@@ -6,8 +6,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\..\src\Application\SharedKernel.Application.csproj" />
-		<ProjectReference Include="..\..\Domain\BankAccounts.Domain\BankAccounts.Domain.csproj" />
+		<ProjectReference Include="..\..\..\..\src\Application\SharedKernel.Application.csproj" />
+		<ProjectReference Include="..\Domain\BankAccounts.Domain.csproj" />
 	</ItemGroup>
 
 </Project>
