@@ -1,7 +1,6 @@
 ﻿using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
 using System;
-using System.Threading;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Docker
@@ -49,7 +48,7 @@ namespace SharedKernel.Integration.Tests.Docker
                 .WaitForPort("postgres", "22225")
                 .Build();
 
-            Thread.Sleep(TimeSpan.FromMinutes(1));
+            //Thread.Sleep(TimeSpan.FromMinutes(1));
 
             _compositeService = a.Start();
         }

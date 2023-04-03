@@ -17,7 +17,7 @@ namespace BankAccounts.Acceptance.Tests.Shared.Docker
                 .WaitForPort("sql_server", "8765")
                 .Build();
 
-            Thread.Sleep(TimeSpan.FromSeconds(20));
+            //Thread.Sleep(TimeSpan.FromSeconds(20));
 
             _compositeService = a.Start();
 
