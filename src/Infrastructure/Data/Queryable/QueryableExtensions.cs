@@ -126,7 +126,8 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="queryable"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public static IQueryable<TResult> MapToDto<T, TResult>(this IQueryable<T> queryable, Expression<Func<T, TResult>> selector)
+        public static IQueryable<TResult> MapToDto<T, TResult>(this IQueryable<T> queryable,
+            Expression<Func<T, TResult>> selector)
         {
             if (typeof(T) == typeof(TResult))
                 return queryable.Cast<TResult>();
@@ -213,7 +214,9 @@ namespace SharedKernel.Infrastructure.Data.Queryable
             if (expression == null)
                 return source;
 
-            var order = ascending ? nameof(global::System.Linq.Queryable.OrderBy) : nameof(global::System.Linq.Queryable.OrderByDescending);
+            var order = ascending
+                ? nameof(global::System.Linq.Queryable.OrderBy)
+                : nameof(global::System.Linq.Queryable.OrderByDescending);
 
             var resultExpression = Expression.Call(
                 typeof(global::System.Linq.Queryable),
@@ -241,7 +244,9 @@ namespace SharedKernel.Infrastructure.Data.Queryable
             if (expression == null)
                 return source;
 
-            var order = ascending ? nameof(global::System.Linq.Queryable.ThenBy) : nameof(global::System.Linq.Queryable.ThenByDescending);
+            var order = ascending
+                ? nameof(global::System.Linq.Queryable.ThenBy)
+                : nameof(global::System.Linq.Queryable.ThenByDescending);
 
             var resultExpression = Expression.Call(
                 typeof(global::System.Linq.Queryable),
