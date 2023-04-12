@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SharedKernel.Application.Security;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
-using SharedKernel.Domain.Security;
 
-namespace SharedKernel.Domain.Tests.Security
+namespace SharedKernel.Application.Tests.Security
 {
     internal class IdentityServiceMock : IIdentityService
     {
         public Guid UserId => Guid.NewGuid();
-        public ClaimsPrincipal User => null;
+        public ClaimsPrincipal User { get; set; }
         public bool IsInRole(string role)
         {
             return true;
@@ -21,5 +22,6 @@ namespace SharedKernel.Domain.Tests.Security
         public string BasePath => "http:a.com";
         public string UserAgent => "browser";
         public string RemoteIpAddress => "127.0.0.1";
+        public Dictionary<string, IEnumerable<string>> Headers => new Dictionary<string, IEnumerable<string>>();
     }
 }

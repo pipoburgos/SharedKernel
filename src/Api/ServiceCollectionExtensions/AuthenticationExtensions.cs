@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +15,15 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     public static class AuthenticationExtensions
     {
         /// <summary>
-        /// Configures OpenIdOptions, IHttpContextAccessor, Authentication, cookies and bearer token
+        /// Configures OpenIdOptions, IIdentityService, Authentication, cookies and bearer token
         /// </summary>
         /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
         /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
         /// <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
         /// <returns></returns>
-        public static IServiceCollection AddSharedKernelAuth(this IServiceCollection services, IConfiguration configuration, string cookieName = null)
+        public static IServiceCollection AddSharedKernelAuth<TIdentityService>(this IServiceCollection services,
+            IConfiguration configuration, string cookieName = null) where TIdentityService : class, IIdentityService
+
         {
             var openIdOptions = new OpenIdOptions();
             configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
@@ -33,7 +34,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
             var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
 
             var authenticationBuilder = services
-                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                .AddHttpContextAccessor()
+                .AddScoped<IIdentityService, TIdentityService>()
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,6 +82,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                                 // Read the token out of the query string
                                 context.Token = accessToken;
                             }
+
                             return Task.CompletedTask;
                         }
                     };

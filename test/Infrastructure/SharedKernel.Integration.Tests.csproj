@@ -7,6 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Cqrs\**" />
+	  <Compile Remove="Data\**" />
+	  <Compile Remove="Events\**" />
+	  <Compile Remove="Logging\**" />
+	  <EmbeddedResource Remove="Cqrs\**" />
+	  <EmbeddedResource Remove="Data\**" />
+	  <EmbeddedResource Remove="Events\**" />
+	  <EmbeddedResource Remove="Logging\**" />
+	  <None Remove="Cqrs\**" />
+	  <None Remove="Data\**" />
+	  <None Remove="Events\**" />
+	  <None Remove="Logging\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="appsettings.json" />
 		<None Remove="appsettings.mongo.json" />
 		<None Remove="appsettings.rabbitMq.json" />
@@ -14,42 +29,14 @@
 		<None Remove="appsettings.serilog.json" />
 		<None Remove="appsettings.smtp.json" />
 		<None Remove="appsettings.sqlServer.json" />
-		<None Remove="Data\Dapper\Queries\appsettings.sqlServer.json" />
-		<None Remove="Events\InMemory\appsettings.inMemory.json" />
-		<None Remove="Events\Redis\appsettings.redis.json" />
-		<None Remove="Events\SynchronousEventBus\appsettings.synchronous.json" />
 		<None Remove="Photo.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Data\Dapper\Queries\appsettings.sqlServer.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Data\Mongo\appsettings.mongo.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 		<Content Include="Caching\appsettings.redis.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Events\SynchronousEventBus\appsettings.synchronous.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Events\InMemory\appsettings.inMemory.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Events\Redis\appsettings.redis.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Logging\appsettings.serilog.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 		<Content Include="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Events\RabbitMq\appsettings.rabbitMq.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Include="Communication\Email\Smtp\appsettings.smtp.json">

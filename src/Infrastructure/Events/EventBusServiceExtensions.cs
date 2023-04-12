@@ -5,7 +5,6 @@ using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
-using SharedKernel.Domain.Security;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
@@ -16,7 +15,6 @@ using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Validators;
 using StackExchange.Redis;
 using System;
@@ -179,7 +177,8 @@ namespace SharedKernel.Infrastructure.Events
         {
             return services
                 .AddHostedService<InMemoryBackgroundService>()
-                .AddSingleton<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
+                .AddSingleton<EventQueue>()
+                .AddTransient<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
                 .AddEventBus()
                 .AddScoped<IEventBus, InMemoryEventBus>()
                 .AddPollyRetry(configuration);
@@ -238,7 +237,7 @@ namespace SharedKernel.Infrastructure.Events
             return services
                 .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                //.AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
                 .AddTransient<IDomainEventMediator, DomainEventMediator>()
                 .AddTransient<IDomainEventJsonSerializer, DomainEventJsonSerializer>()

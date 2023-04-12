@@ -1,0 +1,76 @@
+﻿using Microsoft.AspNetCore.Http;
+using SharedKernel.Application.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+
+namespace SharedKernel.Api.Security
+{
+    /// <summary> User authentication. </summary>
+    public class HttpContextAccessorIdentityService : IIdentityService
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        /// <summary> Constructor. </summary>
+        /// <param name="httpContextAccessor"></param>
+        protected HttpContextAccessorIdentityService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        /// <summary> Identifier. </summary>
+        public Guid UserId => GetUserId();
+
+        /// <summary> User. </summary>
+        public ClaimsPrincipal User
+        {
+            get => _httpContextAccessor?.HttpContext?.User;
+            set
+            {
+                _httpContextAccessor.HttpContext ??= new DefaultHttpContext();
+                _httpContextAccessor.HttpContext.User = value;
+            }
+        }
+
+        /// <summary> Contains a role. </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public bool IsInRole(string role)
+        {
+            return User.IsInRole(role);
+        }
+
+        /// <summary> </summary>
+        /// <returns></returns>
+        public virtual bool IsAuthenticated()
+        {
+            return User?.Identity?.IsAuthenticated == true;
+        }
+
+        /// <summary> </summary>
+        public string BasePath => _httpContextAccessor.HttpContext?.Request == default
+            ? default
+            : $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}";
+
+        /// <summary> Browser. </summary>
+        public string UserAgent => _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
+
+        /// <summary> Remote ip address </summary>
+        public string RemoteIpAddress => _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
+
+        /// <summary> Http headers. </summary>
+        public Dictionary<string, IEnumerable<string>> Headers =>
+            _httpContextAccessor?.HttpContext?.Request.Headers.ToDictionary(h => h.Key,
+                a => a.Value.ToArray().AsEnumerable()) ?? new Dictionary<string, IEnumerable<string>>();
+
+        /// <summary> Get user id from <see cref="ClaimTypes.Sid"/>. </summary>
+        /// <returns></returns>
+        protected virtual Guid GetUserId()
+        {
+            var id = User?.FindFirst(ClaimTypes.Sid)?.Value;
+
+            return !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out _) ? new Guid(id) : Guid.Empty;
+        }
+    }
+}

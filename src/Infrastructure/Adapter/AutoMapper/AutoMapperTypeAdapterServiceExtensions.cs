@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Adapter;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Adapter.AutoMapper
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     public static class AutoMapperTypeAdapterServiceExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>  </summary>
         /// <param name="services"></param>
         /// <param name="assemblies"></param>
         /// <returns></returns>
@@ -25,15 +20,11 @@ namespace SharedKernel.Infrastructure.Adapter.AutoMapper
                 .AddAutoMapper(assemblies);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
+        /// <summary>  </summary>
         /// <returns></returns>
-        public static IApplicationBuilder UseAutoMapperSharedKernel(this IApplicationBuilder app)
+        public static void UseAutoMapperSharedKernel(ITypeAdapterFactory typeAdapterFactory)
         {
-            TypeAdapterFactory.SetCurrent(app.ApplicationServices.GetRequiredService<ITypeAdapterFactory>());
-            return app;
+            TypeAdapterFactory.SetCurrent(typeAdapterFactory);
         }
     }
 }

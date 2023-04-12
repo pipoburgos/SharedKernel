@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using SharedKernel.Application.Events;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using System;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace SharedKernel.Integration.Tests.Events
 {
     internal class SetCountWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IIdentityService _httpContextAccessor;
         private readonly PublishUserCreatedDomainEvent _publishUserCreatedDomainEvent;
 
         public SetCountWhenUserCreatedSubscriber(
-            IHttpContextAccessor httpContextAccessor,
+            IIdentityService httpContextAccessor,
             PublishUserCreatedDomainEvent publishUserCreatedDomainEvent)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -33,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Events
             if (random == 1)
                 throw new Exception("To retry");
 
-            if (_httpContextAccessor?.HttpContext?.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
+            if (_httpContextAccessor?.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
                 _publishUserCreatedDomainEvent.SumTotal();
 
             return Task.CompletedTask;

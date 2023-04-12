@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
@@ -53,24 +53,20 @@ namespace SharedKernel.Integration.Tests.Events.SynchronousEventBus
                 .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
                 .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
 
-
                 .AddHttpContextAccessor();
         }
 
         [Fact]
         public async Task PublishDomainEventFromSynchronousEventBus()
         {
-            var httpContextAccessor = GetRequiredService<IHttpContextAccessor>();
+            var httpContextAccessor = GetRequiredService<IIdentityService>();
 
             if (httpContextAccessor != default)
             {
-#if !NET461 && !NETSTANDARD
-                httpContextAccessor.HttpContext ??= new DefaultHttpContext();
-#endif
-                httpContextAccessor.HttpContext.User =
+                httpContextAccessor.User =
                     new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
 
-                httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", "Prueba");
+                httpContextAccessor.Headers.Add("Authorization", new List<string> { "Prueba" });
             }
 
             var user1 = UserMother.Create();

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Events;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +11,15 @@ namespace SharedKernel.Infrastructure.Events.Shared
     /// </summary>
     public class DomainEventJsonSerializer : IDomainEventJsonSerializer
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IIdentityService _identityService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="httpContextAccessor"></param>
-        public DomainEventJsonSerializer(IHttpContextAccessor httpContextAccessor = null)
+        /// <param name="identityService"></param>
+        public DomainEventJsonSerializer(IIdentityService identityService = null)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _identityService = identityService;
         }
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace SharedKernel.Infrastructure.Events.Shared
 
             attributes.Add("id", domainEvent.AggregateId);
 
-            var domainClaims = _httpContextAccessor?.HttpContext?.User.Claims
+            var domainClaims = _identityService?.User?.Claims
                 .Select(c => new DomainClaim(c.Type, c.Value))
                 .ToList();
 
-            var authorizationHeader = _httpContextAccessor?.HttpContext?.Request.Headers["Authorization"];
+            var authorizationHeader = _identityService?.Headers["Authorization"];
 
             return JsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
             {

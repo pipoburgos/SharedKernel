@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;

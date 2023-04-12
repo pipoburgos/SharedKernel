@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
@@ -73,8 +73,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
             return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, async (req, ct) =>
             {
                 using var scope = _serviceScopeFactory.CreateScope();
-                var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
-                AddIdentity(body, httpContextAccessor);
+                var identityService = scope.ServiceProvider.GetService<IIdentityService>();
+                AddIdentity(body, identityService);
 
                 var subscriber = scope.ServiceProvider.GetRequiredService(eventSubscriber);
                 _logger.Info($"Executing {eventSubscriber.FullName} with data: {body}");
@@ -82,9 +82,9 @@ namespace SharedKernel.Infrastructure.Events.Shared
             });
         }
 
-        private static void AddIdentity(string body, IHttpContextAccessor httpContextAccessor)
+        private static void AddIdentity(string body, IIdentityService identityService)
         {
-            if (httpContextAccessor == default)
+            if (identityService == default)
                 return;
 
             var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
@@ -101,17 +101,13 @@ namespace SharedKernel.Infrastructure.Events.Shared
             if (domainClaims == default || !domainClaims.Any())
                 return;
 
-#if !NET461 && !NETSTANDARD
-            httpContextAccessor.HttpContext ??= new DefaultHttpContext();
-#endif
-
-            httpContextAccessor.HttpContext.User =
+            identityService.User =
                 new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
 
             var authorization = headers["authorization"]?.ToString();
             if (!string.IsNullOrWhiteSpace(authorization) &&
-                !httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Authorization"))
-                httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", authorization);
+                !identityService.Headers.ContainsKey("Authorization"))
+                identityService.Headers.Add("Authorization", new List<string> { authorization });
         }
     }
 }

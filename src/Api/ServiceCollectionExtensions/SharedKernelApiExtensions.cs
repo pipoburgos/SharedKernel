@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prometheus;
 using System;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
@@ -29,7 +28,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         {
             return services
                 .RemoveAll<IDateTime>()
-                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                //.AddTransient<IIdentityService, HttpContextAccessor>()
                 .AddTransient<IDateTime, ClientServerDateTime>();
         }
 

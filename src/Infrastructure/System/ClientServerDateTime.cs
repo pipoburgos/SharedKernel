@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using System;
 
@@ -7,14 +7,14 @@ namespace SharedKernel.Infrastructure.System
     /// <summary> Date time manager. </summary>
     public class ClientServerDateTime : IDateTime
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IIdentityService _identityService;
 
         /// <summary>  </summary>
-        /// <param name="httpContextAccessor"></param>
+        /// <param name="identityService"></param>
         public ClientServerDateTime(
-            IHttpContextAccessor httpContextAccessor)
+            IIdentityService identityService)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _identityService = identityService;
         }
 
         /// <summary> Get utc date time. </summary>
@@ -29,7 +29,7 @@ namespace SharedKernel.Infrastructure.System
         /// <summary> Client date time value. </summary>
         public DateTime ConvertToClientDate(DateTime dateTime)
         {
-            var timezoneOffset = _httpContextAccessor?.HttpContext?.Request.Headers["TimezoneOffset"].ToString();
+            var timezoneOffset = _identityService?.Headers["TimezoneOffset"].ToString();
 
             if (dateTime.Kind == DateTimeKind.Local)
                 dateTime = dateTime.ToUniversalTime();

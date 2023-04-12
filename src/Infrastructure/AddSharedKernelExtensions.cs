@@ -7,11 +7,9 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Domain.Security;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Reporting;
 using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Infrastructure.Security;
 using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Settings;
@@ -43,7 +41,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IDateTime, MachineDateTime>()
                 .AddTransient<IMd5Encryptor, Md5Encryptor>()
                 .AddTransient<IGuid, GuidGenerator>()
-                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                //.AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IParallel, Parallel>()
                 .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
                 .AddTransient<IReportRenderer, ReportRenderer>()

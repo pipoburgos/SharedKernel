@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using SharedKernel.Application.Events;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Shared;
 using System.Collections.Generic;
@@ -14,17 +14,14 @@ namespace SharedKernel.Integration.Tests.Events
     {
         public static async Task PublishDomainEvent(InfrastructureTestCase testCase)
         {
-            var httpContextAccessor = testCase.GetRequiredService<IHttpContextAccessor>();
+            var httpContextAccessor = testCase.GetRequiredService<IIdentityService>();
 
             if (httpContextAccessor != default)
             {
-#if !NET461 && !NETSTANDARD
-                httpContextAccessor.HttpContext ??= new DefaultHttpContext();
-#endif
-                httpContextAccessor.HttpContext.User =
+                httpContextAccessor.User =
                     new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
 
-                httpContextAccessor.HttpContext.Request.Headers.Add("Authorization", "Prueba");
+                httpContextAccessor.Headers.Add("Authorization", new List<string> { "Prueba" });
             }
 
             var user1 = UserMother.Create();
