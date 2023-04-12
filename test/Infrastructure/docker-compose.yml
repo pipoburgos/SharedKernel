@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
 
-    #sqlserver:
-    #    image: mcr.microsoft.com/mssql/server:2022-latest
-    #    environment:
-    #        - ACCEPT_EULA=Y
-    #        - SA_PASSWORD=yourStrong(!)Password
-    #        - MSSQL_PID=Developer
-    #    ports:
-    #        - 22220:1433
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrong(!)Password
+            - MSSQL_PID=Developer
+        ports:
+            - 22220:1433
      
-    #mongo:
-    #    image: mongo:latest
-    #    ports:
-    #        - 22221:27017
+    mongo:
+        image: mongo:latest
+        ports:
+            - 22221:27017
 
     redis:
         image: redis:latest

@@ -42,11 +42,11 @@ namespace SharedKernel.Integration.Tests.Docker
                 .UseCompose()
                 .FromFile("./docker-compose.yml")
                 .RemoveOrphans()
-                .WaitForPort("sql_server", "8038")
-                .WaitForPort("mongo", "22221")
-                .WaitForPort("redis", "22222")
-                .WaitForPort("smtp", "22224")
-                .WaitForPort("postgres", "22225")
+                //.WaitForPort("sql_server", "8038")
+                //.WaitForPort("mongo", "22221")
+                //.WaitForPort("redis", "22222")
+                //.WaitForPort("smtp", "22224")
+                //.WaitForPort("postgres", "22225")
                 .Build();
 
             Thread.Sleep(TimeSpan.FromMinutes(1));
