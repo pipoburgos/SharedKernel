@@ -1,4 +1,5 @@
-﻿using SharedKernel.Application.Reporting;
+﻿#if !WINDOWS
+using SharedKernel.Application.Reporting;
 using SharedKernel.Infrastructure.Reporting;
 using System;
 using System.Collections.Generic;
@@ -69,3 +70,4 @@ namespace SharedKernel.Integration.Tests.Reporting
         }
     }
 }
+#endif
