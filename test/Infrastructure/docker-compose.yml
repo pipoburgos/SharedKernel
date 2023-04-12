@@ -21,13 +21,13 @@ services:
         ports:
             - 22222:6379
 
-    rabbitmq:
-        image: rabbitmq:latest
-        environment:
-            - RABBITMQ_DEFAULT_USER=user
-            - RABBITMQ_DEFAULT_PASS=password
-        ports:
-            - 22223:5672
+    #rabbitmq:
+    #    image: rabbitmq:latest
+    #    environment:
+    #        - RABBITMQ_DEFAULT_USER=user
+    #        - RABBITMQ_DEFAULT_PASS=password
+    #    ports:
+    #        - 22223:5672
 
     smtp:
         image: namshi/smtp:latest
