@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
+    <IsPackable>true</IsPackable>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Infrastructure Layer</Description>
