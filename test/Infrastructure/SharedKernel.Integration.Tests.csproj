@@ -14,12 +14,15 @@
 	  <Compile Remove="Cqrs\**" />
 	  <Compile Remove="Data\**" />
 	  <Compile Remove="Events\**" />
+	  <Compile Remove="Reporting\**" />
 	  <EmbeddedResource Remove="Cqrs\**" />
 	  <EmbeddedResource Remove="Data\**" />
 	  <EmbeddedResource Remove="Events\**" />
+	  <EmbeddedResource Remove="Reporting\**" />
 	  <None Remove="Cqrs\**" />
 	  <None Remove="Data\**" />
 	  <None Remove="Events\**" />
+	  <None Remove="Reporting\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -135,9 +138,6 @@
 
 	<ItemGroup>
 		<None Update="docker-compose.yml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Reporting\BillExample.rdlc">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
