@@ -63,6 +63,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 swaggerGenOptions.SchemaFilter<AssignPropertyRequiredFilter>();
 
+                swaggerGenOptions.SchemaFilter<HideNonPublicPropertiesFilter>();
+
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
 #if NET5_0_OR_GREATER

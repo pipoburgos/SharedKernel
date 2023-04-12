@@ -19,7 +19,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             }
 
             var typeProperties = context.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in schema.Properties)
+            foreach (var property in schema.Properties.Where(p => !p.Value.ReadOnly))
             {
                 if (IsSourceTypePropertyNullable(typeProperties, property.Key) || property.Value.Nullable)
                 {
@@ -59,21 +59,14 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
         private bool IsSourceTypePropertyNullable(PropertyInfo[] typeProperties, string propertyName)
         {
-            return typeProperties.Any(info => info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase)
-                                            && IsNullable(info.PropertyType));
+            return typeProperties.Any(info =>
+                info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase) && IsNullable(info.PropertyType));
         }
 
         private void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
         {
-            if (schema.Required == null)
-            {
-                schema.Required = new HashSet<string>();
-            }
-
-            if (!schema.Required.Contains(propertyName))
-            {
-                schema.Required.Add(propertyName);
-            }
+            schema.Required ??= new HashSet<string>();
+            schema.Required.Add(propertyName);
         }
     }
 }
