@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Application.Security;
 using System;
@@ -35,6 +36,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
 
             var authenticationBuilder = services
                 .AddHttpContextAccessor()
+                .RemoveAll<IIdentityService>()
                 .AddScoped<IIdentityService, TIdentityService>()
                 .AddAuthentication(options =>
                 {

@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using SharedKernel.Application.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using SharedKernel.Application.Security;
 
-namespace SharedKernel.Api.Security
+namespace SharedKernel.Integration.Tests.Events
 {
     /// <summary> User authentication. </summary>
-    public abstract class HttpContextAccessorIdentityService : IIdentityService
+    public class HttpContextAccessorIdentityService : IIdentityService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary> Constructor. </summary>
         /// <param name="httpContextAccessor"></param>
-        protected HttpContextAccessorIdentityService(IHttpContextAccessor httpContextAccessor)
+        public HttpContextAccessorIdentityService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }

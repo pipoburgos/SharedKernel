@@ -14,31 +14,18 @@ namespace SharedKernel.Application.Security
         /// <summary> User logged identifier. </summary>
         Guid UserId { get; }
 
-#if !NET40
-        /// <summary> Users claims. </summary>
-        ClaimsPrincipal User { get; set;}
-#endif
-
-        /// <summary> User logged is in role. </summary>
-        /// <param name="role"></param>
-        /// <returns></returns>
-        bool IsInRole(string role);
-
-        /// <summary> If user is logged in. </summary>
-        /// <returns></returns>
-        bool IsAuthenticated();
-
-        /// <summary> Site base url. </summary>
-        string BasePath { get; }
-
-        /// <summary> Request user agent.  http://www.useragentstring.com/
-        /// </summary>
-        string UserAgent { get; }
-
-        /// <summary> Request user ip address. </summary>
-        string RemoteIpAddress { get; }
+        /// <summary>  </summary>
+        IEnumerable<string> GetKeyValues(string header);
 
         /// <summary>  </summary>
-        Dictionary<string, IEnumerable<string>> Headers { get; }
+        string GetKeyValue(string header);
+
+        /// <summary>  </summary>
+        void AddKeyValue(string key, string value);
+
+#if !NET40
+        /// <summary> Users claims. </summary>
+        ClaimsPrincipal User { get; set; }
+#endif
     }
 }

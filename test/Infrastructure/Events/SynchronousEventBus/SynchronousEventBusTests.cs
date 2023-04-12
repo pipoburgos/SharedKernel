@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.RetryPolicies;
@@ -53,6 +54,8 @@ namespace SharedKernel.Integration.Tests.Events.SynchronousEventBus
                 .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
                 .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
 
+                .RemoveAll<IIdentityService>()
+                .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddHttpContextAccessor();
         }
 
@@ -66,7 +69,7 @@ namespace SharedKernel.Integration.Tests.Events.SynchronousEventBus
                 httpContextAccessor.User =
                     new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
 
-                httpContextAccessor.Headers.Add("Authorization", new List<string> { "Prueba" });
+                httpContextAccessor.AddKeyValue("Authorization", "Prueba");
             }
 
             var user1 = UserMother.Create();

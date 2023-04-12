@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
@@ -48,6 +50,8 @@ namespace SharedKernel.Integration.Tests.Events.InMemory
                 .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
 
 
+                .RemoveAll<IIdentityService>()
+                .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddHttpContextAccessor();
         }
 

@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
@@ -29,7 +31,6 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
                 .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
                 .AddDomainEventSubscribers()
                 .AddSingleton<PublishUserCreatedDomainEvent>()
-                .AddHttpContextAccessor()
 
                 .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))
                 .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>))
@@ -39,7 +40,11 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
                 .AddPollyRetry(Configuration)
 
                 .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>));
+                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
+
+                .RemoveAll<IIdentityService>()
+                .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddHttpContextAccessor();
         }
 
         [Fact]

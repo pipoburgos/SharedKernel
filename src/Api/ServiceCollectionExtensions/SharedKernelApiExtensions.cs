@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using Prometheus;
 using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SharedKernel.Api.Security;
+using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
 #if NET5_0_OR_GREATER
@@ -28,7 +30,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         {
             return services
                 .RemoveAll<IDateTime>()
-                //.AddTransient<IIdentityService, HttpContextAccessor>()
+                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IDateTime, ClientServerDateTime>();
         }
 

@@ -105,9 +105,8 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
 
             var authorization = headers["authorization"]?.ToString();
-            if (!string.IsNullOrWhiteSpace(authorization) &&
-                !identityService.Headers.ContainsKey("Authorization"))
-                identityService.Headers.Add("Authorization", new List<string> { authorization });
+            if (!string.IsNullOrWhiteSpace(authorization))
+                identityService.AddKeyValue("Authorization", authorization);
         }
     }
 }

@@ -39,14 +39,12 @@ namespace SharedKernel.Infrastructure.Events.Shared
                 .Select(c => new DomainClaim(c.Type, c.Value))
                 .ToList();
 
-            var authorizationHeader = _identityService?.Headers["Authorization"];
-
             return JsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
             {
                 {"headers", new Dictionary<string, object>
                     {
                         {"claims", domainClaims},
-                        {"authorization", authorizationHeader?.ToString()}
+                        {"authorization", _identityService?.GetKeyValue("Authorization")}
                     }},
                 {"data", new Dictionary<string,object>
                     {

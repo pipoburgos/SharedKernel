@@ -29,11 +29,10 @@ namespace SharedKernel.Infrastructure.System
         /// <summary> Client date time value. </summary>
         public DateTime ConvertToClientDate(DateTime dateTime)
         {
-            var timezoneOffset = _identityService?.Headers["TimezoneOffset"].ToString();
-
             if (dateTime.Kind == DateTimeKind.Local)
                 dateTime = dateTime.ToUniversalTime();
 
+            var timezoneOffset = _identityService.GetKeyValue("TimezoneOffset");
             if (!string.IsNullOrWhiteSpace(timezoneOffset) &&
                 int.TryParse(timezoneOffset, out var minutes))
                 return dateTime.AddMinutes(minutes * -1);

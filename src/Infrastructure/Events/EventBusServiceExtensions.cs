@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reflection;
+using SharedKernel.Application.Security;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
@@ -237,7 +238,7 @@ namespace SharedKernel.Infrastructure.Events
             return services
                 .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                //.AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddTransient<IIdentityService, DefaultIdentityService>()
                 .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
                 .AddTransient<IDomainEventMediator, DomainEventMediator>()
                 .AddTransient<IDomainEventJsonSerializer, DomainEventJsonSerializer>()

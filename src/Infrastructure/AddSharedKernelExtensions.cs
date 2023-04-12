@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reporting;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Security;
 using SharedKernel.Application.Security.Cryptography;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Settings;
@@ -41,7 +42,7 @@ namespace SharedKernel.Infrastructure
                 .AddTransient<IDateTime, MachineDateTime>()
                 .AddTransient<IMd5Encryptor, Md5Encryptor>()
                 .AddTransient<IGuid, GuidGenerator>()
-                //.AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddTransient<IIdentityService, DefaultIdentityService>()
                 .AddTransient<IParallel, Parallel>()
                 .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
                 .AddTransient<IReportRenderer, ReportRenderer>()

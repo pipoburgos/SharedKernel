@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
@@ -95,7 +96,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             services
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
-                //.AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddTransient<IIdentityService, DefaultIdentityService>()
                 .AddTransient<IDateTime, MachineDateTime>()
                 .AddTransient<IGuid, GuidGenerator>()
                 .AddTransient<IAuditableService, AuditableService>()
