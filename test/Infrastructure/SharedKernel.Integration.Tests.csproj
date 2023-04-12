@@ -6,6 +6,10 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <DefineConstants>_WINDOWS</DefineConstants>
+  </PropertyGroup>
+
 	<ItemGroup>
 	  <Compile Remove="Cqrs\**" />
 	  <Compile Remove="Data\**" />

@@ -1,4 +1,4 @@
-﻿#if !WINDOWS
+﻿#if !_WINDOWS
 using SharedKernel.Application.Reporting;
 using SharedKernel.Infrastructure.Reporting;
 using System;
