@@ -231,6 +231,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 11)
         {
+            await Task.Delay(2_000, cancellationToken);
             await using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);

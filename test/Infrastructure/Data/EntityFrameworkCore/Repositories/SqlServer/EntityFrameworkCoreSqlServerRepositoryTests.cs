@@ -30,6 +30,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [Fact]
         public async Task SaveRepositoryOk()
         {
+            await Task.Delay(2_000);
             var dbContext = GetRequiredService<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.MigrateAsync();
