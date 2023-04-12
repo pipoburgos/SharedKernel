@@ -41,10 +41,10 @@ services:
             - SMARTHOST_PASSWORD=shared-kernel
             - SMARTHOST_ALIASES=*.shared-kernel.com
             
-    postgres:
-        image: postgres:latest
-        environment:
-            POSTGRES_USER: sa
-            POSTGRES_PASSWORD: yourStrong(!)Password
-        ports:
-            - 22225:5432
+    #postgres:
+    #    image: postgres:latest
+    #    environment:
+    #        POSTGRES_USER: sa
+    #        POSTGRES_PASSWORD: yourStrong(!)Password
+    #    ports:
+    #        - 22225:5432
