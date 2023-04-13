@@ -16,7 +16,7 @@
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.0.4</Version>
+		<Version>7.0.5</Version>
 		<!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
 	</PropertyGroup>
 
