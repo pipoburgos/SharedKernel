@@ -63,7 +63,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 swaggerGenOptions.SchemaFilter<AssignPropertyRequiredFilter>();
 
-                swaggerGenOptions.SchemaFilter<HideNonPublicPropertiesFilter>();
+                swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesFilter>();
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
