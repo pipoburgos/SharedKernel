@@ -27,3 +27,9 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+      - name: Pack
+        run: dotnet pack --configuration Release --no-restore
+      - name: Prep packages
+        run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
+      - name: Publish to GitHub packages 
+        run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }}  --source "github"
