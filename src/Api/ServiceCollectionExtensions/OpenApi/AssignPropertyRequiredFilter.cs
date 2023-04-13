@@ -19,7 +19,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             }
 
             var typeProperties = context.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in schema.Properties.Where(p => !p.Value.ReadOnly))
+            foreach (var property in schema.Properties)
             {
                 if (IsSourceTypePropertyNullable(typeProperties, property.Key) || property.Value.Nullable)
                 {
