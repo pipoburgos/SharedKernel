@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using SharedKernel.Api.Security;
 using SharedKernel.Application.Security;
 using System;
 using System.Text;
@@ -16,6 +17,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     public static class AuthenticationExtensions
     {
         /// <summary>
+        /// Configures OpenIdOptions, Authentication, cookies and bearer token
+        /// </summary>
+        /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
+        /// <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
+        /// <returns></returns>
+        public static IServiceCollection AddSharedKernelAuth(this IServiceCollection services,
+            IConfiguration configuration, string cookieName = null)
+        {
+            return services.AddSharedKernelAuth<HttpContextAccessorIdentityService>(configuration, cookieName);
+        }
+
+        /// <summary>
         /// Configures OpenIdOptions, IIdentityService, Authentication, cookies and bearer token
         /// </summary>
         /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
@@ -23,8 +37,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="cookieName">The cookie name. If the name is empty the cookie is not added</param>
         /// <returns></returns>
         public static IServiceCollection AddSharedKernelAuth<TIdentityService>(this IServiceCollection services,
-            IConfiguration configuration, string cookieName = null) where TIdentityService : class, IIdentityService
-
+        IConfiguration configuration, string cookieName = null) where TIdentityService : class, IIdentityService
         {
             var openIdOptions = new OpenIdOptions();
             configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
