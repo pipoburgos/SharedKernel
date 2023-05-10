@@ -65,15 +65,9 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
 
         private void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
         {
-            if (schema.Required == null)
-            {
-                schema.Required = new HashSet<string>();
-            }
+            schema.Required ??= new HashSet<string>();
 
-            if (!schema.Required.Contains(propertyName))
-            {
-                schema.Required.Add(propertyName);
-            }
+            schema.Required.Add(propertyName);
         }
     }
 }

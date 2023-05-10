@@ -9,13 +9,13 @@ using System.Security.Claims;
 namespace SharedKernel.Api.Security
 {
     /// <summary> User authentication. </summary>
-    public abstract class HttpContextAccessorIdentityService : IIdentityService
+    public class HttpContextAccessorIdentityService : IIdentityService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary> Constructor. </summary>
         /// <param name="httpContextAccessor"></param>
-        protected HttpContextAccessorIdentityService(IHttpContextAccessor httpContextAccessor)
+        public HttpContextAccessorIdentityService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }

@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using Prometheus;
 using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SharedKernel.Api.Security;
-using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
 #if NET5_0_OR_GREATER
@@ -30,7 +28,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         {
             return services
                 .RemoveAll<IDateTime>()
-                .AddTransient<IIdentityService, HttpContextAccessorIdentityService>()
                 .AddTransient<IDateTime, ClientServerDateTime>();
         }
 
@@ -40,12 +37,10 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="services">The service collection</param>
         /// <param name="policyName">The policy name of a configured policy.</param>
         /// <param name="origins">All domains who calls the api</param>
-        /// <param name="configureControllers">Adds services for controllers to the specified <see cref="IServiceCollection"/>. This method will not register services used for views or pages.</param>
         /// <returns></returns>
-        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName,
-            string[] origins, Action<MvcOptions> configureControllers)
+        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName, string[] origins)
         {
-            services
+            return services
                 .AddOptions()
                 .AddMetrics()
                 .AddCors(options =>
@@ -66,7 +61,22 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     config.AssumeDefaultVersionWhenUnspecified = true;
                     // Advertise the API versions supported for the particular endpoint
                     config.ReportApiVersions = true;
-                })
+                });
+        }
+
+        /// <summary>
+        /// Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
+        /// </summary>
+        /// <param name="services">The service collection</param>
+        /// <param name="policyName">The policy name of a configured policy.</param>
+        /// <param name="origins">All domains who calls the api</param>
+        /// <param name="configureControllers">Adds services for controllers to the specified <see cref="IServiceCollection"/>. This method will not register services used for views or pages.</param>
+        /// <returns></returns>
+        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName,
+            string[] origins, Action<MvcOptions> configureControllers)
+        {
+            services
+                .AddSharedKernelApi(policyName, origins)
                 .AddControllers(configureControllers)
                 .AddNewtonsoftJson(options =>
                 {
