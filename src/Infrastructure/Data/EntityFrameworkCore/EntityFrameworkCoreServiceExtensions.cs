@@ -34,7 +34,21 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
+            return services.AddEntityFrameworkCoreSqlServer<TContext>(connectionString, serviceLifetime);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddEntityFrameworkCoreSqlServer<TContext>(this IServiceCollection services,
+            string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            where TContext : DbContext
+        {
             services.AddHealthChecks()
                 .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server EFCore",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
@@ -65,7 +79,16 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TContext : DbContext
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
+            return services.AddEntityFrameworkCorePostgreSql<TContext>(connectionString, serviceLifetime);
+        }
 
+        /// <summary>
+        /// Add service PostgreSQL into IServiceCollection
+        /// </summary>
+        public static IServiceCollection AddEntityFrameworkCorePostgreSql<TContext>(this IServiceCollection services,
+            string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            where TContext : DbContext
+        {
             services.AddHealthChecks()
                 .AddNpgSql(connectionString!, "SELECT 1;", null, "Postgre EFCore");
 
