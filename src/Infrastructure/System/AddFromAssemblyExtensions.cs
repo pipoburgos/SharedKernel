@@ -21,7 +21,7 @@ namespace SharedKernel.Infrastructure.System
         public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly,
             ServiceLifetime serviceLifetime, params Type[] genericTypes)
         {
-            var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass);
+            var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass && !t.IsAbstract);
 
             foreach (var type in classTypes)
             {
