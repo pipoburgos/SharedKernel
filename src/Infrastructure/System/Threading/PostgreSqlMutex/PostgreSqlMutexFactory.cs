@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.System.Threading.PostgreSqlMutex
 
         public async Task<IMutex> CreateAsync(string key, CancellationToken cancellationToken)
         {
-            var @lock = new PostgresDistributedLock(new PostgresAdvisoryLockKey(key), _connectionString);
+            var @lock = new PostgresDistributedLock(new PostgresAdvisoryLockKey(key, true), _connectionString);
             var sqlDistributedLockHandle = await @lock.AcquireAsync(cancellationToken: cancellationToken);
             return new PostgreSqlMutex(sqlDistributedLockHandle);
         }
