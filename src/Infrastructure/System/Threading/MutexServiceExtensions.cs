@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.System.Threading;
 using SharedKernel.Infrastructure.System.Threading.InMemory;
+using SharedKernel.Infrastructure.System.Threading.PostgreSqlMutex;
 using SharedKernel.Infrastructure.System.Threading.SqlServerMutex;
 
 namespace SharedKernel.Infrastructure.System.Threading
@@ -41,7 +42,7 @@ namespace SharedKernel.Infrastructure.System.Threading
         }
 
         /// <summary>
-        /// Register in memory IMutexManager and IMutex factory
+        /// Register Sql Server IMutexManager and IMutex factory
         /// </summary>
         /// <param name="services"></param>
         /// <param name="connectionString"></param>
@@ -51,6 +52,19 @@ namespace SharedKernel.Infrastructure.System.Threading
             return services
                 .AddTransient<IMutexManager, MutexManager>()
                 .AddTransient<IMutexFactory>(_ => new SqlServerMutexFactory(connectionString));
+        }
+
+        /// <summary>
+        /// Register PostgreSql IMutexManager and IMutex factory
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddPostgreSqlMutex(this IServiceCollection services, string connectionString)
+        {
+            return services
+                .AddTransient<IMutexManager, MutexManager>()
+                .AddTransient<IMutexFactory>(_ => new PostgreSqlMutexFactory(connectionString));
         }
     }
 }
