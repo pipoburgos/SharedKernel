@@ -7,11 +7,14 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace SharedKernel.Infrastructure.Documents.Excel
+namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
 {
     /// <summary>  </summary>
-    public class ExcelReader : IDocumentReader
+    public class NpoiExcelReader : IExcelReader
     {
+        /// <summary>  </summary>
+        public string Extension => "xlsx";
+
         /// <summary>  </summary>
         public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
@@ -32,7 +35,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel
                 if (row == null)
                     continue;
 
-                yield return cast(new ExcelRow(row.Cells, columnNames), rowIndex + 1);
+                yield return cast(new NpoiExcelRow(row.Cells, columnNames), rowIndex + 1);
             }
         }
 

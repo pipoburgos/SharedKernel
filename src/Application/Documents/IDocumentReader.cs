@@ -9,6 +9,9 @@ namespace SharedKernel.Application.Documents
     public interface IDocumentReader
     {
         /// <summary>  </summary>
+        string Extension { get; }
+
+        /// <summary>  </summary>
         IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast);
 
         /// <summary>  </summary>

@@ -3,16 +3,16 @@ using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
 
-namespace SharedKernel.Infrastructure.Documents.Excel;
+namespace SharedKernel.Infrastructure.Documents.Excel.Npoi;
 
 /// <summary>  </summary>
-public class ExcelRow : IRowData
+public class NpoiExcelRow : IRowData
 {
     private readonly List<ICell> _cells;
     private readonly List<string> _columnNames;
 
     /// <summary>  </summary>
-    public ExcelRow(List<ICell> cells, List<string> columnNames)
+    public NpoiExcelRow(List<ICell> cells, List<string> columnNames)
     {
         _cells = cells;
         _columnNames = columnNames;

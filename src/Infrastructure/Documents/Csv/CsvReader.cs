@@ -7,8 +7,10 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Csv
 {
-    internal class CsvReader : IDocumentReader
+    internal class CsvReader : ICsvReader
     {
+        public string Extension => "csv";
+
         public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
             var streamReader = new StreamReader(stream);
