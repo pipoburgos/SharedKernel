@@ -12,6 +12,9 @@ namespace SharedKernel.Application.Documents
         string Extension { get; }
 
         /// <summary>  </summary>
+        string ColumnLineNumberName { get; }
+
+        /// <summary>  </summary>
         IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast);
 
         /// <summary>  </summary>

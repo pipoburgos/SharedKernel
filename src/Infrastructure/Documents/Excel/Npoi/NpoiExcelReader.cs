@@ -16,6 +16,9 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
         public string Extension => "xlsx";
 
         /// <summary>  </summary>
+        public string ColumnLineNumberName => "LineNumber";
+
+        /// <summary>  </summary>
         public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
             return Read(stream, cast, 0);
@@ -78,7 +81,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
             var columnNames = GetColumnNames(sheet);
 
             if (includeLineNumbers)
-                dataTable.Columns.Add("LineNumber");
+                dataTable.Columns.Add(ColumnLineNumberName);
 
             foreach (var column in columnNames)
             {

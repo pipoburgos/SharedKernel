@@ -10,6 +10,7 @@ namespace SharedKernel.Infrastructure.Documents.Csv
     internal class CsvReader : ICsvReader
     {
         public string Extension => "csv";
+        public string ColumnLineNumberName => "LineNumber";
 
         public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
@@ -33,21 +34,21 @@ namespace SharedKernel.Infrastructure.Documents.Csv
             var headers = streamReader.ReadLine()!.Split(';');
 
             if (includeLineNumbers)
-                dataTable.Columns.Add("LineNumber", typeof(int));
+                dataTable.Columns.Add(ColumnLineNumberName, typeof(int));
             foreach (var header in headers)
             {
                 dataTable.Columns.Add(header);
             }
 
-            var numeroLinea = 1;
+            var lineNumber = 1;
             while (!streamReader.EndOfStream)
             {
                 var rows = streamReader.ReadLine()!.Split(';');
                 var dr = dataTable.NewRow();
                 if (includeLineNumbers)
-                    dr["LineNumber"] = numeroLinea;
+                    dr[ColumnLineNumberName] = lineNumber;
 
-                numeroLinea++;
+                lineNumber++;
                 for (var i = 1; i < headers.Length; i++)
                 {
                     dr[i] = rows[i];

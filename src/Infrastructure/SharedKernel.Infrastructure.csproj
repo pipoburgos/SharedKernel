@@ -47,6 +47,7 @@
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="DistributedLock.Postgres" Version="1.0.4" />
 		<PackageReference Include="DistributedLock.SqlServer" Version="1.0.2" />
+		<PackageReference Include="dotnetdbf" Version="6.0.0.3" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" Condition="'$(TargetFramework)' == 'net7.0'" />
