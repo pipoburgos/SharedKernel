@@ -1,18 +1,25 @@
 ﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace SharedKernel.Infrastructure.Documents
+namespace SharedKernel.Infrastructure.Documents.Excel
 {
     /// <summary>  </summary>
-    public class ExcelReader
+    public class ExcelReader : IDocumentReader
     {
         /// <summary>  </summary>
-        public IEnumerable<T> Read<T>(Stream stream, Func<IExcelRow, T> cast, int sheetIndex = 0)
+        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        {
+            return Read(stream, cast, 0);
+        }
+
+        /// <summary>  </summary>
+        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast, int sheetIndex)
         {
             using var workbook = new XSSFWorkbook(stream);
 
@@ -25,12 +32,12 @@ namespace SharedKernel.Infrastructure.Documents
                 if (row == null)
                     continue;
 
-                yield return cast(new ExcelRow(row.Cells, columnNames));
+                yield return cast(new ExcelRow(row.Cells, columnNames), rowIndex + 1);
             }
         }
 
         /// <summary>  </summary>
-        public DataSet Read(Stream stream, bool includeLineNumbers = true)
+        public DataSet ReadTabs(Stream stream, bool includeLineNumbers = true)
         {
             var dataSet = new DataSet();
 
@@ -47,7 +54,13 @@ namespace SharedKernel.Infrastructure.Documents
         }
 
         /// <summary>  </summary>
-        public DataTable Read(Stream stream, int sheetIndex = 0, bool includeLineNumbers = true)
+        public DataTable Read(Stream stream, bool includeLineNumbers = true)
+        {
+            return Read(stream, includeLineNumbers, 0);
+        }
+
+        /// <summary>  </summary>
+        public DataTable Read(Stream stream, bool includeLineNumbers, int sheetIndex)
         {
             using IWorkbook workbook = new XSSFWorkbook(stream);
             var sheet = workbook.GetSheetAt(sheetIndex);

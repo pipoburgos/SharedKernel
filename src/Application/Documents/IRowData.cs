@@ -1,7 +1,7 @@
-﻿namespace SharedKernel.Infrastructure.Documents;
+﻿namespace SharedKernel.Application.Documents;
 
 /// <summary>  </summary>
-public interface IExcelRow
+public interface IRowData
 {
     /// <summary>  </summary>
     T Get<T>(int index);

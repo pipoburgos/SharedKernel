@@ -1,11 +1,12 @@
 ﻿using NPOI.SS.UserModel;
+using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
 
-namespace SharedKernel.Infrastructure.Documents;
+namespace SharedKernel.Infrastructure.Documents.Excel;
 
 /// <summary>  </summary>
-public class ExcelRow : IExcelRow
+public class ExcelRow : IRowData
 {
     private readonly List<ICell> _cells;
     private readonly List<string> _columnNames;
