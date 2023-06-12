@@ -13,7 +13,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>Pipoburgos.SharedKernel.Domain</PackageId>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
+		<PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
 		<Version>7.0.5.8</Version>

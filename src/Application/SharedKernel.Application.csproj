@@ -13,7 +13,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>Pipoburgos.SharedKernel.Application</PackageId>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
+		<PackageTags>C# DDD UnitOfWork CQRS CommandBus QueryBus EventBus SSRS</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
 		<Version>7.0.5.8</Version>

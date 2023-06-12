@@ -61,7 +61,7 @@ namespace SharedKernel.Domain.ValueObjects
         {
             var a = left.OfType<object>().ToList();
             var b = right.OfType<object>().ToList();
-            var equals = a.Count == b.Count && (!a.Except(b).Any() || !b.Except(a).Any());
+            var equals = a.Count == b.Count && !a.Except(b).Any() && !b.Except(a).Any();
             return equals;
         }
 

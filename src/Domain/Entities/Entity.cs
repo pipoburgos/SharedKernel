@@ -2,22 +2,16 @@ using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Entities
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     /// <typeparam name="TKey"></typeparam>
     public abstract class Entity<TKey> : IEntity<TKey>
     {
         #region Constructors
 
-        /// <summary>
-        /// Entity constructor for ORMs
-        /// </summary>
+        /// <summary> Entity constructor for ORMs. </summary>
         protected Entity() { }
 
-        /// <summary>
-        /// Entity constructor
-        /// </summary>
+        /// <summary> Entity constructor. </summary>
         /// <param name="id">The identifier</param>
         protected Entity(TKey id)
         {
@@ -28,18 +22,14 @@ namespace SharedKernel.Domain.Entities
 
         #region Properties
 
-        /// <summary>
-        /// The object identifier
-        /// </summary>
+        /// <summary> The object identifier. </summary>
         public TKey Id { get; protected set; }
 
         #endregion
 
         #region Public Methods
 
-        /// <summary>
-        /// Check if this entity is transient, ie, without identity at this moment
-        /// </summary>
+        /// <summary> Check if this entity is transient, ie, without identity at this moment. </summary>
         /// <returns>True if entity is transient, else false</returns>
         public bool IsTransient()
         {
@@ -50,9 +40,7 @@ namespace SharedKernel.Domain.Entities
 
         #region Overrides Methods
 
-        /// <summary>
-        /// <see cref="M:System.Object.Equals"/>
-        /// </summary>
+        /// <summary> <see cref="M:System.Object.Equals"/> </summary>
         /// <param name="obj"><see cref="M:System.Object.Equals"/></param>
         /// <returns><see cref="M:System.Object.Equals"/></returns>
         public override bool Equals(object obj)
@@ -70,9 +58,7 @@ namespace SharedKernel.Domain.Entities
             return equals;
         }
 
-        /// <summary>
-        /// <see cref="M:System.Object.GetHashCode"/>
-        /// </summary>
+        /// <summary> <see cref="M:System.Object.GetHashCode"/> </summary>
         /// <returns><see cref="M:System.Object.GetHashCode"/></returns>
         public override int GetHashCode()
         {
@@ -85,9 +71,7 @@ namespace SharedKernel.Domain.Entities
             return Id.GetHashCode() ^ 31;
         }
 
-        /// <summary>
-        /// Compare by identifier
-        /// </summary>
+        /// <summary> Compare by identifier. </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
@@ -96,9 +80,7 @@ namespace SharedKernel.Domain.Entities
             return left?.Equals(right) ?? Equals(right, null);
         }
 
-        /// <summary>
-        /// Compare by identifier
-        /// </summary>
+        /// <summary> Compare by identifier. </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
