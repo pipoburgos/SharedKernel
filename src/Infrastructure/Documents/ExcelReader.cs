@@ -14,7 +14,7 @@ namespace SharedKernel.Infrastructure.Documents
         /// <summary>  </summary>
         public IEnumerable<T> Read<T>(Stream stream, Func<IExcelRow, T> cast, int sheetIndex = 0)
         {
-            var workbook = new XSSFWorkbook(stream);
+            using var workbook = new XSSFWorkbook(stream);
 
             var sheet = workbook.GetSheetAt(sheetIndex);
 
@@ -34,7 +34,7 @@ namespace SharedKernel.Infrastructure.Documents
         {
             var dataSet = new DataSet();
 
-            IWorkbook workbook = new XSSFWorkbook(stream);
+            using IWorkbook workbook = new XSSFWorkbook(stream);
 
             for (var i = 0; i < workbook.NumberOfSheets; i++)
             {
@@ -44,6 +44,14 @@ namespace SharedKernel.Infrastructure.Documents
             }
 
             return dataSet;
+        }
+
+        /// <summary>  </summary>
+        public DataTable Read(Stream stream, int sheetIndex = 0, bool includeLineNumbers = true)
+        {
+            using IWorkbook workbook = new XSSFWorkbook(stream);
+            var sheet = workbook.GetSheetAt(sheetIndex);
+            return ReadSheet(sheet, includeLineNumbers);
         }
 
         private DataTable ReadSheet(ISheet sheet, bool includeLineNumbers = true)
