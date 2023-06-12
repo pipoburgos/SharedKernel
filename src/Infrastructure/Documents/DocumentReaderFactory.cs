@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Documents;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SharedKernel.Infrastructure.Documents
@@ -26,9 +27,15 @@ namespace SharedKernel.Infrastructure.Documents
                 extension = name.Split('.').Last().ToLower();
 
             if (!providers.ContainsKey(extension))
-                throw new NotImplementedException($"Document {extension} no implemented.");
+                throw new NotImplementedException($"Document reader '{extension}' no implemented.");
 
             return providers[name];
+        }
+
+        /// <summary>  </summary>
+        public IEnumerable<string> GetExtensions()
+        {
+            return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLower());
         }
     }
 }

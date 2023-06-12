@@ -10,26 +10,17 @@ using System.Linq;
 namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
 {
     /// <summary>  </summary>
-    public class NpoiExcelReader : IExcelReader
+    public class NpoiExcelReader : DocumentReader, IExcelReader
     {
         /// <summary>  </summary>
-        public string Extension => "xlsx";
+        public override string Extension => "xlsx";
 
         /// <summary>  </summary>
-        public string ColumnLineNumberName => "LineNumber";
-
-        /// <summary>  </summary>
-        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
-        {
-            return Read(stream, cast, 0);
-        }
-
-        /// <summary>  </summary>
-        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast, int sheetIndex)
+        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
             using var workbook = new XSSFWorkbook(stream);
 
-            var sheet = workbook.GetSheetAt(sheetIndex);
+            var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
 
             var columnNames = GetColumnNames(sheet);
             for (var rowIndex = 2; rowIndex <= sheet.LastRowNum; rowIndex++)
@@ -43,7 +34,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
         }
 
         /// <summary>  </summary>
-        public DataSet ReadTabs(Stream stream, bool includeLineNumbers = true)
+        public DataSet ReadTabs(Stream stream)
         {
             var dataSet = new DataSet();
 
@@ -52,7 +43,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
             for (var i = 0; i < workbook.NumberOfSheets; i++)
             {
                 var sheet = workbook.GetSheetAt(i);
-                var dataTable = ReadSheet(sheet, includeLineNumbers);
+                var dataTable = ReadSheet(sheet);
                 dataSet.Tables.Add(dataTable);
             }
 
@@ -60,28 +51,22 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
         }
 
         /// <summary>  </summary>
-        public DataTable Read(Stream stream, bool includeLineNumbers = true)
-        {
-            return Read(stream, includeLineNumbers, 0);
-        }
-
-        /// <summary>  </summary>
-        public DataTable Read(Stream stream, bool includeLineNumbers, int sheetIndex)
+        public override DataTable Read(Stream stream)
         {
             using IWorkbook workbook = new XSSFWorkbook(stream);
-            var sheet = workbook.GetSheetAt(sheetIndex);
-            return ReadSheet(sheet, includeLineNumbers);
+            var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
+            return ReadSheet(sheet);
         }
 
-        private DataTable ReadSheet(ISheet sheet, bool includeLineNumbers = true)
+        private DataTable ReadSheet(ISheet sheet)
         {
             var dataTable = new DataTable(sheet.SheetName);
 
             // write the header row
             var columnNames = GetColumnNames(sheet);
 
-            if (includeLineNumbers)
-                dataTable.Columns.Add(ColumnLineNumberName);
+            if (Configuration.IncludeLineNumbers)
+                dataTable.Columns.Add(Configuration.ColumnLineNumberName);
 
             foreach (var column in columnNames)
             {
@@ -95,7 +80,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
                 var dtRow = dataTable.NewRow();
 
                 var valores = new List<string>();
-                if (includeLineNumbers)
+                if (Configuration.IncludeLineNumbers)
                     valores.Add((sheetRow?.RowNum + 1).ToString());
 
                 dataTable.Columns

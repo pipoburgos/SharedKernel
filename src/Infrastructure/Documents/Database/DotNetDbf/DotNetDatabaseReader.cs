@@ -9,16 +9,13 @@ using System.Linq;
 namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
 {
     /// <summary>  </summary>
-    public class DotNetDatabaseReader : IDatabaseReader
+    public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
     {
         /// <summary>  </summary>
-        public string Extension => "dbf";
+        public override string Extension => "dbf";
 
         /// <summary>  </summary>
-        public string ColumnLineNumberName => "LineNumber";
-
-        /// <summary>  </summary>
-        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
             using var reader = new DBFReader(stream);
 
@@ -32,13 +29,14 @@ namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
         }
 
         /// <summary>  </summary>
-        public DataTable Read(Stream stream, bool includeLineNumbers = true)
+        public override DataTable Read(Stream stream)
         {
             using var reader = new DBFReader(stream);
 
             var dataTable = new DataTable();
-            if (includeLineNumbers)
-                dataTable.Columns.Add(ColumnLineNumberName, typeof(int));
+            if (Configuration.IncludeLineNumbers)
+                dataTable.Columns.Add(Configuration.ColumnLineNumberName, typeof(int));
+
             foreach (var header in reader.Fields)
             {
                 dataTable.Columns.Add(header.Name);
@@ -52,7 +50,7 @@ namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
 
                 var values = new List<object>();
 
-                if (includeLineNumbers)
+                if (Configuration.IncludeLineNumbers)
                     values.Add(row + 1);
 
                 values.AddRange(reader.NextRecord().Select(x => x).ToList());

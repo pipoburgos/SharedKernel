@@ -7,34 +7,38 @@ using System.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Csv
 {
-    internal class CsvReader : ICsvReader
+    /// <summary> </summary>
+    public class CsvReader : DocumentReader, ICsvReader
     {
-        public string Extension => "csv";
-        public string ColumnLineNumberName => "LineNumber";
+        /// <summary> </summary>
+        public override string Extension => "csv";
 
-        public IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        /// <summary> </summary>
+        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
             var streamReader = new StreamReader(stream);
-            var headers = streamReader.ReadLine()!.Split(';').ToList();
+            var headers = streamReader.ReadLine()!.Split(Configuration.Separator).Select(x => x.Trim()).ToList();
 
             var lineNumber = 1;
             while (!streamReader.EndOfStream)
             {
-                var rows = streamReader.ReadLine()!.Split(';').ToList();
+                var rows = streamReader.ReadLine()!.Split(Configuration.Separator).ToList();
 
                 lineNumber++;
                 yield return cast(new CsvRow(rows, headers), lineNumber);
             }
         }
 
-        public DataTable Read(Stream stream, bool includeLineNumbers = true)
+        /// <summary> </summary>
+        public override DataTable Read(Stream stream)
         {
             var streamReader = new StreamReader(stream);
             var dataTable = new DataTable();
-            var headers = streamReader.ReadLine()!.Split(';');
+            var headers = streamReader.ReadLine()!.Split(Configuration.Separator);
 
-            if (includeLineNumbers)
-                dataTable.Columns.Add(ColumnLineNumberName, typeof(int));
+            if (Configuration.IncludeLineNumbers)
+                dataTable.Columns.Add(Configuration.ColumnLineNumberName, typeof(int));
+
             foreach (var header in headers)
             {
                 dataTable.Columns.Add(header);
@@ -43,10 +47,10 @@ namespace SharedKernel.Infrastructure.Documents.Csv
             var lineNumber = 1;
             while (!streamReader.EndOfStream)
             {
-                var rows = streamReader.ReadLine()!.Split(';');
+                var rows = streamReader.ReadLine()!.Split(Configuration.Separator);
                 var dr = dataTable.NewRow();
-                if (includeLineNumbers)
-                    dr[ColumnLineNumberName] = lineNumber;
+                if (Configuration.IncludeLineNumbers)
+                    dr[Configuration.ColumnLineNumberName] = lineNumber;
 
                 lineNumber++;
                 for (var i = 1; i < headers.Length; i++)

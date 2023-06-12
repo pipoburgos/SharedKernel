@@ -12,12 +12,15 @@ namespace SharedKernel.Application.Documents
         string Extension { get; }
 
         /// <summary>  </summary>
-        string ColumnLineNumberName { get; }
+        DocumentReaderConfiguration Configuration { get; }
+
+        /// <summary>  </summary>
+        IDocumentReader Configure(Action<DocumentReaderConfiguration> change);
 
         /// <summary>  </summary>
         IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast);
 
         /// <summary>  </summary>
-        DataTable Read(Stream stream, bool includeLineNumbers = true);
+        DataTable Read(Stream stream);
     }
 }
