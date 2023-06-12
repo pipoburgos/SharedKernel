@@ -8,7 +8,7 @@ using System.Linq;
 namespace SharedKernel.Infrastructure.Documents.Txt;
 
 /// <summary> </summary>
-public class TxtReader : DocumentReader, ICsvReader
+public class TxtReader : DocumentReader, ITxtReader
 {
     /// <summary> </summary>
     public override string Extension => "txt";

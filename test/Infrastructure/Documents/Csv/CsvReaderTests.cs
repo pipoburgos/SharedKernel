@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using SharedKernel.Application.Documents;
 using SharedKernel.Infrastructure.Documents.Csv;
 using System.IO;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace SharedKernel.Integration.Tests.Documents.Csv
     public class CsvReaderTests
     {
         private readonly Stream _stream;
+        private readonly ICsvReader _reader;
 
         public CsvReaderTests()
         {
             _stream = File.OpenRead("Documents/Csv/CsvFile.csv");
+            _reader = new CsvReader();
         }
 
         [Fact]
         public void CastCsv()
         {
-            var reader = new CsvReader();
-            var users = reader
+            var users = _reader
                 .Read(_stream, (data, _) => new CsvUser
                 {
                     Identifier = data.Get<int>(nameof(CsvUser.Identifier)),

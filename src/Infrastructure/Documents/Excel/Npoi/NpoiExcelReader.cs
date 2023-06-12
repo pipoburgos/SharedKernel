@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
             var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
 
             var columnNames = GetColumnNames(sheet);
-            for (var rowIndex = 2; rowIndex <= sheet.LastRowNum; rowIndex++)
+            for (var rowIndex = 1; rowIndex <= sheet.LastRowNum; rowIndex++)
             {
                 var row = sheet.GetRow(rowIndex);
                 if (row == null)
@@ -105,14 +105,15 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
             var columns = new List<string>();
             foreach (var headerCell in headerRow.Select(h => h.ToString()).Where(h => !string.IsNullOrWhiteSpace(h)))
             {
-                if (columns.Contains(headerCell))
+                var headerCellTrim = headerCell.Trim();
+                if (columns.Contains(headerCellTrim))
                 {
                     duplicates++;
-                    columns.Add($"{headerCell}_{duplicates}");
+                    columns.Add($"{headerCellTrim}_{duplicates}");
                 }
                 else
                 {
-                    columns.Add(headerCell);
+                    columns.Add(headerCellTrim);
                 }
             }
 

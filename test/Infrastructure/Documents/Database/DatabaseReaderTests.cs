@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using SharedKernel.Application.Documents;
 using SharedKernel.Infrastructure.Documents.Database.DotNetDbf;
 using System.IO;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace SharedKernel.Integration.Tests.Documents.Database;
 public class DatabaseReaderTests
 {
     private readonly Stream _stream;
+    private readonly IDatabaseReader _reader;
 
     public DatabaseReaderTests()
     {
         _stream = File.OpenRead("Documents/Database/DatabaseFile.dbf");
+        _reader = new DotNetDatabaseReader();
     }
 
     [Fact]
     public void CastDatabase()
     {
-        var reader = new DotNetDatabaseReader();
-        var users = reader
+        var users = _reader
             .Read(_stream, (data, _) => new DatabaseUser
             {
                 Fid = data.Get<int>("FID"),
