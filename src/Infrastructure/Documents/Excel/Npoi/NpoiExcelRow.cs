@@ -2,6 +2,7 @@
 using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Excel.Npoi;
 
@@ -10,12 +11,14 @@ public class NpoiExcelRow : IRowData
 {
     private readonly List<ICell> _cells;
     private readonly List<string> _columnNames;
+    private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public NpoiExcelRow(List<ICell> cells, List<string> columnNames)
+    public NpoiExcelRow(List<ICell> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
         _cells = cells;
         _columnNames = columnNames;
+        _cultureInfo = cultureInfo;
     }
 
     /// <summary>  </summary>
@@ -43,7 +46,7 @@ public class NpoiExcelRow : IRowData
         return Get<T>(index);
     }
 
-    private static T GetCellValue<T>(ICell cell)
+    private T GetCellValue<T>(ICell cell)
     {
         object cellValue;
 
@@ -78,6 +81,6 @@ public class NpoiExcelRow : IRowData
         if (cellValue == default)
             return default;
 
-        return (T)Convert.ChangeType(cellValue, typeof(T));
+        return (T)Convert.ChangeType(cellValue, typeof(T), _cultureInfo);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Application.Documents
+﻿using System.Globalization;
+
+namespace SharedKernel.Application.Documents
 {
     /// <summary>  </summary>
     public class DocumentReaderConfiguration
@@ -14,5 +16,8 @@
 
         /// <summary>  </summary>
         public int SheetIndex { get; set; } = 0;
+
+        /// <summary>  </summary>
+        public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
     }
 }

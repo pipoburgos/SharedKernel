@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf;
 
@@ -9,12 +10,14 @@ public class DatabaseRow : IRowData
 {
     private readonly List<object> _cells;
     private readonly List<string> _columnNames;
+    private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public DatabaseRow(List<object> cells, List<string> columnNames)
+    public DatabaseRow(List<object> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
         _cells = cells;
         _columnNames = columnNames;
+        _cultureInfo = cultureInfo;
     }
 
     /// <summary>  </summary>
@@ -42,11 +45,11 @@ public class DatabaseRow : IRowData
         return Get<T>(index);
     }
 
-    private static T GetCellValue<T>(object cell)
+    private T GetCellValue<T>(object value)
     {
-        if (cell == default)
+        if (value == default)
             return default;
 
-        return (T)Convert.ChangeType(cell, typeof(T));
+        return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }
 }

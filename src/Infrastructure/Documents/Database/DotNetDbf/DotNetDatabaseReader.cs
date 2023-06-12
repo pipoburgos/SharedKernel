@@ -23,7 +23,8 @@ namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
 
             for (var row = 0; row < reader.RecordCount; row++)
             {
-                var rowData = new DatabaseRow(reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList());
+                var rowData = new DatabaseRow(reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList(),
+                    Configuration.CultureInfo);
                 yield return cast(rowData, row);
             }
         }

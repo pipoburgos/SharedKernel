@@ -17,13 +17,13 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         /// <summary>  </summary>
         public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
         {
-            var nodes = XElement.Load(stream).Descendants();
+            var document = XElement.Load(stream);
 
             var lineNumber = 1;
-            foreach (var node in nodes)
+            foreach (var node in document.Nodes())
             {
                 lineNumber++;
-                yield return cast(new XmlRow(node), lineNumber);
+                yield return cast(new XmlRow(node as XElement, Configuration.CultureInfo), lineNumber);
             }
 
             //var serializer = new XmlSerializer(typeof(T));

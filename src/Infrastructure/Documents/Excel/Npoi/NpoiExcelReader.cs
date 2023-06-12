@@ -29,7 +29,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
                 if (row == null)
                     continue;
 
-                yield return cast(new NpoiExcelRow(row.Cells, columnNames), rowIndex + 1);
+                yield return cast(new NpoiExcelRow(row.Cells, columnNames, Configuration.CultureInfo), rowIndex + 1);
             }
         }
 

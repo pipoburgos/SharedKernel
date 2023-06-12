@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Application.Documents;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Txt;
 
@@ -9,12 +10,14 @@ public class TxtRow : IRowData
 {
     private readonly List<string> _cells;
     private readonly List<string> _columnNames;
+    private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public TxtRow(List<string> cells, List<string> columnNames)
+    public TxtRow(List<string> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
         _cells = cells;
         _columnNames = columnNames;
+        _cultureInfo = cultureInfo;
     }
 
     /// <summary>  </summary>
@@ -42,11 +45,11 @@ public class TxtRow : IRowData
         return Get<T>(index);
     }
 
-    private static T GetCellValue<T>(string cell)
+    private T GetCellValue<T>(string value)
     {
-        if (string.IsNullOrWhiteSpace(cell))
+        if (string.IsNullOrWhiteSpace(value))
             return default;
 
-        return (T)Convert.ChangeType(cell, typeof(T));
+        return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }
 }

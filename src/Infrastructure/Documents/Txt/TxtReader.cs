@@ -25,7 +25,7 @@ public class TxtReader : DocumentReader, ITxtReader
             var rows = streamReader.ReadLine()!.Split(Configuration.Separator).ToList();
 
             lineNumber++;
-            yield return cast(new TxtRow(rows, headers), lineNumber);
+            yield return cast(new TxtRow(rows, headers, Configuration.CultureInfo), lineNumber);
         }
     }
 

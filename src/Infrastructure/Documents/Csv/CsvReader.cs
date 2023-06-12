@@ -25,7 +25,7 @@ namespace SharedKernel.Infrastructure.Documents.Csv
                 var rows = streamReader.ReadLine()!.Split(Configuration.Separator).ToList();
 
                 lineNumber++;
-                yield return cast(new CsvRow(rows, headers), lineNumber);
+                yield return cast(new CsvRow(rows, headers, Configuration.CultureInfo), lineNumber);
             }
         }
 
