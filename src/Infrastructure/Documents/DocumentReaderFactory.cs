@@ -29,7 +29,7 @@ namespace SharedKernel.Infrastructure.Documents
             if (!providers.ContainsKey(extension))
                 throw new NotImplementedException($"Document reader '{extension}' no implemented.");
 
-            return providers[name];
+            return providers[extension];
         }
 
         /// <summary>  </summary>
