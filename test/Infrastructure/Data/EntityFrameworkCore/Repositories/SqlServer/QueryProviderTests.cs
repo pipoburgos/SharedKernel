@@ -273,12 +273,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 11)
         {
-            await Task.Delay(10_000, cancellationToken);
             await using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
-            await Task.Delay(3_000, cancellationToken);
-            dbContext.Database.SetCommandTimeout(300);
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
-            dbContext.Database.SetCommandTimeout(300);
             await dbContext.Database.MigrateAsync(cancellationToken);
 
             var repository = new UserEfCoreRepository(dbContext);

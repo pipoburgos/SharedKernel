@@ -37,7 +37,7 @@ namespace SharedKernel.Integration.Tests.Docker
 
         public DockerHook()
         {
-            var a = new Builder()
+            _compositeService = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile("./docker-compose.yml")
@@ -47,11 +47,10 @@ namespace SharedKernel.Integration.Tests.Docker
                 //.WaitForPort("redis", "22222")
                 //.WaitForPort("smtp", "22224")
                 //.WaitForPort("postgres", "22225")
-                .Build();
+                .Build()
+                .Start();
 
-            Thread.Sleep(TimeSpan.FromMinutes(1));
-
-            _compositeService = a.Start();
+            Thread.Sleep(20_000);
         }
 
         protected virtual void Dispose(bool disposing)
