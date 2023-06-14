@@ -32,7 +32,7 @@ services:
     smtp:
         image: namshi/smtp:latest
         ports:
-         - "22224:25"
+            - "22224:25"
         environment:
             - MAILNAME=smtp.shared-kernel.com
             - SMARTHOST_ADDRESS=smtp.shared-kernel.com
@@ -48,3 +48,9 @@ services:
     #        POSTGRES_PASSWORD: yourStrong(!)Password
     #    ports:
     #        - 22225:5432
+ 
+    activemq:
+        image: rmohr/activemq
+        ports:
+            - 8170:8161
+            - 61616:61616

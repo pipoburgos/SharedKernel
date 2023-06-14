@@ -7,6 +7,7 @@ using SharedKernel.Application.Security;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Events.ApacheActiveMq;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
@@ -231,6 +232,30 @@ namespace SharedKernel.Infrastructure.Events
                 .AddScoped<IEventBus, RedisEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddPollyRetry(configuration);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="brokerUri"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddApacheActiveMq(this IServiceCollection services,
+            string brokerUri)
+        {
+            //services
+            //    .AddHealthChecks()
+            //    .AddApacheMq(brokerUri, "Apache ActiveMq Event Bus", tags: new[] { "Event Bus", "Apache", "ActiveMq" });
+
+            return services
+                .AddHostedService<ApacheActiveMqDomainEventsConsumer>()
+                .AddEventBus()
+                .AddScoped<IEventBus, RedisEventBus>()
+                .AddScoped<IEventBus, ApacheActiveMqEventBus>(s =>
+                    new ApacheActiveMqEventBus(s.GetRequiredService<IDomainEventJsonSerializer>(),
+                        s.GetRequiredService<IExecuteMiddlewaresService>(), brokerUri))
+                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
+            //.AddPollyRetry(configuration);
         }
 
         private static IServiceCollection AddEventBus(this IServiceCollection services)

@@ -7,14 +7,14 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.InMemory
 {
-    public class InMemoryEventBusTests : InfrastructureTestCase
+    public class InMemoryEventBusTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
