@@ -2,7 +2,7 @@
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
@@ -12,7 +12,7 @@ namespace SharedKernel.Integration.Tests.Events
 {
     public static class PublishUserCreatedDomainEventCase
     {
-        public static async Task PublishDomainEvent(InfrastructureTestCase testCase)
+        public static async Task PublishDomainEvent(InfrastructureTestCase<FakeStartup> testCase)
         {
             var httpContextAccessor = testCase.GetRequiredService<IIdentityService>();
 
