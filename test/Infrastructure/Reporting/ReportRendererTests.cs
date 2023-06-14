@@ -32,7 +32,7 @@ public class ReportRendererTests
             return;
 
         var service = new ReportRenderer(null);
-        const string path = "Reporting/BillExample.rdlc";
+        const string path = "Reporting/BillExampleReport.rdlc";
         const ExportReportType extension = ExportReportType.Pdf;
 
         var billReportData = new BillReportData

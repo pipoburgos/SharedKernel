@@ -21,12 +21,14 @@ using Path = System.IO.Path;
 
 namespace SharedKernel.Testing.Acceptance.WebApplication
 {
-    public class WebApplicationFactoryBase<TStartup, TContext> : WebApplicationFactory<TStartup>
-        where TStartup : class where TContext : DbContext
+    public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private const string Environment = "Testing";
         private bool _firstTime = true;
         private DatabaseManager _dataBase;
+
+        public bool DeleteDatabase { get; set; } = true;
+
+        public string Environment { get; set; } = "Testing";
 
         public DateTime? DateTime { get; set; }
 
@@ -43,7 +45,7 @@ namespace SharedKernel.Testing.Acceptance.WebApplication
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            const string ficheroConfiguracion = $"appsettings.{Environment}.json";
+            var ficheroConfiguracion = $"appsettings.{Environment}.json";
             if (!File.Exists(ficheroConfiguracion))
                 throw new FileNotFoundException(ficheroConfiguracion);
 
@@ -102,7 +104,7 @@ namespace SharedKernel.Testing.Acceptance.WebApplication
                 });
         }
 
-        internal new async Task<HttpClient> CreateClient()
+        public async Task<HttpClient> CreateClientAsync<TContext>() where TContext : DbContext
         {
             if (_firstTime)
             {
@@ -113,9 +115,9 @@ namespace SharedKernel.Testing.Acceptance.WebApplication
             if (_dataBase != default)
                 await _dataBase.DisposeAsync();
 
-            _dataBase = new DatabaseManager(GetNewContext());
+            _dataBase = new DatabaseManager(GetNewContext<TContext>());
 
-            var client = base.CreateClient();
+            var client = CreateClient();
             client.Timeout = TimeSpan.FromMinutes(2);
             client.DefaultRequestHeaders.Add("Accept-Language", "es-ES");
             return client;
@@ -123,20 +125,20 @@ namespace SharedKernel.Testing.Acceptance.WebApplication
 
         protected virtual async Task RegenerateDatabase(CancellationToken cancellationToken)
         {
-            await Task.Delay(15_000, cancellationToken);
-            var unitOfWork = Services.GetRequiredService<TContext>();
-            //await unitOfWork.Database.EnsureDeletedAsync(cancellationToken);
+            var unitOfWork = CreateScopeReturnDbContext();
+            if (DeleteDatabase)
+                await unitOfWork.Database.EnsureDeletedAsync(cancellationToken);
             unitOfWork.Database.SetCommandTimeout(300);
             await unitOfWork.Database.MigrateAsync(cancellationToken);
         }
 
         internal DatabaseManager Database() => _dataBase;
 
-        internal TContext GetNewContext()
+        protected abstract DbContext CreateScopeReturnDbContext();
+
+        protected TContext GetNewContext<TContext>() where TContext : DbContext
         {
             return Services.CreateScope().ServiceProvider.GetService<TContext>();
         }
-
-
     }
 }

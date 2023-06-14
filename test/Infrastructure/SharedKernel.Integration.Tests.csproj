@@ -87,7 +87,7 @@
     <None Update="Documents\Xml\XmlFile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Reporting\BillExample.rdlc">
+    <None Update="Reporting\BillExampleReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
