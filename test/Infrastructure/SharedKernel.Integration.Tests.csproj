@@ -7,62 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Cqrs\**" />
-    <Compile Remove="Data\Dapper\**" />
-    <Compile Remove="Data\EntityFrameworkCore\**" />
-    <Compile Remove="Events\**" />
-    <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Data\Dapper\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
-    <EmbeddedResource Remove="Events\**" />
-    <None Remove="Cqrs\**" />
-    <None Remove="Data\Dapper\**" />
-    <None Remove="Data\EntityFrameworkCore\**" />
-    <None Remove="Events\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-    <None Remove="appsettings.mongo.json" />
-    <None Remove="appsettings.rabbitMq.json" />
-    <None Remove="appsettings.redis.json" />
-    <None Remove="appsettings.serilog.json" />
-    <None Remove="appsettings.smtp.json" />
-    <None Remove="appsettings.sqlServer.json" />
-    <None Remove="Photo.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Events\HttpContextAccessorIdentityService.cs" />
-    <Compile Include="Events\InMemory\InMemoryEventBusTests.cs" />
-    <Compile Include="Events\PublishUserCreatedDomainEvent.cs" />
-    <Compile Include="Events\PublishUserCreatedDomainEventCase.cs" />
-    <Compile Include="Events\SetCountWhenUserCreatedSubscriber.cs" />
-    <Compile Include="Events\SetUserIdWhenUserCreatedSubscriber.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Data\Mongo\appsettings.mongo.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Caching\appsettings.redis.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Communication\Email\Smtp\appsettings.smtp.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Events\InMemory\appsettings.inMemory.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Photo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -81,6 +25,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Caching\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Communication\Email\Smtp\appsettings.smtp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Mongo\appsettings.mongo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="docker-compose.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -97,6 +59,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Documents\Xml\XmlFile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\ApacheActiveMq\appsettings.Apache.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\InMemory\appsettings.inMemory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\RabbitMq\appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reporting\BillExampleReport.rdlc">

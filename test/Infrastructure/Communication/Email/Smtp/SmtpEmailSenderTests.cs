@@ -67,7 +67,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
         private static Task<FileStream> GetPhotoBinary()
         {
-            var path = $"{Directory.GetCurrentDirectory()}/Photo.jpg";
+            const string path = "Communication/Email/Photo.jpg";
             return Task.FromResult(new FileStream(path, FileMode.Open, FileAccess.Read));
         }
 

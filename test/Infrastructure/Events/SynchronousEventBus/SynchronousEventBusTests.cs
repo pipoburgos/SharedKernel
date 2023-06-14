@@ -9,7 +9,7 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,7 +19,7 @@ using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.SynchronousEventBus
 {
-    public class SynchronousEventBusTests : InfrastructureTestCase
+    public class SynchronousEventBusTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {

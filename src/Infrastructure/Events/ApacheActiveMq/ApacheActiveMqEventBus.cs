@@ -1,4 +1,5 @@
-﻿using SharedKernel.Application.Events;
+﻿using Microsoft.Extensions.Options;
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
         public ApacheActiveMqEventBus(
             IDomainEventJsonSerializer domainEventJsonSerializer,
             IExecuteMiddlewaresService executeMiddlewaresService,
-            string brokerUri) : base(brokerUri)
+            IOptions<ApacheActiveMqConfiguration> configuration) : base(configuration)
         {
             _domainEventJsonSerializer = domainEventJsonSerializer;
             _executeMiddlewaresService = executeMiddlewaresService;

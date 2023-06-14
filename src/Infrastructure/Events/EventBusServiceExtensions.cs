@@ -238,11 +238,12 @@ namespace SharedKernel.Infrastructure.Events
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="brokerUri"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddApacheActiveMq(this IServiceCollection services,
-            string brokerUri)
+        public static IServiceCollection AddApacheActiveMq(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<ApacheActiveMqConfiguration>(configuration.GetSection(nameof(ApacheActiveMqConfiguration)));
+
             //services
             //    .AddHealthChecks()
             //    .AddApacheMq(brokerUri, "Apache ActiveMq Event Bus", tags: new[] { "Event Bus", "Apache", "ActiveMq" });
@@ -251,9 +252,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHostedService<ApacheActiveMqDomainEventsConsumer>()
                 .AddEventBus()
                 .AddScoped<IEventBus, RedisEventBus>()
-                .AddScoped<IEventBus, ApacheActiveMqEventBus>(s =>
-                    new ApacheActiveMqEventBus(s.GetRequiredService<IDomainEventJsonSerializer>(),
-                        s.GetRequiredService<IExecuteMiddlewaresService>(), brokerUri))
+                .AddScoped<IEventBus, ApacheActiveMqEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
             //.AddPollyRetry(configuration);
         }

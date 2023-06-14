@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
 {
     [Collection("DockerHook")]
-    public class EntityFrameworkCoreSqlServerRepositoryTests : InfrastructureTestCase
+    public class EntityFrameworkCoreSqlServerRepositoryTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
@@ -30,7 +30,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [Fact]
         public async Task SaveRepositoryOk()
         {
-            var dbContext = await Regenerate();
+            await Regenerate();
 
             var repository = GetRequiredService<UserEfCoreRepository>();
 
@@ -40,15 +40,12 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             await repository.SaveChangesAsync(CancellationToken.None);
 
             Assert.Equal(roberto, repository.GetById(roberto.Id));
-
-            await dbContext.Database.EnsureDeletedAsync();
-            await dbContext.Database.MigrateAsync();
         }
 
         [Fact]
         public async Task SaveRepositoryNameChanged()
         {
-            var dbContext = await Regenerate();
+            await Regenerate();
 
             var repository = GetRequiredService<UserEfCoreRepository>();
 
@@ -75,22 +72,13 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             Assert.Equal(roberto.Name, repoUser.Name);
             Assert.Equal(5, repoUser.Emails.Count());
             Assert.Equal(10, repoUser.Addresses.Count());
-
-            await dbContext.Database.EnsureDeletedAsync();
-            await dbContext.Database.MigrateAsync();
         }
 
-        private async Task<SharedKernelDbContext> Regenerate(CancellationToken cancellationToken = default)
+        private async Task Regenerate(CancellationToken cancellationToken = default)
         {
-            await Task.Delay(10_000, cancellationToken);
-            await using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
-            await Task.Delay(3_000, cancellationToken);
-            dbContext.Database.SetCommandTimeout(300);
+            await using var dbContext = GetRequiredService<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
-            dbContext.Database.SetCommandTimeout(300);
             await dbContext.Database.MigrateAsync(cancellationToken);
-
-            return dbContext;
         }
     }
 }

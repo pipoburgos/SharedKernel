@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Middlewares;
@@ -10,12 +8,14 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Validators;
 using SharedKernel.Integration.Tests.Cqrs.Commands;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Middlewares
 {
-    public class MiddlewaresValidationsTests : InfrastructureTestCase
+    public class MiddlewaresValidationsTests : InfrastructureTestCase<FakeStartup>
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {

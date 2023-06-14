@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -8,12 +9,12 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
     /// <summary> </summary>
     public class ApacheActiveMqPublisher
     {
-        private readonly string _brokerUri;
+        private readonly ApacheActiveMqConfiguration _configuration;
 
         /// <summary> </summary>
-        public ApacheActiveMqPublisher(string brokerUri)
+        public ApacheActiveMqPublisher(IOptions<ApacheActiveMqConfiguration> configuration)
         {
-            _brokerUri = brokerUri;
+            _configuration = configuration.Value;
         }
 
         /// <summary> </summary>
@@ -30,7 +31,7 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
 
         private async Task PublishCommon(string textMessage, string queue = default, string topicName = default)
         {
-            var connecturi = new Uri(_brokerUri);
+            var connecturi = new Uri(_configuration.BrokerUri);
             var connectionFactory = new ConnectionFactory(connecturi);
 
             // Create a Connection

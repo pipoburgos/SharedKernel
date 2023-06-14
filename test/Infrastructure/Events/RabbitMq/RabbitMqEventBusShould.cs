@@ -8,14 +8,14 @@ using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq
 {
     [Collection("DockerHook")]
-    public class RabbitMqEventBusShould : InfrastructureTestCase
+    public class RabbitMqEventBusShould : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
@@ -50,7 +50,6 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         [Fact]
         public async Task PublishDomainEventFromRabbitMq()
         {
-            await Task.Delay(7_000);
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(this);
         }
     }

@@ -7,14 +7,14 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Validators;
 using SharedKernel.Integration.Tests.Cqrs.Commands;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Middlewares
 {
-    public class MiddlewaresWithResponseTests : InfrastructureTestCase
+    public class MiddlewaresWithResponseTests : InfrastructureTestCase<FakeStartup>
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
