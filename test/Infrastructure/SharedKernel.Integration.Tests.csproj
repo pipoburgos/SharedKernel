@@ -9,16 +9,17 @@
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
     <Compile Remove="Data\Dapper\**" />
-    <Compile Remove="Data\EntityFrameworkCore\**" />
     <Compile Remove="Events\**" />
     <EmbeddedResource Remove="Cqrs\**" />
     <EmbeddedResource Remove="Data\Dapper\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
     <EmbeddedResource Remove="Events\**" />
     <None Remove="Cqrs\**" />
     <None Remove="Data\Dapper\**" />
-    <None Remove="Data\EntityFrameworkCore\**" />
     <None Remove="Events\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EntityFrameworkCoreSqlServerRepositoryTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -136,8 +137,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="docker-compose.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Documents\Excel\ExcelFile.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
