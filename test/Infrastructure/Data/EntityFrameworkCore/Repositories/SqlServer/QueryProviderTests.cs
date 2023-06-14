@@ -8,7 +8,6 @@ using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -17,12 +16,13 @@ using FluentAssertions;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions;
 using SharedKernel.Infrastructure.Data.Queryable;
+using SharedKernel.Testing.Infrastructure;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
 {
     [Collection("DockerHook")]
-    public class QueryProviderTests : InfrastructureTestCase
+    public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,7 +10,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Caching
 {
     [Collection("DockerHook")]
-    public class RedisCacheHelperTests : InfrastructureTestCase
+    public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {

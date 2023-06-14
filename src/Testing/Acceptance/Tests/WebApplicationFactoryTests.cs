@@ -1,35 +1,42 @@
-﻿using BankAccounts.Api;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
+using System.Net;
+using System.Threading.Tasks;
 
-namespace BankAccounts.Acceptance.Tests.Shared.Tests
+namespace SharedKernel.Testing.Acceptance.Tests
 {
-    public class WebApplicationFactoryTests
+    public abstract class WebApplicationFactoryBaseTests<T> where T : class
     {
-        [Fact]
-        public void Startup_WhenBuildServiceCollection_ShouldDependenciesBeRegistered()
+        protected abstract T CreateStartup(IConfiguration configuration);
+        protected abstract void ConfigureServices(T startup, IServiceCollection services);
+
+        public virtual void Startup_WhenBuildServiceCollection_ShouldDependenciesBeRegistered()
         {
-            Startup startup = null;
             IServiceCollection serviceCollection = null;
 
+            T startup = default;
             Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                        .UseStartup<Startup>()
+                        .UseStartup<T>()
                         .ConfigureAppConfiguration((hostingContext, config) =>
                         {
                             config.Sources.Clear();
                             config.AddConfiguration(hostingContext.Configuration);
                             config.AddJsonFile("appsettings.json");
-                            config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.testing.json"), false);
-                            startup = new Startup(config.Build());
+                            config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Testing.json"), false);
+                            startup = CreateStartup(config.Build());
                         })
                         .ConfigureServices(sc =>
                         {
-                            startup.ConfigureServices(sc);
+                            ConfigureServices(startup, sc);
                             serviceCollection = sc;
                         });
                 })
@@ -45,14 +52,17 @@ namespace BankAccounts.Acceptance.Tests.Shared.Tests
             buildServiceProvider.Should().NotThrow<AggregateException>();
         }
 
-        [Fact]
-        public async Task SwaggerGenerateJsonOk()
+        public virtual async Task Swagger_TestGenerateJson()
         {
-            var client = new BankAccountClientFactory().CreateClient();
+            var client = new WebApplicationFactory<T>().CreateClient();
 
             var response = await client.GetAsync("swagger/v1/swagger.json");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        protected abstract void StartupWhenBuildServiceCollectionShouldDependenciesBeRegistered();
+
+        protected abstract Task SwaggerGenerateJsonOk();
     }
 }

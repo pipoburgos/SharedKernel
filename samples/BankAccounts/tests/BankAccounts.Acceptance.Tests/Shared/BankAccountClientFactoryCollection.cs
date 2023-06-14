@@ -1,4 +1,4 @@
-﻿using BankAccounts.Acceptance.Tests.Shared.Docker;
+﻿using SharedKernel.Testing.Docker;
 
 namespace BankAccounts.Acceptance.Tests.Shared
 {

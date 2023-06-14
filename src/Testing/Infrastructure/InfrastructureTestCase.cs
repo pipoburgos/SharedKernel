@@ -7,9 +7,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 
-namespace SharedKernel.Integration.Tests.Shared
+namespace SharedKernel.Testing.Infrastructure
 {
-    public abstract class InfrastructureTestCase : WebApplicationFactory<FakeStartup>
+    public abstract class InfrastructureTestCase<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected IConfiguration Configuration => new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
@@ -21,7 +21,7 @@ namespace SharedKernel.Integration.Tests.Shared
             return Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(x =>
                 {
-                    x.UseStartup<FakeStartup>().UseTestServer();
+                    x.UseStartup<TStartup>().UseTestServer();
                 });
         }
 

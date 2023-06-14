@@ -2,14 +2,14 @@
 using Microsoft.Extensions.Options;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.Mongo;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Linq;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories
 {
     [Collection("DockerHook")]
-    public class MongoRepositoryCreateTests : InfrastructureTestCase
+    public class MongoRepositoryCreateTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {

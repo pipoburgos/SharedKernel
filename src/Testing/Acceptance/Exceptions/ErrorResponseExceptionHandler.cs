@@ -1,8 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using FluentAssertions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace BankAccounts.Acceptance.Tests.Shared.Exceptions
+namespace SharedKernel.Testing.Acceptance.Exceptions
 {
     public class ErrorResponseExceptionHandler
     {
@@ -21,12 +28,6 @@ namespace BankAccounts.Acceptance.Tests.Shared.Exceptions
         {
             _responseMessage = responseMessage;
         }
-
-        #endregion
-
-        #region Properties
-
-
 
         #endregion
 

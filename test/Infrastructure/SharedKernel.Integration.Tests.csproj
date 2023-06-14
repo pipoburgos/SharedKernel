@@ -9,17 +9,16 @@
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
     <Compile Remove="Data\Dapper\**" />
+    <Compile Remove="Data\EntityFrameworkCore\**" />
     <Compile Remove="Events\**" />
     <EmbeddedResource Remove="Cqrs\**" />
     <EmbeddedResource Remove="Data\Dapper\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
     <EmbeddedResource Remove="Events\**" />
     <None Remove="Cqrs\**" />
     <None Remove="Data\Dapper\**" />
+    <None Remove="Data\EntityFrameworkCore\**" />
     <None Remove="Events\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EntityFrameworkCoreSqlServerRepositoryTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,9 +39,6 @@
     <Content Include="Caching\appsettings.redis.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Logging\appsettings.serilog.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -54,73 +50,8 @@
     </Content>
   </ItemGroup>
 
-  <!--ENTITY FRAMEWORK CORE-->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.21" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.21">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.21" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.21" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.21">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.16" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.16" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <ItemGroup>
-    <!--ELASTICSEARCH TESTING-->
-    <PackageReference Include="Ductus.FluentDocker" Version="2.10.59" />
-    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.6.2" />
-    <!--TESTING-->
-    <PackageReference Include="Moq" Version="4.18.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NSubstitute" Version="5.0.0" />
-    <!--SERILOG-->
-    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
-    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0" />
-    <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -133,13 +64,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Testing\SharedKernel.Testing.csproj" />
     <ProjectReference Include="..\Domain\SharedKernel.Domain.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="docker-compose.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

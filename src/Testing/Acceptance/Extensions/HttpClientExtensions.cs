@@ -1,8 +1,15 @@
-﻿using BankAccounts.Acceptance.Tests.Shared.Exceptions;
+﻿using FluentAssertions;
 using Newtonsoft.Json;
+using SharedKernel.Testing.Acceptance.Exceptions;
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace BankAccounts.Acceptance.Tests.Shared.Extensions
+namespace SharedKernel.Testing.Acceptance.Extensions
 {
     public static class HttpClientExtensions
     {
@@ -62,8 +69,13 @@ namespace BankAccounts.Acceptance.Tests.Shared.Extensions
 
         public static async Task<T> GetResponseContentAsync<T>(this HttpResponseMessage response)
         {
-
             var stringResponse = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(stringResponse);
+            }
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
             return JsonConvert.DeserializeObject<T>(stringResponse);
         }
 

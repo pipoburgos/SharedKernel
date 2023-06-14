@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccounts.UseCases.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Integration.Tests", "test\Infrastructure\SharedKernel.Integration.Tests.csproj", "{258D2AD8-57DC-432C-BE5E-5524AB6661D2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Testing", "src\Testing\SharedKernel.Testing.csproj", "{6852ED51-34E0-4CB6-9480-1D156BC7D301}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{258D2AD8-57DC-432C-BE5E-5524AB6661D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{258D2AD8-57DC-432C-BE5E-5524AB6661D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{258D2AD8-57DC-432C-BE5E-5524AB6661D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6852ED51-34E0-4CB6-9480-1D156BC7D301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6852ED51-34E0-4CB6-9480-1D156BC7D301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6852ED51-34E0-4CB6-9480-1D156BC7D301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6852ED51-34E0-4CB6-9480-1D156BC7D301}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +137,7 @@ Global
 		{C69925A7-2893-427E-963F-CF7270510293} = {EE9B9492-1627-4F9A-98CB-B308C0F6B50C}
 		{D91ABF99-7782-4080-8537-219621D6256B} = {EE9B9492-1627-4F9A-98CB-B308C0F6B50C}
 		{258D2AD8-57DC-432C-BE5E-5524AB6661D2} = {35E22E6B-BA49-41BA-88C4-E2E04BB7F9E1}
+		{6852ED51-34E0-4CB6-9480-1D156BC7D301} = {9FF73358-40B0-4081-A499-4351F71833C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

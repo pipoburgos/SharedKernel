@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Adapter.AutoMapper;
-using SharedKernel.Integration.Tests.Shared;
 using SharedKernel.Application.Adapter;
+using SharedKernel.Infrastructure.Adapter.AutoMapper;
+using SharedKernel.Testing.Infrastructure;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
 {
-    public partial class AutoMapperTests : InfrastructureTestCase
+    public partial class AutoMapperTests : InfrastructureTestCase<FakeStartup>
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
@@ -20,8 +20,8 @@ namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
         public void MapppingOk()
         {
             TypeAdapterFactory.SetCurrent(GetRequiredService<ITypeAdapterFactory>());
-            var emails = new List<string> {"a@a.es", "b@b.es"};
-            var source = new DocumentSource {Name = "Say may name", Emails = emails};
+            var emails = new List<string> { "a@a.es", "b@b.es" };
+            var source = new DocumentSource { Name = "Say may name", Emails = emails };
             var result = source.MapTo<DocumentTarget>();
             result.Name.Should().Be(source.Name);
             result.Emails.Should().Equal(source.Emails,

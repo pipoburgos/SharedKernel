@@ -2,13 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory
 {
-    public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase
+    public class EntityFrameworkCoreInMemoryRepositoryTests : InfrastructureTestCase<FakeStartup>
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {

@@ -2,35 +2,9 @@
 using Ductus.FluentDocker.Services;
 using System;
 using System.Threading;
-using Xunit;
 
-namespace SharedKernel.Integration.Tests.Docker
+namespace SharedKernel.Testing.Docker
 {
-    [CollectionDefinition("DockerHook")]
-    public class DockerHookCollection : ICollectionFixture<DockerHook>, IDisposable
-    {
-        private readonly DockerHook _dockerHook;
-
-        public DockerHookCollection(DockerHook dockerHook)
-        {
-            _dockerHook = dockerHook;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-                return;
-
-            _dockerHook?.Dispose();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-    }
-
     public class DockerHook : IDisposable
     {
         private readonly ICompositeService _compositeService;
@@ -50,7 +24,7 @@ namespace SharedKernel.Integration.Tests.Docker
                 .Build()
                 .Start();
 
-            Thread.Sleep(20_000);
+            Thread.Sleep(TimeSpan.FromSeconds(10));
         }
 
         protected virtual void Dispose(bool disposing)

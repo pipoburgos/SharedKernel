@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Infrastructure.Logging;
+using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Logging;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
 {
-    public class InMemoryCacheHelperTests : InfrastructureTestCase
+    public class InMemoryCacheHelperTests : InfrastructureTestCase<FakeStartup>
     {
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {

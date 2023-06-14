@@ -1,6 +1,6 @@
 ﻿using BankAccounts.Acceptance.Tests.Shared;
-using BankAccounts.Acceptance.Tests.Shared.Extensions;
 using BankAccounts.Application.BankAccounts.Commands;
+using SharedKernel.Testing.Acceptance.Extensions;
 
 namespace BankAccounts.Acceptance.Tests
 {

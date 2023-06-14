@@ -5,7 +5,7 @@ using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure.Communication.Email;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Exceptions;
-using SharedKernel.Integration.Tests.Shared;
+using SharedKernel.Testing.Infrastructure;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -15,7 +15,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 {
     [Collection("DockerHook")]
-    public class SmtpEmailSenderTests : InfrastructureTestCase
+    public class SmtpEmailSenderTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
