@@ -30,10 +30,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [Fact]
         public async Task SaveRepositoryOk()
         {
-            await Task.Delay(2_000);
-            var dbContext = GetRequiredService<SharedKernelDbContext>();
-            await dbContext.Database.EnsureDeletedAsync();
-            await dbContext.Database.MigrateAsync();
+            var dbContext = await Regenerate();
 
             var repository = GetRequiredService<UserEfCoreRepository>();
 
@@ -51,9 +48,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         [Fact]
         public async Task SaveRepositoryNameChanged()
         {
-            var dbContext = GetService<SharedKernelDbContext>();
-            await dbContext.Database.EnsureDeletedAsync();
-            await dbContext.Database.MigrateAsync();
+            var dbContext = await Regenerate();
 
             var repository = GetRequiredService<UserEfCoreRepository>();
 
@@ -83,6 +78,19 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.MigrateAsync();
+        }
+
+        private async Task<SharedKernelDbContext> Regenerate(CancellationToken cancellationToken = default)
+        {
+            await Task.Delay(10_000, cancellationToken);
+            await using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
+            await Task.Delay(3_000, cancellationToken);
+            dbContext.Database.SetCommandTimeout(300);
+            await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+            dbContext.Database.SetCommandTimeout(300);
+            await dbContext.Database.MigrateAsync(cancellationToken);
+
+            return dbContext;
         }
     }
 }
