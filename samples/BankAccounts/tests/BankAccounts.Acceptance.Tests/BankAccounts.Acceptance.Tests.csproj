@@ -6,11 +6,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="appsettings.Testinga.json" />
+		<None Remove="appsettings.Testing.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="appsettings.Testinga.json">
+		<Content Include="appsettings.Testing.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
