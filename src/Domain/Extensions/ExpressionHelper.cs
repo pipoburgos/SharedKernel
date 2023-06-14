@@ -21,14 +21,19 @@ public static class ExpressionHelper
     /// <param name="propertyInfo"></param>
     /// <param name="operator"></param>
     /// <param name="value"></param>
+    /// <param name="utcDates"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo propertyInfo, Operator? @operator, string value)
+    public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo propertyInfo, Operator? @operator,
+        string value, bool utcDates = true)
     {
-        var isString = typeof(T) == typeof(string) || propertyInfo?.PropertyType == typeof(string);
+        var type = propertyInfo != default ? propertyInfo.PropertyType : typeof(T);
 
-        var isDate = typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?) ||
-                     propertyInfo?.PropertyType == typeof(DateTime) || propertyInfo?.PropertyType == typeof(DateTime?);
+        var typeNotNullable = Nullable.GetUnderlyingType(type) ?? type;
+
+        var isString = typeNotNullable == typeof(string);
+
+        var isDate = typeNotNullable == typeof(DateTime);
 
         var parameterExpression = Expression.Parameter(typeof(T), "x");
 
@@ -38,13 +43,18 @@ public static class ExpressionHelper
 
         ConstantExpression GetExpression()
         {
-            return Expression.Constant(isString
-                ? value
-                : isDate
-                    ? ((DateTime?)Convert.ChangeType(value,
-                        propertyInfo != default ? propertyInfo.PropertyType : typeof(T)))?.ToUniversalTime()
-                    : Convert.ChangeType(value, propertyInfo != default ? propertyInfo.PropertyType : typeof(T)));
+            if (string.IsNullOrWhiteSpace(value))
+                return Expression.Constant(value);
+
+            var valueExpression = Convert.ChangeType(value, typeNotNullable!);
+
+            if (isDate && utcDates)
+                valueExpression = ((DateTime)valueExpression).ToUniversalTime();
+
+            return Expression.Constant(valueExpression, type);
         }
+
+        @operator ??= isDate ? Operator.DateEqual : isString ? Operator.Contains : Operator.EqualTo;
 
         Expression binaryExpression;
         switch (@operator)
@@ -142,31 +152,28 @@ public static class ExpressionHelper
                 if (!isDate)
                     throw new Exception("Only date property");
 
-                return DateEqual<T>(propertyExpression, value, parameterExpression);
+                return DateEqual<T>(propertyExpression, value, parameterExpression, utcDates);
 
             case Operator.NotDateEqual:
                 if (!isDate)
                     throw new Exception("Only date property");
 
-                return NotDateEqual<T>(propertyExpression, value, parameterExpression);
+                return NotDateEqual<T>(propertyExpression, value, parameterExpression, utcDates);
 
-            //case null:
             default:
-                if (isDate)
-                    return DateEqual<T>(propertyExpression, value, parameterExpression);
-
-                binaryExpression = isString
-                    ? Contains(propertyExpression, GetExpression())
-                    : Expression.Equal(propertyExpression, GetExpression());
-                break;
+                throw new ArgumentOutOfRangeException();
         }
 
         return Expression.Lambda<Func<T, bool>>(binaryExpression, parameterExpression);
     }
 
-    private static Expression<Func<T, bool>> DateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression)
+    private static Expression<Func<T, bool>> DateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression, bool utcDates)
     {
-        var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture).ToUniversalTime();
+        var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture);
+
+        if (utcDates)
+            dayStart = dayStart.ToUniversalTime();
+
         var dayEnd = dayStart.AddDays(1);
 
         var leftExpression = Expression.GreaterThanOrEqual(expression, Expression.Constant(dayStart));
@@ -178,9 +185,13 @@ public static class ExpressionHelper
         return left.Compose(right, Expression.And);
     }
 
-    private static Expression<Func<T, bool>> NotDateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression)
+    private static Expression<Func<T, bool>> NotDateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression, bool utcDates)
     {
-        var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture).ToUniversalTime();
+        var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture);
+
+        if (utcDates)
+            dayStart = dayStart.ToUniversalTime();
+
         var dayEnd = dayStart.AddDays(1);
 
         var leftExpression = Expression.LessThan(expression, Expression.Constant(dayStart));

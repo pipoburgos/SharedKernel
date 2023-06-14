@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
@@ -11,9 +12,11 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
     [DbContext(typeof(SharedKernelDbContext))]
-    partial class SharedKernelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230614111813_NullableUserNumberOfChildren")]
+    partial class NullableUserNumberOfChildren
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

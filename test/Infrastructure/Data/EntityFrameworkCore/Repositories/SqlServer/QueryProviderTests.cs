@@ -54,26 +54,43 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         }
 
 
-        //[Fact]
-        //public async Task ToPagedListOneQuery()
-        //{
-        //    const int total = 50;
-        //    await LoadTestDataAsync(CancellationToken.None, total);
+        [Fact]
+        public async Task ToPagedListFilterNullableInteger()
+        {
+            const int total = 50;
+            await LoadTestDataAsync(CancellationToken.None, total);
 
-        //    var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
 
-        //    var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-        //        new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
+            var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
+                new List<FilterProperty> { new("NumberOfChildren", "110", FilterOperator.LessThanOrEqualTo) });
 
-        //    var result = await queryProvider
-        //        .GetQuery<User>(pageOptions)
-        //       .ToPagedListAsync(pageOptions, CancellationToken.None);
+            var result = await queryProvider
+                .GetQuery<User>()
+                .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-        //    result.Items.Count().Should().Be(total);
-        //    result.TotalRecordsFiltered.Should().Be(total);
-        //}
+            result.Items.Count().Should().Be(total);
+            result.TotalRecordsFiltered.Should().Be(total);
+        }
 
+        [Fact]
+        public async Task ToPagedListFilterNullableDateTime()
+        {
+            const int total = 50;
+            await LoadTestDataAsync(CancellationToken.None, total);
 
+            var queryProvider = GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+
+            var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
+                new List<FilterProperty> { new("Birthdate", "1970-05-01T00:00:00Z", FilterOperator.GreaterThan) });
+
+            var result = await queryProvider
+                .GetQuery<User>()
+                .ToPagedListAsync(pageOptions, CancellationToken.None);
+
+            result.Items.Count().Should().Be(total);
+            result.TotalRecordsFiltered.Should().Be(total);
+        }
         //[Fact]
         //public async Task ToPagedListTwoQueries()
         //{

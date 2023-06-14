@@ -16,7 +16,7 @@ namespace SharedKernel.Domain.Tests.Users
             _addresses = new List<Address>();
         }
 
-        public static User Create(Guid id, string name, DateTime birthdate, int numberOfChildren)
+        public static User Create(Guid id, string name, DateTime birthdate, int? numberOfChildren)
         {
             var user = new User
             {
@@ -33,7 +33,7 @@ namespace SharedKernel.Domain.Tests.Users
 
         public string Name { get; private set; }
 
-        public int NumberOfChildren { get; private set; }
+        public int? NumberOfChildren { get; private set; }
 
         public DateTime Birthdate { get; private set; }
 
