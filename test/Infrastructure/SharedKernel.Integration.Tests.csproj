@@ -8,32 +8,17 @@
 
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
-    <Compile Remove="Events\**" />
+    <Compile Remove="Events\ApacheActiveMq\**" />
+    <Compile Remove="Events\RabbitMq\**" />
+    <Compile Remove="Events\Redis\**" />
     <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
-    <EmbeddedResource Remove="Events\**" />
+    <EmbeddedResource Remove="Events\ApacheActiveMq\**" />
+    <EmbeddedResource Remove="Events\RabbitMq\**" />
+    <EmbeddedResource Remove="Events\Redis\**" />
     <None Remove="Cqrs\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
-    <None Remove="Events\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\EntityFrameworkCoreSqlServerRepositoryTests.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.Designer.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230304191410_NewUserProperties.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230304191410_NewUserProperties.Designer.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.Designer.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\SharedKernelDbContextModelSnapshot.cs" />
-    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\QueryProviderTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Remove="Events\ApacheActiveMq\**" />
+    <None Remove="Events\RabbitMq\**" />
+    <None Remove="Events\Redis\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +53,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Mongo\appsettings.mongo.json">
