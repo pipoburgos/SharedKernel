@@ -8,7 +8,7 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
     {
         public Task Handle(SampleCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(command.Value);
+            return Task.CompletedTask;
         }
     }
 }

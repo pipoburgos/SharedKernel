@@ -11,11 +11,12 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>Pipoburgos.SharedKernel.Api.Gateway</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    		<Version>7.0.7.1</Version>
+    		<Version>7.0.7.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

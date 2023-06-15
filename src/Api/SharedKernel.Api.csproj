@@ -12,11 +12,12 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>Pipoburgos.SharedKernel.Api</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.0.7.1</Version>
+		<Version>7.0.7.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,5 +47,12 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
 	</ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>-->
 
 </Project>
