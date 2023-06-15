@@ -19,16 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Data\Dapper\Queries\SqlServerDapperQueryProviderTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Data\Dapper\Queries\appsettings.sqlServer.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -57,6 +47,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Communication\Email\Smtp\appsettings.smtp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Mongo\appsettings.mongo.json">
