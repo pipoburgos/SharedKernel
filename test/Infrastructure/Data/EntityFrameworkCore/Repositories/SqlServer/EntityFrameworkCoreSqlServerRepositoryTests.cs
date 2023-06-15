@@ -21,7 +21,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("SharedKernelSqlServer");
+            var connection = Configuration.GetConnectionString("RepositoryConnectionString");
             return services
                 .AddTransient<UserEfCoreRepository>()
                 .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient);
@@ -76,7 +76,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         private async Task Regenerate(CancellationToken cancellationToken = default)
         {
-            await using var dbContext = GetRequiredService<SharedKernelDbContext>();
+            var dbContext = GetRequiredService<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
         }

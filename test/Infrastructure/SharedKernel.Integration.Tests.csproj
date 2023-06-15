@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\EntityFrameworkCoreSqlServerRepositoryTests.cs" />
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.cs" />
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.Designer.cs" />
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230304191410_NewUserProperties.cs" />
