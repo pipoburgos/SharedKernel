@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Cqrs\**" />
-    <Compile Remove="Events\RabbitMq\**" />
-    <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Events\RabbitMq\**" />
-    <None Remove="Cqrs\**" />
-    <None Remove="Events\RabbitMq\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -77,6 +68,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\InMemory\appsettings.inMemory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\RabbitMq\appsettings.rabbitMq.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\Redis\appsettings.redis.json">
