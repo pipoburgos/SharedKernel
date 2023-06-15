@@ -9,13 +9,10 @@
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
     <Compile Remove="Events\RabbitMq\**" />
-    <Compile Remove="Events\Redis\**" />
     <EmbeddedResource Remove="Cqrs\**" />
     <EmbeddedResource Remove="Events\RabbitMq\**" />
-    <EmbeddedResource Remove="Events\Redis\**" />
     <None Remove="Cqrs\**" />
     <None Remove="Events\RabbitMq\**" />
-    <None Remove="Events\Redis\**" />
   </ItemGroup>
 
   <ItemGroup>

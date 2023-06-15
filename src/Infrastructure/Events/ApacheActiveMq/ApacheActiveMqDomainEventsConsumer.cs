@@ -77,7 +77,7 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
                         }
                     };
 
-                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                 }
             }
             catch (Exception ex)
