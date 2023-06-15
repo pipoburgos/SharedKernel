@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Communication\**" />
+    <Compile Remove="Cqrs\**" />
     <Compile Remove="Data\Dapper\**" />
     <Compile Remove="Data\EntityFrameworkCore\**" />
     <Compile Remove="Events\**" />
-    <EmbeddedResource Remove="Communication\**" />
+    <EmbeddedResource Remove="Cqrs\**" />
     <EmbeddedResource Remove="Data\Dapper\**" />
     <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
     <EmbeddedResource Remove="Events\**" />
-    <None Remove="Communication\**" />
+    <None Remove="Cqrs\**" />
     <None Remove="Data\Dapper\**" />
     <None Remove="Data\EntityFrameworkCore\**" />
     <None Remove="Events\**" />
