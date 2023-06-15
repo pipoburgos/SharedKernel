@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.Dapper.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
@@ -21,7 +23,7 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("SharedKernelSqlServer3");
+            var connection = Configuration.GetConnectionString("DapperConnectionString");
 
             return services
                 .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
@@ -31,18 +33,23 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
         [Fact]
         public async Task ExecuteQuery()
         {
-            await Regenerate();
+            var dbContext = await Regenerate();
+            var user = UserMother.Create();
+            dbContext.Set<User>().Add(user);
+            await dbContext.SaveChangesAsync();
             var result = await GetRequiredService<DapperQueryProvider>()
-                .ExecuteQueryFirstOrDefaultAsync<int>("SELECT 1");
+                .ExecuteQueryFirstOrDefaultAsync<int>($"SELECT COUNT(*) FROM User WHERE Id = {user.Id}");
 
-            Assert.Equal(1, result);
+            result.Should().Be(1);
         }
 
-        private async Task Regenerate(CancellationToken cancellationToken = default)
+        private async Task<DbContext> Regenerate(CancellationToken cancellationToken = default)
         {
             await using var dbContext = GetRequiredService<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
+
+            return dbContext;
         }
     }
 }

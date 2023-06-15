@@ -8,17 +8,24 @@
 
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
-    <Compile Remove="Data\Dapper\**" />
-    <Compile Remove="Data\EntityFrameworkCore\**" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <Compile Remove="Events\**" />
     <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Data\Dapper\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <EmbeddedResource Remove="Events\**" />
     <None Remove="Cqrs\**" />
-    <None Remove="Data\Dapper\**" />
-    <None Remove="Data\EntityFrameworkCore\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <None Remove="Events\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Data\Dapper\Queries\SqlServerDapperQueryProviderTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
