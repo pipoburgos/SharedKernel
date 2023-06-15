@@ -73,23 +73,21 @@ namespace SharedKernel.Integration.Tests.Cqrs.Commands
         [Fact]
         public async Task DispatchInQueueSumTime()
         {
-            var delayCommand = new DelayCommand(2);
-
             var commandBus = GetRequiredService<ICommandBus>();
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var response = commandBus.DispatchOnQueue(delayCommand, "queue", CancellationToken.None);
-            var response2 = commandBus.DispatchOnQueue(delayCommand, "queue2", CancellationToken.None);
-            var response3 = commandBus.DispatchOnQueue(delayCommand, "queue", CancellationToken.None);
-            var response4 = commandBus.DispatchOnQueue(delayCommand, "queue", CancellationToken.None);
+            var response = commandBus.DispatchOnQueue(new DelayCommand(1), "queue", CancellationToken.None);
+            var response2 = commandBus.DispatchOnQueue(new DelayCommand(3), "queue2", CancellationToken.None);
+            var response3 = commandBus.DispatchOnQueue(new DelayCommand(1), "queue", CancellationToken.None);
+            var response4 = commandBus.DispatchOnQueue(new DelayCommand(1), "queue", CancellationToken.None);
 
             await Task.WhenAll(response, response2, response3, response4);
 
             stopWatch.Stop();
 
-            stopWatch.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(6_000);
-            stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(6_250);
+            stopWatch.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(3_000);
+            stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(5_900);
         }
 
     }
