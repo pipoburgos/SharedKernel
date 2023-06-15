@@ -40,7 +40,6 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
 
             try
             {
-
                 var domainEventMediator = scope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
                 var configuration = scope.ServiceProvider.GetRequiredService<IOptions<ApacheActiveMqConfiguration>>();
 
@@ -55,17 +54,15 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
                 // Create a Session
                 using var session = await connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
 
+
+                const string topicPattern = ">"; // Utiliza el comodín ">" para suscribirte a todos los topics
+                var destination = new ActiveMQTopic(topicPattern);
+
+                using var consumer = await session.CreateConsumerAsync(destination);
+
                 while (!stoppingToken.IsCancellationRequested)
                 {
-
-                    const string topicPattern = ">"; // Utiliza el comodín ">" para suscribirte a todos los topics
-                    var destination = new ActiveMQTopic(topicPattern);
-
-                    using var consumer = await session.CreateConsumerAsync(destination);
-
-                    consumer.Listener += OnMessage;
-
-                    void OnMessage(IMessage message)
+                    consumer.Listener += message =>
                     {
                         try
                         {
@@ -78,8 +75,9 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
                         {
                             logger.Error(ex, ex.Message);
                         }
-                    }
+                    };
 
+                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                 }
             }
             catch (Exception ex)

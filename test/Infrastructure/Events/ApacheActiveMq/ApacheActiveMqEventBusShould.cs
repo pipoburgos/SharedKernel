@@ -47,7 +47,7 @@ namespace SharedKernel.Integration.Tests.Events.ApacheActiveMq
                 .AddHttpContextAccessor();
         }
 
-        //[Fact]
+        [Fact]
         public async Task PublishDomainEventFromApacheMq()
         {
             await PublishUserCreatedDomainEventCase.PublishDomainEvent(this);

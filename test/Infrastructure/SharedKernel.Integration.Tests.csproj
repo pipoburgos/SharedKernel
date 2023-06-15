@@ -8,15 +8,12 @@
 
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
-    <Compile Remove="Events\ApacheActiveMq\**" />
     <Compile Remove="Events\RabbitMq\**" />
     <Compile Remove="Events\Redis\**" />
     <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Events\ApacheActiveMq\**" />
     <EmbeddedResource Remove="Events\RabbitMq\**" />
     <EmbeddedResource Remove="Events\Redis\**" />
     <None Remove="Cqrs\**" />
-    <None Remove="Events\ApacheActiveMq\**" />
     <None Remove="Events\RabbitMq\**" />
     <None Remove="Events\Redis\**" />
   </ItemGroup>
@@ -77,6 +74,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Documents\Xml\XmlFile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\ApacheActiveMq\appsettings.Apache.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\InMemory\appsettings.inMemory.json">
