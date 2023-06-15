@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Communication\**" />
     <Compile Remove="Events\**" />
+    <EmbeddedResource Remove="Communication\**" />
     <EmbeddedResource Remove="Events\**" />
+    <None Remove="Communication\**" />
     <None Remove="Events\**" />
   </ItemGroup>
 
@@ -35,12 +38,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Caching\appsettings.redis.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Communication\Email\Photo.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Communication\Email\Smtp\appsettings.smtp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">

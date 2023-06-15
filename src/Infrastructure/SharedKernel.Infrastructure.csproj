@@ -50,7 +50,7 @@
 		<PackageReference Include="DistributedLock.SqlServer" Version="1.0.2" />
 		<PackageReference Include="dotnetdbf" Version="6.0.0.3" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.18" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" Condition="'$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
