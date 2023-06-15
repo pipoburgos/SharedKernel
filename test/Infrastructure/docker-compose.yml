@@ -40,14 +40,6 @@ services:
             - SMARTHOST_USER=shared-kernel@shared-kernel.com
             - SMARTHOST_PASSWORD=shared-kernel
             - SMARTHOST_ALIASES=*.shared-kernel.com
-            
-    postgres:
-        image: postgres:latest
-        environment:
-            POSTGRES_USER: sa
-            POSTGRES_PASSWORD: yourStrong(!)Password
-        ports:
-            - 22225:5432
  
     activemq:
         image: rmohr/activemq

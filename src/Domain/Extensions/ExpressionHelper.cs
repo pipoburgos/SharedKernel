@@ -152,13 +152,13 @@ public static class ExpressionHelper
                 if (!isDate)
                     throw new Exception("Only date property");
 
-                return DateEqual<T>(propertyExpression, value, parameterExpression, utcDates);
+                return DateEqual<T>(propertyExpression, value, parameterExpression, type, utcDates);
 
             case Operator.NotDateEqual:
                 if (!isDate)
                     throw new Exception("Only date property");
 
-                return NotDateEqual<T>(propertyExpression, value, parameterExpression, utcDates);
+                return NotDateEqual<T>(propertyExpression, value, parameterExpression, type, utcDates);
 
             default:
                 throw new ArgumentOutOfRangeException();
@@ -167,7 +167,8 @@ public static class ExpressionHelper
         return Expression.Lambda<Func<T, bool>>(binaryExpression, parameterExpression);
     }
 
-    private static Expression<Func<T, bool>> DateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression, bool utcDates)
+    private static Expression<Func<T, bool>> DateEqual<T>(Expression expression, string value,
+        ParameterExpression parameterExpression, Type type, bool utcDates)
     {
         var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture);
 
@@ -176,16 +177,17 @@ public static class ExpressionHelper
 
         var dayEnd = dayStart.AddDays(1);
 
-        var leftExpression = Expression.GreaterThanOrEqual(expression, Expression.Constant(dayStart));
+        var leftExpression = Expression.GreaterThanOrEqual(expression, Expression.Constant(dayStart, type));
         var left = Expression.Lambda<Func<T, bool>>(leftExpression, parameterExpression);
 
-        var rightExpression = Expression.LessThan(expression, Expression.Constant(dayEnd));
+        var rightExpression = Expression.LessThan(expression, Expression.Constant(dayEnd, type));
         var right = Expression.Lambda<Func<T, bool>>(rightExpression, parameterExpression);
 
         return left.Compose(right, Expression.And);
     }
 
-    private static Expression<Func<T, bool>> NotDateEqual<T>(Expression expression, string value, ParameterExpression parameterExpression, bool utcDates)
+    private static Expression<Func<T, bool>> NotDateEqual<T>(Expression expression, string value,
+        ParameterExpression parameterExpression, Type type, bool utcDates)
     {
         var dayStart = DateTime.Parse(value, CultureInfo.InvariantCulture);
 
@@ -194,10 +196,10 @@ public static class ExpressionHelper
 
         var dayEnd = dayStart.AddDays(1);
 
-        var leftExpression = Expression.LessThan(expression, Expression.Constant(dayStart));
+        var leftExpression = Expression.LessThan(expression, Expression.Constant(dayStart, type));
         var left = Expression.Lambda<Func<T, bool>>(leftExpression, parameterExpression);
 
-        var rightExpression = Expression.GreaterThanOrEqual(expression, Expression.Constant(dayEnd));
+        var rightExpression = Expression.GreaterThanOrEqual(expression, Expression.Constant(dayEnd, type));
         var right = Expression.Lambda<Func<T, bool>>(rightExpression, parameterExpression);
 
         return left.Compose(right, Expression.Or);
