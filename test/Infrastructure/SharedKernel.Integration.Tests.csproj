@@ -19,6 +19,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20201206132411_InitialDatabase.Designer.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230304191410_NewUserProperties.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230304191410_NewUserProperties.Designer.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.Designer.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\SharedKernelDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
