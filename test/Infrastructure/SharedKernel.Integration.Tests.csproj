@@ -26,6 +26,13 @@
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.cs" />
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\20230614111813_NullableUserNumberOfChildren.Designer.cs" />
     <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\Migrations\SharedKernelDbContextModelSnapshot.cs" />
+    <Compile Include="Data\EntityFrameworkCore\Repositories\SqlServer\QueryProviderTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
