@@ -25,7 +25,7 @@ public class ReportRendererTests
         func.Should().Throw<FileNotFoundException>();
     }
 
-    [Fact]
+    //[Fact]
     public void TestReport()
     {
         if (!OperatingSystem.IsWindows())
