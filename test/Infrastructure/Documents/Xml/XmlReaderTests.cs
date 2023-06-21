@@ -23,7 +23,8 @@ public class XmlReaderTests
     public void CastXml()
     {
         var books = _reader
-            .Read(_stream, (data, _) => new Book
+            .ReadStream(_stream)
+            .Select(data => new Book
             {
                 Id = data.Get<string>("id"),
                 Author = data.Get<string>("author"),

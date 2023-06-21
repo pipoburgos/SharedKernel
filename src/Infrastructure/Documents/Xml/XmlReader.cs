@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         public override string Extension => "xml";
 
         /// <summary>  </summary>
-        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        public override IEnumerable<IRowData> ReadStream(Stream stream)
         {
             var document = XElement.Load(stream);
 
@@ -23,7 +23,7 @@ namespace SharedKernel.Infrastructure.Documents.Xml
             foreach (var node in document.Nodes())
             {
                 lineNumber++;
-                yield return cast(new XmlRow(node as XElement, Configuration.CultureInfo), lineNumber);
+                yield return new XmlRow(lineNumber, node as XElement, Configuration.CultureInfo);
             }
 
             //var serializer = new XmlSerializer(typeof(T));

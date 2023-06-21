@@ -22,7 +22,8 @@ namespace SharedKernel.Integration.Tests.Documents.Csv
         public void CastCsv()
         {
             var users = _reader
-                .Read(_stream, (data, _) => new CsvUser
+                .ReadStream(_stream)
+                .Select(data => new CsvUser
                 {
                     Identifier = data.Get<int>(nameof(CsvUser.Identifier)),
                     Username = data.Get<string>(nameof(CsvUser.Username)),

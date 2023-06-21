@@ -13,12 +13,16 @@ public class DatabaseRow : IRowData
     private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public DatabaseRow(List<object> cells, List<string> columnNames, CultureInfo cultureInfo)
+    public DatabaseRow(long lineNumber, List<object> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
+        LineNumber = lineNumber;
         _cells = cells;
         _columnNames = columnNames;
         _cultureInfo = cultureInfo;
     }
+
+    /// <summary>  </summary>
+    public long LineNumber { get; }
 
     /// <summary>  </summary>
     public T Get<T>(int index)

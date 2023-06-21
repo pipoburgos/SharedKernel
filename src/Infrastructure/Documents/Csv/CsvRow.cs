@@ -13,12 +13,16 @@ public class CsvRow : IRowData
     private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public CsvRow(List<string> cells, List<string> columnNames, CultureInfo cultureInfo)
+    public CsvRow(long lineNumber, List<string> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
+        LineNumber = lineNumber;
         _cells = cells;
         _columnNames = columnNames;
         _cultureInfo = cultureInfo;
     }
+
+    /// <summary>  </summary>
+    public long LineNumber { get; }
 
     /// <summary>  </summary>
     public T Get<T>(int index)

@@ -1,6 +1,5 @@
 ﻿using DotNetDBF;
 using SharedKernel.Application.Documents;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -15,7 +14,7 @@ namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
         public override string Extension => "dbf";
 
         /// <summary>  </summary>
-        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        public override IEnumerable<IRowData> ReadStream(Stream stream)
         {
             using var reader = new DBFReader(stream);
 
@@ -23,9 +22,8 @@ namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
 
             for (var row = 0; row < reader.RecordCount; row++)
             {
-                var rowData = new DatabaseRow(reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList(),
-                    Configuration.CultureInfo);
-                yield return cast(rowData, row);
+                var rowData = new DatabaseRow(row, reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList(), Configuration.CultureInfo);
+                yield return rowData;
             }
         }
 

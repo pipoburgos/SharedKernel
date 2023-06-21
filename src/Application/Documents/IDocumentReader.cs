@@ -18,7 +18,7 @@ namespace SharedKernel.Application.Documents
         IDocumentReader Configure(Action<DocumentReaderConfiguration> change);
 
         /// <summary>  </summary>
-        IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast);
+        IEnumerable<IRowData> ReadStream(Stream stream);
 
         /// <summary>  </summary>
         DataTable Read(Stream stream);

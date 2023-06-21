@@ -22,7 +22,8 @@ namespace SharedKernel.Integration.Tests.Documents.Txt
         public void CastTxt()
         {
             var users = _reader
-                .Read(_stream, (data, _) => new TxtUser
+                .ReadStream(_stream)
+                .Select(data => new TxtUser
                 {
                     Identifier = data.Get<int>(nameof(TxtUser.Identifier)),
                     Username = data.Get<string>(nameof(TxtUser.Username)),

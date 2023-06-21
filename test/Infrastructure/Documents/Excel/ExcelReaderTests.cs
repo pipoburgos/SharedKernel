@@ -22,7 +22,8 @@ public class ExcelReaderTests
     public void CastExcel()
     {
         var users = _reader
-            .Read(_stream, (data, _) => new ExcelUser
+            .ReadStream(_stream)
+            .Select(data => new ExcelUser
             {
                 Identifier = data.Get<int>(nameof(ExcelUser.Identifier)),
                 Username = data.Get<string>(nameof(ExcelUser.Username)),

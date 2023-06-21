@@ -1,7 +1,6 @@
 ﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using SharedKernel.Application.Documents;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -16,7 +15,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
         public override string Extension => "xlsx";
 
         /// <summary>  </summary>
-        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        public override IEnumerable<IRowData> ReadStream(Stream stream)
         {
             using var workbook = new XSSFWorkbook(stream);
 
@@ -29,7 +28,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
                 if (row == null)
                     continue;
 
-                yield return cast(new NpoiExcelRow(row.Cells, columnNames, Configuration.CultureInfo), rowIndex + 1);
+                yield return new NpoiExcelRow(rowIndex + 1, row.Cells, columnNames, Configuration.CultureInfo);
             }
         }
 

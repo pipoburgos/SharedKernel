@@ -22,7 +22,8 @@ public class DatabaseReaderTests
     public void CastDatabase()
     {
         var users = _reader
-            .Read(_stream, (data, _) => new DatabaseUser
+            .ReadStream(_stream)
+            .Select(data => new DatabaseUser
             {
                 Fid = data.Get<int>("FID"),
                 Inspireid = data.Get<string>("INSPIREID"),

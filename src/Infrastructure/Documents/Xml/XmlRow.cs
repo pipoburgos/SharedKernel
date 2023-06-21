@@ -13,11 +13,15 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         private readonly CultureInfo _cultureInfo;
 
         /// <summary>  </summary>
-        public XmlRow(XElement element, CultureInfo cultureInfo)
+        public XmlRow(long lineNumber, XElement element, CultureInfo cultureInfo)
         {
+            LineNumber = lineNumber;
             _element = element;
             _cultureInfo = cultureInfo;
         }
+
+        /// <summary>  </summary>
+        public long LineNumber { get; }
 
         /// <summary>  </summary>
         public T Get<T>(int index)

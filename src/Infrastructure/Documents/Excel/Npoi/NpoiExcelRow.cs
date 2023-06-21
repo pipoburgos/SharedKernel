@@ -14,12 +14,16 @@ public class NpoiExcelRow : IRowData
     private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public NpoiExcelRow(List<ICell> cells, List<string> columnNames, CultureInfo cultureInfo)
+    public NpoiExcelRow(long lineNumber, List<ICell> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
+        LineNumber = lineNumber;
         _cells = cells;
         _columnNames = columnNames;
         _cultureInfo = cultureInfo;
     }
+
+    /// <summary>  </summary>
+    public long LineNumber { get; }
 
     /// <summary>  </summary>
     public T Get<T>(int index)

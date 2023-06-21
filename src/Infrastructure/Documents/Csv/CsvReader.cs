@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Documents;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -14,7 +13,7 @@ namespace SharedKernel.Infrastructure.Documents.Csv
         public override string Extension => "csv";
 
         /// <summary> </summary>
-        public override IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast)
+        public override IEnumerable<IRowData> ReadStream(Stream stream)
         {
             var streamReader = new StreamReader(stream);
             var headers = streamReader.ReadLine()!.Split(Configuration.Separator).Select(x => x.Trim()).ToList();
@@ -25,7 +24,7 @@ namespace SharedKernel.Infrastructure.Documents.Csv
                 var rows = streamReader.ReadLine()!.Split(Configuration.Separator).ToList();
 
                 lineNumber++;
-                yield return cast(new CsvRow(rows, headers, Configuration.CultureInfo), lineNumber);
+                yield return new CsvRow(lineNumber, rows, headers, Configuration.CultureInfo);
             }
         }
 

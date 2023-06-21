@@ -24,7 +24,7 @@ namespace SharedKernel.Infrastructure.Documents
         }
 
         /// <summary>  </summary>
-        public abstract IEnumerable<T> Read<T>(Stream stream, Func<IRowData, int, T> cast);
+        public abstract IEnumerable<IRowData> ReadStream(Stream stream);
 
         /// <summary>  </summary>
         public abstract DataTable Read(Stream stream);
