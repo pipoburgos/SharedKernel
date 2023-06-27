@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Cqrs\**" />
+    <Compile Remove="Reporting\**" />
     <EmbeddedResource Remove="Cqrs\**" />
+    <EmbeddedResource Remove="Reporting\**" />
     <None Remove="Cqrs\**" />
+    <None Remove="Reporting\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -83,9 +86,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Reporting\BillExampleReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

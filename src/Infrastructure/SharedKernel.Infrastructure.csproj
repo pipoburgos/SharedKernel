@@ -17,7 +17,7 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.0.7.3</Version>
+		<Version>7.0.8.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -51,16 +51,16 @@
 		<PackageReference Include="DistributedLock.SqlServer" Version="1.0.2" />
 		<PackageReference Include="dotnetdbf" Version="6.0.0.3" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.18" Condition="'$(TargetFramework)' == 'net6.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" Condition="'$(TargetFramework)' == 'net7.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.19" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" Condition="'$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.7" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.7" />
-		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.7" Condition="'$(TargetFramework)' != 'net7.0'" />
-		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.8" Condition="'$(TargetFramework)' != 'net7.0'" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.20.0" />

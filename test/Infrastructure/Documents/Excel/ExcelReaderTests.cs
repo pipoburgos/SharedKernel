@@ -34,6 +34,7 @@ public class ExcelReaderTests
 
         users.Count.Should().Be(5);
         users.First().Identifier.Should().Be(9012);
+        users.Last().LastName.Should().Be("Smith");
     }
 
     private class ExcelUser

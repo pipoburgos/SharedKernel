@@ -18,6 +18,9 @@ namespace SharedKernel.Application.Documents
         public int SheetIndex { get; set; } = 0;
 
         /// <summary>  </summary>
+        public int HeadersIndex { get; set; } = 1;
+
+        /// <summary>  </summary>
         public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
     }
 }

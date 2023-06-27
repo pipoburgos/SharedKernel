@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi
                 if (row == null)
                     continue;
 
-                yield return new NpoiExcelRow(rowIndex + 1, row.Cells, columnNames, Configuration.CultureInfo);
+                yield return new NpoiExcelRow(rowIndex + 1, row, columnNames, Configuration.CultureInfo);
             }
         }
 

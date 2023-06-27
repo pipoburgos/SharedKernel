@@ -9,12 +9,12 @@ namespace SharedKernel.Infrastructure.Documents.Excel.Npoi;
 /// <summary>  </summary>
 public class NpoiExcelRow : IRowData
 {
-    private readonly List<ICell> _cells;
+    private readonly IRow _cells;
     private readonly List<string> _columnNames;
     private readonly CultureInfo _cultureInfo;
 
     /// <summary>  </summary>
-    public NpoiExcelRow(long lineNumber, List<ICell> cells, List<string> columnNames, CultureInfo cultureInfo)
+    public NpoiExcelRow(long lineNumber, IRow cells, List<string> columnNames, CultureInfo cultureInfo)
     {
         LineNumber = lineNumber;
         _cells = cells;
@@ -31,10 +31,7 @@ public class NpoiExcelRow : IRowData
         if (_cells == default)
             return default;
 
-        if (_cells.Count < index + 1)
-            return default;
-
-        var cell = _cells[index];
+        var cell = _cells.GetCell(index, MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
         return GetCellValue<T>(cell);
     }
