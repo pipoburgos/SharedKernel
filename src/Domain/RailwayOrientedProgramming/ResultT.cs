@@ -36,19 +36,13 @@ public readonly struct Result<T>
     }
 
     /// <summary>  </summary>
-    public static Result<T1> Create<T1>(T1 value)
-    {
-        return Result<T1>.Create(value);
-    }
-
-    /// <summary>  </summary>
     public Result(IEnumerable<string> errors)
     {
-        var enumerable = errors.ToList();
-        if (!enumerable.Any())
+        var list = errors.ToList();
+        if (list.Count == 0)
             throw new InvalidOperationException("At least one error.");
 
         Value = default;
-        Errors = enumerable;
+        Errors = list;
     }
 }
