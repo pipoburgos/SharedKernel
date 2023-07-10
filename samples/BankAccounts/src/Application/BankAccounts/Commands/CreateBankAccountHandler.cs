@@ -26,14 +26,14 @@ namespace BankAccounts.Application.BankAccounts.Commands
 
         public async Task Handle(CreateBankAccount command, CancellationToken cancellationToken)
         {
-            var iban = new InternationalBankAccountNumber("ES14", "1234", "12", "32", "1234123412341");
+            var iban = InternationalBankAccountNumber.Create("ES14", "1234", "12", "32", "1234123412341");
 
             var owner = UserFactory.CreateUser(command.OwnerId, command.Name, command.Surname, command.Birthdate);
 
             var movement = MovementFactory.CreateMovement(command.MovementId, "Initial movement", command.Amount,
                 _dateTime.UtcNow);
 
-            var bankAccount = BankAccountFactory.Create(command.Id, iban, owner, movement, _dateTime.UtcNow);
+            var bankAccount = BankAccountFactory.Create(command.Id, iban.Value, owner, movement, _dateTime.UtcNow);
 
             await _bankAccountRepository.AddAsync(bankAccount, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

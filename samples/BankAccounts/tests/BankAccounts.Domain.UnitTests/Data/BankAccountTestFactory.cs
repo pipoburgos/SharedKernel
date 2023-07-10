@@ -9,7 +9,7 @@ namespace BankAccounts.Domain.Tests.Data
             User owner = default, Movement initialMovement = default)
         {
             var bankAccount = new BankAccount(id ?? Guid.NewGuid(),
-                iban ?? InternationalBankAccountNumberTestFactory.Create(), owner ?? UserTestFactory.Create(),
+                iban ?? InternationalBankAccountNumberTestFactory.Create().Value, owner ?? UserTestFactory.Create(),
                 initialMovement ?? MovementTestFactory.Create(), DateTime.Now);
 
             bankAccount.Record(new BankAccountCreated(bankAccount.Id.ToString()));

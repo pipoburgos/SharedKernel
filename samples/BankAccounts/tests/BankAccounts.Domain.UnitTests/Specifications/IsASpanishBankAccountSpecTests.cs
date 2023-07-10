@@ -10,7 +10,7 @@ namespace BankAccounts.Domain.Tests.Specifications
         {
             // Arrange
             var bankAccount =
-                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("ES14"));
+                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("ES14").Value);
 
             // Act
             var isSpanish = new IsASpanishBankAccountSpec().SatisfiedBy().Compile()(bankAccount);
@@ -24,7 +24,7 @@ namespace BankAccounts.Domain.Tests.Specifications
         {
             // Arrange
             var bankAccount =
-                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("DE14"));
+                BankAccountTestFactory.Create(iban: InternationalBankAccountNumberTestFactory.Create("DE14").Value);
 
             // Act
             var isSpanish = new IsASpanishBankAccountSpec().SatisfiedBy().Compile()(bankAccount);
