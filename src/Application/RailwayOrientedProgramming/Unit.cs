@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿namespace SharedKernel.Application.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
 public sealed class Unit

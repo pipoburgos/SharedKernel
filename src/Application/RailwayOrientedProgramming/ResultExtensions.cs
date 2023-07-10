@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Domain.RailwayOrientedProgramming;
+namespace SharedKernel.Application.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
 public static class ResultExtensions
@@ -89,6 +89,22 @@ public static class ResultExtensions
             return r.IsSuccess
                 ? Result.Success(mapper(r.Value))
                 : Result.Failure<TU>(r.Errors);
+        }
+        catch (Exception e)
+        {
+            ExceptionDispatchInfo.Capture(e).Throw();
+            throw;
+        }
+    }
+
+    /// <summary>  </summary>
+    public static Result<T> CastToApplicationResult<T>(this Domain.RailwayOrientedProgramming.Result<T> r)
+    {
+        try
+        {
+            return r.IsSuccess
+                ? Result.Create(r.Value)
+                : Result.Failure<T>(r.Errors);
         }
         catch (Exception e)
         {
