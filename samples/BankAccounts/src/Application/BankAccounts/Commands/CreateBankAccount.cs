@@ -4,7 +4,7 @@
     public class CreateBankAccount : ICommandRequest
     {
         /// <summary> Constructor. </summary>
-        public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string surname,
+        public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string? surname,
             Guid movementId, decimal amount)
         {
             OwnerId = ownerId;
@@ -25,7 +25,7 @@
         public string Name { get; }
 
         /// <summary> Owner surname. </summary>
-        public string Surname { get; }
+        public string? Surname { get; }
 
         /// <summary> Owner birthdate. </summary>
         public DateTime Birthdate { get; }

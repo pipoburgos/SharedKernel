@@ -23,14 +23,7 @@ namespace SharedKernel.Infrastructure.Validators
             return services.AddValidators(type.Assembly, serviceLifetime, cultureInfo);
         }
 
-        /// <summary>
-        /// Register all AbstractValidator from library
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="assembly"></param>
-        /// <param name="serviceLifetime"></param>
-        /// <param name="cultureInfo"></param>
-        /// <returns></returns>
+        /// <summary> Register all AbstractValidator from library. </summary>
         public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly,
             ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
         {

@@ -100,7 +100,8 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 
             var queryString = $"{preselect}{sql}";
             if (pageOptions.Orders != null && pageOptions.Orders.Any())
-                queryString += $"{Environment.NewLine}ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (order.Ascending ? string.Empty : " DESC")))}";
+                queryString +=
+                    $"{Environment.NewLine}ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : " DESC")))}";
 
             if (pageOptions.Take.HasValue)
                 queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";

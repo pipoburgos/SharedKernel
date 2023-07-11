@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
+namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters
 {
     /// <summary>
     /// 

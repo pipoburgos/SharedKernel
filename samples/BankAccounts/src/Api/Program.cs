@@ -1,7 +1,6 @@
 using BankAccounts.Infrastructure.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BankAccounts.Api
@@ -20,21 +19,21 @@ namespace BankAccounts.Api
         {
             try
             {
-                Log.Information("Starting web host");
+                //Log.Information("Starting web host");
                 var ct = CancellationToken.None;
                 var host = await CreateHostBuilder(args).Build().MigrateAsync(ct);
                 await host.RunAsync(ct);
                 return 0;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly");
+                //Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;
             }
-            finally
-            {
-                await Log.CloseAndFlushAsync();
-            }
+            //finally
+            //{
+            //await Log.CloseAndFlushAsync();
+            //}
 
         }
 
@@ -45,7 +44,7 @@ namespace BankAccounts.Api
         /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                //.UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

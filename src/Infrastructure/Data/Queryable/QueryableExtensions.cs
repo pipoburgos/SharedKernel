@@ -81,7 +81,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
                 return queryable;
 
             var propertiesSpec = new AllPropertiesValueMatchesSpecification<T>(
-                properties.Select(p => new Property(p.Field, p.Value, (Operator?)p.Operator, p.IgnoreCase)));
+                properties.Select(p => new Property(p.Field, p.Value, (Operator?)p.Operator, p.IgnoreCase ?? true)));
 
             return queryable.Where(propertiesSpec.SatisfiedBy());
         }
@@ -188,11 +188,11 @@ namespace SharedKernel.Infrastructure.Data.Queryable
             }
 
             var firstColumn = sortedList.First();
-            query = ApplyOrderBy(query, firstColumn.Ascending, firstColumn.Field?.CapitalizeFirstLetter());
+            query = ApplyOrderBy(query, firstColumn.Ascending ?? true, firstColumn.Field?.CapitalizeFirstLetter());
 
             foreach (var column in sortedList.Skip(1))
             {
-                query = ApplyThenBy(query, column.Ascending, column.Field?.CapitalizeFirstLetter());
+                query = ApplyThenBy(query, column.Ascending ?? true, column.Field?.CapitalizeFirstLetter());
             }
 
             return query;

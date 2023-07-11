@@ -22,6 +22,6 @@
         public FilterOperator? Operator { get; }
 
         /// <summary> Determines if the string comparison is case-insensitive. </summary>
-        public bool IgnoreCase { get; set; }
+        public bool? IgnoreCase { get; set; }
     }
 }

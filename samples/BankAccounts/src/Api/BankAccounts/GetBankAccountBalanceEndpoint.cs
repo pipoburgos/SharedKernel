@@ -8,10 +8,10 @@ namespace BankAccounts.Api.BankAccounts
     public class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
     {
         /// <summary> Gets the balance. </summary>
-        [HttpGet("{bankAccountId:guid}/balance"), ResponseCache(Duration = 60)]
+        [HttpGet("{bankAccountId:guid}/balance"), ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
         public async Task<ActionResult<decimal>> Handle(Guid bankAccountId, CancellationToken cancellationToken)
         {
-            return Ok(await QueryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
+            return OkTyped(await QueryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
         }
     }
 }

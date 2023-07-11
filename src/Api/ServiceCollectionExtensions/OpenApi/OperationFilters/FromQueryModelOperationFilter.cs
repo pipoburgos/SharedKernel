@@ -8,12 +8,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
+namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters
 {
     /// <summary>
     /// 
     /// </summary>
-    public class FromQueryModelFilter : IOperationFilter
+    public class FromQueryModelOperationFilter : IOperationFilter
     {
         /// <summary>
         /// Fix how shows Swashbuckle complex types in FromQuery params
@@ -23,29 +23,25 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             var description = context.ApiDescription;
+            // We only want to do this for GET requests, if this is not a GET request, leave this operation as is, do not modify
             if (description.HttpMethod?.ToLower() != HttpMethod.Get.ToString().ToLower())
-            {
-                // We only want to do this for GET requests, if this is not a
-                // GET request, leave this operation as is, do not modify
                 return;
-            }
 
             var actionParameters = description.ActionDescriptor.Parameters;
             var apiParameters = description.ParameterDescriptions
                     .Where(p => p.Source.IsFromRequest)
                     .ToList();
 
+            // If no complex query parameters detected, leave this operation as is, do not modify
             if (actionParameters.Count == apiParameters.Count)
-            {
-                // If no complex query parameters detected, leave this operation as is, do not modify
                 return;
-            }
 
-            operation.Parameters = CreateParameters(actionParameters, operation.Parameters, context)
-                .Where(e => e.Schema?.Reference?.Id != nameof(CancellationToken))
-                .Where(e => e.Schema?.Reference?.Id != nameof(IQueryBus))
-                .Where(e => e.Schema?.Reference?.Id != nameof(ICommandBus))
-                .ToList();
+            var parameters = CreateParameters(actionParameters, operation.Parameters, context);
+
+            if (parameters == default || !parameters.Any())
+                return;
+
+            operation.Parameters = parameters;
         }
 
         private IList<OpenApiParameter> CreateParameters(IList<ParameterDescriptor> actionParameters,
@@ -62,6 +58,18 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         private OpenApiParameter CreateParameter(ParameterDescriptor actionParameter,
             IList<OpenApiParameter> operationParameters, OperationFilterContext context)
         {
+            if (actionParameter.ParameterType == typeof(CancellationToken))
+                return default;
+
+            if (actionParameter.ParameterType == typeof(IQueryBus))
+                return default;
+
+            if (actionParameter.ParameterType == typeof(ICommandBus))
+                return default;
+
+            if (actionParameter.ParameterType.IsClass && !actionParameter.ParameterType.GetProperties().Any())
+                return default;
+
             var operationParamNames = operationParameters.Select(p => p.Name);
             if (operationParamNames.Contains(actionParameter.Name))
             {

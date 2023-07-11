@@ -14,6 +14,7 @@ namespace SharedKernel.Domain.Validators
         public ValidationResult(string errorMessage, IEnumerable<string> memberNames = null)
         {
             ErrorMessage = errorMessage;
+            // ReSharper disable once UseArrayEmptyMethod
             _memberNames = (IEnumerable<string>)((object)memberNames ?? new string[0]);
         }
 

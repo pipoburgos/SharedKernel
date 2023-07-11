@@ -14,6 +14,10 @@ namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators
             RuleFor(e => e.Name)
                 .NotEmpty()
                 .MaximumLength(100);
+
+            RuleFor(e => e.Surname)
+                .MinimumLength(1)
+                .MaximumLength(100);
         }
     }
 }

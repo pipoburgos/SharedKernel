@@ -14,7 +14,7 @@ namespace BankAccounts.Domain.BankAccounts
             _movements = new List<Movement>();
         }
 
-        public BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
+        internal BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
             Movement initialMovement, DateTime now) : base(id)
         {
             if (id == default)

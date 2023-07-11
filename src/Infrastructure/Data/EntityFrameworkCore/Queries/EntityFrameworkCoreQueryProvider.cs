@@ -84,12 +84,12 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries
 
             #region Domain Specifications
 
-            if (!pageOptions.ShowDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
+            if (pageOptions.ShowDeleted.HasValue && !pageOptions.ShowDeleted.Value && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
                 query = query
                     .Cast<IEntityAuditableLogicalRemove>()
                     .Where(new NotDeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
                     .Cast<T>();
-            if (pageOptions.ShowDeleted && pageOptions.ShowOnlyDeleted &&
+            if (pageOptions.ShowDeleted.HasValue && pageOptions.ShowOnlyDeleted.HasValue && pageOptions.ShowDeleted.Value && pageOptions.ShowOnlyDeleted.Value &&
                 typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
                 query = query
                     .Cast<IEntityAuditableLogicalRemove>()

@@ -1,9 +1,11 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Infrastructure.Shared;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
@@ -20,6 +22,7 @@ namespace BankAccounts.Api
         private const string CorsPolicy = "CorsPolicy";
 
         private readonly IConfiguration _configuration;
+        private IServiceCollection _services;
 
         /// <summary> Constructor. </summary>
         public Startup(IConfiguration configuration)
@@ -30,12 +33,13 @@ namespace BankAccounts.Api
         /// <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>
         public void ConfigureServices(IServiceCollection services)
         {
-            services
+            _services = services
                 .AddInMemoryCommandBus()
                 .AddInMemoryQueryBus()
                 .AddInMemoryEventBus(_configuration)
                 .AddInMemoryCache()
                 .AddBankAccounts(_configuration, "BankAccountConnection")
+                .AddValidatorsFromAssemblyContaining<Startup>(lifetime: ServiceLifetime.Scoped)
                 .AddSharedKernelOpenApi(_configuration)
                 .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>(), o =>
                 {
@@ -56,6 +60,7 @@ namespace BankAccounts.Api
         public void Configure(IApplicationBuilder app, IOptions<OpenApiOptions> openApiOptions, IOptions<OpenIdOptions> openIdOptions)
         {
             app
+                .UseSharedKernelServicesPage(_services)
                 .UseApiErrors()
                 .UseCors(CorsPolicy)
                 .UseRouting()

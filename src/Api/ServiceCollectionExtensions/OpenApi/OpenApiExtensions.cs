@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
+using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
+using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
@@ -61,9 +64,9 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
                     return path;
                 });
 
-                swaggerGenOptions.SchemaFilter<AssignPropertyRequiredFilter>();
+                swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
 
-                swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesFilter>();
+                swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesSchemaFilter>();
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
@@ -84,8 +87,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 
                 if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
                     swaggerGenOptions.OperationFilter<SecurityAllAuthorizeExceptAllowAnonymousOperationFilter>();
-
-                swaggerGenOptions.OperationFilter<FromQueryModelFilter>();
 
                 swaggerGenOptions.CustomOperationIds(_ => default);
 

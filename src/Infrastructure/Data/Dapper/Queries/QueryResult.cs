@@ -44,7 +44,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             PagedQuery = $"{tempTables} {query}";
 
             if (state.Orders != null && state.Orders.Any())
-                PagedQuery += $"{Environment.NewLine} ORDER BY {string.Join(", ", state.Orders.Select(order => $"{order.Field} {(order.Ascending ? string.Empty : "DESC")}"))}";
+                PagedQuery += $"{Environment.NewLine} ORDER BY {string.Join(", ", state.Orders.Select(order => $"{order.Field} {(!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : "DESC")}"))}";
 
             if (state.Take.HasValue)
                 PagedQuery += $"{Environment.NewLine} OFFSET {state.Skip ?? 0} ROWS\nFETCH NEXT {state.Take} ROWS ONLY";

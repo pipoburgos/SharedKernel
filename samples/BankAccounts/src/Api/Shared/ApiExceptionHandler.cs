@@ -68,8 +68,9 @@ namespace BankAccounts.Api.Shared
                             break;
                         default:
                             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            var genericError = JsonConvert.SerializeObject($"An error has occurred, check with the administrator ({exception.Message})", serializerSettings);
                             await context.Response
-                                .WriteAsync("Se ha producido un error. Consulte con el administrador")
+                                .WriteAsync(genericError)
                                 .ConfigureAwait(false);
                             break;
                     }

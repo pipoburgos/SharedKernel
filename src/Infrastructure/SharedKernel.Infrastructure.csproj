@@ -17,7 +17,7 @@
 		<PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.0.8.1</Version>
+		<Version>7.0.8.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -50,7 +50,7 @@
 		<PackageReference Include="DistributedLock.Postgres" Version="1.0.4" />
 		<PackageReference Include="DistributedLock.SqlServer" Version="1.0.2" />
 		<PackageReference Include="dotnetdbf" Version="6.0.0.3" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.19" Condition="'$(TargetFramework)' == 'net6.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" Condition="'$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />

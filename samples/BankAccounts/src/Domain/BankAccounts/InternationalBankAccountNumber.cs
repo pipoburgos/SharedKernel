@@ -22,22 +22,24 @@ namespace BankAccounts.Domain.BankAccounts
             var iban = new InternationalBankAccountNumber(countryCheckDigit, entityCode, officeNumber, controlDigit,
                 accountNumber);
 
-            return Result.Create(iban)
+            var x = Result.Create(iban)
                 .EnsureAppendError(
-                    e => string.IsNullOrWhiteSpace(e.CountryCheckDigit),
+                    e => !string.IsNullOrWhiteSpace(e.CountryCheckDigit),
                     $"'{nameof(CountryCheckDigit)}' must not be empty.")
                 .EnsureAppendError(
-                    e => string.IsNullOrWhiteSpace(e.EntityCode),
+                    e => !string.IsNullOrWhiteSpace(e.EntityCode),
                     $"'{nameof(EntityCode)}' must not be empty.")
                 .EnsureAppendError(
-                    e => string.IsNullOrWhiteSpace(e.OfficeNumber),
+                    e => !string.IsNullOrWhiteSpace(e.OfficeNumber),
                     $"'{nameof(OfficeNumber)}' must not be empty.")
                 .EnsureAppendError(
-                    e => string.IsNullOrWhiteSpace(e.ControlDigit),
+                    e => !string.IsNullOrWhiteSpace(e.ControlDigit),
                     $"'{nameof(ControlDigit)}' must not be empty.")
                 .EnsureAppendError(
-                    e => string.IsNullOrWhiteSpace(e.AccountNumber),
+                    e => !string.IsNullOrWhiteSpace(e.AccountNumber),
                     $"'{nameof(AccountNumber)}' must not be empty.");
+
+            return x;
         }
 
         public string CountryCheckDigit { get; private set; }

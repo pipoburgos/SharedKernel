@@ -1,32 +1,47 @@
-﻿using System.Linq;
-using FluentValidation;
+﻿using FluentValidation;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 
 namespace SharedKernel.Infrastructure.Validators
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     public class PageOptionsValidator : AbstractValidator<PageOptions>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public PageOptionsValidator()
+        /// <summary>  </summary>
+        public PageOptionsValidator(
+            OrderValidator orderValidator,
+            FilterPropertyValidator filterPropertyValidator)
         {
-            RuleFor(a => a.Take).NotEmpty();
+            RuleForEach(a => a.Orders)
+                .NotEmpty()
+                .SetValidator(orderValidator);
 
-            RuleFor(a => a.Orders).Must(orders =>
-            {
-                if (orders == null)
-                    return false;
+            RuleForEach(a => a.FilterProperties)
+                .SetValidator(filterPropertyValidator);
+        }
+    }
 
-                var ordersList = orders.ToList();
-                return ordersList.Any() && ordersList.All(o => !string.IsNullOrWhiteSpace(o.Field));
-            });
+    /// <summary>  </summary>
+    public class OrderValidator : AbstractValidator<Order>
+    {
+        /// <summary>  </summary>
+        public OrderValidator()
+        {
+            RuleFor(a => a.Field)
+                .NotEmpty();
+        }
+    }
 
-            RuleFor(a => a.FilterProperties)
-                .Must(pro => pro == null || pro.All(o => !string.IsNullOrWhiteSpace(o.Field)));
+    /// <summary>  </summary>
+    public class FilterPropertyValidator : AbstractValidator<FilterProperty>
+    {
+        /// <summary>  </summary>
+        public FilterPropertyValidator()
+        {
+            RuleFor(a => a.Field)
+                .NotEmpty();
+
+            RuleFor(a => a.Value)
+                .NotEmpty();
         }
     }
 }
