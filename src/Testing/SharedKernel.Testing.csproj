@@ -18,7 +18,7 @@
     <PackageTags>C# Testing Docker </PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.0.9.2</Version>
+    <Version>7.0.9.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.19" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.19" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>
