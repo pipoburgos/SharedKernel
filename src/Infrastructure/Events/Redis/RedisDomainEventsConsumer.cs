@@ -38,7 +38,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// <returns></returns>
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            return _connectionMultiplexer.GetSubscriber().SubscribeAsync("*", (_, value) =>
+            return _connectionMultiplexer.GetSubscriber().SubscribeAsync(RedisChannel.Pattern("*"), (_, value) =>
             {
                 try
                 {

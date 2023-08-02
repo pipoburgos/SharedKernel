@@ -49,7 +49,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
         public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
             var eventAsString = _domainEventJsonSerializer.Serialize(@event);
-            return _connectionMultiplexer.GetSubscriber().PublishAsync("*", eventAsString);
+            return _connectionMultiplexer.GetSubscriber().PublishAsync(RedisChannel.Pattern("*"), eventAsString);
         }
     }
 }
