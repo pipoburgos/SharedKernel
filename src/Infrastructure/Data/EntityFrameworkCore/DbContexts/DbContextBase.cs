@@ -152,6 +152,20 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
             return base.Set<TAggregateRoot>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IQueryable<object> Set(Type type)
+        {
+            var x = GetType()
+                .GetMethod("Set", Type.EmptyTypes)!
+                .MakeGenericMethod(type);
+
+            return (IQueryable<object>)x.Invoke(this, null);
+        }
+
         #endregion
 
         #region Protected Methods

@@ -17,6 +17,23 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// 
         /// </summary>
         /// <param name="rabbitMqParams"></param>
+        public RabbitMqConnectionFactory(RabbitMqConfigParams rabbitMqParams)
+        {
+            var configParams = rabbitMqParams;
+
+            _connectionFactory = new ConnectionFactory
+            {
+                HostName = configParams.HostName,
+                UserName = configParams.Username,
+                Password = configParams.Password,
+                Port = configParams.Port
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rabbitMqParams"></param>
         public RabbitMqConnectionFactory(IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             var configParams = rabbitMqParams.Value;

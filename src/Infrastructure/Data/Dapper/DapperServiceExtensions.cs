@@ -28,7 +28,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper
             var connectionString = configuration.GetConnectionString(connectionStringName);
 
             services.AddHealthChecks()
-                .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server Dapper",
+                .AddSqlServer(connectionString!, "SELECT 1;", _ => { }, "Sql Server Dapper",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddLogging()

@@ -50,7 +50,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore
             where TContext : DbContext
         {
             services.AddHealthChecks()
-                .AddSqlServer(connectionString!, "SELECT 1;", "Sql Server EFCore",
+                .AddSqlServer(connectionString!, "SELECT 1;", _ => { }, "Sql Server EFCore",
                     HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
 
             services.AddCommonDataServices();
