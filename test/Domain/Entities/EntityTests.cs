@@ -1,5 +1,7 @@
 ﻿using System;
 using Xunit;
+// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace SharedKernel.Domain.Tests.Entities
 {
@@ -52,19 +54,19 @@ namespace SharedKernel.Domain.Tests.Entities
 
             //Act
             if (entityLeft != null) //this perform ==(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
 
             if (entityRight == null)//this perform !=(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
 
             entityRight = null;
 
             //Act
             if (entityLeft != entityRight)//this perform ==(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
 
             if (entityLeft != entityRight)//this perform !=(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
         }
 
         [Fact]
@@ -76,11 +78,11 @@ namespace SharedKernel.Domain.Tests.Entities
 
 
             //Act
-            if (! entityLeft.Equals(entityRight))
-                Assert.True(false, "error");
+            if (!entityLeft.Equals(entityRight))
+                Assert.Fail("error");
 
             if (entityLeft != entityRight)
-                Assert.True(false, "error");
+                Assert.Fail("error");
         }
 
         [Fact]
@@ -94,10 +96,10 @@ namespace SharedKernel.Domain.Tests.Entities
 
             //Act
             if (entityLeft != null)//this perform ==(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
 
             if (entityRight == null)//this perform !=(left,right)
-                Assert.True(false, "error");
+                Assert.Fail("error");
         }
     }
 }

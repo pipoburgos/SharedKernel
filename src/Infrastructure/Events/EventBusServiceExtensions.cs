@@ -200,7 +200,7 @@ namespace SharedKernel.Infrastructure.Events
             services
                 .AddHealthChecks()
                 .AddRabbitMQ(
-                    sp => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
+                    (sp, _) => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
                     "RabbitMq Event Bus", tags: new[] { "Event Bus", "RabbitMq" });
 
             return services

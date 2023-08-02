@@ -270,10 +270,10 @@ public class ValueObjectTests
 
         //Act
         if (!address1.Equals(address2))
-            Assert.True(false, "error");
+            Assert.Fail("error");
 
         if (!(address1 == address2))
-            Assert.True(false, "error");
+            Assert.Fail("error");
 
     }
 
