@@ -15,4 +15,11 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>
+
+  <Target Name="pack">
+    <PropertyGroup>
+      <IsPackable>false</IsPackable>
+    </PropertyGroup>
+  </Target>
+  
 </Project>
