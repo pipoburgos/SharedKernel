@@ -1,4 +1,4 @@
-dename: .NET Core Desktop
+-name: .NET Core Desktop
 
 on:
   push:
