@@ -1,4 +1,4 @@
-name: .NET Core Desktop
+name: Shared Kernel CI
 
 on:
   push:
@@ -19,8 +19,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Dotnet version
-        run: dotnet --version
       - name: Install dependencies
         run: dotnet restore ./SharedKernel.sln
       - name: Build
