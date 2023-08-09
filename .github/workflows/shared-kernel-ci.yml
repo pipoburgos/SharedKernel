@@ -22,13 +22,13 @@ jobs:
       - name: Dotnet version
         run: dotnet --version
       - name: Install dependencies
-        run: dotnet restore .\SharedKernel.sln
+        run: dotnet restore ./SharedKernel.sln
       - name: Build
-        run: dotnet build --configuration Release --no-restore .\SharedKernel.sln
+        run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
       - name: Test
-        run: dotnet test --no-restore --verbosity normal .\SharedKernel.sln
+        run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
-        run: dotnet pack --configuration Release --no-restore .\SharedKernel.sln
+        run: dotnet pack --configuration Release --no-restore ./SharedKernel.sln
       - name: Prep packages
         run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
       - name: Publish to GitHub packages 
