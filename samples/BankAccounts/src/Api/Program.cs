@@ -25,7 +25,9 @@ namespace BankAccounts.Api
                 await host.RunAsync(ct);
                 return 0;
             }
-            catch (Exception)
+#pragma warning disable CS0168 // Variable is declared but never used
+            catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 //Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;

@@ -10,6 +10,7 @@ using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
@@ -109,7 +110,19 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
             if (options.Value == default)
                 throw new ArgumentNullException(nameof(options));
 
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                var url = options.Value.UrlApi;
+                if (string.IsNullOrWhiteSpace(url))
+                    return;
+
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+                c.PreSerializeFilters.Add((swaggerDoc, _) =>
+                {
+                    swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = url } };
+                });
+            });
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint(options.Value.Url, options.Value?.Name ?? "Open API v1");

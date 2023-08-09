@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq.Expressions;
-using SharedKernel.Domain.Entities;
+﻿using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Specifications.Common;
+using System;
+using System.Linq.Expressions;
 
 namespace SharedKernel.Domain.Specifications
 {
@@ -29,7 +29,7 @@ namespace SharedKernel.Domain.Specifications
         /// <returns></returns>
         public override Expression<Func<T, bool>> SatisfiedBy()
         {
-            return _ => _.Id.Equals(_key);
+            return e => e.Id.Equals(_key);
         }
     }
 }

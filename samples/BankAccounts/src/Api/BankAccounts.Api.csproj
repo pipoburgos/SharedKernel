@@ -5,7 +5,8 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<UserSecretsId>eb058887-19ad-4de0-9775-156e5c1031a2</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerfileContext>..\..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,6 +14,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -20,11 +22,5 @@
 		<ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
 		<ProjectReference Include="..\Infrastructure\BankAccounts.Infrastructure.csproj" />
 	</ItemGroup>
-
-	<ProjectExtensions>
-		<VisualStudio>
-			<UserProperties appsettings_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" />
-		</VisualStudio>
-	</ProjectExtensions>
 
 </Project>

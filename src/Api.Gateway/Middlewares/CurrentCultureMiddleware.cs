@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using Microsoft.AspNetCore.Builder;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Microsoft.AspNetCore.Builder;
 
 namespace SharedKernel.Api.Gateway.Middlewares
 {
@@ -20,7 +20,7 @@ namespace SharedKernel.Api.Gateway.Middlewares
             app.Use((context, next) =>
             {
                 //get client prefered language
-                var userLangs = context.Request.Headers["Accept-Language"].ToString();
+                var userLangs = context.Request.Headers["Accept-Language"].ToString()!;
                 var firstLang = userLangs.Split(',').FirstOrDefault();
 
                 //set allowed alanguage

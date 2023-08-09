@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         {
             var changedEntities = context.ChangeTracker
                 .Entries()
-                .Where(_ => _.State != EntityState.Deleted);
+                .Where(e => e.State != EntityState.Deleted);
 
             var errors = new List<DataAnno.ValidationResult>();
             foreach (var e in changedEntities)
@@ -30,7 +30,7 @@ namespace SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts
         {
             var changedEntities = context.ChangeTracker
                 .Entries<IValidatableObject>()
-                .Where(_ => _.State != EntityState.Deleted);
+                .Where(e => e.State != EntityState.Deleted);
 
             var validateContext = new ValidationContext();
             var validationResult = new List<ValidationResult>();

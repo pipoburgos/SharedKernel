@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  bankaccounts.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: ${DOCKER_REGISTRY-}sql_server
+    user: root
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=yourStrong(!)Password
+    # ports:
+    #     - 8050:1433
+    volumes:
+        - ./docker-data/sql_server/data:/var/opt/mssql/data
+        - ./docker-data/sql_server/backups:/var/opt/mssql/backups

@@ -55,13 +55,11 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
             var tasks = new List<Task>();
 
 
-            using var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort)
-            {
-                EnableSsl = _smtp.RequireSsl,
-                UseDefaultCredentials = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password)
-            };
+            using var client = new SmtpClient(_smtp.MailServer, _smtp.MailPort);
+            client.EnableSsl = _smtp.RequireSsl;
+            client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password);
 
             foreach (var email in emails)
             {
@@ -92,7 +90,7 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 #if NET6_0_OR_GREATER
                 tasks.Add(client.SendMailAsync(mailMessage, cancellationToken));
 #else
-                    tasks.Add(client.SendMailAsync(mailMessage));
+                tasks.Add(client.SendMailAsync(mailMessage));
 #endif
             }
             await Task.WhenAll(tasks);

@@ -11,9 +11,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
     {
         void IControllerModelConvention.Apply(ControllerModel controller)
         {
-            if (controller == null)
-                return;
-
             foreach (var attribute in controller.Attributes.Where(a => a.GetType() == typeof(RouteAttribute)))
             {
                 var routeAttribute = (RouteAttribute)attribute;

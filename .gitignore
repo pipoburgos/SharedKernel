@@ -263,3 +263,4 @@ __pycache__/
 *.cmd
 /.vscode
 /test/ExternalSystems/SqlServer/
+/docker-data

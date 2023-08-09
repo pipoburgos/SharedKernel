@@ -27,10 +27,10 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <param name="aggregate"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
+        public async Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
-            return outputFile.WriteLineAsync(JsonConvert.SerializeObject(aggregate));
+            await using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
+            await outputFile.WriteLineAsync(JsonConvert.SerializeObject(aggregate));
         }
 
         /// <summary>

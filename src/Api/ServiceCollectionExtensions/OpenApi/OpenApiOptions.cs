@@ -28,6 +28,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
         public string Url { get; set; } = "swagger/v1/swagger.json";
 
         /// <summary>
+        /// De Url of api
+        /// </summary>
+        public string UrlApi { get; set; } = default;
+
+        /// <summary>
         /// Documentation file name
         /// </summary>
         public string XmlDocumentationFile { get; set; }
