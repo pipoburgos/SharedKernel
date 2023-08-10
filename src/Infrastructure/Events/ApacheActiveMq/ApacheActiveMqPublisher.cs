@@ -24,12 +24,12 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
         }
 
         /// <summary> </summary>
-        public Task PublishOnQueue(string textMessage, string queue)
+        public Task PublishOnQueue(string textMessage)
         {
-            return PublishCommon(textMessage, queue: queue);
+            return PublishCommon(textMessage);
         }
 
-        private async Task PublishCommon(string textMessage, string queue = default, string topicName = default)
+        private async Task PublishCommon(string textMessage, string topicName = default)
         {
             var connecturi = new Uri(_configuration.BrokerUri);
             var connectionFactory = new ConnectionFactory(connecturi);
@@ -47,14 +47,14 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
             {
                 destination = await session.GetTopicAsync(topicName);
             }
-            else if (!string.IsNullOrWhiteSpace(queue))
+            else if (!string.IsNullOrWhiteSpace(_configuration.Queue))
             {
-                destination = await session.GetQueueAsync(queue);
+                destination = await session.GetQueueAsync(_configuration.Queue);
             }
             else
             {
                 throw new ArgumentNullException(
-                    $"At least one value must not be empty. {nameof(queue)} or {nameof(topicName)}");
+                    $"At least one value must not be empty. {nameof(_configuration.Queue)} or {nameof(topicName)}");
             }
 
             // Create a MessageProducer from the Session to the Topic or Queue

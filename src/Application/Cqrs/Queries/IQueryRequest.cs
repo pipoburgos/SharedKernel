@@ -1,4 +1,4 @@
-﻿using SharedKernel.Application.Cqrs.Middlewares;
+﻿using SharedKernel.Application.Requests;
 
 namespace SharedKernel.Application.Cqrs.Queries
 {

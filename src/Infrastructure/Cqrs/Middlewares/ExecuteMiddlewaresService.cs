@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Events;
+using SharedKernel.Application.Requests;
+using SharedKernel.Domain.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;

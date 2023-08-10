@@ -21,3 +21,9 @@ services:
     volumes:
         - ./docker-data/sql_server/data:/var/opt/mssql/data
         - ./docker-data/sql_server/backups:/var/opt/mssql/backups
+
+  activemq:
+    image: rmohr/activemq:latest
+    ports:
+      - 8170:8161
+      - 61616:61616

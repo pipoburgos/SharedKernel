@@ -1,5 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Events;
+using SharedKernel.Domain.Requests;
 using System;
 using System.Diagnostics;
 using System.Threading;

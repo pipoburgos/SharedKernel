@@ -13,6 +13,7 @@ using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.Serializers;
 
 namespace BankAccounts.Api
 {
@@ -35,6 +36,8 @@ namespace BankAccounts.Api
         {
             _services = services
                 .AddInMemoryCommandBus()
+                .AddApacheActiveMqCommandBusAsync(_configuration)
+                .AddNetJsonSerializer()
                 .AddInMemoryQueryBus()
                 .AddInMemoryEventBus(_configuration)
                 .AddInMemoryCache()

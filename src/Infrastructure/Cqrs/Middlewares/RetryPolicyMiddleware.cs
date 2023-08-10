@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Domain.Events;
+using SharedKernel.Domain.Requests;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

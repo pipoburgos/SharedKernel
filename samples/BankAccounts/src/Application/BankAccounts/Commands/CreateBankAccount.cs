@@ -1,7 +1,9 @@
-﻿namespace BankAccounts.Application.BankAccounts.Commands
+﻿using SharedKernel.Domain.Requests;
+
+namespace BankAccounts.Application.BankAccounts.Commands
 {
     /// <summary> Create a bank account. </summary>
-    public class CreateBankAccount : ICommandRequest
+    public class CreateBankAccount : CommandRequest
     {
         /// <summary> Constructor. </summary>
         public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string? surname,
@@ -39,5 +41,21 @@
         /// <summary> Adds bank account identifier </summary>
         /// <param name="id"></param>
         public void AddId(Guid id) => Id = id;
+
+        /// <summary>  </summary>
+        public override string GetUniqueName()
+        {
+            return "bankAccounts.create";
+        }
+
+        /// <summary>  </summary>
+        public override Request FromPrimitives(Dictionary<string, string> body, string id, string occurredOn)
+        {
+            var command = new CreateBankAccount(Guid.Parse(body[nameof(OwnerId)]), body[nameof(Name)],
+                ConvertToDateTime(body, nameof(Birthdate)), body[nameof(Surname)], Guid.Parse(body[nameof(MovementId)]),
+                decimal.Parse(body[nameof(Amount)]));
+            command.AddId(Guid.Parse(body[nameof(Id)]));
+            return command;
+        }
     }
 }

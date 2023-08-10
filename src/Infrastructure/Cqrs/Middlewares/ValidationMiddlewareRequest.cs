@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.Requests;
 using SharedKernel.Application.Validator;
 using System;
 using System.Collections.Generic;

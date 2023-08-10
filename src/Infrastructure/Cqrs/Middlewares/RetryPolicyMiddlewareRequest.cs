@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.Requests;
 using SharedKernel.Application.RetryPolicies;
 using System;
 using System.Threading;

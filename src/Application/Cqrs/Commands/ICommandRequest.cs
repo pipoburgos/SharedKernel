@@ -1,5 +1,5 @@
-﻿using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Events;
+﻿using SharedKernel.Application.Requests;
+using SharedKernel.Domain.Requests;
 
 namespace SharedKernel.Application.Cqrs.Commands
 {
