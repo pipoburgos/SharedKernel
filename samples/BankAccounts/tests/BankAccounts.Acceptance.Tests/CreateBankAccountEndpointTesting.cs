@@ -1,5 +1,6 @@
 ﻿using BankAccounts.Acceptance.Tests.Shared;
 using BankAccounts.Application.BankAccounts.Commands;
+using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Infrastructure.Shared.Data;
 using SharedKernel.Testing.Acceptance.Extensions;
 
@@ -27,6 +28,15 @@ namespace BankAccounts.Acceptance.Tests
             var result = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
 
             result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            await Task.Delay(3_000);
+
+            _bankAccountClientFactory
+                .CreateNewDbContext()
+                .Set<BankAccount>()
+                .Any(x => x.Id == bankAccountId)
+                .Should()
+                .BeTrue();
         }
 
 

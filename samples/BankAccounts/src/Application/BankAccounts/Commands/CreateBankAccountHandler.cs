@@ -26,7 +26,7 @@ namespace BankAccounts.Application.BankAccounts.Commands
 
         public async Task Handle(CreateBankAccount command, CancellationToken cancellationToken)
         {
-            var iban = InternationalBankAccountNumber.Create("ES14", "1234", "12", "32", "1234123412341");
+            var iban = InternationalBankAccountNumber.Create("ES14", "1234", "12", "32", "0123456789");
 
             var owner = UserFactory.CreateUser(command.OwnerId, command.Name, command.Surname, command.Birthdate);
 

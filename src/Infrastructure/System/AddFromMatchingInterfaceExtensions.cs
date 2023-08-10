@@ -112,7 +112,7 @@ namespace SharedKernel.Infrastructure.System
 
         private static IEnumerable<Type> FromMatchingInterface(this Type @class)
         {
-            return @class.GetInterfaces().Where(n => n.Name == $"I{@class.Name}");
+            return @class.GetInterfaces().Where(n => @class.Name.EndsWith(n.Name[1..]));
         }
     }
 }

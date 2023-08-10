@@ -4,7 +4,7 @@ using SharedKernel.Application.Communication.Email;
 
 namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSubcribers
 {
-    internal class SendEmailToOwnerSubcriber : DomainEventSubscriber<BankAccountCreated>
+    internal class SendEmailToOwnerSubcriber : IDomainEventSubscriber<BankAccountCreated>
     {
         private readonly IEmailSender _emailSender;
         private readonly IBankAccountRepository _bankAccountRepository;
@@ -17,7 +17,7 @@ namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSub
             _bankAccountRepository = bankAccountRepository;
         }
 
-        protected override async Task On(BankAccountCreated @event, CancellationToken cancellationToken)
+        public async Task On(BankAccountCreated @event, CancellationToken cancellationToken)
         {
             var bankAccountId = new Guid(@event.AggregateId);
             var bankAccount = await _bankAccountRepository.GetByIdAsync(bankAccountId, cancellationToken);

@@ -32,3 +32,9 @@ services:
             - SMARTHOST_USER=shared-kernel@shared-kernel.com
             - SMARTHOST_PASSWORD=shared-kernel
             - SMARTHOST_ALIASES=*.shared-kernel.com
+
+    activemq:
+        image: rmohr/activemq:latest
+        ports:
+            - 8170:8161
+            - 61616:61616

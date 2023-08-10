@@ -62,12 +62,10 @@ namespace BankAccounts.Infrastructure.Shared
                 .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
                     typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork));
 
-            // Repositories
-            serviceCollection.AddTransient<IBankAccountRepository, EntityFrameworkBankAccountRepository>();
-
             // Unit of work
-            serviceCollection.AddScoped<IBankAccountUnitOfWork, BankAccountDbContext>();
-            serviceCollection.AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration, connectionStringName);
+            serviceCollection
+                .AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration, connectionStringName)
+                .AddScoped<IBankAccountUnitOfWork>(s => s.GetRequiredService<BankAccountDbContext>());
 
             // Dapper
             serviceCollection.AddDapperSqlServer(configuration, connectionStringName);

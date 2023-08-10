@@ -12,5 +12,10 @@ namespace BankAccounts.Acceptance.Tests.Shared
         {
             return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
         }
+
+        public DbContext CreateNewDbContext()
+        {
+            return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
+        }
     }
 }
