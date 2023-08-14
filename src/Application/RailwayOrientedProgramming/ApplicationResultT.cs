@@ -5,13 +5,13 @@ using System.Linq;
 namespace SharedKernel.Application.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
-public readonly struct Result<T>
+public readonly struct ApplicationResult<T>
 {
     /// <summary>  </summary>
     public readonly T Value;
 
     /// <summary>  </summary>
-    public static implicit operator Result<T>(T value) => new(value);
+    public static implicit operator ApplicationResult<T>(T value) => new(value);
 
     /// <summary>  </summary>
     public readonly IEnumerable<string> Errors;
@@ -23,20 +23,14 @@ public readonly struct Result<T>
     public bool IsFailure => Errors.Any();
 
     /// <summary>  </summary>
-    private Result(T value)
+    private ApplicationResult(T value)
     {
         Value = value;
         Errors = Enumerable.Empty<string>();
     }
 
     /// <summary>  </summary>
-    public static Result<T> Create(T value)
-    {
-        return new Result<T>(value);
-    }
-
-    /// <summary>  </summary>
-    public Result(IEnumerable<string> errors)
+    private ApplicationResult(IEnumerable<string> errors)
     {
         var list = errors.ToList();
         if (list.Count == 0)
@@ -44,5 +38,17 @@ public readonly struct Result<T>
 
         Value = default;
         Errors = list;
+    }
+
+    /// <summary>  </summary>
+    public static ApplicationResult<T> Create(T value)
+    {
+        return new ApplicationResult<T>(value);
+    }
+
+    /// <summary>  </summary>
+    public static ApplicationResult<T> Create(IEnumerable<string> errors)
+    {
+        return new ApplicationResult<T>(errors);
     }
 }

@@ -96,6 +96,15 @@ public static class ResultExtensions
             throw;
         }
     }
+
+    /// <summary>  </summary>
+    public static Result<TU> Merge<T, TU>(this Result<T> result, params Result<TU>[] results)
+    {
+        if (!result.IsFailure && results.All(r => !r.IsFailure))
+            return results.Last();
+
+        return Result.Failure<TU>(result.Errors.Concat(results.SelectMany(r => r.Errors)));
+    }
 }
 
 #endif
