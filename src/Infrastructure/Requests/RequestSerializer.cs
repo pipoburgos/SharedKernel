@@ -1,7 +1,6 @@
 ﻿using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Requests;
-using SharedKernel.Infrastructure.Events.Shared;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,7 +28,7 @@ internal class RequestSerializer : IRequestSerializer
         var attributes = request.ToPrimitives();
 
         var domainClaims = _identityService?.User?.Claims
-            .Select(c => new DomainClaim(c.Type, c.Value))
+            .Select(c => new RequestClaim(c.Type, c.Value))
             .ToList();
 
         return _jsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>

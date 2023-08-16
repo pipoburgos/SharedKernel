@@ -1,10 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
+using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Testing.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,11 +26,9 @@ namespace SharedKernel.Integration.Tests.Events.Redis
         {
             return services
                 .AddRedisEventBus(Configuration)
-                .AddDomainEvents(typeof(UserCreated))
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
-                .AddDomainEventSubscribers()
+                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
+                .AddNetJsonSerializer()
                 .AddSingleton<PublishUserCreatedDomainEvent>()
-                .AddHttpContextAccessor()
 
                 .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))
                 .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>))
@@ -37,7 +38,12 @@ namespace SharedKernel.Integration.Tests.Events.Redis
                 .AddPollyRetry(Configuration)
 
                 .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>));
+                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
+
+
+                .RemoveAll<IIdentityService>()
+                .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
+                .AddHttpContextAccessor();
         }
 
         [Fact]

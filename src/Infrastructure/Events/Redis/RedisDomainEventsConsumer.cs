@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
+using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 using System;
 using System.Threading;
@@ -15,7 +18,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
     public class RedisDomainEventsConsumer : BackgroundService
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
-        private readonly IDomainEventMediator _domainEventMediator;
+        private readonly IRequestMediator _requestMediator;
         private readonly ICustomLogger<RedisDomainEventsConsumer> _logger;
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
             using var scope = serviceScopeFactory.CreateScope();
 
             _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
-            _domainEventMediator = scope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
+            _requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
             _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisDomainEventsConsumer>>();
         }
 
@@ -42,7 +45,8 @@ namespace SharedKernel.Infrastructure.Events.Redis
             {
                 try
                 {
-                    TaskHelper.RunSync(_domainEventMediator.ExecuteDomainSubscribers(value, stoppingToken));
+                    TaskHelper.RunSync(_requestMediator.Execute(value, typeof(IDomainEventSubscriber<>),
+                        nameof(IDomainEventSubscriber<DomainEvent>.On), CancellationToken.None));
                 }
                 catch (Exception ex)
                 {

@@ -9,6 +9,7 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
+using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,8 @@ namespace SharedKernel.Integration.Tests.Events.SynchronousEventBus
         {
             return services
                 .AddSynchronousEventBus()
-                .AddDomainEvents(typeof(UserCreated))
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
-                .AddDomainEventSubscribers()
+                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
+                .AddNetJsonSerializer()
                 .AddSingleton<PublishUserCreatedDomainEvent>()
 
                 .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))

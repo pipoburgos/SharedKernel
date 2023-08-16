@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Domain.Events;
 using SharedKernel.Domain.Requests;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
-using SharedKernel.Infrastructure.Events.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,34 +45,60 @@ internal class RequestMediator : IRequestMediator
     }
 
     /// <summary>  </summary>
-    public Task ExecuteHandler(string eventSerialized, CancellationToken cancellationToken)
+    public Task Execute(string requestSerialized, Type type, string method, CancellationToken cancellationToken)
     {
-        var eventDeserialized = _requestDeserializer.Deserialize(eventSerialized);
+        var eventDeserialized = _requestDeserializer.Deserialize(requestSerialized);
 
-        var handler = typeof(ICommandRequestHandler<>).MakeGenericType(eventDeserialized.GetType());
+        var handlerType = type.MakeGenericType(eventDeserialized.GetType());
 
-        return ExecuteHandler(eventSerialized, eventDeserialized, handler, cancellationToken);
+        return Execute(requestSerialized, eventDeserialized, handlerType, method, cancellationToken);
     }
 
     /// <summary>  </summary>
-    public Task ExecuteHandler(string body, Request request, Type handlerType, CancellationToken cancellationToken)
+    public Task Execute(string requestSerialized, Request request, Type handlerType, string method, CancellationToken cancellationToken)
     {
         return _executeMiddlewaresService.ExecuteAsync(request, cancellationToken, async (req, ct) =>
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            var identityService = scope.ServiceProvider.GetService<IIdentityService>();
-            AddIdentity(body, identityService);
+            try
+            {
+                _logger.Info($"Executing {handlerType.FullName} with data: {requestSerialized}");
 
-            var handler = scope.ServiceProvider.GetRequiredService(handlerType);
-            _logger.Info($"Executing {handlerType.FullName} with data: {body}");
+                using var scope = _serviceScopeFactory.CreateScope();
 
-            var parameters = new List<object> { req, ct }.ToArray();
-            await ((Task)handlerType.GetMethod("Handle")?.Invoke(handler, parameters))!;
+                AddIdentity(requestSerialized, scope);
+
+                var parameters = new List<object> { req, ct }.ToArray();
+
+                switch (method)
+                {
+                    case nameof(ICommandRequestHandler<CommandRequest>.Handle):
+                        {
+                            var handler = scope.ServiceProvider.GetRequiredService(handlerType);
+
+                            await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters))!;
+                            break;
+                        }
+                    case nameof(IDomainEventSubscriber<DomainEvent>.On):
+                        {
+                            var types = scope.ServiceProvider.GetServices(handlerType);
+                            await Task.WhenAll(types.Select(type =>
+                                (Task)handlerType.GetMethod(method)?.Invoke(type, parameters)));
+                        }
+
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, e.Message);
+            }
         });
     }
 
-    private void AddIdentity(string body, IIdentityService identityService)
+    private void AddIdentity(string body, IServiceScope scope)
     {
+        var identityService = scope.ServiceProvider.GetService<IIdentityService>();
+
         if (identityService == default)
             return;
 
@@ -81,19 +108,19 @@ internal class RequestMediator : IRequestMediator
 
         var headers = eventData["headers"];
 
+        var authorization = headers["authorization"]?.ToString();
+        if (!string.IsNullOrWhiteSpace(authorization))
+            identityService.AddKeyValue("Authorization", authorization);
+
         var domainClaimsString = headers["claims"]?.ToString();
         if (domainClaimsString == null)
             return;
 
-        var domainClaims = _jsonSerializer.Deserialize<List<DomainClaim>>(domainClaimsString!);
+        var domainClaims = _jsonSerializer.Deserialize<List<RequestClaim>>(domainClaimsString!);
         if (domainClaims == default || !domainClaims.Any())
             return;
 
         identityService.User =
             new ClaimsPrincipal(new ClaimsIdentity(domainClaims.Select(dc => new Claim(dc.Type, dc.Value))));
-
-        var authorization = headers["authorization"]?.ToString();
-        if (!string.IsNullOrWhiteSpace(authorization))
-            identityService.AddKeyValue("Authorization", authorization);
     }
 }

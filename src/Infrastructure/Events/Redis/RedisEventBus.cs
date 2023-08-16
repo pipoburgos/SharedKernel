@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,19 @@ namespace SharedKernel.Infrastructure.Events.Redis
     public class RedisEventBus : IEventBus
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
-        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
+        private readonly IRequestSerializer _requestSerializer;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="connectionMultiplexer"></param>
-        /// <param name="domainEventJsonSerializer"></param>
+        /// <param name="requestSerializer"></param>
         public RedisEventBus(
             IConnectionMultiplexer connectionMultiplexer,
-            IDomainEventJsonSerializer domainEventJsonSerializer)
+            IRequestSerializer requestSerializer)
         {
             _connectionMultiplexer = connectionMultiplexer;
-            _domainEventJsonSerializer = domainEventJsonSerializer;
+            _requestSerializer = requestSerializer;
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace SharedKernel.Infrastructure.Events.Redis
         /// <returns></returns>
         public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
-            var eventAsString = _domainEventJsonSerializer.Serialize(@event);
+            var eventAsString = _requestSerializer.Serialize(@event);
             return _connectionMultiplexer.GetSubscriber().PublishAsync(RedisChannel.Pattern("*"), eventAsString);
         }
     }

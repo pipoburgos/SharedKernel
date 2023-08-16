@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SharedKernel.Infrastructure.Requests;
@@ -7,22 +8,20 @@ namespace SharedKernel.Infrastructure.Requests;
 /// <summary>  </summary>
 internal class RequestProviderFactory : IRequestProviderFactory
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly Dictionary<string, Type> _providers;
 
     /// <summary>  </summary>
     public RequestProviderFactory(IServiceProvider serviceProvider)
     {
-        _serviceProvider = serviceProvider;
+        _providers = serviceProvider.GetServices<IRequestType>().ToDictionary(e => e.UniqueName, a => a.Type);
     }
 
     /// <summary>  </summary>
     public Type Get(string uniqueName)
     {
-        var providers = _serviceProvider.GetServices<IRequestType>().ToDictionary(e => e.UniqueName, a => a.Type);
-
-        if (!providers.ContainsKey(uniqueName))
+        if (!_providers.ContainsKey(uniqueName))
             throw new ArgumentException($"Request {uniqueName} not registered.");
 
-        return providers[uniqueName];
+        return _providers[uniqueName];
     }
 }

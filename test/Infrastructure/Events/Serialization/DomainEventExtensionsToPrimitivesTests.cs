@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using Newtonsoft.Json;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
-using SharedKernel.Infrastructure.Events.Shared;
+using SharedKernel.Infrastructure.Requests;
+using SharedKernel.Infrastructure.Serializers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -129,10 +129,11 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
 
         private static object SendToBus(DomainEvent @event)
         {
-            var serializer = new DomainEventJsonSerializer();
+            var jsonSerializer = new NetJsonSerializer();
+            var serializer = new RequestSerializer(jsonSerializer);
             var body = serializer.Serialize(@event);
 
-            var eventData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(body);
+            var eventData = jsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(body);
 
             if (eventData == default)
                 throw new ArgumentException(nameof(body));
@@ -140,24 +141,25 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
             var data = eventData["data"];
             var attributesString = data["attributes"].ToString();
 
-            var attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributesString!);
+            var attributes = jsonSerializer.Deserialize<Dictionary<string, string>>(attributesString!);
 
             if (attributes == default)
                 throw new ArgumentException(nameof(body));
 
             var instance = ReflectionHelper.CreateInstance<DomainEvent>(@event.GetType());
 
-            var x = @event.GetType()
+            var domainEvent = (DomainEvent)@event.GetType()
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
                 ?.Invoke(instance, new object[]
                 {
-                    attributes["id"],
+                    attributes[nameof(DomainEvent.AggregateId)],
                     attributes,
                     data["id"].ToString(),
                     data["occurred_on"].ToString()
                 });
-            return x;
+
+            return domainEvent;
         }
     }
 }

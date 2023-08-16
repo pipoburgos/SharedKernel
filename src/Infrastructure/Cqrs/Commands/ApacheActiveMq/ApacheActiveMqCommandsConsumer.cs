@@ -4,6 +4,7 @@ using Apache.NMS.ActiveMQ.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.Events.ApacheActiveMq;
@@ -20,6 +21,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.ApacheActiveMq;
 public class ApacheActiveMqCommandsConsumer : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private IMessageConsumer _consumer;
 
     /// <summary>
     /// Constructor
@@ -59,16 +61,17 @@ public class ApacheActiveMqCommandsConsumer : BackgroundService
 
             var destination = new ActiveMQQueue(configuration.Value.Queue);
 
-            using var consumer = await session.CreateConsumerAsync(destination);
+            _consumer = await session.CreateConsumerAsync(destination);
 
-            consumer.Listener += message =>
+            _consumer.Listener += message =>
             {
                 try
                 {
                     if (message is not ITextMessage textMessage)
                         return;
 
-                    TaskHelper.RunSync(domainEventMediator.ExecuteHandler(textMessage!.Text, CancellationToken.None));
+                    TaskHelper.RunSync(domainEventMediator.Execute(textMessage!.Text, typeof(ICommandRequestHandler<>),
+                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
                 }
                 catch (Exception ex)
                 {
@@ -85,5 +88,12 @@ public class ApacheActiveMqCommandsConsumer : BackgroundService
         {
             logger.Error(ex, ex.Message);
         }
+    }
+
+    /// <summary>  </summary>
+    public override void Dispose()
+    {
+        _consumer?.Dispose();
+        base.Dispose();
     }
 }

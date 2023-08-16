@@ -8,6 +8,7 @@ using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.RetryPolicies;
+using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Testing.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
@@ -26,10 +27,9 @@ namespace SharedKernel.Integration.Tests.Events.RabbitMq
         {
             return services
                 .AddSharedKernel()
-                .AddDomainEvents(typeof(UserCreated))
                 .AddRabbitMqEventBus(Configuration)
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber))
-                .AddDomainEventSubscribers()
+                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
+                .AddNetJsonSerializer()
                 .AddSingleton<PublishUserCreatedDomainEvent>()
 
                 .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))

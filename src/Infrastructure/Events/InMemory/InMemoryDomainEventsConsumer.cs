@@ -1,4 +1,6 @@
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Requests;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,26 +12,25 @@ namespace SharedKernel.Infrastructure.Events.InMemory
     public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
     {
         private readonly EventQueue _eventQueue;
-        private readonly IDomainEventMediator _domainEventMediator;
-        private readonly IDomainEventJsonSerializer _serializer;
+        private readonly IRequestMediator _requestMediator;
+        private readonly IRequestSerializer _requestSerializer;
 
         /// <summary>  </summary>
         public InMemoryDomainEventsConsumer(
             EventQueue eventQueue,
-            IDomainEventMediator domainEventMediator,
-            IDomainEventJsonSerializer serializer)
+            IRequestMediator requestMediator,
+            IRequestSerializer requestSerializer)
         {
             _eventQueue = eventQueue;
-            _domainEventMediator = domainEventMediator;
-            _serializer = serializer;
-
+            _requestMediator = requestMediator;
+            _requestSerializer = requestSerializer;
         }
 
         /// <summary>  </summary>
         /// <param name="domainEvent"></param>
         public void Add(DomainEvent domainEvent)
         {
-            var eventSerialized = _serializer.Serialize(domainEvent);
+            var eventSerialized = _requestSerializer.Serialize(domainEvent);
             _eventQueue.Enqueue(eventSerialized);
         }
 
@@ -39,7 +40,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         {
             foreach (var @event in domainEvents)
             {
-                var eventSerialized = _serializer.Serialize(@event);
+                var eventSerialized = _requestSerializer.Serialize(@event);
                 _eventQueue.Enqueue(eventSerialized);
             }
         }
@@ -49,7 +50,7 @@ namespace SharedKernel.Infrastructure.Events.InMemory
         {
             while (_eventQueue.TryDequeue(out var domainEvent))
             {
-                await _domainEventMediator.ExecuteDomainSubscribers(domainEvent, cancellationToken);
+                await _requestMediator.Execute(domainEvent, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
             }
 
             await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);

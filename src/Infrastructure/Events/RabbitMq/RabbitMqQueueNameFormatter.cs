@@ -1,4 +1,4 @@
-using SharedKernel.Infrastructure.Events.Shared.RegisterEventSubscribers;
+using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.Events.RabbitMq
 {
@@ -12,9 +12,9 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// </summary>
         /// <param name="information"></param>
         /// <returns></returns>
-        public static string Format(IDomainEventSubscriberType information)
+        public static string Format(IRequestType information)
         {
-            return information.SubscriberName();
+            return information.UniqueName;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// </summary>
         /// <param name="information"></param>
         /// <returns></returns>
-        public static string FormatRetry(IDomainEventSubscriberType information)
+        public static string FormatRetry(IRequestType information)
         {
             return $"retry.{Format(information)}";
         }
@@ -32,7 +32,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// </summary>
         /// <param name="information"></param>
         /// <returns></returns>
-        public static string FormatDeadLetter(IDomainEventSubscriberType information)
+        public static string FormatDeadLetter(IRequestType information)
         {
             return $"dead_letter.{Format(information)}";
         }

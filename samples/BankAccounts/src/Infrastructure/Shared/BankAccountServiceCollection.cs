@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Application.Shared;
 using BankAccounts.Application.Shared.UnitOfWork;
-using BankAccounts.Domain.BankAccounts.Events;
 using BankAccounts.Domain.BankAccounts.Repository;
 using BankAccounts.Domain.Services;
 using BankAccounts.Infrastructure.BankAccounts;
@@ -44,8 +43,7 @@ namespace BankAccounts.Infrastructure.Shared
         private static IServiceCollection AddApplication(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddDomainEvents(typeof(BankAccountCreated))
-                .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork).Assembly)
+                .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork), typeof(BankTransferService))
                 .AddCommandsHandlers(typeof(IBankAccountUnitOfWork))
                 .AddQueriesHandlers(typeof(BankAccountDbContext))
                 .AddValidators(typeof(CreateBankAccountValidator));

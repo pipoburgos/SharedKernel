@@ -4,6 +4,7 @@ using RabbitMQ.Client.Exceptions;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Requests;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
     {
         private const string HeaderReDelivery = "redelivery_count";
         // private readonly MsSqlEventBus _failOverPublisher;
-        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
+        private readonly IRequestSerializer _requestSerializer;
         private readonly RabbitMqConnectionFactory _config;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
         private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
@@ -27,19 +28,19 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="domainEventJsonSerializer"></param>
+        /// <param name="requestSerializer"></param>
         /// <param name="config"></param>
         /// <param name="executeMiddlewaresService"></param>
         /// <param name="rabbitMqParams"></param>
         public RabbitMqEventBus(
             // MsSqlEventBus failOverPublisher,
-            IDomainEventJsonSerializer domainEventJsonSerializer,
+            IRequestSerializer requestSerializer,
             RabbitMqConnectionFactory config,
             IExecuteMiddlewaresService executeMiddlewaresService,
             IOptions<RabbitMqConfigParams> rabbitMqParams)
         {
             // _failOverPublisher = failOverPublisher;
-            _domainEventJsonSerializer = domainEventJsonSerializer;
+            _requestSerializer = requestSerializer;
             _config = config;
             _executeMiddlewaresService = executeMiddlewaresService;
             _rabbitMqParams = rabbitMqParams;
@@ -68,7 +69,7 @@ namespace SharedKernel.Infrastructure.Events.RabbitMq
             {
                 try
                 {
-                    var serializedDomainEvent = _domainEventJsonSerializer.Serialize(req);
+                    var serializedDomainEvent = _requestSerializer.Serialize(req);
 
                     var channel = _config.Channel();
                     channel.ExchangeDeclare(_rabbitMqParams.Value.ExchangeName, ExchangeType.Topic);

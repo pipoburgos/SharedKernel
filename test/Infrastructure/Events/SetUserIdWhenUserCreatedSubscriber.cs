@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Events
 {
-    internal class SetUserIdWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
+    internal class SetUserIdWhenUserCreatedSubscriber : IDomainEventSubscriber<UserCreated>
     {
         private readonly PublishUserCreatedDomainEvent _publishUserCreatedDomainEvent;
 
@@ -17,7 +17,7 @@ namespace SharedKernel.Integration.Tests.Events
         }
 
 
-        protected override Task On(UserCreated @event, CancellationToken cancellationToken)
+        public Task On(UserCreated @event, CancellationToken cancellationToken)
         {
             if (@event == default)
                 throw new ArgumentNullException(nameof(@event));

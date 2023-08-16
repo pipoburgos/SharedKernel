@@ -4,8 +4,11 @@ using Apache.NMS.ActiveMQ.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
+using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Requests;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,7 +43,7 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
 
             try
             {
-                var domainEventMediator = scope.ServiceProvider.GetRequiredService<IDomainEventMediator>();
+                var domainEventMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
                 var configuration = scope.ServiceProvider.GetRequiredService<IOptions<ApacheActiveMqConfiguration>>();
 
                 var connecturi = new Uri($"{configuration.Value.BrokerUri}?wireFormat.maxInactivityDuration=0");
@@ -69,7 +72,9 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
                             if (message is not ITextMessage textMessage)
                                 return;
 
-                            TaskHelper.RunSync(domainEventMediator.ExecuteDomainSubscribers(textMessage!.Text, CancellationToken.None));
+                            TaskHelper.RunSync(domainEventMediator.Execute(textMessage!.Text,
+                                typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
+                                CancellationToken.None));
                         }
                         catch (Exception ex)
                         {

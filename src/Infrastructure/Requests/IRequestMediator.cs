@@ -9,9 +9,8 @@ namespace SharedKernel.Infrastructure.Requests;
 public interface IRequestMediator
 {
     /// <summary>  </summary>
-    Task ExecuteHandler(string commandSerialized, CancellationToken cancellationToken);
+    Task Execute(string requestSerialized, Type type, string method, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task ExecuteHandler(string body, Request commandSerialized, Type commandHandler,
-        CancellationToken cancellationToken);
+    Task Execute(string requestSerialized, Request request, Type requestHandler, string method, CancellationToken cancellationToken);
 }

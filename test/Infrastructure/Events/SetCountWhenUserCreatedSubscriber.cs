@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Events
 {
-    internal class SetCountWhenUserCreatedSubscriber : DomainEventSubscriber<UserCreated>
+    internal class SetCountWhenUserCreatedSubscriber : IDomainEventSubscriber<UserCreated>
     {
         private readonly IIdentityService _httpContextAccessor;
         private readonly PublishUserCreatedDomainEvent _publishUserCreatedDomainEvent;
@@ -22,7 +22,7 @@ namespace SharedKernel.Integration.Tests.Events
         }
 
 
-        protected override Task On(UserCreated @event, CancellationToken cancellationToken)
+        public Task On(UserCreated @event, CancellationToken cancellationToken)
         {
             if (@event == default)
                 throw new ArgumentNullException(nameof(@event));
@@ -33,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Events
             if (random == 1)
                 throw new Exception("To retry");
 
-            if (_httpContextAccessor?.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
+            if (_httpContextAccessor.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter"))
                 _publishUserCreatedDomainEvent.SumTotal();
 
             return Task.CompletedTask;

@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.Requests;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,18 +12,18 @@ namespace SharedKernel.Infrastructure.Events.Synchronous
     /// </summary>
     public class SynchronousEventBus : IEventBus
     {
-        private readonly IDomainEventJsonSerializer _serializer;
-        private readonly IDomainEventMediator _domainEventMediator;
+        private readonly IRequestSerializer _requestSerializer;
+        private readonly IRequestMediator _requestMediator;
 
         /// <summary> Contructor. </summary>
-        /// <param name="serializer"></param>
-        /// <param name="domainEventMediator"></param>
+        /// <param name="requestSerializer"></param>
+        /// <param name="requestMediator"></param>
         public SynchronousEventBus(
-            IDomainEventJsonSerializer serializer,
-            IDomainEventMediator domainEventMediator)
+            IRequestSerializer requestSerializer,
+            IRequestMediator requestMediator)
         {
-            _serializer = serializer;
-            _domainEventMediator = domainEventMediator;
+            _requestSerializer = requestSerializer;
+            _requestMediator = requestMediator;
         }
 
         /// <summary>
@@ -33,8 +34,8 @@ namespace SharedKernel.Infrastructure.Events.Synchronous
         /// <returns></returns>
         public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
         {
-            var eventSerialized = _serializer.Serialize(@event);
-            return _domainEventMediator.ExecuteDomainSubscribers(eventSerialized, cancellationToken);
+            var eventSerialized = _requestSerializer.Serialize(@event);
+            return _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
         }
 
         /// <summary>
@@ -46,8 +47,9 @@ namespace SharedKernel.Infrastructure.Events.Synchronous
         {
             foreach (var @event in events)
             {
-                var eventSerialized = _serializer.Serialize(@event);
-                await _domainEventMediator.ExecuteDomainSubscribers(eventSerialized, cancellationToken);
+                var eventSerialized = _requestSerializer.Serialize(@event);
+                await _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
+                    cancellationToken);
             }
         }
     }

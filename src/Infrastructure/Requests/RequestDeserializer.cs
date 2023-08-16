@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Domain.Events;
 using SharedKernel.Domain.Requests;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,22 @@ internal class RequestDeserializer : IRequestDeserializer
 
         var instance = ReflectionHelper.CreateInstance<Request>(requestType);
 
-        var domainEvent = (Request)requestType
+        const string key = nameof(DomainEvent.AggregateId);
+        if (attributes.TryGetValue(key, out var attribute))
+        {
+            return (DomainEvent)requestType
+                .GetTypeInfo()
+                .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
+                ?.Invoke(instance, new object[]
+                {
+                    attribute,
+                    attributes,
+                    data["id"].ToString(),
+                    data["occurred_on"].ToString()
+                });
+        }
+
+        return (Request)requestType
             .GetTypeInfo()
             .GetDeclaredMethod(nameof(Request.FromPrimitives))
             ?.Invoke(instance, new object[]
@@ -52,7 +68,5 @@ internal class RequestDeserializer : IRequestDeserializer
                 data["id"].ToString(),
                 data["occurred_on"].ToString()
             });
-
-        return domainEvent;
     }
 }

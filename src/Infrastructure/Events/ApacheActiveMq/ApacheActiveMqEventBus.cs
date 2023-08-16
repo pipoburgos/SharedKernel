@@ -2,6 +2,7 @@
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Requests;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,16 +13,16 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
     /// <summary>  </summary>
     public class ApacheActiveMqEventBus : ApacheActiveMqPublisher, IEventBus
     {
-        private readonly IDomainEventJsonSerializer _domainEventJsonSerializer;
+        private readonly IRequestSerializer _requestSerializer;
         private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
 
         /// <summary>  </summary>
         public ApacheActiveMqEventBus(
-            IDomainEventJsonSerializer domainEventJsonSerializer,
+            IRequestSerializer requestSerializer,
             IExecuteMiddlewaresService executeMiddlewaresService,
             IOptions<ApacheActiveMqConfiguration> configuration) : base(configuration)
         {
-            _domainEventJsonSerializer = domainEventJsonSerializer;
+            _requestSerializer = requestSerializer;
             _executeMiddlewaresService = executeMiddlewaresService;
         }
 
@@ -46,7 +47,7 @@ namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
         {
             return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, _) =>
             {
-                var serializedDomainEvent = _domainEventJsonSerializer.Serialize(req);
+                var serializedDomainEvent = _requestSerializer.Serialize(req);
 
                 return PublishTopic(serializedDomainEvent, @event.GetEventName());
             });
