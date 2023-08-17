@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Logging;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.RabbitMq;
 using SharedKernel.Infrastructure.Requests;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

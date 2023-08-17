@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Application.Logging;
 using System.Diagnostics;
 
-namespace SharedKernel.Infrastructure.Cqrs.Middlewares;
+namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
 /// <summary>  </summary>
 public class TimeHandler : ITimeHandler

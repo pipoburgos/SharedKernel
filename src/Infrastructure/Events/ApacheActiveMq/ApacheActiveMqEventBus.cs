@@ -2,8 +2,8 @@
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.ApacheActiveMq;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Requests;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

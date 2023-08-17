@@ -4,7 +4,7 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;

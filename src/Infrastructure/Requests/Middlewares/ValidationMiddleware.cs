@@ -1,42 +1,29 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.Requests;
 using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Middlewares;
+namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
-/// <summary>
-/// 
-/// </summary>
-/// <typeparam name="TRequest"></typeparam>
-/// <typeparam name="TResponse"></typeparam>
-public class ValidationMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
+/// <summary>  </summary>
+public class ValidationMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : IRequest
 {
     private readonly IServiceProvider _serviceProvider;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="serviceProvider"></param>
+    /// <summary> </summary>
     public ValidationMiddleware(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-    /// <param name="next"></param>
-    /// <returns></returns>
-    public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)
+    /// <summary>  </summary>
+    public Task Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next)
     {
         var validatorIsRegistered = _serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IValidator<>).MakeGenericType(request.GetType()));
 
@@ -52,7 +39,7 @@ public class ValidationMiddleware<TRequest, TResponse> : IMiddleware<TRequest, T
         return ValidateAsync(request, cancellationToken, next, validator);
     }
 
-    private async Task<TResponse> ValidateAsync(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next, object validator)
+    private static async Task ValidateAsync(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task> next, object validator)
     {
         const string methodName = "ValidateListAsync";
         var method = validator.GetType().GetMethod(methodName);
@@ -67,6 +54,6 @@ public class ValidationMiddleware<TRequest, TResponse> : IMiddleware<TRequest, T
         if (failures != default && failures.Any())
             throw new ValidationFailureException(failures);
 
-        return await next(request, cancellationToken);
+        await next(request, cancellationToken);
     }
 }

@@ -7,7 +7,7 @@ using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Events;
 using SharedKernel.Domain.Requests;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;

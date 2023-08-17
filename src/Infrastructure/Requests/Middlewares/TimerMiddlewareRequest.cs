@@ -5,13 +5,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Middlewares;
+namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
-/// <summary>
-/// 
-/// </summary>
-/// <typeparam name="TRequest"></typeparam>
-/// <typeparam name="TResponse"></typeparam>
+/// <summary>  </summary>
 public class TimerMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ITimeHandler _timeHandler;
@@ -24,14 +20,10 @@ public class TimerMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TRespo
         _timer = new Stopwatch();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-    /// <param name="next"></param>
-    /// <returns></returns>
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<TResponse>> next)
+    /// <summary>  </summary>
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+        Func<TRequest, CancellationToken, Task<TResponse>> next)
+
     {
         _timer.Start();
 

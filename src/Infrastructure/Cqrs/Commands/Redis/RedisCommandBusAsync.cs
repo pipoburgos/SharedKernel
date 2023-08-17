@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Commands;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Requests;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
