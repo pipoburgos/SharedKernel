@@ -8,7 +8,6 @@ services:
             - "80"
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-
     sql_server:
         image: mcr.microsoft.com/mssql/server:latest
         container_name: ${DOCKER_REGISTRY-}sql_server
@@ -21,8 +20,7 @@ services:
         volumes:
             - ./docker-data/sql_server/data:/var/opt/mssql/data
             - ./docker-data/sql_server/backups:/var/opt/mssql/backups
-
-   smtp:
+    smtp:
         image: namshi/smtp:latest
         container_name: shared-kernel-smtp
         ports:
@@ -34,13 +32,11 @@ services:
             - SMARTHOST_USER=shared-kernel@shared-kernel.com
             - SMARTHOST_PASSWORD=shared-kernel
             - SMARTHOST_ALIASES=*.shared-kernel.com
-
     activemq:
         image: rmohr/activemq:latest
         ports:
             - 8768:8161
             - 8769:61616
-
     rabbitmq:
         image: rabbitmq:latest
         environment:
@@ -48,7 +44,6 @@ services:
             - RABBITMQ_DEFAULT_PASS=password
         ports:
             - 8770:5672
-
     redis:
         image: redis:latest
         ports:

@@ -2,6 +2,7 @@
 using BankAccounts.Application.BankAccounts.Commands;
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Infrastructure.Shared.Data;
+using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Testing.Acceptance.Extensions;
 
 namespace BankAccounts.Acceptance.Tests
@@ -41,7 +42,7 @@ namespace BankAccounts.Acceptance.Tests
 
 
         [Fact]
-        public async Task CreateBankAccountNameMoreThan100()
+        public async Task CreateBankAccountNameMoreThan100TestFailover()
         {
             var client = await _bankAccountClientFactory.CreateClientAsync<BankAccountDbContext>();
 
@@ -53,6 +54,12 @@ namespace BankAccounts.Acceptance.Tests
 
             var ex = await response.GetErrorResponse();
             ex.Should("Name", "The length of 'Name' must be 100 characters or fewer. You entered 101 characters.");
+
+            _bankAccountClientFactory.CreateNewDbContext()
+                .Set<ErrorRequest>()
+                .Any(t => t.Request.Contains(bankAccountId.ToString().ToLower()))
+                .Should()
+                .BeTrue();
         }
     }
 }

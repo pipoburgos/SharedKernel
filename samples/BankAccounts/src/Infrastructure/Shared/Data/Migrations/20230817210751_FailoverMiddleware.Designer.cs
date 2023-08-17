@@ -4,6 +4,7 @@ using BankAccounts.Infrastructure.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAccounts.Infrastructure.Shared.Data.Migrations
 {
     [DbContext(typeof(BankAccountDbContext))]
-    partial class BankAccountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230817210751_FailoverMiddleware")]
+    partial class FailoverMiddleware
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

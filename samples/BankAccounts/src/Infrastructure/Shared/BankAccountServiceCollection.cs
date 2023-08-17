@@ -69,6 +69,7 @@ namespace BankAccounts.Infrastructure.Shared
             serviceCollection.AddDapperSqlServer(configuration, connectionStringName);
 
             serviceCollection
+                .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
                 .AddValidationMiddleware()
                 .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>()
                 .AddTimerMiddleware();

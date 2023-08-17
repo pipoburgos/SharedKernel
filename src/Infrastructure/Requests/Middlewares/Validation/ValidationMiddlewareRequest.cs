@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Requests.Middlewares;
+namespace SharedKernel.Infrastructure.Requests.Middlewares.Validation;
 
 /// <summary>  </summary>
 public class ValidationMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>

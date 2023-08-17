@@ -6,6 +6,7 @@ using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Requests.Middlewares;
+using SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Validators;

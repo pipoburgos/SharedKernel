@@ -1,14 +1,14 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Requests;
+using SharedKernel.Application.Requests;
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Requests.Middlewares;
+namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
 /// <summary>  </summary>
-public class TimerMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : IRequest
+public class TimerMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ITimeHandler _timeHandler;
     private readonly Stopwatch _timer;
@@ -21,15 +21,18 @@ public class TimerMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : 
     }
 
     /// <summary>  </summary>
-    public async Task Handle(TRequest request, CancellationToken cancellationToken,
-        Func<TRequest, CancellationToken, Task> next)
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+        Func<TRequest, CancellationToken, Task<TResponse>> next)
+
     {
         _timer.Start();
 
-        await next(request, cancellationToken);
+        var response = await next(request, cancellationToken);
 
         _timer.Stop();
 
         _timeHandler.Handle(request, _timer);
+
+        return response;
     }
 }

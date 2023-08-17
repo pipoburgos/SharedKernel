@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  bankaccounts.api:
-    image: ${DOCKER_REGISTRY-}bankaccountsapi
-    build:
-      context: .
-      dockerfile: samples/BankAccounts/src/Api/Dockerfile
+    bankaccounts.api:
+        image: ${DOCKER_REGISTRY-}bankaccountsapi
+        build:
+            context: .
+            dockerfile: samples/BankAccounts/src/Api/Dockerfile

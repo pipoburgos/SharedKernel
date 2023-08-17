@@ -1,7 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories;
+using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
+using SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
+using SharedKernel.Infrastructure.Requests.Middlewares.Timer;
+using SharedKernel.Infrastructure.Requests.Middlewares.Validation;
 using SharedKernel.Infrastructure.RetryPolicies;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
@@ -9,6 +15,16 @@ namespace SharedKernel.Infrastructure.Requests.Middlewares;
 /// <summary>  </summary>
 public static class MiddlewaresExtensions
 {
+    /// <summary> IMPORTANT!!! Add modelBuilder.ApplyConfiguration(new ErrorRequestConfiguration()) </summary>
+    public static IServiceCollection AddEntityFrameworkFailoverMiddleware<TContext>(this IServiceCollection services) where TContext : DbContext
+    {
+        return services
+            .AddTransient<IRequestFailoverRepository, EntityFrameworkCoreRequestFailoverRepository<TContext>>()
+            .AddTransient<FailoverCommonLogic>()
+            .AddTransient(typeof(IMiddleware<>), typeof(FailoverMiddleware<>))
+            .AddTransient(typeof(IMiddleware<,>), typeof(FailoverMiddleware<,>));
+    }
+
     /// <summary>  </summary>
     public static IServiceCollection AddValidationMiddleware(this IServiceCollection services)
     {
