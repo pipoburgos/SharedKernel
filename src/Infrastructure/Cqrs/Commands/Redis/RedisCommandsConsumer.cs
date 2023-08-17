@@ -37,14 +37,17 @@ public class RedisCommandsConsumer : BackgroundService
         {
             var value = await _connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
 
-            try
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                TaskHelper.RunSync(_requestMediator.Execute(value, typeof(ICommandRequestHandler<>),
-                    nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, ex.Message);
+                try
+                {
+                    TaskHelper.RunSync(_requestMediator.Execute(value, typeof(ICommandRequestHandler<>),
+                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, ex.Message);
+                }
             }
 
             await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
