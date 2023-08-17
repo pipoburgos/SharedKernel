@@ -1,11 +1,11 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands
+namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 {
     /// <summary>
     /// 

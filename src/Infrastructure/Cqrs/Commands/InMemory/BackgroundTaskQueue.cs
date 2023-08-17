@@ -4,17 +4,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands
+namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 {
     /// <summary>
     /// 
     /// </summary>
     public class BackgroundTaskQueue : IBackgroundTaskQueue
     {
-        private readonly SemaphoreSlim _signal = new SemaphoreSlim(0);
+        private readonly SemaphoreSlim _signal = new(0);
 
-        private readonly ConcurrentQueue<Func<CancellationToken, Task>> _workItems =
-            new ConcurrentQueue<Func<CancellationToken, Task>>();
+        private readonly ConcurrentQueue<Func<CancellationToken, Task>> _workItems = new();
 
         /// <summary>
         /// 

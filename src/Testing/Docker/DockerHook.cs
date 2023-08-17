@@ -19,7 +19,7 @@ namespace SharedKernel.Testing.Docker
                 .Build()
                 .Start();
 
-            Thread.Sleep(TimeSpan.FromSeconds(30));
+            Thread.Sleep(TimeSpan.FromSeconds(15));
         }
 
         protected virtual void Dispose(bool disposing)

@@ -18,15 +18,15 @@ public static class RequestServiceExtensions
 {
     /// <summary>  </summary>
     public static IServiceCollection AddRequests<T>(this IServiceCollection services, Assembly assembly, string method,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        bool isTopic, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         var commandRequests = GetRequests<T>(assembly);
         foreach (var eventType in commandRequests)
         {
             var eventName = GetUniqueName<T>(eventType, method);
 
-            services.Add(new ServiceDescriptor(typeof(IRequestType), _ => new RequestType(eventName, eventType),
-                serviceLifetime));
+            services.Add(new ServiceDescriptor(typeof(IRequestType),
+                _ => new RequestType(eventName, eventType, isTopic), serviceLifetime));
         }
 
         return services

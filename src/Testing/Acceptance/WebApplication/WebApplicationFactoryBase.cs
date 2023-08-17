@@ -1,16 +1,10 @@
-﻿using Castle.Core.Smtp;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Logging;
-using NSubstitute;
-using SharedKernel.Application.Events;
-using SharedKernel.Application.System;
-using SharedKernel.Infrastructure.Events.Synchronous;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -56,52 +50,54 @@ namespace SharedKernel.Testing.Acceptance.WebApplication
                     conf.AddJsonFile("appsettings.json");
                     conf.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), ficheroConfiguracion), false);
                 })
-                .ConfigureServices(x =>
-                {
-                    IdentityModelEventSource.ShowPII = true;
-
-                    //x.AddAuthentication(options =>
-                    //{
-                    //    options.DefaultScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-                    //    options.DefaultAuthenticateScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-                    //    options.DefaultChallengeScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-                    //}).AddFakeJwtBearer();
-
-                    x.RemoveAll<IEmailSender>().AddTransient(_ => Substitute.For<IEmailSender>());
-
-                    x.RemoveAll<IDateTime>().AddTransient(_ =>
-                    {
-                        var dateTime = Substitute.For<IDateTime>();
-                        dateTime.UtcNow.Returns(DateTime ?? System.DateTime.UtcNow);
-                        return dateTime;
-                    });
-                })
+                .ConfigureServices(ConfigureServices)
                 // En medio se ejecutan los servicios de la app
-                .ConfigureTestServices(services =>
-                {
-                    //services
-                    //    .RemoveAll<IHttpClientFactory>()
-                    //    .AddTransient(_ =>
-                    //    {
-                    //        var array = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
+                .ConfigureTestServices(ConfigureTestServices);
+        }
 
-                    //        var mockHttpMessageHandler = Substitute.ForPartsOf<MockHttpMessageHandler>();
-                    //        mockHttpMessageHandler.Send(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
-                    //            .Returns(new HttpResponseMessage(HttpStatusCode.OK)
-                    //            { Content = new ByteArrayContent(array) });
+        protected virtual void ConfigureServices(IServiceCollection services)
+        {
+            IdentityModelEventSource.ShowPII = true;
 
-                    //        var httpClientFactory = Substitute.For<IHttpClientFactory>();
-                    //        var httpClient = new HttpClient(mockHttpMessageHandler);
-                    //        httpClient.BaseAddress = new Uri("http://example.com");
-                    //        httpClientFactory.CreateClient("SSRS").Returns(httpClient);
+            //x.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = FakeJwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultAuthenticateScheme = FakeJwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = FakeJwtBearerDefaults.AuthenticationScheme;
+            //}).AddFakeJwtBearer();
 
-                    //        return httpClientFactory;
-                    //    });
+            //services.RemoveAll<IDateTime>().AddTransient(_ =>
+            //{
+            //    var dateTime = Substitute.For<IDateTime>();
+            //    dateTime.UtcNow.Returns(DateTime ?? System.DateTime.UtcNow);
+            //    return dateTime;
+            //});
+        }
 
-                    services
-                        .RemoveAll<IEventBus>()
-                        .AddSingleton<IEventBus, SynchronousEventBus>();
-                });
+        protected virtual void ConfigureTestServices(IServiceCollection services)
+        {
+            //services
+            //    .RemoveAll<IHttpClientFactory>()
+            //    .AddTransient(_ =>
+            //    {
+            //        var array = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
+
+            //        var mockHttpMessageHandler = Substitute.ForPartsOf<MockHttpMessageHandler>();
+            //        mockHttpMessageHandler.Send(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
+            //            .Returns(new HttpResponseMessage(HttpStatusCode.OK)
+            //            { Content = new ByteArrayContent(array) });
+
+            //        var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            //        var httpClient = new HttpClient(mockHttpMessageHandler);
+            //        httpClient.BaseAddress = new Uri("http://example.com");
+            //        httpClientFactory.CreateClient("SSRS").Returns(httpClient);
+
+            //        return httpClientFactory;
+            //    });
+
+            //services.RemoveAll<IEmailSender>().AddTransient(_ => Substitute.For<IEmailSender>());
+
+            //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
         }
 
         public async Task<HttpClient> CreateClientAsync<TContext>() where TContext : DbContext

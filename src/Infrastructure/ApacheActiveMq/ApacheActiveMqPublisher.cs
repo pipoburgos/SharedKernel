@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Events.ApacheActiveMq
+namespace SharedKernel.Infrastructure.ApacheActiveMq
 {
     /// <summary> </summary>
     public class ApacheActiveMqPublisher

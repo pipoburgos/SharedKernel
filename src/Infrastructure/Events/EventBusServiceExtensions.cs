@@ -3,12 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Events;
+using SharedKernel.Infrastructure.ApacheActiveMq;
 using SharedKernel.Infrastructure.Events.ApacheActiveMq;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
 using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Logging;
+using SharedKernel.Infrastructure.RabbitMq;
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.System;
@@ -37,7 +39,7 @@ namespace SharedKernel.Infrastructure.Events
             Assembly subscribersAssembly, Assembly domainAssembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
             return services
-                .AddRequests<DomainEvent>(domainAssembly, nameof(DomainEvent.GetUniqueName), serviceLifetime)
+                .AddRequests<DomainEvent>(domainAssembly, nameof(DomainEvent.GetUniqueName), true, serviceLifetime)
                 .AddFromAssembly(subscribersAssembly, serviceLifetime, typeof(IDomainEventSubscriber<>));
         }
 
@@ -92,7 +94,7 @@ namespace SharedKernel.Infrastructure.Events
                 //.AddTransient<MsSqlEventBus, MsSqlEventBus>() // Failover
                 .AddTransient<IEventBus, RabbitMqEventBus>()
                 .AddTransient<RabbitMqConnectionFactory>()
-                .AddTransient<RabbitMqDomainEventsConsumer>();
+                .AddTransient<RabbitMqConsumer>();
         }
 
         /// <summary>
@@ -109,7 +111,7 @@ namespace SharedKernel.Infrastructure.Events
                 .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] { "Event Bus", "Redis" });
 
             return services
-                .AddHostedService<RedisDomainEventsConsumer>()
+                .AddHostedService<RedisCommandsConsumer>()
                 .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
                 .AddTransient<IEventBus, RedisEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
@@ -122,7 +124,7 @@ namespace SharedKernel.Infrastructure.Events
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddApacheActiveMq(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApacheActiveMqEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<ApacheActiveMqConfiguration>(configuration.GetSection(nameof(ApacheActiveMqConfiguration)));
 
@@ -131,10 +133,9 @@ namespace SharedKernel.Infrastructure.Events
             //    .AddApacheMq(brokerUri, "Apache ActiveMq Event Bus", tags: new[] { "Event Bus", "Apache", "ActiveMq" });
 
             return services
-                .AddHostedService<ApacheActiveMqDomainEventsConsumer>()
+                .AddHostedService<ApacheActiveMqConsumer>()
                 .AddTransient<IEventBus, ApacheActiveMqEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
-            //.AddPollyRetry(configuration);
         }
 
         private static string GetRedisConfiguration(IConfiguration configuration)

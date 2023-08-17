@@ -35,12 +35,11 @@ namespace BankAccounts.Api
         public void ConfigureServices(IServiceCollection services)
         {
             _services = services
-                .AddInMemoryCommandBus()
-                .AddApacheActiveMqCommandBusAsync(_configuration)
+                .AddRedisCommandBusAsync(_configuration)
                 .AddNetJsonSerializer()
                 .AddInMemoryQueryBus()
-                .AddInMemoryEventBus(_configuration)
-                .AddInMemoryCache()
+                .AddRedisEventBus(_configuration)
+                .AddRedisDistributedCache(_configuration)
                 .AddBankAccounts(_configuration, "BankAccountConnection")
                 .AddValidatorsFromAssemblyContaining<Startup>(lifetime: ServiceLifetime.Scoped)
                 .AddSharedKernelOpenApi(_configuration)

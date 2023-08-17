@@ -16,6 +16,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Cqrs\Commands\ApacheActiveMq\ApacheActiveMqCommandBusShould.cs" />
+    <Compile Include="Cqrs\Commands\DelayCommand.cs" />
+    <Compile Include="Cqrs\Commands\DelayCommandHandler.cs" />
+    <Compile Include="Cqrs\Commands\CommandBusCommonTestCase.cs" />
+    <Compile Include="Cqrs\Commands\InMemory\InMemoryCommandBusTests.cs" />
+    <Compile Include="Cqrs\Commands\IntValidator.cs" />
+    <Compile Include="Cqrs\Commands\RabbitMq\RabbitMqCommandBusShould.cs" />
+    <Compile Include="Cqrs\Commands\Redis\RedisCommandBusShould.cs" />
+    <Compile Include="Cqrs\Commands\SaveValueSingletonService.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommand.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommandHandler.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommandValidator.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommandWithResponse.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommandWithResponseHandler.cs" />
+    <Compile Include="Cqrs\Commands\SampleCommandWithResponseValidator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -86,6 +104,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Cqrs\Commands\ApacheActiveMq\appsettings.Apache.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\RabbitMq\appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

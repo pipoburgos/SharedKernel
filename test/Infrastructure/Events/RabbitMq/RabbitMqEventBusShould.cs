@@ -1,56 +1,26 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Application.Security;
-using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Infrastructure;
-using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Events;
-using SharedKernel.Infrastructure.RetryPolicies;
-using SharedKernel.Infrastructure.Serializers;
-using SharedKernel.Testing.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Events.RabbitMq
+namespace SharedKernel.Integration.Tests.Events.RabbitMq;
+
+[Collection("DockerHook")]
+public class RabbitMqEventBusShould : EventBusCommonTestCase
 {
-    [Collection("DockerHook")]
-    public class RabbitMqEventBusShould : InfrastructureTestCase<FakeStartup>
+    protected override string GetJsonFile()
     {
-        protected override string GetJsonFile()
-        {
-            return "Events/RabbitMq/appsettings.rabbitMq.json";
-        }
+        return "Events/RabbitMq/appsettings.rabbitMq.json";
+    }
 
-        protected override IServiceCollection ConfigureServices(IServiceCollection services)
-        {
-            return services
-                .AddSharedKernel()
-                .AddRabbitMqEventBus(Configuration)
-                .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
-                .AddNetJsonSerializer()
-                .AddSingleton<PublishUserCreatedDomainEvent>()
+    protected override IServiceCollection ConfigureServices(IServiceCollection services)
+    {
+        return base.ConfigureServices(services).AddRabbitMqEventBus(Configuration);
+    }
 
-                .AddTransient(typeof(IMiddleware<>), typeof(ValidationMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>))
-
-                .AddTransient<IRetriever, PollyRetriever>()
-                .AddTransient<IRetryPolicyExceptionHandler, RetryPolicyExceptionHandler>()
-                .AddPollyRetry(Configuration)
-
-                .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-                .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>))
-
-                .RemoveAll<IIdentityService>()
-                .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
-                .AddHttpContextAccessor();
-        }
-
-        [Fact]
-        public async Task PublishDomainEventFromRabbitMq()
-        {
-            await PublishUserCreatedDomainEventCase.PublishDomainEvent(this);
-        }
+    [Fact]
+    public async Task PublishDomainEventFromRabbitMq()
+    {
+        await PublishDomainEvent();
     }
 }

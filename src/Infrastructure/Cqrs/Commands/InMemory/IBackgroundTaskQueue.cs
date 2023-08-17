@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands
+namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 {
     /// <summary>
     /// 

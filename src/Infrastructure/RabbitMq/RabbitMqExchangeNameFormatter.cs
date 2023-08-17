@@ -1,4 +1,4 @@
-namespace SharedKernel.Infrastructure.Events.RabbitMq
+namespace SharedKernel.Infrastructure.RabbitMq
 {
     /// <summary>
     /// 

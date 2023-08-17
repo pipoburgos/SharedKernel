@@ -10,4 +10,7 @@ public interface IRequestType
 
     /// <summary>  </summary>
     Type Type { get; }
+
+    /// <summary>  </summary>
+    bool IsTopic { get; }
 }

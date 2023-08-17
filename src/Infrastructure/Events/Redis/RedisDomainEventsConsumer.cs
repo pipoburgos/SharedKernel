@@ -15,23 +15,23 @@ namespace SharedKernel.Infrastructure.Events.Redis
     /// <summary>
     /// Redis domain event consumer background service
     /// </summary>
-    public class RedisDomainEventsConsumer : BackgroundService
+    public class RedisCommandsConsumer : BackgroundService
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IRequestMediator _requestMediator;
-        private readonly ICustomLogger<RedisDomainEventsConsumer> _logger;
+        private readonly ICustomLogger<RedisCommandsConsumer> _logger;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="serviceScopeFactory"></param>
-        public RedisDomainEventsConsumer(IServiceScopeFactory serviceScopeFactory)
+        public RedisCommandsConsumer(IServiceScopeFactory serviceScopeFactory)
         {
             using var scope = serviceScopeFactory.CreateScope();
 
             _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
             _requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
-            _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisDomainEventsConsumer>>();
+            _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
         }
 
         /// <summary>

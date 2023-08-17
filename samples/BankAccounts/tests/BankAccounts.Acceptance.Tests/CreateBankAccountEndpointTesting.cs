@@ -29,7 +29,7 @@ namespace BankAccounts.Acceptance.Tests
 
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            await Task.Delay(3_000);
+            await Task.Delay(10_000);
 
             _bankAccountClientFactory
                 .CreateNewDbContext()
