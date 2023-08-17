@@ -1,29 +1,55 @@
 version: '3.4'
 
 services:
-  bankaccounts.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    bankaccounts.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        ports:
+            - "80"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-  sql_server:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: ${DOCKER_REGISTRY-}sql_server
-    user: root
-    environment:
-        - ACCEPT_EULA=Y
-        - SA_PASSWORD=yourStrong(!)Password
-    # ports:
-    #     - 8050:1433
-    volumes:
-        - ./docker-data/sql_server/data:/var/opt/mssql/data
-        - ./docker-data/sql_server/backups:/var/opt/mssql/backups
+    sql_server:
+        image: mcr.microsoft.com/mssql/server:latest
+        container_name: ${DOCKER_REGISTRY-}sql_server
+        user: root
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrong(!)Password
+        # ports:
+        #     - 8050:1433
+        volumes:
+            - ./docker-data/sql_server/data:/var/opt/mssql/data
+            - ./docker-data/sql_server/backups:/var/opt/mssql/backups
 
-  activemq:
-    image: rmohr/activemq:latest
-    ports:
-      - 8170:8161
-      - 61616:61616
+   smtp:
+        image: namshi/smtp:latest
+        container_name: shared-kernel-smtp
+        ports:
+         - "8767:25"
+        environment:
+            - MAILNAME=smtp.shared-kernel.com
+            - SMARTHOST_ADDRESS=smtp.shared-kernel.com
+            - SMARTHOST_PORT=587
+            - SMARTHOST_USER=shared-kernel@shared-kernel.com
+            - SMARTHOST_PASSWORD=shared-kernel
+            - SMARTHOST_ALIASES=*.shared-kernel.com
+
+    activemq:
+        image: rmohr/activemq:latest
+        ports:
+            - 8768:8161
+            - 8769:61616
+
+    rabbitmq:
+        image: rabbitmq:latest
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password
+        ports:
+            - 8770:5672
+
+    redis:
+        image: redis:latest
+        ports:
+            - 8771:6379

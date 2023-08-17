@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 using System;
@@ -15,38 +14,35 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.Redis;
 /// <summary> Redis domain event consumer background service </summary>
 public class RedisCommandsConsumer : BackgroundService
 {
-    private readonly IConnectionMultiplexer _connectionMultiplexer;
-    private readonly IRequestMediator _requestMediator;
-    private readonly ICustomLogger<RedisCommandsConsumer> _logger;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
     /// <summary> Constructor </summary>
-    /// <param name="serviceScopeFactory"></param>
     public RedisCommandsConsumer(IServiceScopeFactory serviceScopeFactory)
     {
-        using var scope = serviceScopeFactory.CreateScope();
-
-        _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
-        _requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
-        _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     /// <summary>  </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        using var scope = _serviceScopeFactory.CreateScope();
+        var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+        var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
+        var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
         while (!stoppingToken.IsCancellationRequested)
         {
-            var value = await _connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
+            var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
 
-            if (!string.IsNullOrWhiteSpace(value))
+            if (value.HasValue)
             {
                 try
                 {
-                    TaskHelper.RunSync(_requestMediator.Execute(value, typeof(ICommandRequestHandler<>),
-                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
+                    await requestMediator.Execute(value, typeof(ICommandRequestHandler<>),
+                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, ex.Message);
+                    logger.Error(ex, ex.Message);
                 }
             }
 

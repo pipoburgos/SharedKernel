@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Infrastructure.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 using System.Collections.Generic;
@@ -11,14 +12,17 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.Redis;
 /// <summary>  </summary>
 public class RedisCommandBusAsync : ICommandBusAsync
 {
+    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
     private readonly IRequestSerializer _requestSerializer;
 
     /// <summary>  </summary>
     public RedisCommandBusAsync(
+        IExecuteMiddlewaresService executeMiddlewaresService,
         IConnectionMultiplexer connectionMultiplexer,
         IRequestSerializer requestSerializer)
     {
+        _executeMiddlewaresService = executeMiddlewaresService;
         _connectionMultiplexer = connectionMultiplexer;
         _requestSerializer = requestSerializer;
     }
@@ -26,9 +30,12 @@ public class RedisCommandBusAsync : ICommandBusAsync
     /// <summary>  </summary>
     public Task Dispatch(CommandRequest command, CancellationToken cancellationToken)
     {
-        var eventAsString = _requestSerializer.Serialize(command);
-        return _connectionMultiplexer.GetDatabase()
-            .ListRightPushAsync("CommandsQueue", eventAsString);
+        return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, _) =>
+        {
+            var eventAsString = _requestSerializer.Serialize(req);
+            return _connectionMultiplexer.GetDatabase()
+                .ListRightPushAsync("CommandsQueue", eventAsString);
+        });
     }
 
     /// <summary>  </summary>

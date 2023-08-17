@@ -45,4 +45,4 @@ services:
         image: rmohr/activemq:latest
         ports:
             - 8170:8161
-            - 61616:61616
+            - 22225:61616
