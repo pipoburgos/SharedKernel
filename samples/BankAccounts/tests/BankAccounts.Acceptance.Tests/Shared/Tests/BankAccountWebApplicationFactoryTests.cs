@@ -5,6 +5,7 @@ using SharedKernel.Testing.Acceptance.Tests;
 
 namespace BankAccounts.Acceptance.Tests.Shared.Tests
 {
+    [Collection("Factory")]
     public class BankAccountWebApplicationFactoryTests : WebApplicationFactoryBaseTests<Startup>
     {
         protected override Startup CreateStartup(IConfiguration configuration)
