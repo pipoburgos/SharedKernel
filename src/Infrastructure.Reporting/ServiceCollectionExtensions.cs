@@ -4,7 +4,7 @@ using SharedKernel.Application.Reporting;
 namespace SharedKernel.Infrastructure.Reporting;
 
 /// <summary>  </summary>
-public static class AddServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
     public static IServiceCollection AddReportingRenderer(this IServiceCollection services)

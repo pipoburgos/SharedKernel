@@ -49,6 +49,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Reporting", "src\Infrastructure.Reporting\SharedKernel.Infrastructure.Reporting.csproj", "{E1893180-C247-4BA4-883E-550A2A5ABC8E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Redis", "src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj", "{11B5BFB7-737C-4D68-9404-711A0DD22D06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{E1893180-C247-4BA4-883E-550A2A5ABC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1893180-C247-4BA4-883E-550A2A5ABC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1893180-C247-4BA4-883E-550A2A5ABC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B5BFB7-737C-4D68-9404-711A0DD22D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B5BFB7-737C-4D68-9404-711A0DD22D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B5BFB7-737C-4D68-9404-711A0DD22D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B5BFB7-737C-4D68-9404-711A0DD22D06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{258D2AD8-57DC-432C-BE5E-5524AB6661D2} = {35E22E6B-BA49-41BA-88C4-E2E04BB7F9E1}
 		{6852ED51-34E0-4CB6-9480-1D156BC7D301} = {9FF73358-40B0-4081-A499-4351F71833C3}
 		{E1893180-C247-4BA4-883E-550A2A5ABC8E} = {9FF73358-40B0-4081-A499-4351F71833C3}
+		{11B5BFB7-737C-4D68-9404-711A0DD22D06} = {9FF73358-40B0-4081-A499-4351F71833C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

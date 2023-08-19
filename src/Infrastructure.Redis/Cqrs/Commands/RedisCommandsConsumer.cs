@@ -5,14 +5,11 @@ using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands.Redis;
+namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 
 /// <summary> Redis domain event consumer background service </summary>
-public class RedisCommandsConsumer : BackgroundService
+internal class RedisCommandsConsumer : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -50,4 +47,3 @@ public class RedisCommandsConsumer : BackgroundService
         }
     }
 }
-

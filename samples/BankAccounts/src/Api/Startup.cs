@@ -9,10 +9,11 @@ using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
-using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
-using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.Redis.Caching;
+using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
+using SharedKernel.Infrastructure.Redis.Events;
+using SharedKernel.Infrastructure.Redis.System.Threading;
 using SharedKernel.Infrastructure.Serializers;
 
 namespace BankAccounts.Api
@@ -40,6 +41,7 @@ namespace BankAccounts.Api
                 .AddInMemoryQueryBus()
                 .AddRedisEventBus(_configuration)
                 .AddRedisDistributedCache(_configuration)
+                .AddRedisMutex(_configuration)
                 .AddBankAccounts(_configuration, "BankAccountConnection")
                 .AddValidatorsFromAssemblyContaining<Startup>(lifetime: ServiceLifetime.Scoped)
                 .AddSharedKernelOpenApi(_configuration)

@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\src\Api\SharedKernel.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
 		<ProjectReference Include="..\Infrastructure\BankAccounts.Infrastructure.csproj" />
 	</ItemGroup>

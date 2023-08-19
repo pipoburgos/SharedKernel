@@ -2,15 +2,11 @@
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using StackExchange.Redis;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands.Redis;
+namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 
 /// <summary>  </summary>
-public class RedisCommandBusAsync : ICommandBusAsync
+internal class RedisCommandBusAsync : ICommandBusAsync
 {
     private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
@@ -44,4 +40,3 @@ public class RedisCommandBusAsync : ICommandBusAsync
         return Task.WhenAll(commands.Select(@event => Dispatch(@event, cancellationToken)));
     }
 }
-

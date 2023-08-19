@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Cqrs.Commands;
+using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 using System.Threading.Tasks;
 using Xunit;
 

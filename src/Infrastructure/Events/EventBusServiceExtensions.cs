@@ -7,14 +7,12 @@ using SharedKernel.Infrastructure.ApacheActiveMq;
 using SharedKernel.Infrastructure.Events.ApacheActiveMq;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.RabbitMq;
-using SharedKernel.Infrastructure.Events.Redis;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.RabbitMq;
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.System;
-using StackExchange.Redis;
 using System;
 using System.Reflection;
 
@@ -103,27 +101,6 @@ namespace SharedKernel.Infrastructure.Events
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRedisEventBus(this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            services
-                .AddHealthChecks()
-                .AddRedis(GetRedisConfiguration(configuration), "Redis Event Bus", tags: new[] { "Event Bus", "Redis" });
-
-            return services
-                .AddHostedService<RedisCommandsConsumer>()
-                .AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(GetRedisConfiguration(configuration)))
-                .AddTransient<IEventBus, RedisEventBus>()
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-                .AddPollyRetry(configuration);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
         public static IServiceCollection AddApacheActiveMqEventBus(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<ApacheActiveMqConfiguration>(configuration.GetSection(nameof(ApacheActiveMqConfiguration)));
@@ -136,11 +113,6 @@ namespace SharedKernel.Infrastructure.Events
                 .AddHostedService<ApacheActiveMqConsumer>()
                 .AddTransient<IEventBus, ApacheActiveMqEventBus>()
                 .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
-        }
-
-        private static string GetRedisConfiguration(IConfiguration configuration)
-        {
-            return configuration.GetSection("RedisCacheOptions:Configuration").Value;
         }
     }
 }

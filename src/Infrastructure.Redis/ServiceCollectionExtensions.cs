@@ -1,0 +1,32 @@
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
+namespace SharedKernel.Infrastructure.Redis;
+
+/// <summary>  </summary>
+public static class ServiceCollectionExtensions
+{
+    /// <summary>  </summary>
+    internal static IServiceCollection AddRedisHealthChecks(this IServiceCollection services, IConfiguration configuration,
+        string name, params string[] tags)
+    {
+        var tagsList = tags.ToList();
+        tagsList.Add("Redis");
+
+        services
+            .AddRedisOptions(configuration)
+            .AddHealthChecks()
+            .AddRedis(sp => sp.GetRequiredService<IOptions<RedisCacheOptions>>().Value.Configuration!, name, tags: tagsList);
+
+        return services;
+    }
+
+    /// <summary>  </summary>
+    internal static IServiceCollection AddRedisOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<RedisCacheOptions>(configuration.GetSection(nameof(RedisCacheOptions)));
+        return services.AddOptions();
+    }
+}

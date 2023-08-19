@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Testing\SharedKernel.Testing.csproj" />
     <ProjectReference Include="..\Domain\SharedKernel.Domain.Tests.csproj" />

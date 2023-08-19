@@ -3,15 +3,11 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using StackExchange.Redis;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Events.Redis;
+namespace SharedKernel.Infrastructure.Redis.Events;
 
 /// <summary>  </summary>
-public class RedisEventBus : IEventBus
+internal class RedisEventBus : IEventBus
 {
     private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
