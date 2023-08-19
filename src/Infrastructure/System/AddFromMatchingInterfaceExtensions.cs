@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.ServiceModel;
 
 namespace SharedKernel.Infrastructure.System
 {
@@ -74,7 +73,7 @@ namespace SharedKernel.Infrastructure.System
         /// <param name="serviceLifetime"></param>
         /// <param name="types"></param>
         /// <returns></returns>
-        /// <exception cref="ActionNotSupportedException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
             Func<Type, bool> classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
             params Type[] types)
@@ -100,7 +99,7 @@ namespace SharedKernel.Infrastructure.System
                 switch (interfaces.Count)
                 {
                     case > 1:
-                        throw new ActionNotSupportedException($"multiple injections for the class {@class.Name}");
+                        throw new ArgumentException($"multiple injections for the class {@class.Name}");
                     case 1:
                         services.Add(new ServiceDescriptor(interfaces.Single(), @class, serviceLifetime));
                         break;
