@@ -7,7 +7,7 @@
     <IsPackable>true</IsPackable>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
-		<Description>Redis infrastructure implementations</Description>
+		<Description>Elasticsearch infrastructure implementations</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
@@ -16,7 +16,7 @@
 		<PackageId>Pipoburgos.SharedKernel.Infrastructure.Elasticsearch</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageTags>Redis DistributedCache CommandBus EventBus Mutex</PackageTags>
+		<PackageTags>Elasticsearch</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
 		<Version>7.0.10.4</Version>

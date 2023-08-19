@@ -12,34 +12,33 @@ namespace SharedKernel.Infrastructure.Redis.Events;
 /// <summary> Redis domain event consumer background service. </summary>
 internal class RedisCommandsConsumer : BackgroundService
 {
-    private readonly IConnectionMultiplexer _connectionMultiplexer;
-    private readonly IRequestMediator _requestMediator;
-    private readonly ICustomLogger<RedisCommandsConsumer> _logger;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
     /// <summary> Constructor. </summary>
     /// <param name="serviceScopeFactory"></param>
     public RedisCommandsConsumer(IServiceScopeFactory serviceScopeFactory)
     {
-        using var scope = serviceScopeFactory.CreateScope();
-
-        _connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
-        _requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
-        _logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     /// <summary> </summary>
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        return _connectionMultiplexer.GetSubscriber().SubscribeAsync(RedisChannel.Pattern("*"), (_, value) =>
+        using var scope = _serviceScopeFactory.CreateScope();
+        var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+        var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
+        var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
+
+        return connectionMultiplexer.GetSubscriber().SubscribeAsync(RedisChannel.Pattern("*"), (_, value) =>
         {
             try
             {
-                TaskHelper.RunSync(_requestMediator.Execute(value, typeof(IDomainEventSubscriber<>),
+                TaskHelper.RunSync(requestMediator.Execute(value, typeof(IDomainEventSubscriber<>),
                     nameof(IDomainEventSubscriber<DomainEvent>.On), CancellationToken.None));
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, ex.Message);
+                logger.Error(ex, ex.Message);
             }
         });
     }

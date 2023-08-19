@@ -16,7 +16,6 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
         /// <returns></returns>
         public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
             var smtpSettings = new SmtpSettings();
             configuration.GetSection(nameof(SmtpSettings)).Bind(smtpSettings);
 
@@ -34,6 +33,8 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 
 
             return services
+                .AddOptions()
+                .Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)))
                 .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
                 .AddTransient<IEmailSender, SmtpEmailSender>();
         }

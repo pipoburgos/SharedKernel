@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Cqrs\Commands\ApacheActiveMq\ApacheActiveMqCommandBusShould.cs" />
+    <Compile Include="Cqrs\Commands\ActiveMq\ActiveMqCommandBusShould.cs" />
     <Compile Include="Cqrs\Commands\DelayCommand.cs" />
     <Compile Include="Cqrs\Commands\DelayCommandHandler.cs" />
     <Compile Include="Cqrs\Commands\CommandBusCommonTestCase.cs" />
@@ -34,7 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="7.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
+    <PackageReference Include="MongoDB.Bson" Version="2.21.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -46,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.RabbitMq\SharedKernel.Infrastructure.RabbitMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Testing\SharedKernel.Testing.csproj" />
@@ -92,7 +98,7 @@
     <None Update="Documents\Xml\XmlFile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Events\ApacheActiveMq\appsettings.Apache.json">
+    <None Update="Events\ActiveMq\appsettings.ActiveMq.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\InMemory\appsettings.inMemory.json">
@@ -110,7 +116,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Cqrs\Commands\ApacheActiveMq\appsettings.Apache.json">
+    <None Include="Cqrs\Commands\ActiveMq\appsettings.ActiveMq.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Cqrs\Commands\RabbitMq\appsettings.rabbitMq.json">

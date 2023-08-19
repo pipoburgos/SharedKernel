@@ -26,7 +26,8 @@ public static class ServiceCollectionExtensions
     /// <summary>  </summary>
     internal static IServiceCollection AddRedisOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<RedisCacheOptions>(configuration.GetSection(nameof(RedisCacheOptions)));
-        return services.AddOptions();
+        return services
+            .AddOptions()
+            .Configure<RedisCacheOptions>(configuration.GetSection(nameof(RedisCacheOptions)));
     }
 }

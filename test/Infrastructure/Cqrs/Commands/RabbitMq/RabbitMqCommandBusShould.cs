@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Cqrs.Commands;
+using SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.RabbitMq;
 
 [Collection("DockerHook")]
-public class RedisCommandBusShould : CommandBusCommonTestCase
+public class RabbitMqCommandBusShould : CommandBusCommonTestCase
 {
     protected override string GetJsonFile()
     {

@@ -3,7 +3,7 @@ version: '3.4'
 services:
     bankaccounts.api:
         environment:
-            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_ENVIRONMENT=Docker
         ports:
             - "80"
         volumes:
@@ -15,23 +15,11 @@ services:
         environment:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=yourStrong(!)Password
-        # ports:
-        #     - 8050:1433
+        ports:
+             - 8765:1433
         volumes:
             - ./docker-data/sql_server/data:/var/opt/mssql/data
             - ./docker-data/sql_server/backups:/var/opt/mssql/backups
-    smtp:
-        image: namshi/smtp:latest
-        container_name: shared-kernel-smtp
-        ports:
-         - "8767:25"
-        environment:
-            - MAILNAME=smtp.shared-kernel.com
-            - SMARTHOST_ADDRESS=smtp.shared-kernel.com
-            - SMARTHOST_PORT=587
-            - SMARTHOST_USER=shared-kernel@shared-kernel.com
-            - SMARTHOST_PASSWORD=shared-kernel
-            - SMARTHOST_ALIASES=*.shared-kernel.com
     activemq:
         image: rmohr/activemq:latest
         ports:

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.RabbitMq.Events;
 using System.Threading.Tasks;
 using Xunit;
 

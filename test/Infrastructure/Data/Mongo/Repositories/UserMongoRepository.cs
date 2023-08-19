@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Infrastructure.Data.Mongo;
-using SharedKernel.Infrastructure.Data.Mongo.Repositories;
+using SharedKernel.Infrastructure.Mongo.Data;
+using SharedKernel.Infrastructure.Mongo.Data.Repositories;
 using System;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories

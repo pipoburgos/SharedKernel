@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Infrastructure.Data.Mongo;
+using SharedKernel.Infrastructure.Mongo.Data;
 using SharedKernel.Testing.Infrastructure;
 using System.Linq;
 using Xunit;
