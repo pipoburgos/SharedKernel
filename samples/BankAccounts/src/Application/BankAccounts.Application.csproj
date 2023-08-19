@@ -13,5 +13,17 @@
 		<ProjectReference Include="..\Domain\BankAccounts.Domain.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <Using Include="BankAccounts.Application.Shared" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands.Handlers" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Entities" />
+    <Using Include="SharedKernel.Application.Events" />
+    <Using Include="SharedKernel.Domain.Specifications.Common" />
+    <Using Include="System.Linq.Expressions" />
+  </ItemGroup>
+
 </Project>
 

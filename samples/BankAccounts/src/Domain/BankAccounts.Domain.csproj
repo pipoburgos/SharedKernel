@@ -3,10 +3,20 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\src\Domain\SharedKernel.Domain.csproj" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <Using Include="SharedKernel.Domain.Aggregates" />
+    <Using Include="SharedKernel.Domain.Entities" />
+    <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
+    <Using Include="SharedKernel.Domain.Repositories" />
+    <Using Include="SharedKernel.Domain.Specifications" />
+    <Using Include="SharedKernel.Domain.ValueObjects" />
+  </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using SharedKernel.Domain.RailwayOrientedProgramming;
-
-namespace BankAccounts.Domain.BankAccounts
+﻿namespace BankAccounts.Domain.BankAccounts
 {
     public class InternationalBankAccountNumber : ValueObject<InternationalBankAccountNumber>
     {
@@ -17,30 +15,25 @@ namespace BankAccounts.Domain.BankAccounts
         }
 
         public static Result<InternationalBankAccountNumber> Create(string countryCheckDigit, string entityCode,
-            string officeNumber, string controlDigit, string accountNumber)
-        {
-            var iban = new InternationalBankAccountNumber(countryCheckDigit, entityCode, officeNumber, controlDigit,
-                accountNumber);
-
-            var x = Result.Create(iban)
+            string officeNumber, string controlDigit, string accountNumber) =>
+            Result.Create<InternationalBankAccountNumber>(default)
                 .EnsureAppendError(
-                    e => !string.IsNullOrWhiteSpace(e.CountryCheckDigit),
+                    _ => !string.IsNullOrWhiteSpace(countryCheckDigit),
                     $"'{nameof(CountryCheckDigit)}' must not be empty.")
                 .EnsureAppendError(
-                    e => !string.IsNullOrWhiteSpace(e.EntityCode),
+                    _ => !string.IsNullOrWhiteSpace(entityCode),
                     $"'{nameof(EntityCode)}' must not be empty.")
                 .EnsureAppendError(
-                    e => !string.IsNullOrWhiteSpace(e.OfficeNumber),
+                    _ => !string.IsNullOrWhiteSpace(officeNumber),
                     $"'{nameof(OfficeNumber)}' must not be empty.")
                 .EnsureAppendError(
-                    e => !string.IsNullOrWhiteSpace(e.ControlDigit),
+                    _ => !string.IsNullOrWhiteSpace(controlDigit),
                     $"'{nameof(ControlDigit)}' must not be empty.")
                 .EnsureAppendError(
-                    e => !string.IsNullOrWhiteSpace(e.AccountNumber),
-                    $"'{nameof(AccountNumber)}' must not be empty.");
-
-            return x;
-        }
+                    _ => !string.IsNullOrWhiteSpace(accountNumber),
+                    $"'{nameof(AccountNumber)}' must not be empty.")
+                .Map(_ => new InternationalBankAccountNumber(countryCheckDigit, entityCode, officeNumber, controlDigit,
+                    accountNumber));
 
         public string CountryCheckDigit { get; private set; }
 
