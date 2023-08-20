@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Adapter;
-using SharedKernel.Infrastructure.Adapter.AutoMapper;
+using SharedKernel.Application.Mapper;
+using SharedKernel.Infrastructure.AutoMapper;
 using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
         [Fact]
         public void MapppingOk()
         {
-            TypeAdapterFactory.SetCurrent(GetRequiredService<ITypeAdapterFactory>());
+            MapperFactory.SetCurrent(GetRequiredService<IMapperFactory>());
             var emails = new List<string> { "a@a.es", "b@b.es" };
             var source = new DocumentSource { Name = "Say may name", Emails = emails };
             var result = source.MapTo<DocumentTarget>();

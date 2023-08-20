@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.AsyncKeyedLock", "src\Infrastructure.AsyncKeyedLock\SharedKernel.Infrastructure.AsyncKeyedLock.csproj", "{7E375B43-720E-4C8A-B7CB-D693512F9150}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.AutoMapper", "src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj", "{A5287878-F217-481D-8C2E-011A962B888E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,10 @@ Global
 		{7E375B43-720E-4C8A-B7CB-D693512F9150}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E375B43-720E-4C8A-B7CB-D693512F9150}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E375B43-720E-4C8A-B7CB-D693512F9150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5287878-F217-481D-8C2E-011A962B888E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5287878-F217-481D-8C2E-011A962B888E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5287878-F217-481D-8C2E-011A962B888E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5287878-F217-481D-8C2E-011A962B888E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{D326684F-7134-4756-97ED-224CE68F3355} = {9FF73358-40B0-4081-A499-4351F71833C3}
 		{C54F8A46-A7EA-4A90-8BA3-489B65B90091} = {9FF73358-40B0-4081-A499-4351F71833C3}
 		{7E375B43-720E-4C8A-B7CB-D693512F9150} = {9FF73358-40B0-4081-A499-4351F71833C3}
+		{A5287878-F217-481D-8C2E-011A962B888E} = {9FF73358-40B0-4081-A499-4351F71833C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

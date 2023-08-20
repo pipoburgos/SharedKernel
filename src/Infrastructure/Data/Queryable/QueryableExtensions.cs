@@ -1,7 +1,7 @@
-﻿using SharedKernel.Application.Adapter;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
+﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Extensions;
+using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Extensions;
