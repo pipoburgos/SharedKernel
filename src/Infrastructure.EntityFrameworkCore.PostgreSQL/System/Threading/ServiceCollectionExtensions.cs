@@ -12,6 +12,6 @@ public static class ServiceCollectionExtensions
         return services
             .AddPostgreSqlHealthChecks(connectionString, "PostgreSql Mutex", "Mutex")
             .AddTransient<IMutexManager, MutexManager>()
-            .AddTransient<IMutexFactory, PostgreSqlMutexFactory>();
+            .AddTransient<IMutexFactory>(_ => new PostgreSqlMutexFactory(connectionString));
     }
 }

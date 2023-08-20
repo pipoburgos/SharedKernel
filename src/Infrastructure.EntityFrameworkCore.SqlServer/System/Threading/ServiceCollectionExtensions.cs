@@ -12,6 +12,6 @@ public static class ServiceCollectionExtensions
         return services
             .AddSqlServerHealthChecks(connectionString, "SqlServer Mutex", "Mutex")
             .AddTransient<IMutexManager, MutexManager>()
-            .AddTransient<IMutexFactory, SqlServerMutexFactory>();
+            .AddTransient<IMutexFactory>(_ => new SqlServerMutexFactory(connectionString));
     }
 }
