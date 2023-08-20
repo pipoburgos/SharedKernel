@@ -80,9 +80,11 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
             var dtRow = dataTable.NewRow();
 
             var valores = new List<string>();
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
             if (Configuration.IncludeLineNumbers)
                 valores.Add((sheetRow?.RowNum + 1).ToString()!);
 
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
             dataTable.Columns
                 .Cast<DataColumn>()
                 .ToList()

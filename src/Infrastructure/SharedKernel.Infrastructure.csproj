@@ -17,7 +17,7 @@
     <PackageTags>C# CQRS CommandBus EventBus SSRS UnitOfWork</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.0.10.4</Version>
+    <Version>7.1.10.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +35,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="7.0.0" />
-    
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
@@ -44,7 +43,6 @@
     <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
-
     <Reference Include="System.Transactions" Condition="'$(TargetFramework)' == 'net461'" />
   </ItemGroup>
 

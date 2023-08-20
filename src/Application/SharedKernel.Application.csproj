@@ -17,7 +17,7 @@
 		<PackageTags>C# DDD UnitOfWork CQRS CommandBus QueryBus EventBus SSRS</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.0.10.4</Version>
+		<Version>7.1.10.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
