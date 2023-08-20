@@ -1,11 +1,12 @@
 ﻿using DotNetDBF;
 using SharedKernel.Application.Documents;
+using SharedKernel.Infrastructure.Documents;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf
+namespace SharedKernel.Infrastructure.DotNetDBF.Documents.Database
 {
     /// <summary>  </summary>
     public class DotNetDatabaseReader : DocumentReader, IDatabaseReader

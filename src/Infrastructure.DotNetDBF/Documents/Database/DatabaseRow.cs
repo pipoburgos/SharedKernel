@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace SharedKernel.Infrastructure.Documents.Database.DotNetDbf;
+namespace SharedKernel.Infrastructure.DotNetDBF.Documents.Database;
 
 /// <summary>  </summary>
 public class DatabaseRow : IRowData
@@ -27,11 +27,11 @@ public class DatabaseRow : IRowData
     /// <summary>  </summary>
     public T Get<T>(int index)
     {
-        if (_cells == default)
-            return default;
+        if (_cells == default!)
+            return default!;
 
         if (_cells.Count < index + 1)
-            return default;
+            return default!;
 
         var cell = _cells[index];
 
@@ -41,8 +41,8 @@ public class DatabaseRow : IRowData
     /// <summary>  </summary>
     public T Get<T>(string name)
     {
-        if (_cells == default)
-            return default;
+        if (_cells == default!)
+            return default!;
 
         var index = _columnNames.FindIndex(x => x == name);
 
@@ -51,8 +51,8 @@ public class DatabaseRow : IRowData
 
     private T GetCellValue<T>(object value)
     {
-        if (value == default)
-            return default;
+        if (value == default!)
+            return default!;
 
         return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }

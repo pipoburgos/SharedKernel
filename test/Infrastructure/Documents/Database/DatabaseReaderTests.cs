@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using SharedKernel.Application.Documents;
-using SharedKernel.Infrastructure.Documents.Database.DotNetDbf;
+using SharedKernel.Infrastructure.DotNetDBF.Documents.Database;
 using System.IO;
 using System.Linq;
 using Xunit;

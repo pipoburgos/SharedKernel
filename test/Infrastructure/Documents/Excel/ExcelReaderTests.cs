@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using SharedKernel.Application.Documents;
-using SharedKernel.Infrastructure.Documents.Excel.Npoi;
+using SharedKernel.Infrastructure.NPOI.Documents.Excel;
 using System.IO;
 using System.Linq;
 using Xunit;

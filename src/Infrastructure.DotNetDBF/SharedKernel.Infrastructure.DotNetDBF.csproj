@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
+    <Description>DotNetDBF infrastructure implementations</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.DotNetDBF</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>DotNetDBF</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+    <Version>7.0.10.4</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="readme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotnetdbf" Version="6.0.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
