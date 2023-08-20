@@ -6,8 +6,8 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.System.Thre
 /// <summary>  </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary> Register Redis IMutexManager and IMutex factory. </summary>
-    public static IServiceCollection AddPostgreSqlSqlServerMutex(this IServiceCollection services, string connectionString)
+    /// <summary> Register PostgreSql IMutexManager and IMutex factory. </summary>
+    public static IServiceCollection AddPostgreSqlMutex(this IServiceCollection services, string connectionString)
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, "PostgreSql Mutex", "Mutex")

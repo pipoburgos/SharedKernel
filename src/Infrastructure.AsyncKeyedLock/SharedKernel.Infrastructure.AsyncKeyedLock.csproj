@@ -19,7 +19,7 @@
 		<PackageTags>AsyncKeyedLock Mutex</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.1.10.1</Version>
+		<Version>7.1.10.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
