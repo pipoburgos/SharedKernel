@@ -5,11 +5,10 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.Settings;
+using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.RetryPolicies;
 using System.Text;
 
 namespace SharedKernel.Infrastructure.RabbitMq;
@@ -22,7 +21,7 @@ internal class RabbitMqConsumer
     private readonly IRequestMediator _requestMediator;
     private readonly ICustomLogger<RabbitMqConsumer> _logger;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
-    private readonly RetrieverOptions _retrieverOptions;
+    private readonly IRetriever _retriever;
     private const string HeaderRedelivery = "redelivery_count";
 
     /// <summary>  </summary>
@@ -32,14 +31,14 @@ internal class RabbitMqConsumer
         IRequestMediator requestMediator,
         ICustomLogger<RabbitMqConsumer> logger,
         IOptions<RabbitMqConfigParams> rabbitMqParams,
-        IOptionsService<RetrieverOptions> options)
+        IRetriever retriever)
     {
         _requestDeserializer = requestDeserializer;
         _config = config;
         _requestMediator = requestMediator;
         _logger = logger;
         _rabbitMqParams = rabbitMqParams;
-        _retrieverOptions = options.Value;
+        _retriever = retriever;
     }
 
     public void ConsumeQueue(string queue, ushort prefetchCount = 10)
@@ -125,7 +124,7 @@ internal class RabbitMqConsumer
 
     private bool HasBeenRedeliveredTooMuch(IDictionary<string, object?> headers)
     {
-        return (int)(headers[HeaderRedelivery] ?? 0) >= _retrieverOptions.RetryCount;
+        return (int)(headers[HeaderRedelivery] ?? 0) >= _retriever.RetryCount;
     }
 
     private void SendToRetry(BasicDeliverEventArgs ea, string queue, string exchangeType)

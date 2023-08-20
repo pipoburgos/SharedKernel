@@ -5,7 +5,6 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.System;
 using System;
 using System.Reflection;
@@ -49,7 +48,6 @@ public static class ServiceCollectionExtensions
             .AddHostedService<InMemoryBackgroundService>()
             .AddSingleton<EventQueue>()
             .AddTransient<IInMemoryDomainEventsConsumer, InMemoryDomainEventsConsumer>()
-            .AddTransient<IEventBus, InMemoryEventBus>()
-            .AddPollyRetry(configuration);
+            .AddTransient<IEventBus, InMemoryEventBus>();
     }
 }

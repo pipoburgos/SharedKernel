@@ -1,7 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
-using System;
 
-namespace SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
+namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 
 /// <summary> RetryPolicyMiddleware Exception handler. </summary>
 public class RetryPolicyExceptionHandler : IRetryPolicyExceptionHandler

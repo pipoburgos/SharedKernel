@@ -12,6 +12,7 @@ using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validators;
@@ -58,7 +59,7 @@ public static class BankAccountServiceCollection
             .AddDapperSqlServer(configuration, connectionStringName)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
             .AddValidationMiddleware()
-            .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>()
+            .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)
             .AddTimerMiddleware();
     }
 }

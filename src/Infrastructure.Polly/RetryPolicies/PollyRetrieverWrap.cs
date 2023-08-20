@@ -1,19 +1,16 @@
-﻿using Polly;
-using SharedKernel.Application.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Polly;
 using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Application.Settings;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.RetryPolicies
+namespace SharedKernel.Infrastructure.Polly.RetryPolicies
 {
     /// <summary>
     /// Retry retriever provides an ability to automatically re-invoke a failed operation
     /// </summary>
     public class PollyRetrieverWrap : IRetriever
     {
-        private readonly ICustomLogger<PollyRetrieverWrap> _logger;
+        private readonly ILogger<PollyRetrieverWrap> _logger;
         private readonly RetrieverOptions _options;
 
         /// <summary>
@@ -22,12 +19,15 @@ namespace SharedKernel.Infrastructure.RetryPolicies
         /// <param name="logger"></param>
         /// <param name="options"></param>
         public PollyRetrieverWrap(
-            ICustomLogger<PollyRetrieverWrap> logger,
-            IOptionsService<RetrieverOptions> options)
+            ILogger<PollyRetrieverWrap> logger,
+            IOptions<RetrieverOptions> options)
         {
             _logger = logger;
             _options = options.Value;
         }
+
+        /// <summary>  </summary>
+        public int RetryCount => _options.RetryCount;
 
         /// <summary>
         /// Retry retriever provides an ability to automatically re-invoke a failed operation
@@ -41,12 +41,12 @@ namespace SharedKernel.Infrastructure.RetryPolicies
             Func<Exception, bool> needToRetryTheException, CancellationToken cancellationToken)
         {
             var hasFallback = false;
-            Exception ex = null;
+            Exception? ex = default;
 
             var fallbackPolicy = Policy.Handle(needToRetryTheException).FallbackAsync(
                 _ => Task.CompletedTask, d =>
                 {
-                    _logger.Error(d, d.Message);
+                    _logger.LogError(d, d.Message);
                     ex = d;
 
                     hasFallback = true;
@@ -76,12 +76,12 @@ namespace SharedKernel.Infrastructure.RetryPolicies
             Func<Exception, bool> needToRetryTheException, CancellationToken cancellationToken)
         {
             var hasFallback = false;
-            Exception ex = null;
+            Exception? ex = default;
 
             var fallbackPolicy = Policy<TResult>.Handle<Exception>().FallbackAsync(
-                _ => Task.FromResult<TResult>(default), d =>
+                _ => Task.FromResult<TResult>(default!), d =>
                 {
-                    _logger.Error(d.Exception, d.Exception.Message);
+                    _logger.LogError(d.Exception, d.Exception.Message);
                     ex = d.Exception;
 
                     hasFallback = true;

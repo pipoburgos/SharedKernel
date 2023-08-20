@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Infrastructure.RetryPolicies
+﻿namespace SharedKernel.Infrastructure.Polly.RetryPolicies
 {
     /// <summary>
     /// Retriever options

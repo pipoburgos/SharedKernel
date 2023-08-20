@@ -2,13 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Repositories;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
-using SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
 using SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 using SharedKernel.Infrastructure.Requests.Middlewares.Validation;
-using SharedKernel.Infrastructure.RetryPolicies;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
@@ -33,15 +30,7 @@ public static class MiddlewaresExtensions
             .AddTransient(typeof(IMiddleware<,>), typeof(ValidationMiddleware<,>));
     }
 
-    /// <summary>  </summary>
-    public static IServiceCollection AddRetryPolicyMiddleware<TImp>(this IServiceCollection services) where TImp : class, IRetryPolicyExceptionHandler
-    {
-        return services
-            .AddTransient<IRetriever, PollyRetriever>()
-            .AddTransient<IRetryPolicyExceptionHandler, TImp>()
-            .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-            .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>));
-    }
+
 
     /// <summary>  </summary>
     public static IServiceCollection AddTimerMiddleware<TTimeHandler>(this IServiceCollection services) where TTimeHandler : class, ITimeHandler

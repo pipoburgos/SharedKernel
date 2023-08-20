@@ -6,9 +6,8 @@ using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
-using SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
-using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Testing.Infrastructure;
 using System.Collections.Generic;
@@ -27,8 +26,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
             .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
             .AddNetJsonSerializer()
             .AddValidationMiddleware()
-            .AddPollyRetry(Configuration)
-            .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>()
+            .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
             .AddSingleton<PublishUserCreatedDomainEvent>()
             .RemoveAll<IIdentityService>()
             .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()

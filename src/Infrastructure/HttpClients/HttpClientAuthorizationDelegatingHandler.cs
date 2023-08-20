@@ -1,5 +1,4 @@
-﻿#if !NET461 && !NETSTANDARD2_1
-using Microsoft.AspNetCore.Http;
+﻿using SharedKernel.Application.Security;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,27 +8,23 @@ namespace SharedKernel.Infrastructure.HttpClients
     /// <summary>  </summary>
     public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IIdentityService _identityService;
 
         /// <summary>  </summary>
-        public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
+        public HttpClientAuthorizationDelegatingHandler(IIdentityService identityService)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _identityService = identityService;
         }
 
         /// <summary>  </summary>
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            if (_httpContextAccessor.HttpContext == null)
-                return base.SendAsync(request, cancellationToken);
-
-            var header = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-            if (!string.IsNullOrWhiteSpace(header))
-                request.Headers.Add("Authorization", header.ToString());
+            var authorization = _identityService.GetKeyValue("Authorization");
+            if (!string.IsNullOrWhiteSpace(authorization))
+                request.Headers.Add("Authorization", authorization);
 
             return base.SendAsync(request, cancellationToken);
         }
     }
 }
-#endif

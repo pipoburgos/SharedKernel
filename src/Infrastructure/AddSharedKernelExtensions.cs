@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Security.Cryptography;
 using SharedKernel.Application.Serializers;
@@ -8,7 +7,6 @@ using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
 using SharedKernel.Infrastructure.Logging;
-using SharedKernel.Infrastructure.RetryPolicies;
 using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Settings;
@@ -37,7 +35,6 @@ public static class AddSharedKernelExtensions
             .AddTransient<IIdentityService, DefaultIdentityService>()
             .AddTransient<IParallel, Parallel>()
             .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
-            .AddTransient<IRetriever, PollyRetriever>()
             .AddTransient<ISha256, Sha256>()
             .AddTransient<IStreamHelper, StreamHelper>()
             .AddTransient<IStringHelper, StringHelper>()

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Logging;
-using SharedKernel.Infrastructure.RetryPolicies;
 using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
@@ -24,7 +23,6 @@ public static class ServiceCollectionExtensions
                 ConnectionMultiplexer.Connect(sp.GetRequiredService<IOptions<RedisCacheOptions>>().Value
                     .Configuration!))
             .AddTransient<ICommandBusAsync, RedisCommandBusAsync>()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-            .AddPollyRetry(configuration);
+            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
     }
 }

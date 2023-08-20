@@ -1,16 +1,13 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.Requests;
 using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Domain.Requests;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Requests.Middlewares.RetryPolicy;
+namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 
 /// <summary>
 /// Retry retriever provides an ability to automatically re-invoke a failed operation
 /// </summary>
-public class RetryPolicyMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : IRequest
+public class RetryPolicyMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly IRetriever _retryRetriever;
     private readonly IRetryPolicyExceptionHandler _retryPolicyExceptionHandler;
@@ -25,10 +22,10 @@ public class RetryPolicyMiddleware<TRequest> : IMiddleware<TRequest> where TRequ
     }
 
     /// <summary> Handle errors. </summary>
-    public Task Handle(TRequest request, CancellationToken cancellationToken,
-        Func<TRequest, CancellationToken, Task> next)
+    public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+        Func<TRequest, CancellationToken, Task<TResponse>> next)
     {
-        return _retryRetriever.ExecuteAsync<Task>(c => next(request, c),
+        return _retryRetriever.ExecuteAsync(c => next(request, c),
             _retryPolicyExceptionHandler.NeedToRetryTheException, cancellationToken);
     }
 }
