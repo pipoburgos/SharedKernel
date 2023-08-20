@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
@@ -21,6 +21,11 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         ICreateRepositoryAsync<TAggregateRoot>
         where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
     {
+        /// <summary>  </summary>
+        public FileSystemRepositoryAsync(IJsonSerializer jsonSerializer) : base(jsonSerializer)
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,7 +35,7 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         public async Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
             await using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
-            await outputFile.WriteLineAsync(JsonConvert.SerializeObject(aggregate));
+            await outputFile.WriteLineAsync(JsonSerializer.Serialize(aggregate));
         }
 
         /// <summary>

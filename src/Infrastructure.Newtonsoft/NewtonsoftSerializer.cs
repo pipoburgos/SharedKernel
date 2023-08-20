@@ -2,11 +2,9 @@
 using Newtonsoft.Json.Serialization;
 using SharedKernel.Application.Serializers;
 
-namespace SharedKernel.Infrastructure.Serializers;
+namespace SharedKernel.Infrastructure.Newtonsoft;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>  </summary>
 public class NewtonsoftSerializer : IJsonSerializer
 {
     /// <summary>  </summary>
@@ -18,13 +16,13 @@ public class NewtonsoftSerializer : IJsonSerializer
     /// <summary>  </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonConvert.DeserializeObject<T>(value, GetOptions(namingConvention));
+        return JsonConvert.DeserializeObject<T>(value, GetOptions(namingConvention))!;
     }
 
     /// <summary>  </summary>
     public T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonConvert.DeserializeAnonymousType(value, obj, GetOptions(namingConvention));
+        return JsonConvert.DeserializeAnonymousType(value, obj, GetOptions(namingConvention))!;
     }
 
     private JsonSerializerSettings GetOptions(NamingConvention namingConvention)

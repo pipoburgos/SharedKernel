@@ -52,6 +52,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.RabbitMq\SharedKernel.Infrastructure.RabbitMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SharedKernel.Infrastructure.Serializers;
+namespace SharedKernel.Infrastructure.NetJson;
 
 /// <summary>  </summary>
 public class NetJsonSerializer : IJsonSerializer
@@ -17,13 +17,13 @@ public class NetJsonSerializer : IJsonSerializer
     /// <summary>  </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention));
+        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
     }
 
     /// <summary>  </summary>
     public T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention));
+        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
     }
 
     private JsonSerializerOptions GetOptions(NamingConvention namingConvention)

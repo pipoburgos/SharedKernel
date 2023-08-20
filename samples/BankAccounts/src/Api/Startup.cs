@@ -11,11 +11,11 @@ using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure.Cqrs.Queries;
+using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 using SharedKernel.Infrastructure.Redis.Events;
 using SharedKernel.Infrastructure.Redis.System.Threading;
-using SharedKernel.Infrastructure.Serializers;
 
 namespace BankAccounts.Api;
 

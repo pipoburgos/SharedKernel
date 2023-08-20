@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
@@ -21,13 +21,19 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <summary>
         /// 
         /// </summary>
+        protected readonly IJsonSerializer JsonSerializer;
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly string FilePath;
 
         /// <summary>
         /// 
         /// </summary>
-        protected FileSystemRepository()
+        protected FileSystemRepository(IJsonSerializer jsonSerializer)
         {
+            JsonSerializer = jsonSerializer;
             FilePath = Directory.GetCurrentDirectory() + typeof(TAggregateRoot);
         }
 
@@ -48,7 +54,7 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         public void Add(TAggregateRoot aggregate)
         {
             using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
-            outputFile.WriteLine(JsonConvert.SerializeObject(aggregate));
+            outputFile.WriteLine(JsonSerializer.Serialize(aggregate));
         }
 
         /// <summary>
@@ -75,7 +81,7 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
                 return null;
 
             var text = File.ReadAllText(FileName(key.ToString()));
-            return JsonConvert.DeserializeObject<TAggregateRoot>(text);
+            return JsonSerializer.Deserialize<TAggregateRoot>(text);
         }
 
         /// <summary>
