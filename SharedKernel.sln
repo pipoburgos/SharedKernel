@@ -75,6 +75,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.NPOI", "src\Infrastructure.NPOI\SharedKernel.Infrastructure.NPOI.csproj", "{E2D41FE8-9EB8-4787-858D-7D77664E0E0B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Dapper", "src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj", "{541ECBB5-F6E2-422B-943B-EADABC5481B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,10 @@ Global
 		{E2D41FE8-9EB8-4787-858D-7D77664E0E0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2D41FE8-9EB8-4787-858D-7D77664E0E0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2D41FE8-9EB8-4787-858D-7D77664E0E0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{541ECBB5-F6E2-422B-943B-EADABC5481B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{541ECBB5-F6E2-422B-943B-EADABC5481B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{541ECBB5-F6E2-422B-943B-EADABC5481B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{541ECBB5-F6E2-422B-943B-EADABC5481B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -238,6 +244,7 @@ Global
 		{A11662FA-9EE0-4440-9E64-5C4D8EF4DBD1} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{56027E47-1B66-444E-8432-2830BDC94DC7} = {9FF73358-40B0-4081-A499-4351F71833C3}
 		{E2D41FE8-9EB8-4787-858D-7D77664E0E0B} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{541ECBB5-F6E2-422B-943B-EADABC5481B7} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Infrastructure.Data.Dapper.Queries
+﻿namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {
     /// <summary> </summary>
     public class QueryTable
@@ -30,7 +30,7 @@
         private string Key { get; }
 
         /// <summary> </summary>
-        private string Alias { get; }
+        private string Alias { get; } = null!;
 
         /// <summary> </summary>
         public override string ToString()

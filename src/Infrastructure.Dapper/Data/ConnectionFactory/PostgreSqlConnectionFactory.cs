@@ -1,7 +1,7 @@
-﻿using System.Data.Common;
-using Npgsql;
+﻿using Npgsql;
+using System.Data.Common;
 
-namespace SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory
+namespace SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory
 {
     internal class PostgreSqlConnectionFactory : IDbConnectionFactory
     {

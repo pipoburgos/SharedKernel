@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace SharedKernel.Infrastructure.Data.Dapper.Queries
+namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {
     /// <summary> </summary>
     public class QueryBuilder
@@ -27,7 +27,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         private readonly PageOptions _state;
         private bool _isAnd;
         private string _select;
-        private string _tempTables;
+        private string _tempTables = null!;
         private string _groupBy;
         private readonly CustomDynamicParameters _dynamicParameters;
 
@@ -133,7 +133,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         }
 
         /// <summary> </summary>
-        public QueryBuilder InnerJoin(QueryTable table1, QueryTable table2, string more = null)
+        public QueryBuilder InnerJoin(QueryTable table1, QueryTable table2, string? more = default)
         {
             _leftJoinsTab.Add($"{InnerJoinText}{table1}\n\t\tON {table1.Join} = {table2.Join}{more}");
             return this;
@@ -160,19 +160,21 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         }
 
         /// <summary> </summary>
-        public void AddParameter(string table, string column, bool negar, QueryConditions condicion,
-            string paramName, object value, string nombreParametro2 = null, object value2 = null, string campo = null, string paramConst = "@", string table2 = null)
+        public void AddParameter(string table, string column, bool negar, QueryConditions condicion, string paramName,
+            object? value, string? secondParameter = default, object? value2 = default, string? campo = default,
+            string paramConst = "@", string? table2 = default)
         {
             if (_dynamicParameters.ParameterNames.Contains(paramName))
                 throw new Exception("Parameter (" + paramName + ") already exists.");
 
-            if (condicion != QueryConditions.Like)
+            if (condicion != QueryConditions.Like && value != default)
                 _dynamicParameters.AddParameter(paramName, value);
             else if (value != default)
-                _dynamicParameters.AddParameter(paramName, value.ToString()?.Replace("%", "$%").Replace("*", "%"));
+                // ReSharper disable once RedundantSuppressNullableWarningExpression
+                _dynamicParameters.AddParameter(paramName, value.ToString()!.Replace("%", "$%").Replace("*", "%"));
 
-            if (nombreParametro2 != null)
-                _dynamicParameters.AddParameter(nombreParametro2, value2);
+            if (secondParameter != default && value2 != default)
+                _dynamicParameters.AddParameter(secondParameter, value2);
 
             if (campo == null)
                 campo = $"{table}.{column}";
@@ -201,8 +203,8 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
                     break;
                 case QueryConditions.Between:
                     _condiciones.Add(negar
-                        ? string.Format($"{campo} NOT BETWEEN {paramConst}{paramName} AND {paramConst}{nombreParametro2}")
-                        : string.Format($"{campo} BETWEEN {paramConst}{paramName} AND {paramConst}{nombreParametro2}"));
+                        ? string.Format($"{campo} NOT BETWEEN {paramConst}{paramName} AND {paramConst}{secondParameter}")
+                        : string.Format($"{campo} BETWEEN {paramConst}{paramName} AND {paramConst}{secondParameter}"));
                     break;
                 case QueryConditions.HigherOrEquals:
                     _condiciones.Add(negar
@@ -221,18 +223,18 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
                     break;
                 case QueryConditions.LikeAnd:
                     _condiciones.Add(negar
-                        ? string.Format($"({table}.{column} NOT LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} <> {paramConst}{nombreParametro2})")
-                        : string.Format($"({table}.{column} LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} = {paramConst}{nombreParametro2})"));
+                        ? string.Format($"({table}.{column} NOT LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} <> {paramConst}{secondParameter})")
+                        : string.Format($"({table}.{column} LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} = {paramConst}{secondParameter})"));
                     break;
                 case QueryConditions.HigherEqualsAndOr:
                     _condiciones.Add(negar
-                        ? string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{nombreParametro2} OR {table}.{column} < {paramConst}{paramName})")
-                        : string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{nombreParametro2} OR {table}.{column} > {paramConst}{paramName})"));
+                        ? string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{secondParameter} OR {table}.{column} < {paramConst}{paramName})")
+                        : string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{secondParameter} OR {table}.{column} > {paramConst}{paramName})"));
                     break;
                 case QueryConditions.LowerEqualsAndOr:
                     _condiciones.Add(negar
-                        ? string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{nombreParametro2} OR {table}.{column} > {paramConst}{paramName})")
-                        : string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{nombreParametro2} OR {table}.{column} < {paramConst}{paramName})"));
+                        ? string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{secondParameter} OR {table}.{column} > {paramConst}{paramName})")
+                        : string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{secondParameter} OR {table}.{column} < {paramConst}{paramName})"));
                     break;
                 case QueryConditions.DateEquals:
                     _condiciones.Add(negar

@@ -1,13 +1,13 @@
 ﻿using Dapper;
+using Microsoft.Data.SqlClient;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using System;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Data.Dapper.Queries
+namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {
     /// <summary> </summary>
     public class QueryResult
@@ -59,7 +59,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <summary> </summary>
         public async Task<IPagedList<TResult>> ToPagedListAsync<TResult>(CancellationToken cancellationToken)
         {
-            await using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_connectionString);
 
             await connection.OpenAsync(cancellationToken);
 

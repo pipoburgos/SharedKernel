@@ -1,7 +1,7 @@
-﻿using System.Data.Common;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
-namespace SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory
+namespace SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory
 {
     internal class SqlConnectionFactory : IDbConnectionFactory
     {

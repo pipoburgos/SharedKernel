@@ -1,22 +1,22 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using SharedKernel.Application.Logging;
-using SharedKernel.Infrastructure.Data.Dapper.ConnectionFactory;
+using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Infrastructure.Data.Dapper.Queries
+namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {
     /// <summary>
     /// 
     /// </summary>
     public sealed class DapperQueryProvider : IDisposable
     {
-        private readonly ICustomLogger<DapperQueryProvider> _logger;
+        private readonly ILogger<DapperQueryProvider> _logger;
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly List<DbConnection> _connections;
 
@@ -24,7 +24,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// 
         /// </summary>
         public DapperQueryProvider(
-            ICustomLogger<DapperQueryProvider> logger,
+            ILogger<DapperQueryProvider> logger,
             IDbConnectionFactory dbConnectionFactory)
         {
             _logger = logger;
@@ -39,7 +39,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
+        public async Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object? parameters = default)
         {
             var connection = _dbConnectionFactory.GetConnection();
             _connections.Add(connection);
@@ -54,7 +54,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<List<T>> ExecuteQueryAsync<T>(string sql, object parameters = null)
+        public async Task<List<T>> ExecuteQueryAsync<T>(string sql, object? parameters = default)
         {
             var connection = _dbConnectionFactory.GetConnection();
             _connections.Add(connection);
@@ -80,7 +80,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
         /// <param name="preselect"></param>
         /// <returns></returns>
         public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
-            string preselect = default)
+            string? preselect = default)
         {
             var connection = _dbConnectionFactory.GetConnection();
             _connections.Add(connection);
@@ -92,7 +92,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
 
             var queryCountString = $"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS";
 
-            _logger.Verbose(queryCountString);
+            _logger.LogTrace(queryCountString);
             var total = await connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
 
             if (total == default)
@@ -106,7 +106,7 @@ namespace SharedKernel.Infrastructure.Data.Dapper.Queries
             if (pageOptions.Take.HasValue)
                 queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
-            _logger.Verbose(queryString);
+            _logger.LogTrace(queryString);
             var elements = await connection.QueryAsync<T>(queryString, parameters);
 
             return new PagedList<T>(total, elements);

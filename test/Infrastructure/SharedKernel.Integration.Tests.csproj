@@ -51,6 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Infrastructure.Data.Dapper.Queries
+﻿namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {
     /// <summary> </summary>
     public enum QueryConditions
