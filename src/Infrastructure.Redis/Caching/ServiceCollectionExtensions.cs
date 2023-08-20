@@ -8,7 +8,7 @@ using SharedKernel.Infrastructure.Serializers;
 namespace SharedKernel.Infrastructure.Redis.Caching;
 
 /// <summary>  </summary>
-public static class DistributedCacheServiceExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
     /// <param name="services"></param>

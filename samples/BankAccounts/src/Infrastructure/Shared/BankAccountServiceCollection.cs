@@ -46,7 +46,7 @@ public static class BankAccountServiceCollection
             .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork), typeof(BankTransferService))
             .AddCommandsHandlers(typeof(IBankAccountUnitOfWork))
             .AddQueriesHandlers(typeof(BankAccountDbContext))
-            .AddValidators(typeof(CreateBankAccountValidator));
+            .AddFluentValidationValidators(typeof(CreateBankAccountValidator));
     }
 
     private static IServiceCollection AddInfrastructure(this IServiceCollection services,
@@ -56,9 +56,8 @@ public static class BankAccountServiceCollection
             .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
                 typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork))
-            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration.GetConnectionString(connectionStringName)!)
-            .AddScoped<IBankAccountUnitOfWork>(s => s.GetRequiredService<BankAccountDbContext>())
-            .AddDapperSqlServer(configuration, connectionStringName)
+            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext, IBankAccountUnitOfWork>(configuration.GetConnectionString(connectionStringName)!)
+            .AddDapperSqlServer(configuration.GetConnectionString(connectionStringName)!)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)

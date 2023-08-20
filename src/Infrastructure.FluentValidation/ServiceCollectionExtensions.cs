@@ -10,14 +10,14 @@ namespace SharedKernel.Infrastructure.FluentValidation;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddValidators(this IServiceCollection services, Type type,
+    public static IServiceCollection AddFluentValidationValidators(this IServiceCollection services, Type type,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
     {
-        return services.AddValidators(type.Assembly, serviceLifetime, cultureInfo);
+        return services.AddFluentValidationValidators(type.Assembly, serviceLifetime, cultureInfo);
     }
 
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddValidators(this IServiceCollection services, Assembly assembly,
+    public static IServiceCollection AddFluentValidationValidators(this IServiceCollection services, Assembly assembly,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
     {
         ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo(cultureInfo);

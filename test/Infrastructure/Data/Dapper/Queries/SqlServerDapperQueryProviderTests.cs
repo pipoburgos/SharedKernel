@@ -28,7 +28,7 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
             return services
                 .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
                 .AddDbContextFactory<SharedKernelDbContext>()
-                .AddDapperSqlServer(Configuration, "DapperConnectionString");
+                .AddDapperSqlServer(Configuration.GetConnectionString("DapperConnectionString")!);
         }
 
         [Fact]

@@ -13,9 +13,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register common Ef Core data services. </summary>
-    public static void AddCommonDataServices(this IServiceCollection services)
+    public static IServiceCollection AddEntityFramework(this IServiceCollection services)
     {
-        services
+        return services
             .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
             .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>))
             .AddTransient<IIdentityService, DefaultIdentityService>()

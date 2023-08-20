@@ -27,7 +27,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
             .AddSharedKernel()
             .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
             .AddNetJsonSerializer()
-            .AddValidators(typeof(SampleCommandValidator))
+            .AddFluentValidationValidators(typeof(SampleCommandValidator))
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
             .AddSingleton<PublishUserCreatedDomainEvent>()

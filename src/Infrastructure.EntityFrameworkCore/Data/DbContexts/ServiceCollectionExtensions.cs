@@ -30,8 +30,8 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
         /// <typeparam name="TDataContext">The DbContext.</typeparam>
         /// <param name="services"></param>
         /// <param name="optionsAction">Service provider and DbContext options.</param>
-        public static void AddDbContextFactory<TDataContext>(this IServiceCollection services, Action<IServiceProvider, DbContextOptionsBuilder> optionsAction)
-            where TDataContext : DbContext
+        public static void AddDbContextFactory<TDataContext>(this IServiceCollection services,
+            Action<IServiceProvider, DbContextOptionsBuilder> optionsAction) where TDataContext : DbContext
         {
             AddCoreServices<TDataContext>(services, optionsAction, ServiceLifetime.Scoped);
             var serviceProvider = services.BuildServiceProvider();

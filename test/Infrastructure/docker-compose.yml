@@ -45,3 +45,21 @@ services:
         ports:
             - 8170:8161
             - 22225:61616
+
+    postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_DB: postgres_testing
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: password
+        ports:
+            - 22226:5432
+
+    postgis:
+        image: postgis/postgis:latest
+        environment:
+            POSTGRES_DB: postgis_testing
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: password
+        ports:
+            - 22227:5432

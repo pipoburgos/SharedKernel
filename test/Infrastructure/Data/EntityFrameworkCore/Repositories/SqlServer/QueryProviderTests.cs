@@ -33,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext>(Configuration.GetConnectionString("QueryProviderConnectionString")!);
+                .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext, ISharedKernelUnitOfWork>(Configuration.GetConnectionString("QueryProviderConnectionString")!);
         }
 
 

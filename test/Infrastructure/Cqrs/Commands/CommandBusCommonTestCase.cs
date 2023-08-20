@@ -26,7 +26,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         return services
             .AddSharedKernel()
             .AddCommandsHandlers(typeof(SampleCommandWithResponseHandler))
-            .AddValidators(typeof(SampleCommandValidator))
+            .AddFluentValidationValidators(typeof(SampleCommandValidator))
             .AddNetJsonSerializer()
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)

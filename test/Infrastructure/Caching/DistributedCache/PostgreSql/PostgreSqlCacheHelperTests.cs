@@ -1,26 +1,30 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Community.Microsoft.Extensions.Caching.PostgreSql;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Redis.Caching;
+using SharedKernel.Infrastructure.Dapper.Data;
+using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
 using SharedKernel.Testing.Infrastructure;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Caching
+namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql
 {
     [Collection("DockerHook")]
-    public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
+    public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
-            return "Caching/appsettings.redis.json";
+            return "Caching/DistributedCache/PostgreSql/appsettings.postgreSql.json";
         }
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services.AddRedisDistributedCache(Configuration);
+            return services
+                .AddDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
+                .AddPostgreSqlDistributedCache(Configuration);
         }
 
         [Fact]
