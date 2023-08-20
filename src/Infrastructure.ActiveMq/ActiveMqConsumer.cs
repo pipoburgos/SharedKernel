@@ -49,7 +49,9 @@ public class ActiveMqConsumer : BackgroundService
             var connectionFactory = new ConnectionFactory(connecturi);
 
             // Create a Connection
-            using var connection = await connectionFactory.CreateConnectionAsync();
+            using var connection =
+                await connectionFactory.CreateConnectionAsync(configuration.Value.UserName,
+                    configuration.Value.Password);
 
             await connection.StartAsync();
 

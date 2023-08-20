@@ -1,5 +1,4 @@
-﻿using HealthChecks.Network.Core;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
@@ -19,17 +18,18 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
             var smtpSettings = new SmtpSettings();
             configuration.GetSection(nameof(SmtpSettings)).Bind(smtpSettings);
 
-            services
-                .AddHealthChecks()
-                .AddSmtpHealthCheck(setup =>
-                {
-                    setup.Host = smtpSettings.MailServer;
-                    setup.Port = smtpSettings.MailPort;
-                    setup.ConnectionType = smtpSettings.RequireSsl ? SmtpConnectionType.SSL :
-                        smtpSettings.RequireTls ? SmtpConnectionType.TLS : SmtpConnectionType.AUTO;
-                    setup.LoginWith(smtpSettings.Sender, smtpSettings.Password);
-                    setup.AllowInvalidRemoteCertificates = true;
-                }, tags: new[] { "smtp" });
+            // todo not working
+            //services
+            //    .AddHealthChecks()
+            //    .AddSmtpHealthCheck(setup =>
+            //    {
+            //        setup.Host = smtpSettings.MailServer;
+            //        setup.Port = smtpSettings.MailPort;
+            //        setup.ConnectionType = smtpSettings.RequireSsl ? SmtpConnectionType.SSL :
+            //            smtpSettings.RequireTls ? SmtpConnectionType.TLS : SmtpConnectionType.AUTO;
+            //        setup.LoginWith(smtpSettings.User, smtpSettings.Password);
+            //        setup.AllowInvalidRemoteCertificates = true;
+            //    }, "Smtp", tags: new[] { "Smtp" });
 
 
             return services

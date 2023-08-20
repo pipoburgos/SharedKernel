@@ -5,8 +5,6 @@ using BankAccounts.Domain.Services;
 using BankAccounts.Infrastructure.BankAccounts;
 using BankAccounts.Infrastructure.BankAccounts.Commands.Validators;
 using BankAccounts.Infrastructure.Shared.Data;
-using SharedKernel.Application.Communication.Email;
-using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
@@ -15,7 +13,6 @@ using SharedKernel.Infrastructure.Data.Dapper;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.Requests.Middlewares;
-using SharedKernel.Infrastructure.Settings;
 using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validators;
 
@@ -53,10 +50,7 @@ public static class BankAccountServiceCollection
         IConfiguration configuration, string connectionStringName)
     {
         return services
-            .AddOptions()
-            .Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)))
-            .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
-            .AddTransient<IEmailSender, SmtpEmailSender>()
+            .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
                 typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork))
             .AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration, connectionStringName)

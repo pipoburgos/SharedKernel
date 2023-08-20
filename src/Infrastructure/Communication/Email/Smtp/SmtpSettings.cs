@@ -19,10 +19,10 @@
         public int MailPort { get; set; }
 
         /// <summary>  </summary>
-        public string SenderName { get; set; }
+        public string DefaultSender { get; set; }
 
         /// <summary>  </summary>
-        public string Sender { get; set; }
+        public string User { get; set; }
 
         /// <summary>  </summary>
         public string Password { get; set; }

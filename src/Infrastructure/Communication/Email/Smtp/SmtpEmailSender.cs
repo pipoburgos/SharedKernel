@@ -59,13 +59,13 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
             client.EnableSsl = _smtp.RequireSsl;
             client.UseDefaultCredentials = false;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new NetworkCredential(_smtp.SenderName, _smtp.Password);
+            client.Credentials = new NetworkCredential(_smtp.User, _smtp.Password);
 
             foreach (var email in emails)
             {
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress(email.From ?? _smtp.Sender),
+                    From = new MailAddress(email.From ?? _smtp.DefaultSender),
                     Subject = email.Subject,
                     Body = email.Body,
                     IsBodyHtml = true

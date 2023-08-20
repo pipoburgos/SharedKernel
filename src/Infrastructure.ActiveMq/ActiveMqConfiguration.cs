@@ -8,4 +8,10 @@ public class ActiveMqConfiguration
 
     /// <summary>  </summary>
     public string Queue { get; set; } = "CommandsQueue";
+
+    /// <summary>  </summary>
+    public string UserName { get; set; } = null!;
+
+    /// <summary>  </summary>
+    public string Password { get; set; } = null!;
 }

@@ -11,13 +11,13 @@ services:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=yourStrong(!)Password
         ports:
-            - 8765:1433
+            - 9765:1433
 
     activemq:
-        image: rmohr/activemq:latest
+        image: islandora/activemq:main
         ports:
-            - 8768:8161
-            - 8769:61616
+            - 9768:8161
+            - 9769:61616
 
     rabbitmq:
         image: rabbitmq:latest
@@ -25,9 +25,20 @@ services:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=password
         ports:
-            - 8770:5672
+            - 9770:5672
 
     redis:
         image: redis:latest
         ports:
-            - 8771:6379
+            - 9771:6379
+
+    smtp:
+        image: ixdotai/smtp:latest
+        ports:
+            - 127.0.0.1:25:25
+        environment:
+            - SMARTHOST_ADDRESS=smtp.sendgrid.net
+            - SMARTHOST_PORT=587
+            - SMARTHOST_USER=admin
+            - SMARTHOST_PASSWORD=password
+            - SMARTHOST_ALIASES=*.sendgrid.net

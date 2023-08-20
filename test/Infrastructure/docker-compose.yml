@@ -30,19 +30,18 @@ services:
             - 22223:5672
 
     smtp:
-        image: namshi/smtp:latest
+        image: ixdotai/smtp:latest
         ports:
-            - "22224:25"
+            - 127.0.0.1:22224:25
         environment:
-            - MAILNAME=smtp.shared-kernel.com
-            - SMARTHOST_ADDRESS=smtp.shared-kernel.com
+            - SMARTHOST_ADDRESS=smtp.sendgrid.net
             - SMARTHOST_PORT=587
-            - SMARTHOST_USER=shared-kernel@shared-kernel.com
-            - SMARTHOST_PASSWORD=shared-kernel
-            - SMARTHOST_ALIASES=*.shared-kernel.com
+            - SMARTHOST_USER=apikey
+            - SMARTHOST_PASSWORD=SG.blahblahblahblahWoSpQodvLakqXQfxo
+            - SMARTHOST_ALIASES=*.sendgrid.net
  
     activemq:
-        image: rmohr/activemq:latest
+        image: islandora/activemq:main
         ports:
             - 8170:8161
             - 22225:61616

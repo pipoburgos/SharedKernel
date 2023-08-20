@@ -66,9 +66,9 @@ namespace SharedKernel.Testing.Acceptance.Tests
 
             var text = await response.Content.ReadAsStringAsync();
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
             text.Should().StartWith("{\"status\":\"Healthy\",");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         protected abstract void StartupWhenBuildServiceCollectionShouldDependenciesBeRegistered();

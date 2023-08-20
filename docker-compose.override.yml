@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
     bankaccounts.api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
@@ -8,6 +9,7 @@ services:
             - "80"
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
     sql_server:
         image: mcr.microsoft.com/mssql/server:latest
         container_name: ${DOCKER_REGISTRY-}sql_server
@@ -20,11 +22,13 @@ services:
         volumes:
             - ./docker-data/sql_server/data:/var/opt/mssql/data
             - ./docker-data/sql_server/backups:/var/opt/mssql/backups
+
     activemq:
-        image: rmohr/activemq:latest
+        image: islandora/activemq:main
         ports:
             - 8768:8161
             - 8769:61616
+
     rabbitmq:
         image: rabbitmq:latest
         environment:
@@ -32,7 +36,19 @@ services:
             - RABBITMQ_DEFAULT_PASS=password
         ports:
             - 8770:5672
+
     redis:
         image: redis:latest
         ports:
-            - 8771:6379
+            - 8771:637
+
+    smtp:
+        image: ixdotai/smtp:latest
+        ports:
+            - 127.0.0.1:8772:25
+        environment:
+            - SMARTHOST_ADDRESS=smtp.sendgrid.net
+            - SMARTHOST_PORT=587
+            - SMARTHOST_USER=apikey
+            - SMARTHOST_PASSWORD=SG.blahblahblahblahWoSpQodvLakqXQfxo
+            - SMARTHOST_ALIASES=*.sendgrid.net
