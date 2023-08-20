@@ -2,20 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
 #if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions;
 using SharedKernel.Infrastructure.Data.Queryable;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
 using SharedKernel.Testing.Infrastructure;
 using Xunit;
 
@@ -32,7 +33,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext>(Configuration, "QueryProviderConnectionString");
+                .AddEntityFrameworkCoreSqlServer<SharedKernelDbContext>(Configuration.GetConnectionString("QueryProviderConnectionString")!);
         }
 
 

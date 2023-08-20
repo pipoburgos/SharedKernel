@@ -2,10 +2,8 @@
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Security;
-using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Requests.Middlewares;
-using SharedKernel.Infrastructure.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +28,6 @@ public static class RequestServiceExtensions
         }
 
         return services
-            .AddScoped(typeof(IEntityValidator<>), typeof(FluentValidator<>))
             .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
             .AddTransient<IIdentityService, DefaultIdentityService>()
             .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()

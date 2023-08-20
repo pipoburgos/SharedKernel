@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NETSTANDARD2_1
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -50,3 +51,4 @@ namespace SharedKernel.Infrastructure.System
         }
     }
 }
+#endif

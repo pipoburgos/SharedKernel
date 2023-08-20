@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
@@ -21,31 +21,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Events\MsSql\**" />
+    <EmbeddedResource Remove="Events\MsSql\**" />
+    <None Remove="Events\MsSql\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="" />
     <None Include="readme.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="7.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="7.0.0" />
-    <PackageReference Include="DistributedLock.Postgres" Version="1.0.4" />
-    <PackageReference Include="DistributedLock.SqlServer" Version="1.0.3" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.10" Condition="'$(TargetFramework)' != 'net7.0'" />
+    
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netstandard2.1'" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
     <PackageReference Include="System.CodeDom" Version="7.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
@@ -71,10 +66,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionCodes.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Requests\Middlewares\RetryPolicy\" />
   </ItemGroup>
 
   <!--<ItemGroup>

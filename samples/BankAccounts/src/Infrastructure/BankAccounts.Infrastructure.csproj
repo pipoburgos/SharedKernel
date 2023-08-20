@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\Application\BankAccounts.Application.csproj" />

@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-internal class FailoverMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse>
+/// <summary>  </summary>
+public class FailoverMiddleware<TRequest, TResponse> : IMiddleware<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly FailoverCommonLogic _failoverCommonLogic;
 
+    /// <summary>  </summary>
     public FailoverMiddleware(FailoverCommonLogic failoverCommonLogic)
     {
         _failoverCommonLogic = failoverCommonLogic;
     }
 
+    /// <summary>  </summary>
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> next)
     {

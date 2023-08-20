@@ -10,12 +10,14 @@ using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Dapper.Data;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
 using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.FluentValidation;
+using SharedKernel.Infrastructure.FluentValidation.Requests.Middlewares;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
-using SharedKernel.Infrastructure.Validators;
 
 namespace BankAccounts.Infrastructure.Shared;
 
@@ -54,7 +56,7 @@ public static class BankAccountServiceCollection
             .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
                 typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork))
-            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration, connectionStringName)
+            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext>(configuration.GetConnectionString(connectionStringName)!)
             .AddScoped<IBankAccountUnitOfWork>(s => s.GetRequiredService<BankAccountDbContext>())
             .AddDapperSqlServer(configuration, connectionStringName)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()

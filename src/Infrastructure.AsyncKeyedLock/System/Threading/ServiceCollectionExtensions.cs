@@ -1,7 +1,6 @@
 ﻿using AsyncKeyedLock;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Infrastructure.System.Threading;
 
 namespace SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 
@@ -12,6 +11,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAsyncKeyedLockMutex(this IServiceCollection services)
     {
         return services
+            .AddTransient<IMutex, AsyncKeyedLockMutex>()
             .AddTransient<IMutexManager, MutexManager>()
             .AddTransient<IMutexFactory, AsyncKeyedLockMutexFactory>()
             .AddSingleton(new AsyncKeyedLocker<string>(o =>

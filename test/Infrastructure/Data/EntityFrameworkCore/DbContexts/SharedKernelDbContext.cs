@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts
 {

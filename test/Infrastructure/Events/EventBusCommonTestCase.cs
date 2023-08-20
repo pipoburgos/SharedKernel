@@ -6,9 +6,11 @@ using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Events;
+using SharedKernel.Infrastructure.FluentValidation;
+using SharedKernel.Infrastructure.FluentValidation.Requests.Middlewares;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
-using SharedKernel.Infrastructure.Requests.Middlewares;
+using SharedKernel.Integration.Tests.Cqrs.Commands;
 using SharedKernel.Testing.Infrastructure;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -25,6 +27,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
             .AddSharedKernel()
             .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
             .AddNetJsonSerializer()
+            .AddValidators(typeof(SampleCommandValidator))
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
             .AddSingleton<PublishUserCreatedDomainEvent>()

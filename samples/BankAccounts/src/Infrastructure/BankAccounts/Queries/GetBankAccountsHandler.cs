@@ -2,8 +2,8 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Infrastructure.Shared.Data;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Extensions;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Queries;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 using System.Linq;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries
@@ -26,7 +26,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Queries
                 {
                     Id = x.Id
                 })
-                .ToPagedListAsync(query.PageOptions, cancellationToken);
+                .ToPagedListAsync(query.PageOptions!, cancellationToken);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Infrastructure.System.Threading;
 
 namespace SharedKernel.Infrastructure.Redis.System.Threading;
 

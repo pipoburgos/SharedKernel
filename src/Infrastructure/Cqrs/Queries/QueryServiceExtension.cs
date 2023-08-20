@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Queries;
-using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
-using SharedKernel.Infrastructure.Validators;
 using System;
 using System.Reflection;
 
@@ -96,8 +94,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries
         private static IServiceCollection AddQueryBus(this IServiceCollection services)
         {
             return services
-                .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
-                .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>));
+                .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+#if !NET40
 using System.Threading;
 using System.Threading.Tasks;
+#endif
 
 namespace SharedKernel.Application.System.Threading
 {
@@ -25,6 +27,7 @@ namespace SharedKernel.Application.System.Threading
         /// <returns></returns>
         T RunOneAtATimeFromGivenKey<T>(string key, Func<T> function);
 
+#if !NET40
         /// <summary>
         /// Run one at time from given key
         /// </summary>
@@ -34,5 +37,6 @@ namespace SharedKernel.Application.System.Threading
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<T> RunOneAtATimeFromGivenKeyAsync<T>(string key, Func<Task<T>> function, CancellationToken cancellationToken);
+#endif
     }
 }

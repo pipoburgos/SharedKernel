@@ -1,13 +1,13 @@
 ﻿using BankAccounts.Application.Shared.UnitOfWork;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.Configurations;
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace BankAccounts.Infrastructure.Shared.Data;
 
 internal class BankAccountDbContext : DbContextBase, IBankAccountUnitOfWork
 {
     public BankAccountDbContext(DbContextOptions<BankAccountDbContext> options,
-        IValidatableObjectService validatableObjectService, IAuditableService auditable = null)
+        IValidatableObjectService validatableObjectService, IAuditableService auditable = default)
         : base(options, "dbo", typeof(BankAccountDbContext).Assembly, validatableObjectService, auditable)
     { }
 
