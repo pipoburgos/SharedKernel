@@ -76,6 +76,12 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
             _auditableService?.Audit(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
+#if !NET462 && !NET47 && !NET471
+        catch (DbUpdateException exUpdate)
+        {
+            throw new Exception(string.Join(", ", exUpdate.Entries.Select(e => e.ToString())), exUpdate);
+        }
+#endif
         catch (Exception)
         {
             await RollbackAsync(cancellationToken);
