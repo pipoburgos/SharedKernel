@@ -35,10 +35,10 @@ services:
     smtp:
         image: ixdotai/smtp:latest
         ports:
-            - 127.0.0.1:25:25
+            - 127.0.0.1:9772:25
         environment:
             - SMARTHOST_ADDRESS=smtp.sendgrid.net
             - SMARTHOST_PORT=587
-            - SMARTHOST_USER=admin
-            - SMARTHOST_PASSWORD=password
+            - SMARTHOST_USER=apikey
+            - SMARTHOST_PASSWORD=SG.blahblahblahblahWoSpQodvLakqXQfxo
             - SMARTHOST_ALIASES=*.sendgrid.net

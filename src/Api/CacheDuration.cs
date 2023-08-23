@@ -1,4 +1,4 @@
-﻿namespace BankAccounts.Api.Shared;
+﻿namespace SharedKernel.Api;
 
 /// <summary>  </summary>
 public class CacheDuration

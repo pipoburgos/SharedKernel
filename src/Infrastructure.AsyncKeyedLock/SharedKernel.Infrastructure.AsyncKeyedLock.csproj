@@ -29,10 +29,11 @@
 
   <ItemGroup>
     <PackageReference Include="AsyncKeyedLock" Version="6.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
 	</ItemGroup>
 
 </Project>

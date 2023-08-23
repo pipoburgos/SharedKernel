@@ -1,6 +1,7 @@
 ﻿using BankAccounts.Api.Shared;
 using BankAccounts.Application.BankAccounts.Queries;
 using Microsoft.AspNetCore.OutputCaching;
+using SharedKernel.Api;
 
 namespace BankAccounts.Api.BankAccounts
 {
