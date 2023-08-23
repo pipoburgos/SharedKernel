@@ -82,10 +82,9 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
             throw new Exception(string.Join(", ", exUpdate.Entries.Select(e => e.ToString())), exUpdate);
         }
 #endif
-        catch (Exception)
+        finally
         {
             await RollbackAsync(cancellationToken);
-            throw;// new SharedKernelInfrastructureException(nameof(ExceptionCodes.EF_CORE_SAVE_CHANGES), ex);
         }
     }
 

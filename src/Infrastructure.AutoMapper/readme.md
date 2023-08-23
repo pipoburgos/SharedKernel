@@ -1,15 +1,5 @@
 ﻿The following code demonstrates basic usage of Shared Kernel Infastructure.
 
-### appsettings.json for mongo connection
-
-```json
-{
-  "MongoSettings": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "Database": "XXX"
-  }
-}
-```
 ```cs
 namespace XXX.Infrastructure
 {
@@ -19,39 +9,10 @@ namespace XXX.Infrastructure
             IConfiguration configuration, string connectionStringName)
         {
             return services
-                .AddAutoMapper(new XXXAutoMapperProfile(), typeof(ApplicationCommandHandler).Assembly,
-                    typeof(UserRegistered).Assembly,
-                    typeof(XXXDbContext).Assembly)
-                .AddDomainEvents(typeof(XXXEvent))
-                .AddDomainEventsSubscribers(typeof(XXXEventSusbcriber))
-                .AddCommandsHandlers(typeof(ApplicationCommandHandler))
-                .AddQueriesHandlers(typeof(InfrastructureQueryHandler))
-                .AddDapperSqlServer<XXXDbContext>(configuration, connectionStringName)
-                .AddEntityFrameworkCoreSqlServer<XXXDbContext>(configuration, connectionStringName)
-                .AddMongo(configuration)
-                .AddApplicationServices()
-                .AddDomainServices()
-                .AddRepositories();
+                .AddAutoMapper(new XXXAutoMapperProfile(), typeof(InfrastructureAssembly).Assembly,
+                    typeof(DomainAssembly).Assembly;
         }
 
-        private static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<SampleApplicationService>();
-        }
-        
-        private static IServiceCollection AddDomainServices(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<SampleDomainService>();
-        }
-
-        private static IServiceCollection AddRepositories(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<IXXXRepository, XXXMongoRepository>();
-                .AddTransient<IXXXRepository, XXXEntityFrameworkCoreRepository>();
-        }
     }
 }
 ```

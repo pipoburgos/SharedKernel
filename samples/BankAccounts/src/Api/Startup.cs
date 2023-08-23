@@ -1,5 +1,4 @@
-﻿using BankAccounts.Api.Shared;
-using BankAccounts.Infrastructure.Shared;
+﻿using BankAccounts.Infrastructure.Shared;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -65,7 +64,8 @@ public class Startup
     {
         app
             .UseSharedKernelServicesPage(_services)
-            .UseApiErrors()
+            .UseSharedKernelExceptionHandler("BankAccount",
+                exceptionHandler => $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})")
             .UseCors(CorsPolicy)
             .UseRouting()
             .UseEndpoints(endpoints =>

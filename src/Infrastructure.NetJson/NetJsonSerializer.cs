@@ -50,8 +50,62 @@ public class NetJsonSerializer : IJsonSerializer
 
         return new JsonSerializerOptions
         {
+            //Converters = { new NoSetterResolver() },
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNamingPolicy = policy
         };
     }
+
+    //private class NoSetterResolver : JsonConverterFactory
+    //{
+    //    public override bool CanConvert(Type typeToConvert)
+    //    {
+    //        return typeToConvert.IsClass;
+    //    }
+
+    //    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    //    {
+    //        var converterType = typeof(NoSetterConverter<>).MakeGenericType(typeToConvert);
+    //        var converter = Activator.CreateInstance(converterType);
+
+    //        return (JsonConverter)converter;
+    //    }
+    //}
+
+    //private class NoSetterConverter<T> : JsonConverter<T> where T : class, new()
+    //{
+    //    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    //    {
+    //        var instance = new T();
+    //        var properties = typeof(T).GetProperties();
+
+    //        using (var doc = JsonDocument.ParseValue(ref reader))
+    //        {
+    //            var root = doc.RootElement;
+
+    //            foreach (var property in properties)
+    //            {
+    //                if (root.TryGetProperty(property.Name, out var value))
+    //                {
+    //                    property.SetValue(instance, value.GetString());
+    //                }
+    //            }
+    //        }
+
+    //        return instance;
+    //    }
+
+    //    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    //    {
+    //        writer.WriteStartObject();
+
+    //        foreach (var property in typeof(T).GetProperties())
+    //        {
+    //            writer.WritePropertyName(property.Name);
+    //            JsonSerializer.Serialize(writer, property.GetValue(value), options);
+    //        }
+
+    //        writer.WriteEndObject();
+    //    }
+    //}
 }
