@@ -37,18 +37,19 @@ public class Guard
 {
     /// <summary>Throws an <see cref="ArgumentNullException"/> if <paramref name="argument"/> is null.</summary>
     /// <param name="argument">The reference type argument to validate as non-null.</param>
-    /// <param name="throwOnEmptyString">Only applicable to strings.</param>
+    /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
-    public static T ThrowIfNull<T>([NotNull] T argument, bool throwOnEmptyString = false,
-        [CallerArgumentExpression("argument")] string paramName = null) where T : class
+    public static T ThrowIfNull<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
+        [CallerArgumentExpression("argument")] string paramName = null)
     {
 #if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(argument, paramName);
-        if (throwOnEmptyString && argument is string s && string.IsNullOrEmpty(s))
+        if (throwOnNullEmptyOrWhiteSpaceString && argument is string s && string.IsNullOrWhiteSpace(s))
             throw new ArgumentNullException(paramName);
 #else
         // ReSharper disable once ArrangeMissingParentheses
-        if (argument is null || throwOnEmptyString && argument is string s && string.IsNullOrEmpty(s))
+        if (argument is null ||
+            throwOnNullEmptyOrWhiteSpaceString && argument is string s && string.IsNullOrWhiteSpace(s))
             throw new ArgumentNullException(paramName);
 #endif
         return argument;

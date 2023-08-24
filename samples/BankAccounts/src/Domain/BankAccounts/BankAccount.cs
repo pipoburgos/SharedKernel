@@ -2,6 +2,7 @@
 using BankAccounts.Domain.BankAccounts.Exceptions;
 using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Specifications;
+using SharedKernel.Domain.Guards;
 
 namespace BankAccounts.Domain.BankAccounts
 {
@@ -17,17 +18,13 @@ namespace BankAccounts.Domain.BankAccounts
         internal BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
             Movement initialMovement, DateTime now) : base(id)
         {
-            if (id == default)
-                throw new ArgumentNullException(nameof(id));
+            Guard.ThrowIfNull(id);
 
-            if (internationalBankAccountNumber == default)
-                throw new ArgumentNullException(nameof(internationalBankAccountNumber));
+            Guard.ThrowIfNull(internationalBankAccountNumber);
 
-            if (owner == default)
-                throw new ArgumentNullException(nameof(owner));
+            Guard.ThrowIfNull(owner);
 
-            if (initialMovement == default)
-                throw new ArgumentNullException(nameof(initialMovement));
+            Guard.ThrowIfNull(initialMovement);
 
             if (initialMovement.Amount <= 0)
                 throw new QuantityCannotBeNegativeException();
@@ -56,7 +53,7 @@ namespace BankAccounts.Domain.BankAccounts
             if (new IsTheBankAccountOverdrawn().SatisfiedBy().Compile()(this))
                 throw new OverdraftBankAccountException();
 
-            _movements.Add(MovementFactory.CreateMovement(id, concept, -quantity, date));
+            _movements.Add(MovementFactory.CreateMovement(id, concept, -quantity, date).Value);
         }
 
         public void MakeDeposit(Guid id, string concept, decimal quantity, DateTime date)
@@ -64,7 +61,7 @@ namespace BankAccounts.Domain.BankAccounts
             if (quantity <= 0)
                 throw new QuantityCannotBeNegativeException();
 
-            var movement = MovementFactory.CreateMovement(id, concept, quantity, date);
+            var movement = MovementFactory.CreateMovement(id, concept, quantity, date).Value;
             _movements.Add(movement);
 
             if (new IsThePayroll().SatisfiedBy().Compile()(movement))
