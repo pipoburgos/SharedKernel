@@ -1,12 +1,15 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
+using SharedKernel.Application.RailwayOrientedProgramming;
+using SharedKernel.Application.Validator;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharedKernel.Api.Controllers
 {
@@ -26,6 +29,17 @@ namespace SharedKernel.Api.Controllers
         /// </summary>
         protected IQueryBus QueryBus => HttpContext.RequestServices.GetRequiredService<IQueryBus>();
 
+        /// <summary>
+        /// Creates a <see cref="ActionResult&lt;Value&gt;"/> object that produces an <see cref="StatusCodes.Status200OK"/> response.
+        /// </summary>
+        /// <returns>The created <see cref="ActionResult&lt;Value&gt;"/> for the response.</returns>
+        protected IActionResult OkTyped(ApplicationResult<ApplicationUnit> result)
+        {
+            return result.IsSuccess
+                ? Ok()
+                : BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
+                    new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+        }
 
         /// <summary>
         /// Creates a <see cref="ActionResult&lt;Value&gt;"/> object that produces an <see cref="StatusCodes.Status200OK"/> response.

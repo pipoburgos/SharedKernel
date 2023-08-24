@@ -15,17 +15,17 @@ public static class ApplicationResult
     public static ApplicationResult<T> Success<T>(this T value) => ApplicationResult<T>.Create(value);
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Failure<T>(IEnumerable<string> errors) => ApplicationResult<T>.Create(errors);
+    public static ApplicationResult<T> Failure<T>(IEnumerable<ApplicationError> errors) => ApplicationResult<T>.Create(errors);
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Failure<T>(string error) => ApplicationResult<T>.Create(new List<string> { error });
+    public static ApplicationResult<T> Failure<T>(ApplicationError error) => ApplicationResult<T>.Create(new List<ApplicationError> { error });
 
     /// <summary>  </summary>
     public static ApplicationResult<ApplicationUnit> Success() => ApplicationResult<ApplicationUnit>.Create(Unit);
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> Failure(IEnumerable<string> errors) => ApplicationResult<ApplicationUnit>.Create(errors);
+    public static ApplicationResult<ApplicationUnit> Failure(IEnumerable<ApplicationError> errors) => ApplicationResult<ApplicationUnit>.Create(errors);
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> Failure(string error) => ApplicationResult<ApplicationUnit>.Create(new List<string> { error });
+    public static ApplicationResult<ApplicationUnit> Failure(ApplicationError error) => ApplicationResult<ApplicationUnit>.Create(new List<ApplicationError> { error });
 }

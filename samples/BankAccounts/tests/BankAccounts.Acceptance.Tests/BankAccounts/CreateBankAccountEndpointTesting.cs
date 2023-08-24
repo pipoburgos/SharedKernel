@@ -30,7 +30,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
 
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            await Task.Delay(10_000);
+            //await Task.Delay(10_000);
 
             _bankAccountClientFactory
                 .CreateNewDbContext()
@@ -39,7 +39,6 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
                 .Should()
                 .BeTrue();
         }
-
 
         [Fact]
         public async Task CreateBankAccountNameMoreThan100TestFailover()
@@ -60,6 +59,21 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
                 .Any(t => t.Request.Contains(bankAccountId.ToString().ToLower()))
                 .Should()
                 .BeTrue();
+        }
+
+        [Fact]
+        public async Task CreateBankAccountLessThan18YearsOld()
+        {
+            var client = await _bankAccountClientFactory.CreateClientAsync<BankAccountDbContext>();
+
+            var bankAccountId = Guid.NewGuid();
+            var body = new CreateBankAccount(Guid.NewGuid(), "abc",
+                new DateTime(2300, 5, 5), "Fernández", Guid.NewGuid(), 250);
+
+            var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+
+            var ex = await response.GetErrorResponse();
+            ex.Should("Owner", "At Least 18 Years Old");
         }
     }
 }

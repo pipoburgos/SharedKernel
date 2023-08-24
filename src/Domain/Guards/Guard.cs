@@ -2,6 +2,9 @@
 #if NET6_0 || NET7_0
 using System.Runtime.CompilerServices;
 #endif
+#if !NET40 && !NET45 && !NET451 && !NET452 && !NET46 && !NET461
+using System.Collections.Generic;
+#endif
 
 namespace SharedKernel.Domain.Guards;
 
@@ -52,6 +55,21 @@ public class Guard
             throwOnNullEmptyOrWhiteSpaceString && argument is string s && string.IsNullOrWhiteSpace(s))
             throw new ArgumentNullException(paramName);
 #endif
+        return argument;
+    }
+
+    /// <summary>Throws an <see cref="ArgumentNullException"/> if <paramref name="argument"/> is null.</summary>
+    /// <param name="argument">The reference type argument to validate as non-null.</param>
+    /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
+    /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
+    public static T ThrowIfNullOrDefault<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
+        [CallerArgumentExpression("argument")] string paramName = null)
+    {
+        ThrowIfNull(argument, throwOnNullEmptyOrWhiteSpaceString, paramName);
+
+        if (EqualityComparer<T>.Default.Equals(argument, default))
+            throw new ArgumentNullException(paramName);
+
         return argument;
     }
 }

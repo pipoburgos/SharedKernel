@@ -1,5 +1,5 @@
 ﻿using BankAccounts.Domain.BankAccounts;
-using BankAccounts.Domain.BankAccounts.Exceptions;
+using BankAccounts.Domain.BankAccounts.Errors;
 
 namespace BankAccounts.Domain.Services
 {

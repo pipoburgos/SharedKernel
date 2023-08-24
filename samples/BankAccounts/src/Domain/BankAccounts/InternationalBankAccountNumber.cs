@@ -19,19 +19,19 @@
             Result.Create<InternationalBankAccountNumber>(default)
                 .EnsureAppendError(
                     _ => !string.IsNullOrWhiteSpace(countryCheckDigit),
-                    $"'{nameof(CountryCheckDigit)}' must not be empty.")
+                    Error.Create($"'{nameof(CountryCheckDigit)}' must not be empty.", nameof(CountryCheckDigit)))
                 .EnsureAppendError(
                     _ => !string.IsNullOrWhiteSpace(entityCode),
-                    $"'{nameof(EntityCode)}' must not be empty.")
+                    Error.Create($"'{nameof(EntityCode)}' must not be empty.", nameof(EntityCode)))
                 .EnsureAppendError(
                     _ => !string.IsNullOrWhiteSpace(officeNumber),
-                    $"'{nameof(OfficeNumber)}' must not be empty.")
+                    Error.Create($"'{nameof(OfficeNumber)}' must not be empty.", nameof(OfficeNumber)))
                 .EnsureAppendError(
                     _ => !string.IsNullOrWhiteSpace(controlDigit),
-                    $"'{nameof(ControlDigit)}' must not be empty.")
+                    Error.Create($"'{nameof(ControlDigit)}' must not be empty.", nameof(ControlDigit)))
                 .EnsureAppendError(
                     _ => !string.IsNullOrWhiteSpace(accountNumber),
-                    $"'{nameof(AccountNumber)}' must not be empty.")
+                    Error.Create($"'{nameof(AccountNumber)}' must not be empty.", nameof(AccountNumber)))
                 .Map(_ => new InternationalBankAccountNumber(countryCheckDigit, entityCode, officeNumber, controlDigit,
                     accountNumber));
 

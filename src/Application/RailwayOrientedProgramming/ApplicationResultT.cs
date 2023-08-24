@@ -14,7 +14,7 @@ public readonly struct ApplicationResult<T>
     public static implicit operator ApplicationResult<T>(T value) => new(value);
 
     /// <summary>  </summary>
-    public readonly IEnumerable<string> Errors;
+    public readonly IEnumerable<ApplicationError> Errors;
 
     /// <summary>  </summary>
     public bool IsSuccess => !Errors.Any();
@@ -26,11 +26,11 @@ public readonly struct ApplicationResult<T>
     private ApplicationResult(T value)
     {
         Value = value;
-        Errors = Enumerable.Empty<string>();
+        Errors = Enumerable.Empty<ApplicationError>();
     }
 
     /// <summary>  </summary>
-    private ApplicationResult(IEnumerable<string> errors)
+    private ApplicationResult(IEnumerable<ApplicationError> errors)
     {
         var list = errors.ToList();
         if (list.Count == 0)
@@ -47,7 +47,7 @@ public readonly struct ApplicationResult<T>
     }
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Create(IEnumerable<string> errors)
+    public static ApplicationResult<T> Create(IEnumerable<ApplicationError> errors)
     {
         return new ApplicationResult<T>(errors);
     }

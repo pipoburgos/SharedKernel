@@ -1,5 +1,5 @@
-﻿using BankAccounts.Domain.BankAccounts.Events;
-using BankAccounts.Domain.BankAccounts.Exceptions;
+﻿using BankAccounts.Domain.BankAccounts.Errors;
+using BankAccounts.Domain.BankAccounts.Events;
 using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Specifications;
 using SharedKernel.Domain.Guards;
@@ -18,13 +18,10 @@ namespace BankAccounts.Domain.BankAccounts
         internal BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
             Movement initialMovement, DateTime now) : base(id)
         {
-            Guard.ThrowIfNull(id);
-
-            Guard.ThrowIfNull(internationalBankAccountNumber);
-
-            Guard.ThrowIfNull(owner);
-
-            Guard.ThrowIfNull(initialMovement);
+            Guard.ThrowIfNullOrDefault(id);
+            Guard.ThrowIfNullOrDefault(internationalBankAccountNumber);
+            Guard.ThrowIfNullOrDefault(owner);
+            Guard.ThrowIfNullOrDefault(initialMovement);
 
             if (initialMovement.Amount <= 0)
                 throw new QuantityCannotBeNegativeException();

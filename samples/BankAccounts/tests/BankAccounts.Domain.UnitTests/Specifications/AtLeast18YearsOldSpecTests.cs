@@ -11,7 +11,7 @@ namespace BankAccounts.Domain.Tests.Specifications
             // Arrange
             var today = new DateTime(1990, 2, 2);
             var birthdate = today;
-            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate);
+            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate).Value;
 
             // Act
             var isAtLeast18YearsOld = new AtLeast18YearsOldSpec(today).SatisfiedBy().Compile()(user);
@@ -26,7 +26,7 @@ namespace BankAccounts.Domain.Tests.Specifications
             // Arrange
             var today = new DateTime(1990, 2, 2);
             var birthdate = today.AddYears(-18);
-            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate);
+            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate).Value;
 
             // Act
             var isAtLeast18YearsOld = new AtLeast18YearsOldSpec(today).SatisfiedBy().Compile()(user);
@@ -41,7 +41,7 @@ namespace BankAccounts.Domain.Tests.Specifications
             // Arrange
             var today = new DateTime(1990, 2, 2);
             var birthdate = today.AddYears(-18).AddDays(-1);
-            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate);
+            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate).Value;
 
             // Act
             var isAtLeast18YearsOld = new AtLeast18YearsOldSpec(today).SatisfiedBy().Compile()(user);
@@ -56,7 +56,7 @@ namespace BankAccounts.Domain.Tests.Specifications
             // Arrange
             var today = new DateTime(1990, 2, 2);
             var birthdate = today.AddYears(-18).AddDays(1);
-            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate);
+            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate).Value;
 
             // Act
             var isAtLeast18YearsOld = new AtLeast18YearsOldSpec(today).SatisfiedBy().Compile()(user);
@@ -71,7 +71,7 @@ namespace BankAccounts.Domain.Tests.Specifications
             // Arrange
             var today = new DateTime(2022, 2, 14);
             var birthdate = new DateTime(1980, 2, 24);
-            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate);
+            var user = UserFactory.CreateUser(Guid.NewGuid(), "Roberto", "Fernández", birthdate).Value;
 
             // Act
             var isAtLeast18YearsOld = new AtLeast18YearsOldSpec(today).SatisfiedBy().Compile()(user);

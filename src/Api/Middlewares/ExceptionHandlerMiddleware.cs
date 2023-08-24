@@ -6,7 +6,6 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Authentication;
@@ -41,7 +40,11 @@ public static class ExceptionHandlerMiddleware
                 var jsonSerializer = context.RequestServices.GetRequiredService<IJsonSerializer>();
 
                 var errorType = error.Error.GetType();
-                if (errorType.Namespace != null && errorType.Namespace.Split(".").First().ToLower().StartsWith(appName))
+                if ((errorType.Namespace != null &&
+                     errorType.Namespace.Split(".").First().ToLower().StartsWith(appName)) ||
+                    (error.Error.InnerException?.GetType().Namespace != default &&
+                     error.Error.InnerException.GetType().Namespace!.Split(".").First()
+                         .StartsWith(appName)))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
                     var errorSerialized = jsonSerializer.Serialize(error.Error.Message);
@@ -83,32 +86,4 @@ public static class ExceptionHandlerMiddleware
 
         return app;
     }
-}
-
-internal static class StringExtension
-{
-    public static string ToCamelCase(this string str) =>
-        string.IsNullOrEmpty(str) || str.Length < 2
-            ? str
-            : char.ToLowerInvariant(str[0]) + str[1..];
-}
-
-internal class ValidationError
-{
-    public ValidationError(ValidationFailureException exception)
-    {
-        Errors = exception.Errors
-            .GroupBy(e => e.PropertyName)
-            .ToDictionary(a => a.Key.ToCamelCase(), b => b.Select(z => z.ErrorMessage).ToArray());
-    }
-
-    public Dictionary<string, string[]> Errors { get; }
-
-    public static string Type => "https://tools.ietf.org/html/rfc7231#section-6.5.1";
-
-    public static string Title => "One or more validation errors occurred.";
-
-    public static int Status => 400;
-
-    public static string TraceId => Guid.NewGuid().ToString();
 }

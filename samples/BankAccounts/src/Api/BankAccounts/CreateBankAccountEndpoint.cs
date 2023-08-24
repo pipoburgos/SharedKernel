@@ -9,12 +9,11 @@ namespace BankAccounts.Api.BankAccounts
     {
         /// <summary> Create a bank account. </summary>
         [HttpPost("{bankAccountId:guid}")]
-        public async Task<IActionResult> Handle([FromServices] ICommandBusAsync commandBusAsync, Guid bankAccountId, CreateBankAccount createBankAccount,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(//[FromServices] ICommandBusAsync commandBusAsync,
+            Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
         {
             createBankAccount?.AddId(bankAccountId);
-            await commandBusAsync.Dispatch(createBankAccount, cancellationToken);
-            return Ok();
+            return OkTyped(await CommandBus.Dispatch(createBankAccount, cancellationToken));
         }
     }
 }

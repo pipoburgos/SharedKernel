@@ -9,6 +9,7 @@ using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
+using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Redis.Caching;
@@ -36,6 +37,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         _services = services
+            .AddInMemoryCommandBus()
             .AddRedisCommandBusAsync(_configuration)
             .AddNetJsonSerializer()
             .AddInMemoryQueryBus()
@@ -64,7 +66,7 @@ public class Startup
     {
         app
             .UseSharedKernelServicesPage(_services)
-            .UseSharedKernelExceptionHandler("BankAccount",
+            .UseSharedKernelExceptionHandler("BankAccounts",
                 exceptionHandler => $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})")
             .UseCors(CorsPolicy)
             .UseRouting()

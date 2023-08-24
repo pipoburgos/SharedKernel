@@ -15,17 +15,17 @@ public static class Result
     public static Result<T> Success<T>(this T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>
-    public static Result<T> Failure<T>(IEnumerable<string> errors) => new(errors);
+    public static Result<T> Failure<T>(IEnumerable<Error> errors) => Result<T>.Create(errors);
 
     /// <summary>  </summary>
-    public static Result<T> Failure<T>(string error) => new(new List<string> { error });
+    public static Result<T> Failure<T>(Error error) => Result<T>.Create(new List<Error> { error });
 
     /// <summary>  </summary>
     public static Result<Unit> Success() => Result<Unit>.Create(Unit);
 
     /// <summary>  </summary>
-    public static Result<Unit> Failure(IEnumerable<string> errors) => new(errors);
+    public static Result<Unit> Failure(IEnumerable<Error> errors) => Result<Unit>.Create(errors);
 
     /// <summary>  </summary>
-    public static Result<Unit> Failure(string error) => new(new List<string> { error });
+    public static Result<Unit> Failure(Error error) => Result<Unit>.Create(new List<Error> { error });
 }

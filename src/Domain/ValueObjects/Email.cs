@@ -26,15 +26,13 @@ public class Email : ValueObject<Email>
     }
 
     /// <summary> </summary>
-    public static Result<Email> CreateResult(string value)
-    {
-        return Result<Email>
-            .Create(default)
+    public static Result<Email> CreateResult(string value) =>
+        Result
+            .Create(value)
             .EnsureAppendError(
-                _ => string.IsNullOrWhiteSpace(value) || value.Contains("@"),
-                "Invalid email")
+                v => string.IsNullOrWhiteSpace(v) || v.Contains("@"),
+                Error.Create("Invalid email", nameof(Email)))
             .Map(_ => new Email(value));
-    }
 
     /// <summary> </summary>
     public string Value { get; private set; } = null!;

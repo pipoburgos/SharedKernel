@@ -1,4 +1,4 @@
-﻿using BankAccounts.Domain.BankAccounts.Exceptions;
+﻿using BankAccounts.Domain.BankAccounts.Errors;
 using BankAccounts.Domain.Services;
 using BankAccounts.Domain.Tests.Data;
 

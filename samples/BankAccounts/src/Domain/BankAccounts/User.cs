@@ -4,7 +4,7 @@
     {
         protected User() { }
 
-        public User(Guid id, string name, string surname, DateTime birthdate) : base(id)
+        internal User(Guid id, string name, string surname, DateTime birthdate) : base(id)
         {
             Name = name;
             Surname = surname;

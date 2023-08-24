@@ -1,5 +1,6 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Factories;
+using BankAccounts.Domain.Tests.Data;
 
 // ReSharper disable ExpressionIsAlwaysNull
 
@@ -18,7 +19,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccountFactory.Create(id, iban, user, movement, now);
+            var createFunction = () => new BankAccount(id, iban, user, movement, now);
 
             // Assert
             createFunction
@@ -38,7 +39,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccountFactory.Create(id, iban, user, movement, now);
+            var createFunction = () => new BankAccount(id, iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -55,7 +56,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccountFactory.Create(id, iban, user, movement, now);
+            var createFunction = () => new BankAccount(id, iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -72,7 +73,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccountFactory.Create(id, iban, user, movement, now);
+            var createFunction = () => new BankAccount(id, iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -85,11 +86,11 @@ namespace BankAccounts.Domain.Tests.Factories
             var id = Guid.NewGuid();
             var iban = Substitute.For<InternationalBankAccountNumber>();
             var user = Substitute.For<User>();
-            var movement = MovementFactory.CreateMovement(Guid.NewGuid(), "concept", 2, DateTime.Now);
+            var movement = MovementFactory.CreateMovement(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccountFactory.Create(id, iban, user, movement, now);
+            var createFunction = () => new BankAccount(id, iban, user, movement, now);
 
             // Assert
             createFunction.Should().NotThrow();
@@ -101,12 +102,12 @@ namespace BankAccounts.Domain.Tests.Factories
             // Arrange
             var id = Guid.NewGuid();
             var iban = Substitute.For<InternationalBankAccountNumber>();
-            var user = Substitute.For<User>();
-            var movement = MovementFactory.CreateMovement(Guid.NewGuid(), "concept", 2, DateTime.Now);
+            var user = UserTestFactory.Create();
+            var movement = MovementFactory.CreateMovement(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var bankAccount = BankAccountFactory.Create(id, iban, user, movement, now);
+            var bankAccount = BankAccountFactory.Create(id, iban, user, movement, now).Value;
 
             // Assert
             var events = bankAccount.PullDomainEvents();
