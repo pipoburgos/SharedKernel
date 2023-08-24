@@ -8,7 +8,7 @@
         /// <summary>
         /// Number of retries
         /// </summary>
-        public int RetryCount { get; set; } = 5;
+        public int RetryCount { get; set; }
 
         /// <summary>  </summary>
         public Func<int, TimeSpan> RetryAttempt()
