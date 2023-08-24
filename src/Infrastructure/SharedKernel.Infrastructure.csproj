@@ -17,7 +17,7 @@
     <PackageTags>C# InMemoryCache CQRS InMemoryCommandBus InMemoryQueryBus InMemoryEventBus InMemoryMutex LDAP SMTP HealthChecks Logger Serializers</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.1.10.4</Version>
+    <Version>7.1.10.5</Version>
   </PropertyGroup>
 
   <ItemGroup>

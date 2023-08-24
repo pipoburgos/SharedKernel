@@ -19,7 +19,7 @@
     <PackageTags>Polly Retry Policy</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.1.10.4</Version>
+    <Version>7.1.10.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
