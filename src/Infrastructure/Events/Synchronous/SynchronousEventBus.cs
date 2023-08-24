@@ -1,9 +1,6 @@
 ﻿using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.Synchronous
 {

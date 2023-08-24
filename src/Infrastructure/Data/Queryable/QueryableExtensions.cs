@@ -7,9 +7,6 @@ using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Extensions;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace SharedKernel.Infrastructure.Data.Queryable

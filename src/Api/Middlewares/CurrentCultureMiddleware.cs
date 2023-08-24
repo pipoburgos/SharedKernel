@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System.Globalization;
-using System.Linq;
-using System.Threading;
 
 namespace SharedKernel.Api.Middlewares
 {

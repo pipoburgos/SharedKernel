@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain.RailwayOrientedProgramming;
-using System.Linq;
 
 namespace SharedKernel.Application.RailwayOrientedProgramming;
 

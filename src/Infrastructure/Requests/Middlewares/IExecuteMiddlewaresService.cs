@@ -1,8 +1,5 @@
 ﻿using SharedKernel.Application.Requests;
 using SharedKernel.Domain.Requests;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 

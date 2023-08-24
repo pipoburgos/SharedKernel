@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
+﻿namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
 {
     /// <summary>  </summary>
     public interface IValidatableObjectService

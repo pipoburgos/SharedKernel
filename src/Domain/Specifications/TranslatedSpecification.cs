@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading;
-using SharedKernel.Domain.Entities.Globalization;
-using SharedKernel.Domain.Specifications.Common;
+﻿using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Domain.Specifications
 {

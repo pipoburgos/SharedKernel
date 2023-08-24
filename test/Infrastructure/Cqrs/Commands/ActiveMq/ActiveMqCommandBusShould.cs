@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.ActiveMq;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SharedKernel.Domain.Entities.Globalization;
+﻿using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Domain.Aggregates
 {

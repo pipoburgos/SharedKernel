@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Domain.Requests;
-using System.Collections.Generic;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands;
 

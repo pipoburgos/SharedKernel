@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using SharedKernel.Application.Documents;
 using SharedKernel.Infrastructure.Documents.Txt;
-using System.IO;
-using System.Linq;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Documents.Txt

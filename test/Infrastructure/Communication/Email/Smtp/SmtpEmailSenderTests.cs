@@ -7,9 +7,6 @@ using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Exceptions;
 using SharedKernel.Testing.Infrastructure;
 using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp

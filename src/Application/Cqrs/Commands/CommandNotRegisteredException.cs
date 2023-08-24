@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.Cqrs.Commands
+﻿namespace SharedKernel.Application.Cqrs.Commands
 {
     /// <summary>
     ///  Exception thrown if the command handler is not registered in the dependency container

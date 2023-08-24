@@ -4,7 +4,6 @@ using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.System;
-using System;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands;

@@ -2,10 +2,6 @@
 using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;

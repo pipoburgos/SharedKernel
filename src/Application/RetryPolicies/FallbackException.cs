@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.RetryPolicies;
+﻿namespace SharedKernel.Application.RetryPolicies;
 
 /// <summary> Retries fails. </summary>
 public class FallbackException : Exception

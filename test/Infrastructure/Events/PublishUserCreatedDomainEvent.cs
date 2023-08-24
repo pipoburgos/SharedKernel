@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SharedKernel.Integration.Tests.Events
+﻿namespace SharedKernel.Integration.Tests.Events
 {
     public class PublishUserCreatedDomainEvent
     {

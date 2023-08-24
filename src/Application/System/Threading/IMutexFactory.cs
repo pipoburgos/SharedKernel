@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.System.Threading
+﻿namespace SharedKernel.Application.System.Threading
 {
     /// <summary>
     /// Create mutex objects

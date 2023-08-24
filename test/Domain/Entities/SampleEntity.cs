@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain.Entities;
-using System;
 
 namespace SharedKernel.Domain.Tests.Entities
 {

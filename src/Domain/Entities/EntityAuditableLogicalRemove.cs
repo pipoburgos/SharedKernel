@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Domain.Entities
+﻿namespace SharedKernel.Domain.Entities
 {
     /// <summary>
     /// 

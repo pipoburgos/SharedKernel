@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace SharedKernel.Domain.Entities
 {
     /// <summary>  </summary>

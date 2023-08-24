@@ -1,7 +1,5 @@
 ﻿using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
-using System;
-using System.Threading;
 
 namespace SharedKernel.Testing.Docker
 {

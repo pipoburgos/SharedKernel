@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Extensions
+﻿namespace SharedKernel.Application.Extensions
 {
     /// <summary>
     /// List extensions

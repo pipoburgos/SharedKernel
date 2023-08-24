@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
 public readonly struct Result<T>

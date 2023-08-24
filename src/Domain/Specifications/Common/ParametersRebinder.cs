@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
-
-namespace SharedKernel.Domain.Specifications.Common
+﻿namespace SharedKernel.Domain.Specifications.Common
 {
     /// <inheritdoc />
     /// <summary>

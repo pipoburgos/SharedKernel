@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SharedKernel.Domain.Validators
+﻿namespace SharedKernel.Domain.Validators
 {
     /// <summary> </summary>
     public class ValidationResult

@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Transactions;
-using System;
 using System.Diagnostics;
 using System.Transactions;
 

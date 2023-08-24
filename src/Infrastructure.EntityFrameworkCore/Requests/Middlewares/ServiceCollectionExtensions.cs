@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;

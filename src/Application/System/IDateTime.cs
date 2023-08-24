@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System
 {
     /// <summary> Date time manager. </summary>
     public interface IDateTime

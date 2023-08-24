@@ -3,8 +3,6 @@ using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Cqrs.Queries.Kendo;
 using SharedKernel.Application.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Api.Grids.KendoGrid
 {

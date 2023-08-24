@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Infrastructure.Exceptions;
-using System;
 
 namespace SharedKernel.Infrastructure.Communication.Email
 {

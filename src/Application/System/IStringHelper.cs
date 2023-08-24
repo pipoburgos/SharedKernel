@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System
 {
     /// <summary>
     /// 

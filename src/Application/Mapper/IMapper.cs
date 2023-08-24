@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SharedKernel.Application.Mapper;
+﻿namespace SharedKernel.Application.Mapper;
 
 /// <summary> Generic type adapter for mapping objects. </summary>
 public interface IMapper

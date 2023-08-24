@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.Cqrs.Commands.Handlers
+﻿namespace SharedKernel.Application.Cqrs.Commands.Handlers
 {
     /// <summary>
     /// Handler of a command that does not return anything

@@ -1,10 +1,4 @@
-﻿using SharedKernel.Application.Requests;
-using SharedKernel.Domain.Requests;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.Cqrs.Middlewares
+﻿namespace SharedKernel.Application.Cqrs.Middlewares
 {
     /// <summary>
     /// Middleware that runs both on the command bus, as well as on the query and event bus

@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
-using System;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.InMemory

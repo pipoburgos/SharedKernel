@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
 // ReSharper disable once PartialTypeWithSinglePart

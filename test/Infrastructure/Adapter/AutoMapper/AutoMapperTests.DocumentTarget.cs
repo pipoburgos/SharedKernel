@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
+﻿namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
 {
     public partial class AutoMapperTests
     {

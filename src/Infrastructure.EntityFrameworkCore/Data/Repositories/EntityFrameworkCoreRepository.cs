@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Domain.Aggregates;
+﻿using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Globalization;
 using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
 {

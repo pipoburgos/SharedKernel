@@ -3,7 +3,6 @@ using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
-using System;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries

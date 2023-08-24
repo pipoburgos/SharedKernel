@@ -1,8 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Entities;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {

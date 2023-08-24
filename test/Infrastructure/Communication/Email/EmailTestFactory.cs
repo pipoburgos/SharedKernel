@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Communication.Email;
-using System.Collections.Generic;
 
 namespace SharedKernel.Integration.Tests.Communication.Email
 {

@@ -2,10 +2,6 @@
 using Microsoft.Data.SqlClient;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Domain.Entities.Globalization
+﻿namespace SharedKernel.Domain.Entities.Globalization
 {
     /// <summary>
     /// 

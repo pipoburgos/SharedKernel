@@ -1,8 +1,5 @@
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Tests.Users;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Events
 {

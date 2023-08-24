@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Reporting
+﻿namespace SharedKernel.Application.Reporting
 {
     /// <summary>
     /// SQL Server Reporting Services report renderer (rdlc extension)

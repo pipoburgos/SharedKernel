@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace SharedKernel.Domain.Specifications.Common
+﻿namespace SharedKernel.Domain.Specifications.Common
 {
     /// <summary>
     /// Extension methods for adding AND and OR with parameters rebind

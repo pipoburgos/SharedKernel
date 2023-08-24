@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using SharedKernel.Application.Caching;
 using SharedKernel.Application.Serializers;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Caching;
 

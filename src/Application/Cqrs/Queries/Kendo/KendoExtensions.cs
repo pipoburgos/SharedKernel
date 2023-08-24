@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Entities;
-using System.Linq;
 
 namespace SharedKernel.Application.Cqrs.Queries.Kendo
 {

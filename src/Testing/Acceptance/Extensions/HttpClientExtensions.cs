@@ -1,13 +1,8 @@
 ﻿using FluentAssertions;
 using Newtonsoft.Json;
 using SharedKernel.Testing.Acceptance.Exceptions;
-using System;
-using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Testing.Acceptance.Extensions
 {

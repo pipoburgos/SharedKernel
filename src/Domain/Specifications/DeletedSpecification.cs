@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Specifications.Common;
-
-namespace SharedKernel.Domain.Specifications
+﻿namespace SharedKernel.Domain.Specifications
 {
     /// <summary>
     /// 

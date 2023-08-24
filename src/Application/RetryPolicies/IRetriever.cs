@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.RetryPolicies;
+﻿namespace SharedKernel.Application.RetryPolicies;
 
 /// <summary>
 /// Retry retriever provides an ability to automatically re-invoke a failed operation

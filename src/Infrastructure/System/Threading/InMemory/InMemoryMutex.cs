@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using SharedKernel.Application.System.Threading;
+﻿using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.System.Threading.InMemory
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Domain.Validators
+﻿namespace SharedKernel.Domain.Validators
 {
     /// <summary> Validate entity or agregate root. </summary>
     public interface IValidatableObject

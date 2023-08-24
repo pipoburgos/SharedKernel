@@ -13,10 +13,16 @@
   <ItemGroup>
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Entities" />
+    <Using Include="SharedKernel.Domain.Entities.Paged" />
+    <Using Include="SharedKernel.Domain.Events" />
     <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Repositories" />
+    <Using Include="SharedKernel.Domain.Requests" />
     <Using Include="SharedKernel.Domain.Specifications" />
+    <Using Include="SharedKernel.Domain.Specifications.Common" />
     <Using Include="SharedKernel.Domain.ValueObjects" />
+    <Using Include="System.Linq.Expressions" />
+    <Using Remove="System.Net.Http"/>
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Cqrs.Queries.Contracts
+﻿namespace SharedKernel.Application.Cqrs.Queries.Contracts
 {
     /// <summary> A paged result. </summary>
     /// <typeparam name="T"></typeparam>

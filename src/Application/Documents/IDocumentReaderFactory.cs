@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Documents
+﻿namespace SharedKernel.Application.Documents
 {
     /// <summary>  </summary>
     public interface IDocumentReaderFactory

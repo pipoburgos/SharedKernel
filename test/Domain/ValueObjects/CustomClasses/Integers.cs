@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain.ValueObjects;
-using System.Collections.Generic;
 
 namespace SharedKernel.Domain.Tests.ValueObjects.CustomClasses;
 

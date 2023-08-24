@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using SharedKernel.Application.Cqrs.Queries.Entities;
+﻿using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Exceptions;
-using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Specifications.Common;
+using System.Linq.Expressions;
 
 namespace SharedKernel.Application.Extensions
 {

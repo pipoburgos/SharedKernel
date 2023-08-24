@@ -6,10 +6,6 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Application.RailwayOrientedProgramming;
 using SharedKernel.Application.Validator;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Api.Controllers
 {

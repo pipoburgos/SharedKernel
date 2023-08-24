@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 

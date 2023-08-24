@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.Tests.Reflection
+﻿namespace SharedKernel.Application.Tests.Reflection
 {
     internal class TestObjectPrivateSetters
     {

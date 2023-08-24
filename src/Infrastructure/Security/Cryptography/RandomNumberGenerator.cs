@@ -1,5 +1,4 @@
-﻿using System;
-using SharedKernel.Application.Security.Cryptography;
+﻿using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {

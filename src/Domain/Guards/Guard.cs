@@ -1,9 +1,5 @@
-﻿using System;
-#if NET6_0 || NET7_0
+﻿#if NET6_0 || NET7_0
 using System.Runtime.CompilerServices;
-#endif
-#if !NET40 && !NET45 && !NET451 && !NET452 && !NET46 && !NET461
-using System.Collections.Generic;
 #endif
 
 namespace SharedKernel.Domain.Guards;

@@ -3,8 +3,8 @@
 	<PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>Elasticsearch infrastructure implementations</Description>

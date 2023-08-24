@@ -12,10 +12,7 @@ using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Integration.Tests.Cqrs.Commands;
 using SharedKernel.Testing.Infrastructure;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Events;
 

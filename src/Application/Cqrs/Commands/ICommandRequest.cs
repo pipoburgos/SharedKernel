@@ -1,7 +1,4 @@
-﻿using SharedKernel.Application.Requests;
-using SharedKernel.Domain.Requests;
-
-namespace SharedKernel.Application.Cqrs.Commands
+﻿namespace SharedKernel.Application.Cqrs.Commands
 {
     /// <summary>
     /// Command request that does not return anything

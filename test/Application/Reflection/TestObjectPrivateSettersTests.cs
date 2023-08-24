@@ -1,5 +1,4 @@
-﻿using System;
-using SharedKernel.Application.Reflection;
+﻿using SharedKernel.Application.Reflection;
 using Xunit;
 
 namespace SharedKernel.Application.Tests.Reflection

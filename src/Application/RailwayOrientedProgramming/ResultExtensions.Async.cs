@@ -1,7 +1,5 @@
 ﻿#if !NET40
 using SharedKernel.Domain.RailwayOrientedProgramming;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Application.RailwayOrientedProgramming;
 

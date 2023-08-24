@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi;
-using System;
 using System.Text;
 
 namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions

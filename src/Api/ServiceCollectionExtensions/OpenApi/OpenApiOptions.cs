@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
+﻿namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 {
     /// <summary>
     /// Open api options

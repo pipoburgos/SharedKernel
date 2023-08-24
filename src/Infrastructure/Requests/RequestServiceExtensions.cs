@@ -4,9 +4,6 @@ using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Requests.Middlewares;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Requests;

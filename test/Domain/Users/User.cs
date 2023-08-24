@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Domain.Aggregates;
-using System;
-using System.Collections.Generic;
+
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace SharedKernel.Domain.Tests.Users

@@ -1,6 +1,3 @@
-using SharedKernel.Domain.Requests;
-using System.Collections.Generic;
-
 namespace SharedKernel.Domain.Events;
 
 /// <summary> Generic domain event. </summary>

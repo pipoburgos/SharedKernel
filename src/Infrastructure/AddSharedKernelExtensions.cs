@@ -11,7 +11,6 @@ using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Settings;
 using SharedKernel.Infrastructure.System;
-using SharedKernel.Infrastructure.System.Threading;
 
 namespace SharedKernel.Infrastructure;
 
@@ -33,7 +32,7 @@ public static class AddSharedKernelExtensions
             .AddTransient<IMd5Encryptor, Md5Encryptor>()
             .AddTransient<IGuid, GuidGenerator>()
             .AddTransient<IIdentityService, DefaultIdentityService>()
-            .AddTransient<IParallel, Parallel>()
+            .AddTransient<IParallel, System.Threading.Parallel>()
             .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
             .AddTransient<ISha256, Sha256>()
             .AddTransient<IStreamHelper, StreamHelper>()

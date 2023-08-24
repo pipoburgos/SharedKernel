@@ -1,9 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Requests;
-using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 

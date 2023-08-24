@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
+﻿namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
 {
     /// <summary>
     /// Authentication configuration

@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SharedKernel.Application.UnitOfWorks;
-using System;
-using System.Linq;
 #if !NET6_0 && !NET7_0 && !NET8_0
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 #endif

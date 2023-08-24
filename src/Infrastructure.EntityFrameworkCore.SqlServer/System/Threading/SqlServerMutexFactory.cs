@@ -1,7 +1,5 @@
 ﻿using Medallion.Threading.SqlServer;
 using SharedKernel.Application.System.Threading;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading
 {

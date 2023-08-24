@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.System

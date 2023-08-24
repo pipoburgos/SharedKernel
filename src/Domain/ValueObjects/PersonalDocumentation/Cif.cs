@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
+﻿namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
 {
     /// <summary> CIF </summary>
     public class Cif : ValueObject<Cif>

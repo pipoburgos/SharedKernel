@@ -1,7 +1,5 @@
 ﻿#if NET47_OR_GREATER || NET5_0_OR_GREATER || NETSTANDARD
 
-using System.Linq;
-
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary>  </summary>

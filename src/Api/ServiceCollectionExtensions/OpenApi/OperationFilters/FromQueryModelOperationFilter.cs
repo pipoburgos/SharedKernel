@@ -3,10 +3,6 @@ using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters
 {

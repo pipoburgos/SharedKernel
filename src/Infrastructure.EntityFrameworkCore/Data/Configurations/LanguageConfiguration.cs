@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations

@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Specifications.Common;
-
-namespace SharedKernel.Domain.Repositories
+﻿namespace SharedKernel.Domain.Repositories
 {
     /// <summary>
     /// 

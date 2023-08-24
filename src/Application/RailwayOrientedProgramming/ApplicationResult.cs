@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.RailwayOrientedProgramming;
+﻿namespace SharedKernel.Application.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
 public static class ApplicationResult

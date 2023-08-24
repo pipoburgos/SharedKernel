@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Infrastructure.Data
+﻿namespace SharedKernel.Infrastructure.Data
 {
     /// <summary>
     /// <example>

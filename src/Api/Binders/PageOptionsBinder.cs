@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using FilterOperator = SharedKernel.Application.Cqrs.Queries.Entities.FilterOperator;
 
 namespace SharedKernel.Api.Binders;

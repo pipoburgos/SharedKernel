@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
+﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Entities;
@@ -7,12 +6,7 @@ using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.Queryable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 #if !NET6_0 && !NET7_0 && !NET8_0
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 #endif

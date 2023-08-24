@@ -7,8 +7,6 @@ using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.Dapper.Data.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Dapper.Queries

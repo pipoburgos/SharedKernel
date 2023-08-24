@@ -1,5 +1,4 @@
-﻿using System;
-using SharedKernel.Domain.Exceptions;
+﻿using SharedKernel.Domain.Exceptions;
 
 namespace SharedKernel.Infrastructure.Exceptions
 {

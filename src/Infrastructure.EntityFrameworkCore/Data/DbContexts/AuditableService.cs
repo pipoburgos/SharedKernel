@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
 {

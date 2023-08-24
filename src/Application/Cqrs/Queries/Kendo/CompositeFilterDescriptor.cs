@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Cqrs.Queries.Kendo;
+﻿namespace SharedKernel.Application.Cqrs.Queries.Kendo;
 
 /// <summary> Filtros </summary>
 public class CompositeFilterDescriptor

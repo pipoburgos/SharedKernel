@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿
 // ReSharper disable StringLiteralTypo
 
 namespace SharedKernel.Domain.Entities

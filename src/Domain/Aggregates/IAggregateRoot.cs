@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using SharedKernel.Domain.Events;
-
-namespace SharedKernel.Domain.Aggregates
+﻿namespace SharedKernel.Domain.Aggregates
 {
     /// <summary>
     /// This root aggregate contains your domain identifier and events

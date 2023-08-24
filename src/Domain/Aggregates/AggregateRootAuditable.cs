@@ -1,7 +1,4 @@
-﻿using System;
-using SharedKernel.Domain.Entities;
-
-namespace SharedKernel.Domain.Aggregates
+﻿namespace SharedKernel.Domain.Aggregates
 {
     /// <summary>
     /// Root aggregate with creation and modification audit

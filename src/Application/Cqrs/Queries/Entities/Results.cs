@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Cqrs.Queries.Entities
+﻿namespace SharedKernel.Application.Cqrs.Queries.Entities
 {
     /// <summary>
     /// 

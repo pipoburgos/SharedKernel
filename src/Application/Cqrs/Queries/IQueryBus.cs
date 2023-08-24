@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.Cqrs.Queries
+﻿namespace SharedKernel.Application.Cqrs.Queries
 {
     /// <summary>
     /// Query bus abstraction

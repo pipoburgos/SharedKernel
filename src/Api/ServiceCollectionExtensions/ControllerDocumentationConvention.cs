@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System.Linq;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {

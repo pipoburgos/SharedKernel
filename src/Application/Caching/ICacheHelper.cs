@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.Caching
+﻿namespace SharedKernel.Application.Caching
 {
     /// <summary>
     /// Cache helper

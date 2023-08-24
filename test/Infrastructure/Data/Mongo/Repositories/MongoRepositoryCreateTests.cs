@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Mongo.Data;
 using SharedKernel.Testing.Infrastructure;
-using System.Linq;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories

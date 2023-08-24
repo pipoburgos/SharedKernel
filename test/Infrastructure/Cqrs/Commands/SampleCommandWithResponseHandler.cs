@@ -1,6 +1,4 @@
 ﻿using SharedKernel.Application.Cqrs.Commands.Handlers;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands
 {

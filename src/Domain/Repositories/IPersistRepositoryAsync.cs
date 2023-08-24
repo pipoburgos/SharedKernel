@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Domain.Repositories
+﻿namespace SharedKernel.Domain.Repositories
 {
     /// <summary>
     /// 

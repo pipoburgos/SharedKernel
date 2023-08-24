@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.Validator;
+﻿using SharedKernel.Application.Validator;
 using DataAnno = System.ComponentModel.DataAnnotations;
 using IValidatableObject = SharedKernel.Domain.Validators.IValidatableObject;
 using ValidationContext = SharedKernel.Domain.Validators.ValidationContext;

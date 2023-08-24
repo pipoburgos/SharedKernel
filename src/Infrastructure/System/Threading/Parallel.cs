@@ -1,11 +1,6 @@
 ﻿using SharedKernel.Application.System.Threading;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 #if !NET6_0_OR_GREATER
 using System.Collections.Concurrent;
-using System.Linq;
 #endif
 
 namespace SharedKernel.Infrastructure.System.Threading

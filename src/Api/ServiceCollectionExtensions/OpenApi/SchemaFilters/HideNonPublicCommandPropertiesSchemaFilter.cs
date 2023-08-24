@@ -1,7 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using SharedKernel.Application.Cqrs.Commands;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Linq;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters
 {

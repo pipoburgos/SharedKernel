@@ -4,9 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer

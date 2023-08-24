@@ -1,10 +1,4 @@
-﻿#if NET46_OR_GREATER || NET5_OR_GREATER || NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-using System;
-using System.Threading;
-#endif
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System
 {
     /// <summary>Gets a task that has already completed successfully.</summary>
     /// <returns>The successfully completed task.</returns>

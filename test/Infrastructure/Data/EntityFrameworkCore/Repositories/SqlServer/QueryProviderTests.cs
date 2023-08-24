@@ -1,15 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
 #if NET461 || NETSTANDARD2_1 || NETCOREAPP3_1
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Cqrs.Queries.Entities;

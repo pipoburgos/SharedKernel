@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.Mapper;
+﻿namespace SharedKernel.Application.Mapper;
 
 /// <summary> Mapper factory. </summary>
 public static class MapperFactory

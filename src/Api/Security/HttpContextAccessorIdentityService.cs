@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using SharedKernel.Application.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace SharedKernel.Api.Security

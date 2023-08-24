@@ -5,8 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.Linq;
 using System.Net;
 using System.Security.Authentication;
 

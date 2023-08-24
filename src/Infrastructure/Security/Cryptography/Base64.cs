@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography

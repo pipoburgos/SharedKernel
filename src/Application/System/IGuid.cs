@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System
 {
     /// <summary>
     /// Random Guid generator

@@ -1,7 +1,5 @@
 ﻿#if !NET6_0 && !NET7_0 && !NET8_0
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 

@@ -1,9 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reflection;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters

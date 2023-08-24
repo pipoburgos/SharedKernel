@@ -1,6 +1,4 @@
 ﻿using SharedKernel.Application.Documents;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Txt;

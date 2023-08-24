@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using SharedKernel.Domain.Aggregates;
-
-namespace SharedKernel.Domain.Repositories
+﻿namespace SharedKernel.Domain.Repositories
 {
     /// <summary>
     /// 

@@ -1,10 +1,6 @@
 ﻿#if !NETSTANDARD2_1
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SharedKernel.Infrastructure.System
 {

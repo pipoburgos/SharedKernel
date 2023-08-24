@@ -1,6 +1,4 @@
-﻿using SharedKernel.Application.Requests;
-
-namespace SharedKernel.Application.Cqrs.Queries
+﻿namespace SharedKernel.Application.Cqrs.Queries
 {
     /// <summary>
     /// Query bus request abstaction

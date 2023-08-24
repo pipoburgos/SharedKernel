@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using SharedKernel.Domain.Entities.Globalization;
+﻿using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Domain.Specifications.Common
 {

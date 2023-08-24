@@ -4,7 +4,6 @@ using BankAccounts.Infrastructure.Shared.Data;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
-using System.Linq;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries
 {

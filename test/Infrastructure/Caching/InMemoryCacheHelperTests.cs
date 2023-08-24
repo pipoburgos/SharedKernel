@@ -4,8 +4,6 @@ using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Testing.Infrastructure;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching

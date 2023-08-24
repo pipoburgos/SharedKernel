@@ -1,8 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Security;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands;
 

@@ -1,12 +1,8 @@
 ﻿using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Settings;
 using SharedKernel.Infrastructure.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp
 {

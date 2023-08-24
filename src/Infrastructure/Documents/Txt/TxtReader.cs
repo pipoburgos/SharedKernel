@@ -1,8 +1,5 @@
 ﻿using SharedKernel.Application.Documents;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Txt;
 

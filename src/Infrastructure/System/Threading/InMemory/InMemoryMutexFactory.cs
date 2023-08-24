@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using SharedKernel.Application.System.Threading;
+﻿using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.System.Threading.InMemory
 {

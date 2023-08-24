@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Serializers;
-using System.IO;
 using System.Runtime.Serialization;
 
 namespace SharedKernel.Infrastructure.Serializers;

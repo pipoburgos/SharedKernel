@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SharedKernel.Domain.Extensions
+﻿namespace SharedKernel.Domain.Extensions
 {
     /// <summary> Checks values of an object. </summary>
     public static class Assert

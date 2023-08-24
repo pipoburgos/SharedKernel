@@ -6,7 +6,6 @@ using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Requests;
 using SharedKernel.Infrastructure.System;
-using System;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Events;

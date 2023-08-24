@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Application Layer</Description>
@@ -28,6 +29,14 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Domain\SharedKernel.Domain.csproj" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <Using Include="SharedKernel.Application.Requests" />
+    <Using Include="SharedKernel.Domain.Aggregates" />
+    <Using Include="SharedKernel.Domain.Events" />
+    <Using Include="SharedKernel.Domain.Requests" />
+    <Using Remove="System.Net.Http"/>
+  </ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="Exceptions\ExceptionCodes.resx">

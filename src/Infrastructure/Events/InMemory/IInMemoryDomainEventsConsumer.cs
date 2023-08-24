@@ -1,7 +1,4 @@
 using SharedKernel.Domain.Events;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {

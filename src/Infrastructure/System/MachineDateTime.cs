@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.System;
-using System;
 
 namespace SharedKernel.Infrastructure.System
 {

@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Mapper;
 using SharedKernel.Infrastructure.AutoMapper;
 using SharedKernel.Testing.Infrastructure;
-using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Adapter.AutoMapper

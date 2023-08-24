@@ -9,9 +9,6 @@ using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi
 {

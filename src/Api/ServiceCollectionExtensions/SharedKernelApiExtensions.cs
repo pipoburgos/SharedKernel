@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prometheus;
-using System;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;

@@ -1,14 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.System;
+﻿using SharedKernel.Application.System;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using NotImplementedException = System.NotImplementedException;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories

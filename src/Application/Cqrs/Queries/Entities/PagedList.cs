@@ -1,6 +1,4 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SharedKernel.Application.Cqrs.Queries.Entities
 {

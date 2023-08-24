@@ -1,9 +1,6 @@
 ﻿using BankAccounts.Infrastructure.Shared;
 using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;

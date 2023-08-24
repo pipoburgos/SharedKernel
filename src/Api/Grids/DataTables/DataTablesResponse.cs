@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
-using System.Collections.Generic;
 
 namespace SharedKernel.Api.Grids.DataTables
 {

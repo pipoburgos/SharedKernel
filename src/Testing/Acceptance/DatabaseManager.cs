@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Testing.Acceptance.Exceptions;
-using System;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Testing.Acceptance
 {

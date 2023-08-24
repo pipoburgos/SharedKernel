@@ -1,7 +1,4 @@
-﻿using System;
-using SharedKernel.Domain.Aggregates;
-
-namespace SharedKernel.Domain.Entities
+﻿namespace SharedKernel.Domain.Entities
 {
     /// <summary>
     /// 

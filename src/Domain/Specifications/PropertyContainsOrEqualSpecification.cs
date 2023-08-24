@@ -1,7 +1,4 @@
-﻿using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Linq.Expressions;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace SharedKernel.Domain.Specifications
 {

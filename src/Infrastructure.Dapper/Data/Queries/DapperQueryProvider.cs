@@ -3,11 +3,7 @@ using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 {

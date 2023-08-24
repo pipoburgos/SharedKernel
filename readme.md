@@ -4,6 +4,10 @@ This is a shared kernel implementation [based on hgraca post](https://herbertogr
 
 [Domain Driven Design basics in spanish.](https://github.com/jatubio/5minutos_laravel/wiki/Resumen-sobre-DDD.-Domain-Driven-Design)
 
+## 𝗦𝘁𝗮𝘁𝘀
+
+![github stats](https://github-readme-stats.vercel.app/api?username=pipoburgos&show_icons=true&theme=dracula)
+
 ### Project content:
   - CQRS with Command and Query bus. (InMemory).
   - Event sourcing with Events and Event Bus interface. (InMemoryEventBus, RedisEventBus and RabbitMqEventBus implementations)

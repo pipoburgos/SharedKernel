@@ -5,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Api.Security;
 using SharedKernel.Application.Security;
-using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions
 {

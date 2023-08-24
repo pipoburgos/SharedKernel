@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Testing.Docker;
-using System;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Hooks;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.System.Threading
+﻿namespace SharedKernel.Application.System.Threading
 {
     /// <summary>
     /// Executes a for each operation on an <see cref="IEnumerable{TSource}"/> in which iterations may run in parallel

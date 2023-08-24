@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SharedKernel.Domain.Entities.Paged
+﻿namespace SharedKernel.Domain.Entities.Paged
 {
     /// <summary>
     /// 

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Domain.Aggregates;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts

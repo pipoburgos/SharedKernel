@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Api.Grids.KendoGrid
+﻿namespace SharedKernel.Api.Grids.KendoGrid
 {
     /// <summary>
     /// 

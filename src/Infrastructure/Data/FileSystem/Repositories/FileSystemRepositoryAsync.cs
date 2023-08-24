@@ -2,11 +2,6 @@
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 #pragma warning disable 693
 

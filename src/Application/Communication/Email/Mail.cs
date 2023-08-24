@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SharedKernel.Application.Communication.Email
+﻿namespace SharedKernel.Application.Communication.Email
 {
     /// <summary> Email. </summary>
     public class Mail

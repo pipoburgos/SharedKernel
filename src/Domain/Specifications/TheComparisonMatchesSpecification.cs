@@ -1,8 +1,4 @@
-﻿using SharedKernel.Domain.Entities.Paged;
-using SharedKernel.Domain.Extensions;
-using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Linq.Expressions;
+﻿using SharedKernel.Domain.Extensions;
 using System.Reflection;
 
 namespace SharedKernel.Domain.Specifications

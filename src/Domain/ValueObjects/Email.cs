@@ -1,7 +1,4 @@
-﻿using SharedKernel.Domain.RailwayOrientedProgramming;
-using System;
-
-namespace SharedKernel.Domain.ValueObjects;
+﻿namespace SharedKernel.Domain.ValueObjects;
 
 /// <summary> </summary>
 public class Email : ValueObject<Email>

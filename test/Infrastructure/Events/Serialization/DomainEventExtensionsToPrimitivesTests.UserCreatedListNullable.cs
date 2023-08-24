@@ -1,6 +1,4 @@
 ﻿using SharedKernel.Domain.Events;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SharedKernel.Integration.Tests.Events.Serialization
 {

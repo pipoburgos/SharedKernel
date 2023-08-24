@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<Authors>Roberto Fernández Salinas</Authors>
 		<Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Distributed Services Layer</Description>

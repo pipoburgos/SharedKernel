@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SharedKernel.Application.Communication.Email
+﻿namespace SharedKernel.Application.Communication.Email
 {
     /// <summary> An email attachment. </summary>
     public class MailAttachment

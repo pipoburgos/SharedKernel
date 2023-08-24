@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain.Entities;
-using System;
 using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;

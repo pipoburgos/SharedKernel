@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Application.Utils.Maths
+﻿namespace SharedKernel.Application.Utils.Maths
 {
     /// <summary>
     /// 

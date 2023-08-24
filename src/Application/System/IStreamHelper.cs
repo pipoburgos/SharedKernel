@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System
 {
     /// <summary>
     /// 

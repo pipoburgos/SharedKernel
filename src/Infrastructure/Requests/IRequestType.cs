@@ -1,5 +1,3 @@
-using System;
-
 namespace SharedKernel.Infrastructure.Requests;
 
 /// <summary>  </summary>

@@ -1,6 +1,4 @@
-﻿using SharedKernel.Domain.Aggregates;
-
-namespace SharedKernel.Domain.Entities.Globalization
+﻿namespace SharedKernel.Domain.Entities.Globalization
 {
     /// <summary>
     /// 

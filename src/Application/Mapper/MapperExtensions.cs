@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace SharedKernel.Application.Mapper;
+﻿namespace SharedKernel.Application.Mapper;
 
 /// <summary> Type adapter extensions for manage collections. </summary>
 public static class MapperExtensions

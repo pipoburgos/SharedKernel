@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace SharedKernel.Domain.Tests.Shared
 {
     public static class ListMother

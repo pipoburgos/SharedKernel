@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-#if !NET40
+﻿#if !NET40
 using System.Security.Claims;
 #endif
 

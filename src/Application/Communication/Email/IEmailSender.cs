@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Application.Communication.Email
+﻿namespace SharedKernel.Application.Communication.Email
 {
     /// <summary> Email sender manager. </summary>
     public interface IEmailSender

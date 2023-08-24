@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Testing.Acceptance.Exceptions
+﻿namespace SharedKernel.Testing.Acceptance.Exceptions
 {
     public class SaveChangesExceptionHandler
     {

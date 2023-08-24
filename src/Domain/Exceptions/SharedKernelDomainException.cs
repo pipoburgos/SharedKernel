@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharedKernel.Domain.Exceptions
+﻿namespace SharedKernel.Domain.Exceptions
 {
     /// <summary>
     /// 

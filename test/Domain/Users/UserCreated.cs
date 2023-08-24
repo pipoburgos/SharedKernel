@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SharedKernel.Domain.Events;
+﻿using SharedKernel.Domain.Events;
 
 namespace SharedKernel.Domain.Tests.Users
 {

@@ -2,8 +2,6 @@
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
-using System.Collections.Generic;
-using System.IO;
 
 #pragma warning disable 693
 

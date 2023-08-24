@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.ActiveDirectory;
 using System.DirectoryServices;
-using System.Linq;
 using SharedKernel.Application.Settings;
 
 namespace SharedKernel.Infrastructure.ActiveDirectory

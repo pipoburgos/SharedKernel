@@ -1,7 +1,5 @@
 ﻿using SharedKernel.Application.Documents;
-using System;
 using System.Globalization;
-using System.Linq;
 using System.Xml.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Xml

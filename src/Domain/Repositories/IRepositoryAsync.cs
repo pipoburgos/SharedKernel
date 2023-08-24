@@ -1,6 +1,4 @@
-﻿using SharedKernel.Domain.Aggregates;
-
-namespace SharedKernel.Domain.Repositories
+﻿namespace SharedKernel.Domain.Repositories
 {
     /// <summary>
     /// An asynchronous generic repository pattern with all crud actions

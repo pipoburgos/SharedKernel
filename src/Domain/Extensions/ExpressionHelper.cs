@@ -1,29 +1,12 @@
-﻿using SharedKernel.Domain.Entities.Paged;
-using SharedKernel.Domain.Specifications;
-using SharedKernel.Domain.Specifications.Common;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq.Expressions;
+﻿using System.Globalization;
 using System.Reflection;
 
 namespace SharedKernel.Domain.Extensions;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>  </summary>
 public static class ExpressionHelper
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="propertyInfo"></param>
-    /// <param name="operator"></param>
-    /// <param name="value"></param>
-    /// <param name="utcDates"></param>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <summary>  </summary>
     public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo propertyInfo, Operator? @operator,
         string value, bool utcDates = true)
     {

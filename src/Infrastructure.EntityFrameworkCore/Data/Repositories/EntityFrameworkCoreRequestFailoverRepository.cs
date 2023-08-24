@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 

@@ -1,7 +1,5 @@
 ﻿using Medallion.Threading.Postgres;
 using SharedKernel.Application.System.Threading;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.System.Threading
 {

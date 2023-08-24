@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
+﻿namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
 /// <summary>  </summary>
 public interface IRequestFailoverRepository
