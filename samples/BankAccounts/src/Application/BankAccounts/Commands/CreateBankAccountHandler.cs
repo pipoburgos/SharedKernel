@@ -22,13 +22,15 @@ internal class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccou
         _eventBus = eventBus;
     }
 
-    public Task<ApplicationResult<ApplicationUnit>> Handle(CreateBankAccount command, CancellationToken cancellationToken) =>
+    public Task<ApplicationResult<ApplicationUnit>> Handle(CreateBankAccount command,
+        CancellationToken cancellationToken) =>
         Result
             .Create(InternationalBankAccountNumber.Create("ES14", "1234", "12", "32", "0123456789"))
             .Combine(
                 User.Create(command.OwnerId, command.Name, command.Surname, command.Birthdate),
                 Movement.Create(command.MovementId, "Initial movement", command.Amount, _dateTime.UtcNow))
-            .Bind(t => BankAccount.Create(command.Id, t.Item1.Value, t.Item2, t.Item3, _dateTime.UtcNow))
+            .Bind(t => BankAccount.Create(BankAccountId.Create(command.Id), t.Item1.Value, t.Item2, t.Item3,
+                _dateTime.UtcNow))
             .Tap(bankAccount => _bankAccountRepository.AddAsync(bankAccount, cancellationToken))
             .Tap(_ => _unitOfWork.SaveChangesAsync(cancellationToken))
             .Tap(bankAccount => _eventBus.Publish(bankAccount.PullDomainEvents(), cancellationToken))

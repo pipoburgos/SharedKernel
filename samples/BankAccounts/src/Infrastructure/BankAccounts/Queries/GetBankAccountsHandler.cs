@@ -20,7 +20,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Queries
                 .GetQuery<BankAccount>()
                 .Select(x => new BankAccountItem
                 {
-                    Id = x.Id
+                    Id = x.Id.Value
                 })
                 .ToPagedListAsync(query.PageOptions!, cancellationToken);
         }

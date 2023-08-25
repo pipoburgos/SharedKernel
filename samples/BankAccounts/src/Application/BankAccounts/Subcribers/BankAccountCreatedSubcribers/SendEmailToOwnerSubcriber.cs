@@ -1,4 +1,5 @@
-﻿using BankAccounts.Domain.BankAccounts.Events;
+﻿using BankAccounts.Domain.BankAccounts;
+using BankAccounts.Domain.BankAccounts.Events;
 using BankAccounts.Domain.BankAccounts.Repository;
 using SharedKernel.Application.Communication.Email;
 
@@ -19,7 +20,7 @@ namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSub
 
         public async Task On(BankAccountCreated @event, CancellationToken cancellationToken)
         {
-            var bankAccountId = new Guid(@event.AggregateId);
+            var bankAccountId = BankAccountId.Create(new Guid(@event.AggregateId));
             var bankAccount = await _bankAccountRepository.GetByIdAsync(bankAccountId, cancellationToken);
 
             var email = new Mail("a@a.es", "Bank account created", bankAccount.InternationalBankAccountNumber.ToString());

@@ -22,6 +22,6 @@
 
         public DateTime Date { get; private set; }
 
-        public Guid BankAccountId { get; private set; }
+        public BankAccountId BankAccountId { get; private set; }
     }
 }

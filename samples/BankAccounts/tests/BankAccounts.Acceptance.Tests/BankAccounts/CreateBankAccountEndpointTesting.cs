@@ -34,7 +34,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
             _bankAccountClientFactory
                 .GetNewDbContext()
                 .Set<BankAccount>()
-                .Any(x => x.Id == bankAccountId)
+                .Any(x => x.Id == BankAccountId.Create(bankAccountId))
                 .Should()
                 .BeTrue();
         }

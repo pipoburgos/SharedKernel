@@ -11,7 +11,7 @@ namespace BankAccounts.Domain.Tests.Factories
         public void CheckBankAccountDefaultId()
         {
             // Arrange
-            Guid id = default;
+            BankAccountId id = default;
             InternationalBankAccountNumber iban = default;
             User user = default;
             Movement movement = default;
@@ -38,7 +38,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(id, iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -55,7 +55,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(id, iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -72,7 +72,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(id, iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -89,7 +89,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(id, iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
 
             // Assert
             createFunction.Should().NotThrow();
@@ -106,7 +106,7 @@ namespace BankAccounts.Domain.Tests.Factories
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var bankAccount = BankAccount.Create(id, iban, user, movement, now).Value;
+            var bankAccount = BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now).Value;
 
             // Assert
             var events = bankAccount.PullDomainEvents();

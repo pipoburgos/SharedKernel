@@ -4,7 +4,7 @@ using BankAccounts.Domain.BankAccounts.Specifications;
 
 namespace BankAccounts.Domain.BankAccounts
 {
-    internal class BankAccount : AggregateRoot<Guid>
+    internal class BankAccount : AggregateRoot<BankAccountId>
     {
         private readonly List<Movement> _movements;
 
@@ -13,7 +13,7 @@ namespace BankAccounts.Domain.BankAccounts
             _movements = new List<Movement>();
         }
 
-        protected BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
+        protected BankAccount(BankAccountId id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
             Movement initialMovement) : base(id)
         {
             Guard.ThrowIfNullOrDefault(id);
@@ -25,7 +25,7 @@ namespace BankAccounts.Domain.BankAccounts
             _movements = new List<Movement> { initialMovement };
         }
 
-        public static Result<BankAccount> Create(Guid id, InternationalBankAccountNumber accountNumber, User owner,
+        public static Result<BankAccount> Create(BankAccountId id, InternationalBankAccountNumber accountNumber, User owner,
             Movement initialMovement, DateTime now) =>
             Result
                 .Create(owner)

@@ -1,4 +1,5 @@
 ﻿using BankAccounts.Application.BankAccounts.Commands;
+using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators
@@ -9,7 +10,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators
         {
             RuleFor(e => e.Id)
                 .NotEmpty()
-                .MustAsync(async (prop, c) => !await bankAccountRepository.AnyAsync(prop, c));
+                .MustAsync(async (prop, c) => !await bankAccountRepository.AnyAsync(BankAccountId.Create(prop), c));
 
             RuleFor(e => e.Name)
                 .NotEmpty()

@@ -1,4 +1,5 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
+using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries
@@ -19,7 +20,8 @@ namespace BankAccounts.Infrastructure.BankAccounts.Queries
         public async Task<decimal> Handle(GetBankAccountBalance query, CancellationToken cancellationToken)
         {
             //return _queryProvider.ExecuteQueryFirstOrDefaultAsync<decimal>("", cancellationToken);
-            var bankAccount = await _bankAccountRepository.GetByIdAsync(query.BankAccountId, cancellationToken);
+            var bankAccount = await _bankAccountRepository
+                .GetByIdAsync(BankAccountId.Create(query.BankAccountId), cancellationToken);
 
             return bankAccount.Balance;
         }

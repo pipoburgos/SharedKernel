@@ -1,4 +1,5 @@
-﻿using BankAccounts.Domain.BankAccounts.Repository;
+﻿using BankAccounts.Domain.BankAccounts;
+using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts
 {
@@ -8,7 +9,7 @@ namespace BankAccounts.Infrastructure.BankAccounts
             IBankAccountRepository bankAccountRepository)
         {
             return ruleBuilder
-                .MustAsync(bankAccountRepository.AnyAsync)
+                .MustAsync(async (id, ct) => await bankAccountRepository.AnyAsync(BankAccountId.Create(id), ct))
                 .WithMessage("Bank account not found.");
         }
     }

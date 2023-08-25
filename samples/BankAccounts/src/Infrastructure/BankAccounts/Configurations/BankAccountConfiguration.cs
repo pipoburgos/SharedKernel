@@ -6,8 +6,10 @@ namespace BankAccounts.Infrastructure.BankAccounts.Configurations
     {
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
-            builder.Property(e => e.Id)
-                .ValueGeneratedNever();
+            builder
+                .Property(x => x.Id)
+                .HasConversion(x => x.Value, l => BankAccountId.Create(l))
+                .IsRequired();
 
             builder.OwnsOne(ba => ba.InternationalBankAccountNumber, ba =>
             {
