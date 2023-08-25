@@ -62,6 +62,7 @@ public class Startup
     public void Configure(IApplicationBuilder app, IOptions<OpenApiOptions> openApiOptions, IOptions<OpenIdOptions> openIdOptions)
     {
         app
+            .UseSharedKernelCurrentCulture()
             .UseSharedKernelServicesPage(_services)
             .UseSharedKernelExceptionHandler("BankAccounts",
                 exceptionHandler => $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})")

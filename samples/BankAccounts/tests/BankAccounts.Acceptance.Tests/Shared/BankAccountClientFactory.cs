@@ -8,12 +8,7 @@ namespace BankAccounts.Acceptance.Tests.Shared
 {
     public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
     {
-        protected override DbContext CreateScopeReturnDbContext()
-        {
-            return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
-        }
-
-        public DbContext CreateNewDbContext()
+        public override DbContext GetNewDbContext()
         {
             return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
         }

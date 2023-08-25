@@ -19,7 +19,7 @@ namespace SharedKernel.Testing.Acceptance
 
         public T AddAndSaveChanges<T>(T entity)
         {
-            Context.Add(entity);
+            Context.Add(entity!);
             SaveChanges();
             return entity;
         }
@@ -31,8 +31,7 @@ namespace SharedKernel.Testing.Acceptance
 
         public void DisposeContext()
         {
-            Context?.Dispose();
-            Context = null;
+            Context.Dispose();
         }
     }
 }

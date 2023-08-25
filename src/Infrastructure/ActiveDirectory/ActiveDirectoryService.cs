@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Application.ActiveDirectory;
-using System.DirectoryServices;
 using SharedKernel.Application.Settings;
+using System.DirectoryServices;
 
 namespace SharedKernel.Infrastructure.ActiveDirectory
 {
@@ -16,7 +16,7 @@ namespace SharedKernel.Infrastructure.ActiveDirectory
         }
 
 
-        public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings?.Path);
+        public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings.Path);
 
 #pragma warning disable CA1416 // Validate platform compatibility
         public bool Exists(string user, string password)

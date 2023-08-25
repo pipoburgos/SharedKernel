@@ -21,7 +21,7 @@ public class DistributedCacheHelper : ICacheHelper
     }
 
     /// <summary>  </summary>
-    public async Task<T> GetAsync<T>(string key)
+    public async Task<T?> GetAsync<T>(string key)
     {
         var value = await _distributedCache.GetAsync(key);
 

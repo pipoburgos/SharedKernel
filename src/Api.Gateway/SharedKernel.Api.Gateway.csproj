@@ -2,10 +2,11 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-    <IsPackable>true</IsPackable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-		<Authors>Roberto Fernández Salinas</Authors>
-		<Company>Roberto Fernández Salinas</Company>
+    <IsPackable>true</IsPackable>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
 		<Description>C# DDD Distributed Services Layer</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

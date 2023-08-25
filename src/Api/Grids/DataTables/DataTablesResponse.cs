@@ -43,7 +43,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <summary>
         /// 
         /// </summary>
-        public string Error { get; set; }
+        public string? Error { get; set; }
 
         /// <summary>
         /// 

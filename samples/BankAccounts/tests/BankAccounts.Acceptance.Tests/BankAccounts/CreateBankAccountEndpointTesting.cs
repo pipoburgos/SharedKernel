@@ -1,7 +1,6 @@
 ﻿using BankAccounts.Acceptance.Tests.Shared;
 using BankAccounts.Application.BankAccounts.Commands;
 using BankAccounts.Domain.BankAccounts;
-using BankAccounts.Infrastructure.Shared.Data;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Testing.Acceptance.Extensions;
 
@@ -20,7 +19,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
         [Fact]
         public async Task CreateBankAccountOk()
         {
-            var client = await _bankAccountClientFactory.CreateClientAsync<BankAccountDbContext>();
+            var client = await _bankAccountClientFactory.CreateClientAsync();
 
             var bankAccountId = Guid.NewGuid();
             var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández",
@@ -33,7 +32,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
             //await Task.Delay(10_000);
 
             _bankAccountClientFactory
-                .CreateNewDbContext()
+                .GetNewDbContext()
                 .Set<BankAccount>()
                 .Any(x => x.Id == bankAccountId)
                 .Should()
@@ -43,7 +42,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
         [Fact]
         public async Task CreateBankAccountNameMoreThan100TestFailover()
         {
-            var client = await _bankAccountClientFactory.CreateClientAsync<BankAccountDbContext>();
+            var client = await _bankAccountClientFactory.CreateClientAsync();
 
             var bankAccountId = Guid.NewGuid();
             var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
@@ -54,7 +53,8 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
             var ex = await response.GetErrorResponse();
             ex.Should("Name", "The length of 'Name' must be 100 characters or fewer. You entered 101 characters.");
 
-            _bankAccountClientFactory.CreateNewDbContext()
+            _bankAccountClientFactory
+                .GetNewDbContext()
                 .Set<ErrorRequest>()
                 .Any(t => t.Request.Contains(bankAccountId.ToString().ToLower()))
                 .Should()
@@ -64,7 +64,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
         [Fact]
         public async Task CreateBankAccountLessThan18YearsOld()
         {
-            var client = await _bankAccountClientFactory.CreateClientAsync<BankAccountDbContext>();
+            var client = await _bankAccountClientFactory.CreateClientAsync();
 
             var bankAccountId = Guid.NewGuid();
             var body = new CreateBankAccount(Guid.NewGuid(), "abc",

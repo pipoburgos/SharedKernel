@@ -1,5 +1,4 @@
-﻿using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
+﻿using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem
 {
@@ -14,9 +13,9 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public FileRepositoryAsync(IFileSystemUnitOfWorkAsync unitOfWork)
+        public FileRepositoryAsync(FileSystemUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork as FileSystemUnitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>

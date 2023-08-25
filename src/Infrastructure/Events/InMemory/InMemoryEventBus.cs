@@ -23,11 +23,7 @@ public class InMemoryEventBus : IEventBus
     /// <summary> Publish an event to event bus. </summary>
     public Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
     {
-        if (events == default)
-            return Task.CompletedTask;
-
         _domainEventsToExecute.AddRange(events);
-
         return Task.CompletedTask;
     }
 }

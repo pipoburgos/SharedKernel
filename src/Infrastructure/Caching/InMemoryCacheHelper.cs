@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Caching
             _customLogger = customLogger;
         }
 
-        public Task<T> GetAsync<T>(string key)
+        public Task<T?> GetAsync<T>(string key)
         {
             return Task.FromResult(_memoryCache.Get<T>(key));
         }
@@ -26,7 +26,7 @@ namespace SharedKernel.Infrastructure.Caching
             return Task.CompletedTask;
         }
 
-        public Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
+        public Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
         {
             return _memoryCache.GetOrCreateAsync(key, entry =>
             {

@@ -12,7 +12,7 @@ public static class HttpClientExtensions
     /// To retry with polly use AddHttpErrorPolicy included on Pipoburgos.SharedKernel.Infrastructure.Polly
     /// </summary>
     public static IHttpClientBuilder AddHttpClientNetworkCredential(this IServiceCollection services, string name,
-        Uri uri, string userName, string password, string domain, Uri uriHealthChecks = default, params string[] tags)
+        Uri uri, string userName, string password, string domain, Uri? uriHealthChecks = default, params string[] tags)
     {
         services.AddUriHealthChecks(uriHealthChecks ?? uri, name, tags);
 

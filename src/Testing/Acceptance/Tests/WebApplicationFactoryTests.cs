@@ -3,76 +3,81 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedKernel.Testing.Acceptance.WebApplication;
 using System.Net;
+using Xunit;
 
-namespace SharedKernel.Testing.Acceptance.Tests
+namespace SharedKernel.Testing.Acceptance.Tests;
+
+public abstract class WebApplicationFactoryBaseTests<T> where T : class
 {
-    public abstract class WebApplicationFactoryBaseTests<T> where T : class
+    private readonly WebApplicationFactoryBase<T> _factory;
+    protected abstract T CreateStartup(IConfiguration configuration);
+    protected abstract void ConfigureServices(T startup, IServiceCollection services);
+
+    public WebApplicationFactoryBaseTests(WebApplicationFactoryBase<T> factory)
     {
-        protected abstract T CreateStartup(IConfiguration configuration);
-        protected abstract void ConfigureServices(T startup, IServiceCollection services);
+        _factory = factory;
+    }
 
-        public virtual void Startup_WhenBuildServiceCollection_ShouldDependenciesBeRegistered()
-        {
-            IServiceCollection serviceCollection = null;
+    [Fact]
+    public virtual void Startup_WhenBuildServiceCollection_ShouldDependenciesBeRegistered()
+    {
+        IServiceCollection serviceCollection = null;
 
-            T startup = default;
-            Host.CreateDefaultBuilder()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        .UseStartup<T>()
-                        .ConfigureAppConfiguration((hostingContext, config) =>
-                        {
-                            config.Sources.Clear();
-                            config.AddConfiguration(hostingContext.Configuration);
-                            config.AddJsonFile("appsettings.json");
-                            config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Testing.json"), false);
-                            startup = CreateStartup(config.Build());
-                        })
-                        .ConfigureServices(sc =>
-                        {
-                            ConfigureServices(startup, sc);
-                            serviceCollection = sc;
-                        });
-                })
-                .Build();
-
-            Action buildServiceProvider = () => serviceCollection.BuildServiceProvider(new ServiceProviderOptions
+        T startup = default;
+        Host.CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(webBuilder =>
             {
-                ValidateOnBuild = true,
-                ValidateScopes = true
-            });
+                webBuilder
+                    .UseStartup<T>()
+                    .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        config.Sources.Clear();
+                        config.AddConfiguration(hostingContext.Configuration);
+                        config.AddJsonFile("appsettings.json");
+                        config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Testing.json"), false);
+                        startup = CreateStartup(config.Build());
+                    })
+                    .ConfigureServices(sc =>
+                    {
+                        ConfigureServices(startup, sc);
+                        serviceCollection = sc;
+                    });
+            })
+            .Build();
 
-
-            buildServiceProvider.Should().NotThrow<AggregateException>();
-        }
-
-        public virtual async Task Swagger_TestGenerateJson(HttpClient client)
+        Action buildServiceProvider = () => serviceCollection.BuildServiceProvider(new ServiceProviderOptions
         {
-
-            var response = await client.GetAsync("swagger/v1/swagger.json");
-
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        public virtual async Task All_Is_Healthy(HttpClient client, string url = "health")
-        {
-            var response = await client.GetAsync(url);
-
-            var text = await response.Content.ReadAsStringAsync();
-
-            text.Should().StartWith("{\"status\":\"Healthy\",");
-
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        protected abstract void StartupWhenBuildServiceCollectionShouldDependenciesBeRegistered();
-
-        protected abstract Task SwaggerGenerateJsonOk();
-
-        protected abstract Task AllIsHealthy();
+            ValidateOnBuild = true,
+            ValidateScopes = true
+        });
 
 
+        buildServiceProvider.Should().NotThrow<AggregateException>();
+    }
+
+    [Fact]
+    public virtual async Task SwaggerTestGenerateJson()
+    {
+        var client = await _factory.CreateClientAsync();
+
+        var response = await client.GetAsync("swagger/v1/swagger.json");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public virtual async Task AllIsHealthy()
+    {
+        var client = await _factory.CreateClientAsync();
+
+        var response = await client.GetAsync("health");
+
+        var text = await response.Content.ReadAsStringAsync();
+
+        text.Should().StartWith("{\"status\":\"Healthy\",");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }

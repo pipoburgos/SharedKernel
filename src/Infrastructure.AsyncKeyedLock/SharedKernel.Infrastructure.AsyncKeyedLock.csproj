@@ -3,10 +3,10 @@
 	<PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
-		<Authors>Roberto Fernández Salinas</Authors>
-		<Company>Roberto Fernández Salinas</Company>
+    <IsPackable>true</IsPackable>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
 		<Description>AsyncKeyedLock infrastructure implementations</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

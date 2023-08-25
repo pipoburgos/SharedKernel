@@ -26,7 +26,7 @@ namespace SharedKernel.Testing.Docker
                 return;
 
             _compositeService.Stop();
-            _compositeService?.Dispose();
+            _compositeService.Dispose();
         }
 
         public void Dispose()

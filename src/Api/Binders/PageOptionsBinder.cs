@@ -42,7 +42,7 @@ public abstract class PageOptionsBinder
         {
             var field = ordersFieldsValues.ToArray()[i];
             var ok = bool.TryParse(ordersAscendingValues.ToArray()[i], out var ascending);
-            if (field != default)
+            if (!string.IsNullOrWhiteSpace(field))
                 orders.Add(new Order(field, !ok || ascending));
         }
         pageOptions.Orders = orders;
@@ -57,7 +57,7 @@ public abstract class PageOptionsBinder
             var field = filtersFieldsValues.ToArray()[i];
             var operatorValue = filtersOperatorValues.ToArray()[i];
             FilterOperator? filterOperator = default;
-            if (operatorValue != default)
+            if (!string.IsNullOrWhiteSpace(operatorValue))
             {
                 var okOperator = Enum.TryParse(typeof(FilterOperator), filtersOperatorValues.ToArray()[i], out var @operator);
                 if (okOperator)
@@ -65,7 +65,7 @@ public abstract class PageOptionsBinder
             }
 
             var ok = bool.TryParse(filtersIgnoreCaseValues.ToArray()[i], out var ignoreCase);
-            if (field != default)
+            if (!string.IsNullOrWhiteSpace(field))
                 filters.Add(new FilterProperty(field, filtersAscendingValues.ToArray()[i], filterOperator,
                     !ok || ignoreCase));
         }

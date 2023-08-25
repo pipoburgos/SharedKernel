@@ -50,7 +50,7 @@ namespace SharedKernel.Testing.Infrastructure
             return Services.CreateScope().ServiceProvider.GetRequiredService<T>();
         }
 
-        public T GetService<T>()
+        public T? GetService<T>()
         {
             return Services.CreateScope().ServiceProvider.GetService<T>();
         }

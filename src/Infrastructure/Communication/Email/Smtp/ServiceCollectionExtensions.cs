@@ -35,7 +35,7 @@ public static class ServiceCollectionExtensions
                         smtpSettings.RequireTls ? SmtpConnectionType.TLS : SmtpConnectionType.PLAIN;
                 }
                 if (!string.IsNullOrWhiteSpace(smtpSettings.User) && !string.IsNullOrWhiteSpace(smtpSettings.Password))
-                    setup.LoginWith(smtpSettings.User, smtpSettings.Password);
+                    setup.LoginWith(smtpSettings.User!, smtpSettings.Password!);
 
                 setup.AllowInvalidRemoteCertificates = true;
             }, "Smtp", tags: new[] { "Smtp" });

@@ -18,7 +18,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <param name="columns"></param>
         /// <param name="order"></param>
         public DataTablesRequest(T filter, int draw, int start, int length, List<Column> columns, IEnumerable<DataTablesOrder> order,
-            Search search = null)
+            Search? search = null)
         {
             Filter = filter;
             Draw = draw;
@@ -47,7 +47,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <summary>
         /// 
         /// </summary>
-        public Search Search { get; }
+        public Search? Search { get; }
 
         /// <summary>
         /// 
@@ -81,7 +81,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <param name="order"></param>
         /// <param name="additionalParameters"></param>
         public DataTablesRequest(int draw, int start, int length, List<Column> columns, IEnumerable<DataTablesOrder> order,
-            Search search = null, IDictionary<string, object> additionalParameters = null)
+            Search? search = default, IDictionary<string, object>? additionalParameters = default)
         {
             Draw = draw;
             Start = start;
@@ -110,7 +110,7 @@ namespace SharedKernel.Api.Grids.DataTables
         /// <summary>
         /// 
         /// </summary>
-        public Search Search { get; }
+        public Search? Search { get; }
 
         /// <summary>
         /// 

@@ -1,5 +1,5 @@
-﻿using System.Net;
-using SharedKernel.Application.System;
+﻿using SharedKernel.Application.System;
+using System.Net;
 
 namespace SharedKernel.Infrastructure.System
 {
@@ -33,7 +33,7 @@ namespace SharedKernel.Infrastructure.System
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public string UrlEncode(string str)
+        public string? UrlEncode(string str)
         {
             return WebUtility.UrlEncode(str);
         }
