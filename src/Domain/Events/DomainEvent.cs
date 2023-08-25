@@ -9,12 +9,12 @@ public abstract class DomainEvent : Request
     protected DomainEvent() { }
 
     /// <summary> Domain event constructor. </summary>
-    protected DomainEvent(string eventId = null, string occurredOn = null) : base(eventId, occurredOn)
+    protected DomainEvent(string? eventId = default, string? occurredOn = default) : base(eventId, occurredOn)
     {
     }
 
     /// <summary> Domain event constructor. </summary>
-    protected DomainEvent(string aggregateId, string eventId = null, string occurredOn = null) : base(eventId, occurredOn)
+    protected DomainEvent(string aggregateId, string? eventId = default, string? occurredOn = default) : base(eventId, occurredOn)
     {
         AggregateId = aggregateId;
     }
@@ -24,7 +24,7 @@ public abstract class DomainEvent : Request
     #region Properties
 
     /// <summary> The aggregate root identifier. </summary>
-    public string AggregateId { get; private set; }
+    public string AggregateId { get; private set; } = null!;
 
     #endregion
 

@@ -1,5 +1,4 @@
-﻿using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
+﻿using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem
@@ -15,9 +14,9 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public DirectoryRepositoryAsync(IFileSystemUnitOfWorkAsync unitOfWork)
+        public DirectoryRepositoryAsync(FileSystemUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork as FileSystemUnitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -72,7 +71,8 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         public Task<List<string>> GetFileNamesAsync(string path, CancellationToken cancellationToken)
         {
             var files = Directory.GetFiles(path).Select(Path.GetFileName).ToList();
-            return Task.FromResult(files);
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
+            return Task.FromResult(files)!;
         }
 
         /// <summary>

@@ -60,7 +60,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions
             var authorizationHeader = _httpContextAccesor.HttpContext.Request.Headers["Authorization"];
 
             if (!string.IsNullOrEmpty(authorizationHeader))
-                request.Headers.Add("Authorization", new List<string> { authorizationHeader });
+                request.Headers.Add("Authorization", new List<string> { authorizationHeader! });
 
             const string accessToken = "access_token";
 

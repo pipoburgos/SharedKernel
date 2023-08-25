@@ -12,7 +12,11 @@ public static class CurrentCultureMiddleware
         app.Use((context, next) =>
         {
             //get client prefered language
-            var userLangs = context.Request.Headers["Accept-Language"].ToString()!;
+            var userLangs = context.Request.Headers["Accept-Language"].ToString();
+
+            if (userLangs == default!)
+                return next();
+
             var firstLang = userLangs.Split(',').FirstOrDefault();
 
             //set allowed alanguage

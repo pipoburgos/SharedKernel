@@ -23,9 +23,9 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     [Fact]
     public virtual void Startup_WhenBuildServiceCollection_ShouldDependenciesBeRegistered()
     {
-        IServiceCollection serviceCollection = null;
+        IServiceCollection serviceCollection = default!;
 
-        T startup = default;
+        T startup = default!;
         Host.CreateDefaultBuilder()
             .ConfigureWebHostDefaults(webBuilder =>
             {

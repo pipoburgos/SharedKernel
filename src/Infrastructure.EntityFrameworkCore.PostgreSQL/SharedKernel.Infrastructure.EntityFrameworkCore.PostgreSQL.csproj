@@ -16,7 +16,7 @@
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>EntityFrameworkCore PostgreSQL</PackageTags>
+    <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <Version>7.1.10.5</Version>

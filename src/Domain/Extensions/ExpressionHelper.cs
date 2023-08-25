@@ -7,7 +7,7 @@ namespace SharedKernel.Domain.Extensions;
 public static class ExpressionHelper
 {
     /// <summary>  </summary>
-    public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo propertyInfo, Operator? @operator,
+    public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo? propertyInfo, Operator? @operator,
         string value, bool utcDates = true)
     {
         var type = propertyInfo != default ? propertyInfo.PropertyType : typeof(T);
@@ -243,7 +243,7 @@ public static class ExpressionHelper
     ///     Convert a string to lambda expression
     ///     Example => "Person.Child.Name" : x => x.Person.Child.Name
     /// </summary>
-    public static LambdaExpression GetLambdaExpressions<T>(string propertyName)
+    public static LambdaExpression? GetLambdaExpressions<T>(string propertyName)
     {
         if (!string.IsNullOrWhiteSpace(propertyName))
             return Generate<T>().TryGetValue(propertyName, out var result) ? result : null;
@@ -261,7 +261,7 @@ public static class ExpressionHelper
         var t = typeof(T);
         var parameter = Expression.Parameter(t, "x");
 
-        if (!new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default))
+        if (!new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!))
             return storage;
 
         foreach (var property in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))

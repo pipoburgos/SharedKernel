@@ -1,48 +1,29 @@
-﻿namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
+﻿namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi;
+
+/// <summary> Open api options. </summary>
+public class OpenApiOptions
 {
-    /// <summary>
-    /// Open api options
-    /// </summary>
-    public class OpenApiOptions
-    {
-        /// <summary>
-        /// Open api info title
-        /// </summary>
-        public string Title { get; set; }
+    /// <summary> Open api info title. </summary>
+    public string Title { get; set; } = null!;
 
-        /// <summary>
-        /// Application name
-        /// </summary>
-        public string AppName { get; set; }
+    /// <summary> Application name. </summary>
+    public string? AppName { get; set; }
 
-        /// <summary>
-        /// Open api name
-        /// </summary>
-        public string Name { get; set; }
+    /// <summary> Open api name. </summary>
+    public string? Name { get; set; }
 
-        /// <summary>
-        /// De Url of swagger.json. Default: "swagger/v1/swagger.json"
-        /// </summary>
-        public string Url { get; set; } = "swagger/v1/swagger.json";
+    /// <summary> De Url of swagger.json. Default: "swagger/v1/swagger.json". </summary>
+    public string Url { get; set; } = "swagger/v1/swagger.json";
 
-        /// <summary>
-        /// Documentation file name
-        /// </summary>
-        public string XmlDocumentationFile { get; set; }
+    /// <summary> Documentation file name. </summary>
+    public string? XmlDocumentationFile { get; set; }
 
-        /// <summary>
-        /// Collapse actions of controllers
-        /// </summary>
-        public bool Collapsed { get; set; } = true;
+    /// <summary> Collapse actions of controllers. </summary>
+    public bool Collapsed { get; set; } = true;
 
-        /// <summary>
-        /// Authority
-        /// </summary>
-        public string Authority { get; set; }
+    /// <summary> Authority. </summary>
+    public string? Authority { get; set; }
 
-        /// <summary>
-        /// Documentation files names
-        /// </summary>
-        public IEnumerable<string> XmlDocumentationFiles { get; set; }
-    }
+    /// <summary> Documentation files names. </summary>
+    public IEnumerable<string> XmlDocumentationFiles { get; set; } = new List<string>();
 }

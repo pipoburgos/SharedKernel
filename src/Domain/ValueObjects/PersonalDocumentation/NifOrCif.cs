@@ -19,7 +19,7 @@
         }
 
         /// <summary> NIE value. </summary>
-        public string Value { get; private set; }
+        public string Value { get; private set; } = null!;
 
         /// <summary>  </summary>
         /// <returns></returns>

@@ -1,76 +1,55 @@
-﻿namespace SharedKernel.Domain.Aggregates
+﻿namespace SharedKernel.Domain.Aggregates;
+
+/// <summary> Root aggregate with creation and modification audit. </summary>
+public abstract class AggregateRootAuditable<TKey> : AggregateRoot<TKey>, IEntityAuditable where TKey : notnull
 {
-    /// <summary>
-    /// Root aggregate with creation and modification audit
-    /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class AggregateRootAuditable<TKey> : AggregateRoot<TKey>, IEntityAuditable
+    #region Constructor
+
+    /// <summary> Aggregate Root Auditable constructor for ORMs. </summary>
+    protected AggregateRootAuditable() { }
+
+    /// <summary> Aggregate Root Auditable constructor for ORMs. </summary>
+    protected AggregateRootAuditable(TKey id) : base(id) { }
+
+    /// <summary> Aggregate Root Auditable Constructor. </summary>
+    /// <param name="id">Identifier</param>
+    /// <param name="createdAt">Creation Date</param>
+    /// <param name="createdBy">Creation user identifier</param>
+    protected AggregateRootAuditable(TKey id, DateTime createdAt, Guid createdBy) : base(id)
     {
-        #region Constructor
+        CreatedAt = createdAt;
+        CreatedBy = createdBy;
+    }
 
-        /// <summary>
-        /// Aggregate Root Auditable constructor for ORMs
-        /// </summary>
-        protected AggregateRootAuditable() { }
+    #endregion
 
-        /// <summary>
-        /// Aggregate Root Auditable Constructor
-        /// </summary>
-        /// <param name="id">Identifier</param>
-        /// <param name="createdAt">Creation Date</param>
-        /// <param name="createdBy">Creation user identifier</param>
-        protected AggregateRootAuditable(TKey id, DateTime createdAt, Guid createdBy) : base(id)
-        {
-            CreatedAt = createdAt;
-            CreatedBy = createdBy;
-        }
+    #region Properties
 
-        #endregion
+    /// <summary> Creator user identifier. </summary>
+    public Guid CreatedBy { get; private set; }
 
-        #region Properties
+    /// <summary> Creation date. </summary>
+    public DateTime CreatedAt { get; private set; }
 
-        /// <summary>
-        /// Creator user identifier
-        /// </summary>
-        public Guid CreatedBy { get; private set; }
+    /// <summary> Modifier user identifier. </summary>
+    public Guid? LastModifiedBy { get; private set; }
 
-        /// <summary>
-        /// Creation date
-        /// </summary>
-        public DateTime CreatedAt { get; private set; }
+    /// <summary> Modification date. </summary>
+    public DateTime? LastModifiedAt { get; private set; }
 
-        /// <summary>
-        /// Modifier user identifier
-        /// </summary>
-        public Guid? LastModifiedBy { get; private set; }
+    #endregion
 
-        /// <summary>
-        /// Modification date
-        /// </summary>
-        public DateTime? LastModifiedAt { get; private set; }
+    /// <summary> Sets the creation auditable properties. </summary>
+    public void Create(DateTime createdAt, Guid createdBy)
+    {
+        CreatedAt = createdAt;
+        CreatedBy = createdBy;
+    }
 
-        #endregion
-
-        /// <summary>
-        /// Sets the creation auditable properties
-        /// </summary>
-        /// <param name="createdAt"></param>
-        /// <param name="createdBy"></param>
-        public void Create(DateTime createdAt, Guid createdBy)
-        {
-            CreatedAt = createdAt;
-            CreatedBy = createdBy;
-        }
-
-        /// <summary>
-        /// Sets the modification auditable properties
-        /// </summary>
-        /// <param name="lastModifiedAt"></param>
-        /// <param name="lastModifiedBy"></param>
-        public void Change(DateTime lastModifiedAt, Guid lastModifiedBy)
-        {
-            LastModifiedAt = lastModifiedAt;
-            LastModifiedBy = lastModifiedBy;
-        }
+    /// <summary> Sets the modification auditable properties. </summary>
+    public void Change(DateTime lastModifiedAt, Guid lastModifiedBy)
+    {
+        LastModifiedAt = lastModifiedAt;
+        LastModifiedBy = lastModifiedBy;
     }
 }

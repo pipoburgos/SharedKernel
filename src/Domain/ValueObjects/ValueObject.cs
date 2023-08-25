@@ -10,9 +10,9 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
     /// <summary> <see cref="M:System.Object.IEquatable{TValueObject}" /> </summary>
     /// <param name="other"><see cref="M:System.Object.IEquatable{TValueObject}" /></param>
     /// <returns><see cref="M:System.Object.IEquatable{TValueObject}" /></returns>
-    public bool Equals(TValueObject other)
+    public bool Equals(TValueObject? other)
     {
-        if ((object)other == null)
+        if (other! == default!)
             return false;
 
         if (ReferenceEquals(this, other))
@@ -26,7 +26,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
         return equals;
     }
 
-    private bool EqualsObjects(object left, object right)
+    private bool EqualsObjects(object? left, object? right)
     {
         if (left == default && right == default)
             return true;
@@ -41,7 +41,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
             return left.Equals(right);
 
         return left is IEnumerable enumerable
-            ? EqualEnumerable(enumerable, right as IEnumerable)
+            ? EqualEnumerable(enumerable, (right as IEnumerable)!)
             : left.Equals(right);
     }
 
@@ -56,7 +56,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
     /// <summary> <see cref="M:System.Object.Equals"/> </summary>
     /// <param name="obj"><see cref="M:System.Object.Equals"/></param>
     /// <returns><see cref="M:System.Object.Equals"/></returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj == null)
             return false;
@@ -104,7 +104,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
     /// <returns></returns>
     public static bool operator ==(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
     {
-        return left?.Equals(right) ?? Equals(right, null);
+        return Equals(left, right);
     }
 
     /// <summary> Return true if the value objects are distinct. </summary>

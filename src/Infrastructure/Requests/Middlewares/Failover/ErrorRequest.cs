@@ -11,7 +11,7 @@ public class ErrorRequest : Entity<string>
     }
 
     /// <summary>  </summary>
-    protected ErrorRequest(string id, string request, string exception, string occurredOn = default) : base(id)
+    protected ErrorRequest(string id, string request, string exception, string? occurredOn = default) : base(id)
     {
         OccurredOn = occurredOn ?? DateTime.UtcNow.ToString("s", CultureInfo.CurrentCulture);
         Request = request;
@@ -19,17 +19,17 @@ public class ErrorRequest : Entity<string>
     }
 
     /// <summary>  </summary>
-    public static ErrorRequest Create(string id, string request, string exception, string occurredOn = default)
+    public static ErrorRequest Create(string id, string request, string exception, string? occurredOn = default)
     {
         return new ErrorRequest(id, request, exception, occurredOn);
     }
 
     /// <summary> When the request occurred. </summary>
-    public string OccurredOn { get; }
+    public string OccurredOn { get; } = null!;
 
     /// <summary> When the request occurred. </summary>
-    public string Request { get; }
+    public string Request { get; } = null!;
 
     /// <summary> When the request occurred. </summary>
-    public string Exception { get; }
+    public string Exception { get; } = null!;
 }

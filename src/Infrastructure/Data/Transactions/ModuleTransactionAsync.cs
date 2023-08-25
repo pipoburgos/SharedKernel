@@ -2,68 +2,51 @@
 using System.Diagnostics;
 using System.Transactions;
 
-namespace SharedKernel.Infrastructure.Data.Transactions
+namespace SharedKernel.Infrastructure.Data.Transactions;
+
+/// <summary>  </summary>
+public class ModuleTransactionAsync : IModuleTransactionAsync
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ModuleTransactionAsync : IModuleTransactionAsync
+    private TransactionScope? _transaction;
+
+    /// <summary>  </summary>
+    public void Begin()
     {
-        #region Members
+        _transaction ??= new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+    }
 
-        private TransactionScope _transaction;
+    /// <summary>  </summary>
+    public void End()
+    {
+        _transaction?.Complete();
+        _transaction?.Dispose();
+    }
 
-        #endregion
+    private void ReleaseUnmanagedResources()
+    {
+        _transaction?.Dispose();
+        _transaction = default;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Begin()
-        {
-            _transaction ??= new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-        }
+    /// <summary>  </summary>
+    /// <param name="disposing"></param>
+    // ReSharper disable once UnusedParameter.Global
+    protected virtual void Dispose(bool disposing)
+    {
+        ReleaseUnmanagedResources();
+        Debug.WriteLine("Transaction released !!!");
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void End()
-        {
-            _transaction.Complete();
-            _transaction?.Dispose();
-        }
+    /// <summary>  </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        private void ReleaseUnmanagedResources()
-        {
-            _transaction?.Dispose();
-            _transaction = null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
-        // ReSharper disable once UnusedParameter.Global
-        protected virtual void Dispose(bool disposing)
-        {
-            ReleaseUnmanagedResources();
-            Debug.WriteLine("Transaction released !!!");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        ~ModuleTransactionAsync()
-        {
-            Dispose(false);
-        }
+    /// <summary>  </summary>
+    ~ModuleTransactionAsync()
+    {
+        Dispose(false);
     }
 }

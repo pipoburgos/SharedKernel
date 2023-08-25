@@ -23,6 +23,6 @@ public class EventQueue
     /// <summary>  </summary>
     public bool TryDequeue(out string @event)
     {
-        return _events.TryDequeue(out @event);
+        return _events.TryDequeue(out @event!);
     }
 }

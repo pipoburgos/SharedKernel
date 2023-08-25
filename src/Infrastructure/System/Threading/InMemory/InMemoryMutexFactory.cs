@@ -43,7 +43,7 @@ namespace SharedKernel.Infrastructure.System.Threading.InMemory
 
         private RefCounted<SemaphoreSlim> CreateThreadSafe(string key)
         {
-            RefCounted<SemaphoreSlim> item;
+            RefCounted<SemaphoreSlim>? item;
             lock (_semaphoreSlims)
             {
                 if (_semaphoreSlims.TryGetValue(key, out item))

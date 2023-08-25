@@ -33,9 +33,10 @@ namespace SharedKernel.Infrastructure.System
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public string? UrlEncode(string str)
+        public string UrlEncode(string str)
         {
-            return WebUtility.UrlEncode(str);
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
+            return WebUtility.UrlEncode(str)!;
         }
 
         /// <summary>

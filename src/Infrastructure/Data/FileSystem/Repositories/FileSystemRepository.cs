@@ -48,7 +48,8 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <param name="aggregate"></param>
         public void Add(TAggregateRoot aggregate)
         {
-            using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
+            using var outputFile = new StreamWriter(FileName(aggregate.Id!.ToString()!), false);
             outputFile.WriteLine(JsonSerializer.Serialize(aggregate));
         }
 
@@ -70,12 +71,14 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TAggregateRoot GetById<TKey>(TKey key)
+        public TAggregateRoot? GetById<TKey>(TKey key) where TKey : notnull
         {
-            if (!File.Exists(FileName(key.ToString())))
-                return null;
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
+            var id = key.ToString()!;
+            if (!File.Exists(FileName(id)))
+                return default;
 
-            var text = File.ReadAllText(FileName(key.ToString()));
+            var text = File.ReadAllText(FileName(id));
             return JsonSerializer.Deserialize<TAggregateRoot>(text);
         }
 

@@ -13,7 +13,7 @@ public abstract class Request : IRequest
     }
 
     /// <summary> Request constructor. </summary>
-    protected Request(string requestId = default, string occurredOn = default)
+    protected Request(string? requestId = default, string? occurredOn = default)
     {
         RequestId = requestId ?? Guid.NewGuid().ToString();
         OccurredOn = occurredOn ?? DateTime.UtcNow.ToString("s", CultureInfo.CurrentCulture);

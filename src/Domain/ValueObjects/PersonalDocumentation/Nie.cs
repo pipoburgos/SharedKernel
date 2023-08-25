@@ -11,7 +11,7 @@ namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
         protected Nie() { }
 
         /// <summary> </summary>
-        public Nie(string value)
+        protected Nie(string value)
         {
             Value = value;
         }
@@ -23,7 +23,7 @@ namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
         }
 
         /// <summary> NIE value. </summary>
-        public string Value { get; private set; }
+        public string Value { get; private set; } = null!;
 
         /// <summary>
         /// Check if the value meets the validation rules or not

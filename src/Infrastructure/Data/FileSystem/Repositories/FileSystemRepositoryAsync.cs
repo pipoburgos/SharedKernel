@@ -26,7 +26,8 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <returns></returns>
         public async Task AddAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            using var outputFile = new StreamWriter(FileName(aggregate.Id.ToString()), false);
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
+            using var outputFile = new StreamWriter(FileName(aggregate.Id!.ToString()!), false);
             await outputFile.WriteLineAsync(JsonSerializer.Serialize(aggregate));
         }
 

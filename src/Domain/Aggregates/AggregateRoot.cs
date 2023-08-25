@@ -2,11 +2,9 @@
 
 /// <summary> This root aggregate contains your domain identifier and events. </summary>
 /// <typeparam name="TKey"> The data type of the identifier. </typeparam>
-public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot
+public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot where TKey : notnull
 {
     private readonly List<DomainEvent> _domainEvents;
-
-    #region Constructors
 
     /// <summary> Aggregate Root constructor for ORMs. </summary>
     protected AggregateRoot()
@@ -22,13 +20,11 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot
         _domainEvents = new List<DomainEvent>();
     }
 
-    #endregion
-
     /// <summary> Extracts the domain events that have the root aggregate. </summary>
     /// <returns>All domain events recordered</returns>
     public List<DomainEvent> PullDomainEvents()
     {
-        _domainEvents.ForEach(e => e.SetAggregateId(Id.ToString()));
+        _domainEvents.ForEach(e => e.SetAggregateId(Id.ToString()!));
         var events = _domainEvents.ToList();
         _domainEvents.Clear();
         return events;

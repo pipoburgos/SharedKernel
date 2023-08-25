@@ -58,9 +58,10 @@ public class InMemoryQueryBus : IQueryBus
             (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
         var wrappedHandlers = (QueryHandlerWrapper<TResponse>)QueryHandlers
-            .GetOrAdd(query.GetType(), handlers.Cast<object>()
-            .Select(_ => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType))
-            .FirstOrDefault());
+            .GetOrAdd(query.GetType(), handlers
+                .Cast<object>()
+                .Select(_ => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType)!)
+                .FirstOrDefault()!);
 
         return wrappedHandlers;
     }

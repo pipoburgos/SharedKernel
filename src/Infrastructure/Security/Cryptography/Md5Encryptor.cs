@@ -1,6 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using SharedKernel.Application.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
-using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {
@@ -69,23 +69,20 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// </summary>
         public string Encrypt(string text, string secretKey)
         {
-            string functionReturnValue = null;
             if (string.IsNullOrEmpty(text.Trim()))
-            {
-                functionReturnValue = "";
-            }
-            else
-            {
-                Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
-                Des.Mode = CipherMode.ECB;
-                var encrypt = Des.CreateEncryptor();
+                return string.Empty;
 
-                var buff = Encoding.UTF8.GetBytes(text);
-                buff = encrypt.TransformFinalBlock(buff, 0, buff.Length);
-                // Convert bytes to string from hex
-                for (var i = 0; i < buff.Length; i++)
-                    functionReturnValue += buff[i].ToString("X2");
-            }
+            Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
+            Des.Mode = CipherMode.ECB;
+            var encrypt = Des.CreateEncryptor();
+
+            var buff = Encoding.UTF8.GetBytes(text);
+            buff = encrypt.TransformFinalBlock(buff, 0, buff.Length);
+            // Convert bytes to string from hex
+            var functionReturnValue = string.Empty;
+            for (var i = 0; i < buff.Length; i++)
+                functionReturnValue += buff[i].ToString("X2");
+
             return functionReturnValue;
         }
 

@@ -9,8 +9,8 @@ namespace SharedKernel.Testing.Acceptance.Extensions
     public static class HttpClientExtensions
     {
         public static async Task<MultipartFormDataContent> AddFileAsync(
-            this MultipartFormDataContent multipartFormDataContent, string path, string formName = default,
-            string fileName = default, CancellationToken cancellationToken = default)
+            this MultipartFormDataContent multipartFormDataContent, string path, string? formName = default,
+            string? fileName = default, CancellationToken cancellationToken = default)
         {
             await using var plantillaStream = File.OpenRead(path);
             var plantillaBytes = await new StreamContent(plantillaStream).ReadAsByteArrayAsync(cancellationToken);
@@ -27,8 +27,8 @@ namespace SharedKernel.Testing.Acceptance.Extensions
             return stringContent;
         }
 
-        public static async Task<HttpResponseMessage> PostFileAsync(this HttpClient client, string url, string path, string formName = default,
-            string fileName = default)
+        public static async Task<HttpResponseMessage> PostFileAsync(this HttpClient client, string url, string path, string? formName = default,
+            string? fileName = default)
         {
             var multipartFormDataContent = new MultipartFormDataContent();
             await multipartFormDataContent.AddFileAsync(path, formName, fileName);
@@ -59,7 +59,7 @@ namespace SharedKernel.Testing.Acceptance.Extensions
         {
             var stringResponse = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<dynamic>(stringResponse);
-            return result;
+            return result!;
         }
 
         public static async Task<T> GetResponseContentAsync<T>(this HttpResponseMessage response)
@@ -71,7 +71,7 @@ namespace SharedKernel.Testing.Acceptance.Extensions
             }
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            return JsonConvert.DeserializeObject<T>(stringResponse);
+            return JsonConvert.DeserializeObject<T>(stringResponse)!;
         }
 
         public static Task<ErrorResponseExceptionHandler> GetErrorResponse(this HttpResponseMessage response)

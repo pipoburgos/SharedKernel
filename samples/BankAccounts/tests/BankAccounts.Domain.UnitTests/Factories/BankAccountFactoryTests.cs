@@ -11,14 +11,14 @@ namespace BankAccounts.Domain.Tests.Factories
         public void CheckBankAccountDefaultId()
         {
             // Arrange
-            BankAccountId id = default;
-            InternationalBankAccountNumber iban = default;
-            User user = default;
-            Movement movement = default;
+            BankAccountId? id = default;
+            InternationalBankAccountNumber? iban = default;
+            User? user = default;
+            Movement? movement = default;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(id, iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(id!, iban!, user!, movement!, now);
 
             // Assert
             createFunction
@@ -31,14 +31,14 @@ namespace BankAccounts.Domain.Tests.Factories
         public void CheckBankAccountDefaultIban()
         {
             // Arrange
-            var id = Guid.NewGuid();
-            InternationalBankAccountNumber iban = default;
-            User user = default;
-            Movement movement = default;
+            var id = BankAccountId.Create(Guid.NewGuid());
+            InternationalBankAccountNumber? iban = default;
+            User? user = default;
+            Movement? movement = default;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(id, iban!, user!, movement!, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -50,12 +50,12 @@ namespace BankAccounts.Domain.Tests.Factories
             // Arrange
             var id = Guid.NewGuid();
             var iban = Substitute.For<InternationalBankAccountNumber>();
-            User user = default;
-            Movement movement = default;
+            User? user = default;
+            Movement? movement = default;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user!, movement!, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();
@@ -68,11 +68,11 @@ namespace BankAccounts.Domain.Tests.Factories
             var id = Guid.NewGuid();
             var iban = Substitute.For<InternationalBankAccountNumber>();
             var user = Substitute.For<User>();
-            Movement movement = default;
+            Movement? movement = default;
             var now = new DateTime(2000, 1, 1);
 
             // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
+            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement!, now);
 
             // Assert
             createFunction.Should().Throw<ArgumentNullException>();

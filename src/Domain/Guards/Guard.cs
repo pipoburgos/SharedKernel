@@ -35,7 +35,7 @@ public class Guard
     /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
     public static T ThrowIfNull<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
-        [CallerArgumentExpression("argument")] string paramName = null)
+        [CallerArgumentExpression("argument")] string? paramName = default)
     {
 #if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(argument, paramName);
@@ -55,11 +55,11 @@ public class Guard
     /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
     public static T ThrowIfNullOrDefault<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
-        [CallerArgumentExpression("argument")] string paramName = null)
+        [CallerArgumentExpression("argument")] string? paramName = default)
     {
         ThrowIfNull(argument, throwOnNullEmptyOrWhiteSpaceString, paramName);
 
-        if (EqualityComparer<T>.Default.Equals(argument, default))
+        if (EqualityComparer<T>.Default.Equals(argument, default!))
             throw new ArgumentNullException(paramName);
 
         return argument;

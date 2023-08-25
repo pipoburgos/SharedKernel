@@ -21,7 +21,7 @@ public static class ExceptionHandlerMiddleware
     /// <returns></returns>
     public static IApplicationBuilder UseSharedKernelExceptionHandler(this IApplicationBuilder app, string appName,
         Func<IExceptionHandlerFeature, string> unhandledExceptionAction,
-        Action<IExceptionHandlerFeature> debugAction = default)
+        Action<IExceptionHandlerFeature>? debugAction = default)
     {
         app.UseExceptionHandler(builder =>
         {
@@ -65,7 +65,7 @@ public static class ExceptionHandlerMiddleware
                         break;
                     case nameof(ValidationFailureException):
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        var errors = new ValidationError(error.Error as ValidationFailureException);
+                        var errors = new ValidationError((error.Error as ValidationFailureException)!);
                         var errorsSerialized = jsonSerializer.Serialize(errors);
                         await context.Response.WriteAsync(errorsSerialized).ConfigureAwait(false);
                         break;

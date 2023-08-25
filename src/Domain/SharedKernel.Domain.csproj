@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
-    <IsPackable>true</IsPackable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
     <Description>C# DDD Domain Layer</Description>
@@ -32,6 +33,7 @@
     <Using Include="SharedKernel.Domain.Entities" />
     <Using Include="SharedKernel.Domain.Entities.Paged" />
     <Using Include="SharedKernel.Domain.Events" />
+    <Using Include="SharedKernel.Domain.Guards" />
     <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Repositories" />
     <Using Include="SharedKernel.Domain.Requests" />

@@ -13,6 +13,10 @@ public static class CurrentCultureMiddleware
         {
             //get client prefered language
             var userLanguages = context.Request.Headers["Accept-Language"].ToString();
+
+            if (userLanguages == default!)
+                return next();
+
             var firstLang = userLanguages.Split(',').FirstOrDefault();
 
             //set allowed language

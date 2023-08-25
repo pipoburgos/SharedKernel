@@ -1,38 +1,23 @@
-﻿namespace SharedKernel.Domain.Entities.Globalization
+﻿namespace SharedKernel.Domain.Entities.Globalization;
+
+/// <summary>  </summary>
+public class Language : AggregateRootAuditableLogicalRemove<string>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Language : AggregateRootAuditableLogicalRemove<string>
+    /// <summary>  </summary>
+    protected Language() { }
+
+    /// <summary>  </summary>
+    protected Language(string id, string name) : base(id)
     {
-        #region Constructors
-
-        private Language() { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static Language Create(string id, string name)
-        {
-            return new Language
-            {
-                Id = id,
-                Name = name
-            };
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name { get; private set; }
-
-        #endregion
+        Name = name;
     }
+
+    /// <summary>  </summary>
+    public static Language Create(string id, string name)
+    {
+        return new Language(id, name);
+    }
+
+    /// <summary>  </summary>
+    public string Name { get; private set; } = null!;
 }

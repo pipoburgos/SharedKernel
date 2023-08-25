@@ -7,12 +7,12 @@ namespace SharedKernel.Domain.Specifications
     public class TheComparisonMatchesSpecification<T> : Specification<T>
     {
         private readonly Operator? _operator;
-        private PropertyInfo PropertyInfo { get; }
+        private PropertyInfo? PropertyInfo { get; }
 
         private string Value { get; }
 
         /// <summary>  </summary>
-        public TheComparisonMatchesSpecification(PropertyInfo propertyInfo, string value, Operator? @operator)
+        public TheComparisonMatchesSpecification(PropertyInfo? propertyInfo, string value, Operator? @operator)
         {
             _operator = @operator;
             PropertyInfo = propertyInfo;

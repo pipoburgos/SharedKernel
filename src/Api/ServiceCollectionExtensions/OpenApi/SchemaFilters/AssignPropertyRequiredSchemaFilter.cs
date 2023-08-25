@@ -74,7 +74,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters
         //private static bool IsNullable(ParameterInfo parameter) =>
         //    IsNullableHelper(parameter.ParameterType, parameter.Member, parameter.CustomAttributes);
 
-        private static bool IsNullableHelper(Type memberType, MemberInfo declaringType, IEnumerable<CustomAttributeData> customAttributes)
+        private static bool IsNullableHelper(Type memberType, MemberInfo? declaringType,
+            IEnumerable<CustomAttributeData> customAttributes)
         {
             if (memberType.IsValueType)
                 return Nullable.GetUnderlyingType(memberType) != null;
@@ -102,7 +103,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters
             for (var type = declaringType; type != null; type = type.DeclaringType)
             {
                 var context = type.CustomAttributes
-                    .FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
+                    .FirstOrDefault(x =>
+                        x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
                 if (context != null &&
                     context.ConstructorArguments.Count == 1 &&
                     context.ConstructorArguments[0].ArgumentType == typeof(byte))

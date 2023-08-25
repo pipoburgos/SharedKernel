@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.Documents.Xml
             foreach (var node in document.Nodes())
             {
                 lineNumber++;
-                yield return new XmlRow(lineNumber, node as XElement, Configuration.CultureInfo);
+                yield return new XmlRow(lineNumber, (node as XElement)!, Configuration.CultureInfo);
             }
 
             //var serializer = new XmlSerializer(typeof(T));

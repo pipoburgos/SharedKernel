@@ -12,8 +12,8 @@ namespace SharedKernel.Testing.Acceptance.Exceptions
 
         private const string ErrorsStartString = "{\"errors\":{";
         private readonly HttpResponseMessage _responseMessage;
-        private string _error;
-        private Dictionary<string, string[]> _errors;
+        private string? _error;
+        private Dictionary<string, string[]> _errors = new();
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace SharedKernel.Testing.Acceptance.Exceptions
 
             if (!message.StartsWith(ErrorsStartString))
             {
-                _error = JsonConvert.DeserializeObject<string>(message);
+                _error = JsonConvert.DeserializeObject<string>(message)!;
                 return this;
             }
 
@@ -57,7 +57,7 @@ namespace SharedKernel.Testing.Acceptance.Exceptions
                 if (string.IsNullOrWhiteSpace(property.Name))
                     _error = valor?.First();
                 else
-                    _errors.Add(FirstCharToUpper(property.Name), valor);
+                    _errors.Add(FirstCharToUpper(property.Name), valor!);
             }
 
             return this;
@@ -89,11 +89,11 @@ namespace SharedKernel.Testing.Acceptance.Exceptions
         // ReSharper disable UnusedMember.Local
         private class Root
         {
-            public string Type { get; set; }
-            public string Title { get; set; }
+            public string? Type { get; set; }
+            public string? Title { get; set; }
             public int Status { get; set; }
-            public string TraceId { get; set; }
-            public JObject Errors { get; set; }
+            public string? TraceId { get; set; }
+            public JObject Errors { get; set; } = new();
         }
 
         #endregion

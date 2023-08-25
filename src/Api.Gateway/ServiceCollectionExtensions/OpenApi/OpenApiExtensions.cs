@@ -105,17 +105,17 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(options.Value.Url, options.Value?.Name ?? "Open API v1");
+                c.SwaggerEndpoint(options.Value.Url, options.Value.Name ?? "Open API v1");
 
-                if (options.Value?.Collapsed == true)
+                if (options.Value.Collapsed)
                     c.DocExpansion(DocExpansion.None);
 
-                var authority = options.Value?.Authority ?? openIdOptions?.Value?.Authority;
+                var authority = options.Value.Authority ?? openIdOptions.Value.Authority;
                 if (string.IsNullOrWhiteSpace(authority))
                     return;
 
                 c.RoutePrefix = string.Empty;
-                c.OAuthAppName(options.Value?.AppName ?? "Open API specification");
+                c.OAuthAppName(options.Value.AppName ?? "Open API specification");
                 c.OAuthScopeSeparator(" ");
                 c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
                 c.OAuthClientId(openIdOptions.Value.ClientId);

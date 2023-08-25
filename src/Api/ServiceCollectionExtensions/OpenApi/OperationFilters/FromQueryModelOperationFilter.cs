@@ -40,7 +40,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters
             operation.Parameters = parameters;
         }
 
-        private IList<OpenApiParameter> CreateParameters(IList<ParameterDescriptor> actionParameters,
+        private IList<OpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
             IList<OpenApiParameter> operationParameters, OperationFilterContext context)
         {
             var newParameters = actionParameters
@@ -51,7 +51,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters
             return newParameters.Any() ? newParameters : default;
         }
 
-        private OpenApiParameter CreateParameter(ParameterDescriptor actionParameter,
+        private OpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
             IList<OpenApiParameter> operationParameters, OperationFilterContext context)
         {
             if (actionParameter.ParameterType == typeof(CancellationToken))

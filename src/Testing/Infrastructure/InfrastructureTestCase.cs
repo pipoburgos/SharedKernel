@@ -45,7 +45,7 @@ namespace SharedKernel.Testing.Infrastructure
             return services;
         }
 
-        public T GetRequiredService<T>()
+        public T GetRequiredService<T>() where T : notnull
         {
             return Services.CreateScope().ServiceProvider.GetRequiredService<T>();
         }

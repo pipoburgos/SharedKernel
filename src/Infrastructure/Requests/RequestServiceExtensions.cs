@@ -37,7 +37,7 @@ public static class RequestServiceExtensions
     private static string GetUniqueName<T>(Type type, string method)
     {
         var instance = ReflectionHelper.CreateInstance<T>(type);
-        return type.GetMethod(method)?.Invoke(instance, null)?.ToString();
+        return type.GetMethod(method)?.Invoke(instance, null)?.ToString()!;
     }
 
     private static IEnumerable<Type> GetRequests<T>(Assembly domainAssembly)

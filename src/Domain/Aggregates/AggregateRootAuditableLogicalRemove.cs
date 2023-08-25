@@ -1,47 +1,33 @@
-﻿namespace SharedKernel.Domain.Aggregates
+﻿namespace SharedKernel.Domain.Aggregates;
+
+/// <summary>  </summary>
+public abstract class AggregateRootAuditableLogicalRemove<TKey> : AggregateRootAuditable<TKey>,
+    IEntityAuditableLogicalRemove where TKey : notnull
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class AggregateRootAuditableLogicalRemove<TKey> : AggregateRootAuditable<TKey>, IEntityAuditableLogicalRemove
+    /// <summary>  </summary>
+    protected AggregateRootAuditableLogicalRemove() { }
+
+    /// <summary>  </summary>
+    protected AggregateRootAuditableLogicalRemove(TKey id) : base(id) { }
+
+    /// <summary>  </summary>
+    public Guid? DeletedBy { get; private set; }
+
+    /// <summary>  </summary>
+    public DateTime? DeletedAt { get; private set; }
+
+
+    /// <summary>  </summary>
+    public virtual void Delete(DateTime deletedAt, Guid deletedBy)
     {
-        #region Properties
+        DeletedAt = deletedAt;
+        DeletedBy = deletedBy;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? DeletedBy { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime? DeletedAt { get; private set; }
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="deletedAt"></param>
-        /// <param name="deletedBy"></param>
-        public virtual void Delete(DateTime deletedAt, Guid deletedBy)
-        {
-            DeletedAt = deletedAt;
-            DeletedBy = deletedBy;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void Restore()
-        {
-            DeletedBy = null;
-            DeletedAt = null;
-        }
-
-        #endregion
+    /// <summary>  </summary>
+    public virtual void Restore()
+    {
+        DeletedBy = null;
+        DeletedAt = null;
     }
 }

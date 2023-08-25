@@ -7,11 +7,8 @@ namespace SharedKernel.Infrastructure.Serializers;
 public class BinarySerializer : IBinarySerializer
 {
     /// <summary>  </summary>
-    public byte[] Serialize<T>(T value)
+    public byte[] Serialize<T>(T value) where T : notnull
     {
-        if (value == null)
-            return null;
-
         using var ms = new MemoryStream();
         var serializer = new DataContractSerializer(typeof(T));
         serializer.WriteObject(ms, value);
@@ -21,9 +18,6 @@ public class BinarySerializer : IBinarySerializer
     /// <summary>  </summary>
     public T Deserialize<T>(byte[] value)
     {
-        if (value == null)
-            return default;
-
         using var memStream = new MemoryStream(value);
         var serializer = new DataContractSerializer(typeof(T));
         var obj = (T)serializer.ReadObject(memStream);

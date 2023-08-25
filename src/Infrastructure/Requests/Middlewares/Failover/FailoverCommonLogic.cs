@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Serializers;
 using SharedKernel.Application.System;
+// ReSharper disable RedundantSuppressNullableWarningExpression
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
@@ -28,7 +29,7 @@ public class FailoverCommonLogic
     public async Task Handle<TRequest>(TRequest request, Exception e, CancellationToken cancellationToken)
         where TRequest : IRequest
     {
-        var error = new Dictionary<string, string>
+        var error = new Dictionary<string, string?>
         {
             {"Type", e.GetType().ToString()},
             {"Message", e.Message},

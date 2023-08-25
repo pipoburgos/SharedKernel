@@ -171,12 +171,14 @@ public class InMemoryCommandBus : ICommandBus
         var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(command.GetType());
         var wrapperType = typeof(CommandHandlerWrapper<>).MakeGenericType(command.GetType());
 
-        var handlers =
-            (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+        var handlers = (IEnumerable)_serviceProvider
+            .GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
         var wrappedHandlers = (CommandHandlerWrapper)CommandHandlers
-            .GetOrAdd(command.GetType(), handlers.Cast<object>()
-            .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)).FirstOrDefault());
+            .GetOrAdd(command.GetType(), handlers
+                .Cast<object>()
+                .Select(_ => (CommandHandlerWrapper)Activator.CreateInstance(wrapperType)!)
+                .FirstOrDefault()!);
 
         return wrappedHandlers;
     }
@@ -193,9 +195,10 @@ public class InMemoryCommandBus : ICommandBus
             (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
         var wrappedHandlers = (CommandHandlerWrapperResponse<TResponse>)CommandHandlers
-            .GetOrAdd(command.GetType(), handlers.Cast<object>()
-            .Select(_ => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType))
-            .FirstOrDefault());
+            .GetOrAdd(command.GetType(), handlers
+                .Cast<object>()
+                .Select(_ => (CommandHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)!)
+                .FirstOrDefault()!);
 
         return wrappedHandlers;
     }

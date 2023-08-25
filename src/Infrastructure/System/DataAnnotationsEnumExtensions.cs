@@ -43,7 +43,7 @@ namespace SharedKernel.Infrastructure.System
 
             var attr = (DisplayAttribute)attrs.First();
 
-            return attr.ResourceType != null ? attr.GetName() : attr.Name;
+            return (attr.ResourceType != null ? attr.GetName() : attr.Name)!;
         }
     }
 }

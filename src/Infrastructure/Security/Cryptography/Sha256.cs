@@ -1,6 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using SharedKernel.Application.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
-using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography
 {
@@ -26,9 +26,9 @@ namespace SharedKernel.Infrastructure.Security.Cryptography
         /// <param name="data"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string HashHmac(string data, string key)
+        public string HashHmac(string data, string? key)
         {
-            key ??= "";
+            key ??= string.Empty;
             var encoding = Encoding.GetEncoding(1252);
             var keyByte = encoding.GetBytes(key);
             var messageBytes = encoding.GetBytes(data);

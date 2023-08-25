@@ -11,7 +11,7 @@ namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
         protected Dni() { }
 
         /// <summary> </summary>
-        public Dni(string value)
+        protected Dni(string value)
         {
             Value = value;
         }
@@ -23,7 +23,7 @@ namespace SharedKernel.Domain.ValueObjects.PersonalDocumentation
         }
 
         /// <summary> CIF value. </summary>
-        public string Value { get; private set; }
+        public string Value { get; private set; } = null!;
 
         /// <summary>
         /// Check if the value meets the validation rules or not
