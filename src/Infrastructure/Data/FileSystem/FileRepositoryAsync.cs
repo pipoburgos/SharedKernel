@@ -1,6 +1,4 @@
 ﻿using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Repositories;
 using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem

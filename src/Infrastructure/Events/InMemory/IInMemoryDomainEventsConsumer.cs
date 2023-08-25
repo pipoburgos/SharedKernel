@@ -1,5 +1,3 @@
-using SharedKernel.Domain.Events;
-
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
     /// <summary>  </summary>

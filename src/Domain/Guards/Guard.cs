@@ -1,8 +1,4 @@
-﻿#if NET6_0 || NET7_0
-using System.Runtime.CompilerServices;
-#endif
-
-namespace SharedKernel.Domain.Guards;
+﻿namespace SharedKernel.Domain.Guards;
 
 /// <summary>
 /// Specifies that an output will not be null even if the corresponding type allows it.

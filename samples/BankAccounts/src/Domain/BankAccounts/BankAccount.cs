@@ -1,8 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts.Errors;
 using BankAccounts.Domain.BankAccounts.Events;
-using BankAccounts.Domain.BankAccounts.Factories;
 using BankAccounts.Domain.BankAccounts.Specifications;
-using SharedKernel.Domain.Guards;
 
 namespace BankAccounts.Domain.BankAccounts
 {
@@ -15,24 +13,28 @@ namespace BankAccounts.Domain.BankAccounts
             _movements = new List<Movement>();
         }
 
-        internal BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
-            Movement initialMovement, DateTime now) : base(id)
+        protected BankAccount(Guid id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
+            Movement initialMovement) : base(id)
         {
             Guard.ThrowIfNullOrDefault(id);
             Guard.ThrowIfNullOrDefault(internationalBankAccountNumber);
             Guard.ThrowIfNullOrDefault(owner);
             Guard.ThrowIfNullOrDefault(initialMovement);
-
-            if (initialMovement.Amount <= 0)
-                throw new QuantityCannotBeNegativeException();
-
-            if (!new AtLeast18YearsOldSpec(now).SatisfiedBy().Compile()(owner))
-                throw new AtLeast18YearsOldException();
-
             InternationalBankAccountNumber = internationalBankAccountNumber;
             Owner = owner;
             _movements = new List<Movement> { initialMovement };
         }
+
+        public static Result<BankAccount> Create(Guid id, InternationalBankAccountNumber accountNumber, User owner,
+            Movement initialMovement, DateTime now) =>
+            Result
+                .Create(owner)
+                .Ensure(o => o == default || new AtLeast18YearsOldSpec(now).SatisfiedBy().Compile()(o),
+                    Error.Create(BankAccountErrors.AtLeast18YearsOld, nameof(owner)))
+                .EnsureAppendError(_ => initialMovement == default || initialMovement.Amount > 0,
+                    Error.Create(BankAccountErrors.QuantityCannotBeNegative, nameof(initialMovement)))
+                .Map(_ => new BankAccount(id, accountNumber, owner, initialMovement))
+                .Tap(bankAccount => bankAccount.Record(new BankAccountCreated(bankAccount.Id.ToString())));
 
         public InternationalBankAccountNumber InternationalBankAccountNumber { get; private set; }
 
@@ -42,27 +44,26 @@ namespace BankAccounts.Domain.BankAccounts
 
         public IEnumerable<Movement> Movements => _movements.AsEnumerable();
 
-        public void WithdrawMoney(Guid id, string concept, decimal quantity, DateTime date)
+        public Result<Unit> WithdrawMoney(Guid id, string concept, decimal quantity, DateTime date) =>
+            Result
+                .Create(Unit.Value)
+                .Ensure(_ => quantity > 0, Error.Create(BankAccountErrors.QuantityCannotBeNegative, nameof(quantity)))
+                .EnsureAppendError(_ => !new IsTheBankAccountOverdrawn().SatisfiedBy().Compile()(this),
+                    Error.Create(BankAccountErrors.OverdraftBankAccount))
+                .Tap(_ => _movements.Add(Movement.Create(id, concept, -quantity, date).Value));
+
+        public Result<Unit> MakeDeposit(Guid id, string concept, decimal quantity, DateTime date)
         {
-            if (quantity <= 0)
-                throw new QuantityCannotBeNegativeException();
+            var movement = Result
+                .Create(Unit.Value)
+                .Ensure(_ => quantity > 0, Error.Create(BankAccountErrors.QuantityCannotBeNegative, nameof(quantity)))
+                .Bind(_ => Movement.Create(id, concept, quantity, date))
+                .Tap(movement => _movements.Add(movement));
 
-            if (new IsTheBankAccountOverdrawn().SatisfiedBy().Compile()(this))
-                throw new OverdraftBankAccountException();
+            if (movement.IsSuccess && new IsThePayroll().SatisfiedBy().Compile()(movement.Value))
+                Record(new SalaryHasBeenDeposited(movement.Value.Id, Id.ToString()));
 
-            _movements.Add(MovementFactory.CreateMovement(id, concept, -quantity, date).Value);
-        }
-
-        public void MakeDeposit(Guid id, string concept, decimal quantity, DateTime date)
-        {
-            if (quantity <= 0)
-                throw new QuantityCannotBeNegativeException();
-
-            var movement = MovementFactory.CreateMovement(id, concept, quantity, date).Value;
-            _movements.Add(movement);
-
-            if (new IsThePayroll().SatisfiedBy().Compile()(movement))
-                Record(new SalaryHasBeenDeposited(movement.Id, Id.ToString()));
+            return Result.Success();
         }
     }
 }

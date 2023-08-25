@@ -1,12 +1,12 @@
 ﻿using BankAccounts.Domain.BankAccounts;
+using SharedKernel.Domain.RailwayOrientedProgramming;
 
-namespace BankAccounts.Domain.Tests.Data
+namespace BankAccounts.Domain.Tests.Data;
+
+internal static class MovementTestFactory
 {
-    internal static class MovementTestFactory
+    public static Result<Movement> Create(Guid? id = default, decimal? amount = default)
     {
-        public static Movement Create(Guid? id = default, decimal? amount = default)
-        {
-            return new Movement(id ?? Guid.NewGuid(), "Conce", amount ?? 23, new DateTime(2020, 3, 5));
-        }
+        return Movement.Create(id ?? Guid.NewGuid(), "Conce", amount ?? 23, new DateTime(2020, 3, 5));
     }
 }

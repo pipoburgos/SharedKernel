@@ -1,4 +1,4 @@
-﻿using BankAccounts.Infrastructure.Shared.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace BankAccounts.Infrastructure.Shared

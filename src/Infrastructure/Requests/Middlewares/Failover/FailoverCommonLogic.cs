@@ -1,7 +1,5 @@
 ﻿using SharedKernel.Application.Serializers;
 using SharedKernel.Application.System;
-using SharedKernel.Domain.Requests;
-using System.Collections;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 

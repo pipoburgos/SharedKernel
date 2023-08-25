@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
 {

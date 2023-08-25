@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Events;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.Events.Synchronous

@@ -1,7 +1,4 @@
-﻿using SharedKernel.Application.Requests;
-using SharedKernel.Domain.Requests;
-
-namespace SharedKernel.Infrastructure.Requests.Middlewares;
+﻿namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
 /// <summary>  </summary>
 public interface IExecuteMiddlewaresService
@@ -13,4 +10,9 @@ public interface IExecuteMiddlewaresService
     /// <summary>  </summary>
     Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>;
+
+    /// <summary>  </summary>
+    Task<ApplicationResult<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
+        where TRequest : IRequest<ApplicationResult<TResponse>>;
 }

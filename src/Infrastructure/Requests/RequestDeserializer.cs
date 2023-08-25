@@ -1,7 +1,5 @@
 ﻿using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Serializers;
-using SharedKernel.Domain.Events;
-using SharedKernel.Domain.Requests;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Requests;

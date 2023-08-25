@@ -10,17 +10,37 @@
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure.Newtonsoft\SharedKernel.Infrastructure.Newtonsoft.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\Application\BankAccounts.Application.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="BankAccounts.Application.Shared" />
+    <Using Include="BankAccounts.Infrastructure.Shared.Data" />
+    <Using Include="FluentValidation" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands.Handlers" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Entities" />
+    <Using Include="SharedKernel.Application.Events" />
+    <Using Include="SharedKernel.Domain.Specifications.Common" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories" />
+    <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Runtime.CompilerServices" />
+  </ItemGroup>
 
 </Project>

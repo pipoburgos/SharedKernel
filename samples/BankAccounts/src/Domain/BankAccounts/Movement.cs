@@ -4,11 +4,16 @@
     {
         protected Movement() { }
 
-        public Movement(Guid id, string concept, decimal amount, DateTime date) : base(id)
+        protected Movement(Guid id, string concept, decimal amount, DateTime date) : base(id)
         {
             Concept = concept;
             Amount = amount;
             Date = date;
+        }
+
+        public static Result<Movement> Create(Guid id, string concept, decimal amount, DateTime date)
+        {
+            return new Movement(id, concept, amount, date);
         }
 
         public string Concept { get; private set; }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.Requests;
-using SharedKernel.Domain.Requests;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
@@ -21,7 +19,7 @@ public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
     public Task ExecuteAsync<TRequest>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task> last) where TRequest : IRequest
     {
-        var middlewares = _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest>>().ToList();
+        var middlewares = GetMiddlewares();
         return !middlewares.Any()
             ? last(request, cancellationToken)
             : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
@@ -31,13 +29,29 @@ public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
     public Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>
     {
-        var middlewares = _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware<TRequest, TResponse>>().ToList();
+        var middlewares = GetMiddlewares();
         return !middlewares.Any()
             ? last(request, cancellationToken)
             : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
     }
 
-    private Func<TRequest, CancellationToken, Task> GetNext<TRequest>(IList<IMiddleware<TRequest>> middlewares,
+    /// <summary>  </summary>
+    public Task<ApplicationResult<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
+        where TRequest : IRequest<ApplicationResult<TResponse>>
+    {
+        var middlewares = GetMiddlewares();
+        return !middlewares.Any()
+            ? last(request, cancellationToken)
+            : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
+    }
+
+    private List<IMiddleware> GetMiddlewares()
+    {
+        return _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware>().ToList();
+    }
+
+    private Func<TRequest, CancellationToken, Task> GetNext<TRequest>(IList<IMiddleware> middlewares,
         int i, int lastIndex, Func<TRequest, CancellationToken, Task> last) where TRequest : IRequest
     {
         if (i == lastIndex)
@@ -47,13 +61,27 @@ public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
         return (r, c) => middlewares[i - 1].Handle(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 
-    private Func<TRequest, CancellationToken, Task<TResponse>> GetNext<TRequest, TResponse>(IList<IMiddleware<TRequest, TResponse>> middlewares,
-        int i, int lastIndex, Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>
+    private Func<TRequest, CancellationToken, Task<TResponse>> GetNext<TRequest, TResponse>(
+        IList<IMiddleware> middlewares, int i, int lastIndex, Func<TRequest, CancellationToken, Task<TResponse>> last)
+        where TRequest : IRequest<TResponse>
     {
         if (i == lastIndex)
             return last;
 
         i++;
         return (r, c) => middlewares[i - 1].Handle(r, c, GetNext(middlewares, i, lastIndex, last));
+    }
+
+    private Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> GetNext<TRequest, TResponse>(
+        IList<IMiddleware> middlewares, int i, int lastIndex,
+        Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
+        where TRequest : IRequest<ApplicationResult<TResponse>>
+    {
+        if (i == lastIndex)
+            return last;
+
+        i++;
+        return (r, c) => middlewares[i - 1]
+            .Handle<TRequest, ApplicationResult<TResponse>>(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 }

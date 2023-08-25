@@ -5,8 +5,6 @@ using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
-using SharedKernel.Domain.Events;
-using SharedKernel.Domain.Requests;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Security.Claims;
 

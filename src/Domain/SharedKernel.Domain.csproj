@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
-		<Authors>Roberto Fernández Salinas</Authors>
-		<Company>Roberto Fernández Salinas</Company>
-		<Description>C# DDD Domain Layer</Description>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<LangVersion>latest</LangVersion>
-		<NeutralLanguage>en</NeutralLanguage>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageId>Pipoburgos.SharedKernel.Domain</PackageId>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
+    <Description>C# DDD Domain Layer</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageId>Pipoburgos.SharedKernel.Domain</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository</PackageTags>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.1.10.5</Version>
-		<!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
-	</PropertyGroup>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository Rop Railway Oriented Programming Guards</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+    <Version>7.1.10.5</Version>
+    <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
+  </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="icon.png" Pack="true" PackagePath="" />
-		<None Include="readme.md" Pack="true" PackagePath="" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="readme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="SharedKernel.Domain.Aggregates" />
@@ -39,25 +39,27 @@
     <Using Include="SharedKernel.Domain.Specifications.Common" />
     <Using Include="SharedKernel.Domain.ValueObjects" />
     <Using Include="System.Collections" />
+    <Using Include="System.Linq" />
     <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Runtime.CompilerServices" />
     <Using Remove="System.Net.Http"/>
   </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</EmbeddedResource>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="Exceptions\ExceptionCodes.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>ExceptionCodes.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionCodes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
   <!--<ItemGroup>
 	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">

@@ -6,9 +6,9 @@ using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.FluentValidation;
-using SharedKernel.Infrastructure.FluentValidation.Requests.Middlewares;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
+using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Integration.Tests.Events;
 using SharedKernel.Testing.Infrastructure;
 using System.Security.Claims;
@@ -22,7 +22,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         return services
             .AddSharedKernel()
             .AddCommandsHandlers(typeof(SampleCommandWithResponseHandler))
-            .AddFluentValidationValidators(typeof(SampleCommandValidator))
+            .AddFluentValidation(typeof(SampleCommandValidator))
             .AddNetJsonSerializer()
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)

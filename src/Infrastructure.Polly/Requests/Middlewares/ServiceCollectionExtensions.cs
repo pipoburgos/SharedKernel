@@ -18,7 +18,6 @@ public static class ServiceCollectionExtensions
             .Configure<RetrieverOptions>(configuration.GetSection(nameof(RetrieverOptions)))
             .AddTransient<IRetriever, PollyRetrieverWrap>()
             .AddTransient<IRetryPolicyExceptionHandler, TImp>()
-            .AddTransient(typeof(IMiddleware<>), typeof(RetryPolicyMiddleware<>))
-            .AddTransient(typeof(IMiddleware<,>), typeof(RetryPolicyMiddleware<,>));
+            .AddTransient<IMiddleware, RetryPolicyMiddleware>();
     }
 }

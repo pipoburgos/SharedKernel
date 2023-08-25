@@ -1,10 +1,9 @@
-﻿using BankAccounts.Application.Shared;
+﻿using BankAccounts.Application;
 using BankAccounts.Application.Shared.UnitOfWork;
-using BankAccounts.Domain.BankAccounts.Repository;
+using BankAccounts.Domain;
 using BankAccounts.Domain.Services;
-using BankAccounts.Infrastructure.BankAccounts;
-using BankAccounts.Infrastructure.BankAccounts.Commands.Validators;
-using BankAccounts.Infrastructure.Shared.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
@@ -14,7 +13,6 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.FluentValidation;
-using SharedKernel.Infrastructure.FluentValidation.Requests.Middlewares;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
@@ -43,10 +41,10 @@ public static class BankAccountServiceCollection
     private static IServiceCollection AddApplication(this IServiceCollection services)
     {
         return services
-            .AddDomainEventsSubscribers(typeof(IBankAccountUnitOfWork), typeof(BankTransferService))
-            .AddCommandsHandlers(typeof(IBankAccountUnitOfWork))
-            .AddQueriesHandlers(typeof(BankAccountDbContext))
-            .AddFluentValidationValidators(typeof(CreateBankAccountValidator));
+            .AddDomainEventsSubscribers(typeof(BankAccountsApplicationAssembly), typeof(BankAccountsDomainAssembly))
+            .AddCommandsHandlers(typeof(BankAccountsApplicationAssembly))
+            .AddQueriesHandlers(typeof(BankAccountsInfrastructureAssembly))
+            .AddFluentValidation(typeof(BankAccountsInfrastructureAssembly));
     }
 
     private static IServiceCollection AddInfrastructure(this IServiceCollection services,
@@ -54,9 +52,10 @@ public static class BankAccountServiceCollection
     {
         return services
             .AddSmtp(configuration)
-            .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(IBankAccountRepository),
-                typeof(EntityFrameworkBankAccountRepository), typeof(IBankAccountUnitOfWork))
-            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext, IBankAccountUnitOfWork>(configuration.GetConnectionString(connectionStringName)!)
+            .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
+                typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
+            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext, IBankAccountUnitOfWork>(
+                configuration.GetConnectionString(connectionStringName)!)
             .AddDapperSqlServer(configuration.GetConnectionString(connectionStringName)!)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
             .AddValidationMiddleware()

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.Synchronous;
 using SharedKernel.Infrastructure.Requests;

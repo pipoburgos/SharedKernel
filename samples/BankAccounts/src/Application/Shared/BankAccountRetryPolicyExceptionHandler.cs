@@ -1,5 +1,5 @@
 ﻿using BankAccounts.Domain.Shared;
-using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.RetryPolicies;
 
 namespace BankAccounts.Application.Shared
 {

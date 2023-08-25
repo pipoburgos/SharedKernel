@@ -23,16 +23,17 @@ public class ValidationFailureException : Exception
     }
 
     /// <summary>Creates a new ValidationException</summary>
-    public ValidationFailureException(IList<ValidationFailure> errors)
-        : base(BuildErrorMessage(errors))
+    // ReSharper disable once PossibleMultipleEnumeration
+    public ValidationFailureException(IEnumerable<ValidationFailure> errors) : base(BuildErrorMessage(errors))
     {
+        // ReSharper disable once PossibleMultipleEnumeration
         Errors = errors;
     }
 
-    private static string BuildErrorMessage(IList<ValidationFailure> errors)
+    private static string BuildErrorMessage(IEnumerable<ValidationFailure> errors)
     {
         var values = errors.Select(x => Environment.NewLine + " -- " + x.PropertyName + ": " + x.ErrorMessage);
-        return "Validation failed: " + string.Join(string.Empty, values);
+        return $"Validation failed: {string.Join(string.Empty, values)}";
     }
 
     /// <summary>  </summary>

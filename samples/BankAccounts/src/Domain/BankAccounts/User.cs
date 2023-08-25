@@ -4,11 +4,16 @@
     {
         protected User() { }
 
-        internal User(Guid id, string name, string surname, DateTime birthdate) : base(id)
+        protected User(Guid id, string name, string surname, DateTime birthdate) : base(id)
         {
             Name = name;
             Surname = surname;
             Birthdate = birthdate;
+        }
+
+        public static Result<User> Create(Guid id, string name, string surname, DateTime dateOfBirth)
+        {
+            return new User(id, name, surname, dateOfBirth);
         }
 
         public string Name { get; private set; }

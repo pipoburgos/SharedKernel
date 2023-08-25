@@ -1,11 +1,10 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Domain.Requests;
 using System.Diagnostics;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
 /// <summary>  </summary>
-public class TimerMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : IRequest
+public class TimerMiddleware : IMiddleware
 {
     private readonly ITimeHandler _timeHandler;
     private readonly Stopwatch _timer;
@@ -18,15 +17,35 @@ public class TimerMiddleware<TRequest> : IMiddleware<TRequest> where TRequest : 
     }
 
     /// <summary>  </summary>
-    public async Task Handle(TRequest request, CancellationToken cancellationToken,
-        Func<TRequest, CancellationToken, Task> next)
+    public async Task Handle<TRequest>(TRequest request, CancellationToken cancellationToken,
+        Func<TRequest, CancellationToken, Task> next) where TRequest : IRequest
     {
         _timer.Start();
-
         await next(request, cancellationToken);
-
         _timer.Stop();
-
         _timeHandler.Handle(request, _timer);
+    }
+
+    /// <summary>  </summary>
+    public async Task<TResponse> Handle<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
+        Func<TRequest, CancellationToken, Task<TResponse>> next) where TRequest : IRequest<TResponse>
+    {
+        _timer.Start();
+        var response = await next(request, cancellationToken);
+        _timer.Stop();
+        _timeHandler.Handle(request, _timer);
+        return response;
+    }
+
+    /// <summary>  </summary>
+    public async Task<ApplicationResult<TResponse>> Handle<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> next)
+        where TRequest : IRequest<ApplicationResult<TResponse>>
+    {
+        _timer.Start();
+        var result = await next(request, cancellationToken);
+        _timer.Stop();
+        _timeHandler.Handle(request, _timer);
+        return result;
     }
 }

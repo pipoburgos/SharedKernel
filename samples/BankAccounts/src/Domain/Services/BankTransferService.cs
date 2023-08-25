@@ -1,19 +1,13 @@
 ﻿using BankAccounts.Domain.BankAccounts;
-using BankAccounts.Domain.BankAccounts.Errors;
 
-namespace BankAccounts.Domain.Services
+namespace BankAccounts.Domain.Services;
+
+internal class BankTransferService
 {
-    internal class BankTransferService
-    {
-        public void Transfer(BankAccount fromBankAccount, BankAccount toBankAccount, decimal quantity, DateTime date,
-            Guid fromMovementId, Guid toMovementId)
-        {
-            if (quantity <= 0)
-                throw new QuantityCannotBeNegativeException();
-
-            fromBankAccount.WithdrawMoney(fromMovementId, "Transfer", quantity, date);
-
-            toBankAccount.MakeDeposit(toMovementId, "Transfer", quantity, date);
-        }
-    }
+    public Result<Unit> Transfer(BankAccount fromBankAccount, BankAccount toBankAccount, decimal quantity,
+        DateTime date, Guid fromMovementId, Guid toMovementId) =>
+        Result
+            .Create(Unit.Value)
+            .Bind(_ => fromBankAccount.WithdrawMoney(fromMovementId, "Transfer", quantity, date))
+            .Bind(_ => toBankAccount.MakeDeposit(toMovementId, "Transfer", quantity, date));
 }

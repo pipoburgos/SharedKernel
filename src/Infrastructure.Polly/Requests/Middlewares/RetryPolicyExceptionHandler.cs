@@ -1,4 +1,4 @@
-﻿using SharedKernel.Application.Cqrs.Middlewares;
+﻿using SharedKernel.Application.RetryPolicies;
 
 namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 

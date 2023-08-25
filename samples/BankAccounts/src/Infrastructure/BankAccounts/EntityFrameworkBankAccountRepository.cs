@@ -1,6 +1,5 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
-using BankAccounts.Infrastructure.Shared.Data;
 
 namespace BankAccounts.Infrastructure.BankAccounts
 {

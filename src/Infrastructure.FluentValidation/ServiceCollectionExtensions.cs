@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Validator;
+using SharedKernel.Domain;
 using System.Globalization;
 using System.Reflection;
 
@@ -10,24 +11,25 @@ namespace SharedKernel.Infrastructure.FluentValidation;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddFluentValidationValidators(this IServiceCollection services, Type type,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
+    public static IServiceCollection AddFluentValidation(this IServiceCollection services, Type type,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en",
+        CascadeMode cascadeMode = CascadeMode.Stop)
     {
-        return services.AddFluentValidationValidators(type.Assembly, serviceLifetime, cultureInfo);
+        return services.AddFluentValidation(type.Assembly, serviceLifetime, cultureInfo, cascadeMode);
     }
 
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddFluentValidationValidators(this IServiceCollection services, Assembly assembly,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en")
+    public static IServiceCollection AddFluentValidation(this IServiceCollection services, Assembly assembly,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient, string cultureInfo = "en",
+        CascadeMode cascadeMode = CascadeMode.Stop)
     {
         ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo(cultureInfo);
-        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
-
-        services.AddValidatorsFromAssembly(typeof(PageOptionsValidator).Assembly, serviceLifetime,
-            includeInternalTypes: true);
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = cascadeMode;
 
         return services
             .AddTransient(typeof(IEntityValidator<>), typeof(FluentValidator<>))
+            .AddValidatorsFromAssembly(typeof(SharedKernelDomainAssembly).Assembly, serviceLifetime,
+                includeInternalTypes: true)
             .AddValidatorsFromAssembly(assembly, serviceLifetime, includeInternalTypes: true);
     }
 }

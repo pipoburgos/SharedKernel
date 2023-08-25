@@ -2,12 +2,7 @@
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Extensions;
 using SharedKernel.Application.Mapper;
-using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Extensions;
-using SharedKernel.Domain.Specifications;
-using SharedKernel.Domain.Specifications.Common;
-using System.Linq.Expressions;
 
 namespace SharedKernel.Infrastructure.Data.Queryable
 {

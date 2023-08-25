@@ -32,9 +32,11 @@
 
   <ItemGroup>
     <Using Include="SharedKernel.Application.Requests" />
+    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Events" />
     <Using Include="SharedKernel.Domain.Requests" />
+    <Using Include="System.Runtime.CompilerServices" />
     <Using Remove="System.Net.Http"/>
   </ItemGroup>
 

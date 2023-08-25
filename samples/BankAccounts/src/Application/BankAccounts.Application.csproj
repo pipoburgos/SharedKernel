@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\src\Application\SharedKernel.Application.csproj" />
-		<ProjectReference Include="..\Domain\BankAccounts.Domain.csproj" />
-	</ItemGroup>
+  </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\Domain\BankAccounts.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="BankAccounts.Application.Shared.UnitOfWork" />
     <Using Include="BankAccounts.Application.Shared" />
     <Using Include="SharedKernel.Application.Cqrs.Commands" />
     <Using Include="SharedKernel.Application.Cqrs.Commands.Handlers" />
@@ -21,8 +22,12 @@
     <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
     <Using Include="SharedKernel.Application.Cqrs.Queries.Entities" />
     <Using Include="SharedKernel.Application.Events" />
+    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
+    <Using Include="SharedKernel.Application.System" />
+    <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Specifications.Common" />
     <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Runtime.CompilerServices" />
   </ItemGroup>
 
 </Project>

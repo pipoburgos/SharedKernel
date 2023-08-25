@@ -1,9 +1,6 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
 using BankAccounts.Domain.BankAccounts;
-using BankAccounts.Infrastructure.Shared.Data;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
+
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries
 {

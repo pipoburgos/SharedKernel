@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
-using SharedKernel.Domain.Requests;
 
 namespace SharedKernel.Infrastructure.Requests;
 

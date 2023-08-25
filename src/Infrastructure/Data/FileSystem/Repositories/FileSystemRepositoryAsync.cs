@@ -1,7 +1,4 @@
 ﻿using SharedKernel.Application.Serializers;
-using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Repositories;
 
 #pragma warning disable 693
 
