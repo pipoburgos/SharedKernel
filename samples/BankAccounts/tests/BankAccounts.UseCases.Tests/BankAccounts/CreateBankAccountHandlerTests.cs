@@ -40,7 +40,7 @@ namespace BankAccounts.UseCases.Tests.BankAccounts
             await _bankAccountRepository.Received(1)
                 .AddAsync(Arg.Is<BankAccount>(ba => ba.Id == BankAccountId.Create(id) && ba.Balance == 34),
                     CancellationToken.None);
-            await _bankAccountUnitOfWork.Received(1).SaveChangesAsync(CancellationToken.None);
+            await _bankAccountUnitOfWork.Received(1).SaveChangesResultAsync(CancellationToken.None);
             await _eventBus.Received(1).Publish(Arg.Any<IEnumerable<DomainEvent>>(), CancellationToken.None);
         }
     }

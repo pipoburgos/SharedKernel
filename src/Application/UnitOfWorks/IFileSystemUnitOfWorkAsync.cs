@@ -1,9 +1,6 @@
-﻿namespace SharedKernel.Application.UnitOfWorks
+﻿namespace SharedKernel.Application.UnitOfWorks;
+
+/// <summary>  </summary>
+public interface IFileSystemUnitOfWorkAsync : IUnitOfWorkAsync
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IFileSystemUnitOfWorkAsync : IUnitOfWorkAsync
-    {
-    }
 }

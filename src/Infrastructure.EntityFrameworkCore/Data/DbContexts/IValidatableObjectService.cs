@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
+﻿using SharedKernel.Domain.RailwayOrientedProgramming;
+
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
 {
     /// <summary>  </summary>
     public interface IValidatableObjectService
@@ -7,6 +9,12 @@
         void Validate(DbContext context);
 
         /// <summary>  </summary>
+        Result<Unit> ValidateResul(DbContext context);
+
+        /// <summary>  </summary>
         void ValidateDomainEntities(DbContext context);
+
+        /// <summary>  </summary>
+        Result<Unit> ValidateDomainEntitiesResult(DbContext context);
     }
 }

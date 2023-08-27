@@ -29,16 +29,16 @@ namespace BankAccounts.Domain.BankAccounts
             Movement initialMovement, DateTime now) =>
             Result
                 .Create(owner)
-                .Ensure(o => o == default || new AtLeast18YearsOldSpec(now).SatisfiedBy().Compile()(o),
+                .Ensure(o => o == default! || new AtLeast18YearsOldSpec(now).SatisfiedBy().Compile()(o),
                     Error.Create(BankAccountErrors.AtLeast18YearsOld, nameof(owner)))
-                .EnsureAppendError(_ => initialMovement == default || initialMovement.Amount > 0,
+                .EnsureAppendError(_ => initialMovement == default! || initialMovement.Amount > 0,
                     Error.Create(BankAccountErrors.QuantityCannotBeNegative, nameof(initialMovement)))
                 .Map(_ => new BankAccount(id, accountNumber, owner, initialMovement))
-                .Tap(bankAccount => bankAccount.Record(new BankAccountCreated(bankAccount.Id.ToString())));
+                .Tap(bankAccount => bankAccount.Record(new BankAccountCreated(bankAccount.Id.ToString()!)));
 
-        public InternationalBankAccountNumber InternationalBankAccountNumber { get; private set; }
+        public InternationalBankAccountNumber InternationalBankAccountNumber { get; private set; } = null!;
 
-        public User Owner { get; private set; }
+        public User Owner { get; private set; } = null!;
 
         public decimal Balance => _movements.Sum(m => m.Amount);
 

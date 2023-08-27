@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.RailwayOrientedProgramming;
 using System.Data;
 using System.Reflection;
 
@@ -44,15 +45,52 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
     #region IUnitOfWorkAsync Methods
 
     /// <summary>  </summary>
-    public int Rollback()
+    public override int SaveChanges()
     {
-        return RollbackAsync(CancellationToken.None).GetAwaiter().GetResult();
+        try
+        {
+            _validatableObjectService?.ValidateDomainEntities(this);
+            _validatableObjectService?.Validate(this);
+            _auditableService?.Audit(this);
+            return base.SaveChanges();
+        }
+#if !NET462 && !NET47 && !NET471
+        catch (DbUpdateException exUpdate)
+        {
+            throw new Exception(string.Join(", ", exUpdate.Entries.Select(e => e.ToString())), exUpdate);
+        }
+#endif
+        finally
+        {
+            Rollback();
+        }
     }
 
     /// <summary>  </summary>
-    public override int SaveChanges()
+    public Result<int> SaveChangesResult()
     {
-        return SaveChangesAsync(CancellationToken.None).GetAwaiter().GetResult();
+        try
+        {
+            return Result
+                .Create(Unit.Value)
+#if NET47_OR_GREATER || NET5_0_OR_GREATER || NETSTANDARD
+                .Combine(
+                    _validatableObjectService?.ValidateDomainEntitiesResult(this) ?? Result.Create(Unit.Value),
+                    _validatableObjectService?.ValidateResul(this) ?? Result.Create(Unit.Value))
+#endif
+                .Tap(_ => _auditableService?.Audit(this))
+                .Map(_ => base.SaveChanges());
+        }
+#if !NET462 && !NET47 && !NET471
+        catch (DbUpdateException exUpdate)
+        {
+            return Result.Failure<int>(exUpdate.Entries.Select(e => Error.Create(e.ToString())));
+        }
+#endif
+        finally
+        {
+            Rollback();
+        }
     }
 
     /// <summary>  </summary>
@@ -72,9 +110,9 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
             return await base.SaveChangesAsync(cancellationToken);
         }
 #if !NET462 && !NET47 && !NET471
-        catch (DbUpdateException exUpdate)
+        catch (DbUpdateException dbUpdateException)
         {
-            throw new Exception(string.Join(", ", exUpdate.Entries.Select(e => e.ToString())), exUpdate);
+            throw new Exception(string.Join(", ", dbUpdateException.Entries.Select(e => e.ToString())), dbUpdateException);
         }
 #endif
         finally
@@ -83,9 +121,24 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
         }
     }
 
-    /// <inheritdoc />
-    /// <summary> Rollback all changes. </summary>
-    public Task<int> RollbackAsync(CancellationToken cancellationToken)
+    /// <summary>  </summary>
+    public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken) =>
+        Result
+            .Create(Unit.Value)
+            .Combine(_validatableObjectService?.ValidateDomainEntitiesResult(this) ?? Result.Create(Unit.Value),
+                _validatableObjectService?.ValidateResul(this) ?? Result.Create(Unit.Value))
+            .Tap(_ => _auditableService?.Audit(this))
+            .Map(_ => Unit.Value)
+            .TryBind<Unit, int, DbUpdateException>(_ => base.SaveChangesAsync(cancellationToken),
+                dbUpdateException => Result.Failure<int>(new List<Error>
+                        {Error.Create(dbUpdateException.InnerException?.ToString() ?? dbUpdateException.Message)}
+                    .Concat(dbUpdateException.Entries.Select(e => Error.Create(e.ToString())))),
+                expetion =>
+                    Result.Failure<int>(Error.Create(expetion.InnerException?.ToString() ?? expetion.Message)),
+                () => RollbackAsync(cancellationToken));
+
+    /// <summary>  </summary>
+    public int Rollback()
     {
         var changedEntries = ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList();
 
@@ -106,7 +159,14 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
             }
         }
 
-        return Task.FromResult(changedEntries.Count);
+        return changedEntries.Count;
+    }
+
+    /// <inheritdoc />
+    /// <summary> Rollback all changes. </summary>
+    public Task<int> RollbackAsync(CancellationToken cancellationToken)
+    {
+        return Task.FromResult(Rollback());
     }
 
     #endregion

@@ -65,7 +65,9 @@ public class Startup
             .UseSharedKernelCurrentCulture()
             .UseSharedKernelServicesPage(_services)
             .UseSharedKernelExceptionHandler("BankAccounts",
-                exceptionHandler => $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})")
+                exceptionHandler =>
+                    $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})",
+                debug => Console.WriteLine(debug.Error))
             .UseCors(CorsPolicy)
             .UseRouting()
             .UseEndpoints(endpoints =>

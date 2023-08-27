@@ -32,7 +32,7 @@ internal class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccou
             .Bind(t => BankAccount.Create(BankAccountId.Create(command.Id), t.Item1.Value, t.Item2, t.Item3,
                 _dateTime.UtcNow))
             .Tap(bankAccount => _bankAccountRepository.AddAsync(bankAccount, cancellationToken))
-            .Tap(_ => _unitOfWork.SaveChangesAsync(cancellationToken))
+            .Tap(_ => _unitOfWork.SaveChangesResultAsync(cancellationToken))
             .Tap(bankAccount => _eventBus.Publish(bankAccount.PullDomainEvents(), cancellationToken))
             .ToApplicationResultUnit();
 }

@@ -1,11 +1,16 @@
-﻿namespace SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Domain.RailwayOrientedProgramming;
+
+namespace SharedKernel.Application.UnitOfWorks;
 
 /// <summary> Synchronous unit of work pattern. </summary>
 public interface IUnitOfWork
 {
     /// <summary>  </summary>
-    int Rollback();
+    int SaveChanges();
 
     /// <summary>  </summary>
-    int SaveChanges();
+    Result<int> SaveChangesResult();
+
+    /// <summary>  </summary>
+    int Rollback();
 }

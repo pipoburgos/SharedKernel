@@ -1,5 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using Newtonsoft.Json;
+using SharedKernel.Domain.ValueObjects;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations
 {
@@ -33,7 +34,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Configurations
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v,
                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                    v => JsonConvert.DeserializeObject<IEnumerable<string>>(v,
+                    v => JsonConvert.DeserializeObject<IEnumerable<Email>>(v,
                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
         }
     }

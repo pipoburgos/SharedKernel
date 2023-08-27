@@ -1,85 +1,83 @@
-﻿using System.Collections.Concurrent;
-using SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Application.UnitOfWorks;
+using System.Collections.Concurrent;
 
-namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks
+namespace SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
+
+/// <summary>  </summary>
+public class FileSystemUnitOfWork : IFileSystemUnitOfWorkAsync
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class FileSystemUnitOfWork : IFileSystemUnitOfWorkAsync
+    /// <summary>  </summary>
+    public ConcurrentBag<DirectoryEntity> Directories;
+
+    /// <summary>  </summary>
+    public ConcurrentBag<FileEntity> Files;
+
+    /// <summary>  </summary>
+    public FileSystemUnitOfWork()
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public ConcurrentBag<DirectoryEntity> Directories;
+        Directories = new ConcurrentBag<DirectoryEntity>();
+        Files = new ConcurrentBag<FileEntity>();
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public ConcurrentBag<FileEntity> Files;
+    /// <summary>  </summary>
+    public int SaveChanges()
+    {
+        foreach (var directory in Directories)
+            Directory.CreateDirectory(directory.Id);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public FileSystemUnitOfWork()
-        {
-            Directories = new ConcurrentBag<DirectoryEntity>();
-            Files = new ConcurrentBag<FileEntity>();
-        }
+        foreach (var file in Files)
+            File.WriteAllBytes(file.Id, file.Contents);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        public Task<int> RollbackAsync(CancellationToken cancellationToken)
-        {
-            Directories = new ConcurrentBag<DirectoryEntity>();
-            Files = new ConcurrentBag<FileEntity>();
-            return Task.FromResult(0);
-        }
+        var result = Files.Count + Directories.Count;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            foreach (var directory in Directories)
-                Directory.CreateDirectory(directory.Id);
+        Rollback();
 
-            foreach (var file in Files)
-#if NETSTANDARD2_1
-                File.WriteAllBytesAsync(file.Id, file.Contents, cancellationToken);
+        return result;
+    }
+
+    /// <summary>  </summary>
+    public Result<int> SaveChangesResult()
+    {
+        return Result.Create(SaveChanges());
+    }
+
+    /// <summary>  </summary>
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        foreach (var directory in Directories)
+            Directory.CreateDirectory(directory.Id);
+
+        var tasks = new List<Task>();
+        foreach (var file in Files)
+#if NETSTANDARD2_1 || NET6_0_OR_GREATER
+            tasks.Add(File.WriteAllBytesAsync(file.Id, file.Contents, cancellationToken));
 #else
-                File.WriteAllBytes(file.Id, file.Contents);
+            File.WriteAllBytes(file.Id, file.Contents);
 #endif
-            var result = Files.Count + Directories.Count;
+        await RollbackAsync(cancellationToken);
 
-            Directories = new ConcurrentBag<DirectoryEntity>();
+        await Task.WhenAll(tasks);
 
-            Files = new ConcurrentBag<FileEntity>();
+        return await Task.FromResult(Files.Count + Directories.Count);
+    }
 
-            return Task.FromResult(result);
-        }
+    /// <summary>  </summary>
+    public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
+    {
+        return Task.FromResult(Result.Create(SaveChanges()));
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int Rollback()
-        {
-            return RollbackAsync(CancellationToken.None).GetAwaiter().GetResult();
-        }
+    /// <summary>  </summary>
+    public int Rollback()
+    {
+        Directories = new ConcurrentBag<DirectoryEntity>();
+        Files = new ConcurrentBag<FileEntity>();
+        return 0;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int SaveChanges()
-        {
-            return SaveChangesAsync(CancellationToken.None).GetAwaiter().GetResult();
-        }
+    /// <summary>  </summary>
+    public Task<int> RollbackAsync(CancellationToken cancellationToken)
+    {
+        return Task.FromResult(Rollback());
     }
 }

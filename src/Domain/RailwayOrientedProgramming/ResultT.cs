@@ -13,10 +13,10 @@ public readonly struct Result<T>
     public readonly IEnumerable<Error> Errors;
 
     /// <summary>  </summary>
-    public bool IsSuccess => !Errors.Any();
+    public bool IsSuccess => Errors != default && !Errors.Any();
 
     /// <summary>  </summary>
-    public bool IsFailure => Errors.Any();
+    public bool IsFailure => Errors == default || Errors.Any();
 
     /// <summary>  </summary>
     private Result(T value)
@@ -28,6 +28,9 @@ public readonly struct Result<T>
     /// <summary>  </summary>
     private Result(IEnumerable<Error> errors)
     {
+        if (errors == default)
+            throw new InvalidOperationException("At least one error.");
+
         var list = errors.ToList();
         if (list.Count == 0)
             throw new InvalidOperationException("At least one error.");

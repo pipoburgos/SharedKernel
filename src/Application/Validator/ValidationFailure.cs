@@ -7,7 +7,7 @@ public class ValidationFailure
     private ValidationFailure() { }
 
     /// <summary>Creates a new ValidationFailure.</summary>
-    public ValidationFailure(string propertyName, string errorMessage, object attemptedValue = null)
+    public ValidationFailure(string? propertyName, string errorMessage, object? attemptedValue = default)
     {
         PropertyName = propertyName;
         ErrorMessage = errorMessage;
@@ -15,13 +15,13 @@ public class ValidationFailure
     }
 
     /// <summary>The name of the property.</summary>
-    public string PropertyName { get; set; }
+    public string? PropertyName { get; set; }
 
     /// <summary>The error message</summary>
-    public string ErrorMessage { get; set; }
+    public string ErrorMessage { get; set; } = null!;
 
     /// <summary>The property value that caused the failure.</summary>
-    public object AttemptedValue { get; set; }
+    public object? AttemptedValue { get; set; }
 
     /// <summary>Creates a textual representation of the failure.</summary>
     public override string ToString()
