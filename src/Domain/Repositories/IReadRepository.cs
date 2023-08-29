@@ -9,10 +9,10 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        TAggregate? GetById<TKey>(TKey key);
+        TAggregate? GetById<TId>(TId key);
 
         /// <summary>
         /// 
@@ -29,33 +29,33 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool Any<TKey>(TKey key);
+        bool Any<TId>(TId key);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool NotAny<TKey>(TKey key);
+        bool NotAny<TId>(TId key);
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TAggregate"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IReadRepository<out TAggregate, in TKey> where TAggregate : IAggregateRoot
+    /// <typeparam name="TId"></typeparam>
+    public interface IReadRepository<out TAggregate, in TId> where TAggregate : IAggregateRoot
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        TAggregate GetById(TKey key);
+        TAggregate GetById(TId key);
 
         /// <summary>
         /// 
@@ -74,13 +74,13 @@
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool Any(TKey key);
+        bool Any(TId key);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool NotAny(TKey key);
+        bool NotAny(TId key);
     }
 }

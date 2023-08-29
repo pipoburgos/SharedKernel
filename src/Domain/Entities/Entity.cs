@@ -1,8 +1,8 @@
 namespace SharedKernel.Domain.Entities;
 
 /// <summary>  </summary>
-/// <typeparam name="TKey"></typeparam>
-public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
+/// <typeparam name="TId"></typeparam>
+public abstract class Entity<TId> : IEntity<TId> where TId : notnull
 {
     #region Constructors
 
@@ -11,7 +11,7 @@ public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
 
     /// <summary> Entity constructor. </summary>
     /// <param name="id">The identifier</param>
-    protected Entity(TKey id)
+    protected Entity(TId id)
     {
         Id = id;
     }
@@ -21,7 +21,7 @@ public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
     #region Properties
 
     /// <summary> The object identifier. </summary>
-    public TKey Id { get; protected set; } = default!;
+    public TId Id { get; protected set; } = default!;
 
     #endregion
 
@@ -31,7 +31,7 @@ public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
     /// <returns>True if entity is transient, else false</returns>
     public bool IsTransient()
     {
-        return EqualityComparer<TKey>.Default.Equals(default!, Id);
+        return EqualityComparer<TId>.Default.Equals(default!, Id);
     }
 
     #endregion
@@ -46,13 +46,13 @@ public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
         if (obj == default)
             return false;
 
-        if (!(obj is Entity<TKey>))
+        if (!(obj is Entity<TId>))
             return false;
 
         if (ReferenceEquals(this, obj))
             return true;
 
-        var item = (Entity<TKey>)obj;
+        var item = (Entity<TId>)obj;
 
         var equals = Id.Equals(item.Id);
 
@@ -73,13 +73,13 @@ public abstract class Entity<TKey> : IEntity<TKey> where TKey : notnull
     }
 
     /// <summary> Compare by identifier. </summary>
-    public static bool operator ==(Entity<TKey> left, Entity<TKey> right)
+    public static bool operator ==(Entity<TId> left, Entity<TId> right)
     {
         return Equals(left, right);
     }
 
     /// <summary> Compare by identifier. </summary>
-    public static bool operator !=(Entity<TKey> left, Entity<TKey> right)
+    public static bool operator !=(Entity<TId> left, Entity<TId> right)
     {
         return !(left == right);
     }

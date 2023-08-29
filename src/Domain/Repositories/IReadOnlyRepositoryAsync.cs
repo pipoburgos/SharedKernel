@@ -9,28 +9,28 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate?> GetByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetByIdReadOnlyAsync<TId>(TId key, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate?> GetDeleteByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetDeleteByIdReadOnlyAsync<TId>(TId key, CancellationToken cancellationToken);
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TAggregate"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IReadOnlyRepositoryAsync<TAggregate, in TKey> where TAggregate : IAggregateRoot
+    /// <typeparam name="TId"></typeparam>
+    public interface IReadOnlyRepositoryAsync<TAggregate, in TId> where TAggregate : IAggregateRoot
     {
         /// <summary>
         /// 
@@ -38,7 +38,7 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate?> GetByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetByIdReadOnlyAsync(TId key, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
@@ -46,6 +46,6 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate?> GetDeleteByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetDeleteByIdReadOnlyAsync(TId key, CancellationToken cancellationToken);
     }
 }

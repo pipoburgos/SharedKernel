@@ -19,10 +19,10 @@
     /// 
     /// </summary>
     /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IRepository<TAggregateRoot, in TKey> :
+    /// <typeparam name="TId"></typeparam>
+    public interface IRepository<TAggregateRoot, in TId> :
         ICreateRepository<TAggregateRoot>,
-        IReadRepository<TAggregateRoot, TKey>,
+        IReadRepository<TAggregateRoot, TId>,
         IUpdateRepository<TAggregateRoot>,
         IDeleteRepository<TAggregateRoot>,
         IReadSpecificationRepository<TAggregateRoot>,

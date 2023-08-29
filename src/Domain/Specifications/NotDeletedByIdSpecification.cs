@@ -1,13 +1,13 @@
 ﻿namespace SharedKernel.Domain.Specifications;
 
 /// <summary>  </summary>
-public class NotDeletedByIdSpecification<T, TKey> : Specification<T>
-    where T : class, IEntity<TKey>, IEntityAuditableLogicalRemove where TKey : notnull
+public class NotDeletedByIdSpecification<T, TId> : Specification<T>
+    where T : class, IEntity<TId>, IEntityAuditableLogicalRemove where TId : notnull
 {
-    private TKey Key { get; }
+    private TId Key { get; }
 
     /// <summary>  </summary>
-    public NotDeletedByIdSpecification(TKey key)
+    public NotDeletedByIdSpecification(TId key)
     {
         Key = key;
     }
@@ -15,7 +15,7 @@ public class NotDeletedByIdSpecification<T, TKey> : Specification<T>
     /// <summary>  </summary>
     public override Expression<Func<T, bool>> SatisfiedBy()
     {
-        return new AndSpecification<T>(new NotDeletedSpecification<T>(), new EntityByIdSpecification<T, TKey>(Key))
+        return new AndSpecification<T>(new NotDeletedSpecification<T>(), new EntityByIdSpecification<T, TId>(Key))
             .SatisfiedBy();
     }
 }

@@ -10,12 +10,12 @@
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IEntity<out TKey> : IEntity
+    /// <typeparam name="TId"></typeparam>
+    public interface IEntity<out TId> : IEntity
     {
         /// <summary>
         /// The identifier of de entity
         /// </summary>
-        TKey Id { get; }
+        TId Id { get; }
     }
 }

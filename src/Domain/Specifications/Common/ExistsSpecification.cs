@@ -10,16 +10,16 @@ public interface IName
 }
 
 /// <summary>  </summary>
-public class ExistsSpecification<TKey, TEntity, TTranslation> : Specification<TEntity>
-    where TEntity : class, IEntityIsTranslatable<TKey, TEntity, TTranslation>
-    where TTranslation : IEntityTranslated<TKey, TEntity>, IName
-    where TKey : notnull
+public class ExistsSpecification<TId, TEntity, TTranslation> : Specification<TEntity>
+    where TEntity : class, IEntityIsTranslatable<TId, TEntity, TTranslation>
+    where TTranslation : IEntityTranslated<TId, TEntity>, IName
+    where TId : notnull
 {
-    private readonly TKey _id;
+    private readonly TId _id;
     private readonly string _name;
 
     /// <summary>  </summary>
-    public ExistsSpecification(TKey id, string name)
+    public ExistsSpecification(TId id, string name)
     {
         _id = id;
         _name = name;

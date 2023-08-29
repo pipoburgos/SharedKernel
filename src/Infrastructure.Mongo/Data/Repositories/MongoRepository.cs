@@ -10,7 +10,7 @@ using SharedKernel.Domain.Specifications.Common;
 namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class MongoRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId> where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
     protected readonly IMongoCollection<TAggregateRoot> MongoCollection;
@@ -46,7 +46,7 @@ public abstract class MongoRepository<TAggregateRoot, TKey> : IRepository<TAggre
     }
 
     /// <summary>  </summary>
-    public TAggregateRoot GetById(TKey key)
+    public TAggregateRoot GetById(TId key)
     {
         return MongoCollection.Find(a => a.Id!.Equals(key)).SingleOrDefault();
     }
@@ -64,13 +64,13 @@ public abstract class MongoRepository<TAggregateRoot, TKey> : IRepository<TAggre
     }
 
     /// <summary>  </summary>
-    public bool Any(TKey key)
+    public bool Any(TId key)
     {
         return MongoCollection.Find(a => a.Id!.Equals(key)).Any();
     }
 
     /// <summary>  </summary>
-    public bool NotAny(TKey key)
+    public bool NotAny(TId key)
     {
         return !MongoCollection.Find(a => a.Id!.Equals(key)).Any();
     }

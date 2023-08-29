@@ -8,10 +8,10 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
     /// 
     /// </summary>
     /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class FileSystemRepository<TAggregateRoot, TKey> :
+    /// <typeparam name="TId"></typeparam>
+    public abstract class FileSystemRepository<TAggregateRoot, TId> :
         ICreateRepository<TAggregateRoot>
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
     {
         /// <summary>
         /// 
@@ -68,10 +68,10 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TAggregateRoot? GetById<TKey>(TKey key) where TKey : notnull
+        public TAggregateRoot? GetById<TId>(TId key) where TId : notnull
         {
             // ReSharper disable once RedundantSuppressNullableWarningExpression
             var id = key.ToString()!;

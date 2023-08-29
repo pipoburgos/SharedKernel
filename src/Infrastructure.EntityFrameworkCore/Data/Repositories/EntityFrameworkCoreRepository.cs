@@ -88,12 +88,12 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual TAggregateRoot GetById<TKey>(TKey key)
+        public virtual TAggregateRoot GetById<TId>(TId key)
         {
-            return GetQuery().Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault()!;
+            return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault()!;
         }
 
         /// <summary>
@@ -117,23 +117,23 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual bool Any<TKey>(TKey key)
+        public virtual bool Any<TId>(TId key)
         {
-            return GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+            return GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool NotAny<TKey>(TKey key)
+        public bool NotAny<TId>(TId key)
         {
-            return !GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+            return !GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
         }
 
         /// <summary>

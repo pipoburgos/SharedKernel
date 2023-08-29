@@ -12,10 +12,10 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories
     /// 
     /// </summary>
     /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class RedisRepositoryAsync<TAggregateRoot, TKey> : RedisRepository<TAggregateRoot, TKey>,
+    /// <typeparam name="TId"></typeparam>
+    public abstract class RedisRepositoryAsync<TAggregateRoot, TId> : RedisRepository<TAggregateRoot, TId>,
         IPersistRepositoryAsync
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
     {
         /// <summary>
         /// 

@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Domain.Aggregates;
 
 /// <summary>  </summary>
-public abstract class AggregateRootAuditableLogicalRemove<TKey> : AggregateRootAuditable<TKey>,
-    IEntityAuditableLogicalRemove where TKey : notnull
+public abstract class AggregateRootAuditableLogicalRemove<TId> : AggregateRootAuditable<TId>,
+    IEntityAuditableLogicalRemove where TId : notnull
 {
     /// <summary>  </summary>
     protected AggregateRootAuditableLogicalRemove() { }
 
     /// <summary>  </summary>
-    protected AggregateRootAuditableLogicalRemove(TKey id) : base(id) { }
+    protected AggregateRootAuditableLogicalRemove(TId id) : base(id) { }
 
     /// <summary>  </summary>
     public Guid? DeletedBy { get; private set; }

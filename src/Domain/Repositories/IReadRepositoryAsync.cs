@@ -6,11 +6,11 @@ public interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateR
 {
     /// <summary>  </summary>
     /// <returns></returns>
-    Task<TAggregate?> GetByIdAsync<TKey>(TKey key, CancellationToken cancellationToken);
+    Task<TAggregate?> GetByIdAsync<TId>(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
     /// <returns></returns>
-    Task<TAggregate?> GetDeleteByIdAsync<TKey>(TKey key, CancellationToken cancellationToken);
+    Task<TAggregate?> GetDeleteByIdAsync<TId>(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
     Task<bool> AnyAsync(CancellationToken cancellationToken);
@@ -22,8 +22,8 @@ public interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateR
     Task<int> CountAsync(CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task<bool> AnyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+    Task<bool> AnyAsync<TId>(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task<bool> NotAnyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+    Task<bool> NotAnyAsync<TId>(TId key, CancellationToken cancellationToken);
 }

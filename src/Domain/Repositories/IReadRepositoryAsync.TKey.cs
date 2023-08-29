@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories;
 
 /// <summary>  </summary>
-public interface IReadRepositoryAsync<TAggregate, in TKey> where TAggregate : IAggregateRoot
+public interface IReadRepositoryAsync<TAggregate, in TId> where TAggregate : IAggregateRoot
 {
     /// <summary>
     /// 
@@ -9,7 +9,7 @@ public interface IReadRepositoryAsync<TAggregate, in TKey> where TAggregate : IA
     /// <param name="key"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    Task<TAggregate> GetByIdAsync(TKey key, CancellationToken cancellationToken);
+    Task<TAggregate> GetByIdAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>
     /// 
@@ -17,7 +17,7 @@ public interface IReadRepositoryAsync<TAggregate, in TKey> where TAggregate : IA
     /// <param name="key"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    Task<TAggregate> GetDeleteByIdAsync(TKey key, CancellationToken cancellationToken);
+    Task<TAggregate> GetDeleteByIdAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>
     /// 
@@ -46,7 +46,7 @@ public interface IReadRepositoryAsync<TAggregate, in TKey> where TAggregate : IA
     /// <param name="key"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    Task<bool> AnyAsync(TKey key, CancellationToken cancellationToken);
+    Task<bool> AnyAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>
     /// 
@@ -54,5 +54,5 @@ public interface IReadRepositoryAsync<TAggregate, in TKey> where TAggregate : IA
     /// <param name="key"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    Task<bool> NotAnyAsync(TKey key, CancellationToken cancellationToken);
+    Task<bool> NotAnyAsync(TId key, CancellationToken cancellationToken);
 }

@@ -11,8 +11,8 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 
 /// <summary> Entity Framework Core Repository. </summary>
 /// <typeparam name="TAggregateRoot"> Repository data type.</typeparam>
-/// <typeparam name="TKey"></typeparam>
-public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
+/// <typeparam name="TId"></typeparam>
+public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>
     where TAggregateRoot : class, IAggregateRoot
 {
     #region Members
@@ -76,9 +76,9 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : IRep
     #region Public Methods
 
     /// <summary>  </summary>
-    public virtual TAggregateRoot GetById(TKey key)
+    public virtual TAggregateRoot GetById(TId key)
     {
-        return GetQuery().Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault()!;
+        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault()!;
     }
 
     /// <summary>  </summary>
@@ -94,15 +94,15 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : IRep
     }
 
     /// <summary>  </summary>
-    public virtual bool Any(TKey key)
+    public virtual bool Any(TId key)
     {
-        return GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+        return GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
     }
 
     /// <summary>  </summary>
-    public bool NotAny(TKey key)
+    public bool NotAny(TId key)
     {
-        return !GetQuery(false).Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+        return !GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
     }
 
     /// <summary>  </summary>

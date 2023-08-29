@@ -11,8 +11,8 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
     ///     ENTITY FRAMEWORK CORE REPOSITORY
     /// </summary>
     /// <typeparam name="TAggregateRoot">Repository data type</typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TKey> : EntityFrameworkCoreRepository<TAggregateRoot, TKey>, IRepositoryAsync<TAggregateRoot, TKey> where TAggregateRoot : class, IAggregateRoot
+    /// <typeparam name="TId"></typeparam>
+    public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> : EntityFrameworkCoreRepository<TAggregateRoot, TId>, IRepositoryAsync<TAggregateRoot, TId> where TAggregateRoot : class, IAggregateRoot
     {
         #region Constructors
 
@@ -32,9 +32,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetByIdAsync(TKey key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot> GetByIdAsync(TId key, CancellationToken cancellationToken)
         {
-            return GetQuery().Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
+            return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
                 .SingleOrDefaultAsync(cancellationToken)!;
         }
 
@@ -44,9 +44,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetDeleteByIdAsync(TKey key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot> GetDeleteByIdAsync(TId key, CancellationToken cancellationToken)
         {
-            return GetQuery(true, true).Cast<IEntity<TKey>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
+            return GetQuery(true, true).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
                 .SingleOrDefaultAsync(cancellationToken)!;
         }
 
@@ -96,9 +96,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<bool> AnyAsync(TKey key, CancellationToken cancellationToken)
+        public virtual Task<bool> AnyAsync(TId key, CancellationToken cancellationToken)
         {
-            return GetQuery(false).Cast<IEntity<TKey>>().AnyAsync(a => a.Id!.Equals(key), cancellationToken);
+            return GetQuery(false).Cast<IEntity<TId>>().AnyAsync(a => a.Id!.Equals(key), cancellationToken);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> NotAnyAsync(TKey key, CancellationToken cancellationToken)
+        public Task<bool> NotAnyAsync(TId key, CancellationToken cancellationToken)
         {
-            return GetQuery(false).Cast<IEntity<TKey>>().AllAsync(a => !a.Id!.Equals(key), cancellationToken);
+            return GetQuery(false).Cast<IEntity<TId>>().AllAsync(a => !a.Id!.Equals(key), cancellationToken);
         }
 
         /// <summary>

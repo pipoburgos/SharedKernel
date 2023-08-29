@@ -8,10 +8,10 @@ namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
     /// 
     /// </summary>
     /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class FileSystemRepositoryAsync<TAggregateRoot, TKey> : FileSystemRepository<TAggregateRoot, TKey>,
+    /// <typeparam name="TId"></typeparam>
+    public abstract class FileSystemRepositoryAsync<TAggregateRoot, TId> : FileSystemRepository<TAggregateRoot, TId>,
         ICreateRepositoryAsync<TAggregateRoot>
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
     {
         /// <summary>  </summary>
         public FileSystemRepositoryAsync(IJsonSerializer jsonSerializer) : base(jsonSerializer)

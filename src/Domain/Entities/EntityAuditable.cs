@@ -1,19 +1,19 @@
 ﻿namespace SharedKernel.Domain.Entities;
 
 /// <summary> An entity with creation and modification audit. </summary>
-public abstract class EntityAuditable<TKey> : Entity<TKey>, IEntityAuditable where TKey : notnull
+public abstract class EntityAuditable<TId> : Entity<TId>, IEntityAuditable where TId : notnull
 {
     /// <summary> Entity constructor for ORMs. </summary>
     protected EntityAuditable() { }
 
     /// <summary> Constructor. </summary>
-    protected EntityAuditable(TKey id) : base(id) { }
+    protected EntityAuditable(TId id) : base(id) { }
 
     /// <summary> Constructor. </summary>
     /// <param name="id">Identifier</param>
     /// <param name="createdAt">Creation Date</param>
     /// <param name="createdBy">Creation user identifier</param>
-    protected EntityAuditable(TKey id, DateTime createdAt, Guid createdBy) : base(id)
+    protected EntityAuditable(TId id, DateTime createdAt, Guid createdBy) : base(id)
     {
         CreatedAt = createdAt;
         CreatedBy = createdBy;

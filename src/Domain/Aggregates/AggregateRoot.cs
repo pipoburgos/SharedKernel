@@ -1,8 +1,8 @@
 ﻿namespace SharedKernel.Domain.Aggregates;
 
 /// <summary> This root aggregate contains your domain identifier and events. </summary>
-/// <typeparam name="TKey"> The data type of the identifier. </typeparam>
-public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot where TKey : notnull
+/// <typeparam name="TId"> The data type of the identifier. </typeparam>
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot where TId : notnull
 {
     private readonly List<DomainEvent> _domainEvents;
 
@@ -14,7 +14,7 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot where T
 
     /// <summary> Aggregate Root constructor. </summary>
     /// <param name="id">The identifier</param>
-    protected AggregateRoot(TKey id)
+    protected AggregateRoot(TId id)
     {
         Id = id;
         _domainEvents = new List<DomainEvent>();

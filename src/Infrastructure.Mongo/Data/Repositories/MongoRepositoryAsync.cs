@@ -6,9 +6,9 @@ using SharedKernel.Domain.Repositories;
 namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class MongoRepositoryAsync<TAggregateRoot, TKey> : MongoRepository<TAggregateRoot, TKey>,
+public abstract class MongoRepositoryAsync<TAggregateRoot, TId> : MongoRepository<TAggregateRoot, TId>,
     ICreateRepositoryAsync<TAggregateRoot>,
-    IPersistRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+    IPersistRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
     protected MongoRepositoryAsync(IOptions<MongoSettings> mongoSettings) : base(mongoSettings)

@@ -12,12 +12,12 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories
     /// 
     /// </summary>
     /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class RedisRepository<TAggregateRoot, TKey> :
+    /// <typeparam name="TId"></typeparam>
+    public abstract class RedisRepository<TAggregateRoot, TId> :
         IReadRepository<TAggregateRoot>,
         IUpdateRepository<TAggregateRoot>,
         IPersistRepository
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TKey>
+        where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
     {
         /// <summary>
         /// 
@@ -51,10 +51,10 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TAggregateRoot? GetById<TKey>(TKey key)
+        public TAggregateRoot? GetById<TId>(TId key)
         {
             var bytes = DistributedCache.Get(AggregateName + key);
 
@@ -86,10 +86,10 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TId"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool Any<TKey>(TKey key)
+        public bool Any<TId>(TId key)
         {
             var bytes = DistributedCache.Get(AggregateName + key);
 

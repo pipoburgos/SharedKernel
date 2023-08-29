@@ -1,12 +1,12 @@
 ﻿namespace SharedKernel.Domain.Specifications;
 
 /// <summary>  </summary>
-public class EntityByIdSpecification<T, TKey> : Specification<T> where T : class, IEntity<TKey> where TKey : notnull
+public class EntityByIdSpecification<T, TId> : Specification<T> where T : class, IEntity<TId> where TId : notnull
 {
-    private readonly TKey _key;
+    private readonly TId _key;
 
     /// <summary>  </summary>
-    public EntityByIdSpecification(TKey key)
+    public EntityByIdSpecification(TId key)
     {
         _key = key;
     }

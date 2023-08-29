@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Aggregates;
 
 /// <summary> Root aggregate with creation and modification audit. </summary>
-public abstract class AggregateRootAuditable<TKey> : AggregateRoot<TKey>, IEntityAuditable where TKey : notnull
+public abstract class AggregateRootAuditable<TId> : AggregateRoot<TId>, IEntityAuditable where TId : notnull
 {
     #region Constructor
 
@@ -9,13 +9,13 @@ public abstract class AggregateRootAuditable<TKey> : AggregateRoot<TKey>, IEntit
     protected AggregateRootAuditable() { }
 
     /// <summary> Aggregate Root Auditable constructor for ORMs. </summary>
-    protected AggregateRootAuditable(TKey id) : base(id) { }
+    protected AggregateRootAuditable(TId id) : base(id) { }
 
     /// <summary> Aggregate Root Auditable Constructor. </summary>
     /// <param name="id">Identifier</param>
     /// <param name="createdAt">Creation Date</param>
     /// <param name="createdBy">Creation user identifier</param>
-    protected AggregateRootAuditable(TKey id, DateTime createdAt, Guid createdBy) : base(id)
+    protected AggregateRootAuditable(TId id, DateTime createdAt, Guid createdBy) : base(id)
     {
         CreatedAt = createdAt;
         CreatedBy = createdBy;
