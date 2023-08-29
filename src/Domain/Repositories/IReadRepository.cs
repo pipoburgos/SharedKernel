@@ -12,7 +12,7 @@
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        TAggregate GetById<TKey>(TKey key);
+        TAggregate? GetById<TKey>(TKey key);
 
         /// <summary>
         /// 

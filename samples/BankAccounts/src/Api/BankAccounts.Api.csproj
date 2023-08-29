@@ -26,4 +26,8 @@
 		<ProjectReference Include="..\Infrastructure\BankAccounts.Infrastructure.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
+  </ItemGroup>
+
 </Project>

@@ -44,7 +44,7 @@
     <Using Include="System.Linq" />
     <Using Include="System.Linq.Expressions" />
     <Using Include="System.Runtime.CompilerServices" />
-    <Using Remove="System.Net.Http"/>
+    <Using Remove="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>

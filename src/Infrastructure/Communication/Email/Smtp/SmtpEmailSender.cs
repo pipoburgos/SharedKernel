@@ -61,7 +61,7 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp
             {
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress(string.IsNullOrWhiteSpace(email.From) ? _smtp.DefaultSender : email.From),
+                    From = new MailAddress(email.From ?? _smtp.DefaultSender),
                     Subject = email.Subject,
                     Body = email.Body,
                     IsBodyHtml = true

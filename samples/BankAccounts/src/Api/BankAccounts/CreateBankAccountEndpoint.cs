@@ -12,7 +12,7 @@ namespace BankAccounts.Api.BankAccounts
         public async Task<IActionResult> Handle(//[FromServices] ICommandBusAsync commandBusAsync,
             Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
         {
-            createBankAccount?.AddId(bankAccountId);
+            createBankAccount.AddId(bankAccountId);
             return OkTyped(await CommandBus.Dispatch(createBankAccount, cancellationToken));
         }
     }

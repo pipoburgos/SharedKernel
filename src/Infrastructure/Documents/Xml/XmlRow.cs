@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Application.Documents;
 using System.Globalization;
 using System.Xml.Linq;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace SharedKernel.Infrastructure.Documents.Xml
 {
@@ -22,7 +23,7 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         public long LineNumber { get; }
 
         /// <summary>  </summary>
-        public T Get<T>(int index)
+        public T? Get<T>(int index)
         {
             var value = _element.Descendants().ToArray()[index]?.Value ??
                         _element.Attributes().ToArray()[index]?.Value;
@@ -34,7 +35,7 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         }
 
         /// <summary>  </summary>
-        public T Get<T>(string name)
+        public T? Get<T>(string name)
         {
             var value = _element.Descendants(name).SingleOrDefault()?.Value ??
                         _element.Attributes(name).SingleOrDefault()?.Value;

@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.System
         public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
             ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] types)
         {
-            if (types == default)
+            if (types == default!)
                 return services;
 
             return services.AddFromMatchingInterface<TInterface>(serviceLifetime,
@@ -35,7 +35,7 @@ namespace SharedKernel.Infrastructure.System
         public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
             ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] assemblies)
         {
-            if (assemblies == default)
+            if (assemblies == default!)
                 return services;
 
             assemblies
@@ -66,13 +66,15 @@ namespace SharedKernel.Infrastructure.System
         /// Example: UserService -> IUserService.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="classesInclude"></param>
+        /// <param name="classesInclude">
+        /// Classes with ends with 'Repository', 'Service', 'Queries', 'ReadContext', 'Manager' or 'Comparer'.
+        /// </param>
         /// <param name="serviceLifetime"></param>
         /// <param name="types"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
-            Func<Type, bool> classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
+            Func<Type, bool>? classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
             params Type[] types)
         {
             classesInclude ??= n =>

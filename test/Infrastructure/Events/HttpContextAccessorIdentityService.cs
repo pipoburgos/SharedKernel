@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using SharedKernel.Application.Security;
+using System.Security.Claims;
 
 namespace SharedKernel.Integration.Tests.Events
 {
@@ -68,7 +68,7 @@ namespace SharedKernel.Integration.Tests.Events
         /// <returns></returns>
         public virtual bool IsAuthenticated()
         {
-            return User?.Identity?.IsAuthenticated == true;
+            return User.Identity?.IsAuthenticated == true;
         }
 
         /// <summary> </summary>
@@ -91,7 +91,7 @@ namespace SharedKernel.Integration.Tests.Events
         /// <returns></returns>
         protected virtual Guid GetUserId()
         {
-            var id = User?.FindFirst(ClaimTypes.Sid)?.Value;
+            var id = User.FindFirst(ClaimTypes.Sid)?.Value;
 
             return !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out _) ? new Guid(id) : Guid.Empty;
         }

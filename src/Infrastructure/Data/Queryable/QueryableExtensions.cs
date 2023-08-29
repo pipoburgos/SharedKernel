@@ -3,6 +3,7 @@ using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Extensions;
 using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Extensions;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace SharedKernel.Infrastructure.Data.Queryable
 {
@@ -33,8 +34,11 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <returns></returns>
         public static IQueryable<T> Where<T>(this IQueryable<T> queryable, IEnumerable<ISpecification<T>> specs)
         {
-            var properties = specs?.ToList();
-            if (specs == default || !properties.Any())
+            if (specs == default!)
+                return queryable;
+
+            var properties = specs.ToList();
+            if (!properties.Any())
                 return queryable;
 
             ISpecification<T> all = new DirectSpecification<T>(e => true);
@@ -49,9 +53,9 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="queryable"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string searchText)
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, string? searchText)
         {
-            if (string.IsNullOrWhiteSpace(searchText))
+            if (searchText == default || string.IsNullOrWhiteSpace(searchText))
                 return queryable;
 
             var searchTextSpec = new ContainsTextSpecification<T>(searchText);
@@ -66,10 +70,13 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="queryable"></param>
         /// <param name="filterProperties"></param>
         /// <returns></returns>
-        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, IEnumerable<FilterProperty> filterProperties)
+        public static IQueryable<T> Where<T>(this IQueryable<T> queryable, IEnumerable<FilterProperty>? filterProperties)
         {
-            var properties = filterProperties?.ToList();
-            if (filterProperties == default || !properties.Any())
+            if (filterProperties == default!)
+                return queryable;
+
+            var properties = filterProperties.ToList();
+            if (!properties.Any())
                 return queryable;
 
             var propertiesSpec = new AllPropertiesValueMatchesSpecification<T>(
@@ -119,7 +126,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="selector"></param>
         /// <returns></returns>
         public static IQueryable<TResult> MapToDto<T, TResult>(this IQueryable<T> queryable,
-            Expression<Func<T, TResult>> selector)
+            Expression<Func<T, TResult>>? selector)
         {
             if (typeof(T) == typeof(TResult))
                 return queryable.Cast<TResult>();
@@ -173,7 +180,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
             var sortedList = sortedColumns?.ToList();
             if (sortedList == default || !sortedList.Any())
             {
-                if (new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default))
+                if (new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!))
                     throw new ArgumentException(nameof(sortedColumns));
 
                 sortedList = new List<Order> { new Order(default, true) };
@@ -200,7 +207,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="propertyName"></param>
         /// <returns></returns>
         private static IQueryable<TResult> ApplyOrderBy<TResult>(IQueryable<TResult> source, bool ascending,
-            string propertyName)
+            string? propertyName)
         {
             var expression = ExpressionHelper.GetLambdaExpressions<TResult>(propertyName);
             if (expression == null)
@@ -230,7 +237,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="propertyName"></param>
         /// <returns></returns>
         private static IQueryable<TResult> ApplyThenBy<TResult>(IQueryable<TResult> source, bool ascending,
-            string propertyName)
+            string? propertyName)
         {
             var expression = ExpressionHelper.GetLambdaExpressions<TResult>(propertyName);
             if (expression == null)

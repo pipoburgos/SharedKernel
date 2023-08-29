@@ -5,7 +5,7 @@ public static class MapperFactory
 {
     #region Members
 
-    private static IMapperFactory _currentTypeAdapterFactory;
+    private static IMapperFactory? _currentTypeAdapterFactory;
 
     #endregion
 
@@ -22,7 +22,7 @@ public static class MapperFactory
     /// <returns>Created type adapter</returns>
     public static IMapper Create()
     {
-        if (_currentTypeAdapterFactory == null)
+        if (_currentTypeAdapterFactory == default!)
             throw new ArgumentNullException(nameof(_currentTypeAdapterFactory));
 
         return _currentTypeAdapterFactory.Create();

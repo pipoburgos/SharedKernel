@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
 using System.Reflection;
 
@@ -51,14 +50,6 @@ public static class QueryServiceExtension
     public static IServiceCollection AddInMemoryQueryBus(this IServiceCollection services)
     {
         return services
-            .AddQueryBus()
             .AddTransient<IQueryBus, InMemoryQueryBus>();
-    }
-
-    /// <summary>  </summary>
-    private static IServiceCollection AddQueryBus(this IServiceCollection services)
-    {
-        return services
-            .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>();
     }
 }

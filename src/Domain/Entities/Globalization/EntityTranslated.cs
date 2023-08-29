@@ -35,12 +35,12 @@ public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage, TLanguage
 
 /// <summary>  </summary>
 public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage> : EntityTranslated<TEntityKey, TEntity, TLanguage, string>,
-    IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntity : IEntity<TEntityKey>
+    IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntity : IEntity<TEntityKey> where TEntityKey : notnull
 {
 }
 
 /// <summary>  </summary>
 public abstract class EntityTranslated<TEntityKey, TEntity> : EntityTranslated<TEntityKey, TEntity, Language>,
-    IEntityTranslated<TEntityKey, TEntity> where TEntity : IEntity<TEntityKey>
+    IEntityTranslated<TEntityKey, TEntity> where TEntity : IEntity<TEntityKey> where TEntityKey : notnull
 {
 }

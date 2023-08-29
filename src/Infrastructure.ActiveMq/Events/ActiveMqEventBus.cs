@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Events;
 
@@ -10,16 +10,16 @@ namespace SharedKernel.Infrastructure.ActiveMq.Events;
 public class ActiveMqEventBus : ActiveMqPublisher, IEventBus
 {
     private readonly IRequestSerializer _requestSerializer;
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
 
     /// <summary>  </summary>
     public ActiveMqEventBus(
         IRequestSerializer requestSerializer,
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IOptions<ActiveMqConfiguration> configuration) : base(configuration)
     {
         _requestSerializer = requestSerializer;
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
     }
 
     /// <summary>  </summary>
@@ -31,7 +31,7 @@ public class ActiveMqEventBus : ActiveMqPublisher, IEventBus
     /// <summary>  </summary>
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(@event, cancellationToken, (req, _) =>
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 

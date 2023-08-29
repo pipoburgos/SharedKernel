@@ -2,7 +2,6 @@
 using BankAccounts.Application.BankAccounts.Queries;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SharedKernel.Api.Binders;
-using SharedKernel.Application.Cqrs.Queries.Contracts;
 
 namespace BankAccounts.Api.BankAccounts
 {

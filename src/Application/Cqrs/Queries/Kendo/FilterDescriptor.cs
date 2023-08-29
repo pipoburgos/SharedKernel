@@ -4,7 +4,7 @@
 public class FilterDescriptor
 {
     /// <summary> The data item field to which the filter operator is applied. </summary>
-    public string Field { get; set; }
+    public string Field { get; set; } = null!;
 
     /// <summary>
     /// The filter operator (comparison).
@@ -25,10 +25,10 @@ public class FilterDescriptor
     ///   `"isempty"`
     ///   `"isnotempty"`
     /// </summary>
-    public string Operator { get; set; }
+    public string Operator { get; set; } = null!;
 
     /// <summary> The value to which the field is compared. Has to be of the same type as the field. </summary>
-    public string Value { get; set; }
+    public string Value { get; set; } = null!;
 
     /// <summary> Determines if the string comparison is case-insensitive. </summary>
     public bool IgnoreCase { get; set; }

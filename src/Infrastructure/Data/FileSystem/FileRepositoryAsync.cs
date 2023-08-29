@@ -1,4 +1,6 @@
-﻿using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
+﻿using SharedKernel.Domain.Entities.FileSystem;
+using SharedKernel.Domain.Repositories.FileSystem;
+using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem
 {
@@ -41,8 +43,8 @@ namespace SharedKernel.Infrastructure.Data.FileSystem
         /// <returns></returns>
         public Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken)
         {
-            var file = _unitOfWork.Files.SingleOrDefault(x => x.Id == path);
-            if (file != null)
+            var file = _unitOfWork.Files.Single(x => x.Id == path);
+            if (file != default!)
                 return Task.FromResult(file.Contents);
 
 #if NETSTANDARD2_1

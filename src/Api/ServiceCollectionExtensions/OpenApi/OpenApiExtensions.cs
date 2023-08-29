@@ -122,8 +122,11 @@ public static class OpenApiExtensions
             c.OAuthAppName(options.Value.AppName ?? "Open API specification");
             c.OAuthScopeSeparator(" ");
             c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
-            c.OAuthClientId(openIdOptions.Value.ClientId);
-            c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
+
+            if (openIdOptions.Value.ClientId != default!)
+                c.OAuthClientId(openIdOptions.Value.ClientId);
+            if (openIdOptions.Value.ClientSecret != default!)
+                c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
         });
 
         return app;

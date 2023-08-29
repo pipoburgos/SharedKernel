@@ -1,7 +1,7 @@
-﻿using SharedKernel.Application.Events;
+﻿using SharedKernel.Application.Cqrs.Middlewares;
+using SharedKernel.Application.Events;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Events;
@@ -9,17 +9,17 @@ namespace SharedKernel.Infrastructure.Redis.Events;
 /// <summary>  </summary>
 internal class RedisEventBus : IEventBus
 {
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
     private readonly IRequestSerializer _requestSerializer;
 
     /// <summary>  </summary>
     public RedisEventBus(
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IConnectionMultiplexer connectionMultiplexer,
         IRequestSerializer requestSerializer)
     {
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
         _connectionMultiplexer = connectionMultiplexer;
         _requestSerializer = requestSerializer;
     }
@@ -27,7 +27,7 @@ internal class RedisEventBus : IEventBus
     /// <summary>  </summary>
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(@event, cancellationToken, (req, _) =>
         {
             var eventAsString = _requestSerializer.Serialize(req);
             return _connectionMultiplexer.GetSubscriber().PublishAsync(RedisChannel.Pattern("*"), eventAsString);

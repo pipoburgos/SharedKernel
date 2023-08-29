@@ -1,20 +1,14 @@
-﻿namespace SharedKernel.Domain.Repositories
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IPersistRepository
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        int Rollback();
+﻿namespace SharedKernel.Domain.Repositories;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        int SaveChanges();
-    }
+/// <summary>  </summary>
+public interface IPersistRepository
+{
+    /// <summary>  </summary>
+    int SaveChanges();
+
+    /// <summary>  </summary>
+    Result<int> SaveChangesResult();
+
+    /// <summary>  </summary>
+    int Rollback();
 }

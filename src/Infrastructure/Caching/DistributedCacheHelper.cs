@@ -21,7 +21,7 @@ public class DistributedCacheHelper : ICacheHelper
     }
 
     /// <summary>  </summary>
-    public async Task<T?> GetAsync<T>(string key)
+    public async Task<T?> GetAsync<T>(string key) where T : notnull
     {
         var value = await _distributedCache.GetAsync(key);
 
@@ -29,7 +29,7 @@ public class DistributedCacheHelper : ICacheHelper
     }
 
     /// <summary>  </summary>
-    public async Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = null)
+    public async Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = default) where T : notnull
     {
         try
         {
@@ -44,7 +44,8 @@ public class DistributedCacheHelper : ICacheHelper
     }
 
     /// <summary>  </summary>
-    public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
+    public async Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
+        where T : notnull
     {
         try
         {

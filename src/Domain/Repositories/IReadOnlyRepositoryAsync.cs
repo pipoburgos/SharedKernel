@@ -13,7 +13,7 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate> GetByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
@@ -22,7 +22,7 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate> GetDeleteByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetDeleteByIdReadOnlyAsync<TKey>(TKey key, CancellationToken cancellationToken);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate> GetByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
@@ -46,6 +46,6 @@
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        Task<TAggregate> GetDeleteByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
+        Task<TAggregate?> GetDeleteByIdReadOnlyAsync(TKey key, CancellationToken cancellationToken);
     }
 }

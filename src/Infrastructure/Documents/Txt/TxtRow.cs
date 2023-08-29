@@ -23,9 +23,9 @@ public class TxtRow : IRowData
     public long LineNumber { get; }
 
     /// <summary>  </summary>
-    public T Get<T>(int index)
+    public T? Get<T>(int index)
     {
-        if (_cells == default)
+        if (_cells == default!)
             return default;
 
         if (_cells.Count < index + 1)
@@ -37,9 +37,9 @@ public class TxtRow : IRowData
     }
 
     /// <summary>  </summary>
-    public T Get<T>(string name)
+    public T? Get<T>(string name)
     {
-        if (_cells == default)
+        if (_cells == default!)
             return default;
 
         var index = _columnNames.FindIndex(x => x == name);
@@ -47,7 +47,7 @@ public class TxtRow : IRowData
         return Get<T>(index);
     }
 
-    private T GetCellValue<T>(string value)
+    private T? GetCellValue<T>(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return default;

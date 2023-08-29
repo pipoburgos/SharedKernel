@@ -85,6 +85,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.FluentValidation", "src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj", "{8D9D32BF-BF89-4A38-8B85-8F8F7D1BDE45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccountsFeaturesViewer", "samples\BankAccounts\src\Dev\BankAccounts\BankAccountsFeaturesViewer.csproj", "{80243EB9-4B81-4D86-A135-59FC606F33E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -231,6 +233,10 @@ Global
 		{8D9D32BF-BF89-4A38-8B85-8F8F7D1BDE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D9D32BF-BF89-4A38-8B85-8F8F7D1BDE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D9D32BF-BF89-4A38-8B85-8F8F7D1BDE45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80243EB9-4B81-4D86-A135-59FC606F33E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80243EB9-4B81-4D86-A135-59FC606F33E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80243EB9-4B81-4D86-A135-59FC606F33E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80243EB9-4B81-4D86-A135-59FC606F33E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -273,6 +279,7 @@ Global
 		{1A9D3FB9-7FD4-486D-BB50-EE8D4C7E2390} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{A2B50BE0-3363-4C34-8A51-0808A9B1D701} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{8D9D32BF-BF89-4A38-8B85-8F8F7D1BDE45} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{80243EB9-4B81-4D86-A135-59FC606F33E3} = {232B36AD-6290-466E-A96B-932E3F1EB3FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

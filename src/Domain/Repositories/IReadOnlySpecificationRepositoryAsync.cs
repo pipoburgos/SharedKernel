@@ -1,33 +1,16 @@
-﻿namespace SharedKernel.Domain.Repositories
+﻿namespace SharedKernel.Domain.Repositories;
+
+/// <summary>  </summary>
+public interface IReadOnlySpecificationRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TAggregateRoot"></typeparam>
-    public interface IReadOnlySpecificationRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="spec"></param>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        Task<List<TAggregateRoot>> WhereReadOnlyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken);
+    /// <summary>  </summary>
+    Task<List<TAggregateRoot?>> WhereReadOnlyAsync(ISpecification<TAggregateRoot> spec,
+        CancellationToken cancellationToken);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="spec"></param>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        Task<TAggregateRoot> SingleReadOnlyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken);
+    /// <summary>  </summary>
+    Task<TAggregateRoot?> SingleReadOnlyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="spec"></param>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        Task<TAggregateRoot> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken);
-    }
+    /// <summary>  </summary>
+    Task<TAggregateRoot?> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec,
+        CancellationToken cancellationToken);
 }

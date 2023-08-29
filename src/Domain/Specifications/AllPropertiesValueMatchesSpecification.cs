@@ -25,10 +25,10 @@
         {
             ISpecification<T> filter = new TrueSpecification<T>();
 
-            if (_properties == null)
+            if (_properties == default!)
                 return filter.SatisfiedBy();
 
-            if (!new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default))
+            if (!new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!))
             {
                 var property = _properties.SingleOrDefault();
                 if (property != default)

@@ -2,8 +2,8 @@
 {
     internal class SalaryHasBeenDeposited : DomainEvent
     {
-        public SalaryHasBeenDeposited(Guid movementId, string aggregateId, string eventId = null,
-            string occurredOn = null) : base(aggregateId, eventId, occurredOn)
+        public SalaryHasBeenDeposited(Guid movementId, string aggregateId, string? eventId = default,
+            string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
         {
             MovementId = movementId;
         }

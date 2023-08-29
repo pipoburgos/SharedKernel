@@ -4,12 +4,12 @@ using SharedKernel.Application.Cqrs.Middlewares;
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
 /// <summary>  </summary>
-public class ExecuteMiddlewaresService : IExecuteMiddlewaresService
+public class Pipeline : IPipeline
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     /// <summary>  </summary>
-    public ExecuteMiddlewaresService(
+    public Pipeline(
         IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Reflection;
 using SharedKernel.Application.Security;
@@ -27,7 +28,7 @@ public static class RequestServiceExtensions
         return services
             .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
             .AddTransient<IIdentityService, DefaultIdentityService>()
-            .AddTransient<IExecuteMiddlewaresService, ExecuteMiddlewaresService>()
+            .AddTransient<IPipeline, Pipeline>()
             .AddTransient<IRequestSerializer, RequestSerializer>()
             .AddTransient<IRequestDeserializer, RequestDeserializer>()
             .AddTransient<IRequestMediator, RequestMediator>()

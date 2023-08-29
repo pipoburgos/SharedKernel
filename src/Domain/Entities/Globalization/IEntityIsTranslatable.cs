@@ -1,53 +1,29 @@
-﻿namespace SharedKernel.Domain.Entities.Globalization
+﻿namespace SharedKernel.Domain.Entities.Globalization;
+
+/// <summary>  </summary>
+public interface IEntityIsTranslatable<out TTranslation>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TTranslation"></typeparam>
-    public interface IEntityIsTranslatable<out TTranslation>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        IEnumerable<TTranslation> Translations { get; }
-    }
+    /// <summary>  </summary>
+    IEnumerable<TTranslation> Translations { get; }
+}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TTranslation"></typeparam>
-    /// <typeparam name="TLanguage"></typeparam>
-    /// <typeparam name="TLanguageKey"></typeparam>
-    public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage,
-        TLanguageKey> : IEntityIsTranslatable<TTranslation>
-        where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey>
-    {
-    }
+/// <summary>  </summary>
+public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage, TLanguageKey> :
+    IEntityIsTranslatable<TTranslation>
+    where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey> where TEntityKey : notnull
+{
+}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TTranslation"></typeparam>
-    /// <typeparam name="TLanguage"></typeparam>
-    public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage>
-        : IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, TLanguage, string>
-        where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage>
-    {
-    }
+/// <summary>  </summary>
+public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage> :
+    IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, TLanguage, string>
+    where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntityKey : notnull
+{
+}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TTranslation"></typeparam>
-    public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation>
-        : IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, Language>
-        where TTranslation : IEntityTranslated<TEntityKey, TEntity, Language>
-    {
-    }
+/// <summary>  </summary>
+public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation> :
+    IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, Language>
+    where TTranslation : IEntityTranslated<TEntityKey, TEntity, Language> where TEntityKey : notnull
+{
 }

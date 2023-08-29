@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Cqrs.Queries;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
@@ -8,23 +8,23 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
 /// <summary>  </summary>
 public class InMemoryQueryBus : IQueryBus
 {
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
     private readonly IServiceProvider _serviceProvider;
     private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new();
 
     /// <summary>  </summary>
     public InMemoryQueryBus(
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IServiceProvider serviceProvider)
     {
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
         _serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc />
     public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(query, cancellationToken, (req, c) =>
+        return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
         {
             var handler = GetWrappedHandlers(req);
 
@@ -37,7 +37,7 @@ public class InMemoryQueryBus : IQueryBus
     /// <inheritdoc />
     public Task<ApplicationResult<TResponse>> Ask<TResponse>(IQueryRequest<ApplicationResult<TResponse>> query, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(query, cancellationToken, (req, c) =>
+        return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
         {
             var handler = GetWrappedHandlers(req);
 

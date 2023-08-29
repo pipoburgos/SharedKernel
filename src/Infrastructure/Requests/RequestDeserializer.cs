@@ -36,33 +36,33 @@ internal class RequestDeserializer : IRequestDeserializer
             throw new ArgumentException(nameof(body));
 
         var x = data["type"].ToString();
-        var requestType = _requestProviderFactory.Get(x);
+        var requestType = _requestProviderFactory.Get(x!);
 
         var instance = ReflectionHelper.CreateInstance<Request>(requestType);
 
         const string key = nameof(DomainEvent.AggregateId);
         if (attributes.TryGetValue(key, out var attribute))
         {
-            return (DomainEvent)requestType
+            return ((DomainEvent)requestType
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
                 ?.Invoke(instance, new object[]
                 {
                     attribute,
                     attributes,
-                    data["id"].ToString(),
-                    data["occurred_on"].ToString()
-                });
+                    data["id"].ToString()!,
+                    data["occurred_on"].ToString()!
+                })!)!;
         }
 
-        return (Request)requestType
+        return ((Request)requestType
             .GetTypeInfo()
             .GetDeclaredMethod(nameof(Request.FromPrimitives))
             ?.Invoke(instance, new object[]
             {
                 attributes,
-                data["id"].ToString(),
-                data["occurred_on"].ToString()
-            });
+                data["id"].ToString()!,
+                data["occurred_on"].ToString()!
+            })!)!;
     }
 }

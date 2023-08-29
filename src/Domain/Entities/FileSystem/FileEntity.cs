@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Domain.Entities;
+﻿namespace SharedKernel.Domain.Entities.FileSystem;
 
 /// <summary>  </summary>
 public class FileEntity : AggregateRoot<string>

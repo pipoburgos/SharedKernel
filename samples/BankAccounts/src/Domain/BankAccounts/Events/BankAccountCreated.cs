@@ -2,7 +2,7 @@
 {
     internal class BankAccountCreated : DomainEvent
     {
-        public BankAccountCreated(string aggregateId, string eventId = null, string occurredOn = null)
+        public BankAccountCreated(string aggregateId, string? eventId = default, string? occurredOn = default)
             : base(aggregateId, eventId, occurredOn)
         { }
 

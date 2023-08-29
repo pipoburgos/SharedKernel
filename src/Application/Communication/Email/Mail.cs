@@ -9,8 +9,8 @@
         }
 
         /// <summary> . </summary>
-        public Mail(string to, string subject, string body = default, string from = default,
-            List<string> emailsBcc = default, List<MailAttachment> attachments = default)
+        public Mail(string to, string subject, string? body = default, string? from = default,
+            List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
         {
             From = from;
             To = new List<string> { to };
@@ -21,8 +21,8 @@
         }
 
         /// <summary> . </summary>
-        public Mail(List<string> to, string subject, string body = default, string from = default,
-            List<string> emailsBcc = default, List<MailAttachment> attachments = default)
+        public Mail(List<string> to, string subject, string? body = default, string? from = default,
+            List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
         {
             From = from;
             To = to;
@@ -33,21 +33,21 @@
         }
 
         /// <summary> From. </summary>
-        public string From { get; set; }
+        public string? From { get; set; }
 
         /// <summary> To. </summary>
-        public List<string> To { get; set; }
+        public List<string> To { get; set; } = null!;
 
         /// <summary> EmailsBcc. </summary>
-        public List<string> EmailsBcc { get; set; }
+        public List<string>? EmailsBcc { get; set; }
 
         /// <summary> Subject. </summary>
-        public string Subject { get; set; }
+        public string? Subject { get; set; }
 
         /// <summary> Body. </summary>
-        public string Body { get; set; }
+        public string? Body { get; set; }
 
         /// <summary> Attachments. </summary>
-        public List<MailAttachment> Attachments { get; set; }
+        public List<MailAttachment>? Attachments { get; set; }
     }
 }

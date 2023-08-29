@@ -40,7 +40,7 @@ public class ValidationFailureException : Exception
     protected ValidationFailureException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
-        Errors = info.GetValue("errors", typeof(IEnumerable<ValidationFailure>)) as IEnumerable<ValidationFailure>;
+        Errors = (info.GetValue("errors", typeof(IEnumerable<ValidationFailure>)) as IEnumerable<ValidationFailure>)!;
     }
 
     /// <summary>  </summary>

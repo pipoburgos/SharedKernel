@@ -15,7 +15,7 @@
         /// Default constructor
         /// </summary>
         /// <param name="map">Map specification</param>
-        public ParameterRebind(Dictionary<ParameterExpression, ParameterExpression> map)
+        public ParameterRebind(Dictionary<ParameterExpression, ParameterExpression>? map)
         {
             _map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
         }
@@ -29,7 +29,7 @@
         public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> map,
             Expression exp)
         {
-            return new ParameterRebind(map).Visit(exp);
+            return new ParameterRebind(map).Visit(exp)!;
         }
 
         /// <inheritdoc />

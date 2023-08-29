@@ -16,11 +16,11 @@ public class BinarySerializer : IBinarySerializer
     }
 
     /// <summary>  </summary>
-    public T Deserialize<T>(byte[] value)
+    public T? Deserialize<T>(byte[] value) where T : notnull
     {
         using var memStream = new MemoryStream(value);
         var serializer = new DataContractSerializer(typeof(T));
-        var obj = (T)serializer.ReadObject(memStream);
+        var obj = (T?)serializer.ReadObject(memStream);
         return obj;
     }
 }

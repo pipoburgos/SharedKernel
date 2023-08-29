@@ -1,4 +1,6 @@
-﻿using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
+﻿using SharedKernel.Domain.Entities.FileSystem;
+using SharedKernel.Domain.Repositories.FileSystem;
+using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem

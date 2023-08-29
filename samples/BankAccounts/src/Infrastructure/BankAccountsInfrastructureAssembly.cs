@@ -1,4 +1,5 @@
 ﻿[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2"),
+           InternalsVisibleTo("BankAccountsFeaturesViewer"),
            InternalsVisibleTo("BankAccounts.Integration.Tests"),
            InternalsVisibleTo("BankAccounts.Acceptance.Tests")]
 

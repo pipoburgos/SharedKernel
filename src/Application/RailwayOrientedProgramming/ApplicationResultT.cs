@@ -32,7 +32,7 @@ public readonly struct ApplicationResult<T>
         if (list.Count == 0)
             throw new InvalidOperationException("At least one error.");
 
-        Value = default;
+        Value = default!;
         Errors = list;
     }
 

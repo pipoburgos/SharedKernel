@@ -32,7 +32,7 @@ namespace SharedKernel.Application.Extensions
         /// <returns></returns>
         public static string DictionaryToQueryString(this Dictionary<string, object> parameters)
         {
-            if (parameters == null)
+            if (parameters == default!)
                 return string.Empty;
 
             var sb = new StringBuilder("?");
@@ -52,7 +52,7 @@ namespace SharedKernel.Application.Extensions
 #if NETCOREAPP || NET5_0 || NET6_0
                 if (stringParam != null)
 #endif
-                sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
+                    sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
 
                 first = false;
 
@@ -93,7 +93,7 @@ namespace SharedKernel.Application.Extensions
         /// <param name="toCheck"></param>
         /// <returns></returns>
         public static bool ContainsIgnoreCase(this string source, string toCheck) =>
-            source?.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
+            source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
 
         /// <summary>
         /// Remove brackets

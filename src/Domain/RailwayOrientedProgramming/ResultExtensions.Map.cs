@@ -6,6 +6,7 @@ public static partial class ResultExtensions
 {
     /// <summary>  </summary>
     public static Result<TU> Map<T, TU>(this Result<T> r, Func<T, TU> mapper)
+        where TU : notnull
     {
         return r.IsSuccess
             ? Result.Success(mapper(r.Value))

@@ -4,8 +4,8 @@
 public interface IBinarySerializer
 {
     /// <summary>  </summary>
-    byte[] Serialize<T>(T value);
+    byte[] Serialize<T>(T value) where T : notnull;
 
     /// <summary>  </summary>
-    T Deserialize<T>(byte[] value);
+    T? Deserialize<T>(byte[] value) where T : notnull;
 }

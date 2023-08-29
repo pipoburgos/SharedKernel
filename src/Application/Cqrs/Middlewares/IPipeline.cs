@@ -1,7 +1,7 @@
-﻿namespace SharedKernel.Infrastructure.Requests.Middlewares;
+﻿namespace SharedKernel.Application.Cqrs.Middlewares;
 
 /// <summary>  </summary>
-public interface IExecuteMiddlewaresService
+public interface IPipeline
 {
     /// <summary>  </summary>
     Task ExecuteAsync<TRequest>(TRequest request, CancellationToken cancellationToken,

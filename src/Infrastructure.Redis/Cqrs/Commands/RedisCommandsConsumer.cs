@@ -34,7 +34,7 @@ internal class RedisCommandsConsumer : BackgroundService
             {
                 try
                 {
-                    await requestMediator.Execute(value, typeof(ICommandRequestHandler<>),
+                    await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
                         nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
                 }
                 catch (Exception ex)

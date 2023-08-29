@@ -36,9 +36,6 @@ public static class AuthenticationExtensions
 
         services.Configure<OpenIdOptions>(configuration.GetSection(nameof(OpenIdOptions)));
 
-        // configure jwt authentication
-        var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
-
         var authenticationBuilder = services
             .AddHttpContextAccessor()
             .RemoveAll<IIdentityService>()
@@ -55,20 +52,26 @@ public static class AuthenticationExtensions
                 options.Audience = openIdOptions.Audience;
                 options.RequireHttpsMetadata = openIdOptions.RequireHttpsMetadata;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
+                if (openIdOptions.Authority != default && openIdOptions.ClientSecret != default)
                 {
-                    // Validate Authority
-                    ValidateIssuer = true,
-                    ValidIssuer = openIdOptions.Authority,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    var key = Encoding.ASCII.GetBytes(openIdOptions.ClientSecret);
 
-                    ValidateAudience = !string.IsNullOrWhiteSpace(openIdOptions.Audience),
-                    ValidAudience = openIdOptions.Audience,
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // Validate Authority
+                        ValidateIssuer = true,
+                        ValidIssuer = openIdOptions.Authority,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
 
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
+                        ValidateAudience = !string.IsNullOrWhiteSpace(openIdOptions.Audience),
+                        ValidAudience = openIdOptions.Audience,
+
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                }
+
                 // Sending the access token in the query string is required due to
                 // a limitation in Browser APIs. We restrict it to only calls to the
                 // SignalR hub in this code.

@@ -54,7 +54,7 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TAggregateRoot GetById<TKey>(TKey key)
+        public TAggregateRoot? GetById<TKey>(TKey key)
         {
             var bytes = DistributedCache.Get(AggregateName + key);
 

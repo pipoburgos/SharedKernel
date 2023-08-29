@@ -10,7 +10,7 @@ public class CompositeFilterDescriptor
     /// * `"and"`
     /// * `"or"`
     /// </summary>
-    public string Logic { get; set; }
+    public string Logic { get; set; } = null!;
 
     /// <summary>
     /// The nested filter expressions
@@ -18,5 +18,5 @@ public class CompositeFilterDescriptor
     /// ({% slug api_kendo-data-query_compositefilterdescriptor %}).
     /// Supports the same options as `filter`. You can nest filters indefinitely.
     /// </summary>
-    public IEnumerable<FilterDescriptor> Filters { get; set; }
+    public IEnumerable<FilterDescriptor> Filters { get; set; } = null!;
 }

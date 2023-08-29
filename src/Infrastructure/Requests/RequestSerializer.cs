@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace SharedKernel.Infrastructure.Requests;
 
@@ -7,10 +8,10 @@ namespace SharedKernel.Infrastructure.Requests;
 internal class RequestSerializer : IRequestSerializer
 {
     private readonly IJsonSerializer _jsonSerializer;
-    private readonly IIdentityService _identityService;
+    private readonly IIdentityService? _identityService;
 
     /// <summary> Constructor. </summary>
-    public RequestSerializer(IJsonSerializer jsonSerializer, IIdentityService identityService = null)
+    public RequestSerializer(IJsonSerializer jsonSerializer, IIdentityService? identityService = default)
     {
         _jsonSerializer = jsonSerializer;
         _identityService = identityService;
@@ -19,8 +20,8 @@ internal class RequestSerializer : IRequestSerializer
     /// <summary>  </summary>
     public string Serialize(Request request)
     {
-        if (request == default)
-            return "";
+        if (request == default!)
+            return string.Empty;
 
         var attributes = request.ToPrimitives();
 
@@ -30,11 +31,11 @@ internal class RequestSerializer : IRequestSerializer
 
         return _jsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
         {
-            {"headers", new Dictionary<string, object>
+            {"headers", new Dictionary<string, object?>
             {
                 {"claims", domainClaims},
                 {"authorization", _identityService?.GetKeyValue("Authorization")}
-            }},
+            }!},
             {"data", new Dictionary<string,object>
             {
                 {"id" , request.RequestId},

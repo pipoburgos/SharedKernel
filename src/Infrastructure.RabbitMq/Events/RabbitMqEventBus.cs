@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Options;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 
 namespace SharedKernel.Infrastructure.RabbitMq.Events;
 
@@ -11,18 +11,18 @@ namespace SharedKernel.Infrastructure.RabbitMq.Events;
 public class RabbitMqEventBus : RabbitMqPublisher, IEventBus
 {
     private readonly IRequestSerializer _requestSerializer;
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
 
     /// <summary>  </summary>
     public RabbitMqEventBus(
         ICustomLogger<RabbitMqPublisher> logger,
         IRequestSerializer requestSerializer,
         RabbitMqConnectionFactory config,
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IOptions<RabbitMqConfigParams> rabbitMqParams) : base(logger, config, rabbitMqParams)
     {
         _requestSerializer = requestSerializer;
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
     }
 
     /// <summary>  </summary>
@@ -34,7 +34,7 @@ public class RabbitMqEventBus : RabbitMqPublisher, IEventBus
     /// <summary>  </summary>
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(@event, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(@event, cancellationToken, (req, _) =>
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 

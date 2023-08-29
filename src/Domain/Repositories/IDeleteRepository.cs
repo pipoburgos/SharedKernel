@@ -1,21 +1,11 @@
-﻿namespace SharedKernel.Domain.Repositories
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TAggregate"></typeparam>
-    public interface IDeleteRepository<in TAggregate> where TAggregate : IAggregateRoot
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aggregate"></param>
-        void Remove(TAggregate aggregate);
+﻿namespace SharedKernel.Domain.Repositories;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aggregate"></param>
-        void RemoveRange(IEnumerable<TAggregate> aggregate);
-    }
+/// <summary>  </summary>
+public interface IDeleteRepository<in TAggregate> where TAggregate : IAggregateRoot
+{
+    /// <summary>  </summary>
+    void Remove(TAggregate aggregate);
+
+    /// <summary>  </summary>
+    void RemoveRange(IEnumerable<TAggregate> aggregate);
 }

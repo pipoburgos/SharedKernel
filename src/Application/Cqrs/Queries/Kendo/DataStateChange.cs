@@ -10,12 +10,12 @@
         public int? Take { get; set; }
 
         /// <summary> The sort descriptors by which the data is sorted. </summary>
-        public IEnumerable<SortDescriptor> Sort { get; set; }
+        public IEnumerable<SortDescriptor> Sort { get; set; } = null!;
 
         /// <summary> The group descriptors by which the data is grouped. </summary>
-        public IEnumerable<GroupDescriptor> Group { get; set; }
+        public IEnumerable<GroupDescriptor>? Group { get; set; }
 
         /// <summary> The filter descriptor by which the data is filtered. </summary>
-        public CompositeFilterDescriptor Filter { get; set; }
+        public CompositeFilterDescriptor? Filter { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Infrastructure.Requests;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 
@@ -9,22 +9,22 @@ namespace SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 public class ActiveMqCommandBusAsync : ActiveMqPublisher, ICommandBusAsync
 {
     private readonly IRequestSerializer _requestSerializer;
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
 
     /// <summary>  </summary>
     public ActiveMqCommandBusAsync(
         IRequestSerializer requestSerializer,
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IOptions<ActiveMqConfiguration> configuration) : base(configuration)
     {
         _requestSerializer = requestSerializer;
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
     }
 
     /// <summary>  </summary>
     public Task Dispatch(CommandRequest command, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(command, cancellationToken, (req, _) =>
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 

@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Hosting;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
@@ -15,7 +15,7 @@ public class InMemoryCommandBus : ICommandBus
     private readonly IServiceProvider _serviceProvider;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IBackgroundTaskQueue _taskQueue;
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly IParallel _parallel;
 
@@ -26,14 +26,14 @@ public class InMemoryCommandBus : ICommandBus
         IServiceProvider serviceProvider,
         IServiceScopeFactory serviceScopeFactory,
         IBackgroundTaskQueue taskQueue,
-        IExecuteMiddlewaresService executeMiddlewaresService,
+        IPipeline pipeline,
         IHostApplicationLifetime applicationLifetime,
         IParallel parallel)
     {
         _serviceProvider = serviceProvider;
         _serviceScopeFactory = serviceScopeFactory;
         _taskQueue = taskQueue;
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
         _applicationLifetime = applicationLifetime;
         _parallel = parallel;
     }
@@ -41,7 +41,7 @@ public class InMemoryCommandBus : ICommandBus
     /// <summary>  </summary>
     public Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, c) =>
+        return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
         {
             var handler = GetWrappedHandlers(req);
 
@@ -56,7 +56,7 @@ public class InMemoryCommandBus : ICommandBus
     public Task<ApplicationResult<TResponse>> Dispatch<TResponse>(ICommandRequest<ApplicationResult<TResponse>> command,
         CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, c) =>
+        return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
         {
             var handler = GetWrappedHandlers(req);
 
@@ -70,7 +70,7 @@ public class InMemoryCommandBus : ICommandBus
     /// <summary>  </summary>
     public Task Dispatch(ICommandRequest command, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(command, cancellationToken, (req, c) =>
+        return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
         {
             var handler = GetWrappedHandlers(req);
 

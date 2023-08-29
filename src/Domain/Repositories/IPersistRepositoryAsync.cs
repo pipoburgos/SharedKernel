@@ -1,22 +1,14 @@
-﻿namespace SharedKernel.Domain.Repositories
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IPersistRepositoryAsync
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        Task<int> RollbackAsync(CancellationToken cancellationToken);
+﻿namespace SharedKernel.Domain.Repositories;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+/// <summary>  </summary>
+public interface IPersistRepositoryAsync
+{
+    /// <summary>  </summary>
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+    /// <summary>  </summary>
+    Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken);
+
+    /// <summary>  </summary>
+    Task<int> RollbackAsync(CancellationToken cancellationToken);
 }

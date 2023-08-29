@@ -61,7 +61,7 @@ namespace BankAccounts.Domain.BankAccounts
                 .Tap(movement => _movements.Add(movement));
 
             if (movement.IsSuccess && new IsThePayroll().SatisfiedBy().Compile()(movement.Value))
-                Record(new SalaryHasBeenDeposited(movement.Value.Id, Id.ToString()));
+                Record(new SalaryHasBeenDeposited(movement.Value.Id, Id.ToString()!));
 
             return Result.Success();
         }

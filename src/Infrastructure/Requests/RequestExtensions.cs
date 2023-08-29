@@ -6,9 +6,9 @@ namespace SharedKernel.Infrastructure.Requests;
 internal static class RequestExtensions
 {
     /// <summary>  </summary>
-    public static Dictionary<string, string> ToPrimitives(this IRequest domainEvent)
+    public static Dictionary<string, string?> ToPrimitives(this IRequest domainEvent)
     {
-        var primitives = new Dictionary<string, string>();
+        var primitives = new Dictionary<string, string?>();
 
         domainEvent
             .GetType()

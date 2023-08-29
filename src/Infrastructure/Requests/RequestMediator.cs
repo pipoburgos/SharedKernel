@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
-using SharedKernel.Infrastructure.Requests.Middlewares;
 using System.Security.Claims;
+// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace SharedKernel.Infrastructure.Requests;
 
@@ -19,7 +20,7 @@ internal class RequestMediator : IRequestMediator
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IRequestDeserializer _requestDeserializer;
     private readonly IJsonSerializer _jsonSerializer;
-    private readonly IExecuteMiddlewaresService _executeMiddlewaresService;
+    private readonly IPipeline _pipeline;
 
     /// <summary>
     /// Constructor
@@ -29,13 +30,13 @@ internal class RequestMediator : IRequestMediator
         IServiceScopeFactory serviceScopeFactory,
         IRequestDeserializer requestDeserializer,
         IJsonSerializer jsonSerializer,
-        IExecuteMiddlewaresService executeMiddlewaresService)
+        IPipeline pipeline)
     {
         _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
         _requestDeserializer = requestDeserializer;
         _jsonSerializer = jsonSerializer;
-        _executeMiddlewaresService = executeMiddlewaresService;
+        _pipeline = pipeline;
     }
 
     /// <summary>  </summary>
@@ -51,7 +52,7 @@ internal class RequestMediator : IRequestMediator
     /// <summary>  </summary>
     public Task Execute(string requestSerialized, Request request, Type handlerType, string method, CancellationToken cancellationToken)
     {
-        return _executeMiddlewaresService.ExecuteAsync(request, cancellationToken, async (req, ct) =>
+        return _pipeline.ExecuteAsync(request, cancellationToken, async (req, ct) =>
         {
             try
             {
@@ -69,14 +70,14 @@ internal class RequestMediator : IRequestMediator
                         {
                             var handler = scope.ServiceProvider.GetRequiredService(handlerType);
 
-                            await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters))!;
+                            await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters)!)!;
                             break;
                         }
                     case nameof(IDomainEventSubscriber<DomainEvent>.On):
                         {
                             var types = scope.ServiceProvider.GetServices(handlerType);
                             await Task.WhenAll(types.Select(type =>
-                                (Task)handlerType.GetMethod(method)?.Invoke(type, parameters)));
+                                (Task)handlerType.GetMethod(method)?.Invoke(type, parameters)!));
                         }
 
                         break;
@@ -103,14 +104,14 @@ internal class RequestMediator : IRequestMediator
         var headers = eventData["headers"];
 
         var authorization = headers["authorization"]?.ToString();
-        if (!string.IsNullOrWhiteSpace(authorization))
+        if (authorization != default && !string.IsNullOrWhiteSpace(authorization))
             identityService.AddKeyValue("Authorization", authorization);
 
         var domainClaimsString = headers["claims"]?.ToString();
         if (domainClaimsString == null)
             return;
 
-        var domainClaims = _jsonSerializer.Deserialize<List<RequestClaim>>(domainClaimsString!);
+        var domainClaims = _jsonSerializer.Deserialize<List<RequestClaim>?>(domainClaimsString!);
         if (domainClaims == default || !domainClaims.Any())
             return;
 

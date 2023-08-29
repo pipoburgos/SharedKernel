@@ -95,7 +95,7 @@ namespace SharedKernel.Infrastructure.Dapper.Data.Queries
                 return PagedList<T>.Empty();
 
             var queryString = $"{preselect}{sql}";
-            if (pageOptions.Orders != null && pageOptions.Orders.Any())
+            if (pageOptions.Orders != default! && pageOptions.Orders.Any())
                 queryString +=
                     $"{Environment.NewLine}ORDER BY {string.Join(", ", pageOptions.Orders.Select(order => order.Field + (!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : " DESC")))}";
 

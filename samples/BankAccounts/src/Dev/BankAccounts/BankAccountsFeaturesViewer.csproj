@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../**/Commands/*.cs">
+      <Link>$([System.String]::new(%(FileName)).Replace("Handler", ""))/%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../../**/Queries/*.cs">
+      <Link>$([System.String]::new(%(FileName)).Replace("Handler", ""))/%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../../**/Validators/*Validator.cs">
+      <Link>$([System.String]::new(%(FileName)).Replace("Validator", ""))/%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../../**/BankAccounts.Api/*/*Endpoint.cs">
+      <Link>$([System.String]::new(%(FileName)).Replace("Endpoint", ""))/%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\Api\SharedKernel.Api.csproj" />
+    <ProjectReference Include="..\..\..\..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\..\Api\BankAccounts.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="BankAccounts.Application.Shared" />
+    <Using Include="BankAccounts.Application.Shared.UnitOfWork" />
+    <Using Include="BankAccounts.Infrastructure.Shared.Data" />
+    <Using Include="FluentValidation" />
+    <Using Include="Microsoft.AspNetCore.Builder" />
+    <Using Include="Microsoft.AspNetCore.Hosting" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Microsoft.AspNetCore.Routing" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
+    <Using Include="Microsoft.Extensions.Configuration" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Microsoft.Extensions.Logging" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands" />
+    <Using Include="SharedKernel.Application.Cqrs.Commands.Handlers" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
+    <Using Include="SharedKernel.Application.Cqrs.Queries.Entities" />
+    <Using Include="SharedKernel.Application.Events" />
+    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
+    <Using Include="SharedKernel.Application.System" />
+    <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
+    <Using Include="SharedKernel.Domain.Specifications.Common" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories" />
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Net.Http" />
+    <Using Include="System.Net.Http.Json" />
+    <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+</Project>

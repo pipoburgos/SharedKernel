@@ -39,7 +39,7 @@ namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 
             PagedQuery = $"{tempTables} {query}";
 
-            if (state.Orders != null && state.Orders.Any())
+            if (state.Orders != default! && state.Orders.Any())
                 PagedQuery += $"{Environment.NewLine} ORDER BY {string.Join(", ", state.Orders.Select(order => $"{order.Field} {(!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : "DESC")}"))}";
 
             if (state.Take.HasValue)

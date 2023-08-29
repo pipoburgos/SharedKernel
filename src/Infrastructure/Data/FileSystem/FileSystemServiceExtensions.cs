@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Domain.Repositories.FileSystem;
 using SharedKernel.Infrastructure.Data.FileSystem.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Data.FileSystem

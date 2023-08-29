@@ -243,9 +243,9 @@ public static class ExpressionHelper
     ///     Convert a string to lambda expression
     ///     Example => "Person.Child.Name" : x => x.Person.Child.Name
     /// </summary>
-    public static LambdaExpression? GetLambdaExpressions<T>(string propertyName)
+    public static LambdaExpression? GetLambdaExpressions<T>(string? propertyName)
     {
-        if (!string.IsNullOrWhiteSpace(propertyName))
+        if (propertyName != default && !string.IsNullOrWhiteSpace(propertyName))
             return Generate<T>().TryGetValue(propertyName, out var result) ? result : null;
 
         var t = typeof(T);

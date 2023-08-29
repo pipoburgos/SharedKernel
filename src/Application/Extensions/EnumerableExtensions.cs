@@ -32,12 +32,13 @@ namespace SharedKernel.Application.Extensions
         /// <param name="items"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static IEnumerable<T> AddFirst<T>(this IEnumerable<T> items, T item)
+        public static IEnumerable<T> AddFirst<T>(this IEnumerable<T> items, T item) where T : notnull
         {
-            var itemsList = items == null ? new List<T>() : items.ToList();
+            if (items == default!)
+                return Enumerable.Empty<T>();
 
-            if (item != null)
-                itemsList.Insert(0, item);
+            var itemsList = items.ToList();
+            itemsList.Insert(0, item);
 
             return itemsList;
         }
@@ -145,7 +146,7 @@ namespace SharedKernel.Application.Extensions
         /// <returns></returns>
         public static IEnumerable<T> ContainsText<T>(this IEnumerable<T> query, string searchText)
         {
-            Expression<Func<T, bool>> allExpressions = null;
+            Expression<Func<T, bool>> allExpressions = default!;
             foreach (var property in typeof(T).GetProperties().Where(t => t.PropertyType == typeof(string)))
             {
                 var exp = GetExpressionContainsString<T>(property.Name, searchText);
@@ -167,7 +168,7 @@ namespace SharedKernel.Application.Extensions
         /// <returns></returns>
         public static IEnumerable<T> FilterContainsProperties<T>(this IEnumerable<T> query, IEnumerable<FilterProperty> properties)
         {
-            if (properties == null)
+            if (properties == default!)
                 return query;
 
             query = properties.Where(f => !string.IsNullOrWhiteSpace(f.Value)).Aggregate(query,

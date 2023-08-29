@@ -4,22 +4,22 @@
 public class OpenIdOptions
 {
     /// <summary> Authority. </summary>
-    public string Authority { get; set; }
+    public string? Authority { get; set; }
 
     /// <summary>  </summary>
     public bool RequireHttpsMetadata { get; set; }
 
     /// <summary>  </summary>
-    public string Audience { get; set; }
+    public string? Audience { get; set; }
 
     /// <summary>  </summary>
-    public string ClientId { get; set; }
+    public string? ClientId { get; set; }
 
     /// <summary> / </summary>
-    public string ClientSecret { get; set; }
+    public string? ClientSecret { get; set; }
 
     /// <summary>  </summary>
-    public IEnumerable<Scope> Scopes { get; set; }
+    public IEnumerable<Scope> Scopes { get; set; } = null!;
 
     /// <summary>  </summary>
     public int AccessTokenSecondsLifetime { get; set; } = 300;
@@ -29,8 +29,8 @@ public class OpenIdOptions
 public class Scope
 {
     /// <summary>  </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>  </summary>
-    public string DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 }

@@ -4,7 +4,7 @@
 public class GroupDescriptor
 {
     /// <summary> The field that is sorted. </summary>
-    public string Field { get; set; }
+    public string Field { get; set; } = null!;
 
     /// <summary>
     /// The sort direction. If no direction is set, the descriptor will be skipped during processing.
@@ -13,5 +13,5 @@ public class GroupDescriptor
     /// - `asc`
     /// - `desc`
     /// </summary>
-    public string Dir { get; set; }
+    public string Dir { get; set; } = null!;
 }

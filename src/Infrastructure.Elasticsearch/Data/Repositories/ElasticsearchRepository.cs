@@ -1,13 +1,11 @@
 ﻿using Nest;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Repositories;
 using SharedKernel.Infrastructure.Elasticsearch.Client;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class ElasticsearchRepository<TAggregateRoot> : IPersistRepository
-    where TAggregateRoot : class, IAggregateRoot
+public abstract class ElasticsearchRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
 {
     private readonly ElasticsearchClient _client;
 
@@ -34,17 +32,5 @@ public abstract class ElasticsearchRepository<TAggregateRoot> : IPersistReposito
     protected async Task Persist(string id, string json)
     {
         await _client.Persist(_client.IndexFor(ModuleName()), id, json);
-    }
-
-    /// <summary>  </summary>
-    public int Rollback()
-    {
-        return 0;
-    }
-
-    /// <summary>  </summary>
-    public int SaveChanges()
-    {
-        return 0;
     }
 }
