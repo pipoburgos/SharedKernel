@@ -1,55 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-		<Description>C# DDD Distributed Services Layer</Description>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<LangVersion>latest</LangVersion>
-		<NeutralLanguage>en</NeutralLanguage>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageId>Pipoburgos.SharedKernel.Api</PackageId>
+    <Description>C# DDD Distributed Services Layer</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageId>Pipoburgos.SharedKernel.Api</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-		<Version>7.1.10.5</Version>
-	</PropertyGroup>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+    <Version>7.1.10.5</Version>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="icon.png" Pack="true" PackagePath="" />
-		<None Include="readme.md" Pack="true" PackagePath="" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="readme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="App.Metrics.AspNetCore" Version="4.3.0" />
-		<PackageReference Include="App.Metrics.AspNetCore.Endpoints" Version="4.3.0" />
-		<PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="4.3.0" />
-		<PackageReference Include="App.Metrics.Formatters.Prometheus" Version="4.3.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
-		<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0-beta.3" />
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore" Version="4.3.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Endpoints" Version="4.3.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="4.3.0" />
+    <PackageReference Include="App.Metrics.Formatters.Prometheus" Version="4.3.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0-beta.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" Condition="'$(TargetFramework)' == 'net6.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" Condition="'$(TargetFramework)' == 'net7.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" Condition="'$(TargetFramework)' == 'net6.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.10" Condition="'$(TargetFramework)' == 'net7.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
-		<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.1" />
-	</ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.10" Condition="'$(TargetFramework)' == 'net7.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.1" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
+  </ItemGroup>
 
   <!--<ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">

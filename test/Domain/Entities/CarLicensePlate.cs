@@ -14,6 +14,6 @@ namespace SharedKernel.Domain.Tests.Entities
             };
         }
 
-        public string Value { get; private set; }
+        public string Value { get; private set; } = null!;
     }
 }

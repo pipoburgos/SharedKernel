@@ -12,6 +12,6 @@ namespace SharedKernel.Domain.Tests.Entities
 
         public CarGuid(CarLicensePlateGuid id) : base(id) { }
 
-        public string Color { get; set; }
+        public string Color { get; set; } = null!;
     }
 }

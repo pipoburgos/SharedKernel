@@ -175,7 +175,7 @@ namespace SharedKernel.Infrastructure.Data.Queryable
         /// <param name="query"></param>
         /// <param name="sortedColumns"></param>
         /// <returns></returns>
-        private static IQueryable<T> Order<T>(this IQueryable<T> query, IEnumerable<Order> sortedColumns)
+        private static IQueryable<T> Order<T>(this IQueryable<T> query, IEnumerable<Order>? sortedColumns)
         {
             var sortedList = sortedColumns?.ToList();
             if (sortedList == default || !sortedList.Any())

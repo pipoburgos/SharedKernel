@@ -4,9 +4,9 @@ namespace BankAccounts.Acceptance.Tests.Shared;
 
 public static class DataStateChangeTestFactory
 {
-    public static DataStateChange Create(string sortProperty = default, int? skip = default, int? take = 10,
-        IEnumerable<SortDescriptor> sort = default, IEnumerable<GroupDescriptor> group = default,
-        CompositeFilterDescriptor filter = default)
+    public static DataStateChange Create(string? sortProperty = default, int? skip = default, int? take = 10,
+        IEnumerable<SortDescriptor>? sort = default, IEnumerable<GroupDescriptor>? group = default,
+        CompositeFilterDescriptor? filter = default)
     {
         return new DataStateChange
         {

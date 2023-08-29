@@ -4,7 +4,7 @@ namespace SharedKernel.Domain.Tests.Users
 {
     internal class UserCreated : DomainEvent
     {
-        public UserCreated(Guid id, string name, string aggregateId, string eventId = null, string occurredOn = null) :
+        public UserCreated(Guid id, string name, string aggregateId, string? eventId = default, string? occurredOn = default) :
             base(aggregateId, eventId, occurredOn)
         {
             Id = id;

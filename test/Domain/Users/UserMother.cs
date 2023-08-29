@@ -4,7 +4,9 @@ namespace SharedKernel.Domain.Tests.Users
 {
     internal class UserMother
     {
-        public static User Create(Guid id = default, string name = default, DateTime birthday = default, int numberOfChildren = default)
+        public static User Create(Guid id = default, string? name = default, DateTime birthday = default,
+            int numberOfChildren = default)
+
         {
             var faker = new Faker();
 
@@ -29,7 +31,9 @@ namespace SharedKernel.Domain.Tests.Users
 
     internal class AddressMother
     {
-        public static Address Create(string company = default, int number = default, string street = default, string city = default)
+        public static Address Create(string? company = default, int number = default, string? street = default,
+            string? city = default)
+
         {
             var faker = new Faker();
 

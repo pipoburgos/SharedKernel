@@ -1,16 +1,8 @@
-﻿using SharedKernel.Domain.RailwayOrientedProgramming;
+﻿using SharedKernel.Domain.Repositories;
 
 namespace SharedKernel.Application.UnitOfWorks;
 
 /// <summary> Asynchronous unit of work pattern. </summary>
-public interface IUnitOfWorkAsync : IUnitOfWork
+public interface IUnitOfWorkAsync : IUnitOfWork, IPersistRepositoryAsync
 {
-    /// <summary>  </summary>
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
-    /// <summary>  </summary>
-    Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken);
-
-    /// <summary>  </summary>
-    Task<int> RollbackAsync(CancellationToken cancellationToken);
 }

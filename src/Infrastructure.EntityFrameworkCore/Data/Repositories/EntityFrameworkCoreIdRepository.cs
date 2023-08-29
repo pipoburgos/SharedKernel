@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 /// <summary> Entity Framework Core Repository. </summary>
 /// <typeparam name="TAggregateRoot"> Repository data type.</typeparam>
 /// <typeparam name="TId"></typeparam>
-public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>
+public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>, IPersistRepository
     where TAggregateRoot : class, IAggregateRoot
 {
     #region Members
@@ -186,6 +186,12 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : IRepo
 
     /// <summary>  </summary>
     public int Rollback()
+    {
+        return DbContextBase.Rollback();
+    }
+
+    /// <summary>  </summary>
+    public Result<int> RollbackResult()
     {
         return DbContextBase.Rollback();
     }

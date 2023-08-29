@@ -46,13 +46,13 @@ namespace SharedKernel.Domain.Tests.Entities
         {
             //Arrange
 
-            SampleEntity entityLeft = null;
+            SampleEntity entityLeft = default!;
             var entityRight = new SampleEntity();
 
             //entityRight.GenerateNewIdentity();
 
             //Act
-            if (entityLeft != null) //this perform ==(left,right)
+            if (entityLeft != default!) //this perform ==(left,right)
                 Assert.Fail("error");
 
             if (entityRight == null)//this perform !=(left,right)
@@ -88,13 +88,13 @@ namespace SharedKernel.Domain.Tests.Entities
         public void CompareWhenLeftIsNullAndRightIsNullReturnFalseTest()
         {
             //Arrange
-            SampleEntity entityLeft = null;
+            SampleEntity entityLeft = default!;
             var entityRight = new SampleEntity();
 
             //entityRight.GenerateNewIdentity();
 
             //Act
-            if (entityLeft != null)//this perform ==(left,right)
+            if (entityLeft != default!)//this perform ==(left,right)
                 Assert.Fail("error");
 
             if (entityRight == null)//this perform !=(left,right)

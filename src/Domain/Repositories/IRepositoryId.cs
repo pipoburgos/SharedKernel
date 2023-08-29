@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Domain.Repositories;
 
 /// <summary>  </summary>
-public interface IRepository<TAggregateRoot> :
+public interface IRepository<TAggregateRoot, in TId> :
     ICreateRepository<TAggregateRoot>,
-    IReadRepository<TAggregateRoot>,
+    IReadRepository<TAggregateRoot, TId>,
     IUpdateRepository<TAggregateRoot>,
     IDeleteRepository<TAggregateRoot>,
     IReadSpecificationRepository<TAggregateRoot>

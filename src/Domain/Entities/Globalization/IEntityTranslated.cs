@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Entities.Globalization;
 
 /// <summary>  </summary>
-public interface IEntityTranslated<out TEntityKey, out TEntity, out TLanguage, out TLanguageKey> where TEntityKey : notnull
+public interface IEntityTranslated<out TEntityId, out TEntity, out TLanguage, out TLanguageKey> where TEntityId : notnull
 {
     /// <summary>
     /// 
@@ -11,7 +11,7 @@ public interface IEntityTranslated<out TEntityKey, out TEntity, out TLanguage, o
     /// <summary>
     /// 
     /// </summary>
-    TEntityKey EntityId { get; }
+    TEntityId EntityId { get; }
 
     /// <summary>
     /// 
@@ -30,13 +30,13 @@ public interface IEntityTranslated<out TEntityKey, out TEntity, out TLanguage, o
 }
 
 /// <summary>  </summary>
-public interface IEntityTranslated<out TEntityKey, out TEntity, out TLanguage>
-    : IEntityTranslated<TEntityKey, TEntity, TLanguage, string> where TEntityKey : notnull
+public interface IEntityTranslated<out TEntityId, out TEntity, out TLanguage>
+    : IEntityTranslated<TEntityId, TEntity, TLanguage, string> where TEntityId : notnull
 {
 }
 
 /// <summary>  </summary>
-public interface IEntityTranslated<out TEntityKey, out TEntity>
-    : IEntityTranslated<TEntityKey, TEntity, Language> where TEntityKey : notnull
+public interface IEntityTranslated<out TEntityId, out TEntity>
+    : IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull
 {
 }

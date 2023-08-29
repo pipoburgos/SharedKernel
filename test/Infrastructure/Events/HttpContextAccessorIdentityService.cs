@@ -48,7 +48,7 @@ namespace SharedKernel.Integration.Tests.Events
         /// <summary> User. </summary>
         public ClaimsPrincipal User
         {
-            get => _httpContextAccessor?.HttpContext?.User;
+            get => _httpContextAccessor?.HttpContext?.User!;
             set
             {
                 _httpContextAccessor.HttpContext ??= new DefaultHttpContext();

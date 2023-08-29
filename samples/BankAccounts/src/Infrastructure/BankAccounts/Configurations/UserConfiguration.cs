@@ -35,7 +35,7 @@ namespace BankAccounts.Infrastructure.BankAccounts.Configurations
                     v => JsonConvert.SerializeObject(v,
                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
                     v => JsonConvert.DeserializeObject<IEnumerable<Email>>(v,
-                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
         }
     }
 }

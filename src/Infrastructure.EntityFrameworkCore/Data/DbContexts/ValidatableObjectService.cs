@@ -25,7 +25,8 @@ public class ValidatableObjectService : IValidatableObjectService
     {
         var errors = GetValidateErrors(context);
         return errors.Any()
-            ? Result.Failure<Unit>(errors.Select(e => Error.Create(e.ErrorMessage, string.Join(", ", e.MemberNames))))
+            ? Result.Failure<Unit>(errors.Select(e =>
+                Error.Create(e.ErrorMessage ?? string.Empty, string.Join(", ", e.MemberNames))))
             : Result.Success();
     }
 

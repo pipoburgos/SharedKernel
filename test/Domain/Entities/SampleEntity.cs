@@ -12,6 +12,6 @@ namespace SharedKernel.Domain.Tests.Entities
 
         public SampleEntity(Guid id) : base(id) { }
 
-        public string SampleProperty { get; set; }
+        public string SampleProperty { get; set; } = null!;
     }
 }

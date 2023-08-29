@@ -7,8 +7,7 @@ namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
 public abstract class MongoRepositoryAsync<TAggregateRoot, TId> : MongoRepository<TAggregateRoot, TId>,
-    ICreateRepositoryAsync<TAggregateRoot>,
-    IPersistRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
+    ICreateRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
     protected MongoRepositoryAsync(IOptions<MongoSettings> mongoSettings) : base(mongoSettings)
@@ -25,17 +24,5 @@ public abstract class MongoRepositoryAsync<TAggregateRoot, TId> : MongoRepositor
     public Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
     {
         return MongoCollection.InsertManyAsync(aggregates, cancellationToken: cancellationToken);
-    }
-
-    /// <summary>  </summary>
-    public Task<int> RollbackAsync(CancellationToken cancellationToken)
-    {
-        return Task.FromResult(0);
-    }
-
-    /// <summary>  </summary>
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        return Task.FromResult(0);
     }
 }

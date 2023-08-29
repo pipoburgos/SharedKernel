@@ -77,8 +77,20 @@ public class FileSystemUnitOfWork : IFileSystemUnitOfWorkAsync
     }
 
     /// <summary>  </summary>
+    public Result<int> RollbackResult()
+    {
+        return Rollback();
+    }
+
+    /// <summary>  </summary>
     public Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
         return Task.FromResult(Rollback());
+    }
+
+    /// <summary>  </summary>
+    public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
+    {
+        return Task.FromResult(RollbackResult());
     }
 }

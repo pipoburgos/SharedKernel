@@ -11,6 +11,7 @@ namespace SharedKernel.Domain.Tests.Users
 
         protected User()
         {
+            Name = default!;
             _emails = new List<string>();
             _addresses = new List<Address>();
         }

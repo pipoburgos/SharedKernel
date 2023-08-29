@@ -22,7 +22,7 @@ public class Startup
     private const string CorsPolicy = "CorsPolicy";
 
     private readonly IConfiguration _configuration;
-    private IServiceCollection _services;
+    private IServiceCollection? _services;
 
     /// <summary> Constructor. </summary>
     public Startup(IConfiguration configuration)
@@ -43,19 +43,20 @@ public class Startup
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
-            .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>(), o =>
-            {
-                //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+            .AddSharedKernelApi(CorsPolicy,
+                _configuration.GetSection("Origins").Get<string[]>() ?? Array.Empty<string>(), o =>
+                {
+                    //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
 
-                //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
-                //    ? "FakeBearer"
-                //    : JwtBearerDefaults.AuthenticationScheme);
+                    //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
+                    //    ? "FakeBearer"
+                    //    : JwtBearerDefaults.AuthenticationScheme);
 
-                //var policy = policyBuilder.Build();
+                    //var policy = policyBuilder.Build();
 
-                //o.Filters.Add(new AuthorizeFilter(policy));
-                o.Conventions.Add(new ControllerDocumentationConvention());
-            });
+                    //o.Filters.Add(new AuthorizeFilter(policy));
+                    o.Conventions.Add(new ControllerDocumentationConvention());
+                });
     }
 
     /// <summary> Configurar los middlewares </summary>
@@ -63,7 +64,7 @@ public class Startup
     {
         app
             .UseSharedKernelCurrentCulture()
-            .UseSharedKernelServicesPage(_services)
+            .UseSharedKernelServicesPage(_services ?? throw new ArgumentNullException(nameof(_services)))
             .UseSharedKernelExceptionHandler("BankAccounts",
                 exceptionHandler =>
                     $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})",

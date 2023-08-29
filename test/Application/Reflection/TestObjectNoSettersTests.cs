@@ -116,7 +116,7 @@ namespace SharedKernel.Application.Tests.Reflection
         [Fact]
         public void SetPropertyValueStringNull()
         {
-            const string name = null;
+            const string name = default!;
 
             var obj = ReflectionHelper.CreateInstance<TestObjectNoSetters>();
 

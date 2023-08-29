@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
-using SharedKernel.Domain.Specifications.Common;
+﻿using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Domain.Tests.Entities;
+using System.Linq.Expressions;
 using Xunit;
 
 // ReSharper disable JoinDeclarationAndInitializer
@@ -31,7 +31,7 @@ namespace SharedKernel.Domain.Tests.Specifications
         public void CreateDirectSpecificationNullSpecThrowArgumentNullExceptionTest()
         {
             //Act
-            Assert.Throws<ArgumentNullException>(() => new DirectSpecification<SampleEntity>(null));
+            Assert.Throws<ArgumentNullException>(() => new DirectSpecification<SampleEntity>(default!));
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace SharedKernel.Domain.Tests.Specifications
             rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
             //Act
-            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(null, rightAdHocSpecification));
+            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(default!, rightAdHocSpecification));
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace SharedKernel.Domain.Tests.Specifications
             leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
 
             //Act
-            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(leftAdHocSpecification, null));
+            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(leftAdHocSpecification, default!));
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace SharedKernel.Domain.Tests.Specifications
             rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
             //Act
-            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(null, rightAdHocSpecification));
+            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(default!, rightAdHocSpecification));
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace SharedKernel.Domain.Tests.Specifications
             leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
 
             //Act
-            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(leftAdHocSpecification, null));
+            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(leftAdHocSpecification, default!));
         }
 
         [Fact]
@@ -354,14 +354,14 @@ namespace SharedKernel.Domain.Tests.Specifications
         public void CreateNotSpecificationNullSpecificationThrowArgumentNullExceptionTest()
         {
             //Act
-            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((ISpecification<SampleEntity>)null));
+            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((ISpecification<SampleEntity>?)default!));
         }
 
         [Fact]
         public void CreateNotSpecificationNullCriteriaThrowArgumentNullExceptionTest()
         {
             //Act
-            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((Expression<Func<SampleEntity, bool>>)null));
+            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((Expression<Func<SampleEntity, bool>>?)default!));
         }
 
         [Fact]

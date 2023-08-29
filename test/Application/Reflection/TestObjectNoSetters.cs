@@ -1,12 +1,10 @@
-﻿
-
-// ReSharper disable UnassignedGetOnlyAutoProperty
+﻿// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace SharedKernel.Application.Tests.Reflection
 {
     internal class TestObjectNoSetters
     {
-        public string Name { get; }
+        public string Name { get; } = null!;
 
         public DateTime Created { get; }
 

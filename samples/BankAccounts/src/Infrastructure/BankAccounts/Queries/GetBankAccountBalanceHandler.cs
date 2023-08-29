@@ -2,28 +2,25 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
 
-namespace BankAccounts.Infrastructure.BankAccounts.Queries
+namespace BankAccounts.Infrastructure.BankAccounts.Queries;
+
+internal class GetBankAccountBalanceHandler : IQueryRequestHandler<GetBankAccountBalance, decimal>
 {
-    internal class GetBankAccountBalanceHandler : IQueryRequestHandler<GetBankAccountBalance, decimal>
+    private readonly IBankAccountRepository _bankAccountRepository;
+
+    public GetBankAccountBalanceHandler(IBankAccountRepository bankAccountRepository)
     {
-        //private readonly DapperQueryProvider _queryProvider;
-        private readonly IBankAccountRepository _bankAccountRepository;
+        _bankAccountRepository = bankAccountRepository;
+    }
 
-        public GetBankAccountBalanceHandler(
-            //DapperQueryProvider queryProvider,
-            IBankAccountRepository bankAccountRepository)
-        {
-            //_queryProvider = queryProvider;
-            _bankAccountRepository = bankAccountRepository;
-        }
+    public async Task<decimal> Handle(GetBankAccountBalance query, CancellationToken cancellationToken)
+    {
+        var bankAccount = await _bankAccountRepository
+            .GetByIdAsync(BankAccountId.Create(query.BankAccountId), cancellationToken);
 
-        public async Task<decimal> Handle(GetBankAccountBalance query, CancellationToken cancellationToken)
-        {
-            //return _queryProvider.ExecuteQueryFirstOrDefaultAsync<decimal>("", cancellationToken);
-            var bankAccount = await _bankAccountRepository
-                .GetByIdAsync(BankAccountId.Create(query.BankAccountId), cancellationToken);
+        if (bankAccount == default!)
+            return await Task.FromResult(0);
 
-            return bankAccount.Balance;
-        }
+        return bankAccount.Balance;
     }
 }

@@ -2,41 +2,28 @@
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities.Globalization;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
+
+/// <summary>  </summary>
+public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey> :
+        IEntityTypeConfiguration<TEntity>
+        where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey>
+        where TTranslation : class, IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey> where TEntityId : notnull
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TTranslation"></typeparam>
-    /// <typeparam name="TLanguage"></typeparam>
-    /// <typeparam name="TLanguageKey"></typeparam>
-    public class AggregateRootIsTranslatableConfigurationBase<TEntityKey, TEntity, TTranslation, TLanguage, TLanguageKey> :
-        IEntityTypeConfiguration<TEntity>
-        where TEntity : AggregateRootIsTranslatable<TEntityKey, TEntity, TTranslation, TLanguage, TLanguageKey>
-        where TTranslation : class, IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey>
+    /// <param name="builder"></param>
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="builder"></param>
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
-        {
-            builder.HasMany<TTranslation>().WithOne(x => x.Entity).OnDelete(DeleteBehavior.Restrict);
-        }
+        builder.HasMany<TTranslation>().WithOne(x => x.Entity).OnDelete(DeleteBehavior.Restrict);
     }
+}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TTranslation"></typeparam>
-    public class AggregateRootIsTranslatableConfigurationBase<TEntityKey, TEntity, TTranslation> :
-        AggregateRootIsTranslatableConfigurationBase<TEntityKey, TEntity, TTranslation, Language, string>
-        where TEntity : AggregateRootIsTranslatable<TEntityKey, TEntity, TTranslation, Language, string>
-        where TTranslation : class, IEntityTranslated<TEntityKey, TEntity, Language, string>
-    {
-    }
+/// <summary>  </summary>
+public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation> :
+    AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, Language, string>
+    where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, Language, string>
+    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, Language, string> where TEntityId : notnull
+{
 }

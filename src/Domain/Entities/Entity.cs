@@ -73,13 +73,13 @@ public abstract class Entity<TId> : IEntity<TId> where TId : notnull
     }
 
     /// <summary> Compare by identifier. </summary>
-    public static bool operator ==(Entity<TId> left, Entity<TId> right)
+    public static bool operator ==(Entity<TId>? left, Entity<TId>? right)
     {
         return Equals(left, right);
     }
 
     /// <summary> Compare by identifier. </summary>
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
     {
         return !(left == right);
     }

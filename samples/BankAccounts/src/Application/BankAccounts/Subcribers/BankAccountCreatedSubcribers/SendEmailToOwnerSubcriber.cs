@@ -23,6 +23,9 @@ namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSub
             var bankAccountId = BankAccountId.Create(new Guid(@event.AggregateId));
             var bankAccount = await _bankAccountRepository.GetByIdAsync(bankAccountId, cancellationToken);
 
+            if (bankAccount == default!)
+                return;
+
             var email = new Mail("a@a.es", "Bank account created", bankAccount.InternationalBankAccountNumber.ToString());
             await _emailSender.SendEmailAsync(email, cancellationToken);
         }

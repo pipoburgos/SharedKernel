@@ -1,50 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SharedKernel.Domain.Entities.Globalization;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
+
+/// <summary>  </summary>
+public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity, TLanguage, TLanguageKey> :
+    IEntityTypeConfiguration<TEntityTranslated>
+    where TEntityTranslated : class, IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey>
+    where TEntity : class, IEntityIsTranslatable<TEntityId, TEntity, TEntityTranslated, TLanguage, TLanguageKey>
+    where TLanguage : class
+    where TEntityId : notnull
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityTranslated"></typeparam>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TLanguage"></typeparam>
-    /// <typeparam name="TLanguageKey"></typeparam>
-    public class EntityTranslatedConfiguration<TEntityTranslated, TEntityKey, TEntity, TLanguage, TLanguageKey> :
-        IEntityTypeConfiguration<TEntityTranslated>
-        where TEntityTranslated : class, IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey>
-        where TEntity : class, IEntityIsTranslatable<TEntityKey, TEntity, TEntityTranslated, TLanguage, TLanguageKey>
-        where TLanguage : class
+    /// <summary>  </summary>
+    public virtual void Configure(EntityTypeBuilder<TEntityTranslated> builder)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="builder"></param>
-        public virtual void Configure(EntityTypeBuilder<TEntityTranslated> builder)
-        {
-            builder.HasKey(a => new { a.EntityId, a.LanguageId });
+        builder.HasKey(a => new { a.EntityId, a.LanguageId });
 
-            builder.HasOne(x => x.Entity)
-                .WithMany(x => x.Translations)
-                .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.Entity)
+            .WithMany(x => x.Translations)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(x => x.Language)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+        builder.HasOne(x => x.Language)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
     }
+}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEntityTranslated"></typeparam>
-    /// <typeparam name="TEntityKey"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    public class EntityTranslatedConfiguration<TEntityTranslated, TEntityKey, TEntity> :
-        EntityTranslatedConfiguration<TEntityTranslated, TEntityKey, TEntity, Language, string>
-        where TEntityTranslated : class, IEntityTranslated<TEntityKey, TEntity, Language, string>
-        where TEntity : class, IEntityIsTranslatable<TEntityKey, TEntity, TEntityTranslated, Language, string>
-    {
-    }
+/// <summary>  </summary>
+public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity> :
+    EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity, Language, string>
+    where TEntityTranslated : class, IEntityTranslated<TEntityId, TEntity, Language, string>
+    where TEntity : class, IEntityIsTranslatable<TEntityId, TEntity, TEntityTranslated, Language, string>
+    where TEntityId : notnull
+{
 }

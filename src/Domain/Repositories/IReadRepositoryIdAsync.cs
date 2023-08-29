@@ -1,13 +1,13 @@
 ﻿namespace SharedKernel.Domain.Repositories;
 
 /// <summary>  </summary>
-public interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateRoot
+public interface IReadRepositoryAsync<TAggregate, in TId> where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
-    Task<TAggregate?> GetByIdAsync<TId>(TId key, CancellationToken cancellationToken);
+    Task<TAggregate?> GetByIdAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task<TAggregate?> GetDeleteByIdAsync<TId>(TId key, CancellationToken cancellationToken);
+    Task<TAggregate?> GetDeleteByIdAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
     Task<bool> AnyAsync(CancellationToken cancellationToken);
@@ -19,8 +19,8 @@ public interface IReadRepositoryAsync<TAggregate> where TAggregate : IAggregateR
     Task<int> CountAsync(CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task<bool> AnyAsync<TId>(TId key, CancellationToken cancellationToken);
+    Task<bool> AnyAsync(TId key, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task<bool> NotAnyAsync<TId>(TId key, CancellationToken cancellationToken);
+    Task<bool> NotAnyAsync(TId key, CancellationToken cancellationToken);
 }

@@ -98,15 +98,15 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries
 
             #region Dto Specifications
 
-            if (pageOptions.FilterProperties != null)
+            if (pageOptions.FilterProperties != default)
             {
                 var propertiesSpec = new PropertiesContainsOrEqualSpecification<TResult>(
-                    pageOptions.FilterProperties?.Select(p => new Property(p.Field, p.Value, default, true)));
+                    pageOptions.FilterProperties.Select(p => new Property(p.Field, p.Value, default, true)));
 
                 queryDto = queryDto.Where(propertiesSpec.SatisfiedBy());
             }
 
-            if (!string.IsNullOrWhiteSpace(pageOptions.SearchText))
+            if (pageOptions.SearchText != default && !string.IsNullOrWhiteSpace(pageOptions.SearchText))
             {
                 var searchTextSpec = new ObjectContainsOrEqualSpecification<TResult>(pageOptions.SearchText);
 

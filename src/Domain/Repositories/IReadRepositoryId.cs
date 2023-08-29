@@ -1,20 +1,20 @@
 ﻿namespace SharedKernel.Domain.Repositories;
 
 /// <summary>  </summary>
-public interface IReadRepository<out TAggregate> where TAggregate : IAggregateRoot
+public interface IReadRepository<out TAggregate, in TId> where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
-    TAggregate? GetById<TId>(TId key);
+    TAggregate? GetById(TId key);
 
     /// <summary>  </summary>
     bool Any();
 
-    /// <summary>  </summary>
+    /// <summary> </summary>
     bool NotAny();
 
     /// <summary>  </summary>
-    bool Any<TId>(TId key);
+    bool Any(TId key);
 
     /// <summary>  </summary>
-    bool NotAny<TId>(TId key);
+    bool NotAny(TId key);
 }

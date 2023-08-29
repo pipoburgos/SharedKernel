@@ -2,7 +2,7 @@
 {
     internal class TestObjectPrivateSetters
     {
-        public string Name { get; private set; }
+        public string Name { get; private set; } = null!;
 
         public DateTime Created { get; private set; }
 

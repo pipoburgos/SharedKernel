@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Domain.Entities.Globalization;
 
 /// <summary>  </summary>
-public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey> :
-    IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey> where TEntity : IEntity<TEntityKey> where TEntityKey : notnull
+public abstract class EntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey> :
+    IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey> where TEntity : IEntity<TEntityId> where TEntityId : notnull
 {
     /// <summary>  </summary>
     protected EntityTranslated() { }
 
     /// <summary>  </summary>
-    protected EntityTranslated(TEntityKey entityId, TEntity entity, TLanguageKey languageId, TLanguage language, bool translated = true)
+    protected EntityTranslated(TEntityId entityId, TEntity entity, TLanguageKey languageId, TLanguage language, bool translated = true)
     {
         Translated = translated;
         EntityId = entityId;
@@ -21,7 +21,7 @@ public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage, TLanguage
     public bool Translated { get; protected set; }
 
     /// <summary>  </summary>
-    public TEntityKey EntityId { get; protected set; } = default!;
+    public TEntityId EntityId { get; protected set; } = default!;
 
     /// <summary>  </summary>
     public TEntity Entity { get; private set; } = default!;
@@ -34,13 +34,13 @@ public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage, TLanguage
 }
 
 /// <summary>  </summary>
-public abstract class EntityTranslated<TEntityKey, TEntity, TLanguage> : EntityTranslated<TEntityKey, TEntity, TLanguage, string>,
-    IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntity : IEntity<TEntityKey> where TEntityKey : notnull
+public abstract class EntityTranslated<TEntityId, TEntity, TLanguage> : EntityTranslated<TEntityId, TEntity, TLanguage, string>,
+    IEntityTranslated<TEntityId, TEntity, TLanguage> where TEntity : IEntity<TEntityId> where TEntityId : notnull
 {
 }
 
 /// <summary>  </summary>
-public abstract class EntityTranslated<TEntityKey, TEntity> : EntityTranslated<TEntityKey, TEntity, Language>,
-    IEntityTranslated<TEntityKey, TEntity> where TEntity : IEntity<TEntityKey> where TEntityKey : notnull
+public abstract class EntityTranslated<TEntityId, TEntity> : EntityTranslated<TEntityId, TEntity, Language>,
+    IEntityTranslated<TEntityId, TEntity> where TEntity : IEntity<TEntityId> where TEntityId : notnull
 {
 }

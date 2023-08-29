@@ -8,22 +8,22 @@ public interface IEntityIsTranslatable<out TTranslation>
 }
 
 /// <summary>  </summary>
-public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage, TLanguageKey> :
+public interface IEntityIsTranslatable<TEntityId, TEntity, out TTranslation, TLanguage, TLanguageKey> :
     IEntityIsTranslatable<TTranslation>
-    where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage, TLanguageKey> where TEntityKey : notnull
+    where TTranslation : IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey> where TEntityId : notnull
 {
 }
 
 /// <summary>  </summary>
-public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation, TLanguage> :
-    IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, TLanguage, string>
-    where TTranslation : IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntityKey : notnull
+public interface IEntityIsTranslatable<TEntityId, TEntity, out TTranslation, TLanguage> :
+    IEntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, string>
+    where TTranslation : IEntityTranslated<TEntityId, TEntity, TLanguage> where TEntityId : notnull
 {
 }
 
 /// <summary>  </summary>
-public interface IEntityIsTranslatable<TEntityKey, TEntity, out TTranslation> :
-    IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, Language>
-    where TTranslation : IEntityTranslated<TEntityKey, TEntity, Language> where TEntityKey : notnull
+public interface IEntityIsTranslatable<TEntityId, TEntity, out TTranslation> :
+    IEntityIsTranslatable<TEntityId, TEntity, TTranslation, Language>
+    where TTranslation : IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull
 {
 }

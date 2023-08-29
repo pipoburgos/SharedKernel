@@ -11,4 +11,7 @@ public interface IPersistRepositoryAsync
 
     /// <summary>  </summary>
     Task<int> RollbackAsync(CancellationToken cancellationToken);
+
+    /// <summary>  </summary>
+    Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken);
 }

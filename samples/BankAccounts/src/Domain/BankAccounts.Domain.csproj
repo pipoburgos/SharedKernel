@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\src\Domain\SharedKernel.Domain.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Domain\SharedKernel.Domain.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="SharedKernel.Domain.Aggregates" />

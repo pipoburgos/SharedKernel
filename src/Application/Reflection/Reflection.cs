@@ -80,7 +80,7 @@ public static class ReflectionHelper
     }
 
     /// <summary>  </summary>
-    public static void SetProperty<T>(T obj, string name, object value)
+    public static void SetProperty<T>(T obj, string name, object? value)
     {
         var propertyInfo = typeof(T).GetProperty(name);
         if (propertyInfo == null)
@@ -143,7 +143,7 @@ public static class ReflectionHelper
                     fieldInfo.SetValue(obj, null);
                 else
 #endif
-                    fieldInfo.SetValue(obj, new Guid(valueString));
+                fieldInfo.SetValue(obj, new Guid(valueString));
             }
             else
             {

@@ -3,10 +3,10 @@
 namespace SharedKernel.Domain.Specifications;
 
 /// <summary>  </summary>
-public class TranslatedSpecification<TEntityKey, TEntity, TTranslation, TLanguage>
+public class TranslatedSpecification<TEntityId, TEntity, TTranslation, TLanguage>
         : Specification<TTranslation> where TTranslation : class,
-        IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, TLanguage>,
-        IEntityTranslated<TEntityKey, TEntity, TLanguage> where TEntityKey : notnull
+        IEntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage>,
+        IEntityTranslated<TEntityId, TEntity, TLanguage> where TEntityId : notnull
 {
     /// <summary>  </summary>
     public override Expression<Func<TTranslation, bool>> SatisfiedBy()
@@ -17,9 +17,9 @@ public class TranslatedSpecification<TEntityKey, TEntity, TTranslation, TLanguag
 }
 
 /// <summary>  </summary>
-public class TranslatedSpecification<TEntityKey, TEntity, TTranslation>
-    : TranslatedSpecification<TEntityKey, TEntity, TTranslation, Language> where TTranslation : class,
-    IEntityIsTranslatable<TEntityKey, TEntity, TTranslation, Language>,
-    IEntityTranslated<TEntityKey, TEntity, Language> where TEntityKey : notnull
+public class TranslatedSpecification<TEntityId, TEntity, TTranslation>
+    : TranslatedSpecification<TEntityId, TEntity, TTranslation, Language> where TTranslation : class,
+    IEntityIsTranslatable<TEntityId, TEntity, TTranslation, Language>,
+    IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull
 {
 }

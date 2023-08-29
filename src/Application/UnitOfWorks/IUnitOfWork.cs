@@ -1,16 +1,8 @@
-﻿using SharedKernel.Domain.RailwayOrientedProgramming;
+﻿using SharedKernel.Domain.Repositories;
 
 namespace SharedKernel.Application.UnitOfWorks;
 
 /// <summary> Synchronous unit of work pattern. </summary>
-public interface IUnitOfWork
+public interface IUnitOfWork : IPersistRepository
 {
-    /// <summary>  </summary>
-    int SaveChanges();
-
-    /// <summary>  </summary>
-    Result<int> SaveChangesResult();
-
-    /// <summary>  </summary>
-    int Rollback();
 }

@@ -45,7 +45,7 @@ namespace SharedKernel.Domain.Tests.Specifications
 
         public bool Test<T>()
         {
-            return new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default);
+            return new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!);
         }
     }
 

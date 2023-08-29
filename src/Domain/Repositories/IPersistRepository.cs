@@ -11,4 +11,7 @@ public interface IPersistRepository
 
     /// <summary>  </summary>
     int Rollback();
+
+    /// <summary>  </summary>
+    Result<int> RollbackResult();
 }

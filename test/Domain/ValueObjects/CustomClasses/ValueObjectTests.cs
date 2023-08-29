@@ -169,8 +169,8 @@ public class ValueObjectTests
     public void SameDataInDiferentPropertiesIsEqualsFalseTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", "streetLine2", null, null);
-        var address2 = new Address("streetLine2", "streetLine1", null, null);
+        var address1 = new Address("streetLine1", "streetLine2", default!, default!);
+        var address2 = new Address("streetLine2", "streetLine1", default!, default!);
 
         //Act
         var result = address1.Equals(address2);
@@ -184,8 +184,8 @@ public class ValueObjectTests
     public void SameDataInDiferentPropertiesEqualOperatorFalseTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", "streetLine2", null, null);
-        var address2 = new Address("streetLine2", "streetLine1", null, null);
+        var address1 = new Address("streetLine1", "streetLine2", default!, default!);
+        var address2 = new Address("streetLine2", "streetLine1", default!, default!);
 
         //Act
         var result = address1 == address2;
@@ -199,8 +199,8 @@ public class ValueObjectTests
     public void NullableValueObjectEqualTrueTest()
     {
         //Arrange
-        Address address1 = null;
-        Address address2 = null;
+        Address address1 = default!;
+        Address address2 = default!;
 
         //Act
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -216,8 +216,8 @@ public class ValueObjectTests
     public void NullablePropertiesValueObjectEqualTrueTest()
     {
         //Arrange
-        var address1 = new Address(null, null, null, null);
-        var address2 = new Address(null, null, null, null);
+        var address1 = new Address(default!, default!, default!, default!);
+        var address2 = new Address(default!, default!, default!, default!);
 
         //Act
         var result = address1 == address2;
@@ -231,8 +231,8 @@ public class ValueObjectTests
     public void DiferentDataInDiferentPropertiesProduceDiferentHashCodeTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", "streetLine2", null, null);
-        var address2 = new Address("streetLine2", "streetLine1", null, null);
+        var address1 = new Address("streetLine1", "streetLine2", default!, default!);
+        var address2 = new Address("streetLine2", "streetLine1", default!, default!);
 
         //Act
         var address1HashCode = address1.GetHashCode();
@@ -247,8 +247,8 @@ public class ValueObjectTests
     public void SameDataInDiferentPropertiesProduceDiferentHashCodeTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", null, null, "streetLine1");
-        var address2 = new Address(null, "streetLine1", "streetLine1", null);
+        var address1 = new Address("streetLine1", default!, default!, "streetLine1");
+        var address2 = new Address(default!, "streetLine1", "streetLine1", default!);
 
         //Act
         var address1HashCode = address1.GetHashCode();
@@ -263,7 +263,7 @@ public class ValueObjectTests
     public void SameReferenceEqualsTrueTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", null, null, "streetLine1");
+        var address1 = new Address("streetLine1", default!, default!, "streetLine1");
         var address2 = address1;
 
 
@@ -280,8 +280,8 @@ public class ValueObjectTests
     public void SameDataSameHashCodeTest()
     {
         //Arrange
-        var address1 = new Address("streetLine1", "streetLine2", null, null);
-        var address2 = new Address("streetLine1", "streetLine2", null, null);
+        var address1 = new Address("streetLine1", "streetLine2", default!, default!);
+        var address2 = new Address("streetLine1", "streetLine2", default!, default!);
 
         //Act
         var address1HashCode = address1.GetHashCode();
@@ -296,7 +296,7 @@ public class ValueObjectTests
     public void SelfReferenceNotProduceInfiniteLoop()
     {
         //Arrange
-        SelfReference bReference = default;
+        SelfReference bReference = default!;
         // ReSharper disable once ExpressionIsAlwaysNull
         var aReference = new SelfReference(bReference);
         bReference = new SelfReference(aReference);
@@ -311,8 +311,8 @@ public class ValueObjectTests
     public void AllNullPropertiesEquals()
     {
         //Arrange
-        var address1 = new Address(null, null, null, null);
-        var address2 = new Address(null, null, null, null);
+        var address1 = new Address(default!, default!, default!, default!);
+        var address2 = new Address(default!, default!, default!, default!);
 
         //Act
 

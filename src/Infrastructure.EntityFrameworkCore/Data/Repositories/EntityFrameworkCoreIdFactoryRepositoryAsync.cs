@@ -76,7 +76,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetByIdReadOnlyAsync(TId key, CancellationToken cancellationToken)
+        public virtual Task<TAggregateRoot?> GetByIdReadOnlyAsync(TId key, CancellationToken cancellationToken)
         {
             return GetReadOnlyQuery()
                 .Cast<IEntity<TId>>()
@@ -91,7 +91,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="key"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public virtual Task<TAggregateRoot> GetDeleteByIdReadOnlyAsync(TId key,
+        public virtual Task<TAggregateRoot?> GetDeleteByIdReadOnlyAsync(TId key,
             CancellationToken cancellationToken)
         {
             return GetReadOnlyQuery(true)
@@ -174,7 +174,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories
         /// <param name="spec"></param>
         /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
         /// <returns></returns>
-        public Task<TAggregateRoot> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec,
+        public Task<TAggregateRoot?> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec,
             CancellationToken cancellationToken)
         {
             return GetReadOnlyQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken)!;

@@ -33,7 +33,7 @@ internal class RedisCommandsConsumer : BackgroundService
         {
             try
             {
-                TaskHelper.RunSync(requestMediator.Execute(value, typeof(IDomainEventSubscriber<>),
+                TaskHelper.RunSync(requestMediator.Execute(value.ToString(), typeof(IDomainEventSubscriber<>),
                     nameof(IDomainEventSubscriber<DomainEvent>.On), CancellationToken.None));
             }
             catch (Exception ex)
