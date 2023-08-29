@@ -2,19 +2,18 @@
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
+
+public interface ISharedKernelUnitOfWork : IUnitOfWorkAsync
 {
-    public interface ISharedKernelUnitOfWork : IUnitOfWorkAsync
-    {
 
-    }
+}
 
-    public class SharedKernelDbContext : DbContextBase, ISharedKernelUnitOfWork
+public class SharedKernelDbContext : DbContextBase, ISharedKernelUnitOfWork
+{
+    public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options,
+        IValidatableObjectService? validatableObjectService = default, IAuditableService? auditable = default)
+        : base(options, "skr", typeof(SharedKernelDbContext).Assembly, validatableObjectService, auditable)
     {
-        public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options,
-            IValidatableObjectService validatableObjectService = null, IAuditableService auditable = null)
-            : base(options, "skr", typeof(SharedKernelDbContext).Assembly, validatableObjectService, auditable)
-        {
-        }
     }
 }

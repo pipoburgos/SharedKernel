@@ -15,7 +15,7 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
         {
             const Gender gender = Gender.Female;
 
-            var @event = new UserCreated(gender, default, Guid.NewGuid().ToString());
+            var @event = new UserCreated(gender, default!, Guid.NewGuid().ToString());
 
             var result = @event.ToPrimitives();
 
@@ -36,7 +36,7 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
         [Fact]
         public void CastDatetTimeNullableToPrimitives()
         {
-            var @event = new UserCreatedDateTimeNullable(default, default, Guid.NewGuid().ToString());
+            var @event = new UserCreatedDateTimeNullable(default, default!, Guid.NewGuid().ToString());
 
             var result = @event.ToPrimitives();
 
@@ -54,7 +54,7 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
         public void CastDatetTimeNullableToPrimitivesWithValue()
         {
             var now = DateTime.Now;
-            var @event = new UserCreatedDateTimeNullable(now, default, Guid.NewGuid().ToString());
+            var @event = new UserCreatedDateTimeNullable(now, default!, Guid.NewGuid().ToString());
 
             var result = @event.ToPrimitives();
 
@@ -72,7 +72,7 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
         public void CastListNullableNullableToPrimitives()
         {
             var ids = new List<int?> { 2, 3, default, 6, default, 2 };
-            var @event = new UserCreatedListNullable(ids, default, Guid.NewGuid().ToString());
+            var @event = new UserCreatedListNullable(ids, default!, Guid.NewGuid().ToString());
 
             var x = SendToBus(@event);
 
@@ -153,9 +153,9 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
                 {
                     attributes[nameof(DomainEvent.AggregateId)],
                     attributes,
-                    data["id"].ToString(),
-                    data["occurred_on"].ToString()
-                });
+                    data["id"].ToString()!,
+                    data["occurred_on"].ToString()!
+                })!;
 
             return domainEvent;
         }

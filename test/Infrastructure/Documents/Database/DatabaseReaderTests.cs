@@ -42,12 +42,12 @@ public class DatabaseReaderTests
     private class DatabaseUser
     {
         public int Fid { get; set; }
-        public string Inspireid { get; set; }
-        public string Natcode { get; set; }
-        public string Nameunit { get; set; }
-        public string Codnut1 { get; set; }
-        public string Codnut2 { get; set; }
-        public string Codnut3 { get; set; }
+        public string? Inspireid { get; set; }
+        public string? Natcode { get; set; }
+        public string? Nameunit { get; set; }
+        public string? Codnut1 { get; set; }
+        public string? Codnut2 { get; set; }
+        public string? Codnut3 { get; set; }
         public int Codigoine { get; set; }
         public double ShapeLeng { get; set; }
         public double ShapeArea { get; set; }

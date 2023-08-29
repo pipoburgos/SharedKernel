@@ -51,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Api\SharedKernel.Api.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />

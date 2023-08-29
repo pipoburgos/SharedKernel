@@ -20,8 +20,8 @@ namespace SharedKernel.Integration.Tests.Caching
         [Fact]
         public async Task TestCache()
         {
-            var log = GetService<ICustomLogger<InMemoryCacheHelper>>();
-            var memoryCache = GetService<IMemoryCache>();
+            var log = GetRequiredService<ICustomLogger<InMemoryCacheHelper>>();
+            var memoryCache = GetRequiredService<IMemoryCache>();
 
             var inMemoryCacheHelper = new InMemoryCacheHelper(memoryCache, log);
 

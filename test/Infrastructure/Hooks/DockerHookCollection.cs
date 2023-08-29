@@ -18,7 +18,7 @@ public class DockerHookCollection : ICollectionFixture<DockerHook>, IDisposable
         if (!disposing)
             return;
 
-        _dockerHook?.Dispose();
+        _dockerHook.Dispose();
     }
 
     public void Dispose()

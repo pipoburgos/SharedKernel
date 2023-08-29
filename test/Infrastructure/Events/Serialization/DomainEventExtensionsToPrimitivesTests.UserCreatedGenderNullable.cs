@@ -1,36 +1,36 @@
 ﻿using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Integration.Tests.Events.Serialization
+namespace SharedKernel.Integration.Tests.Events.Serialization;
+
+public partial class DomainEventExtensionsToPrimitivesTests
 {
-    public partial class DomainEventExtensionsToPrimitivesTests
+    public class UserCreatedGenderNullable : DomainEvent
     {
-        public class UserCreatedGenderNullable : DomainEvent
+        public UserCreatedGenderNullable(Gender? gender, DateTime dateTime, string aggregateId,
+            string? eventId = default, string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
         {
-            public UserCreatedGenderNullable(Gender? gender, DateTime dateTime, string aggregateId, string eventId = default, string occurredOn = default) : base(aggregateId, eventId, occurredOn)
-            {
-                GenderNullable = gender;
-                DateTime = dateTime;
-            }
+            GenderNullable = gender;
+            DateTime = dateTime;
+        }
 
-            public override string GetEventName()
-            {
-                return "toPrimitives.userCreatedGenderNullable";
-            }
+        public override string GetEventName()
+        {
+            return "toPrimitives.userCreatedGenderNullable";
+        }
 
-            public Gender? GenderNullable { get; }
+        public Gender? GenderNullable { get; }
 
-            public DateTime DateTime { get; }
+        public DateTime DateTime { get; }
 
-            public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
-            {
-                Gender? gender = default;
-                if (!string.IsNullOrWhiteSpace(body[nameof(GenderNullable)]))
-                    gender = GetEnumFromBody<Gender>(body, nameof(GenderNullable));
+        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
+        {
+            Gender? gender = default;
+            if (!string.IsNullOrWhiteSpace(body[nameof(GenderNullable)]))
+                gender = GetEnumFromBody<Gender>(body, nameof(GenderNullable));
 
-                var dateTime = ConvertToDateTime(body, nameof(DateTime));
+            var dateTime = ConvertToDateTime(body, nameof(DateTime));
 
-                return new UserCreatedGenderNullable(gender, dateTime, aggregateId, eventId, occurredOn);
-            }
+            return new UserCreatedGenderNullable(gender, dateTime, aggregateId, eventId, occurredOn);
         }
     }
 }

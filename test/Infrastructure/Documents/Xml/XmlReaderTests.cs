@@ -39,9 +39,9 @@ public class XmlReaderTests
 
     private class Book
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        public string Author { get; set; }
+        public string? Author { get; set; }
 
         public double Price { get; set; }
 

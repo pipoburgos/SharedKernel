@@ -1,32 +1,34 @@
 ﻿using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Integration.Tests.Events.Serialization
+namespace SharedKernel.Integration.Tests.Events.Serialization;
+
+public partial class DomainEventExtensionsToPrimitivesTests
 {
-    public partial class DomainEventExtensionsToPrimitivesTests
+    public class UserCreatedListNullable : DomainEvent
     {
-        public class UserCreatedListNullable : DomainEvent
+        public UserCreatedListNullable(List<int?> ids, string aggregateId, string? eventId = default,
+            string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
         {
-            public UserCreatedListNullable(List<int?> ids, string aggregateId, string eventId = default, string occurredOn = default) : base(aggregateId, eventId, occurredOn)
-            {
-                Ids = ids;
-            }
+            Ids = ids;
+        }
 
-            public override string GetEventName()
-            {
-                return "toPrimitives.userCreatedListNullable";
-            }
+        public override string GetEventName()
+        {
+            return "toPrimitives.userCreatedListNullable";
+        }
 
 
-            public List<int?> Ids { get; }
+        public List<int?> Ids { get; }
 
-            public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
-            {
-                List<int?> ids = default;
-                if (!string.IsNullOrWhiteSpace(body[nameof(Ids)]))
-                    ids = body[nameof(Ids)].Split(",").Select(e => string.IsNullOrWhiteSpace(e) ? null : (int?)int.Parse(e)).ToList();
+        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
+            string occurredOn)
+        {
+            var ids = new List<int?>();
+            if (!string.IsNullOrWhiteSpace(body[nameof(Ids)]))
+                ids = body[nameof(Ids)].Split(",")
+                    .Select(e => string.IsNullOrWhiteSpace(e) ? null : (int?)int.Parse(e)).ToList();
 
-                return new UserCreatedListNullable(ids, aggregateId, eventId, occurredOn);
-            }
+            return new UserCreatedListNullable(ids, aggregateId, eventId, occurredOn);
         }
     }
 }

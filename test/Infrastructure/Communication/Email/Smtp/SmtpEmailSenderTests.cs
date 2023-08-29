@@ -27,7 +27,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         [Fact]
         public async Task SendEmailOk()
         {
-            var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
+            var sender = new SmtpEmailSender(GetRequiredService<IOptionsService<SmtpSettings>>());
 
             var result = async () => await sender.SendEmailAsync(EmailTestFactory.Create(), CancellationToken.None);
 
@@ -37,7 +37,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         [Fact]
         public async Task SendEmailWithAttachmentOk()
         {
-            var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
+            var sender = new SmtpEmailSender(GetRequiredService<IOptionsService<SmtpSettings>>());
 
             var bytes = await GetPhotoBinary();
 
@@ -51,7 +51,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         [Fact]
         public async Task SendEmailWithAttachmentNotFilenameExtensionKo()
         {
-            var sender = new SmtpEmailSender(GetService<IOptionsService<SmtpSettings>>());
+            var sender = new SmtpEmailSender(GetRequiredService<IOptionsService<SmtpSettings>>());
 
             var bytes = await GetPhotoBinary();
 
@@ -71,7 +71,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         [Fact]
         public async Task SendEmailEmptyPasswordTaskKo()
         {
-            var smtp = GetService<IOptionsService<SmtpSettings>>();
+            var smtp = GetRequiredService<IOptionsService<SmtpSettings>>();
             smtp.Value.Password = null;
             var sender = new SmtpEmailSender(smtp);
 
@@ -90,7 +90,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
             var defaultCulture = Thread.CurrentThread.CurrentUICulture;
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
-            var smtp = GetService<IOptionsService<SmtpSettings>>();
+            var smtp = GetRequiredService<IOptionsService<SmtpSettings>>();
             smtp.Value.Password = null;
             var sender = new SmtpEmailSender(smtp);
 

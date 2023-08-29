@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SharedKernel.Api.Security;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure;
@@ -9,7 +10,6 @@ using SharedKernel.Infrastructure.FluentValidation;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
-using SharedKernel.Integration.Tests.Events;
 using SharedKernel.Testing.Infrastructure;
 using System.Security.Claims;
 
@@ -34,7 +34,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
 
     protected async Task DispatchCommand()
     {
-        var httpContextAccessor = GetRequiredService<IIdentityService>();
+        var httpContextAccessor = GetService<IIdentityService>();
 
         if (httpContextAccessor != default)
         {
@@ -57,7 +57,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
 
     protected async Task DispatchCommandAsync()
     {
-        var httpContextAccessor = GetRequiredService<IIdentityService>();
+        var httpContextAccessor = GetService<IIdentityService>();
 
         if (httpContextAccessor != default)
         {

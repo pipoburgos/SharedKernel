@@ -199,13 +199,13 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             var result = await queryProvider
                 .GetQuery<User>()
-                .Where(number.HasValue, x => x.NumberOfChildren != number.Value)
+                .Where(number.HasValue, x => x.NumberOfChildren != number!.Value)
                 .Select(x => x.NumberOfChildren)
                 .ToPagedListAsync(pageOptions, CancellationToken.None);
 
             result.Items.Count().Should().Be(total);
 
-            using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
+            using var dbContext = await GetRequiredService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
             var repository = new UserEfCoreRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None))
                 .Select(x => x.NumberOfChildren)
@@ -235,7 +235,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             result.Items.Count().Should().Be(total);
 
-            using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
+            using var dbContext = await GetRequiredService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
             var repository = new UserEfCoreRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None)).Select(x => x.NumberOfChildren).OrderByDescending(x => x).Take(total);
             result.Items.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -245,7 +245,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         public async Task EntityFrameworkCoreQueryProviderJoin()
         {
             var cancellationToken = CancellationToken.None;
-            await using var dbContext = GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContext();
+            await using var dbContext = GetRequiredService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContext();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
             var user = UserMother.Create(Guid.NewGuid(), "a");
@@ -269,7 +269,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 11)
         {
-            await using var dbContext = await GetService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
+            await using var dbContext = await GetRequiredService<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
 

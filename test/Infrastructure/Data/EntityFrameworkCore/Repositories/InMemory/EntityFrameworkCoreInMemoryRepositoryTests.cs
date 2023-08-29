@@ -22,22 +22,22 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.I
         public void SaveRepositoryOk()
         {
             var roberto = UserMother.Create(Guid.NewGuid(), "Roberto");
-            GetService<UserEfCoreRepository>().Add(roberto);
+            GetRequiredService<UserEfCoreRepository>().Add(roberto);
 
-            GetService<UserEfCoreRepository>().SaveChanges();
+            GetRequiredService<UserEfCoreRepository>().SaveChanges();
 
-            Assert.Equal(roberto, GetService<UserEfCoreRepository>().GetById(roberto.Id));
+            Assert.Equal(roberto, GetRequiredService<UserEfCoreRepository>().GetById(roberto.Id));
         }
 
         [Fact]
         public void SaveRepositoryNameChanged()
         {
             var roberto = UserMother.Create(Guid.NewGuid(), "Roberto");
-            GetService<UserEfCoreRepository>().Add(roberto);
+            GetRequiredService<UserEfCoreRepository>().Add(roberto);
 
-            GetService<UserEfCoreRepository>().SaveChanges();
+            GetRequiredService<UserEfCoreRepository>().SaveChanges();
 
-            var repoUser = GetService<UserEfCoreRepository>().GetById(roberto.Id);
+            var repoUser = GetRequiredService<UserEfCoreRepository>().GetById(roberto.Id);
             repoUser.ChangeName("asdfass");
 
             Assert.Equal(roberto.Id, repoUser.Id);

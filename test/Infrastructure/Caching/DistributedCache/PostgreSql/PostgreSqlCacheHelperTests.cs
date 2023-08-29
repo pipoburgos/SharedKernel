@@ -28,9 +28,9 @@ namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql
         [Fact]
         public async Task TestCache()
         {
-            var distributedCache = GetService<IDistributedCache>();
+            var distributedCache = GetRequiredService<IDistributedCache>();
 
-            var binarySerializer = GetService<IBinarySerializer>();
+            var binarySerializer = GetRequiredService<IBinarySerializer>();
 
             var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
 

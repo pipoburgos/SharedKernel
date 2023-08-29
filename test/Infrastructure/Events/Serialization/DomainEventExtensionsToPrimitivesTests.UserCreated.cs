@@ -1,29 +1,29 @@
 ﻿using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Integration.Tests.Events.Serialization
+namespace SharedKernel.Integration.Tests.Events.Serialization;
+
+public partial class DomainEventExtensionsToPrimitivesTests
 {
-    public partial class DomainEventExtensionsToPrimitivesTests
+    public class UserCreated : DomainEvent
     {
-        public class UserCreated : DomainEvent
+        public UserCreated(Gender gender, string aggregateId, string? eventId = default,
+            string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
         {
-            public UserCreated(Gender gender, string aggregateId, string eventId = default, string occurredOn = default) : base(aggregateId, eventId, occurredOn)
-            {
-                Gender = gender;
-            }
+            Gender = gender;
+        }
 
-            public override string GetEventName()
-            {
-                return "toPrimitives.userCreated";
-            }
+        public override string GetEventName()
+        {
+            return "toPrimitives.userCreated";
+        }
 
-            public Gender Gender { get; }
+        public Gender Gender { get; }
 
-            public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
-            {
-                var gender = GetEnumFromBody<Gender>(body, nameof(Gender));
+        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
+        {
+            var gender = GetEnumFromBody<Gender>(body, nameof(Gender));
 
-                return new UserCreated(gender, aggregateId, eventId, occurredOn);
-            }
+            return new UserCreated(gender, aggregateId, eventId, occurredOn);
         }
     }
 }

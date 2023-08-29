@@ -37,9 +37,9 @@ namespace SharedKernel.Integration.Tests.Documents.Txt
         private class TxtUser
         {
             public int Identifier { get; set; }
-            public string Username { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            public string? Username { get; set; }
+            public string? FirstName { get; set; }
+            public string? LastName { get; set; }
         }
     }
 }

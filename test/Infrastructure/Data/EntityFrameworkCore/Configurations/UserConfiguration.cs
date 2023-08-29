@@ -18,12 +18,16 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Configurations
 
             // This Converter will perform the conversion to and from Json to the desired type
             builder.Property(e => e.Emails).HasConversion(
-                v => JsonConvert.SerializeObject(v, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                v => JsonConvert.DeserializeObject<List<string>>(v, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+                v => JsonConvert.SerializeObject(v,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
+                v => JsonConvert.DeserializeObject<List<string>>(v,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
 
             builder.Property(e => e.Addresses).HasColumnName("JsonAddresses").HasConversion(
-                v => JsonConvert.SerializeObject(v, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                v => JsonConvert.DeserializeObject<List<Address>>(v, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
+                v => JsonConvert.SerializeObject(v,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
+                v => JsonConvert.DeserializeObject<List<Address>>(v,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
         }
     }
 }

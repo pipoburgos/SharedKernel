@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SharedKernel.Api.Security;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
@@ -35,7 +36,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
 
     protected async Task PublishDomainEvent()
     {
-        var httpContextAccessor = GetRequiredService<IIdentityService>();
+        var httpContextAccessor = GetService<IIdentityService>();
 
         if (httpContextAccessor != default)
         {

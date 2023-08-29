@@ -1,32 +1,34 @@
 ﻿using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Integration.Tests.Events.Serialization
+namespace SharedKernel.Integration.Tests.Events.Serialization;
+
+public partial class DomainEventExtensionsToPrimitivesTests
 {
-    public partial class DomainEventExtensionsToPrimitivesTests
+    public class UserCreatedDateTimeNullable : DomainEvent
     {
-        public class UserCreatedDateTimeNullable : DomainEvent
+        public UserCreatedDateTimeNullable(DateTime? dateTime, string aggregateId, string? eventId = default,
+            string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
         {
-            public UserCreatedDateTimeNullable(DateTime? dateTime, string aggregateId, string eventId = default, string occurredOn = default) : base(aggregateId, eventId, occurredOn)
-            {
-                DateTime = dateTime;
-            }
+            DateTime = dateTime;
+        }
 
-            public override string GetEventName()
-            {
-                return "toPrimitives.userCreatedDateTimeNullable";
-            }
+        public override string GetEventName()
+        {
+            return "toPrimitives.userCreatedDateTimeNullable";
+        }
 
 
-            public DateTime? DateTime { get; }
+        public DateTime? DateTime { get; }
 
-            public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
-            {
-                DateTime? dateTime = default;
-                if (!string.IsNullOrWhiteSpace(body[nameof(DateTime)]))
-                    dateTime = ConvertToDateTime(body, nameof(DateTime));
+        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId,
+            string occurredOn)
 
-                return new UserCreatedDateTimeNullable(dateTime, aggregateId, eventId, occurredOn);
-            }
+        {
+            DateTime? dateTime = default;
+            if (!string.IsNullOrWhiteSpace(body[nameof(DateTime)]))
+                dateTime = ConvertToDateTime(body, nameof(DateTime));
+
+            return new UserCreatedDateTimeNullable(dateTime, aggregateId, eventId, occurredOn);
         }
     }
 }
