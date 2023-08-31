@@ -40,14 +40,16 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
 
             if (!result.Success)
                 throw new Exception(result.Body);
-        });
+        }, aggregateRoot);
     }
 
     /// <summary>  </summary>
     public void AddRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        throw new NotImplementedException();
-        //UnitOfWork.AddOperation(() => Client.IndexDocument(aggregates));
+        foreach (var aggregateRoot in aggregates)
+        {
+            Add(aggregateRoot);
+        }
     }
 
     /// <summary>  </summary>
@@ -81,20 +83,23 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(() =>
+        UnitOfWork.UpdateOperation(() =>
         {
             var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
                 JsonSerializer.Serialize(aggregateRoot));
 
             if (!result.Success)
                 throw new Exception(result.Body);
-        });
+        }, aggregateRoot);
     }
 
     /// <summary>  </summary>
     public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        throw new NotImplementedException();
+        foreach (var aggregateRoot in aggregates)
+        {
+            Update(aggregateRoot);
+        }
     }
 
     /// <summary>  </summary>

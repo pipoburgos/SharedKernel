@@ -15,7 +15,9 @@ public static class ServiceCollectionExtensions
         services.Add(new ServiceDescriptor(typeof(UnitOfWork), typeof(UnitOfWork), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
-        return services.AddElasticsearchHealthChecks(uri, serviceLifetime);
+        return services
+            .AddSharedKernel()
+            .AddElasticsearchHealthChecks(uri, serviceLifetime);
     }
 
     /// <summary>  </summary>

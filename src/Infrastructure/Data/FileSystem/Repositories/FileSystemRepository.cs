@@ -38,7 +38,7 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
         {
             using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
             outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        });
+        }, aggregateRoot);
     }
 
     /// <summary>  </summary>
@@ -75,11 +75,11 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(() =>
+        UnitOfWork.UpdateOperation(() =>
         {
             using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
             outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        });
+        }, aggregateRoot);
     }
 
     /// <summary>  </summary>
@@ -94,10 +94,10 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(() =>
+        UnitOfWork.RemoveOperation(() =>
         {
             File.Delete(FileName(aggregateRoot.Id));
-        });
+        }, aggregateRoot);
     }
 
     /// <summary>  </summary>

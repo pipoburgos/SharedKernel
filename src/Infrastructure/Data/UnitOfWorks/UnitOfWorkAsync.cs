@@ -1,4 +1,6 @@
-﻿using SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Application.Security;
+using SharedKernel.Application.System;
+using SharedKernel.Application.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
@@ -8,7 +10,7 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
     private readonly List<Func<Task>> _operationsAsync;
 
     /// <summary>  </summary>
-    public UnitOfWorkAsync()
+    public UnitOfWorkAsync(IIdentityService identityService, IDateTime dateTime) : base(identityService, dateTime)
     {
         _operationsAsync = new List<Func<Task>>();
     }

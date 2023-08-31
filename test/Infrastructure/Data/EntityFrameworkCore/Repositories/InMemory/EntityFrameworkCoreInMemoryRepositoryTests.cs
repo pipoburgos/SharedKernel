@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Infrastructure.EntityFrameworkCore;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
@@ -9,11 +9,9 @@ public class EntityFrameworkCoreInMemoryRepositoryTests : RepositoryCommonTestTe
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient<UserEfCoreRepository>();
-        services.AddDbContext<SharedKernelDbContext>(options =>
-                options.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);
-
-        return services;
+        return services
+            .AddEntityFrameworkCoreInMemoryUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(Guid.NewGuid().ToString())
+            .AddTransient<UserEfCoreRepository>();
     }
 }
 

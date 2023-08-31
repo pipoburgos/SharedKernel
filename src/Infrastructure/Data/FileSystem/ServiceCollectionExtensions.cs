@@ -15,7 +15,8 @@ public static class ServiceCollectionExtensions
         services.Add(new ServiceDescriptor(typeof(UnitOfWork), typeof(UnitOfWork), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
-        return services;
+        return services
+            .AddSharedKernel();
     }
 
     /// <summary>  </summary>

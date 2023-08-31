@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using SharedKernel.Application.Security;
+using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
@@ -17,7 +19,8 @@ public class MongoUnitOfWork : UnitOfWork, IDisposable
     protected readonly bool EnableTransactions;
 
     /// <summary>  </summary>
-    public MongoUnitOfWork(IOptions<MongoSettings> options)
+    public MongoUnitOfWork(IOptions<MongoSettings> options, IIdentityService identityService, IDateTime dateTime) :
+        base(identityService, dateTime)
     {
         var mongoClient = new MongoClient(options.Value.ConnectionString);
         MongoDatabase = mongoClient.GetDatabase(options.Value.Database);

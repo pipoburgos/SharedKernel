@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
         services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
         return services
+            .AddSharedKernel()
             .AddRedisDistributedCache(configuration)
             .AddRedisHealthChecks(configuration, "Redis UnitOfWork", "Redis UnitOfWork");
     }

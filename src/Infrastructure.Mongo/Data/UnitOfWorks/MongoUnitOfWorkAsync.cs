@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
+using SharedKernel.Application.Security;
+using SharedKernel.Application.System;
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 
@@ -10,7 +12,8 @@ public class MongoUnitOfWorkAsync : MongoUnitOfWork, IUnitOfWorkAsync
     private readonly List<Func<Task>> _operationsAsync;
 
     /// <summary>  </summary>
-    public MongoUnitOfWorkAsync(IOptions<MongoSettings> options) : base(options)
+    public MongoUnitOfWorkAsync(IOptions<MongoSettings> options, IIdentityService identityService, IDateTime dateTime)
+        : base(options, identityService, dateTime)
     {
         _operationsAsync = new List<Func<Task>>();
     }

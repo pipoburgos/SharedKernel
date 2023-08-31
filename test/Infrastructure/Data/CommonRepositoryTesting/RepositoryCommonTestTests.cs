@@ -35,6 +35,7 @@ public abstract class RepositoryCommonTestTests<T> : InfrastructureTestCase<Fake
         userDdBb = repository.GetById(user.Id);
         userDdBb.Should().NotBeNull();
         userDdBb!.Id.Should().Be(user.Id);
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
     }
 
     [Fact]
@@ -57,6 +58,7 @@ public abstract class RepositoryCommonTestTests<T> : InfrastructureTestCase<Fake
 
         var rob = GetRequiredServiceOnNewScope<T>().GetById(roberto.Id)!;
         rob.Name.Should().Be(newName);
+        rob.LastModifiedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
     }
 
     [Fact]
@@ -91,5 +93,6 @@ public abstract class RepositoryCommonTestTests<T> : InfrastructureTestCase<Fake
         repoUser.Emails.Count().Should().Be(5);
         repoUser.Addresses.Count().Should().Be(10);
         repoUser.Emails.Should().BeEquivalentTo(roberto.Emails);
+        repoUser.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
     }
 }
