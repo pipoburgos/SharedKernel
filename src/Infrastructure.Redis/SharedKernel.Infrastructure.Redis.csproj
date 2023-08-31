@@ -19,7 +19,7 @@
     <PackageTags>Redis DistributedCache CommandBus EventBus Mutex</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.2.10.1</Version>
+    <Version>7.2.10.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
