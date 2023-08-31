@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Newtonsoft;
@@ -27,11 +26,11 @@ public class NewtonsoftSerializer : IJsonSerializer
 
     private JsonSerializerSettings GetOptions(NamingConvention namingConvention)
     {
-        var contractResolver = new CamelCasePropertyNamesContractResolver();
+        var contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
         switch (namingConvention)
         {
             case NamingConvention.CamelCase:
-                contractResolver = new CamelCasePropertyNamesContractResolver();
+                contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.PascalCase:
                 break;
@@ -42,15 +41,20 @@ public class NewtonsoftSerializer : IJsonSerializer
             case NamingConvention.KebapCase:
                 break;
             default:
-                contractResolver = new CamelCasePropertyNamesContractResolver();
+                contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
                 break;
         }
 
-        return new JsonSerializerSettings
+        var x = new JsonSerializerSettings
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             ContractResolver = contractResolver,
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
+
+        return x;
     }
+
+
 }

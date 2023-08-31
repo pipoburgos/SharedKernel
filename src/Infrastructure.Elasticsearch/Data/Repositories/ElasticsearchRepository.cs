@@ -1,36 +1,111 @@
-﻿using Nest;
+﻿using Elasticsearch.Net;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Infrastructure.Elasticsearch.Client;
+using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.Repositories;
+using SharedKernel.Infrastructure.Data.Repositories;
+using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class ElasticsearchRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveRepository,
+    IRepository<TAggregateRoot, TId>
+    where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
 {
-    private readonly ElasticsearchClient _client;
+    /// <summary>  </summary>
+    protected string Index => typeof(TAggregateRoot).Name.ToLower();
 
     /// <summary>  </summary>
-    protected ElasticsearchRepository(ElasticsearchClient client)
+    protected readonly ElasticLowLevelClient Client;
+
+    /// <summary>  </summary>
+    protected readonly IJsonSerializer JsonSerializer;
+
+    /// <summary>  </summary>
+    protected ElasticsearchRepository(UnitOfWork unitOfWork, ElasticLowLevelClient client, IJsonSerializer jsonSerializer)
+        : base(unitOfWork)
     {
-        _client = client;
+        Client = client;
+        JsonSerializer = jsonSerializer;
     }
 
     /// <summary>  </summary>
-    protected abstract string ModuleName();
-
-    /// <summary>  </summary>
-    protected async Task<IReadOnlyCollection<Dictionary<string, object>>> SearchAllInElastic()
+    public void Add(TAggregateRoot aggregateRoot)
     {
-        var searchDescriptor = new SearchDescriptor<TAggregateRoot>();
-        searchDescriptor.MatchAll();
-        searchDescriptor.Index(_client.IndexFor(ModuleName()));
-        var value = await _client.Client.SearchAsync<Dictionary<string, object>>(searchDescriptor);
-        return value.Documents!;
+        UnitOfWork.AddOperation(() =>
+        {
+            var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+                JsonSerializer.Serialize(aggregateRoot));
+
+            if (!result.Success)
+                throw new Exception(result.Body);
+        });
     }
 
     /// <summary>  </summary>
-    protected async Task Persist(string id, string json)
+    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        await _client.Persist(_client.IndexFor(ModuleName()), id, json);
+        throw new NotImplementedException();
+        //UnitOfWork.AddOperation(() => Client.IndexDocument(aggregates));
+    }
+
+    /// <summary>  </summary>
+    public TAggregateRoot? GetById(TId id)
+    {
+        var searchResponse = Client.Get<StringResponse>(Index, id.ToString());
+
+        if (searchResponse.HttpStatusCode != 200)
+            return default;
+
+        var document = JsonSerializer.Deserialize<Dictionary<string, object>>(searchResponse.Body);
+        var jsonAggregate = document["_source"].ToString();
+
+        return string.IsNullOrWhiteSpace(jsonAggregate)
+            ? default
+            : JsonSerializer.Deserialize<TAggregateRoot?>(jsonAggregate);
+    }
+
+    /// <summary>  </summary>
+    public bool Any(TId id)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>  </summary>
+    public bool NotAny(TId id)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>  </summary>
+    public void Update(TAggregateRoot aggregateRoot)
+    {
+        UnitOfWork.AddOperation(() =>
+        {
+            var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+                JsonSerializer.Serialize(aggregateRoot));
+
+            if (!result.Success)
+                throw new Exception(result.Body);
+        });
+    }
+
+    /// <summary>  </summary>
+    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>  </summary>
+    public void Remove(TAggregateRoot aggregateRoot)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>  </summary>
+    public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -3,15 +3,21 @@ using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Repositories.Read;
+using SharedKernel.Domain.Repositories.Read.Specification;
+using SharedKernel.Domain.Repositories.Save;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 
-/// <summary> ENTITY FRAMEWORK CORE REPOSITORY. </summary>
-/// <typeparam name="TAggregateRoot">Repository data type</typeparam>
-public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot> : EntityFrameworkCoreRepository<TAggregateRoot>,
-        IRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+/// <summary> Entity Framework Core Repository. </summary>
+public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
+    EntityFrameworkCoreRepository<TAggregateRoot, TId>,
+    IRepositoryAsync<TAggregateRoot, TId>,
+    IReadAllRepositoryAsync<TAggregateRoot>,
+    IReadSpecificationRepositoryAsync<TAggregateRoot>,
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot
 {
     #region Constructors
 
@@ -22,18 +28,38 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot> : Entit
 
     #endregion Constructors
 
+    #region Public Methods
+
     /// <summary>  </summary>
-    public virtual Task<TAggregateRoot?> GetByIdAsync<TId>(TId key, CancellationToken cancellationToken)
+    public virtual Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
+        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>()
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
     /// <summary>  </summary>
-    /// <returns></returns>
-    public virtual Task<TAggregateRoot?> GetDeleteByIdAsync<TId>(TId key, CancellationToken cancellationToken)
+    public Task<bool> Any(TId id, CancellationToken cancellationToken)
     {
-        return GetQuery(true, true).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>()
+        return GetQuery()
+            .Cast<IEntity<TId>>()
+            .AnyAsync(a => a.Id!.Equals(id), cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    public Task<bool> NotAny(TId id, CancellationToken cancellationToken)
+    {
+        return GetQuery()
+            .Cast<IEntity<TId>>()
+            .AllAsync(a => !a.Id!.Equals(id), cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    public virtual Task<TAggregateRoot?> GetDeleteByIdAsync(TId id, CancellationToken cancellationToken)
+    {
+        return GetQuery(true, true)
+            .Cast<IEntity<TId>>()
+            .Where(a => a.Id!.Equals(id))
+            .Cast<TAggregateRoot>()
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
@@ -56,21 +82,21 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot> : Entit
     }
 
     /// <summary>  </summary>
-    public virtual Task<int> CountAsync(CancellationToken cancellationToken)
+    public virtual Task<long> CountAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.SetAggregate<TAggregateRoot>().CountAsync(cancellationToken);
+        return DbContextBase.SetAggregate<TAggregateRoot>().LongCountAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
-    public virtual Task<bool> AnyAsync<TId>(TId key, CancellationToken cancellationToken)
+    public virtual Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetQuery(false).Cast<IEntity<TId>>().AnyAsync(a => a.Id!.Equals(key), cancellationToken);
+        return GetQuery(false).Cast<IEntity<TId>>().AnyAsync(a => a.Id!.Equals(id), cancellationToken);
     }
 
     /// <summary>  </summary>
-    public Task<bool> NotAnyAsync<TId>(TId key, CancellationToken cancellationToken)
+    public Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetQuery(false).Cast<IEntity<TId>>().AllAsync(a => !a.Id!.Equals(key), cancellationToken);
+        return GetQuery(false).Cast<IEntity<TId>>().AllAsync(a => !a.Id!.Equals(id), cancellationToken);
     }
 
     /// <summary>  </summary>
@@ -160,4 +186,6 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot> : Entit
     {
         return DbContextBase.RollbackResultAsync(cancellationToken);
     }
+
+    #endregion
 }

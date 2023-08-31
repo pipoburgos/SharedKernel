@@ -85,7 +85,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataEqualOperatorIsTrueTest()
     {
-        //Arraneg
+        //Arrange
         var address1 = new Address("streetLine1", "streetLine2", "city", "zipcode");
         var address2 = new Address("streetLine1", "streetLine2", "city", "zipcode");
 
@@ -101,7 +101,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataIsNotEqualOperatorIsFalseTest()
     {
-        //Arraneg
+        //Arrange
         var address1 = new Address("streetLine1", "streetLine2", "city", "zipcode");
         var address2 = new Address("streetLine1", "streetLine2", "city", "zipcode");
 
@@ -317,7 +317,7 @@ public class ValueObjectTests
         //Act
 
         //Assert
-        Assert.Equal(address1, address2);
+        address1.Should().Be(address2);
     }
 
     [Fact]
@@ -352,7 +352,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataIsNotEqualOperatorIsFalseTestWithList()
     {
-        //Arraneg
+        //Arrange
         var integers1 = new Integers(new List<int> { 3, 1 });
         var integers2 = new Integers(new List<int> { 1, 3 });
 
@@ -366,5 +366,48 @@ public class ValueObjectTests
         Assert.False(resultEquals);
         Assert.False(resultEqualsSimetric);
         //Assert.False(resultEqualsOnThis);
+    }
+
+    [Fact]
+    public void AllAreDefault()
+    {
+        //Arrange
+        Address? address1 = default;
+        Address? address2 = default;
+
+        //Act
+        var resultEquals = address1 == address2;
+
+        //Assert
+        resultEquals.Should().BeTrue();
+    }
+
+    [Fact]
+    public void LeftDefault()
+    {
+        //Arrange
+        Address? address1 = default;
+
+        var address2 = new Address(default!, default!, default!, default!);
+
+        //Act
+        var resultEquals = address1 == address2;
+
+        //Assert
+        resultEquals.Should().BeFalse();
+    }
+
+    [Fact]
+    public void RigthDefault()
+    {
+        //Arrange
+        var address1 = new Address(default!, default!, default!, default!);
+        Address? address2 = default;
+
+        //Act
+        var resultEquals = address1 == address2;
+
+        //Assert
+        resultEquals.Should().BeFalse();
     }
 }

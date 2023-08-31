@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service PostgreSQL into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgreSql<TDbContext, TUnitOfWork>(this IServiceCollection services,
+    public static IServiceCollection AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
         string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services
@@ -35,7 +35,7 @@ public static class ServiceCollectionExtensions
 
 
     /// <summary> Add service Postgis into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgis<TDbContext, TUnitOfWork>(this IServiceCollection services,
+    public static IServiceCollection AddEntityFrameworkCorePostgisUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
             string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services

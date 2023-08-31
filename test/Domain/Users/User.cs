@@ -2,61 +2,67 @@
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
-namespace SharedKernel.Domain.Tests.Users
+namespace SharedKernel.Domain.Tests.Users;
+
+public class User : AggregateRootAuditable<Guid>
 {
-    internal class User : AggregateRootAuditable<Guid>
+    private List<string> _emails;
+    private List<Address> _addresses;
+
+    private User()
     {
-        private List<string> _emails;
-        private List<Address> _addresses;
+        Name = default!;
+        _emails = new List<string>();
+        _addresses = new List<Address>();
+    }
 
-        protected User()
-        {
-            Name = default!;
-            _emails = new List<string>();
-            _addresses = new List<Address>();
-        }
+    private User(Guid id, string name, DateTime birthdate) : this()
+    {
+        Id = id;
+        Name = name;
+        Birthdate = birthdate;
+        _emails = new List<string>();
+        _addresses = new List<Address>();
+    }
 
-        public static User Create(Guid id, string name, DateTime birthdate, int? numberOfChildren)
-        {
-            var user = new User
-            {
-                Id = id,
-                Name = name,
-                Birthdate = birthdate,
-                NumberOfChildren = numberOfChildren
-            };
+    public static User Create(Guid id, string name, DateTime birthdate)
+    {
+        var user = new User(id, name, birthdate);
+        user.Record(new UserCreated(id, name, id.ToString()));
+        return user;
+    }
 
-            user.Record(new UserCreated(id, name, id.ToString()));
+    public string Name { get; private set; }
 
-            return user;
-        }
+    public int? NumberOfChildren { get; private set; }
 
-        public string Name { get; private set; }
+    public DateTime Birthdate { get; private set; }
 
-        public int? NumberOfChildren { get; private set; }
+    public IEnumerable<string> Emails => _emails;
 
-        public DateTime Birthdate { get; private set; }
+    public IEnumerable<Address> Addresses => _addresses;
 
-        public IEnumerable<string> Emails => _emails;
+    public User ChangeName(string name)
+    {
+        Name = name;
+        return this;
+    }
 
-        public IEnumerable<Address> Addresses => _addresses;
+    public User ChangeNumberOfChildren(int? numberOfChildren)
+    {
+        NumberOfChildren = numberOfChildren;
+        return this;
+    }
 
-        public User ChangeName(string name)
-        {
-            Name = name;
-            return this;
-        }
+    public User AddEmail(string email)
+    {
+        _emails.Add(email);
+        return this;
+    }
 
-        public User AddEmail(string email)
-        {
-            _emails.Add(email);
-            return this;
-        }
-
-        public User AddAddress(Address address)
-        {
-            _addresses.Add(address);
-            return this;
-        }
+    public User AddAddress(Address address)
+    {
+        _addresses.Add(address);
+        return this;
     }
 }

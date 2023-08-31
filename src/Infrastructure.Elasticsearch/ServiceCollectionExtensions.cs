@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Elasticsearch.Net;
+using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using SharedKernel.Infrastructure.Elasticsearch.Client;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
@@ -8,15 +8,11 @@ namespace SharedKernel.Infrastructure.Elasticsearch;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddElasticsearch(this IServiceCollection services, Uri uri,
-        string defaultIndex, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+    public static IServiceCollection AddElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
-        services.Add(new ServiceDescriptor(typeof(ElasticClient),
-            _ => new ElasticClient(new ConnectionSettings(uri).DefaultIndex(defaultIndex)), serviceLifetime));
-
-        services.Add(new ServiceDescriptor(typeof(ElasticsearchClient),
-            s => new ElasticsearchClient(s.GetRequiredService<ElasticClient>(),
-                defaultIndex), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(ElasticLowLevelClient),
+            _ => new ElasticLowLevelClient(new ConnectionSettings(uri)), serviceLifetime));
 
         services
             .AddHealthChecks()

@@ -2,6 +2,7 @@
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
+using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Redis.Data.Repositories;
 
@@ -10,8 +11,8 @@ public abstract class RedisRepositoryAsync<TAggregateRoot, TId> : RedisRepositor
     where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
-    protected RedisRepositoryAsync(IDistributedCache distributedCache, IBinarySerializer binarySerializer) : base(
-        distributedCache, binarySerializer)
+    protected RedisRepositoryAsync(UnitOfWorkAsync unitOfWorkAsync, IDistributedCache distributedCache,
+        IJsonSerializer jsonSerializer) : base(unitOfWorkAsync, distributedCache, jsonSerializer)
     {
     }
 }

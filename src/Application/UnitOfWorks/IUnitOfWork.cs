@@ -1,8 +1,8 @@
-﻿using SharedKernel.Domain.Repositories;
+﻿using SharedKernel.Domain.Repositories.Save;
 
 namespace SharedKernel.Application.UnitOfWorks;
 
 /// <summary> Synchronous unit of work pattern. </summary>
-public interface IUnitOfWork : IPersistRepository
+public interface IUnitOfWork : ISaveRepository
 {
 }

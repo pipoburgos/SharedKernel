@@ -1,4 +1,4 @@
-﻿using SharedKernel.Domain.Repositories;
+﻿using SharedKernel.Domain.Repositories.Create;
 
 namespace SharedKernel.Domain.Tests.Users
 {

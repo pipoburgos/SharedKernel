@@ -34,7 +34,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
 
     protected async Task DispatchCommand()
     {
-        var httpContextAccessor = GetService<IIdentityService>();
+        var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
         if (httpContextAccessor != default)
         {
@@ -44,12 +44,12 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
             httpContextAccessor.AddKeyValue("Authorization", "Prueba");
         }
 
-        var commandBus = GetRequiredService<ICommandBus>();
+        var commandBus = GetRequiredServiceOnNewScope<ICommandBus>();
         var command = new SampleCommand(3);
         await commandBus.Dispatch(command, CancellationToken.None);
 
         // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
-        var saveValueSingletonService = GetRequiredService<SaveValueSingletonService>();
+        var saveValueSingletonService = GetRequiredServiceOnNewScope<SaveValueSingletonService>();
         await Task.Delay(TimeSpan.FromSeconds(2), CancellationToken.None);
 
         saveValueSingletonService.Id.Should().Be(command.Value);
@@ -57,7 +57,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
 
     protected async Task DispatchCommandAsync()
     {
-        var httpContextAccessor = GetService<IIdentityService>();
+        var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
         if (httpContextAccessor != default)
         {
@@ -67,12 +67,12 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
             httpContextAccessor.AddKeyValue("Authorization", "Prueba");
         }
 
-        var commandBus = GetRequiredService<ICommandBusAsync>();
+        var commandBus = GetRequiredServiceOnNewScope<ICommandBusAsync>();
         var command = new SampleCommand(3);
         await commandBus.Dispatch(command, CancellationToken.None);
 
         // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
-        var saveValueSingletonService = GetRequiredService<SaveValueSingletonService>();
+        var saveValueSingletonService = GetRequiredServiceOnNewScope<SaveValueSingletonService>();
         await Task.Delay(TimeSpan.FromSeconds(2), CancellationToken.None);
 
         saveValueSingletonService.Id.Should().Be(command.Value);

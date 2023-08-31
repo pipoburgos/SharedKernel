@@ -63,3 +63,18 @@ services:
             POSTGRES_PASSWORD: password
         ports:
             - 22227:5432
+
+    elasticsearch:
+        image: elasticsearch:8.9.0
+        environment:
+            - discovery.type=single-node
+            - bootstrap.memory_lock=true
+            - xpack.security.enabled=false
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        ports:
+            - 22228:9200
+            - 22229:9300

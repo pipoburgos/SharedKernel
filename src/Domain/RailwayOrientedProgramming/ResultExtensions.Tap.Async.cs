@@ -26,6 +26,16 @@ public static partial class ResultExtensions
     }
 
     /// <summary>  </summary>
+    public static async Task<Result<T>> Tap<T>(this Task<Result<T>> resultTask, Action<T> predicate)
+    {
+        var result = await resultTask;
+        if (result.IsSuccess)
+            predicate(result.Value);
+
+        return result;
+    }
+
+    /// <summary>  </summary>
     public static async Task<Result<T>> Tap<T, TU>(this Task<Result<T>> resultTask, Func<T, Task<Result<TU>>> predicate)
     {
         var result = await resultTask;

@@ -36,7 +36,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
 
     protected async Task PublishDomainEvent()
     {
-        var httpContextAccessor = GetService<IIdentityService>();
+        var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
         if (httpContextAccessor != default)
         {
@@ -56,7 +56,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
         domainEvents.AddRange(user3.PullDomainEvents());
         domainEvents.AddRange(user4.PullDomainEvents());
 
-        var eventBus = GetRequiredService<IEventBus>();
+        var eventBus = GetRequiredServiceOnNewScope<IEventBus>();
         var tasks = new List<Task>();
         const int total = 5;
         for (var i = 0; i < total; i++)
@@ -67,7 +67,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
         await Task.WhenAll(tasks);
 
         // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
-        var singletonValueContainer = GetRequiredService<PublishUserCreatedDomainEvent>();
+        var singletonValueContainer = GetRequiredServiceOnNewScope<PublishUserCreatedDomainEvent>();
         var salir = 0;
         while (singletonValueContainer.Total != total * 4 && salir <= 50)
         {

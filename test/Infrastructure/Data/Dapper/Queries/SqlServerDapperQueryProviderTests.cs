@@ -37,7 +37,7 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
             dbContext.Set<User>().Add(user);
             await dbContext.SaveChangesAsync();
 
-            var result = await GetRequiredService<DapperQueryProvider>()
+            var result = await GetRequiredServiceOnNewScope<DapperQueryProvider>()
                 .ExecuteQueryFirstOrDefaultAsync<int>($"SELECT COUNT(*) FROM skr.[User] WHERE Id = '{user.Id}'");
 
             result.Should().Be(1);
@@ -47,7 +47,7 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 
         private async Task<DbContext> Regenerate(CancellationToken cancellationToken = default)
         {
-            var dbContext = GetRequiredService<SharedKernelDbContext>();
+            var dbContext = GetRequiredServiceOnNewScope<SharedKernelDbContext>();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
 

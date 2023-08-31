@@ -1,12 +1,16 @@
-﻿namespace SharedKernel.Domain.Repositories;
+﻿using SharedKernel.Domain.Repositories.Create;
+using SharedKernel.Domain.Repositories.Delete;
+using SharedKernel.Domain.Repositories.Read;
+using SharedKernel.Domain.Repositories.Update;
+
+namespace SharedKernel.Domain.Repositories;
 
 /// <summary>  </summary>
-public interface IRepository<TAggregateRoot> :
+public interface IRepository<TAggregateRoot, in TId> :
     ICreateRepository<TAggregateRoot>,
-    IReadRepository<TAggregateRoot>,
+    IReadOneRepository<TAggregateRoot, TId>,
     IUpdateRepository<TAggregateRoot>,
-    IDeleteRepository<TAggregateRoot>,
-    IReadSpecificationRepository<TAggregateRoot>
+    IDeleteRepository<TAggregateRoot>
     where TAggregateRoot : class, IAggregateRoot
 {
 }

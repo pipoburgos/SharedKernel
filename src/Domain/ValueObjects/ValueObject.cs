@@ -58,7 +58,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
     /// <returns><see cref="M:System.Object.Equals"/></returns>
     public override bool Equals(object? obj)
     {
-        if (obj == null)
+        if (obj == default)
             return false;
 
         if (ReferenceEquals(this, obj))
@@ -102,14 +102,14 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
 
     /// <summary> Return true if the value objects are the same. </summary>
     /// <returns></returns>
-    public static bool operator ==(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
+    public static bool operator ==(ValueObject<TValueObject>? left, ValueObject<TValueObject>? right)
     {
         return Equals(left, right);
     }
 
     /// <summary> Return true if the value objects are distinct. </summary>
     /// <returns></returns>
-    public static bool operator !=(ValueObject<TValueObject> left, ValueObject<TValueObject> right)
+    public static bool operator !=(ValueObject<TValueObject>? left, ValueObject<TValueObject>? right)
     {
         return !(left == right);
     }

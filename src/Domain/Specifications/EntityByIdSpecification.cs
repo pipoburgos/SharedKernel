@@ -3,17 +3,17 @@
 /// <summary>  </summary>
 public class EntityByIdSpecification<T, TId> : Specification<T> where T : class, IEntity<TId> where TId : notnull
 {
-    private readonly TId _key;
+    private readonly TId _id;
 
     /// <summary>  </summary>
-    public EntityByIdSpecification(TId key)
+    public EntityByIdSpecification(TId id)
     {
-        _key = key;
+        _id = id;
     }
 
     /// <summary>  </summary>
     public override Expression<Func<T, bool>> SatisfiedBy()
     {
-        return e => e.Id.Equals(_key);
+        return e => e.Id.Equals(_id);
     }
 }

@@ -2,12 +2,11 @@
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories;
+
+public class UserEfCoreRepository : EntityFrameworkCoreRepositoryAsync<User, Guid>
 {
-    internal class UserEfCoreRepository : EntityFrameworkCoreRepositoryAsync<User>
+    public UserEfCoreRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
     {
-        public UserEfCoreRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
-        {
-        }
     }
 }

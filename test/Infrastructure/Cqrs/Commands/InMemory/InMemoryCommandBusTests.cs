@@ -27,7 +27,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
         const int value = 15;
         var request = new SampleCommandWithResponse(value);
 
-        var response = await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
+        var response = await GetRequiredServiceOnNewScope<ICommandBus>().Dispatch(request, CancellationToken.None);
 
         response.Should().Be(value);
     }
@@ -38,7 +38,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
         var request = new SampleCommand(default);
 
         // ReSharper disable once SuggestVarOrType_Elsewhere
-        Func<Task> response = async () => await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
+        Func<Task> response = async () => await GetRequiredServiceOnNewScope<ICommandBus>().Dispatch(request, CancellationToken.None);
 
         response.Should().ThrowAsync<ValidationFailureException>().WithMessage("0 is invalid.");
     }
@@ -49,7 +49,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
         var request = new SampleCommandWithResponse(default);
 
         // ReSharper disable once SuggestVarOrType_Elsewhere
-        Func<Task> response = async () => await GetRequiredService<ICommandBus>().Dispatch(request, CancellationToken.None);
+        Func<Task> response = async () => await GetRequiredServiceOnNewScope<ICommandBus>().Dispatch(request, CancellationToken.None);
 
         response.Should().ThrowAsync<ValidationFailureException>().WithMessage("'Value' must not be empty.");
     }
@@ -57,7 +57,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
     [Fact]
     public void RegisterValidators()
     {
-        var validator = GetService<IValidator<SampleCommandWithResponse>>();
+        var validator = GetServiceOnNewScope<IValidator<SampleCommandWithResponse>>();
         validator.Should().NotBeNull();
     }
 

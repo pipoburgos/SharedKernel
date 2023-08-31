@@ -8,7 +8,6 @@ public static partial class ResultExtensions
 {
     /// <summary>  </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Result<T> result, Func<T, Task<TU>> mapper)
-        where TU : notnull
     {
         return result.IsSuccess
             ? Result.Success(await mapper(result.Value))
@@ -17,7 +16,6 @@ public static partial class ResultExtensions
 
     /// <summary>  </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Task<Result<T>> resultTask, Func<T, TU> mapper)
-        where TU : notnull
     {
         var result = await resultTask;
         return result.IsSuccess
@@ -27,7 +25,6 @@ public static partial class ResultExtensions
 
     /// <summary>  </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Task<Result<T>> resultTask, Func<T, Task<TU>> mapper)
-        where TU : notnull
     {
         var result = await resultTask;
         return result.IsSuccess

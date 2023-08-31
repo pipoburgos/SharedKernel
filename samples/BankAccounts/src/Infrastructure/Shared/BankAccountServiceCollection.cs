@@ -50,13 +50,14 @@ public static class BankAccountServiceCollection
     private static IServiceCollection AddInfrastructure(this IServiceCollection services,
         IConfiguration configuration, string connectionStringName)
     {
+        var connectionString = configuration.GetConnectionString(connectionStringName)!;
         return services
             .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
-            .AddEntityFrameworkCoreSqlServer<BankAccountDbContext, IBankAccountUnitOfWork>(
-                configuration.GetConnectionString(connectionStringName)!)
-            .AddDapperSqlServer(configuration.GetConnectionString(connectionStringName)!)
+            .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountDbContext>(
+                connectionString)
+            .AddDapperSqlServer(connectionString)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)

@@ -16,6 +16,14 @@ public static partial class ResultExtensions
     }
 
     /// <summary>  </summary>
+    public static async Task<Result<TU>> Bind<T, TU>(this Result<T> result, Func<T, Task<TU>> predicate)
+    {
+        return result.IsSuccess
+            ? await predicate(result.Value)
+            : Result.Failure<TU>(result.Errors);
+    }
+
+    /// <summary>  </summary>
     public static async Task<Result<TU>> TryBind<T, TU>(this Result<T> result, Func<T, Task<TU>> predicate,
         Func<Exception, Result<TU>>? capture = default, Func<Task>? finallyFunc = default)
     {

@@ -1,103 +1,111 @@
-﻿using SharedKernel.Application.Serializers;
+﻿using Microsoft.Extensions.Configuration;
+using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.Data.Repositories;
+using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-#pragma warning disable 693
+namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories;
 
-namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories
+/// <summary>  </summary>
+public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
+    where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TAggregateRoot"></typeparam>
-    /// <typeparam name="TId"></typeparam>
-    public abstract class FileSystemRepository<TAggregateRoot, TId> :
-        ICreateRepository<TAggregateRoot>
-        where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
+    /// <summary>  </summary>
+    protected readonly IJsonSerializer JsonSerializer;
+
+    /// <summary>  </summary>
+    protected readonly string Directory;
+
+    /// <summary>  </summary>
+    protected FileSystemRepository(UnitOfWork unitOfWork, IConfiguration configuration, IJsonSerializer jsonSerializer) : base(unitOfWork)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        protected readonly IJsonSerializer JsonSerializer;
+        JsonSerializer = jsonSerializer;
+        Directory = configuration.GetSection("FileSystemRepositoryPath").Value ?? Path.GetTempPath();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected readonly string FilePath;
+        if (string.IsNullOrWhiteSpace(Directory))
+            throw new Exception("Empty FileSystemRepositoryPath key on appsettings.");
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected FileSystemRepository(IJsonSerializer jsonSerializer)
+    /// <summary>  </summary>
+    protected string FileName(TId id)
+    {
+        return $"{Directory}/{typeof(TAggregateRoot).Name}.{id}.repository";
+    }
+
+    /// <summary>  </summary>
+    public void Add(TAggregateRoot aggregateRoot)
+    {
+        UnitOfWork.AddOperation(() =>
         {
-            JsonSerializer = jsonSerializer;
-            FilePath = Directory.GetCurrentDirectory() + typeof(TAggregateRoot);
+            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
+            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
+        });
+    }
+
+    /// <summary>  </summary>
+    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
+    {
+        foreach (var aggregateRoot in aggregates)
+        {
+            Add(aggregateRoot);
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        protected string FileName(string id)
+    /// <summary>  </summary>
+    public TAggregateRoot? GetById(TId id)
+    {
+        if (!File.Exists(FileName(id)))
+            return default;
+
+        var text = File.ReadAllText(FileName(id));
+        return JsonSerializer.Deserialize<TAggregateRoot>(text);
+    }
+
+    /// <summary>  </summary>
+    public bool Any(TId id)
+    {
+        return File.Exists(FileName(id));
+    }
+
+    /// <summary>  </summary>
+    public bool NotAny(TId id)
+    {
+        return !File.Exists(FileName(id));
+    }
+
+    /// <summary>  </summary>
+    public void Update(TAggregateRoot aggregateRoot)
+    {
+        UnitOfWork.AddOperation(() =>
         {
-            return $"{FilePath}.{id}.repository";
+            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
+            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
+        });
+    }
+
+    /// <summary>  </summary>
+    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
+    {
+        foreach (var aggregateRoot in aggregates)
+        {
+            Update(aggregateRoot);
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aggregate"></param>
-        public void Add(TAggregateRoot aggregate)
+    /// <summary>  </summary>
+    public void Remove(TAggregateRoot aggregateRoot)
+    {
+        UnitOfWork.AddOperation(() =>
         {
-            // ReSharper disable once RedundantSuppressNullableWarningExpression
-            using var outputFile = new StreamWriter(FileName(aggregate.Id!.ToString()!), false);
-            outputFile.WriteLine(JsonSerializer.Serialize(aggregate));
-        }
+            File.Delete(FileName(aggregateRoot.Id));
+        });
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aggregates"></param>
-        public void AddRange(IEnumerable<TAggregateRoot> aggregates)
+    /// <summary>  </summary>
+    public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
+    {
+        foreach (var aggregateRoot in aggregates)
         {
-            foreach (var aggregateRoot in aggregates)
-            {
-                Add(aggregateRoot);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TId"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public TAggregateRoot? GetById<TId>(TId key) where TId : notnull
-        {
-            // ReSharper disable once RedundantSuppressNullableWarningExpression
-            var id = key.ToString()!;
-            if (!File.Exists(FileName(id)))
-                return default;
-
-            var text = File.ReadAllText(FileName(id));
-            return JsonSerializer.Deserialize<TAggregateRoot>(text);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int Rollback()
-        {
-            return 0;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int SaveChanges()
-        {
-            return 0;
+            Remove(aggregateRoot);
         }
     }
 }

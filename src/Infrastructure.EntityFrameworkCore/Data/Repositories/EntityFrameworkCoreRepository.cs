@@ -3,15 +3,22 @@ using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Globalization;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Repositories.Read;
+using SharedKernel.Domain.Repositories.Read.Specification;
+using SharedKernel.Domain.Repositories.Save;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 
-/// <summary>     Entity Framework Core Repository. </summary>
-/// <typeparam name="TAggregateRoot">Repository data type</typeparam>
-public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+/// <summary> Entity Framework Core Repository. </summary>
+public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
+    IRepository<TAggregateRoot, TId>,
+    IReadAllRepository<TAggregateRoot>,
+    IReadSpecificationRepository<TAggregateRoot>,
+    ISaveRepository
+    where TAggregateRoot : class, IAggregateRoot
 {
     #region Members
 
@@ -71,10 +78,18 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepositor
 
     #endregion
 
+    #region Public Methods
+
     /// <summary>  </summary>
-    public virtual TAggregateRoot GetById<TId>(TId key)
+    public virtual TAggregateRoot GetById(TId id)
     {
-        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().SingleOrDefault()!;
+        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>().SingleOrDefault()!;
+    }
+
+    /// <summary>  </summary>
+    public List<TAggregateRoot> GetAll()
+    {
+        return GetQuery().ToList();
     }
 
     /// <summary>  </summary>
@@ -90,15 +105,15 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepositor
     }
 
     /// <summary>  </summary>
-    public virtual bool Any<TId>(TId key)
+    public virtual bool Any(TId id)
     {
-        return GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+        return GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>().Any();
     }
 
     /// <summary>  </summary>
-    public bool NotAny<TId>(TId key)
+    public bool NotAny(TId id)
     {
-        return !GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(key)).Cast<TAggregateRoot>().Any();
+        return !GetQuery(false).Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>().Any();
     }
 
     /// <summary>  </summary>
@@ -120,11 +135,7 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepositor
         return GetQuery().SingleOrDefault(spec.SatisfiedBy())!;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="spec"></param>
-    /// <returns></returns>
+    /// <summary>  </summary>
     public virtual bool Any(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery(false).Any(spec.SatisfiedBy());
@@ -195,4 +206,6 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot> : IRepositor
     {
         return DbContextBase.Rollback();
     }
+
+    #endregion
 }

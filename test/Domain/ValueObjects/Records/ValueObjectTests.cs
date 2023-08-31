@@ -85,7 +85,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataEqualOperatorIsTrueTest()
     {
-        //Arraneg
+        //Arrange
         var address1 = new Address("streetLine1", "streetLine2", "city", "zipcode");
         var address2 = new Address("streetLine1", "streetLine2", "city", "zipcode");
 
@@ -101,7 +101,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataIsNotEqualOperatorIsFalseTest()
     {
-        //Arraneg
+        //Arrange
         var address1 = new Address("streetLine1", "streetLine2", "city", "zipcode");
         var address2 = new Address("streetLine1", "streetLine2", "city", "zipcode");
 
@@ -352,7 +352,7 @@ public class ValueObjectTests
     [Fact]
     public void IdenticalDataIsNotEqualOperatorIsFalseTestWithList_NotWorkingOnRecords()
     {
-        //Arraneg
+        //Arrange
         var integers1 = new Integers(new List<int> { 3, 1 });
         var integers2 = new Integers(new List<int> { 1, 3 });
 

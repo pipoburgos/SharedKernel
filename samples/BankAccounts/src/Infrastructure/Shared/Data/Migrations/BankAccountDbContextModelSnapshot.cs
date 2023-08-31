@@ -28,7 +28,7 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("OwnerId")
+                    b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -50,6 +50,7 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Concept")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -72,9 +73,11 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Emails")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -115,7 +118,9 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                 {
                     b.HasOne("BankAccounts.Domain.BankAccounts.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("BankAccounts.Domain.BankAccounts.InternationalBankAccountNumber", "InternationalBankAccountNumber", b1 =>
                         {
@@ -123,23 +128,28 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AccountNumber")
+                                .IsRequired()
                                 .HasMaxLength(10)
                                 .HasColumnType("nvarchar(10)")
                                 .HasColumnName("Number");
 
                             b1.Property<string>("ControlDigit")
+                                .IsRequired()
                                 .HasMaxLength(2)
                                 .HasColumnType("nvarchar(2)");
 
                             b1.Property<string>("CountryCheckDigit")
+                                .IsRequired()
                                 .HasMaxLength(4)
                                 .HasColumnType("nvarchar(4)");
 
                             b1.Property<string>("EntityCode")
+                                .IsRequired()
                                 .HasMaxLength(4)
                                 .HasColumnType("nvarchar(4)");
 
                             b1.Property<string>("OfficeNumber")
+                                .IsRequired()
                                 .HasMaxLength(4)
                                 .HasColumnType("nvarchar(4)");
 
@@ -151,7 +161,8 @@ namespace BankAccounts.Infrastructure.Shared.Data.Migrations
                                 .HasForeignKey("BankAccountId");
                         });
 
-                    b.Navigation("InternationalBankAccountNumber");
+                    b.Navigation("InternationalBankAccountNumber")
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });

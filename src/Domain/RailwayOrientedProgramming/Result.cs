@@ -7,10 +7,10 @@ public static class Result
     public static readonly Unit Unit = Unit.Value;
 
     /// <summary>  </summary>
-    public static Result<T> Create<T>(T value) where T : notnull => Result<T>.Create(value);
+    public static Result<T> Create<T>(T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>
-    public static Result<T> Success<T>(this T value) where T : notnull => Result<T>.Create(value);
+    public static Result<T> Success<T>(this T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>
     public static Result<T> Failure<T>(IEnumerable<Error> errors) => Result<T>.Create(errors);

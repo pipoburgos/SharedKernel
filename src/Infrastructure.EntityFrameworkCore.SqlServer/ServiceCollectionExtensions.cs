@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service Sql Server into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCoreSqlServer<TDbContext, TUnitOfWork>(this IServiceCollection services,
+    public static IServiceCollection AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
         string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services

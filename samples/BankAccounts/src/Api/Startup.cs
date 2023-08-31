@@ -40,6 +40,7 @@ public class Startup
             .AddInMemoryQueryBus()
             .AddRedisEventBus(_configuration)
             .AddRedisDistributedCache(_configuration)
+            //.AddSqlServerDistributedCache(_configuration.GetConnectionString("BankAccountConnection")!)
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
@@ -71,6 +72,7 @@ public class Startup
                 debug => Console.WriteLine(debug.Error))
             .UseCors(CorsPolicy)
             .UseRouting()
+            .UseResponseCaching()
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

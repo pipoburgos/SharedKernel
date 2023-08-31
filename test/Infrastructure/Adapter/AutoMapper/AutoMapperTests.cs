@@ -17,7 +17,7 @@ namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
         [Fact]
         public void MapppingOk()
         {
-            MapperFactory.SetCurrent(GetRequiredService<IMapperFactory>());
+            MapperFactory.SetCurrent(GetRequiredServiceOnNewScope<IMapperFactory>());
             var emails = new List<string> { "a@a.es", "b@b.es" };
             var source = new DocumentSource { Name = "Say may name", Emails = emails };
             var result = source.MapTo<DocumentTarget>();
