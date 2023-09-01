@@ -22,6 +22,7 @@ internal class RedisCommandsConsumer : BackgroundService
     /// <summary>  </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await Task.Delay(5_000, stoppingToken);
         using var scope = _serviceScopeFactory.CreateScope();
         var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
