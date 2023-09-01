@@ -35,11 +35,11 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     {
         UnitOfWork.AddOperation(() =>
         {
-            Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+            var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
                 JsonSerializer.Serialize(aggregateRoot));
 
-            //if (!result.Success)
-            //    throw new Exception(result.Body);
+            if (!result.Success)
+                throw new Exception(result.Body);
         }, aggregateRoot);
     }
 

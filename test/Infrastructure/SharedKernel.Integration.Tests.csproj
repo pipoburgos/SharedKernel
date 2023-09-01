@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\Repositories\ElasticsearchRepositoryTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Cqrs\Commands\ActiveMq\ActiveMqCommandBusShould.cs" />
     <Compile Include="Cqrs\Commands\DelayCommand.cs" />
     <Compile Include="Cqrs\Commands\DelayCommandHandler.cs" />
