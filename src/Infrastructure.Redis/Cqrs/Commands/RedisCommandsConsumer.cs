@@ -22,29 +22,36 @@ internal class RedisCommandsConsumer : BackgroundService
     /// <summary>  </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Delay(5_000, stoppingToken);
         using var scope = _serviceScopeFactory.CreateScope();
         var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
         var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
         while (!stoppingToken.IsCancellationRequested)
         {
-            var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
-
-            if (value.HasValue)
+            try
             {
-                try
-                {
-                    await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
-                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, ex.Message);
-                }
-            }
+                var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
 
-            await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                if (value.HasValue)
+                {
+                    try
+                    {
+                        await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
+                            nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, ex.Message);
+                    }
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, e.Message);
+                throw;
+            }
         }
     }
 }
