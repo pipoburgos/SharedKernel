@@ -43,16 +43,4 @@
     <Using Include="Microsoft.EntityFrameworkCore" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>7.0.10</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>7.0.10</Version>
-    </PackageReference>
-  </ItemGroup>
-
 </Project>

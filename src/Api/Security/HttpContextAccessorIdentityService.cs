@@ -33,7 +33,7 @@ public class HttpContextAccessorIdentityService : IIdentityService
     {
         var values = new StringValues();
         var ok = _httpContextAccessor.HttpContext?.Request.Headers.TryGetValue(header, out values);
-        return (ok == true ? values : string.Empty)!;
+        return ok == true ? values.ToString() : string.Empty;
     }
 
     /// <summary>  </summary>

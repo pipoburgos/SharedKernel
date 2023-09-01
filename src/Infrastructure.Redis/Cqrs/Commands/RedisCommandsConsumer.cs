@@ -47,10 +47,9 @@ internal class RedisCommandsConsumer : BackgroundService
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
-            catch (Exception e)
+            catch (RedisConnectionException e)
             {
                 logger.Error(e, e.Message);
-                throw;
             }
         }
     }

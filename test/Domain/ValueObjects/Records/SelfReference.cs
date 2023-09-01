@@ -2,10 +2,10 @@
 
 public record SelfReference
 {
-    public SelfReference(SelfReference value)
+    public SelfReference(SelfReference? value)
     {
         Value = value;
     }
 
-    public SelfReference Value { get; private set; }
+    public SelfReference? Value { get; private set; }
 }
