@@ -55,7 +55,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         saveValueSingletonService.Id.Should().Be(command.Value);
     }
 
-    protected async Task DispatchCommandAsync()
+    protected async Task DispatchCommandAsync(int secondsRelay = 10)
     {
         var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
@@ -68,13 +68,15 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         }
 
         var commandBus = GetRequiredServiceOnNewScope<ICommandBusAsync>();
+
+        await Task.Delay(TimeSpan.FromSeconds(secondsRelay));
         var command = new SampleCommand(3);
         await commandBus.Dispatch(command, CancellationToken.None);
 
         // Esperar a que terminen los manejadores de los eventos junto con la política de reintentos
-        var saveValueSingletonService = GetRequiredServiceOnNewScope<SaveValueSingletonService>();
-        await Task.Delay(TimeSpan.FromSeconds(2), CancellationToken.None);
+        await Task.Delay(TimeSpan.FromSeconds(secondsRelay));
 
+        var saveValueSingletonService = GetRequiredServiceOnNewScope<SaveValueSingletonService>();
         saveValueSingletonService.Id.Should().Be(command.Value);
     }
 }

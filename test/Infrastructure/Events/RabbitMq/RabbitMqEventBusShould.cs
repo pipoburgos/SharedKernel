@@ -20,6 +20,6 @@ public class RabbitMqEventBusShould : EventBusCommonTestCase
     [Fact]
     public async Task PublishDomainEventFromRabbitMq()
     {
-        await PublishDomainEvent();
+        await PublishDomainEvent(5);
     }
 }

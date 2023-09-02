@@ -9,37 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Cqrs\**" />
     <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <Compile Remove="Reporting\**" />
-    <EmbeddedResource Remove="Cqrs\**" />
     <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <None Remove="Cqrs\**" />
     <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <None Remove="Reporting\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\Repositories\ElasticsearchRepositoryTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Cqrs\Commands\ActiveMq\ActiveMqCommandBusShould.cs" />
-    <Compile Include="Cqrs\Commands\DelayCommand.cs" />
-    <Compile Include="Cqrs\Commands\DelayCommandHandler.cs" />
-    <Compile Include="Cqrs\Commands\CommandBusCommonTestCase.cs" />
-    <Compile Include="Cqrs\Commands\InMemory\InMemoryCommandBusTests.cs" />
-    <Compile Include="Cqrs\Commands\IntValidator.cs" />
-    <Compile Include="Cqrs\Commands\RabbitMq\RabbitMqCommandBusShould.cs" />
-    <Compile Include="Cqrs\Commands\Redis\RedisCommandBusShould.cs" />
-    <Compile Include="Cqrs\Commands\SaveValueSingletonService.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommand.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommandHandler.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommandValidator.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommandWithResponse.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommandWithResponseHandler.cs" />
-    <Compile Include="Cqrs\Commands\SampleCommandWithResponseValidator.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -95,6 +70,15 @@
     <None Update="Communication\Email\Smtp\appsettings.smtp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Cqrs\Commands\ActiveMq\appsettings.ActiveMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\RabbitMq\appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -141,18 +125,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Cqrs\Commands\ActiveMq\appsettings.ActiveMq.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Cqrs\Commands\RabbitMq\appsettings.rabbitMq.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Cqrs\Commands\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -34,7 +34,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
             .AddHttpContextAccessor();
     }
 
-    protected async Task PublishDomainEvent()
+    protected async Task PublishDomainEvent(int secondsRelay = 0)
     {
         var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
@@ -57,6 +57,9 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
         domainEvents.AddRange(user4.PullDomainEvents());
 
         var eventBus = GetRequiredServiceOnNewScope<IEventBus>();
+
+        await Task.Delay(TimeSpan.FromSeconds(secondsRelay));
+
         var tasks = new List<Task>();
         const int total = 5;
         for (var i = 0; i < total; i++)
