@@ -79,21 +79,13 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     /// <summary>  </summary>
     public bool Any(TId id)
     {
-        var response = Client.Get<StringResponse>(Index, id.ToString());
-
-        if (response.Success && response.HttpStatusCode == 200)
-            return true;
-
-        if (response.HttpStatusCode == 404)
-            return false;
-
-        throw response.OriginalException;
+        return GetById(id) != default;
     }
 
     /// <summary>  </summary>
     public bool NotAny(TId id)
     {
-        return !Any(id);
+        return GetById(id) == default;
     }
 
     /// <summary>  </summary>

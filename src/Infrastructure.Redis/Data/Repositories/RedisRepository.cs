@@ -74,17 +74,13 @@ public abstract class RedisRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public bool Any(TId id)
     {
-        var bytes = DistributedCache.Get(GetKey(id));
-
-        return bytes != default && bytes.Length > 0;
+        return GetById(id) != default;
     }
 
     /// <summary>  </summary>
     public bool NotAny(TId id)
     {
-        var bytes = DistributedCache.Get(GetKey(id));
-
-        return bytes == default || bytes.Length == 0;
+        return GetById(id) == default;
     }
 
     /// <summary>  </summary>

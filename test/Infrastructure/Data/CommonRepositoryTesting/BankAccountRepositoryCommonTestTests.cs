@@ -41,9 +41,9 @@ public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTe
         var bankAccountDdBb3 = repository3.GetById(bankAccount.Id);
         bankAccountDdBb3.Should().BeNull();
 
-        //repository3.Any(bankAccount.Id).Should().BeFalse();
+        repository3.Any(bankAccount.Id).Should().BeFalse();
 
-        //repository3.NotAny(bankAccount.Id).Should().BeTrue();
+        repository3.NotAny(bankAccount.Id).Should().BeTrue();
     }
 
 }

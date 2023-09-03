@@ -117,13 +117,13 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public bool Any(TId id)
     {
-        return MongoCollection.Find(a => a.Id!.Equals(id)).Any();
+        return GetById(id) != default;
     }
 
     /// <summary>  </summary>
     public bool NotAny(TId id)
     {
-        return !MongoCollection.Find(a => a.Id!.Equals(id)).Any();
+        return GetById(id) == default;
     }
 
     /// <summary>  </summary>

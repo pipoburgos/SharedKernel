@@ -69,13 +69,13 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public bool Any(TId id)
     {
-        return File.Exists(FileName(id));
+        return GetById(id) != default;
     }
 
     /// <summary>  </summary>
     public bool NotAny(TId id)
     {
-        return !File.Exists(FileName(id));
+        return GetById(id) == default;
     }
 
     /// <summary>  </summary>
