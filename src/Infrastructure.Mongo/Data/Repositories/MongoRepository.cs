@@ -5,6 +5,7 @@ using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Repositories.Read;
 using SharedKernel.Domain.Repositories.Save;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
@@ -13,7 +14,7 @@ using SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
 namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>, ISaveRepository
+public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>, IReadAllRepository<TAggregateRoot>, ISaveRepository
     where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
@@ -87,12 +88,18 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     {
         var aggregateRoot = MongoCollection.Find(a => a.Id!.Equals(id)).SingleOrDefault();
 
-        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
         {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag) ? default : aggregateRoot;
         }
 
         return aggregateRoot;
+    }
+
+    /// <summary>  </summary>
+    public List<TAggregateRoot> GetAll()
+    {
+        return MongoCollection.Find(FilterDefinition<TAggregateRoot>.Empty).ToList();
     }
 
     /// <summary>  </summary>
