@@ -12,6 +12,9 @@
     <Compile Remove="Reporting\**" />
     <EmbeddedResource Remove="Reporting\**" />
     <None Remove="Reporting\**" />
+<Compile Remove="Data\Elasticsearch\**" />
+    <EmbeddedResource Remove="Data\Elasticsearch\**" />
+    <None Remove="Data\Elasticsearch\**" />
   </ItemGroup>
 
   <ItemGroup>
