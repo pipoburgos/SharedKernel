@@ -68,16 +68,8 @@ public class UnitOfWork : IUnitOfWork
     /// <summary>  </summary>
     public void RemoveOperation(IAggregateRoot aggregateRoot, Action deleteOperation, Action updateOperation)
     {
-        if (aggregateRoot is IEntityAuditableLogicalRemove)
-        {
-            Operations.Add(updateOperation);
-            Modified.Add(aggregateRoot);
-        }
-        else
-        {
-            Operations.Add(deleteOperation);
-            Deleted.Add(aggregateRoot);
-        }
+        Operations.Add(aggregateRoot is IEntityAuditableLogicalRemove ? updateOperation : deleteOperation);
+        Deleted.Add(aggregateRoot);
     }
 
     /// <summary>  </summary>

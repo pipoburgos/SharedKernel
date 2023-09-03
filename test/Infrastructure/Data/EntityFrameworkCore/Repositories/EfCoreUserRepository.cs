@@ -4,9 +4,9 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories;
 
-public class UserEfCoreRepository : EntityFrameworkCoreRepositoryAsync<User, Guid>
+public class EfCoreUserRepository : EntityFrameworkCoreRepositoryAsync<User, Guid>
 {
-    public UserEfCoreRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
+    public EfCoreUserRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
     {
     }
 }

@@ -206,7 +206,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             result.Items.Count().Should().Be(total);
 
             using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
-            var repository = new UserEfCoreRepository(dbContext);
+            var repository = new EfCoreUserRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None))
                 .Select(x => x.NumberOfChildren)
                 .Where(x => x != number)
@@ -236,7 +236,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             result.Items.Count().Should().Be(total);
 
             using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
-            var repository = new UserEfCoreRepository(dbContext);
+            var repository = new EfCoreUserRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None)).Select(x => x.NumberOfChildren).OrderByDescending(x => x).Take(total);
             result.Items.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
         }
@@ -273,7 +273,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
 
-            var repository = new UserEfCoreRepository(dbContext);
+            var repository = new EfCoreUserRepository(dbContext);
 
             var tasks = new List<Task>();
             for (var i = 0; i < total; i++)

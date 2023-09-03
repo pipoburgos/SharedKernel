@@ -9,6 +9,10 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
+            builder.Property(u => u.Name).HasMaxLength(256);
+
             // This line will map private members
             builder.Metadata.SetPropertyAccessMode(PropertyAccessMode.PreferField);
 

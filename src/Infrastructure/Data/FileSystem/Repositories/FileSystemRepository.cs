@@ -57,7 +57,13 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
             return default;
 
         var text = File.ReadAllText(FileName(id));
-        return JsonSerializer.Deserialize<TAggregateRoot>(text);
+        var aggregateRoot = JsonSerializer.Deserialize<TAggregateRoot>(text);
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     /// <summary>  </summary>

@@ -6,7 +6,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
 [Collection("DockerHook")]
-public class MongoRepositoryCreateTests : RepositoryCommonTestTests<UserMongoRepository>
+public class MongoUserRepositoryTests : UserRepositoryCommonTestTests<MongoUserRepository>
 {
     protected override string GetJsonFile()
     {
@@ -17,6 +17,6 @@ public class MongoRepositoryCreateTests : RepositoryCommonTestTests<UserMongoRep
     {
         return services
             .AddMongoUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelMongoUnitOfWork>(Configuration)
-            .AddTransient<UserMongoRepository>();
+            .AddTransient<MongoUserRepository>();
     }
 }

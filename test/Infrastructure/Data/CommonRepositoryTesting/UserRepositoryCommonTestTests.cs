@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 
-public abstract class RepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
+public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
     where T : class, IRepository<User, Guid>, ISaveRepository
 {
     protected virtual void Regenerate() { }

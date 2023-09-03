@@ -7,7 +7,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
 
 [Collection("DockerHook")]
-public class ElasticsearchRepositoryTests : RepositoryCommonTestTests<UserElasticsearchRepository>
+public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<ElasticsearchUserRepository>
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
@@ -15,6 +15,6 @@ public class ElasticsearchRepositoryTests : RepositoryCommonTestTests<UserElasti
             .AddElasticsearchUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelUnitOfWork>(
                 new Uri("http://localhost:22228"))
             .AddNewtonsoftSerializer()
-            .AddTransient<UserElasticsearchRepository>();
+            .AddTransient<ElasticsearchUserRepository>();
     }
 }

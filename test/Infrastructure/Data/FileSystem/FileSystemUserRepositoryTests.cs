@@ -5,7 +5,7 @@ using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 
 namespace SharedKernel.Integration.Tests.Data.FileSystem;
 
-public class FileSystemRepositoryTests : RepositoryCommonTestTests<FileSystemUserRepository>
+public class FileSystemUserRepositoryTests : UserRepositoryCommonTestTests<FileSystemUserRepository>
 {
     protected override string GetJsonFile()
     {

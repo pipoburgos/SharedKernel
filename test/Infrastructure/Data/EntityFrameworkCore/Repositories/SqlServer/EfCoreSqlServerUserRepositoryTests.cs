@@ -9,7 +9,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer;
 
 [Collection("DockerHook")]
-public class EntityFrameworkCoreSqlServerRepositoryTests : RepositoryCommonTestTests<UserEfCoreRepository>
+public class EfCoreSqlServerUserRepositoryTests : UserRepositoryCommonTestTests<EfCoreUserRepository>
 {
     protected override string GetJsonFile()
     {
@@ -28,6 +28,6 @@ public class EntityFrameworkCoreSqlServerRepositoryTests : RepositoryCommonTestT
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
             .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(connection)
-            .AddTransient<UserEfCoreRepository>();
+            .AddTransient<EfCoreUserRepository>();
     }
 }

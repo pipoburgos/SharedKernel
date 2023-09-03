@@ -3,6 +3,7 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.Repositories;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
@@ -63,9 +64,16 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
         var document = JsonSerializer.Deserialize<Dictionary<string, object>>(searchResponse.Body);
         var jsonAggregate = document["_source"].ToString();
 
-        return string.IsNullOrWhiteSpace(jsonAggregate)
+        var aggregateRoot = string.IsNullOrWhiteSpace(jsonAggregate)
             ? default
             : JsonSerializer.Deserialize<TAggregateRoot?>(jsonAggregate);
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     /// <summary>  </summary>

@@ -5,9 +5,9 @@ using SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
 
-public class UserElasticsearchRepository : ElasticsearchRepository<User, Guid>
+public class ElasticsearchUserRepository : ElasticsearchRepository<User, Guid>
 {
-    public UserElasticsearchRepository(SharedKernelUnitOfWork unitOfWork, ElasticLowLevelClient client,
+    public ElasticsearchUserRepository(SharedKernelUnitOfWork unitOfWork, ElasticLowLevelClient client,
         IJsonSerializer jsonSerializer) : base(unitOfWork, client, jsonSerializer)
     {
     }

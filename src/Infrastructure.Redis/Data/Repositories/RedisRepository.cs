@@ -3,6 +3,7 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.Repositories;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
@@ -60,7 +61,14 @@ public abstract class RedisRepository<TAggregateRoot, TId> :
         if (bytes == default || bytes.Length == 0)
             return default!;
 
-        return JsonSerializer.Deserialize<TAggregateRoot?>(bytes);
+        var aggregateRoot = JsonSerializer.Deserialize<TAggregateRoot?>(bytes);
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     /// <summary>  </summary>

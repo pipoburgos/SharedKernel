@@ -85,7 +85,14 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public TAggregateRoot? GetById(TId id)
     {
-        return MongoCollection.Find(a => a.Id!.Equals(id)).SingleOrDefault();
+        var aggregateRoot = MongoCollection.Find(a => a.Id!.Equals(id)).SingleOrDefault();
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     /// <summary>  </summary>

@@ -4,9 +4,9 @@ using SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
-public class UserMongoRepository : MongoRepository<User, Guid>
+public class MongoUserRepository : MongoRepository<User, Guid>
 {
-    static UserMongoRepository()
+    static MongoUserRepository()
     {
         BsonClassMap.RegisterClassMap<User>(cm =>
         {
@@ -16,7 +16,7 @@ public class UserMongoRepository : MongoRepository<User, Guid>
         });
     }
 
-    public UserMongoRepository(SharedKernelMongoUnitOfWork mongoUnitOfWork) : base(mongoUnitOfWork)
+    public MongoUserRepository(SharedKernelMongoUnitOfWork mongoUnitOfWork) : base(mongoUnitOfWork)
     {
     }
 }

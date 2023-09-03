@@ -7,7 +7,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.Redis;
 
 [Collection("DockerHook")]
-public class RedisRepositoryTests : RepositoryCommonTestTests<RedisUserRepository>
+public class RedisUserRepositoryTests : UserRepositoryCommonTestTests<RedisUserRepository>
 {
     protected override string GetJsonFile()
     {
