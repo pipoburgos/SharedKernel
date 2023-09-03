@@ -8,7 +8,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
 
 [Collection("DockerHook")]
-public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfCoreUserRepository>
+public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfPostgreSqlUserRepository>
 {
     protected override string GetJsonFile()
     {
@@ -27,6 +27,6 @@ public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfC
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
             .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
-            .AddTransient<EfCoreUserRepository>();
+            .AddTransient<EfPostgreSqlUserRepository>();
     }
 }

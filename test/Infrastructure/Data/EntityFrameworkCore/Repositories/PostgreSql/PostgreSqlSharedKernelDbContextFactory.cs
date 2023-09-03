@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql
 {
@@ -8,8 +7,9 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.P
     {
         public PostgreSqlSharedKernelDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SharedKernelDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<PostgreSqlSharedKernelDbContext>();
             optionsBuilder.UseNpgsql("Server=localhost;Port=22226;Database=postgres_testing;User Id=admin;Password=password;TrustServerCertificate=True;Application Name=SharedKernel;")
+                .UseSnakeCaseNamingConvention()
                 .EnableSensitiveDataLogging();
 
             return new PostgreSqlSharedKernelDbContext(optionsBuilder.Options);

@@ -9,6 +9,7 @@ public class BankAccountMother
     {
         var faker = new Faker();
 
-        return BankAccount.Create(id ?? Guid.NewGuid(), amount ?? faker.Finance.Amount(), date ?? faker.Date.Past());
+        return BankAccount.Create(id ?? Guid.NewGuid(), amount ?? faker.Finance.Amount(),
+            date ?? faker.Date.Past().ToUniversalTime());
     }
 }
