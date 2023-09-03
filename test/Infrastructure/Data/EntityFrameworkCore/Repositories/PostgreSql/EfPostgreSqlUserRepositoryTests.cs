@@ -3,13 +3,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
 
 [Collection("DockerHook")]
-public class EntityFrameworkCorePostgreSqlepositoryTests : RepositoryCommonTestTests<UserEfCoreRepository>
+public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfCoreUserRepository>
 {
     protected override string GetJsonFile()
     {
@@ -18,7 +17,7 @@ public class EntityFrameworkCorePostgreSqlepositoryTests : RepositoryCommonTestT
 
     protected override void Regenerate()
     {
-        var dbContext = GetRequiredService<SharedKernelDbContext>();
+        var dbContext = GetRequiredService<PostgreSqlSharedKernelDbContext>();
         //dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
     }
@@ -27,7 +26,7 @@ public class EntityFrameworkCorePostgreSqlepositoryTests : RepositoryCommonTestT
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(connection)
-            .AddTransient<UserEfCoreRepository>();
+            .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
+            .AddTransient<EfCoreUserRepository>();
     }
 }

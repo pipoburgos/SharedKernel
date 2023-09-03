@@ -13,7 +13,7 @@ public class ElasticsearchBankAccountRepositoryTests : BankAccountRepositoryComm
     {
         return services
             .AddElasticsearchUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelUnitOfWork>(
-                new Uri("http://localhost:22228"))
+                new Uri("http://127.0.0.1:22228"))
             .AddNewtonsoftSerializer()
             .AddTransient<ElasticsearchBankAccountRepository>();
     }

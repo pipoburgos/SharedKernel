@@ -9,11 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <Compile Remove="Reporting\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <None Remove="Reporting\**" />
   </ItemGroup>
 
@@ -84,6 +81,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
