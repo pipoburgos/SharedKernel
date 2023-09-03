@@ -1,10 +1,11 @@
 ﻿using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.Validators;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace SharedKernel.Domain.Tests.Users;
 
-public class User : AggregateRootAuditable<Guid>
+public class User : AggregateRootAuditable<Guid>, IValidatableObject
 {
     private List<string> _emails;
     private List<Address> _addresses;
@@ -64,5 +65,10 @@ public class User : AggregateRootAuditable<Guid>
     {
         _addresses.Add(address);
         return this;
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        return Enumerable.Empty<ValidationResult>();
     }
 }

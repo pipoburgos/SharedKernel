@@ -92,17 +92,17 @@ public class ValidationMiddleware : IMiddleware
     private Task<List<ValidationFailure>> ValidateAsync<TRequest>(TRequest request, CancellationToken cancellationToken)
     {
         Guard.ThrowIfNull(request);
-        var result = typeof(IEntityValidator<>).MakeGenericType(request!.GetType());
+        var result = typeof(IClassValidator<>).MakeGenericType(request!.GetType());
         var validator = _serviceProvider.CreateScope().ServiceProvider.GetService(result);
 
         if (validator == default)
             throw new Exception($"Validator '{result}' not found");
 
-        const string methodName = nameof(IEntityValidator<object>.ValidateListAsync);
+        const string methodName = nameof(IClassValidator<object>.ValidateListAsync);
         var method = validator.GetType().GetMethod(methodName);
 
         if (method == default)
-            throw new Exception($"Method 'IValidator.{methodName}' not found");
+            throw new Exception($"Method 'IClassValidator.{methodName}' not found");
 
         var failuresTaskObject = method.Invoke(validator, new object[] { request, cancellationToken });
 

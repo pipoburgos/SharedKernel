@@ -64,7 +64,7 @@ public class Startup
     public void Configure(IApplicationBuilder app, IOptions<OpenApiOptions> openApiOptions, IOptions<OpenIdOptions> openIdOptions)
     {
         app
-            .UseSharedKernelCurrentCulture()
+            .UseSharedKernelCurrentCulture("en-US", "es-ES")
             .UseSharedKernelServicesPage(_services ?? throw new ArgumentNullException(nameof(_services)))
             .UseSharedKernelExceptionHandler("BankAccounts",
                 exceptionHandler =>

@@ -95,7 +95,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
     }
 
-    public async Task<HttpClient> CreateClientAsync()
+    public async Task<HttpClient> CreateClientAsync(string language = "en-US")
     {
         if (_firstTime)
         {
@@ -110,7 +110,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
 
         var client = CreateClient();
         client.Timeout = TimeSpan.FromMinutes(2);
-        client.DefaultRequestHeaders.Add("Accept-Language", "es-ES");
+        client.DefaultRequestHeaders.Add("Accept-Language", language);
         return client;
     }
 

@@ -62,6 +62,26 @@ public abstract class RepositoryCommonTestTests<T> : InfrastructureTestCase<Fake
     }
 
     [Fact]
+    public void TestDeleteMethod()
+    {
+        Regenerate();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+        var roberto = UserMother.Create();
+        repository.Add(roberto);
+        repository.SaveChanges();
+
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var repoUser = repository2.GetById(roberto.Id);
+        repoUser.Should().NotBeNull();
+        repository2.Remove(repoUser!);
+        repository2.SaveChanges();
+
+        var rob = GetRequiredServiceOnNewScope<T>().GetById(roberto.Id)!;
+        rob.Should().BeNull();
+    }
+
+    [Fact]
     public void TestPrivateListPropertiesAndValueObjects()
     {
         Regenerate();

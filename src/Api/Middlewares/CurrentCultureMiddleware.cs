@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 
 namespace SharedKernel.Api.Middlewares;
@@ -7,32 +9,56 @@ namespace SharedKernel.Api.Middlewares;
 public static class CurrentCultureMiddleware
 {
     /// <summary> Configure Accept-Language header with english, spanish and chinese cultures. </summary>
-    public static IApplicationBuilder UseSharedKernelCurrentCulture(this IApplicationBuilder app)
+    public static IApplicationBuilder UseSharedKernelCurrentCulture(this IApplicationBuilder app,
+        params string[] supportedCultures)
     {
+        var defaultCulture = new CultureInfo("en-US");
+        var supported = supportedCultures.Select(x => new CultureInfo(x)).ToList();
+
+        var defaultLanguage = supported.Any() ? supported.First() : defaultCulture;
+
+        app.UseRequestLocalization(new RequestLocalizationOptions
+        {
+            DefaultRequestCulture = new RequestCulture(defaultLanguage),
+            SupportedCultures = supported,
+            SupportedUICultures = supported
+        });
+
         app.Use((context, next) =>
         {
-            //get client prefered language
-            var userLanguages = context.Request.Headers["Accept-Language"].ToString();
-
-            if (userLanguages == default!)
-                return next();
-
-            var firstLang = userLanguages.Split(',').FirstOrDefault();
-
-            //set allowed language
-            var lang = firstLang switch
+            if (supportedCultures.Any())
             {
-                "es" => "es-ES",
-                "en" => "en-US",
-                "zh" => "zh-CHS",
-                _ => "es-ES"
-            };
+                var userLanguages = context.Request.Headers["Accept-Language"].ToString();
 
-            //switch culture
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
+                if (userLanguages != default!)
+                {
+                    var requestCultures = userLanguages.Contains(',')
+                        ? userLanguages.Split(',').ToList()
+                        : new List<string> { userLanguages };
+
+                    string? requestCultur = default;
+                    foreach (var culture in requestCultures)
+                    {
+                        if (!supportedCultures.Contains(culture))
+                            break;
+
+                        requestCultur = culture;
+                    }
+
+                    if (requestCultur == default)
+                    {
+                        context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                        context.Response.WriteAsJsonAsync("Invalud Accept-Language values.");
+                        return Task.CompletedTask;
+                    }
+
+                    defaultLanguage = new CultureInfo(requestCultur);
+                }
+            }
+
+            Thread.CurrentThread.CurrentCulture = defaultLanguage;
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
-            // Call the next delegate/middleware in the pipeline
             return next();
         });
 

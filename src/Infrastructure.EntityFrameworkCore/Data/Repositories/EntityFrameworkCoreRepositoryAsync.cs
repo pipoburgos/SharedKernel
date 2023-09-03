@@ -38,7 +38,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     }
 
     /// <summary>  </summary>
-    public Task<bool> Any(TId id, CancellationToken cancellationToken)
+    public virtual Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetQuery()
             .Cast<IEntity<TId>>()
@@ -46,7 +46,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     }
 
     /// <summary>  </summary>
-    public Task<bool> NotAny(TId id, CancellationToken cancellationToken)
+    public virtual Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetQuery()
             .Cast<IEntity<TId>>()
@@ -85,18 +85,6 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     public virtual Task<long> CountAsync(CancellationToken cancellationToken)
     {
         return DbContextBase.SetAggregate<TAggregateRoot>().LongCountAsync(cancellationToken);
-    }
-
-    /// <summary>  </summary>
-    public virtual Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
-    {
-        return GetQuery(false).Cast<IEntity<TId>>().AnyAsync(a => a.Id!.Equals(id), cancellationToken);
-    }
-
-    /// <summary>  </summary>
-    public Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken)
-    {
-        return GetQuery(false).Cast<IEntity<TId>>().AllAsync(a => !a.Id!.Equals(id), cancellationToken);
     }
 
     /// <summary>  </summary>

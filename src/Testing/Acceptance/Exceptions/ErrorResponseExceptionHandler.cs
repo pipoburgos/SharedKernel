@@ -71,7 +71,7 @@ namespace SharedKernel.Testing.Acceptance.Exceptions
         public void Should(string propertyName, string message)
         {
             _errors.Should().ContainKey(propertyName);
-            _errors[propertyName].Should().Contain(x => x.Replace("carácteres", "caracteres").Contains(message));
+            _errors[propertyName].Should().Contain(message);
         }
 
         #endregion

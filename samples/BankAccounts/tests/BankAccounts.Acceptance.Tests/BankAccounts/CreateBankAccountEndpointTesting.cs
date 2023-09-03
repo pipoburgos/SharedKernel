@@ -62,6 +62,38 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
         }
 
         [Fact]
+        public async Task FluentValidationSpanishOnSpanish()
+        {
+            var client = await _bankAccountClientFactory.CreateClientAsync("es-ES");
+
+            var bankAccountId = Guid.NewGuid();
+            var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
+                new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
+
+            var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+
+            var ex = await response.GetErrorResponse();
+            ex.Should("Name", "'Name' debe ser menor o igual que 100 caracteres. Ingresó 101 caracteres.");
+        }
+
+        [Fact]
+        public async Task InvalidSupportedCultures()
+        {
+            var client = await _bankAccountClientFactory.CreateClientAsync("zh");
+
+            var bankAccountId = Guid.NewGuid();
+            var body = new CreateBankAccount(Guid.NewGuid(), "abcde",
+                new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
+
+            var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var ex = await response.GetErrorResponse();
+            ex.Should("Invalud Accept-Language values.");
+        }
+
+        [Fact]
         public async Task CreateBankAccountLessThan18YearsOld()
         {
             var client = await _bankAccountClientFactory.CreateClientAsync();

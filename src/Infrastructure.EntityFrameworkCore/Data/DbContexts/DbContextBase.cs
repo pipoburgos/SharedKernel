@@ -1,30 +1,33 @@
-﻿using SharedKernel.Domain.Aggregates;
+﻿using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.RailwayOrientedProgramming;
+using SharedKernel.Domain.Validators;
 using System.Data;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 /// <summary> Shared kernel DbContext. </summary>
-public class DbContextBase : DbContext, IQueryableUnitOfWork
+public abstract class DbContextBase : DbContext, IQueryableUnitOfWork
 {
     #region Members
 
     private readonly Assembly _assemblyConfigurations;
     private readonly IAuditableService? _auditableService;
-    private readonly IValidatableObjectService? _validatableObjectService;
+    private readonly IClassValidatorService? _classValidatorService;
 
     #endregion
 
     #region Constructors
 
     /// <summary> Constructor. </summary>
-    public DbContextBase(DbContextOptions options, string schema, Assembly assemblyConfigurations,
-        IValidatableObjectService? validatableObjectService, IAuditableService? auditableService) : base(options)
+    protected DbContextBase(DbContextOptions options, string schema, Assembly assemblyConfigurations,
+        IClassValidatorService? classValidatorService = default,
+        IAuditableService? auditableService = default) : base(options)
     {
         _assemblyConfigurations = assemblyConfigurations;
+        _classValidatorService = classValidatorService;
         _auditableService = auditableService;
-        _validatableObjectService = validatableObjectService;
         Schema = schema;
         // ReSharper disable once VirtualMemberCallInConstructor
         ChangeTracker.LazyLoadingEnabled = false;
@@ -49,8 +52,9 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
     {
         try
         {
-            _validatableObjectService?.ValidateDomainEntities(this);
-            _validatableObjectService?.Validate(this);
+            _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
+            _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
+                .OfType<IValidatableObject>().ToList());
             _auditableService?.Audit(this);
             return base.SaveChanges();
         }
@@ -75,8 +79,10 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
                 .Create(Unit.Value)
 #if NET47_OR_GREATER || NET5_0_OR_GREATER || NETSTANDARD
                 .Combine(
-                    _validatableObjectService?.ValidateDomainEntitiesResult(this) ?? Result.Create(Unit.Value),
-                    _validatableObjectService?.ValidateResul(this) ?? Result.Create(Unit.Value))
+                    _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries().Select(e => e.Entity)
+                        .ToList()) ?? Result.Create(Unit.Value),
+                    _classValidatorService?.ValidateValidatableObjectsResult(ChangeTracker.Entries()
+                        .Select(e => e.Entity).OfType<IValidatableObject>().ToList()) ?? Result.Create(Unit.Value))
 #endif
                 .Tap(_ => _auditableService?.Audit(this))
                 .Map(_ => base.SaveChanges());
@@ -104,8 +110,9 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
     {
         try
         {
-            _validatableObjectService?.ValidateDomainEntities(this);
-            _validatableObjectService?.Validate(this);
+            _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
+            _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
+                .OfType<IValidatableObject>().ToList());
             _auditableService?.Audit(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
@@ -125,8 +132,11 @@ public class DbContextBase : DbContext, IQueryableUnitOfWork
     public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken) =>
         Result
             .Create(Unit.Value)
-            .Combine(_validatableObjectService?.ValidateDomainEntitiesResult(this) ?? Result.Create(Unit.Value),
-                _validatableObjectService?.ValidateResul(this) ?? Result.Create(Unit.Value))
+            .Combine(
+                _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries().Select(e => e.Entity)
+                    .ToList()) ?? Result.Create(Unit.Value),
+                _classValidatorService?.ValidateValidatableObjectsResult(ChangeTracker.Entries()
+                    .Select(e => e.Entity).OfType<IValidatableObject>().ToList()) ?? Result.Create(Unit.Value))
             .Tap(_ => _auditableService?.Audit(this))
             .Map(_ => Unit.Value)
             .TryBind<Unit, int, DbUpdateException>(_ => base.SaveChangesAsync(cancellationToken),

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using SharedKernel.Application.Security;
-using SharedKernel.Application.System;
 using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Application.Validator;
 using SharedKernel.Domain.RailwayOrientedProgramming;
+using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
 
@@ -12,8 +12,8 @@ public class MongoUnitOfWorkAsync : MongoUnitOfWork, IUnitOfWorkAsync
     private readonly List<Func<Task>> _operationsAsync;
 
     /// <summary>  </summary>
-    public MongoUnitOfWorkAsync(IOptions<MongoSettings> options, IIdentityService identityService, IDateTime dateTime)
-        : base(options, identityService, dateTime)
+    public MongoUnitOfWorkAsync(IOptions<MongoSettings> options, IEntityAuditableService auditableService,
+        IClassValidatorService classValidatorService) : base(options, auditableService, classValidatorService)
     {
         _operationsAsync = new List<Func<Task>>();
     }

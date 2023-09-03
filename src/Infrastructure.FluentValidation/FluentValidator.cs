@@ -10,26 +10,26 @@ namespace SharedKernel.Infrastructure.FluentValidation;
 /// ValidationAttribute ( hierarchy of this) for
 /// perform validation
 /// </summary>
-public class FluentValidator<TEntity> : IEntityValidator<TEntity>
+public class FluentValidator<T> : IClassValidator<T>
 {
-    private readonly IValidator<TEntity>? _validator;
+    private readonly IValidator<T>? _validator;
 
     /// <summary>  </summary>
-    public FluentValidator(IValidator<TEntity>? validator = default)
+    public FluentValidator(IValidator<T>? validator = default)
     {
         _validator = validator;
     }
 
     /// <summary>  </summary>
-    public List<ValidationFailure> ValidateList(TEntity item)
+    public List<ValidationFailure> ValidateList(T item)
     {
         if (_validator == default)
             return new List<ValidationFailure>();
 
-        if (EqualityComparer<TEntity>.Default.Equals(item, default!))
+        if (EqualityComparer<T>.Default.Equals(item, default!))
             return new List<ValidationFailure>();
 
-        var context = new ValidationContext<TEntity>(item);
+        var context = new ValidationContext<T>(item);
         return _validator
             .Validate(context)
             .Errors
@@ -39,15 +39,15 @@ public class FluentValidator<TEntity> : IEntityValidator<TEntity>
     }
 
     /// <summary>  </summary>
-    public void Validate(TEntity item)
+    public void Validate(T item)
     {
         if (_validator == default)
             return;
 
-        if (EqualityComparer<TEntity>.Default.Equals(item, default!))
+        if (EqualityComparer<T>.Default.Equals(item, default!))
             return;
 
-        var context = new ValidationContext<TEntity>(item);
+        var context = new ValidationContext<T>(item);
         var failures = _validator
             .Validate(context)
             .Errors
@@ -60,7 +60,7 @@ public class FluentValidator<TEntity> : IEntityValidator<TEntity>
     }
 
     /// <summary>  </summary>
-    public async Task<List<ValidationFailure>> ValidateListAsync(TEntity item, CancellationToken cancellationToken)
+    public async Task<List<ValidationFailure>> ValidateListAsync(T item, CancellationToken cancellationToken)
     {
         if (_validator == default)
             return new List<ValidationFailure>();
@@ -68,7 +68,7 @@ public class FluentValidator<TEntity> : IEntityValidator<TEntity>
         if (item == null)
             return new List<ValidationFailure>();
 
-        var context = new ValidationContext<TEntity>(item);
+        var context = new ValidationContext<T>(item);
 
         var errors = await _validator.ValidateAsync(context, cancellationToken);
 
@@ -80,7 +80,7 @@ public class FluentValidator<TEntity> : IEntityValidator<TEntity>
     }
 
     /// <summary>  </summary>
-    public async Task ValidateAsync(TEntity item, CancellationToken cancellationToken)
+    public async Task ValidateAsync(T item, CancellationToken cancellationToken)
     {
         if (_validator == default)
             return;
@@ -88,7 +88,7 @@ public class FluentValidator<TEntity> : IEntityValidator<TEntity>
         if (item == null)
             return;
 
-        var context = new ValidationContext<TEntity>(item);
+        var context = new ValidationContext<T>(item);
 
         var failures = new List<ValidationFailure>();
         var result = await _validator.ValidateAsync(context, cancellationToken);

@@ -20,6 +20,6 @@ public class RabbitMqCommandBusShould : CommandBusCommonTestCase
     [Fact]
     public async Task DispatchCommandAsyncFromRabbitMq()
     {
-        await DispatchCommandAsync(5);
+        await DispatchCommandAsync();
     }
 }

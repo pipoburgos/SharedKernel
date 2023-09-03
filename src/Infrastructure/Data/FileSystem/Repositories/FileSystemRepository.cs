@@ -19,7 +19,7 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     protected FileSystemRepository(UnitOfWork unitOfWork, IConfiguration configuration, IJsonSerializer jsonSerializer) : base(unitOfWork)
     {
         JsonSerializer = jsonSerializer;
-        Directory = configuration.GetSection("FileSystemRepositoryPath").Value ?? Path.GetTempPath();
+        Directory = configuration.GetSection("FileSystemRepositoryPath").Value ?? AppDomain.CurrentDomain.BaseDirectory;
 
         if (string.IsNullOrWhiteSpace(Directory))
             throw new Exception("Empty FileSystemRepositoryPath key on appsettings.");
@@ -34,11 +34,11 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Add(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(() =>
+        UnitOfWork.AddOperation(aggregateRoot, () =>
         {
             using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
             outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        }, aggregateRoot);
+        });
     }
 
     /// <summary>  </summary>
@@ -75,11 +75,11 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.UpdateOperation(() =>
+        UnitOfWork.UpdateOperation(aggregateRoot, () =>
         {
             using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
             outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        }, aggregateRoot);
+        });
     }
 
     /// <summary>  </summary>
@@ -94,10 +94,11 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.RemoveOperation(() =>
+        UnitOfWork.RemoveOperation(aggregateRoot, () => File.Delete(FileName(aggregateRoot.Id)), () =>
         {
-            File.Delete(FileName(aggregateRoot.Id));
-        }, aggregateRoot);
+            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
+            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
+        });
     }
 
     /// <summary>  </summary>

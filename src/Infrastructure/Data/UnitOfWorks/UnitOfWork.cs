@@ -1,80 +1,99 @@
-﻿using SharedKernel.Application.Security;
-using SharedKernel.Application.System;
-using SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Validators;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 /// <summary>  </summary>
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly IIdentityService _identityService;
-    private readonly IDateTime _dateTime;
-    private readonly List<Action> _operations;
-    private readonly List<IAggregateRoot> _added;
-    private readonly List<IAggregateRoot> _modified;
-    private readonly List<IAggregateRoot> _deleted;
+    /// <summary>  </summary>
+    protected readonly IEntityAuditableService AuditableService;
 
     /// <summary>  </summary>
-    public UnitOfWork(IIdentityService identityService, IDateTime dateTime)
+    protected readonly IClassValidatorService ClassValidatorService;
+
+    /// <summary>  </summary>
+    protected readonly List<Action> Operations;
+
+    /// <summary>  </summary>
+    protected readonly List<IAggregateRoot> Added;
+
+    /// <summary>  </summary>
+    protected readonly List<IAggregateRoot> Modified;
+
+    /// <summary>  </summary>
+    protected readonly List<IAggregateRoot> Deleted;
+
+    /// <summary>  </summary>
+    public UnitOfWork(IEntityAuditableService auditableService, IClassValidatorService classValidatorService)
     {
-        _identityService = identityService;
-        _dateTime = dateTime;
-        _operations = new List<Action>();
-        _added = new List<IAggregateRoot>();
-        _modified = new List<IAggregateRoot>();
-        _deleted = new List<IAggregateRoot>();
+        AuditableService = auditableService;
+        ClassValidatorService = classValidatorService;
+        Operations = new List<Action>();
+        Added = new List<IAggregateRoot>();
+        Modified = new List<IAggregateRoot>();
+        Deleted = new List<IAggregateRoot>();
     }
 
     /// <summary>  </summary>
-    public void AddOperation(Action operation, IAggregateRoot aggregateRoot)
+    public void AddOperation(IAggregateRoot aggregateRoot, Action operation)
     {
-        _operations.Add(operation);
-        _added.Add(aggregateRoot);
+        Operations.Add(operation);
+        Added.Add(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void AddOperation(Action operation, IEnumerable<IAggregateRoot> aggregates)
+    public void AddOperation(IEnumerable<IAggregateRoot> aggregates, Action operation)
     {
-        _operations.Add(operation);
-        _added.AddRange(aggregates);
+        Operations.Add(operation);
+        Added.AddRange(aggregates);
     }
 
     /// <summary>  </summary>
-    public void UpdateOperation(Action operation, IAggregateRoot aggregateRoot)
+    public void UpdateOperation(IAggregateRoot aggregateRoot, Action operation)
     {
-        _operations.Add(operation);
-        _modified.Add(aggregateRoot);
+        Operations.Add(operation);
+        Modified.Add(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void UpdateOperation(Action operation, IEnumerable<IAggregateRoot> aggregates)
+    public void UpdateOperation(IEnumerable<IAggregateRoot> aggregates, Action operation)
     {
-        _operations.Add(operation);
-        _modified.AddRange(aggregates);
+        Operations.Add(operation);
+        Modified.AddRange(aggregates);
     }
 
     /// <summary>  </summary>
-    public void RemoveOperation(Action operation, IAggregateRoot aggregateRoot)
+    public void RemoveOperation(IAggregateRoot aggregateRoot, Action deleteOperation, Action updateOperation)
     {
-        _operations.Add(operation);
-        _deleted.Add(aggregateRoot);
-    }
-
-    /// <summary>  </summary>
-    public void RemoveOperation(Action operation, IEnumerable<IAggregateRoot> aggregates)
-    {
-        _operations.Add(operation);
-        _deleted.AddRange(aggregates);
+        if (aggregateRoot is IEntityAuditableLogicalRemove)
+        {
+            Operations.Add(updateOperation);
+            Modified.Add(aggregateRoot);
+        }
+        else
+        {
+            Operations.Add(deleteOperation);
+            Deleted.Add(aggregateRoot);
+        }
     }
 
     /// <summary>  </summary>
     public virtual int SaveChanges()
     {
-        var total = _operations.Count;
+        ClassValidatorService.ValidateDataAnnotations(Added.Concat(Modified).Concat(Deleted));
 
-        SetAuditableAggregatesValues();
+        ClassValidatorService.ValidateValidatableObjects(Added.Concat(Modified).Concat(Deleted)
+            .OfType<IValidatableObject>());
 
-        _operations.ForEach(o => o.Invoke());
+        AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
+            Deleted.OfType<IEntityAuditableLogicalRemove>());
+
+        var total = Operations.Count;
+
+        Operations.ForEach(o => o.Invoke());
 
         Rollback();
 
@@ -84,14 +103,31 @@ public class UnitOfWork : IUnitOfWork
     /// <summary>  </summary>
     public Result<int> SaveChangesResult()
     {
-        return SaveChanges();
+        return Result
+            .Create(Unit.Value)
+            .Combine(
+                ClassValidatorService.ValidateDataAnnotationsResult(Added.Concat(Modified).Concat(Deleted)),
+                ClassValidatorService.ValidateValidatableObjectsResult(Added.Concat(Modified).Concat(Deleted)
+                    .OfType<IValidatableObject>()))
+            .Tap(_ => AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
+                Deleted.OfType<IEntityAuditableLogicalRemove>()))
+            .TryBind(_ =>
+            {
+                var total = Operations.Count;
+
+                Operations.ForEach(o => o.Invoke());
+
+                Rollback();
+
+                return total;
+            });
     }
 
     /// <summary>  </summary>
     public int Rollback()
     {
-        var total = _operations.Count;
-        _operations.Clear();
+        var total = Operations.Count;
+        Operations.Clear();
         return total;
     }
 
@@ -101,24 +137,4 @@ public class UnitOfWork : IUnitOfWork
         return Rollback();
     }
 
-    private void SetAuditableAggregatesValues()
-    {
-        var now = _dateTime.UtcNow;
-        var user = _identityService.UserId;
-
-        foreach (var added in _added.OfType<IEntityAuditable>())
-        {
-            added.Create(now, user);
-        }
-
-        foreach (var modified in _modified.OfType<IEntityAuditable>())
-        {
-            modified.Change(now, user);
-        }
-
-        foreach (var removed in _deleted.OfType<IEntityAuditableLogicalRemove>())
-        {
-            removed.Delete(now, user);
-        }
-    }
 }

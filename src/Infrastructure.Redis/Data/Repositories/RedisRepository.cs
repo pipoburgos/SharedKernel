@@ -39,9 +39,8 @@ public abstract class RedisRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public void Add(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(
-            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)),
-            aggregateRoot);
+        UnitOfWork.AddOperation(aggregateRoot,
+            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>
@@ -83,9 +82,8 @@ public abstract class RedisRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.UpdateOperation(
-            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)),
-            aggregateRoot);
+        UnitOfWork.UpdateOperation(aggregateRoot,
+            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>
@@ -100,7 +98,8 @@ public abstract class RedisRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.RemoveOperation(() => DistributedCache.Remove(GetKey(aggregateRoot.Id)), aggregateRoot);
+        UnitOfWork.RemoveOperation(aggregateRoot, () => DistributedCache.Remove(GetKey(aggregateRoot.Id)),
+            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>

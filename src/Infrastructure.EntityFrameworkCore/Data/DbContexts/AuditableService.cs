@@ -1,170 +1,139 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedKernel.Application.Logging;
-using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Entities;
+using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
+
+/// <summary>  </summary>
+public class AuditableService : IAuditableService
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class AuditableService : IAuditableService
+    private readonly IEntityAuditableService _entityAuditableService;
+    private readonly IGuid _guid;
+    private readonly IDateTime _dateTime;
+    private readonly ICustomLogger<AuditableService> _customLogger;
+
+    /// <summary>  </summary>
+    public AuditableService(IEntityAuditableService entityAuditableService, IGuid guid, IDateTime dateTime,
+        ICustomLogger<AuditableService> customLogger)
     {
-        private readonly IIdentityService _identityService;
-        private readonly IDateTime _dateTime;
-        private readonly IGuid _guid;
-        private readonly ICustomLogger<AuditableService> _customLogger;
+        _entityAuditableService = entityAuditableService;
+        _guid = guid;
+        _dateTime = dateTime;
+        _customLogger = customLogger;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="identityService"></param>
-        /// <param name="dateTime"></param>
-        /// <param name="guid"></param>
-        /// <param name="customLogger"></param>
-        public AuditableService(IIdentityService identityService, IDateTime dateTime,
-            IGuid guid, ICustomLogger<AuditableService> customLogger)
+    /// <summary>  </summary>
+    public void Audit(DbContext dbContext)
+    {
+        ModifyAuditableEntities(dbContext);
+
+        if (Exists<AuditChange>(dbContext))
+            AddToAuditChangeDbSet(dbContext);
+    }
+
+    private static bool Exists<TEntity>(DbContext context) where TEntity : class
+    {
+        var metaData = context.Model.FindEntityType(typeof(TEntity));
+
+        return metaData != null;
+    }
+
+    /// <summary> https://stackoverflow.com/questions/26355486/entity-framework-6-audit-track-changes </summary>
+    private void ModifyAuditableEntities(DbContext context)
+    {
+        var auditedEntities = context.ChangeTracker.Entries<IEntityAuditable>().ToList();
+        var auditedLogicalRemoveEntities = context.ChangeTracker.Entries<IEntityAuditableLogicalRemove>()
+            .Where(p => p.State == EntityState.Deleted).ToList();
+
+        _entityAuditableService.Audit(
+            auditedEntities.Where(p => p.State == EntityState.Added).Select(e => e.Entity).ToList(),
+            auditedEntities.Where(p => p.State == EntityState.Modified).Select(e => e.Entity).ToList(),
+            auditedLogicalRemoveEntities.Select(e => e.Entity));
+
+        foreach (var removed in auditedLogicalRemoveEntities)
         {
-            _identityService = identityService;
-            _dateTime = dateTime;
-            _guid = guid;
-            _customLogger = customLogger;
+            _customLogger.Verbose($"Logically deleting the entity {removed.Entity.GetType()}");
+            removed.State = EntityState.Modified;
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dbContext"></param>
-        public void Audit(DbContext dbContext)
+    private void AddToAuditChangeDbSet(DbContext context)
+    {
+        var auditChangesDbSet = context.Set<AuditChange>();
+
+        var auditChanges = new List<AuditChange>();
+
+        foreach (var entity in context.ChangeTracker.Entries()
+            .Where(p => p.State == EntityState.Added || p.State == EntityState.Modified || p.State == EntityState.Deleted)
+            .Select(p => p.Entity))
         {
-            ModifyAuditableEntities(dbContext);
+            var propertyNames = new List<string>();
 
-            if (Exists<AuditChange>(dbContext))
-                AddToAuditChangeDbSet(dbContext);
-        }
+            PropertyValues originalValues = default!;
+            PropertyValues currentValues = default!;
 
-        private static bool Exists<TEntity>(DbContext context) where TEntity : class
-        {
-            var metaData = context.Model.FindEntityType(typeof(TEntity));
-
-            return metaData != null;
-        }
-
-        /// <summary>
-        /// https://stackoverflow.com/questions/26355486/entity-framework-6-audit-track-changes
-        /// </summary>
-        /// <param name="context"></param>
-        private void ModifyAuditableEntities(DbContext context)
-        {
-            var now = _dateTime.UtcNow;
-            // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
-            var user = _identityService?.UserId ?? Guid.Empty;
-            var auditedEntities = context.ChangeTracker.Entries<IEntityAuditable>().ToList();
-
-            foreach (var added in auditedEntities.Where(p => p.State == EntityState.Added)
-                .Select(p => p.Entity))
+            if (context.Entry(entity).State == EntityState.Modified)
             {
-                added.Create(now, user);
+                originalValues = context.Entry(entity).OriginalValues;
+                propertyNames = originalValues.Properties.Select(p => p.Name).ToList();
             }
 
-            foreach (var modified in auditedEntities.Where(p => p.State == EntityState.Modified)
-                .Select(p => p.Entity))
+            if (context.Entry(entity).State != EntityState.Deleted)
             {
-                modified.Change(now, user);
+                currentValues = context.Entry(entity).CurrentValues;
+                propertyNames = currentValues.Properties.Select(p => p.Name).ToList();
             }
 
-            var auditedLogicalRemoveEntities = context
-                .ChangeTracker
-                .Entries<IEntityAuditableLogicalRemove>()
-                .Where(p => p.State == EntityState.Deleted)
-                .ToList();
+            var id = (propertyNames.Any(pn => pn == "Id") ? "Id" : null) ?? (propertyNames.Any(pn => pn == "EntityId") ? "EntityId" : null);
 
-            foreach (var removed in auditedLogicalRemoveEntities)
+            var registryId = Guid.Empty.ToString();
+            if (id == null)
             {
-                _customLogger.Verbose($"Logically deleting the entity {removed.Entity.GetType()}");
-                removed.Entity.Delete(now, user);
-                removed.State = EntityState.Modified;
+                var exception = new Exception($"Property not found {string.Join(",", propertyNames)}");
+                _customLogger.Error(exception, exception.Message);
             }
-        }
-
-
-        private void AddToAuditChangeDbSet(DbContext context)
-        {
-            var auditChangesDbSet = context.Set<AuditChange>();
-
-            var auditChanges = new List<AuditChange>();
-
-            foreach (var entity in context.ChangeTracker.Entries()
-                .Where(p => p.State == EntityState.Added || p.State == EntityState.Modified || p.State == EntityState.Deleted)
-                .Select(p => p.Entity))
+            else
             {
-                var propertyNames = new List<string>();
+                if (originalValues != default!)
+                    registryId = originalValues[id]?.ToString() ?? Guid.Empty.ToString();
 
-                PropertyValues originalValues = default!;
-                PropertyValues currentValues = default!;
+                if (currentValues != default!)
+                    registryId = currentValues[id]?.ToString() ?? Guid.Empty.ToString();
+            }
 
-                if (context.Entry(entity).State == EntityState.Modified)
-                {
-                    originalValues = context.Entry(entity).OriginalValues;
-                    propertyNames = originalValues.Properties.Select(p => p.Name).ToList();
-                }
+            var state = (State)context.Entry(entity).State;
 
-                if (context.Entry(entity).State != EntityState.Deleted)
-                {
-                    currentValues = context.Entry(entity).CurrentValues;
-                    propertyNames = currentValues.Properties.Select(p => p.Name).ToList();
-                }
+            if (state == State.Deleted)
+            {
+                var auditChange = AuditChange.Create(_guid.NewGuid(), registryId, entity.GetType().Name, "Deleted",
+                    null, null, _dateTime.UtcNow, state);
 
-                var id = (propertyNames.Any(pn => pn == "Id") ? "Id" : null) ?? (propertyNames.Any(pn => pn == "EntityId") ? "EntityId" : null);
+                auditChanges.Add(auditChange);
+                continue;
+            }
 
-                var registryId = Guid.Empty.ToString();
-                if (id == null)
-                {
-                    var exception = new Exception($"Property not found {string.Join(",", propertyNames)}");
-                    _customLogger.Error(exception, exception.Message);
-                }
-                else
-                {
-                    if (originalValues != default!)
-                        registryId = originalValues[id]?.ToString() ?? Guid.Empty.ToString();
+            foreach (var propertyName in propertyNames)
+            {
+                object? original = default;
+                if (originalValues != default!)
+                    original = originalValues[propertyName];
 
-                    if (currentValues != default!)
-                        registryId = currentValues[id]?.ToString() ?? Guid.Empty.ToString();
-                }
+                object? current = default;
+                if (currentValues != default!)
+                    current = currentValues[propertyName];
 
-                var state = (State)context.Entry(entity).State;
-
-                if (state == State.Deleted)
-                {
-                    var auditChange = AuditChange.Create(_guid.NewGuid(), registryId, entity.GetType().Name, "Deleted",
-                        null, null, _dateTime.UtcNow, state);
-
-                    auditChanges.Add(auditChange);
+                if ((original == default && current == default) || Equals(original, current))
                     continue;
-                }
 
-                foreach (var propertyName in propertyNames)
-                {
-                    object? original = default;
-                    if (originalValues != default!)
-                        original = originalValues[propertyName];
+                var auditChange = AuditChange.Create(_guid.NewGuid(), registryId, entity.GetType().Name,
+                    propertyName, original?.ToString(), current?.ToString(), _dateTime.UtcNow, state);
 
-                    object? current = default;
-                    if (currentValues != default!)
-                        current = currentValues[propertyName];
-
-                    if ((original == default && current == default) || Equals(original, current))
-                        continue;
-
-                    var auditChange = AuditChange.Create(_guid.NewGuid(), registryId, entity.GetType().Name,
-                        propertyName, original?.ToString(), current?.ToString(), _dateTime.UtcNow, state);
-
-                    auditChanges.Add(auditChange);
-                }
+                auditChanges.Add(auditChange);
             }
-
-            auditChangesDbSet.AddRange(auditChanges);
         }
+
+        auditChangesDbSet.AddRange(auditChanges);
     }
 }

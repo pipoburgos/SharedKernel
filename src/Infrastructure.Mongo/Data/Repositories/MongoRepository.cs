@@ -70,13 +70,16 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public void Add(TAggregateRoot aggregateRoot)
     {
-        MongoUnitOfWork.AddOperation(() => MongoCollection.InsertOne(MongoUnitOfWork.GetSession(), aggregateRoot), aggregateRoot);
+        MongoUnitOfWork.AddOperation(aggregateRoot,
+            () => MongoCollection.InsertOne(MongoUnitOfWork.GetSession(), aggregateRoot));
     }
 
     /// <summary>  </summary>
     public void AddRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        MongoUnitOfWork.AddOperation(() => MongoCollection.InsertMany(MongoUnitOfWork.GetSession(), aggregates), aggregates);
+        var list = aggregates.ToList();
+        MongoUnitOfWork.AddOperation(list,
+            () => MongoCollection.InsertMany(MongoUnitOfWork.GetSession(), list));
     }
 
     /// <summary>  </summary>
@@ -112,9 +115,9 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        MongoUnitOfWork.UpdateOperation(() =>
+        MongoUnitOfWork.UpdateOperation(aggregateRoot, () =>
             MongoCollection.FindOneAndReplace(MongoUnitOfWork.GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
-                aggregateRoot), aggregateRoot);
+                aggregateRoot));
     }
 
     /// <summary>  </summary>
@@ -129,16 +132,19 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        MongoUnitOfWork.RemoveOperation(() =>
-            MongoCollection.DeleteOne(MongoUnitOfWork.GetSession(), a => a.Id!.Equals(aggregateRoot.Id)), aggregateRoot);
+        MongoUnitOfWork.RemoveOperation(aggregateRoot,
+            () => MongoCollection.DeleteOne(MongoUnitOfWork.GetSession(), a => a.Id!.Equals(aggregateRoot.Id)),
+            () => MongoCollection.FindOneAndReplace(MongoUnitOfWork.GetSession(), b => b.Id!.Equals(aggregateRoot.Id),
+                aggregateRoot));
     }
 
     /// <summary>  </summary>
     public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
     {
-        MongoUnitOfWork.RemoveOperation(() =>
-            MongoCollection.DeleteMany(MongoUnitOfWork.GetSession(),
-                a => aggregate.Select(x => x.Id).Contains(a.Id)), aggregate);
+        foreach (var aggregateRoot in aggregate)
+        {
+            Remove(aggregateRoot);
+        }
     }
 
     /// <summary>  </summary>

@@ -33,14 +33,14 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     /// <summary>  </summary>
     public void Add(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(() =>
+        UnitOfWork.AddOperation(aggregateRoot, () =>
         {
-            var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+            var response = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
                 JsonSerializer.Serialize(aggregateRoot));
 
-            if (!result.Success)
-                throw new Exception(result.Body);
-        }, aggregateRoot);
+            if (!response.Success)
+                throw response.OriginalException;
+        });
     }
 
     /// <summary>  </summary>
@@ -71,26 +71,34 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     /// <summary>  </summary>
     public bool Any(TId id)
     {
-        throw new NotImplementedException();
+        var response = Client.Get<StringResponse>(Index, id.ToString());
+
+        if (response.Success && response.HttpStatusCode == 200)
+            return true;
+
+        if (response.HttpStatusCode == 404)
+            return false;
+
+        throw response.OriginalException;
     }
 
     /// <summary>  </summary>
     public bool NotAny(TId id)
     {
-        throw new NotImplementedException();
+        return !Any(id);
     }
 
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.UpdateOperation(() =>
+        UnitOfWork.UpdateOperation(aggregateRoot, () =>
         {
-            var result = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+            var response = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
                 JsonSerializer.Serialize(aggregateRoot));
 
-            if (!result.Success)
-                throw new Exception(result.Body);
-        }, aggregateRoot);
+            if (!response.Success)
+                throw response.OriginalException;
+        });
     }
 
     /// <summary>  </summary>
@@ -105,12 +113,29 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        throw new NotImplementedException();
+        UnitOfWork.RemoveOperation(aggregateRoot, () =>
+            {
+                var response = Client.Delete<StringResponse>(Index, aggregateRoot.Id.ToString());
+
+                if (!response.Success)
+                    throw response.OriginalException;
+            }, () =>
+            {
+                var response = Client.Index<StringResponse>(Index, aggregateRoot.Id.ToString(),
+                    JsonSerializer.Serialize(aggregateRoot));
+
+                if (!response.Success)
+                    throw response.OriginalException;
+            }
+        );
     }
 
     /// <summary>  </summary>
     public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        throw new NotImplementedException();
+        foreach (var aggregateRoot in aggregates)
+        {
+            Update(aggregateRoot);
+        }
     }
 }

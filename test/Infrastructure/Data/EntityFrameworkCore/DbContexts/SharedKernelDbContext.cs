@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
@@ -6,8 +7,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 public class SharedKernelDbContext : DbContextBase, ISharedKernelUnitOfWork
 {
     public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options,
-        IValidatableObjectService? validatableObjectService = default, IAuditableService? auditable = default)
-        : base(options, "skr", typeof(SharedKernelDbContext).Assembly, validatableObjectService, auditable)
+        IClassValidatorService? classValidatorService = default, IAuditableService? auditableService = default) : base(
+        options, "skr", typeof(SharedKernelDbContext).Assembly, classValidatorService, auditableService)
     {
     }
 }
