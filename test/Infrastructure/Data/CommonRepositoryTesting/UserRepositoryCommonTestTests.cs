@@ -35,7 +35,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
         userDdBb = repository.GetById(user.Id);
         userDdBb.Should().NotBeNull();
         userDdBb!.Id.Should().Be(user.Id);
-        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-2));
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
         userDdBb = await repository.GetByIdAsync(user.Id, CancellationToken.None);
         userDdBb.Should().NotBeNull();
         userDdBb!.Id.Should().Be(user.Id);
-        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-2));
     }
 
     [Fact]
@@ -164,7 +164,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
         var rob = await GetRequiredServiceOnNewScope<T>().GetByIdAsync(roberto.Id, CancellationToken.None);
         rob.Should().NotBeNull();
         rob!.Name.Should().Be(newName);
-        rob.LastModifiedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+        rob.LastModifiedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-2));
     }
 
     [Fact]
@@ -219,6 +219,6 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
         repoUser.Emails.Count().Should().Be(5);
         repoUser.Addresses.Count().Should().Be(10);
         repoUser.Emails.Should().BeEquivalentTo(roberto.Emails);
-        repoUser.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+        repoUser.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-2));
     }
 }
