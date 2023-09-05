@@ -28,7 +28,7 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     protected string FileName(TId id)
     {
-        return $"{Directory}/{typeof(TAggregateRoot).Name}.{id}.repository";
+        return $"{Directory}/{typeof(TAggregateRoot).Name}.{id}.json";
     }
 
     /// <summary>  </summary>

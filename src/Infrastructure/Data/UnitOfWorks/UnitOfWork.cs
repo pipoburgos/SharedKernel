@@ -83,17 +83,11 @@ public class UnitOfWork : IUnitOfWork
         AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
             Deleted.OfType<IEntityAuditableLogicalRemove>());
 
-        var total = Operations.Count;
-
-        Operations.ForEach(o => o.Invoke());
-
-        Rollback();
-
-        return total;
+        return Commit();
     }
 
     /// <summary>  </summary>
-    public Result<int> SaveChangesResult()
+    public virtual Result<int> SaveChangesResult()
     {
         return Result
             .Create(Unit.Value)
@@ -103,16 +97,7 @@ public class UnitOfWork : IUnitOfWork
                     .OfType<IValidatableObject>()))
             .Tap(_ => AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
                 Deleted.OfType<IEntityAuditableLogicalRemove>()))
-            .TryBind(_ =>
-            {
-                var total = Operations.Count;
-
-                Operations.ForEach(o => o.Invoke());
-
-                Rollback();
-
-                return total;
-            });
+            .TryBind(_ => Commit());
     }
 
     /// <summary>  </summary>
@@ -120,6 +105,9 @@ public class UnitOfWork : IUnitOfWork
     {
         var total = Operations.Count;
         Operations.Clear();
+        Added.Clear();
+        Modified.Clear();
+        Deleted.Clear();
         return total;
     }
 
@@ -129,4 +117,24 @@ public class UnitOfWork : IUnitOfWork
         return Rollback();
     }
 
+    private int Commit()
+    {
+        var total = Operations.Count;
+
+        BeforeCommit();
+
+        Operations.ForEach(o => o.Invoke());
+
+        AfterCommit();
+
+        Rollback();
+
+        return total;
+    }
+
+    /// <summary>  </summary>
+    protected virtual void BeforeCommit() { }
+
+    /// <summary>  </summary>
+    protected virtual void AfterCommit() { }
 }

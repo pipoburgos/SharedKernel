@@ -8,7 +8,7 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 
 public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
-    where T : class, IRepository<User, Guid>, ISaveRepository
+    where T : class, IRepositoryAsync<User, Guid>, ISaveRepository, ISaveRepositoryAsync
 {
     protected virtual void Regenerate() { }
 
@@ -108,6 +108,112 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
 
         repoUser.Should().NotBeNull();
         repoUser.Id.Should().Be(roberto.Id);
+        repoUser.Name.Should().Be(roberto.Name);
+        repoUser.NumberOfChildren.Should().Be(roberto.NumberOfChildren);
+        repoUser.Emails.Count().Should().Be(5);
+        repoUser.Addresses.Count().Should().Be(10);
+        repoUser.Emails.Should().BeEquivalentTo(roberto.Emails);
+        repoUser.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+    }
+
+    [Fact]
+    public async Task TestGetByIdAndSaveChangesAsync()
+    {
+        Regenerate();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+        var user = UserMother.Create();
+        await repository.AddAsync(user, CancellationToken.None);
+
+        // Test not exists if not call SaveChanges
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var userDdBb = await repository2.GetByIdAsync(user.Id, CancellationToken.None);
+        userDdBb.Should().BeNull();
+
+
+        var total = await repository.SaveChangesAsync(CancellationToken.None);
+
+        total.Should().BeGreaterOrEqualTo(1);
+
+        repository = GetRequiredServiceOnNewScope<T>();
+        userDdBb = await repository.GetByIdAsync(user.Id, CancellationToken.None);
+        userDdBb.Should().NotBeNull();
+        userDdBb!.Id.Should().Be(user.Id);
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+    }
+
+    [Fact]
+    public async Task TestNameChangesTestUpdateMethodAsync()
+    {
+        Regenerate();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+        const string newName = "Test";
+        var roberto = UserMother.Create();
+        // Test synchronous and async methods together
+        repository.Add(roberto);
+        await repository.SaveChangesAsync(CancellationToken.None);
+
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var repoUser = await repository2.GetByIdAsync(roberto.Id, CancellationToken.None);
+        repoUser.Should().NotBeNull();
+        repoUser!.ChangeName(newName);
+        await repository2.UpdateAsync(repoUser, CancellationToken.None);
+        await repository2.SaveChangesAsync(CancellationToken.None);
+
+        var rob = await GetRequiredServiceOnNewScope<T>().GetByIdAsync(roberto.Id, CancellationToken.None);
+        rob.Should().NotBeNull();
+        rob!.Name.Should().Be(newName);
+        rob.LastModifiedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
+    }
+
+    [Fact]
+    public async Task TestDeleteMethodAsync()
+    {
+        Regenerate();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+        var roberto = UserMother.Create();
+        await repository.AddAsync(roberto, CancellationToken.None);
+        await repository.SaveChangesAsync(CancellationToken.None);
+
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var repoUser = await repository2.GetByIdAsync(roberto.Id, CancellationToken.None);
+        repoUser.Should().NotBeNull();
+        await repository2.RemoveAsync(repoUser!, CancellationToken.None);
+        await repository2.SaveChangesAsync(CancellationToken.None);
+
+        var rob = await GetRequiredServiceOnNewScope<T>().GetByIdAsync(roberto.Id, CancellationToken.None)!;
+        rob.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task TestPrivateListPropertiesAndValueObjectsAsync()
+    {
+        Regenerate();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+
+        var roberto = UserMother.Create();
+
+        for (var i = 0; i < 10; i++)
+        {
+            roberto.AddAddress(AddressMother.Create());
+        }
+
+        for (var i = 0; i < 5; i++)
+        {
+            roberto.AddEmail(EmailMother.Create());
+        }
+
+        await repository.AddAsync(roberto, CancellationToken.None);
+        await repository.SaveChangesAsync(CancellationToken.None);
+
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var repoUser = await repository2.GetByIdAsync(roberto.Id, CancellationToken.None);
+
+        repoUser.Should().NotBeNull();
+        repoUser!.Id.Should().Be(roberto.Id);
         repoUser.Name.Should().Be(roberto.Name);
         repoUser.NumberOfChildren.Should().Be(roberto.NumberOfChildren);
         repoUser.Emails.Count().Should().Be(5);

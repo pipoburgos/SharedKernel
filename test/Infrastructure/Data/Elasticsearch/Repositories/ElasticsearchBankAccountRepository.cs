@@ -5,7 +5,7 @@ using SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
 
-public class ElasticsearchBankAccountRepository : ElasticsearchRepository<BankAccount, Guid>
+public class ElasticsearchBankAccountRepository : ElasticsearchRepositoryAsync<BankAccount, Guid>
 {
     public ElasticsearchBankAccountRepository(SharedKernelUnitOfWork unitOfWork, ElasticLowLevelClient client,
         IJsonSerializer jsonSerializer) : base(unitOfWork, client, jsonSerializer)

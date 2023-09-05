@@ -4,7 +4,7 @@ using SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
-public class MongoUserRepository : MongoRepository<User, Guid>
+public class MongoUserRepository : MongoRepositoryAsync<User, Guid>
 {
     static MongoUserRepository()
     {

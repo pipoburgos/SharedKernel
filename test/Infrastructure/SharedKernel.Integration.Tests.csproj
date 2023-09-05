@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
-    <EmbeddedResource Remove="Reporting\**" />
-    <None Remove="Reporting\**" />
-<Compile Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
+    <EmbeddedResource Remove="Reporting\**" />
     <None Remove="Data\Elasticsearch\**" />
+    <None Remove="Reporting\**" />
   </ItemGroup>
 
   <ItemGroup>

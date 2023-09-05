@@ -18,21 +18,47 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
     }
 
     /// <summary>  </summary>
-    public Task AddOperationAsync(Func<Task> operation)
+    public Task AddOperationAsync(IAggregateRoot aggregateRoot, Func<Task> operation)
     {
         _operationsAsync.Add(operation);
+        Added.Add(aggregateRoot);
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public Task AddOperationAsync<T>(Func<Task<T>> operation)
+    public Task AddOperationAsync(IEnumerable<IAggregateRoot> aggregates, Func<Task> operation)
     {
         _operationsAsync.Add(operation);
+        Added.AddRange(aggregates);
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public Task UpdateOperationAsync(IAggregateRoot aggregateRoot, Func<Task> operation)
+    {
+        _operationsAsync.Add(operation);
+        Modified.Add(aggregateRoot);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>  </summary>
+    public Task UpdateOperationAsync(IEnumerable<IAggregateRoot> aggregates, Func<Task> operation)
+    {
+        _operationsAsync.Add(operation);
+        Modified.AddRange(aggregates);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>  </summary>
+    public Task RemoveOperationAsync(IAggregateRoot aggregateRoot, Func<Task> deleteOperation, Func<Task> updateOperation)
+    {
+        _operationsAsync.Add(aggregateRoot is IEntityAuditableLogicalRemove ? updateOperation : deleteOperation);
+        Deleted.Add(aggregateRoot);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>  </summary>
+    public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         ClassValidatorService.ValidateDataAnnotations(Added.Concat(Modified).Concat(Deleted));
 
@@ -42,19 +68,11 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
         AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
             Deleted.OfType<IEntityAuditableLogicalRemove>());
 
-        var total = _operationsAsync.Count + Operations.Count;
-
-        Operations.ForEach(o => o.Invoke());
-
-        await Task.WhenAll(_operationsAsync.Select(o => o()));
-
-        await RollbackAsync(cancellationToken);
-
-        return total;
+        return CommitAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
-    public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
+    public virtual Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
     {
         return Result
             .Create(Unit.Value)
@@ -64,18 +82,7 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
                     .OfType<IValidatableObject>()))
             .Tap(_ => AuditableService.Audit(Added.OfType<IEntityAuditable>(), Modified.OfType<IEntityAuditable>(),
                 Deleted.OfType<IEntityAuditableLogicalRemove>()))
-            .TryBind(async _ =>
-            {
-                var total = Operations.Count;
-
-                Operations.ForEach(o => o.Invoke());
-
-                await Task.WhenAll(_operationsAsync.Select(o => o()));
-
-                await RollbackAsync(cancellationToken);
-
-                return total;
-            });
+            .TryBind(async _ => await CommitAsync(cancellationToken));
     }
 
     /// <summary>  </summary>
@@ -84,6 +91,9 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
         var total = Operations.Count + _operationsAsync.Count;
         Operations.Clear();
         _operationsAsync.Clear();
+        Added.Clear();
+        Modified.Clear();
+        Deleted.Clear();
         return Task.FromResult(total);
     }
 
@@ -92,4 +102,27 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
     {
         return Task.FromResult(Result.Create(Rollback()));
     }
+
+    private async Task<int> CommitAsync(CancellationToken cancellationToken)
+    {
+        var total = _operationsAsync.Count + Operations.Count;
+
+        await BeforeCommitAsync(cancellationToken);
+
+        Operations.ForEach(o => o.Invoke());
+
+        await Task.WhenAll(_operationsAsync.Select(o => o()));
+
+        await AfterCommitAsync(cancellationToken);
+
+        await RollbackAsync(cancellationToken);
+
+        return total;
+    }
+
+    /// <summary>  </summary>
+    protected virtual Task BeforeCommitAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+    /// <summary>  </summary>
+    protected virtual Task AfterCommitAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }

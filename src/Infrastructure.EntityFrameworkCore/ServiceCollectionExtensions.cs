@@ -10,12 +10,12 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> Add service Sql Server into IServiceCollection. </summary>
     public static IServiceCollection AddEntityFrameworkCoreInMemoryUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
-        string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
+        string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services
             .AddEntityFramework()
             .AddDbContext<TDbContext>(a => a
-                .UseInMemoryDatabase(connectionString))
+                .UseInMemoryDatabase(connectionString), serviceLifetime)
 #if !NET6_0 && !NET7_0 && !NET8_0
             .AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>))
 #else

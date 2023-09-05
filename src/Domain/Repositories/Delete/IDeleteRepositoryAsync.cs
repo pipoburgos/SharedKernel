@@ -7,5 +7,5 @@ public interface IDeleteRepositoryAsync<in TAggregate> where TAggregate : IAggre
     Task RemoveAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
-    Task RemoveRangeAsync(IEnumerable<TAggregate> aggregate, CancellationToken cancellationToken);
+    Task RemoveRangeAsync(IEnumerable<TAggregate> aggregates, CancellationToken cancellationToken);
 }

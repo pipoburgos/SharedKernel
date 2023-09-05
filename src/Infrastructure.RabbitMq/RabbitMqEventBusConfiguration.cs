@@ -18,9 +18,8 @@ public class RabbitMqEventBusConfiguration : BackgroundService
     }
 
     /// <summary>  </summary>
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Delay(5_000, stoppingToken);
         using var scope = _serviceScopeFactory.CreateScope();
 
         var channel = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Channel();
@@ -28,6 +27,8 @@ public class RabbitMqEventBusConfiguration : BackgroundService
 
         ConsumeQueue(scope, channel, requestsTypes.Where(rt => !rt.IsTopic));
         ConsumeTopics(scope, channel, requestsTypes.Where(rt => rt.IsTopic));
+
+        return Task.CompletedTask;
     }
 
     private void ConsumeQueue(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)

@@ -12,9 +12,9 @@ public static class ServiceCollectionExtensions
     /// <summary>  </summary>
     public static IServiceCollection AddMongoUnitOfWork<TInterface, TClass>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
-        where TClass : MongoUnitOfWork, TInterface where TInterface : IUnitOfWork
+        where TClass : MongoUnitOfWorkAsync, TInterface where TInterface : IUnitOfWork
     {
-        services.Add(new ServiceDescriptor(typeof(MongoUnitOfWork), typeof(MongoUnitOfWork), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(MongoUnitOfWorkAsync), typeof(MongoUnitOfWorkAsync), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
         return services
@@ -28,7 +28,6 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TClass : MongoUnitOfWorkAsync, TInterface where TInterface : IUnitOfWorkAsync
     {
-        services.Add(new ServiceDescriptor(typeof(MongoUnitOfWorkAsync), typeof(MongoUnitOfWorkAsync), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
         return services

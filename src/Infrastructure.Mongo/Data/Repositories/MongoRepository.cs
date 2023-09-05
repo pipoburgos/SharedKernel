@@ -18,13 +18,13 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
 {
     /// <summary>  </summary>
-    protected readonly MongoUnitOfWork MongoUnitOfWork;
+    protected readonly MongoUnitOfWorkAsync MongoUnitOfWork;
 
     /// <summary>  </summary>
     protected readonly IMongoCollection<TAggregateRoot> MongoCollection;
 
     /// <summary>  </summary>
-    protected MongoRepository(MongoUnitOfWork mongoUnitOfWork)
+    protected MongoRepository(MongoUnitOfWorkAsync mongoUnitOfWork)
     {
         MongoUnitOfWork = mongoUnitOfWork;
         MongoCollection = mongoUnitOfWork.GetCollection<TAggregateRoot>();

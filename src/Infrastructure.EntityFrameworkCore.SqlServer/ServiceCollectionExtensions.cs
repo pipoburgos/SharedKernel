@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> Add service Sql Server into IServiceCollection. </summary>
     public static IServiceCollection AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
-        string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
+        string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services
             .AddSqlServerHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
 #if NET6_0 || NET7_0 || NET8_0
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
 #endif
-                    .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!)))
+                    .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!)), serviceLifetime)
 #if !NET6_0 && !NET7_0 && !NET8_0
             .AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>))
 #else

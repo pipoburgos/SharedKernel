@@ -141,7 +141,7 @@ internal class RabbitMqConsumer
     private void SendMessageTo(string exchange, string exchangeType, BasicDeliverEventArgs ea, string queue)
     {
         var channel = _config.Channel();
-        channel.ExchangeDeclare(exchange, exchangeType);//ExchangeType.Topic);
+        channel.ExchangeDeclare(exchange, exchangeType);
 
         var body = ea.Body;
         var properties = ea.BasicProperties;

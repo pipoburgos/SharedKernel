@@ -4,7 +4,7 @@ using SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
-public class MongoBankAccountRepository : MongoRepository<BankAccount, Guid>
+public class MongoBankAccountRepository : MongoRepositoryAsync<BankAccount, Guid>
 {
     static MongoBankAccountRepository()
     {

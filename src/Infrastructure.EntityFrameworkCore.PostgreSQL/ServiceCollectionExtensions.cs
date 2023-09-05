@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> Add service PostgreSQL into IServiceCollection. </summary>
     public static IServiceCollection AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
-        string connectionString) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
+        string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : DbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWorkAsync
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
 #endif
                     .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!))
-                .UseSnakeCaseNamingConvention())
+                .UseSnakeCaseNamingConvention(), serviceLifetime)
 #if !NET6_0 && !NET7_0 && !NET8_0
                 .AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>))
 #else

@@ -69,7 +69,6 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
 
         var commandBus = GetRequiredServiceOnNewScope<ICommandBusAsync>();
 
-        await Task.Delay(TimeSpan.FromSeconds(secondsRelay));
         var command = new SampleCommand(3);
         await commandBus.Dispatch(command, CancellationToken.None);
 

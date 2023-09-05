@@ -5,7 +5,7 @@ using SharedKernel.Infrastructure.Data.FileSystem.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.FileSystem;
 
-public class FileSystemBankAccountRepository : FileSystemRepository<BankAccount, Guid>
+public class FileSystemBankAccountRepository : FileSystemRepositoryAsync<BankAccount, Guid>
 {
     public FileSystemBankAccountRepository(SharedKernelUnitOfWork unitOfWork, IConfiguration configuration,
         IJsonSerializer jsonSerializer) : base(unitOfWork, configuration, jsonSerializer)

@@ -1,71 +1,76 @@
 ﻿using Microsoft.Extensions.Options;
-using SharedKernel.Application.UnitOfWorks;
+using MongoDB.Driver;
 using SharedKernel.Application.Validator;
-using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
 
 /// <summary>  </summary>
-public class MongoUnitOfWorkAsync : MongoUnitOfWork, IUnitOfWorkAsync
+public class MongoUnitOfWorkAsync : UnitOfWorkAsync, IDisposable
 {
-    private readonly List<Func<Task>> _operationsAsync;
+    /// <summary>  </summary>
+    protected readonly IClientSessionHandle Session;
+
+    /// <summary>  </summary>
+    protected readonly IMongoDatabase MongoDatabase;
+
+    /// <summary>  </summary>
+    protected readonly bool EnableTransactions;
 
     /// <summary>  </summary>
     public MongoUnitOfWorkAsync(IOptions<MongoSettings> options, IEntityAuditableService auditableService,
-        IClassValidatorService classValidatorService) : base(options, auditableService, classValidatorService)
+        IClassValidatorService classValidatorService) : base(auditableService, classValidatorService)
     {
-        _operationsAsync = new List<Func<Task>>();
-    }
-
-
-    /// <summary>  </summary>
-    public Task AddOperationAsync(Func<Task> operation)
-    {
-        _operationsAsync.Add(operation);
-        return Task.CompletedTask;
+        var mongoClient = new MongoClient(options.Value.ConnectionString);
+        MongoDatabase = mongoClient.GetDatabase(options.Value.Database);
+        Session = mongoClient.StartSession();
+        EnableTransactions = options.Value.EnableTransactions;
     }
 
     /// <summary>  </summary>
-    public Task AddOperationAsync<T>(Func<Task<T>> operation)
+    public IMongoCollection<TAggregateRoot> GetCollection<TAggregateRoot>()
     {
-        _operationsAsync.Add(operation);
-        return Task.CompletedTask;
+        return MongoDatabase.GetCollection<TAggregateRoot>(typeof(TAggregateRoot).Name);
     }
 
     /// <summary>  </summary>
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public IClientSessionHandle GetSession()
     {
-        var total = _operationsAsync.Count;
+        return Session;
+    }
 
+    /// <summary>  </summary>
+    protected override void BeforeCommit()
+    {
+        if (EnableTransactions)
+            Session.StartTransaction();
+    }
+
+    /// <summary>  </summary>
+    protected override void AfterCommit()
+    {
+        if (EnableTransactions)
+            Session.CommitTransaction();
+    }
+
+    /// <summary>  </summary>
+    protected override Task BeforeCommitAsync(CancellationToken cancellationToken)
+    {
         if (EnableTransactions)
             Session.StartTransaction();
 
-        await Task.WhenAll(_operationsAsync.Select(o => o()));
-
-        if (EnableTransactions)
-            await Session.CommitTransactionAsync(cancellationToken);
-
-        await RollbackAsync(cancellationToken);
-
-        return total;
+        return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public async Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
+    protected override Task AfterCommitAsync(CancellationToken cancellationToken)
     {
-        return await SaveChangesAsync(cancellationToken);
+        return EnableTransactions ? Session.CommitTransactionAsync(cancellationToken) : Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public Task<int> RollbackAsync(CancellationToken cancellationToken)
+    public void Dispose()
     {
-        return Task.FromResult(Rollback());
-    }
-
-    /// <summary>  </summary>
-    public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
-    {
-        return Task.FromResult(Result.Create(Rollback()));
+        Session.Dispose();
     }
 }
