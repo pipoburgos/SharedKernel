@@ -135,6 +135,9 @@
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="System\Threading\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
