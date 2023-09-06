@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Tests.BankAccounts;
-using SharedKernel.Infrastructure.Data.FileSystem.Repositories;
+using SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.FileSystem;
 

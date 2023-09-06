@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Data.FileSystem;
+using SharedKernel.Infrastructure.FileSystem.Data;
 using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 

@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.Repositories;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.Repositories;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories;
+namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
 /// <summary>  </summary>
 public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
@@ -34,11 +38,8 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Add(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.AddOperation(aggregateRoot, () =>
-        {
-            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
-            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        });
+        UnitOfWork.AddOperation(aggregateRoot,
+            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>
@@ -60,7 +61,9 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
         var aggregateRoot = JsonSerializer.Deserialize<TAggregateRoot>(text);
         if (aggregateRoot is IEntityAuditableLogicalRemove a)
         {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
+                ? default
+                : aggregateRoot;
         }
 
         return aggregateRoot;
@@ -81,11 +84,8 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Update(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.UpdateOperation(aggregateRoot, () =>
-        {
-            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
-            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        });
+        UnitOfWork.UpdateOperation(aggregateRoot,
+            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>
@@ -100,11 +100,8 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     /// <summary>  </summary>
     public void Remove(TAggregateRoot aggregateRoot)
     {
-        UnitOfWork.RemoveOperation(aggregateRoot, () => File.Delete(FileName(aggregateRoot.Id)), () =>
-        {
-            using var outputFile = new StreamWriter(FileName(aggregateRoot.Id), false);
-            outputFile.WriteLine(JsonSerializer.Serialize(aggregateRoot));
-        });
+        UnitOfWork.RemoveOperation(aggregateRoot, () => File.Delete(FileName(aggregateRoot.Id)),
+            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
     }
 
     /// <summary>  </summary>

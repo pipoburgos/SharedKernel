@@ -1,30 +1,23 @@
 ﻿using Medallion.Threading.SqlServer;
 using SharedKernel.Application.System.Threading;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading;
+
+/// <summary> Sql Server mutex. </summary>
+public class SqlServerMutex : IMutex
 {
-    /// <summary>
-    /// Sql Server mutex
-    /// </summary>
-    public class SqlServerMutex : IMutex
+    private readonly SqlDistributedLockHandle _sqlDistributedLockHandle;
+
+    /// <summary> Constructor. </summary>
+    /// <param name="sqlDistributedLockHandle"></param>
+    public SqlServerMutex(SqlDistributedLockHandle sqlDistributedLockHandle)
     {
-        private readonly SqlDistributedLockHandle _sqlDistributedLockHandle;
+        _sqlDistributedLockHandle = sqlDistributedLockHandle;
+    }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="sqlDistributedLockHandle"></param>
-        public SqlServerMutex(SqlDistributedLockHandle sqlDistributedLockHandle)
-        {
-            _sqlDistributedLockHandle = sqlDistributedLockHandle;
-        }
-
-        /// <summary>
-        /// Release Sql Server mutex
-        /// </summary>
-        public void Release()
-        {
-            _sqlDistributedLockHandle.Dispose();
-        }
+    /// <summary> Release Sql Server mutex. </summary>
+    public void Dispose()
+    {
+        _sqlDistributedLockHandle.Dispose();
     }
 }

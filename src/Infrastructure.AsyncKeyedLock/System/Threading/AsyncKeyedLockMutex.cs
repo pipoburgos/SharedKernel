@@ -14,7 +14,7 @@ public class AsyncKeyedLockMutex : IMutex
     }
 
     /// <summary>  </summary>
-    public void Release()
+    public void Dispose()
     {
         _disposable.Dispose();
     }

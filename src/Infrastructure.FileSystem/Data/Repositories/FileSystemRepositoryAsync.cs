@@ -1,9 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.RailwayOrientedProgramming;
+using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Repositories.Save;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-namespace SharedKernel.Infrastructure.Data.FileSystem.Repositories;
+namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
 /// <summary>  </summary>
 public abstract class FileSystemRepositoryAsync<TAggregateRoot, TId> : FileSystemRepository<TAggregateRoot, TId>,

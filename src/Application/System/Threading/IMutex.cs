@@ -1,13 +1,6 @@
-﻿namespace SharedKernel.Application.System.Threading
+﻿namespace SharedKernel.Application.System.Threading;
+
+/// <summary> Mutex object. </summary>
+public interface IMutex : IDisposable
 {
-    /// <summary>
-    /// Object to release mutex
-    /// </summary>
-    public interface IMutex
-    {
-        /// <summary>
-        /// Relase mutex
-        /// </summary>
-        void Release();
-    }
 }

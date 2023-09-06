@@ -21,7 +21,7 @@ public class MutexManager : IMutexManager
         }
         finally
         {
-            locker.Release();
+            locker.Dispose();
         }
     }
 
@@ -35,7 +35,7 @@ public class MutexManager : IMutexManager
         }
         finally
         {
-            locker.Release();
+            locker.Dispose();
         }
     }
 
@@ -50,7 +50,7 @@ public class MutexManager : IMutexManager
         }
         finally
         {
-            locker.Release();
+            locker.Dispose();
         }
     }
 #endif

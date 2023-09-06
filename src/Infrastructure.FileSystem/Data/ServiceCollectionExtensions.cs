@@ -2,7 +2,7 @@
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-namespace SharedKernel.Infrastructure.Data.FileSystem;
+namespace SharedKernel.Infrastructure.FileSystem.Data;
 
 /// <summary>  </summary>
 public static class ServiceCollectionExtensions
