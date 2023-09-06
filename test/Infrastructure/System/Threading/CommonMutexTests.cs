@@ -32,9 +32,9 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
 
         var tasks = new List<Task>
         {
-            Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey", () => Thread.Sleep(time)))
+            Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time))),
+            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct2", () => Thread.Sleep(time))),
+            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time)))
         };
 
         await Task.WhenAll(tasks);
