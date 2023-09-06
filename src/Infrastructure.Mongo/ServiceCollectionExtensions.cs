@@ -9,7 +9,7 @@ namespace SharedKernel.Infrastructure.Mongo;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    internal static IServiceCollection AddMongoHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddMongoHealthChecks(this IServiceCollection services, IConfiguration configuration, string name)
     {
         var connectionString = configuration
             .GetSection($"{nameof(MongoSettings)}:{nameof(MongoSettings.ConnectionString)}").Value;
@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
         services
             .AddMongoOptions(configuration)
             .AddHealthChecks()
-            .AddMongoDb(connectionString!, "Mongo", HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
+            .AddMongoDb(connectionString!, name, HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
 
         return services;
     }

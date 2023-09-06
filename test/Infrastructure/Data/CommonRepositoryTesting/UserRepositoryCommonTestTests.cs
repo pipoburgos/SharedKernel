@@ -10,12 +10,10 @@ namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
     where T : class, IRepositoryAsync<User, Guid>, ISaveRepository, ISaveRepositoryAsync
 {
-    protected virtual void Regenerate() { }
-
     [Fact]
     public void TestGetByIdAndSaveChanges()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var user = UserMother.Create();
@@ -41,7 +39,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public void TestNameChangesTestUpdateMethod()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         const string newName = "Test";
@@ -64,7 +62,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public void TestDeleteMethod()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var roberto = UserMother.Create();
@@ -84,7 +82,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public void TestPrivateListPropertiesAndValueObjects()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
 
@@ -119,7 +117,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public async Task TestGetByIdAndSaveChangesAsync()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var user = UserMother.Create();
@@ -145,7 +143,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public async Task TestNameChangesTestUpdateMethodAsync()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         const string newName = "Test";
@@ -170,7 +168,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public async Task TestDeleteMethodAsync()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var roberto = UserMother.Create();
@@ -190,7 +188,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     [Fact]
     public async Task TestPrivateListPropertiesAndValueObjectsAsync()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
 

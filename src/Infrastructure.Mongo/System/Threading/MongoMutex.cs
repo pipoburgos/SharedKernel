@@ -1,22 +1,23 @@
 ﻿using DistributedLock.Mongo;
-using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.Mongo.System.Threading;
-
-/// <summary> Redis mutex. </summary>
-internal class MongoMutex : IMutex
+internal class MongoMutex : IDisposable
 {
-    private readonly MongoLock<Guid> _mongoLock;
+    private readonly MongoLock<string>? _mongoLock;
+    private readonly IAcquire? _acquire;
 
-    /// <summary> Constructor. </summary>
-    public MongoMutex(MongoLock<Guid> mongoLock)
+    public MongoMutex()
+    {
+    }
+
+    public MongoMutex(MongoLock<string> mongoLock, IAcquire acquire)
     {
         _mongoLock = mongoLock;
+        _acquire = acquire;
     }
 
-    /// <summary> Release Sql Server mutex. </summary>
-    public void Release()
+    public void Dispose()
     {
+        _mongoLock?.ReleaseAsync(_acquire).GetAwaiter().GetResult();
     }
 }
-    

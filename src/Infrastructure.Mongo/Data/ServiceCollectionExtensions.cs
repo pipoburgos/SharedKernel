@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
         services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
         return services
             .AddSharedKernel()
-            .AddMongoHealthChecks(configuration)
+            .AddMongoHealthChecks(configuration, "Mongo")
             .AddTransient<MongoQueryProvider>();
     }
 

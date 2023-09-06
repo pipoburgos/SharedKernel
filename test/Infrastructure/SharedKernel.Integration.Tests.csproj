@@ -11,10 +11,13 @@
   <ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
+    <Compile Remove="System\Threading\Mongo\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
+    <EmbeddedResource Remove="System\Threading\Mongo\**" />
     <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
+    <None Remove="System\Threading\Mongo\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Api\SharedKernel.Api.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.AsyncKeyedLock\SharedKernel.Infrastructure.AsyncKeyedLock.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
@@ -135,7 +139,13 @@
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="System\Threading\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

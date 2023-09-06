@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAsyncKeyedLockMutex(this IServiceCollection services)
     {
         return services
-            .AddTransient<IMutex, AsyncKeyedLockMutex>()
             .AddTransient<IMutexManager, MutexManager>()
             .AddTransient<IMutexFactory, AsyncKeyedLockMutexFactory>()
             .AddSingleton(new AsyncKeyedLocker<string>(o =>

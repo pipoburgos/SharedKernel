@@ -2,22 +2,23 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
-using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
-using Xunit;
+using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.System.Threading;
+using SharedKernel.Integration.Tests.Data;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
+using SharedKernel.Testing.Infrastructure;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
+namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
 
-[Collection("DockerHook")]
-public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfPostgreSqlUserRepository>
+public class PostgreSqlApp : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()
     {
-        return "Data/EntityFrameworkCore/Repositories/PostgreSql/appsettings.postgreSql.json";
+        return "System/Threading/PostgreSql/appsettings.postgreSql.json";
     }
 
     public override void BeforeStart()
     {
-        var dbContext = GetRequiredService<PostgreSqlSharedKernelDbContext>();
+        var dbContext = GetRequiredServiceOnNewScope<PostgreSqlSharedKernelDbContext>();
         //dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
     }
@@ -25,8 +26,9 @@ public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfP
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
+
         return services
             .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
-            .AddTransient<EfPostgreSqlUserRepository>();
+            .AddPostgreSqlMutex(connection);
     }
 }

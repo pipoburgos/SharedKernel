@@ -10,12 +10,10 @@ namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
     where T : class, IRepositoryAsync<BankAccount, Guid>, ISaveRepository, ISaveRepositoryAsync
 {
-    protected virtual void Regenerate() { }
-
     [Fact]
     public void TestLogicalDeleteWithReadOneRepository()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var bankAccount = BankAccountMother.Create().Value;
@@ -49,7 +47,7 @@ public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTe
     [Fact]
     public async Task TestLogicalDeleteWithReadOneRepositoryAsync()
     {
-        Regenerate();
+        BeforeStart();
 
         var repository = GetRequiredServiceOnNewScope<T>();
         var bankAccount = BankAccountMother.Create().Value;

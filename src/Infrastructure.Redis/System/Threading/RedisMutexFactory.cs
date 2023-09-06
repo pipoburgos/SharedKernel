@@ -15,18 +15,18 @@ internal class RedisMutexFactory : IMutexFactory
         _options = options;
     }
 
-    public IMutex Create(string key)
+    public IDisposable Create(string key)
     {
         var @lock = new RedisDistributedLock(key, GetDatabase());
         var sqlDistributedLockHandle = @lock.Acquire();
-        return new RedisMutex(sqlDistributedLockHandle);
+        return sqlDistributedLockHandle;
     }
 
-    public async Task<IMutex> CreateAsync(string key, CancellationToken cancellationToken)
+    public async Task<IDisposable> CreateAsync(string key, CancellationToken cancellationToken)
     {
         var @lock = new RedisDistributedLock(key, GetDatabase());
         var sqlDistributedLockHandle = await @lock.AcquireAsync(cancellationToken: cancellationToken);
-        return new RedisMutex(sqlDistributedLockHandle);
+        return sqlDistributedLockHandle;
     }
 
     private IDatabase GetDatabase()

@@ -15,7 +15,7 @@ public class EfPostgreSqlBankAccountRepositoryTests : BankAccountRepositoryCommo
         return "Data/EntityFrameworkCore/Repositories/PostgreSql/appsettings.postgreSql.json";
     }
 
-    protected override void Regenerate()
+    public override void BeforeStart()
     {
         var dbContext = GetRequiredService<PostgreSqlSharedKernelDbContext>();
         //dbContext.Database.EnsureDeleted();

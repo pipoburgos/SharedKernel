@@ -41,7 +41,8 @@ public class MutexManager : IMutexManager
 
 #if !NET40
     /// <summary> Run one at time from given key. </summary>
-    public async Task<T> RunOneAtATimeFromGivenKeyAsync<T>(string key, Func<Task<T>> function, CancellationToken cancellationToken)
+    public async Task<T> RunOneAtATimeFromGivenKeyAsync<T>(string key, Func<Task<T>> function,
+        CancellationToken cancellationToken)
     {
         var locker = await _lockerFactory.CreateAsync(key, cancellationToken);
         try

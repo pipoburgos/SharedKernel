@@ -18,73 +18,68 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
     }
 
     [Fact]
-    public void MutexTest()
+    public async Task MutexTestSync()
     {
+        _app1Mutex.BeforeStart();
+        _app2Mutex.BeforeStart();
         var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
         var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
 
-        const int total = 10;
-        const int time = 250;
+        const int time = 7_000;
 
         var timer = new Stopwatch();
-
         timer.Start();
 
-        for (var i = 0; i < total; i++)
+        var tasks = new List<Task>
         {
-            mutexFactory1.RunOneAtATimeFromGivenKey("MutexText", () => Thread.Sleep(time));
+            Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey", () => Thread.Sleep(time))),
+            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct", () => Thread.Sleep(time))),
+            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey", () => Thread.Sleep(time)))
+        };
 
-            mutexFactory1.RunOneAtATimeFromGivenKey("MutexTextDistinct", () => Thread.Sleep(time));
+        await Task.WhenAll(tasks);
 
-            mutexFactory2.RunOneAtATimeFromGivenKey("MutexText", () => Thread.Sleep(time));
-        }
-
-        timer.Stop();
-        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * total);
+        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
+        timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
     }
 
     [Fact]
     public async Task MutexTestAsync()
     {
+        _app1Mutex.BeforeStart();
+        _app2Mutex.BeforeStart();
         var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
         var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
 
-        const int total = 10;
-        const int time = 250;
+        const int time = 7_000;
 
         var tasks = new List<Task>();
 
         var timer = new Stopwatch();
-
         timer.Start();
 
-        for (var i = 0; i < total; i++)
+        tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexKey", async () =>
         {
-            tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexText", async () =>
-                {
-                    await Task.Delay(time);
-                    return Task.CompletedTask;
-                },
-                CancellationToken.None));
+            await Task.Delay(time);
+            return Task.CompletedTask;
+        }, CancellationToken.None));
 
-            tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexTextDistinct", async () =>
-                {
-                    await Task.Delay(time);
-                    return Task.CompletedTask;
-                },
-                CancellationToken.None));
+        tasks.Add(mutexFactory2.RunOneAtATimeFromGivenKeyAsync("MutexKeyDistinct", async () =>
+        {
+            await Task.Delay(time);
+            return Task.CompletedTask;
+        }, CancellationToken.None));
 
-            tasks.Add(mutexFactory2.RunOneAtATimeFromGivenKeyAsync("MutexText", async () =>
-                {
-                    await Task.Delay(time);
-                    return Task.CompletedTask;
-                },
-                CancellationToken.None));
-        }
+        tasks.Add(mutexFactory2.RunOneAtATimeFromGivenKeyAsync("MutexKey", async () =>
+        {
+            await Task.Delay(time);
+            return Task.CompletedTask;
+        }, CancellationToken.None));
 
         await Task.WhenAll(tasks);
 
         timer.Stop();
-        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * total);
+        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
+        timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
     }
 }

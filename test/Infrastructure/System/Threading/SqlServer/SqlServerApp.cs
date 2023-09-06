@@ -2,18 +2,18 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
-using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading;
+using SharedKernel.Integration.Tests.Data;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using Xunit;
+using SharedKernel.Testing.Infrastructure;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer;
+namespace SharedKernel.Integration.Tests.System.Threading.SqlServer;
 
-[Collection("DockerHook")]
-public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCommonTestTests<EfCoreBankAccountRepository>
+public class SqlServerApp : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()
     {
-        return "Data/EntityFrameworkCore/Repositories/SqlServer/appsettings.sqlServer.json";
+        return "System/Threading/SqlServer/appsettings.sqlServer.json";
     }
 
     public override void BeforeStart()
@@ -26,8 +26,9 @@ public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCo
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
+
         return services
             .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(connection)
-            .AddTransient<EfCoreBankAccountRepository>();
+            .AddSqlServerMutex(connection);
     }
 }

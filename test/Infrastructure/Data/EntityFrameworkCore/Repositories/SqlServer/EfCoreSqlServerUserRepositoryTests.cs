@@ -16,7 +16,7 @@ public class EfCoreSqlServerUserRepositoryTests : UserRepositoryCommonTestTests<
         return "Data/EntityFrameworkCore/Repositories/SqlServer/appsettings.sqlServer.json";
     }
 
-    protected override void Regenerate()
+    public override void BeforeStart()
     {
         var dbContext = GetRequiredServiceOnNewScope<SharedKernelDbContext>();
         //dbContext.Database.EnsureDeleted();

@@ -65,4 +65,8 @@ public abstract class InfrastructureTestCase<TStartup> : WebApplicationFactory<T
         return Services.CreateScope().ServiceProvider.GetService<T>();
     }
 
+    public virtual void BeforeStart()
+    {
+
+    }
 }

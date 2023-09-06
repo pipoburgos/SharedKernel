@@ -13,15 +13,15 @@ internal class AsyncKeyedLockMutexFactory : IMutexFactory
         _asyncKeyedLocker = asyncKeyedLocker;
     }
 
-    public IMutex Create(string key)
+    public IDisposable Create(string key)
     {
-        return new AsyncKeyedLockMutex(_asyncKeyedLocker.Lock(key));
+        return _asyncKeyedLocker.Lock(key);
     }
 
-    public async Task<IMutex> CreateAsync(string key, CancellationToken cancellationToken)
+    public async Task<IDisposable> CreateAsync(string key, CancellationToken cancellationToken)
     {
         var disposable = await _asyncKeyedLocker.LockAsync(key, cancellationToken).ConfigureAwait(false);
 
-        return new AsyncKeyedLockMutex(disposable);
+        return disposable;
     }
 }

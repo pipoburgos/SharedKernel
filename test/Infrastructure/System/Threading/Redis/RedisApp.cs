@@ -4,12 +4,11 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.System.Threading.Redis;
 
-
 public class RedisApp : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()
     {
-        return "Data/Redis/appsettings.redis.json";
+        return "System/Threading/Redis/appsettings.redis.json";
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
