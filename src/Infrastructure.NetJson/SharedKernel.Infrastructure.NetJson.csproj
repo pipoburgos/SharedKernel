@@ -19,7 +19,7 @@
     <PackageTags>NetJson</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.2.10.2</Version>
+    <Version>7.2.10.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
