@@ -13,7 +13,7 @@ public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<El
     {
         return services
             .AddElasticsearchUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelUnitOfWork>(
-                new Uri("http://127.0.0.1:22228"))
+                new Uri("http://admin:password@127.0.0.1:22228"))
             .AddNewtonsoftSerializer()
             .AddTransient<ElasticsearchUserRepository>();
     }
