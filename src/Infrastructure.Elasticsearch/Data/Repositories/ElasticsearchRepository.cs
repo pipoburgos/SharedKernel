@@ -24,11 +24,27 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveReposit
     protected readonly IJsonSerializer JsonSerializer;
 
     /// <summary>  </summary>
-    protected ElasticsearchRepository(UnitOfWork unitOfWork, ElasticLowLevelClient client, IJsonSerializer jsonSerializer)
+    protected ElasticsearchRepository(UnitOfWork unitOfWork, ElasticLowLevelClient client,
+        IJsonSerializer jsonSerializer)
         : base(unitOfWork)
     {
         Client = client;
         JsonSerializer = jsonSerializer;
+
+        // Realiza una solicitud HEAD al índice
+        var exists = client.Indices.Exists<StringResponse>(Index);
+
+        if (!exists.Success)
+            return;
+
+        if (exists.HttpStatusCode != 404)
+            return;
+
+        var response = client.Indices.Create<StringResponse>(Index,
+            PostData.Serializable(new { settings = new { number_of_replicas = 2 } }));
+
+        if (!response.Success)
+            throw response.OriginalException;
     }
 
     /// <summary>  </summary>
