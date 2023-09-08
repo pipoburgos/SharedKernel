@@ -48,7 +48,7 @@ public static class CurrentCultureMiddleware
                     if (requestCultur == default)
                     {
                         context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                        context.Response.WriteAsJsonAsync("Invalud Accept-Language values.");
+                        context.Response.WriteAsJsonAsync("Invalid Accept-Language values.");
                         return Task.CompletedTask;
                     }
 
