@@ -13,7 +13,7 @@ namespace SharedKernel.Infrastructure.Redis.Data.Repositories;
 /// <summary>  </summary>
 public abstract class RedisRepositoryAsync<TAggregateRoot, TId> : RedisRepository<TAggregateRoot, TId>,
     IRepositoryAsync<TAggregateRoot, TId>,
-    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     private readonly UnitOfWorkAsync _unitOfWorkAsync;
 

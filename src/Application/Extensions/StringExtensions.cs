@@ -52,13 +52,13 @@ namespace SharedKernel.Application.Extensions
 #if NETCOREAPP || NET5_0 || NET6_0
                 if (stringParam != null)
 #endif
-                    sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
+                sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
 
                 first = false;
 
             }
 
-            return first ? "" : sb.ToString();
+            return first ? string.Empty : sb.ToString();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
+﻿namespace SharedKernel.Infrastructure.Data.Services;
 
 /// <summary>  </summary>
 public interface IEntityAuditableService

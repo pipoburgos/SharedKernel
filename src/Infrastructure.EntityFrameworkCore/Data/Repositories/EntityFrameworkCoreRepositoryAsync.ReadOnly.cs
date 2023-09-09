@@ -12,7 +12,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
     EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId>,
     IReadOnlyRepositoryAsync<TAggregateRoot, TId>,
     IReadOnlySpecificationRepositoryAsync<TAggregateRoot>,
-    IDisposable where TAggregateRoot : class, IAggregateRoot where TDbContext : DbContextBase
+    IDisposable where TAggregateRoot : class, IAggregateRoot<TId> where TDbContext : DbContextBase where TId : notnull
 {
 
     #region Members

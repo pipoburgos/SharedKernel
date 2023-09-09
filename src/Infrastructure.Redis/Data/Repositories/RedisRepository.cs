@@ -10,10 +10,8 @@ using SharedKernel.Infrastructure.Data.UnitOfWorks;
 namespace SharedKernel.Infrastructure.Redis.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class RedisRepository<TAggregateRoot, TId> :
-    SaveRepository,
-    IRepository<TAggregateRoot, TId>
-    where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
+public abstract class RedisRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
     protected readonly IDistributedCache DistributedCache;

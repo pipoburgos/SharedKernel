@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
 public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>, IReadAllRepository<TAggregateRoot>, ISaveRepository
-    where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
     protected readonly MongoUnitOfWorkAsync MongoUnitOfWork;

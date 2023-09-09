@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Application.Validator;
+using SharedKernel.Infrastructure.Data.Services;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Integration.Tests.Data;

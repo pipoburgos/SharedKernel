@@ -311,7 +311,7 @@ namespace SharedKernel.Infrastructure.Dapper.Data.Queries
 
         private string GetLeftJoins()
         {
-            return string.Join("", _leftJoins.Distinct());
+            return string.Join(string.Empty, _leftJoins.Distinct());
         }
 
         #endregion

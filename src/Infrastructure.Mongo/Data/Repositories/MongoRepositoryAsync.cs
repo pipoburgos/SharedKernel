@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 /// <summary>  </summary>
 public abstract class MongoRepositoryAsync<TAggregateRoot, TId> : MongoRepository<TAggregateRoot, TId>,
     IRepositoryAsync<TAggregateRoot, TId>,
-    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
     protected readonly MongoUnitOfWorkAsync MongoUnitOfWorkAsync;

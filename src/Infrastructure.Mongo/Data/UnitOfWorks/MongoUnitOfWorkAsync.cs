@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using SharedKernel.Application.Validator;
+using SharedKernel.Infrastructure.Data.Services;
 using SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;

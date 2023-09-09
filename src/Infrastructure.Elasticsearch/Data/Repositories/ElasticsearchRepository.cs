@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 /// <summary>  </summary>
 public abstract class ElasticsearchRepository<TAggregateRoot, TId> : SaveRepository,
     IRepository<TAggregateRoot, TId>
-    where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
     protected string Index => typeof(TAggregateRoot).Name.ToLower();

@@ -7,3 +7,8 @@ public interface IAggregateRoot
     /// <returns> All domain events recordered. </returns>
     List<DomainEvent> PullDomainEvents();
 }
+
+/// <summary> This root aggregate contains your domain identifier and events. </summary>
+public interface IAggregateRoot<out TId> : IAggregateRoot, IEntity<TId> where TId : notnull
+{
+}

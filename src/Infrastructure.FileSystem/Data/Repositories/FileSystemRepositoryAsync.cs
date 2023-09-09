@@ -13,7 +13,7 @@ namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 /// <summary>  </summary>
 public abstract class FileSystemRepositoryAsync<TAggregateRoot, TId> : FileSystemRepository<TAggregateRoot, TId>,
     IRepositoryAsync<TAggregateRoot, TId>,
-    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     private readonly UnitOfWorkAsync _unitOfWorkAsync;
 

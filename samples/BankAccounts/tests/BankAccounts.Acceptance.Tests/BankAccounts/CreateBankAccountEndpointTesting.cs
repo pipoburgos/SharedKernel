@@ -90,7 +90,7 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             var ex = await response.GetErrorResponse();
-            ex.Should("Invalud Accept-Language values.");
+            ex.Should("Invalid Accept-Language values.");
         }
 
         [Fact]

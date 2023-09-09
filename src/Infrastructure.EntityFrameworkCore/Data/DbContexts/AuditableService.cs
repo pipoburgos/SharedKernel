@@ -2,7 +2,8 @@
 using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Entities;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.Data.Services;
+using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 

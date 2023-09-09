@@ -18,7 +18,7 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
     IReadAllRepository<TAggregateRoot>,
     IReadSpecificationRepository<TAggregateRoot>,
     ISaveRepository
-    where TAggregateRoot : class, IAggregateRoot
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     #region Members
 
@@ -83,7 +83,7 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public virtual TAggregateRoot GetById(TId id)
     {
-        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>().SingleOrDefault()!;
+        return GetQuery().Where(a => a.Id!.Equals(id)).SingleOrDefault()!;
     }
 
     /// <summary>  </summary>

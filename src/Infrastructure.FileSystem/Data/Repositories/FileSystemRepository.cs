@@ -11,7 +11,7 @@ namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
 /// <summary>  </summary>
 public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
-    where TAggregateRoot : class, IAggregateRoot, IEntity<TId>
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
     protected readonly IJsonSerializer JsonSerializer;

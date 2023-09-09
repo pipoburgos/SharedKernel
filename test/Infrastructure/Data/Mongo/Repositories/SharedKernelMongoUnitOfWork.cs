@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using SharedKernel.Application.Validator;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.Data.Services;
 using SharedKernel.Infrastructure.Mongo.Data;
 using SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
 

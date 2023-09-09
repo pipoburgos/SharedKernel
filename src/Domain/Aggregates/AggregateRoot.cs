@@ -2,7 +2,7 @@
 
 /// <summary> This root aggregate contains your domain identifier and events. </summary>
 /// <typeparam name="TId"> The data type of the identifier. </typeparam>
-public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot where TId : notnull
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId> where TId : notnull
 {
     private readonly List<DomainEvent> _domainEvents;
 

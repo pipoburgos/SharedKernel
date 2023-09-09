@@ -17,7 +17,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     IRepositoryAsync<TAggregateRoot, TId>,
     IReadAllRepositoryAsync<TAggregateRoot>,
     IReadSpecificationRepositoryAsync<TAggregateRoot>,
-    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     #region Constructors
 

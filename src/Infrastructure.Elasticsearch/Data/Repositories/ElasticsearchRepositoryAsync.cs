@@ -13,7 +13,7 @@ namespace SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 /// <summary>  </summary>
 public abstract class ElasticsearchRepositoryAsync<TAggregateRoot, TId> : ElasticsearchRepository<TAggregateRoot, TId>,
     IRepositoryAsync<TAggregateRoot, TId>,
-    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot, IEntity<TId> where TId : notnull
+    ISaveRepositoryAsync where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     private readonly UnitOfWorkAsync _unitOfWorkAsync;
 

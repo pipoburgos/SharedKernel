@@ -7,7 +7,7 @@ using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
 using SharedKernel.Application.Validator;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.Data.Services;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;

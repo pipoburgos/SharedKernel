@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 
-namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
+namespace SharedKernel.Infrastructure.Data.Services;
 
 /// <summary>  </summary>
 public class EntityAuditableService : IEntityAuditableService
