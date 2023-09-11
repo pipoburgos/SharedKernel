@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data;
 
@@ -8,25 +8,23 @@ namespace SharedKernel.Infrastructure.FileSystem.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddFileSystemUnitOfWork<TInterface, TClass>(this IServiceCollection services,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TClass : UnitOfWork, TInterface
-        where TInterface : IUnitOfWork
+    public static IServiceCollection AddFileSystemDbContext<TDbContext>(this IServiceCollection services,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        where TDbContext : FileSystemDbContext
     {
-        services.Add(new ServiceDescriptor(typeof(UnitOfWork), typeof(UnitOfWork), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(TDbContext), typeof(TDbContext), serviceLifetime));
         return services
             .AddSharedKernel();
     }
 
     /// <summary>  </summary>
-    public static IServiceCollection AddFileSystemUnitOfWorkAsync<TInterface, TClass>(this IServiceCollection services,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TClass : UnitOfWorkAsync, TInterface
-        where TInterface : IUnitOfWorkAsync
+    public static IServiceCollection AddFileSystemUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        where TDbContext : FileSystemDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
-        services.Add(new ServiceDescriptor(typeof(UnitOfWorkAsync), typeof(UnitOfWorkAsync), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
-        return services.AddFileSystemUnitOfWork<TInterface, TClass>();
+        return services
+            .AddSharedKernel()
+            .AddFileSystemDbContext<TDbContext>(serviceLifetime)
+            .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

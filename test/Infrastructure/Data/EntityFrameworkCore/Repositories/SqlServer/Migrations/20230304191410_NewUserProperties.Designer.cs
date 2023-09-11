@@ -11,7 +11,7 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
-    [DbContext(typeof(SharedKernelDbContext))]
+    [DbContext(typeof(SharedKernelEntityFrameworkDbContext))]
     [Migration("20230304191410_NewUserProperties")]
     partial class NewUserProperties
     {

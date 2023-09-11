@@ -1,10 +1,11 @@
 ﻿using MongoDB.Bson.Serialization;
 using SharedKernel.Domain.Tests.BankAccounts;
 using SharedKernel.Infrastructure.Mongo.Data.Repositories;
+using SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
-public class MongoBankAccountRepository : MongoRepositoryAsync<BankAccount, Guid>
+public class MongoBankAccountRepository : MongoRepository<BankAccount, Guid>
 {
     static MongoBankAccountRepository()
     {
@@ -14,7 +15,7 @@ public class MongoBankAccountRepository : MongoRepositoryAsync<BankAccount, Guid
         });
     }
 
-    public MongoBankAccountRepository(SharedKernelMongoUnitOfWork mongoUnitOfWork) : base(mongoUnitOfWork)
+    public MongoBankAccountRepository(SharedKernelMongoDbContext mongoUnitOfWork) : base(mongoUnitOfWork)
     {
     }
 }

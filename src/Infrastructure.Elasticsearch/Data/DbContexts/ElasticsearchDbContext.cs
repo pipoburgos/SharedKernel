@@ -38,7 +38,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
         {
             var created = Client.Indices.Create<StringResponse>(GetIndex<T>(),
-                PostData.Serializable(new { settings = new { number_of_replicas = 2 } }));
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }));
 
             if (!created.Success)
                 throw created.OriginalException;
@@ -81,7 +81,8 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
         {
             var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<T>(),
-                PostData.Serializable(new { settings = new { number_of_replicas = 2 } }), ctx: cancellationToken);
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
+                ctx: cancellationToken);
 
             if (!created.Success)
                 throw created.OriginalException;

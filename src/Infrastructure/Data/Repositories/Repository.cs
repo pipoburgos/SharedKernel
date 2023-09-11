@@ -12,7 +12,7 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     /// <summary>  </summary>
     protected Repository(IDbContext dbContext)
     {
-        _dbContext = dbContext;
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
     /// <summary>  </summary>
@@ -34,13 +34,13 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     public abstract TAggregateRoot? GetById(TId id);
 
     /// <summary>  </summary>
-    public bool Any(TId id)
+    public virtual bool Any(TId id)
     {
         return GetById(id) != default;
     }
 
     /// <summary>  </summary>
-    public bool NotAny(TId id)
+    public virtual bool NotAny(TId id)
     {
         return GetById(id) == default;
     }

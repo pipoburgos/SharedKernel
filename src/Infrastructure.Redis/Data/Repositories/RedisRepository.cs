@@ -1,32 +1,22 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.Repositories;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Redis.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class RedisRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
+public abstract class RedisRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>
     where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
-    protected readonly IDistributedCache DistributedCache;
+    private readonly RedisDbContext _redisDbContext;
 
     /// <summary>  </summary>
-    protected readonly IJsonSerializer JsonSerializer;
-
-    /// <summary>  </summary>
-    protected RedisRepository(
-        UnitOfWork unitOfWork,
-        IDistributedCache distributedCache,
-        IJsonSerializer jsonSerializer) : base(unitOfWork)
+    protected RedisRepository(RedisDbContext redisDbContext) : base(redisDbContext)
     {
-        DistributedCache = distributedCache;
-        JsonSerializer = jsonSerializer;
+        _redisDbContext = redisDbContext;
     }
 
     /// <summary>  </summary>
@@ -36,80 +26,42 @@ public abstract class RedisRepository<TAggregateRoot, TId> : SaveRepository, IRe
     }
 
     /// <summary>  </summary>
-    public void Add(TAggregateRoot aggregateRoot)
+    public override TAggregateRoot? GetById(TId id)
     {
-        UnitOfWork.AddOperation(aggregateRoot,
-            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
-
-    /// <summary>  </summary>
-    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
-        {
-            Add(aggregateRoot);
-        }
-    }
-
-    /// <summary>  </summary>
-    public TAggregateRoot? GetById(TId id)
-    {
-        var bytes = DistributedCache.GetString(GetKey(id));
+        var bytes = _redisDbContext.DistributedCache.GetString(GetKey(id));
 
         if (bytes == default || bytes.Length == 0)
             return default!;
 
-        var aggregateRoot = JsonSerializer.Deserialize<TAggregateRoot?>(bytes);
+        var aggregateRoot = _redisDbContext.JsonSerializer.Deserialize<TAggregateRoot?>(bytes);
 
         if (aggregateRoot is IEntityAuditableLogicalRemove a)
         {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a) ? default : aggregateRoot;
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
+                ? default
+                : aggregateRoot;
         }
 
         return aggregateRoot;
     }
 
     /// <summary>  </summary>
-    public bool Any(TId id)
+    public override async Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetById(id) != default;
-    }
+        var bytes = await _redisDbContext.DistributedCache.GetStringAsync(GetKey(id), cancellationToken);
 
-    /// <summary>  </summary>
-    public bool NotAny(TId id)
-    {
-        return GetById(id) == default;
-    }
+        if (bytes == default || bytes.Length == 0)
+            return default!;
 
-    /// <summary>  </summary>
-    public void Update(TAggregateRoot aggregateRoot)
-    {
-        UnitOfWork.UpdateOperation(aggregateRoot,
-            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
+        var aggregateRoot = _redisDbContext.JsonSerializer.Deserialize<TAggregateRoot?>(bytes);
 
-    /// <summary>  </summary>
-    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
         {
-            Update(aggregateRoot);
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
+                ? default
+                : aggregateRoot;
         }
-    }
 
-    /// <summary>  </summary>
-    public void Remove(TAggregateRoot aggregateRoot)
-    {
-        UnitOfWork.RemoveOperation(aggregateRoot, () => DistributedCache.Remove(GetKey(aggregateRoot.Id)),
-            () => DistributedCache.SetString(GetKey(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
-
-    /// <summary>  </summary>
-    public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
-        {
-            Remove(aggregateRoot);
-        }
+        return aggregateRoot;
     }
 }

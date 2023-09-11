@@ -7,7 +7,7 @@ using SharedKernel.Infrastructure.Data.Services;
 namespace SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
 /// <summary>  </summary>
-public abstract class RedisDbContext : DbContext
+public abstract class RedisDbContext : DbContextAsync
 {
     /// <summary>  </summary>
     public IDistributedCache DistributedCache { get; }
@@ -43,5 +43,25 @@ public abstract class RedisDbContext : DbContext
     protected override void DeleteMethod<T, TId>(T aggregateRoot)
     {
         DistributedCache.Remove(Get<T, TId>(aggregateRoot.Id));
+    }
+
+    /// <summary>  </summary>
+    protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
+            token: cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
+            token: cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    protected override Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return DistributedCache.RemoveAsync(Get<T, TId>(aggregateRoot.Id), cancellationToken);
     }
 }

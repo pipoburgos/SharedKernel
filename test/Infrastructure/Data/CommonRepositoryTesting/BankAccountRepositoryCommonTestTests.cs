@@ -8,8 +8,30 @@ using Xunit;
 namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 
 public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTestCase<FakeStartup>
-    where T : class, IRepositoryAsync<BankAccount, Guid>, ISaveRepository, ISaveRepositoryAsync
+    where T : class, IRepositoryAsync<BankAccount, Guid>, ISaveRepositoryAsync
 {
+    [Fact]
+    public void TestDistinctDbContextInstancesDbContextTransient()
+    {
+        BeforeStart();
+
+        var repository = GetRequiredService<T>();
+        var bankAccount = BankAccountMother.Create().Value;
+        repository.Add(bankAccount);
+
+        // Test not exists if not call SaveChanges
+        var repository2 = GetRequiredService<T>();
+        var bankAccountDdBb = repository2.GetById(bankAccount.Id);
+        bankAccountDdBb.Should().BeNull();
+
+
+        var total2 = repository2.SaveChanges();
+        total2.Should().BeGreaterOrEqualTo(0);
+
+        var total = repository.SaveChanges();
+        total.Should().BeGreaterOrEqualTo(1);
+    }
+
     [Fact]
     public void TestLogicalDeleteWithReadOneRepository()
     {

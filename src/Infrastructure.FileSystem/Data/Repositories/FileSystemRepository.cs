@@ -2,15 +2,14 @@
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.Repositories;
-using SharedKernel.Infrastructure.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
 /// <summary>  </summary>
-public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IRepository<TAggregateRoot, TId>
+public class FileSystemRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>
     where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
@@ -20,7 +19,8 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     protected readonly string Directory;
 
     /// <summary>  </summary>
-    protected FileSystemRepository(UnitOfWork unitOfWork, IConfiguration configuration, IJsonSerializer jsonSerializer) : base(unitOfWork)
+    protected FileSystemRepository(FileSystemDbContext fileSystemDbContext, IConfiguration configuration,
+        IJsonSerializer jsonSerializer) : base(fileSystemDbContext)
     {
         JsonSerializer = jsonSerializer;
         Directory = configuration.GetSection("FileSystemRepositoryPath").Value ?? AppDomain.CurrentDomain.BaseDirectory;
@@ -36,23 +36,7 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     }
 
     /// <summary>  </summary>
-    public void Add(TAggregateRoot aggregateRoot)
-    {
-        UnitOfWork.AddOperation(aggregateRoot,
-            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
-
-    /// <summary>  </summary>
-    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
-        {
-            Add(aggregateRoot);
-        }
-    }
-
-    /// <summary>  </summary>
-    public TAggregateRoot? GetById(TId id)
+    public override TAggregateRoot? GetById(TId id)
     {
         if (!File.Exists(FileName(id)))
             return default;
@@ -70,46 +54,25 @@ public class FileSystemRepository<TAggregateRoot, TId> : SaveRepository, IReposi
     }
 
     /// <summary>  </summary>
-    public bool Any(TId id)
+    public override async Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetById(id) != default;
-    }
+        if (!File.Exists(FileName(id)))
+            return default;
 
-    /// <summary>  </summary>
-    public bool NotAny(TId id)
-    {
-        return GetById(id) == default;
-    }
-
-    /// <summary>  </summary>
-    public void Update(TAggregateRoot aggregateRoot)
-    {
-        UnitOfWork.UpdateOperation(aggregateRoot,
-            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
-
-    /// <summary>  </summary>
-    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
+#if NETSTANDARD2_1 || NET6_0_OR_GREATER
+        var text = await File.ReadAllTextAsync(FileName(id), cancellationToken);
+#else
+        var text = File.ReadAllText(FileName(id));
+        await Task.CompletedTask;
+#endif
+        var aggregateRoot = JsonSerializer.Deserialize<TAggregateRoot>(text);
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
         {
-            Update(aggregateRoot);
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
+                ? default
+                : aggregateRoot;
         }
-    }
 
-    /// <summary>  </summary>
-    public void Remove(TAggregateRoot aggregateRoot)
-    {
-        UnitOfWork.RemoveOperation(aggregateRoot, () => File.Delete(FileName(aggregateRoot.Id)),
-            () => File.WriteAllText(FileName(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot)));
-    }
-
-    /// <summary>  </summary>
-    public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
-        {
-            Remove(aggregateRoot);
-        }
+        return aggregateRoot;
     }
 }

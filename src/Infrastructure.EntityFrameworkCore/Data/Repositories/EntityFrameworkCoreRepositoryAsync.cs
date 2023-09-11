@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.System;
 using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Repositories.Read;
@@ -33,7 +32,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public virtual Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return GetQuery().Cast<IEntity<TId>>().Where(a => a.Id!.Equals(id)).Cast<TAggregateRoot>()
+        return GetQuery().Where(a => a.Id!.Equals(id))
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
@@ -41,7 +40,6 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     public virtual Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetQuery()
-            .Cast<IEntity<TId>>()
             .AnyAsync(a => a.Id!.Equals(id), cancellationToken);
     }
 
@@ -49,7 +47,6 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     public virtual Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetQuery()
-            .Cast<IEntity<TId>>()
             .AllAsync(a => !a.Id!.Equals(id), cancellationToken);
     }
 
@@ -57,9 +54,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     public virtual Task<TAggregateRoot?> GetDeleteByIdAsync(TId id, CancellationToken cancellationToken)
     {
         return GetQuery(true, true)
-            .Cast<IEntity<TId>>()
             .Where(a => a.Id!.Equals(id))
-            .Cast<TAggregateRoot>()
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 

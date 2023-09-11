@@ -7,7 +7,7 @@ using SharedKernel.Infrastructure.Data.Services;
 namespace SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 /// <summary>  </summary>
-public abstract class FileSystemDbContext : DbContext
+public abstract class FileSystemDbContext : DbContextAsync
 {
     /// <summary>  </summary>
     protected readonly IJsonSerializer JsonSerializer;
@@ -46,5 +46,36 @@ public abstract class FileSystemDbContext : DbContext
     protected override void DeleteMethod<T, TId>(T aggregateRoot)
     {
         File.Delete(FileName<T, TId>(aggregateRoot.Id));
+    }
+
+    /// <summary>  </summary>
+    protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+#if NETSTANDARD2_1 || NET6_0_OR_GREATER
+        return File.WriteAllTextAsync(FileName<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
+            cancellationToken);
+#else
+        File.WriteAllText(FileName<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
+        return Task.CompletedTask;
+#endif
+    }
+
+    /// <summary>  </summary>
+    protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+#if NETSTANDARD2_1 || NET6_0_OR_GREATER
+        return File.WriteAllTextAsync(FileName<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
+            cancellationToken);
+#else
+        File.WriteAllText(FileName<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
+        return Task.CompletedTask;
+#endif
+    }
+
+    /// <summary>  </summary>
+    protected override Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        File.Delete(FileName<T, TId>(aggregateRoot.Id));
+        return Task.CompletedTask;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain.Aggregates;
-using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Repositories.Read;
 using SharedKernel.Domain.Repositories.Read.Specification;
 using SharedKernel.Domain.Specifications.Common;
@@ -56,9 +55,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
     public virtual Task<TAggregateRoot?> GetByIdReadOnlyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery()
-            .Cast<IEntity<TId>>()
             .Where(a => a.Id!.Equals(id))
-            .Cast<TAggregateRoot>()
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
@@ -67,9 +64,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
         CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery(true)
-            .Cast<IEntity<TId>>()
             .Where(a => a.Id!.Equals(id))
-            .Cast<TAggregateRoot>()
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
@@ -95,7 +90,6 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
     public override Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery()
-            .Cast<IEntity<TId>>()
             .AnyAsync(a => a.Id!.Equals(id), cancellationToken);
     }
 

@@ -6,7 +6,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories;
 
 public class EfCoreUserRepository : EntityFrameworkCoreRepositoryAsync<User, Guid>
 {
-    public EfCoreUserRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
+    public EfCoreUserRepository(SharedKernelEntityFrameworkDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
     {
     }
 }

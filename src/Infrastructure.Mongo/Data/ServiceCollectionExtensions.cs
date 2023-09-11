@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 using SharedKernel.Infrastructure.Mongo.Data.Queries;
-using SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.Mongo.Data;
 
@@ -10,13 +10,11 @@ namespace SharedKernel.Infrastructure.Mongo.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddMongoUnitOfWork<TInterface, TClass>(this IServiceCollection services,
-        IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
-        where TClass : MongoUnitOfWorkAsync, TInterface where TInterface : IUnitOfWork
+    public static IServiceCollection AddMongoDbContext<TDbContext>(this IServiceCollection services,
+        IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        where TDbContext : MongoDbContext
     {
-        services.Add(new ServiceDescriptor(typeof(MongoUnitOfWorkAsync), typeof(MongoUnitOfWorkAsync), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(TDbContext), typeof(TDbContext), serviceLifetime));
         return services
             .AddSharedKernel()
             .AddMongoHealthChecks(configuration, "Mongo")
@@ -24,13 +22,12 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>  </summary>
-    public static IServiceCollection AddMongoUnitOfWorkAsync<TInterface, TClass>(this IServiceCollection services,
+    public static IServiceCollection AddMongoUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
-        where TClass : MongoUnitOfWorkAsync, TInterface where TInterface : IUnitOfWorkAsync
+        where TDbContext : MongoDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
-        services.Add(new ServiceDescriptor(typeof(TClass), typeof(TClass), serviceLifetime));
-        services.Add(new ServiceDescriptor(typeof(TInterface), typeof(TClass), serviceLifetime));
         return services
-            .AddMongoUnitOfWork<TInterface, TClass>(configuration, serviceLifetime);
+            .AddMongoDbContext<TDbContext>(configuration, serviceLifetime)
+            .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

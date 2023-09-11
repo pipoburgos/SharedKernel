@@ -1,10 +1,11 @@
 ﻿using MongoDB.Bson.Serialization;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Mongo.Data.Repositories;
+using SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
-public class MongoUserRepository : MongoRepositoryAsync<User, Guid>
+public class MongoUserRepository : MongoRepository<User, Guid>
 {
     static MongoUserRepository()
     {
@@ -16,7 +17,7 @@ public class MongoUserRepository : MongoRepositoryAsync<User, Guid>
         });
     }
 
-    public MongoUserRepository(SharedKernelMongoUnitOfWork mongoUnitOfWork) : base(mongoUnitOfWork)
+    public MongoUserRepository(SharedKernelMongoDbContext mongoUnitOfWork) : base(mongoUnitOfWork)
     {
     }
 }

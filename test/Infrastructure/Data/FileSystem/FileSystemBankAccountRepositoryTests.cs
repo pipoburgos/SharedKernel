@@ -2,6 +2,8 @@
 using SharedKernel.Infrastructure.FileSystem.Data;
 using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
+using SharedKernel.Integration.Tests.Data.FileSystem.DbContexts;
+using SharedKernel.Integration.Tests.Data.FileSystem.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.FileSystem;
 
@@ -15,7 +17,7 @@ public class FileSystemBankAccountRepositoryTests : BankAccountRepositoryCommonT
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddFileSystemUnitOfWork<ISharedKernelUnitOfWork, SharedKernelUnitOfWork>()
+            .AddFileSystemDbContext<SharedKernelFileSystemDbContext>()
             .AddNewtonsoftSerializer()
             .AddTransient<FileSystemBankAccountRepository>();
     }

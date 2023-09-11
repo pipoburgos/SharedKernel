@@ -10,7 +10,7 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
-using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.FluentValidation;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
@@ -55,7 +55,7 @@ public static class BankAccountServiceCollection
             .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
-            .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountDbContext>(
+            .AddEntityFrameworkCoreSqlServerUnitOfWork<IBankAccountUnitOfWork, BankAccountDbContext>(
                 connectionString)
             .AddDapperSqlServer(connectionString)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()

@@ -6,7 +6,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories;
 
 public class EfCoreBankAccountRepository : EntityFrameworkCoreRepositoryAsync<BankAccount, Guid>
 {
-    public EfCoreBankAccountRepository(SharedKernelDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
+    public EfCoreBankAccountRepository(SharedKernelEntityFrameworkDbContext sharedKernelDbContext) : base(sharedKernelDbContext)
     {
     }
 }

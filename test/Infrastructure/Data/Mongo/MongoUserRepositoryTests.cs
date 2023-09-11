@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Mongo.Data;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
+using SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
+using SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 using Xunit;
 
-namespace SharedKernel.Integration.Tests.Data.Mongo.Repositories;
+namespace SharedKernel.Integration.Tests.Data.Mongo;
 
 [Collection("DockerHook")]
-public class MongoBankAccountRepositoryTests : BankAccountRepositoryCommonTestTests<MongoBankAccountRepository>
+public class MongoUserRepositoryTests : UserRepositoryCommonTestTests<MongoUserRepository>
 {
     protected override string GetJsonFile()
     {
@@ -16,7 +18,7 @@ public class MongoBankAccountRepositoryTests : BankAccountRepositoryCommonTestTe
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddMongoUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelMongoUnitOfWork>(Configuration)
-            .AddTransient<MongoBankAccountRepository>();
+            .AddMongoDbContext<SharedKernelMongoDbContext>(Configuration)
+            .AddTransient<MongoUserRepository>();
     }
 }

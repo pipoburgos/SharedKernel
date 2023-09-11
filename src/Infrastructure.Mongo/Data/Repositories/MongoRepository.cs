@@ -3,31 +3,26 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
-using SharedKernel.Domain.RailwayOrientedProgramming;
-using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Repositories.Read;
-using SharedKernel.Domain.Repositories.Save;
 using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
-using SharedKernel.Infrastructure.Mongo.Data.UnitOfWorks;
+using SharedKernel.Infrastructure.Data.Repositories;
+using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>, IReadAllRepository<TAggregateRoot>, ISaveRepository
-    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
+public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>,
+    IReadAllRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
-    protected readonly MongoUnitOfWorkAsync MongoUnitOfWork;
+    protected readonly MongoDbContext MongoUnitOfWork;
+
 
     /// <summary>  </summary>
-    protected readonly IMongoCollection<TAggregateRoot> MongoCollection;
-
-    /// <summary>  </summary>
-    protected MongoRepository(MongoUnitOfWorkAsync mongoUnitOfWork)
+    protected MongoRepository(MongoDbContext mongoDbContext) : base(mongoDbContext)
     {
-        MongoUnitOfWork = mongoUnitOfWork;
-        MongoCollection = mongoUnitOfWork.GetCollection<TAggregateRoot>();
+        MongoUnitOfWork = mongoDbContext;
     }
 
     #region Protected Methods
@@ -35,7 +30,7 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     protected IQueryable<TAggregateRoot> GetQuery(bool showDeleted = false)
     {
-        IQueryable<TAggregateRoot> query = MongoCollection.AsQueryable();
+        IQueryable<TAggregateRoot> query = MongoUnitOfWork.Set<TAggregateRoot>().AsQueryable();
 
         query = GetAggregate(query);
 
@@ -69,28 +64,33 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
         : new BsonArray();
 
     /// <summary>  </summary>
-    public void Add(TAggregateRoot aggregateRoot)
+    public override TAggregateRoot? GetById(TId id)
     {
-        MongoUnitOfWork.AddOperation(aggregateRoot,
-            () => MongoCollection.InsertOne(MongoUnitOfWork.GetSession(), aggregateRoot));
-    }
-
-    /// <summary>  </summary>
-    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        var list = aggregates.ToList();
-        MongoUnitOfWork.AddOperation(list,
-            () => MongoCollection.InsertMany(MongoUnitOfWork.GetSession(), list));
-    }
-
-    /// <summary>  </summary>
-    public TAggregateRoot? GetById(TId id)
-    {
-        var aggregateRoot = MongoCollection.Find(a => a.Id!.Equals(id)).SingleOrDefault();
+        var aggregateRoot = MongoUnitOfWork.Set<TAggregateRoot>().Find(a => a.Id!.Equals(id)).SingleOrDefault();
 
         if (aggregateRoot is IEntityAuditableLogicalRemove ag)
         {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag) ? default : aggregateRoot;
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
+                ? default
+                : aggregateRoot;
+        }
+
+        return aggregateRoot;
+    }
+
+    /// <summary>  </summary>
+    public override async Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
+    {
+        var cursor = await MongoUnitOfWork.Set<TAggregateRoot>()
+            .FindAsync(a => a.Id!.Equals(id), cancellationToken: cancellationToken);
+
+        var aggregateRoot = cursor.SingleOrDefault();
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
+                ? default
+                : aggregateRoot;
         }
 
         return aggregateRoot;
@@ -99,66 +99,19 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     /// <summary>  </summary>
     public List<TAggregateRoot> GetAll()
     {
-        return MongoCollection.Find(FilterDefinition<TAggregateRoot>.Empty).ToList();
+        return MongoUnitOfWork.Set<TAggregateRoot>().Find(FilterDefinition<TAggregateRoot>.Empty).ToList();
     }
 
     /// <summary>  </summary>
     public bool Any()
     {
-        return MongoCollection.Find(FilterDefinition<TAggregateRoot>.Empty).Any();
+        return MongoUnitOfWork.Set<TAggregateRoot>().Find(FilterDefinition<TAggregateRoot>.Empty).Any();
     }
 
     /// <summary>  </summary>
     public bool NotAny()
     {
         return !GetQuery().Any();
-    }
-
-    /// <summary>  </summary>
-    public bool Any(TId id)
-    {
-        return GetById(id) != default;
-    }
-
-    /// <summary>  </summary>
-    public bool NotAny(TId id)
-    {
-        return GetById(id) == default;
-    }
-
-    /// <summary>  </summary>
-    public void Update(TAggregateRoot aggregateRoot)
-    {
-        MongoUnitOfWork.UpdateOperation(aggregateRoot, () =>
-            MongoCollection.FindOneAndReplace(MongoUnitOfWork.GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
-                aggregateRoot));
-    }
-
-    /// <summary>  </summary>
-    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
-    {
-        foreach (var aggregateRoot in aggregates)
-        {
-            Update(aggregateRoot);
-        }
-    }
-
-    /// <summary>  </summary>
-    public void Remove(TAggregateRoot aggregateRoot)
-    {
-        MongoUnitOfWork.RemoveOperation(aggregateRoot,
-            () => MongoCollection.DeleteOne(MongoUnitOfWork.GetSession(), a => a.Id!.Equals(aggregateRoot.Id)),
-            () => MongoCollection.FindOneAndReplace(MongoUnitOfWork.GetSession(), b => b.Id!.Equals(aggregateRoot.Id),
-                aggregateRoot));
-    }
-
-    /// <summary>  </summary>
-    public void RemoveRange(IEnumerable<TAggregateRoot> aggregate)
-    {
-        foreach (var aggregateRoot in aggregate)
-        {
-            Remove(aggregateRoot);
-        }
     }
 
     /// <summary>  </summary>
@@ -189,29 +142,5 @@ public abstract class MongoRepository<TAggregateRoot, TId> : IRepository<TAggreg
     public bool NotAny(ISpecification<TAggregateRoot> spec)
     {
         return !GetQuery().Any(spec.SatisfiedBy());
-    }
-
-    /// <summary>  </summary>
-    public Result<int> SaveChangesResult()
-    {
-        return MongoUnitOfWork.SaveChangesResult();
-    }
-
-    /// <summary>  </summary>
-    public int Rollback()
-    {
-        return MongoUnitOfWork.Rollback();
-    }
-
-    /// <summary>  </summary>
-    public Result<int> RollbackResult()
-    {
-        return MongoUnitOfWork.RollbackResult();
-    }
-
-    /// <summary>  </summary>
-    public int SaveChanges()
-    {
-        return MongoUnitOfWork.SaveChanges();
     }
 }

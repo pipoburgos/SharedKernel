@@ -4,11 +4,11 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
-public class SharedKernelDbContext : EntityFrameworkDbContext, ISharedKernelUnitOfWork
+public class SharedKernelEntityFrameworkDbContext : EntityFrameworkDbContext, ISharedKernelEntityFrameworkDbContext
 {
-    public SharedKernelDbContext(DbContextOptions<SharedKernelDbContext> options,
+    public SharedKernelEntityFrameworkDbContext(DbContextOptions<SharedKernelEntityFrameworkDbContext> options,
         IClassValidatorService? classValidatorService = default, IAuditableService? auditableService = default) : base(
-        options, "skr", typeof(SharedKernelDbContext).Assembly, classValidatorService, auditableService)
+        options, "skr", typeof(SharedKernelEntityFrameworkDbContext).Assembly, classValidatorService, auditableService)
     {
     }
 }

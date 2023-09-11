@@ -24,8 +24,8 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
             var connection = Configuration.GetConnectionString("DapperConnectionString");
 
             return services
-                .AddDbContext<SharedKernelDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
-                .AddDbContextFactory<SharedKernelDbContext>()
+                .AddDbContext<SharedKernelEntityFrameworkDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
+                .AddDbContextFactory<SharedKernelEntityFrameworkDbContext>()
                 .AddDapperSqlServer(Configuration.GetConnectionString("DapperConnectionString")!);
         }
 
@@ -47,7 +47,7 @@ namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 
         private async Task<DbContext> Regenerate(CancellationToken cancellationToken = default)
         {
-            var dbContext = GetRequiredServiceOnNewScope<SharedKernelDbContext>();
+            var dbContext = GetRequiredServiceOnNewScope<SharedKernelEntityFrameworkDbContext>();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
 

@@ -8,7 +8,7 @@ using SharedKernel.Infrastructure.Data.Services;
 namespace SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
 /// <summary>  </summary>
-public abstract class MongoDbContext : DbContext, IDisposable
+public abstract class MongoDbContext : DbContextAsync, IDisposable
 {
     /// <summary>  </summary>
     protected readonly IClientSessionHandle Session;
@@ -30,7 +30,7 @@ public abstract class MongoDbContext : DbContext, IDisposable
     }
 
     /// <summary>  </summary>
-    private IMongoCollection<TAggregateRoot> Set<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot
+    public IMongoCollection<TAggregateRoot> Set<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot
     {
         return MongoDatabase.GetCollection<TAggregateRoot>(typeof(TAggregateRoot).Name);
     }
@@ -74,45 +74,40 @@ public abstract class MongoDbContext : DbContext, IDisposable
         Set<TAggregateRoot>().DeleteOne(GetSession(), a => a.Id!.Equals(aggregateRoot.Id));
     }
 
-    //protected override IAggregateRoot GetCurrent(IAggregateRoot aggregateRoot)
-    //{
-    //    return GetCollection<TAggregateRoot>().Find(a => a.Id!.Equals(aggregateRoot.Id)).SingleOrDefault();
-    //}
+    /// <summary>  </summary>
+    protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return Set<T>().InsertOneAsync(GetSession(), aggregateRoot, cancellationToken: cancellationToken);
+    }
 
-    ///// <summary>  </summary>
-    //protected override Task BeforeCommitAsync(CancellationToken cancellationToken)
-    //{
-    //    if (EnableTransactions)
-    //        Session.StartTransaction();
+    /// <summary>  </summary>
+    protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return Set<T>().ReplaceOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id), aggregateRoot,
+            cancellationToken: cancellationToken);
+    }
 
-    //    return Task.CompletedTask;
-    //}
+    /// <summary>  </summary>
+    protected override Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
+    {
+        return Set<T>().DeleteOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
+            cancellationToken: cancellationToken);
+    }
 
-    ///// <summary>  </summary>
-    //protected override Task AfterCommitAsync(CancellationToken cancellationToken)
-    //{
-    //    return EnableTransactions ? Session.CommitTransactionAsync(cancellationToken) : Task.CompletedTask;
-    //}
+    /// <summary>  </summary>
+    protected override Task BeforeCommitAsync(CancellationToken cancellationToken)
+    {
+        if (EnableTransactions)
+            Session.StartTransaction();
 
-    ///// <summary>  </summary>
-    //protected override Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-    //{
-    //    return Set<T>().InsertOneAsync(GetSession(), aggregateRoot, cancellationToken: cancellationToken);
-    //}
+        return Task.CompletedTask;
+    }
 
-    ///// <summary>  </summary>
-    //protected override Task UpdateAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-    //{
-    //    return Set<T>().ReplaceOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
-    //        aggregateRoot, cancellationToken: cancellationToken);
-    //}
-
-    ///// <summary>  </summary>
-    //protected override Task DeleteAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-    //{
-    //    return Set<T>().DeleteOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
-    //        cancellationToken: cancellationToken);
-    //}
+    /// <summary>  </summary>
+    protected override Task AfterCommitAsync(CancellationToken cancellationToken)
+    {
+        return EnableTransactions ? Session.CommitTransactionAsync(cancellationToken) : Task.CompletedTask;
+    }
 
     /// <summary>  </summary>
     public void Dispose()

@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
+using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.Repositories;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
@@ -26,7 +28,7 @@ public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfP
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
+            .AddEntityFrameworkCorePostgreSqlDbContext<PostgreSqlSharedKernelDbContext>(connection)
             .AddTransient<EfPostgreSqlUserRepository>();
     }
 }

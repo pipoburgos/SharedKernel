@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using Xunit;
@@ -18,7 +18,7 @@ public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCo
 
     public override void BeforeStart()
     {
-        var dbContext = GetRequiredServiceOnNewScope<SharedKernelDbContext>();
+        var dbContext = GetRequiredServiceOnNewScope<SharedKernelEntityFrameworkDbContext>();
         //dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
     }
@@ -27,7 +27,7 @@ public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCo
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(connection)
+            .AddEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(connection)
             .AddTransient<EfCoreBankAccountRepository>();
     }
 }

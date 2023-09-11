@@ -9,6 +9,9 @@ namespace SharedKernel.Infrastructure.Data.DbContexts;
 public abstract class DbContext : IDbContext
 {
     /// <summary>  </summary>
+    protected readonly Guid Id;
+
+    /// <summary>  </summary>
     protected readonly IEntityAuditableService AuditableService;
 
     /// <summary>  </summary>
@@ -21,8 +24,9 @@ public abstract class DbContext : IDbContext
     protected readonly List<IOperation> OperationsExecuted;
 
     /// <summary>  </summary>
-    public DbContext(IEntityAuditableService auditableService, IClassValidatorService classValidatorService)
+    protected DbContext(IEntityAuditableService auditableService, IClassValidatorService classValidatorService)
     {
+        Id = Guid.NewGuid();
         AuditableService = auditableService;
         ClassValidatorService = classValidatorService;
         Operations = new List<IOperation>();

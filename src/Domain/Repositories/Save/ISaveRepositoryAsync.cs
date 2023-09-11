@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Save;
 
 /// <summary>  </summary>
-public interface ISaveRepositoryAsync
+public interface ISaveRepositoryAsync : ISaveRepository
 {
     /// <summary>  </summary>
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

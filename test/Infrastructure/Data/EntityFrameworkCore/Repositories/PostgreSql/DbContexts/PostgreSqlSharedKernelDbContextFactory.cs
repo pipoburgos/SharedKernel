@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts
 {
     public class PostgreSqlSharedKernelDbContextFactory : IDesignTimeDbContextFactory<PostgreSqlSharedKernelDbContext>
     {

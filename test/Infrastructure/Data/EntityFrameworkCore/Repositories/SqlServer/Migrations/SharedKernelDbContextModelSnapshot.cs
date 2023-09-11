@@ -10,7 +10,7 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer.Migrations
 {
-    [DbContext(typeof(SharedKernelDbContext))]
+    [DbContext(typeof(SharedKernelEntityFrameworkDbContext))]
     partial class SharedKernelDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

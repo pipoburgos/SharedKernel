@@ -11,7 +11,7 @@ using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Infrastructure.Data.Queryable;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
-using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Testing.Infrastructure;
 using Xunit;
 
@@ -28,7 +28,8 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(Configuration.GetConnectionString("QueryProviderConnectionString")!);
+                .AddEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(
+                    Configuration.GetConnectionString("QueryProviderConnectionString")!);
         }
 
 
@@ -37,7 +38,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         {
             await LoadTestDataAsync(CancellationToken.None);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var tasks = new List<Task<List<User>>>();
             for (var i = 0; i < 11; i++)
@@ -55,7 +56,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             const int total = 50;
             await LoadTestDataAsync(CancellationToken.None, total);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
                 new List<FilterProperty> { new("NumberOfChildren", "110", FilterOperator.LessThanOrEqualTo) });
@@ -74,7 +75,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
             const int total = 50;
             await LoadTestDataAsync(CancellationToken.None, total);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
                 new List<FilterProperty> { new("Birthdate", "1970-05-01T00:00:00Z", FilterOperator.GreaterThan) });
@@ -110,7 +111,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         {
             await LoadTestDataAsync(CancellationToken.None);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(0, 10, default, true, false, new List<Order> { new("Name", true) },
                 new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
@@ -128,7 +129,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         {
             await LoadTestDataAsync(CancellationToken.None);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(0, 10, "a", true, false, new List<Order> { new("Name", true) },
                 new List<FilterProperty>());
@@ -146,7 +147,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         {
             await LoadTestDataAsync(CancellationToken.None);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var today = DateTime.Today;
 
@@ -166,7 +167,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         {
             await LoadTestDataAsync(CancellationToken.None);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var today = DateTime.Today;
 
@@ -192,7 +193,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             const int total = 5;
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(0, total, default, true, false, default,
                 new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
@@ -205,7 +206,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             result.Items.Count().Should().Be(total);
 
-            using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
+            using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContextAsync(CancellationToken.None);
             var repository = new EfCoreUserRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None))
                 .Select(x => x.NumberOfChildren)
@@ -223,7 +224,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             const int total = 5;
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var pageOptions = new PageOptions(0, total, default, true, false, new List<Order> { new(default, false) },
                 new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
@@ -235,7 +236,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
             result.Items.Count().Should().Be(total);
 
-            using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(CancellationToken.None);
+            using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContextAsync(CancellationToken.None);
             var repository = new EfCoreUserRepository(dbContext);
             var expected = (await repository.GetAllAsync(CancellationToken.None)).Select(x => x.NumberOfChildren).OrderByDescending(x => x).Take(total);
             result.Items.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
@@ -245,14 +246,14 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         public async Task EntityFrameworkCoreQueryProviderJoin()
         {
             var cancellationToken = CancellationToken.None;
-            await using var dbContext = GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContext();
+            await using var dbContext = GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContext();
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
             var user = UserMother.Create(Guid.NewGuid(), "a");
             await dbContext.Set<User>().AddAsync(user, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelDbContext>>();
+            var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
             var query =
                 from usuario1 in queryProvider.GetQuery<User>()
@@ -269,7 +270,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
 
         private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 11)
         {
-            await using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelDbContext>>().CreateDbContextAsync(cancellationToken);
+            await using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContextAsync(cancellationToken);
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
 
