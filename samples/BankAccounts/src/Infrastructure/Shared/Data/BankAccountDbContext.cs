@@ -5,7 +5,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace BankAccounts.Infrastructure.Shared.Data;
 
-internal class BankAccountDbContext : DbContextBase, IBankAccountUnitOfWork
+internal class BankAccountDbContext : EntityFrameworkDbContext, IBankAccountUnitOfWork
 {
     public BankAccountDbContext(DbContextOptions<BankAccountDbContext> options,
         IClassValidatorService? classValidatorService, IAuditableService? auditable = default)

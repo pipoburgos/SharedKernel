@@ -5,7 +5,7 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
 
-public class PostgreSqlSharedKernelDbContext : DbContextBase, ISharedKernelUnitOfWork
+public class PostgreSqlSharedKernelDbContext : EntityFrameworkDbContext, ISharedKernelUnitOfWork
 {
     public PostgreSqlSharedKernelDbContext(DbContextOptions<PostgreSqlSharedKernelDbContext> options,
         IClassValidatorService? classValidatorService = default, IAuditableService? auditableService = default) : base(

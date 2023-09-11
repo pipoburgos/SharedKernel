@@ -10,7 +10,7 @@ using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 /// <summary> Shared kernel DbContext. </summary>
-public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQueryableUnitOfWork
+public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 {
     #region Members
 
@@ -47,24 +47,22 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQu
 
     #endregion
 
-    #region IUnitOfWorkAsync Methods
-
     /// <summary>  </summary>
     public void Add<T, TId>(T aggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        Set<T>().Add(aggregateRoot);
+        base.Set<T>().Add(aggregateRoot);
     }
 
     /// <summary>  </summary>
     public void Update<T, TId>(T aggregateRoot, T originalAggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        Set<T>().Update(aggregateRoot);
+        base.Set<T>().Update(aggregateRoot);
     }
 
     /// <summary>  </summary>
     public void Remove<T, TId>(T aggregateRoot, T originalAggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        Set<T>().Remove(aggregateRoot);
+        base.Set<T>().Remove(aggregateRoot);
     }
 
     /// <summary>  </summary>
@@ -211,16 +209,6 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQu
         return Task.FromResult(RollbackResult());
     }
 
-    #endregion
-
-    #region IQueryableUnitOfWork Members
-
-    /// <summary>  </summary>
-    public DbSet<TAggregateRoot> SetAggregate<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot
-    {
-        return base.Set<TAggregateRoot>();
-    }
-
     /// <summary>  </summary>
     public IQueryable<object> Set(Type type)
     {
@@ -230,10 +218,6 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQu
 
         return (IQueryable<object>)x.Invoke(this, null)!;
     }
-
-    #endregion
-
-    #region Protected Methods
 
     /// <summary>  </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -245,25 +229,23 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQu
         modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
     }
 
-    #endregion
-
     /// <summary>  </summary>
     public Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        return Set<T>().AddAsync(aggregateRoot, cancellationToken).AsTask();
+        return base.Set<T>().AddAsync(aggregateRoot, cancellationToken).AsTask();
     }
 
     /// <summary>  </summary>
     public Task UpdateAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        Set<T>().Update(aggregateRoot);
+        base.Set<T>().Update(aggregateRoot);
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
     public Task RemoveAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
     {
-        Set<T>().Remove(aggregateRoot);
+        base.Set<T>().Remove(aggregateRoot);
         return Task.CompletedTask;
     }
 }

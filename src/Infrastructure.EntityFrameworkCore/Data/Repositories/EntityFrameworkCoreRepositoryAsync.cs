@@ -22,7 +22,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     #region Constructors
 
     /// <summary>  </summary>
-    protected EntityFrameworkCoreRepositoryAsync(DbContextBase dbContextBase) : base(dbContextBase)
+    protected EntityFrameworkCoreRepositoryAsync(EntityFrameworkDbContext entityFrameworkDbContext) : base(entityFrameworkDbContext)
     {
     }
 
@@ -84,7 +84,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public virtual Task<long> CountAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.SetAggregate<TAggregateRoot>().LongCountAsync(cancellationToken);
+        return EntityFrameworkDbContext.Set<TAggregateRoot>().LongCountAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
@@ -114,65 +114,65 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public virtual Task AddAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
-        return DbContextBase.SetAggregate<TAggregateRoot>().AddAsync(aggregateRoot, cancellationToken).AsTask();
+        return EntityFrameworkDbContext.Set<TAggregateRoot>().AddAsync(aggregateRoot, cancellationToken).AsTask();
     }
 
     /// <summary>  </summary>
     public virtual Task AddRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
     {
-        return DbContextBase.SetAggregate<TAggregateRoot>().AddRangeAsync(aggregates, cancellationToken);
+        return EntityFrameworkDbContext.Set<TAggregateRoot>().AddRangeAsync(aggregates, cancellationToken);
     }
 
     /// <summary>  </summary>
     public Task RemoveAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().Remove(aggregateRoot);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().Remove(aggregateRoot);
         return TaskHelper.CompletedTask;
     }
 
     /// <summary>  </summary>
     public virtual Task RemoveRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().RemoveRange(aggregates);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().RemoveRange(aggregates);
         return TaskHelper.CompletedTask;
     }
 
     /// <summary>  </summary>
     public virtual Task UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().Update(aggregateRoot);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().Update(aggregateRoot);
         return TaskHelper.CompletedTask;
     }
 
     /// <summary>  </summary>
     public virtual Task UpdateRangeAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().UpdateRange(aggregates);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().UpdateRange(aggregates);
         return TaskHelper.CompletedTask;
     }
 
     /// <summary>  </summary>
     public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.SaveChangesAsync(cancellationToken);
+        return EntityFrameworkDbContext.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
     public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.SaveChangesResultAsync(cancellationToken);
+        return EntityFrameworkDbContext.SaveChangesResultAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
     public virtual Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.RollbackAsync(cancellationToken);
+        return EntityFrameworkDbContext.RollbackAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
     public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
-        return DbContextBase.RollbackResultAsync(cancellationToken);
+        return EntityFrameworkDbContext.RollbackResultAsync(cancellationToken);
     }
 
     #endregion

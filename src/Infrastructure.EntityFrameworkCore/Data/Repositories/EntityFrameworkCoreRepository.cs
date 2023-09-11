@@ -23,16 +23,16 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
     #region Members
 
     /// <summary> Db context base </summary>
-    protected readonly DbContextBase DbContextBase;
+    protected readonly EntityFrameworkDbContext EntityFrameworkDbContext;
 
     #endregion Members
 
     #region Constructors
 
     /// <summary> Constructor. </summary>
-    protected EntityFrameworkCoreRepository(DbContextBase dbContextBase)
+    protected EntityFrameworkCoreRepository(EntityFrameworkDbContext entityFrameworkDbContext)
     {
-        DbContextBase = dbContextBase ?? throw new ArgumentNullException(nameof(dbContextBase));
+        EntityFrameworkDbContext = entityFrameworkDbContext ?? throw new ArgumentNullException(nameof(entityFrameworkDbContext));
     }
 
     #endregion Constructors
@@ -41,9 +41,9 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
 
     /// <summary>  </summary>
     protected IQueryable<TAggregateRoot> GetQuery(bool tracking = true, bool showDeleted = false,
-        DbContextBase? dbContextBase = default)
+        EntityFrameworkDbContext? dbContextBase = default)
     {
-        IQueryable<TAggregateRoot> query = (dbContextBase ?? DbContextBase).SetAggregate<TAggregateRoot>();
+        IQueryable<TAggregateRoot> query = (dbContextBase ?? EntityFrameworkDbContext).Set<TAggregateRoot>();
 
         query = GetAggregate(query);
 
@@ -150,61 +150,61 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> :
     /// <summary>  </summary>
     public virtual void Add(TAggregateRoot aggregateRoot)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().Add(aggregateRoot);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().Add(aggregateRoot);
     }
 
     /// <summary>  </summary>
     public virtual void AddRange(IEnumerable<TAggregateRoot> aggregateRoots)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().AddRange(aggregateRoots);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().AddRange(aggregateRoots);
     }
 
     /// <summary>  </summary>
     public virtual void Remove(TAggregateRoot aggregateRoot)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().Remove(aggregateRoot);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().Remove(aggregateRoot);
     }
 
     /// <summary>  </summary>
     public virtual void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().RemoveRange(aggregates);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().RemoveRange(aggregates);
     }
 
     /// <summary>  </summary>
     public virtual void Update(TAggregateRoot aggregateRoot)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().Update(aggregateRoot);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().Update(aggregateRoot);
     }
 
     /// <summary>  </summary>
     public virtual void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
     {
-        DbContextBase.SetAggregate<TAggregateRoot>().UpdateRange(aggregates);
+        EntityFrameworkDbContext.Set<TAggregateRoot>().UpdateRange(aggregates);
     }
 
     /// <summary>  </summary>
     public int SaveChanges()
     {
-        return DbContextBase.SaveChanges();
+        return EntityFrameworkDbContext.SaveChanges();
     }
 
     /// <summary>  </summary>
     public Result<int> SaveChangesResult()
     {
-        return DbContextBase.SaveChangesResult();
+        return EntityFrameworkDbContext.SaveChangesResult();
     }
 
     /// <summary>  </summary>
     public int Rollback()
     {
-        return DbContextBase.Rollback();
+        return EntityFrameworkDbContext.Rollback();
     }
 
     /// <summary>  </summary>
     public Result<int> RollbackResult()
     {
-        return DbContextBase.Rollback();
+        return EntityFrameworkDbContext.Rollback();
     }
 
     #endregion
