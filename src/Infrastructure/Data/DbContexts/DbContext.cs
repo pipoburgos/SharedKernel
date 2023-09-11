@@ -89,7 +89,7 @@ public abstract class DbContext : IDbContext
     /// <summary>  </summary>
     public int Rollback()
     {
-        var total = OperationsExecuted.Count;
+        var total = OperationsExecuted.Count + Operations.Count;
 
         foreach (var operation in OperationsExecuted.ToList())
         {

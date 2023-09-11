@@ -89,7 +89,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     /// <summary>  </summary>
     public async Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
-        var total = OperationsExecuted.Count + OperationsAsync.Count;
+        var total = OperationsExecuted.Count + Operations.Count + OperationsExecutedAsync.Count + OperationsAsync.Count;
 
         foreach (var operation in OperationsExecuted.ToList())
         {
