@@ -6,7 +6,7 @@ using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.FileSystem.DbContexts;
 
-public class SharedKernelFileSystemDbContext : FileSystemDbContext, ISharedKernelFileSystemDbContext
+public class SharedKernelFileSystemDbContext : FileSystemDbContext, ISharedKernelFileSystemUnitOfWork
 {
     public SharedKernelFileSystemDbContext(IConfiguration configuration, IJsonSerializer jsonSerializer,
         IEntityAuditableService auditableService, IClassValidatorService classValidatorService) : base(configuration,

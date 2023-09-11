@@ -103,6 +103,9 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
             OperationsExecutedAsync.Remove(operationAsync);
         }
 
+        Operations.Clear();
+        OperationsAsync.Clear();
+
         return total;
     }
 

@@ -27,6 +27,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         IClassValidatorService? classValidatorService = default,
         IAuditableService? auditableService = default) : base(options)
     {
+        Id = Guid.NewGuid();
         _assemblyConfigurations = assemblyConfigurations;
         _classValidatorService = classValidatorService;
         _auditableService = auditableService;
@@ -38,6 +39,9 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     #endregion
 
     #region Properties
+
+    /// <summary>  </summary>
+    public Guid Id { get; }
 
     /// <summary>  </summary>
     public string Schema { get; }

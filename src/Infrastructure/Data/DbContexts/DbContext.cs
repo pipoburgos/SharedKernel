@@ -9,7 +9,7 @@ namespace SharedKernel.Infrastructure.Data.DbContexts;
 public abstract class DbContext : IDbContext
 {
     /// <summary>  </summary>
-    protected readonly Guid Id;
+    public Guid Id { get; }
 
     /// <summary>  </summary>
     protected readonly IEntityAuditableService AuditableService;
@@ -96,6 +96,8 @@ public abstract class DbContext : IDbContext
             operation.RollbackMethod();
             OperationsExecuted.Remove(operation);
         }
+
+        Operations.Clear();
 
         return total;
     }

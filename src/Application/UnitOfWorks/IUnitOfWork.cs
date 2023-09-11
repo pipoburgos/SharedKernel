@@ -6,6 +6,9 @@ namespace SharedKernel.Application.UnitOfWorks;
 public interface IUnitOfWork
 {
     /// <summary>  </summary>
+    Guid Id { get; }
+
+    /// <summary>  </summary>
     int SaveChanges();
 
     /// <summary>  </summary>

@@ -6,7 +6,7 @@ using SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.Redis.DbContexts;
 
-public class SharedKernelRedisDbContext : RedisDbContext
+public class SharedKernelRedisDbContext : RedisDbContext, ISharedKernelRedisUnitOfWork
 {
     public SharedKernelRedisDbContext(IDistributedCache distributedCache, IJsonSerializer jsonSerializer,
         IEntityAuditableService auditableService, IClassValidatorService classValidatorService) : base(distributedCache,

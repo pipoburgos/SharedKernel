@@ -4,7 +4,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
-public class SharedKernelEntityFrameworkDbContext : EntityFrameworkDbContext, ISharedKernelEntityFrameworkDbContext
+public class SharedKernelEntityFrameworkDbContext : EntityFrameworkDbContext, ISharedKernelEntityFrameworkUnitOfWork
 {
     public SharedKernelEntityFrameworkDbContext(DbContextOptions<SharedKernelEntityFrameworkDbContext> options,
         IClassValidatorService? classValidatorService = default, IAuditableService? auditableService = default) : base(

@@ -6,7 +6,7 @@ using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
 
-public class SharedKernelMongoDbContext : MongoDbContext
+public class SharedKernelMongoDbContext : MongoDbContext, ISharedKernelMongoUnitOfWork
 {
     public SharedKernelMongoDbContext(IOptions<MongoSettings> options, IEntityAuditableService auditableService,
         IClassValidatorService classValidatorService) : base(options, auditableService, classValidatorService)
