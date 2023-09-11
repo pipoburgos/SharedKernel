@@ -19,7 +19,7 @@
     <PackageTags>DotNetDBF</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.2.10.3</Version>
+    <Version>7.3.10.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
