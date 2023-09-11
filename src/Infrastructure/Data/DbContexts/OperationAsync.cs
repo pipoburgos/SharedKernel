@@ -12,6 +12,9 @@ public interface IOperationAsync
 
     /// <summary>  </summary>
     public Func<Task> RollbackMethodAsync { get; }
+
+    /// <summary>  </summary>
+    public IAggregateRoot AggregateRoot { get; set; }
 }
 
 /// <summary>  </summary>
@@ -30,7 +33,7 @@ public class OperationAsync<T, TId> : IOperationAsync where T : class, IAggregat
     public Crud Crud { get; set; }
 
     /// <summary>  </summary>
-    public T AggregateRoot { get; set; }
+    public IAggregateRoot AggregateRoot { get; set; }
 
     /// <summary>  </summary>
     public Func<Task> CommitMethodAsync { get; }

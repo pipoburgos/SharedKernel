@@ -10,7 +10,7 @@ using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 /// <summary> Shared kernel DbContext. </summary>
-public abstract class EntityFrameworkDbContext : DbContext, IDbContext, IQueryableUnitOfWork
+public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync, IQueryableUnitOfWork
 {
     #region Members
 
@@ -246,4 +246,24 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContext, IQueryab
     }
 
     #endregion
+
+    /// <summary>  </summary>
+    public Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    {
+        return Set<T>().AddAsync(aggregateRoot, cancellationToken).AsTask();
+    }
+
+    /// <summary>  </summary>
+    public Task UpdateAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    {
+        Set<T>().Update(aggregateRoot);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>  </summary>
+    public Task RemoveAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    {
+        Set<T>().Remove(aggregateRoot);
+        return Task.CompletedTask;
+    }
 }

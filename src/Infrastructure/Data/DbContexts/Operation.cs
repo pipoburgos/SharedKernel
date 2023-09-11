@@ -12,6 +12,9 @@ public interface IOperation
 
     /// <summary>  </summary>
     public Action RollbackMethod { get; }
+
+    /// <summary>  </summary>
+    public IAggregateRoot AggregateRoot { get; set; }
 }
 
 /// <summary>  </summary>
@@ -30,7 +33,7 @@ public class Operation<T, TId> : IOperation where T : class, IAggregateRoot<TId>
     public Crud Crud { get; set; }
 
     /// <summary>  </summary>
-    public T AggregateRoot { get; set; }
+    public IAggregateRoot AggregateRoot { get; set; }
 
     /// <summary>  </summary>
     public Action CommitMethod { get; }

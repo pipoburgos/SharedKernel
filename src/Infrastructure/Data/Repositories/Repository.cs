@@ -4,13 +4,13 @@ using SharedKernel.Infrastructure.Data.DbContexts;
 namespace SharedKernel.Infrastructure.Data.Repositories;
 
 /// <summary>  </summary>
-public abstract class RepositoryBase<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>,
+public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRoot, TId>,
     ISaveRepository where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     private readonly IDbContext _dbContext;
 
     /// <summary>  </summary>
-    protected RepositoryBase(IDbContext dbContext)
+    protected Repository(IDbContext dbContext)
     {
         _dbContext = dbContext;
     }

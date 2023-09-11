@@ -63,16 +63,9 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     /// <summary>  </summary>
     public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        var addingAndUpdating = Operations.Where(x => x.Crud == Crud.Adding || x.Crud == Crud.Updating).ToList();
+        Validate();
 
-        ClassValidatorService.ValidateDataAnnotations(addingAndUpdating);
-
-        ClassValidatorService.ValidateValidatableObjects(addingAndUpdating.OfType<IValidatableObject>());
-
-        AuditableService.Audit(
-            Operations.Where(x => x.Crud == Crud.Adding).OfType<IEntityAuditable>(),
-            Operations.Where(x => x.Crud == Crud.Updating).OfType<IEntityAuditable>(),
-            Operations.Where(x => x.Crud == Crud.Deleting).OfType<IEntityAuditableLogicalRemove>());
+        Audit(Operations, OperationsAsync);
 
         return CommitAsync(cancellationToken);
     }
@@ -89,10 +82,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return Result
             .Create(Unit.Value)
             .Combine(x1, x2)
-            .Tap(_ => AuditableService.Audit(
-                Operations.Where(x => x.Crud == Crud.Adding).OfType<IEntityAuditable>(),
-                Operations.Where(x => x.Crud == Crud.Updating).OfType<IEntityAuditable>(),
-                Operations.Where(x => x.Crud == Crud.Deleting).OfType<IEntityAuditableLogicalRemove>()))
+            .Tap(_ => Audit(Operations, OperationsAsync))
             .TryBind(async _ => await CommitAsync(cancellationToken));
     }
 
@@ -101,18 +91,16 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     {
         var total = OperationsExecuted.Count + OperationsAsync.Count;
 
-        foreach (var operation in OperationsExecuted)
+        foreach (var operation in OperationsExecuted.ToList())
         {
             operation.RollbackMethod();
             OperationsExecuted.Remove(operation);
-            OperationsExecuted.Add(operation);
         }
 
-        foreach (var operationAsync in OperationsExecutedAsync)
+        foreach (var operationAsync in OperationsExecutedAsync.ToList())
         {
             await operationAsync.RollbackMethodAsync();
             OperationsExecutedAsync.Remove(operationAsync);
-            OperationsExecutedAsync.Add(operationAsync);
         }
 
         return total;
@@ -126,7 +114,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
 
     private async Task<int> CommitAsync(CancellationToken cancellationToken)
     {
-        var total = Operations.Count;
+        var total = Operations.Count + OperationsAsync.Count;
 
         await BeforeCommitAsync(cancellationToken);
 
@@ -139,21 +127,19 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
                 OperationsExecuted.Add(operation);
             }
 
-            foreach (var operationAsync in OperationsExecutedAsync)
+            foreach (var operationAsync in OperationsAsync.ToList())
             {
                 await operationAsync.CommitMethodAsync();
                 OperationsAsync.Remove(operationAsync);
-                OperationsAsync.Add(operationAsync);
+                OperationsExecutedAsync.Add(operationAsync);
             }
         }
-        finally
+        catch (Exception)
         {
-            Rollback();
+            await RollbackAsync(cancellationToken);
         }
 
         await AfterCommitAsync(cancellationToken);
-
-        await RollbackAsync(cancellationToken);
 
         return total;
     }
@@ -175,4 +161,16 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     /// <summary>  </summary>
     protected abstract Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
         where T : class, IAggregateRoot<TId> where TId : notnull;
+
+    /// <summary>  </summary>
+    protected void Audit(IEnumerable<IOperation> operations, IEnumerable<IOperationAsync> operationsAsync)
+    {
+        base.Audit(operations);
+        var operationsList = operationsAsync.ToList();
+        AuditableService.Audit(
+            operationsList.Where(x => x.Crud == Crud.Adding).Select(a => a.AggregateRoot).OfType<IEntityAuditable>(),
+            operationsList.Where(x => x.Crud == Crud.Updating).Select(a => a.AggregateRoot).OfType<IEntityAuditable>(),
+            operationsList.Where(x => x.Crud == Crud.Deleting).Select(a => a.AggregateRoot)
+                .OfType<IEntityAuditableLogicalRemove>());
+    }
 }

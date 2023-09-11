@@ -3,7 +3,7 @@
 namespace SharedKernel.Infrastructure.Data.DbContexts;
 
 /// <summary>  </summary>
-public interface IDbContextAsync : IUnitOfWorkAsync
+public interface IDbContextAsync : IDbContext, IUnitOfWorkAsync
 {
     /// <summary>  </summary>
     Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)

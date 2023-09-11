@@ -59,16 +59,9 @@ public abstract class DbContext : IDbContext
     /// <summary>  </summary>
     public virtual int SaveChanges()
     {
-        var addingAndUpdating = Operations.Where(x => x.Crud is Crud.Adding or Crud.Updating).ToList();
+        Validate();
 
-        ClassValidatorService.ValidateDataAnnotations(addingAndUpdating);
-
-        ClassValidatorService.ValidateValidatableObjects(addingAndUpdating.OfType<IValidatableObject>());
-
-        AuditableService.Audit(
-            Operations.Where(x => x.Crud == Crud.Adding).OfType<IEntityAuditable>(),
-            Operations.Where(x => x.Crud == Crud.Updating).OfType<IEntityAuditable>(),
-            Operations.Where(x => x.Crud == Crud.Deleting).OfType<IEntityAuditableLogicalRemove>());
+        Audit(Operations);
 
         return Commit();
     }
@@ -85,10 +78,7 @@ public abstract class DbContext : IDbContext
         return Result
             .Create(Unit.Value)
             .Combine(x1, x2)
-            .Tap(_ => AuditableService.Audit(
-                Operations.Where(x => x.Crud == Crud.Adding).OfType<IEntityAuditable>(),
-                Operations.Where(x => x.Crud == Crud.Updating).OfType<IEntityAuditable>(),
-                Operations.Where(x => x.Crud == Crud.Deleting).OfType<IEntityAuditableLogicalRemove>()))
+            .Tap(_ => Audit(Operations))
             .TryBind(_ => Commit());
     }
 
@@ -97,11 +87,10 @@ public abstract class DbContext : IDbContext
     {
         var total = OperationsExecuted.Count;
 
-        foreach (var operation in OperationsExecuted)
+        foreach (var operation in OperationsExecuted.ToList())
         {
             operation.RollbackMethod();
             OperationsExecuted.Remove(operation);
-            OperationsExecuted.Add(operation);
         }
 
         return total;
@@ -140,7 +129,7 @@ public abstract class DbContext : IDbContext
                 OperationsExecuted.Add(operation);
             }
         }
-        finally
+        catch (Exception)
         {
             Rollback();
         }
@@ -155,4 +144,25 @@ public abstract class DbContext : IDbContext
 
     /// <summary>  </summary>
     protected virtual void AfterCommit() { }
+
+    /// <summary>  </summary>
+    protected void Validate()
+    {
+        var addingAndUpdating = Operations.Where(x => x.Crud is Crud.Adding or Crud.Updating).ToList();
+
+        ClassValidatorService.ValidateDataAnnotations(addingAndUpdating);
+
+        ClassValidatorService.ValidateValidatableObjects(addingAndUpdating.OfType<IValidatableObject>());
+    }
+
+    /// <summary>  </summary>
+    protected virtual void Audit(IEnumerable<IOperation> operations)
+    {
+        var operationsList = operations.ToList();
+        AuditableService.Audit(
+            operationsList.Where(x => x.Crud == Crud.Adding).Select(a => a.AggregateRoot).OfType<IEntityAuditable>(),
+            operationsList.Where(x => x.Crud == Crud.Updating).Select(a => a.AggregateRoot).OfType<IEntityAuditable>(),
+            operationsList.Where(x => x.Crud == Crud.Deleting).Select(a => a.AggregateRoot)
+                .OfType<IEntityAuditableLogicalRemove>());
+    }
 }
