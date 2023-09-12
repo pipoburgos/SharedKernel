@@ -34,7 +34,7 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryA
             id.ToString());
 
         if (searchResponse.HttpStatusCode != 200)
-            throw searchResponse.OriginalException;
+            return null;// throw searchResponse.OriginalException;
 
         var document = _elasticsearchDbContext.JsonSerializer
             .Deserialize<Dictionary<string, object>>(searchResponse.Body);
@@ -69,7 +69,7 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryA
             _elasticsearchDbContext.GetIndex<TAggregateRoot>(), id.ToString(), ctx: cancellationToken);
 
         if (searchResponse.HttpStatusCode != 200)
-            throw searchResponse.OriginalException;
+            return null;//throw searchResponse.OriginalException;
 
         var document = _elasticsearchDbContext.JsonSerializer
             .Deserialize<Dictionary<string, object>>(searchResponse.Body);

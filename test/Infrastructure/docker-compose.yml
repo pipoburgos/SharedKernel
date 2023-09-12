@@ -64,25 +64,48 @@ services:
         ports:
             - 22227:5432
 
-    elasticsearch:
-        image: elasticsearch:8.9.1
+    # elasticsearch:
+    #     image: elasticsearch:8.9.2
+    #     environment:
+    #         - discovery.type=single-node
+    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    #         - ELASTIC_USER=admin
+    #         - ELASTIC_PASSWORD=password
+    #         - bootstrap.memory_lock=true
+    #         - xpack.security.enabled=false
+    #         - xpack.security.http.ssl.enabled=false
+    #         # - xpack.security.http.ssl.key=certs/es01/es01.key
+    #         # - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+    #         # - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+    #         - xpack.security.transport.ssl.enabled=false
+    #         # - xpack.security.transport.ssl.key=certs/es01/es01.key
+    #         # - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+    #         # - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+    #         # - xpack.security.transport.ssl.verification_mode=certificate
+    #         # - xpack.license.self_generated.type=${LICENSE}
+    #     mem_limit: 1g
+    #     ulimits:
+    #         memlock:
+    #             soft: -1
+    #             hard: -1
+    #     ports:
+    #         - 22228:9200
+    #         - 22229:9300
+
+    elasticsearch1:
+        image: elasticsearch:8.9.2
         environment:
-            - discovery.type=single-node
+            - node.name=es-node-1
+            - cluster.name=my-cluster
+            - discovery.seed_hosts=elasticsearch2,elasticsearch3
+            - cluster.initial_master_nodes=es-node-1,es-node-2,es-node-3
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
             - ELASTIC_USER=admin
             - ELASTIC_PASSWORD=password
             - bootstrap.memory_lock=true
             - xpack.security.enabled=false
             - xpack.security.http.ssl.enabled=false
-            # - xpack.security.http.ssl.key=certs/es01/es01.key
-            # - xpack.security.http.ssl.certificate=certs/es01/es01.crt
-            # - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
             - xpack.security.transport.ssl.enabled=false
-            # - xpack.security.transport.ssl.key=certs/es01/es01.key
-            # - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
-            # - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
-            # - xpack.security.transport.ssl.verification_mode=certificate
-            # - xpack.license.self_generated.type=${LICENSE}
         mem_limit: 1g
         ulimits:
             memlock:
@@ -91,3 +114,43 @@ services:
         ports:
             - 22228:9200
             - 22229:9300
+
+    elasticsearch2:
+        image: elasticsearch:8.9.2
+        environment:
+            - node.name=es-node-2
+            - cluster.name=my-cluster
+            - discovery.seed_hosts=elasticsearch1,elasticsearch3
+            - cluster.initial_master_nodes=es-node-1,es-node-2,es-node-3
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - ELASTIC_USER=admin
+            - ELASTIC_PASSWORD=password
+            - bootstrap.memory_lock=true
+            - xpack.security.enabled=false
+            - xpack.security.http.ssl.enabled=false
+            - xpack.security.transport.ssl.enabled=false
+        mem_limit: 1g
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+
+    elasticsearch3:
+        image: elasticsearch:8.9.2
+        environment:
+            - node.name=es-node-3
+            - cluster.name=my-cluster
+            - discovery.seed_hosts=elasticsearch1,elasticsearch2
+            - cluster.initial_master_nodes=es-node-1,es-node-2,es-node-3
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - ELASTIC_USER=admin
+            - ELASTIC_PASSWORD=password
+            - bootstrap.memory_lock=true
+            - xpack.security.enabled=false
+            - xpack.security.http.ssl.enabled=false
+            - xpack.security.transport.ssl.enabled=false
+        mem_limit: 1g
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
