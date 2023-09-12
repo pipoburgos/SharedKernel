@@ -30,22 +30,27 @@ internal class RedisCommandsConsumer : BackgroundService
         {
             try
             {
-                var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
-
-                if (value.HasValue)
+                if (connectionMultiplexer.IsConnected)
                 {
-                    try
+                    var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
+
+                    if (value.HasValue)
                     {
-                        await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
-                            nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex, ex.Message);
+                        try
+                        {
+                            await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
+                                nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Error(ex, ex.Message);
+                        }
                     }
                 }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                else
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                }
             }
             catch (RedisConnectionException e)
             {
