@@ -30,7 +30,7 @@ public static class CurrentCultureMiddleware
             {
                 var userLanguages = context.Request.Headers["Accept-Language"].ToString();
 
-                if (userLanguages != default!)
+                if (!string.IsNullOrWhiteSpace(userLanguages))
                 {
                     var requestCultures = userLanguages.Contains(',')
                         ? userLanguages.Split(',').ToList()
