@@ -22,9 +22,16 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryA
     /// <summary>  </summary>
     public override TAggregateRoot? GetById(TId id)
     {
+        var exists =
+            _elasticsearchDbContext.Client.Indices.Exists<StringResponse>(_elasticsearchDbContext
+                .GetIndex<TAggregateRoot>());
+
+        if (exists.HttpStatusCode == 404)
+            return null;
+
         var searchResponse =
-            _elasticsearchDbContext.Client.Get<StringResponse>(_elasticsearchDbContext.GetIndex<TAggregateRoot>(),
-                id.ToString());
+        _elasticsearchDbContext.Client.Get<StringResponse>(_elasticsearchDbContext.GetIndex<TAggregateRoot>(),
+            id.ToString());
 
         if (searchResponse.HttpStatusCode != 200)
             throw searchResponse.OriginalException;
@@ -51,6 +58,13 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryA
     /// <summary>  </summary>
     public override async Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
+        var exists =
+            await _elasticsearchDbContext.Client.Indices.ExistsAsync<StringResponse>(
+                _elasticsearchDbContext.GetIndex<TAggregateRoot>(), ctx: cancellationToken);
+
+        if (exists.HttpStatusCode == 404)
+            return null;
+
         var searchResponse = await _elasticsearchDbContext.Client.GetAsync<StringResponse>(
             _elasticsearchDbContext.GetIndex<TAggregateRoot>(), id.ToString(), ctx: cancellationToken);
 
