@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.Data;
-using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Redis.Data;
@@ -17,7 +16,6 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddDbContext<TDbContext>(serviceLifetime)
-            .AddRedisDistributedCache(configuration)
             .AddRedisHealthChecks(configuration, "Redis UnitOfWork", "Redis UnitOfWork");
     }
 

@@ -2,6 +2,10 @@ using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using SharedKernel.Application.Caching;
+using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.Caching;
+using SharedKernel.Infrastructure.Serializers;
 
 namespace SharedKernel.Infrastructure.Redis;
 
@@ -28,6 +32,9 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddOptions()
-            .Configure<RedisCacheOptions>(configuration.GetSection(nameof(RedisCacheOptions)));
+            .Configure<RedisCacheOptions>(configuration.GetSection(nameof(RedisCacheOptions)))
+            .AddStackExchangeRedisCache(_ => { })
+            .AddTransient<IBinarySerializer, BinarySerializer>()
+            .AddTransient<ICacheHelper, DistributedCacheHelper>();
     }
 }

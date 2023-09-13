@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Caching;
-using SharedKernel.Application.Serializers;
-using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Serializers;
 
 namespace SharedKernel.Infrastructure.Redis.Caching;
 
@@ -16,11 +12,7 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddRedisDistributedCache(this IServiceCollection services, IConfiguration configuration)
     {
-        return services
-            .AddRedisHealthChecks(configuration, "Redis Cache", "DistrubutedCache")
-            .AddStackExchangeRedisCache(_ => { })
-            .AddTransient<IBinarySerializer, BinarySerializer>()
-            .AddTransient<ICacheHelper, DistributedCacheHelper>();
+        return services.AddRedisHealthChecks(configuration, "Redis Cache", "DistributedCache");
     }
 }
 
