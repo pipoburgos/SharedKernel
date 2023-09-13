@@ -19,7 +19,7 @@
     <PackageTags>FluentValidation</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.3.10.1</Version>
+    <Version>7.3.11.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
