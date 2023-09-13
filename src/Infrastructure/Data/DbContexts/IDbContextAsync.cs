@@ -6,14 +6,18 @@ namespace SharedKernel.Infrastructure.Data.DbContexts;
 public interface IDbContextAsync : IDbContext, IUnitOfWorkAsync
 {
     /// <summary>  </summary>
-    Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    Task AddAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    Task UpdateAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    Task UpdateAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    Task RemoveAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    Task RemoveAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
+
+    /// <summary>  </summary>
+    Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

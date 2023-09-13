@@ -34,30 +34,33 @@ public abstract class DbContext : IDbContext
     }
 
     /// <summary>  </summary>
-    public void Add<T, TId>(T aggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        Operations.Add(new Operation<T, TId>(Crud.Adding, aggregateRoot, () => AddMethod<T, TId>(aggregateRoot),
-            () => DeleteMethod<T, TId>(aggregateRoot)));
+        Operations.Add(new Operation<TAggregateRoot, TId>(Crud.Adding, aggregateRoot, () => AddMethod<TAggregateRoot, TId>(aggregateRoot),
+            () => DeleteMethod<TAggregateRoot, TId>(aggregateRoot)));
     }
 
     /// <summary>  </summary>
-    public void Update<T, TId>(T aggregateRoot, T originalAggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        Operations.Add(new Operation<T, TId>(Crud.Updating, aggregateRoot, () => UpdateMethod<T, TId>(aggregateRoot),
-            () => UpdateMethod<T, TId>(originalAggregateRoot)));
+        Operations.Add(new Operation<TAggregateRoot, TId>(Crud.Updating, aggregateRoot,
+            () => UpdateMethod<TAggregateRoot, TId>(aggregateRoot),
+            () => UpdateMethod<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!)));
     }
 
     /// <summary>  </summary>
-    public void Remove<T, TId>(T aggregateRoot, T originalAggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         Operations.Add(aggregateRoot is IEntityAuditableLogicalRemove
-            ? new Operation<T, TId>(Crud.Deleting, aggregateRoot, () => UpdateMethod<T, TId>(aggregateRoot),
-                () => UpdateMethod<T, TId>(originalAggregateRoot))
-            : new Operation<T, TId>(Crud.Deleting, aggregateRoot, () => DeleteMethod<T, TId>(aggregateRoot),
-                () => AddMethod<T, TId>(originalAggregateRoot)));
+            ? new Operation<TAggregateRoot, TId>(Crud.Deleting, aggregateRoot,
+                () => UpdateMethod<TAggregateRoot, TId>(aggregateRoot),
+                () => UpdateMethod<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!))
+            : new Operation<TAggregateRoot, TId>(Crud.Deleting, aggregateRoot,
+                () => DeleteMethod<TAggregateRoot, TId>(aggregateRoot),
+                () => AddMethod<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!)));
     }
 
     /// <summary>  </summary>
@@ -87,9 +90,9 @@ public abstract class DbContext : IDbContext
     }
 
     /// <summary>  </summary>
-    public int Rollback()
+    public virtual int Rollback()
     {
-        var total = OperationsExecuted.Count + Operations.Count;
+        var total = OperationsExecuted.Count;
 
         foreach (var operation in OperationsExecuted.ToList())
         {
@@ -103,22 +106,22 @@ public abstract class DbContext : IDbContext
     }
 
     /// <summary>  </summary>
-    public Result<int> RollbackResult()
+    public virtual Result<int> RollbackResult()
     {
         return Rollback();
     }
 
     /// <summary>  </summary>
-    protected abstract void AddMethod<T, TId>(T aggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    protected abstract void UpdateMethod<T, TId>(T aggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    protected abstract void DeleteMethod<T, TId>(T aggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     private int Commit()
     {
@@ -171,4 +174,8 @@ public abstract class DbContext : IDbContext
             operationsList.Where(x => x.Crud == Crud.Deleting).Select(a => a.AggregateRoot)
                 .OfType<IEntityAuditableLogicalRemove>());
     }
+
+    /// <summary>  </summary>
+    public abstract TAggregateRoot? GetById<TAggregateRoot, TId>(TId id)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

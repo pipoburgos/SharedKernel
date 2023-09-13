@@ -3,6 +3,7 @@ using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Validators;
 using SharedKernel.Infrastructure.Data.DbContexts;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 using System.Data;
 using System.Reflection;
 using DbContext = Microsoft.EntityFrameworkCore.DbContext;
@@ -17,6 +18,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     private readonly Assembly _assemblyConfigurations;
     private readonly IAuditableService? _auditableService;
     private readonly IClassValidatorService? _classValidatorService;
+    private readonly List<OriginalEntry> _originalEntries;
 
     #endregion
 
@@ -34,6 +36,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         Schema = schema;
         // ReSharper disable once VirtualMemberCallInConstructor
         ChangeTracker.LazyLoadingEnabled = false;
+        _originalEntries = new List<OriginalEntry>();
     }
 
     #endregion
@@ -52,21 +55,62 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     #endregion
 
     /// <summary>  </summary>
-    public void Add<T, TId>(T aggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        base.Set<T>().Add(aggregateRoot);
+        base.Set<TAggregateRoot>().Add(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void Update<T, TId>(T aggregateRoot, T originalAggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        base.Set<T>().Update(aggregateRoot);
+        base.Set<TAggregateRoot>().Update(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void Remove<T, TId>(T aggregateRoot, T originalAggregateRoot) where T : class, IAggregateRoot<TId> where TId : notnull
+    public void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        base.Set<T>().Remove(aggregateRoot);
+        base.Set<TAggregateRoot>().Remove(aggregateRoot);
+    }
+
+    ///// <summary>  </summary>
+    //protected virtual IQueryable<TAggregateRoot> GetQuery<TAggregateRoot, TId>(bool tracking = true,
+    //    bool showDeleted = false, EntityFrameworkDbContext? dbContextBase = default) where TAggregateRoot : class
+    //{
+    //    IQueryable<TAggregateRoot> query = Set<TAggregateRoot>();
+
+    //    query = GetAggregate<TAggregateRoot, TId>(query);
+
+    //    if (typeof(IEntityIsTranslatable<>).IsAssignableFrom(typeof(TAggregateRoot)))
+    //    {
+    //        query = query
+    //            .Cast<IEntityIsTranslatable<dynamic>>()
+    //            .Include(a => a.Translations)
+    //            .Cast<TAggregateRoot>();
+    //    }
+
+    //    if (!showDeleted && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(TAggregateRoot)))
+    //    {
+    //        query = query
+    //            .Cast<IEntityAuditableLogicalRemove>()
+    //            .Where(new NotDeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
+    //            .Cast<TAggregateRoot>();
+    //    }
+
+    //    // ReSharper disable once ConvertIfStatementToReturnStatement
+    //    if (tracking)
+    //        return query;
+
+    //    return query.AsNoTracking();
+    //}
+
+    ///// <summary>  </summary>
+    //protected abstract IQueryable<TAggregateRoot> GetAggregate<TAggregateRoot, TId>(IQueryable<TAggregateRoot> query);
+
+    /// <summary>  </summary>
+    public TAggregateRoot GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class, IAggregateRoot<TId>
+        where TId : notnull
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>  </summary>
@@ -74,6 +118,9 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     {
         try
         {
+            _originalEntries.AddRange(ChangeTracker.Entries()
+                .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
+
             _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
             _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
                 .OfType<IValidatableObject>().ToList());
@@ -85,11 +132,13 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         {
             throw new Exception(string.Join(", ", exUpdate.Entries.Select(e => e.ToString())), exUpdate);
         }
-#endif
-        finally
+#else
+        // ReSharper disable once RedundantCatchClause
+        catch (Exception)
         {
-            Rollback();
+            throw;
         }
+#endif
     }
 
     /// <summary>  </summary>
@@ -132,6 +181,9 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     {
         try
         {
+            _originalEntries.AddRange(ChangeTracker.Entries()
+                .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
+
             _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
             _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
                 .OfType<IValidatableObject>().ToList());
@@ -143,11 +195,13 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         {
             throw new Exception(string.Join(", ", dbUpdateException.Entries.Select(e => e.ToString())), dbUpdateException);
         }
-#endif
-        finally
+#else
+        // ReSharper disable once RedundantCatchClause
+        catch (Exception)
         {
-            await RollbackAsync(cancellationToken);
+            throw;
         }
+#endif
     }
 
     /// <summary>  </summary>
@@ -171,6 +225,39 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 
     /// <summary>  </summary>
     public int Rollback()
+    {
+        foreach (var entryInfo in _originalEntries)
+        {
+            var entry = entryInfo.Entry;
+
+            switch (entryInfo.State)
+            {
+                case EntityState.Detached:
+                    break;
+                case EntityState.Unchanged:
+                    break;
+                case EntityState.Deleted:
+                    entry.State = EntityState.Added;
+                    break;
+                case EntityState.Modified:
+                    entry.CurrentValues.SetValues(entryInfo.OriginalValues);
+                    entry.State = EntityState.Modified;
+                    break;
+                case EntityState.Added:
+                    entry.State = EntityState.Deleted;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        _originalEntries.Clear();
+
+        return SaveChanges();
+    }
+
+    /// <summary>  </summary>
+    public int RejectChanges()
     {
         var changedEntries = ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList();
 
@@ -204,7 +291,34 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     /// <summary> Rollback all changes. </summary>
     public Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult(Rollback());
+        foreach (var entryInfo in _originalEntries)
+        {
+            var entry = entryInfo.Entry;
+
+            switch (entryInfo.State)
+            {
+                case EntityState.Detached:
+                    break;
+                case EntityState.Unchanged:
+                    break;
+                case EntityState.Deleted:
+                    entry.State = EntityState.Added;
+                    break;
+                case EntityState.Modified:
+                    entry.CurrentValues.SetValues(entryInfo.OriginalValues);
+                    entry.State = EntityState.Modified;
+                    break;
+                case EntityState.Added:
+                    entry.State = EntityState.Deleted;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        _originalEntries.Clear();
+
+        return SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>  </summary>
@@ -234,22 +348,29 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task AddAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        return base.Set<T>().AddAsync(aggregateRoot, cancellationToken).AsTask();
+        return base.Set<TAggregateRoot>().AddAsync(aggregateRoot, cancellationToken).AsTask();
     }
 
     /// <summary>  </summary>
-    public Task UpdateAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task UpdateAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        base.Set<T>().Update(aggregateRoot);
+        base.Set<TAggregateRoot>().Update(aggregateRoot);
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public Task RemoveAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken) where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task RemoveAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        base.Set<T>().Remove(aggregateRoot);
+        base.Set<TAggregateRoot>().Remove(aggregateRoot);
         return Task.CompletedTask;
+    }
+
+    /// <summary>  </summary>
+    public Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
+    {
+        throw new NotImplementedException();
     }
 }

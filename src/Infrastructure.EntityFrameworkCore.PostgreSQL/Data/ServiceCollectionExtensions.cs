@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
-            .AddEntityFramework()
+            .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
 #if NET6_0 || NET7_0 || NET8_0
@@ -52,7 +52,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
-            .AddEntityFramework()
+            .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
                     .UseNetTopologySuite()

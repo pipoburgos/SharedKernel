@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data;
@@ -12,9 +13,7 @@ public static class ServiceCollectionExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : FileSystemDbContext
     {
-        services.Add(new ServiceDescriptor(typeof(TDbContext), typeof(TDbContext), serviceLifetime));
-        return services
-            .AddSharedKernel();
+        return services.AddDbContext<TDbContext>(serviceLifetime);
     }
 
     /// <summary>  </summary>
@@ -23,7 +22,6 @@ public static class ServiceCollectionExtensions
         where TDbContext : FileSystemDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddSharedKernel()
             .AddFileSystemDbContext<TDbContext>(serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }

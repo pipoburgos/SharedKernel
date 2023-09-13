@@ -6,14 +6,11 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
-using SharedKernel.Application.Validator;
-using SharedKernel.Infrastructure.Data.Services;
 using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.Security.Cryptography;
 using SharedKernel.Infrastructure.Serializers;
 using SharedKernel.Infrastructure.Settings;
 using SharedKernel.Infrastructure.System;
-using SharedKernel.Infrastructure.Validator;
 
 namespace SharedKernel.Infrastructure;
 
@@ -27,10 +24,8 @@ public static class AddSharedKernelExtensions
             .AddLogging()
             .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
             .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
-            .AddTransient<IEntityAuditableService, EntityAuditableService>()
             .AddTransient<IBase64, Base64>()
             .AddTransient<IBinarySerializer, BinarySerializer>()
-            .AddTransient<IClassValidatorService, ClassValidatorService>()
             .AddTransient<ICulture, ThreadUiCulture>()
             .AddTransient<ICustomLogger, DefaultCustomLogger>()
             .AddTransient<IDateTime, MachineDateTime>()

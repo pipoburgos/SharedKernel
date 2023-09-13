@@ -16,13 +16,13 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     }
 
     /// <summary>  </summary>
-    public void Add(TAggregateRoot aggregateRoot)
+    public virtual void Add(TAggregateRoot aggregateRoot)
     {
         _dbContext.Add<TAggregateRoot, TId>(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void AddRange(IEnumerable<TAggregateRoot> aggregates)
+    public virtual void AddRange(IEnumerable<TAggregateRoot> aggregates)
     {
         foreach (var aggregateRoot in aggregates)
         {
@@ -31,7 +31,10 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     }
 
     /// <summary>  </summary>
-    public abstract TAggregateRoot? GetById(TId id);
+    public virtual TAggregateRoot? GetById(TId id)
+    {
+        return _dbContext.GetById<TAggregateRoot, TId>(id);
+    }
 
     /// <summary>  </summary>
     public virtual bool Any(TId id)
@@ -46,13 +49,13 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     }
 
     /// <summary>  </summary>
-    public void Update(TAggregateRoot aggregateRoot)
+    public virtual void Update(TAggregateRoot aggregateRoot)
     {
-        _dbContext.Update<TAggregateRoot, TId>(aggregateRoot, GetById(aggregateRoot.Id)!);
+        _dbContext.Update<TAggregateRoot, TId>(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
+    public virtual void UpdateRange(IEnumerable<TAggregateRoot> aggregates)
     {
         foreach (var aggregateRoot in aggregates)
         {
@@ -61,13 +64,13 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     }
 
     /// <summary>  </summary>
-    public void Remove(TAggregateRoot aggregateRoot)
+    public virtual void Remove(TAggregateRoot aggregateRoot)
     {
-        _dbContext.Remove<TAggregateRoot, TId>(aggregateRoot, GetById(aggregateRoot.Id)!);
+        _dbContext.Remove<TAggregateRoot, TId>(aggregateRoot);
     }
 
     /// <summary>  </summary>
-    public void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
+    public virtual void RemoveRange(IEnumerable<TAggregateRoot> aggregates)
     {
         foreach (var aggregateRoot in aggregates)
         {
@@ -76,25 +79,25 @@ public abstract class Repository<TAggregateRoot, TId> : IRepository<TAggregateRo
     }
 
     /// <summary>  </summary>
-    public int SaveChanges()
+    public virtual int SaveChanges()
     {
         return _dbContext.SaveChanges();
     }
 
     /// <summary>  </summary>
-    public Result<int> SaveChangesResult()
+    public virtual Result<int> SaveChangesResult()
     {
         return _dbContext.SaveChangesResult();
     }
 
     /// <summary>  </summary>
-    public int Rollback()
+    public virtual int Rollback()
     {
         return _dbContext.Rollback();
     }
 
     /// <summary>  </summary>
-    public Result<int> RollbackResult()
+    public virtual Result<int> RollbackResult()
     {
         return _dbContext.RollbackResult();
     }

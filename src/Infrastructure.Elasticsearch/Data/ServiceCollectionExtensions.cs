@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Infrastructure.Data.DbContexts;
+using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data;
@@ -13,9 +13,8 @@ public static class ServiceCollectionExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : ElasticsearchDbContext
     {
-        services.Add(new ServiceDescriptor(typeof(TDbContext), typeof(TDbContext), serviceLifetime));
         return services
-            .AddDbContext()
+            .AddDbContext<TDbContext>(serviceLifetime)
             .AddElasticsearchHealthChecks(uri, serviceLifetime);
     }
 

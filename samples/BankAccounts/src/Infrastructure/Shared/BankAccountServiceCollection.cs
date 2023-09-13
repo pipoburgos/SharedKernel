@@ -9,6 +9,7 @@ using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Dapper.Data;
+using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Infrastructure.Events;
@@ -55,8 +56,8 @@ public static class BankAccountServiceCollection
             .AddSmtp(configuration)
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
-            .AddEntityFrameworkCoreSqlServerUnitOfWork<IBankAccountUnitOfWork, BankAccountDbContext>(
-                connectionString)
+            .AddEntityFrameworkCoreSqlServerDbContext<BankAccountDbContext>(connectionString, ServiceLifetime.Scoped)
+            .AddGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
             .AddDapperSqlServer(connectionString)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
             .AddValidationMiddleware()

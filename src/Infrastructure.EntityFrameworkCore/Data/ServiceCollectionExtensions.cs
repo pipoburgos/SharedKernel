@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
         where TDbContext : EntityFrameworkDbContext
     {
         return services
-            .AddEntityFramework()
+            .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseInMemoryDatabase(connectionString), serviceLifetime)
 #if !NET6_0 && !NET7_0 && !NET8_0

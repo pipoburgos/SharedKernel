@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
+﻿namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 
 /// <summary>  </summary>
 public interface IAuditableService

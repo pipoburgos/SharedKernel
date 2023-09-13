@@ -6,14 +6,18 @@ namespace SharedKernel.Infrastructure.Data.DbContexts;
 public interface IDbContext : IUnitOfWork
 {
     /// <summary>  </summary>
-    void Add<T, TId>(T aggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    void Update<T, TId>(T aggregateRoot, T originalAggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    void Remove<T, TId>(T aggregateRoot, T originalAggregateRoot)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
+
+    /// <summary>  </summary>
+    TAggregateRoot? GetById<TAggregateRoot, TId>(TId id)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

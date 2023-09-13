@@ -2,13 +2,15 @@
 using MongoDB.Driver;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Aggregates;
+using SharedKernel.Domain.Entities;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.DbContexts;
 using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
 /// <summary>  </summary>
-public abstract class MongoDbContext : DbContextAsync, IDisposable
+public class MongoDbContext : DbContextAsync, IDisposable
 {
     /// <summary>  </summary>
     protected readonly IClientSessionHandle Session;
@@ -56,6 +58,21 @@ public abstract class MongoDbContext : DbContextAsync, IDisposable
     }
 
     /// <summary>  </summary>
+    public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
+    {
+        var aggregateRoot = Set<TAggregateRoot>().Find(a => a.Id!.Equals(id)).SingleOrDefault();
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
+                ? default
+                : aggregateRoot;
+        }
+
+        return aggregateRoot;
+    }
+
+    /// <summary>  </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         Set<TAggregateRoot>().InsertOne(GetSession(), aggregateRoot);
@@ -92,6 +109,24 @@ public abstract class MongoDbContext : DbContextAsync, IDisposable
     {
         return Set<T>().DeleteOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
             cancellationToken: cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken) where TAggregateRoot : class
+    {
+        var cursor = await Set<TAggregateRoot>()
+            .FindAsync(a => a.Id!.Equals(id), cancellationToken: cancellationToken);
+
+        var aggregateRoot = cursor.SingleOrDefault();
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
+                ? default
+                : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     /// <summary>  </summary>

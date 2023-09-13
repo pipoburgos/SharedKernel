@@ -5,7 +5,7 @@ using SharedKernel.Domain.Entities;
 using SharedKernel.Infrastructure.Data.Services;
 using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 
 /// <summary>  </summary>
 public class AuditableService : IAuditableService

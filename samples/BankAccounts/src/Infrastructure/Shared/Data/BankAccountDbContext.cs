@@ -2,6 +2,7 @@
 using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 
 namespace BankAccounts.Infrastructure.Shared.Data;
 

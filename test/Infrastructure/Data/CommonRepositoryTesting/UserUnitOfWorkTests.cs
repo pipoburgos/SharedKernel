@@ -62,11 +62,15 @@ public abstract class UserUnitOfWorkTests<T, TUnitOfWork> : InfrastructureTestCa
         var userDdBb = repository2.GetById(user.Id);
         userDdBb.Should().BeNull();
 
-        var total = unitOfWork.Rollback();
+        var total = unitOfWork.SaveChanges();
         total.Should().BeGreaterOrEqualTo(1);
 
-        var total2 = unitOfWork.SaveChanges();
-        total2.Should().BeGreaterOrEqualTo(0);
+        repository = GetRequiredService<T>();
+        userDdBb = repository.GetById(user.Id);
+        userDdBb.Should().NotBeNull();
+
+        var total2 = unitOfWork.Rollback();
+        total2.Should().BeGreaterOrEqualTo(1);
 
         repository = GetRequiredService<T>();
         userDdBb = repository.GetById(user.Id);
@@ -89,11 +93,15 @@ public abstract class UserUnitOfWorkTests<T, TUnitOfWork> : InfrastructureTestCa
         var userDdBb = await repository2.GetByIdAsync(user.Id, CancellationToken.None);
         userDdBb.Should().BeNull();
 
-        var total = await unitOfWork.RollbackAsync(CancellationToken.None);
+        var total = await unitOfWork.SaveChangesAsync(CancellationToken.None);
         total.Should().BeGreaterOrEqualTo(1);
 
-        var total2 = await unitOfWork.SaveChangesAsync(CancellationToken.None);
-        total2.Should().BeGreaterOrEqualTo(0);
+        repository = GetRequiredService<T>();
+        userDdBb = repository.GetById(user.Id);
+        userDdBb.Should().NotBeNull();
+
+        var total2 = await unitOfWork.RollbackAsync(CancellationToken.None);
+        total2.Should().BeGreaterOrEqualTo(1);
 
         repository = GetRequiredService<T>();
         userDdBb = repository.GetById(user.Id);

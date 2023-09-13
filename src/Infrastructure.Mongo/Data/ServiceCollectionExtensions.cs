@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
+using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 using SharedKernel.Infrastructure.Mongo.Data.Queries;
 
@@ -14,9 +15,8 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : MongoDbContext
     {
-        services.Add(new ServiceDescriptor(typeof(TDbContext), typeof(TDbContext), serviceLifetime));
         return services
-            .AddSharedKernel()
+            .AddDbContext<TDbContext>(serviceLifetime)
             .AddMongoHealthChecks(configuration, "Mongo")
             .AddTransient<MongoQueryProvider>();
     }

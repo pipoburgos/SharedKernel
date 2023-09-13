@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 /// <summary>  </summary>
-public class UnitOfWork : IUnitOfWork
+public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
 {
     /// <summary>  </summary>
     protected readonly List<IDbContext> DbContexts;
@@ -18,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public Guid Id { get; }
 
     /// <summary>  </summary>
-    public UnitOfWork(IServiceProvider serviceProvider)
+    protected GlobalUnitOfWork(IServiceProvider serviceProvider)
     {
         Id = Guid.NewGuid();
         DbContexts = serviceProvider.GetServices<IDbContext>().ToList();

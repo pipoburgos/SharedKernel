@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 /// <summary>  </summary>
-public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
+public abstract class GlobalUnitOfWorkAsync : GlobalUnitOfWork, IGlobalUnitOfWorkAsync
 {
     private readonly List<IDbContextAsync> _dbContextsAsync;
 
     private readonly List<IDbContextAsync> _dbContextsExecutedAsync;
 
     /// <summary>  </summary>
-    public UnitOfWorkAsync(IServiceProvider serviceProvider) : base(serviceProvider)
+    protected GlobalUnitOfWorkAsync(IServiceProvider serviceProvider) : base(serviceProvider)
     {
         _dbContextsAsync = serviceProvider.GetServices<IDbContextAsync>().ToList();
         _dbContextsExecutedAsync = new List<IDbContextAsync>();
@@ -48,9 +47,10 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
     }
 
     /// <summary>  </summary>
-    public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
+    public async Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult(Result.Create(SaveChanges()));
+        var total = await SaveChangesAsync(cancellationToken);
+        return Result.Create(total);
     }
 
     /// <summary>  </summary>
@@ -77,8 +77,9 @@ public class UnitOfWorkAsync : UnitOfWork, IUnitOfWorkAsync
     }
 
     /// <summary>  </summary>
-    public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
+    public async Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult(Result.Create(Rollback()));
+        var total = await RollbackAsync(cancellationToken);
+        return Result.Create(total);
     }
 }

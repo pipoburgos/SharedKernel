@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddSqlServerHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
-            .AddEntityFramework()
+            .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseSqlServer(connectionString, b => b
 #if NET6_0 || NET7_0 || NET8_0

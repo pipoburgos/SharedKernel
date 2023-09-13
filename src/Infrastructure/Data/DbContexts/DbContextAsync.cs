@@ -22,40 +22,42 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         OperationsExecutedAsync = new List<IOperationAsync>();
     }
 
-
     /// <summary>  </summary>
-    public Task AddAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task AddAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        OperationsAsync.Add(new OperationAsync<T, TId>(Crud.Adding, aggregateRoot,
-            () => AddMethodAsync<T, TId>(aggregateRoot, cancellationToken),
-            () => DeleteMethodAsync<T, TId>(aggregateRoot, cancellationToken)));
+        OperationsAsync.Add(new OperationAsync<TAggregateRoot, TId>(Crud.Adding, aggregateRoot,
+            () => AddMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken),
+            () => DeleteMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken)));
 
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public Task UpdateAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task UpdateAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
-        OperationsAsync.Add(new OperationAsync<T, TId>(Crud.Updating, aggregateRoot,
-            () => UpdateMethodAsync<T, TId>(aggregateRoot, cancellationToken),
-            () => UpdateMethodAsync<T, TId>(originalAggregateRoot, cancellationToken)));
+        OperationsAsync.Add(new OperationAsync<TAggregateRoot, TId>(Crud.Updating, aggregateRoot,
+            () => UpdateMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken),
+            () => UpdateMethodAsync<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!,
+                cancellationToken)));
 
         return Task.CompletedTask;
     }
 
     /// <summary>  </summary>
-    public Task RemoveAsync<T, TId>(T aggregateRoot, T originalAggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull
+    public Task RemoveAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         OperationsAsync.Add(aggregateRoot is IEntityAuditableLogicalRemove
-            ? new OperationAsync<T, TId>(Crud.Deleting, aggregateRoot,
-                () => UpdateMethodAsync<T, TId>(aggregateRoot, cancellationToken),
-                () => UpdateMethodAsync<T, TId>(originalAggregateRoot, cancellationToken))
-            : new OperationAsync<T, TId>(Crud.Deleting, aggregateRoot,
-                () => DeleteMethodAsync<T, TId>(aggregateRoot, cancellationToken),
-                () => AddMethodAsync<T, TId>(originalAggregateRoot, cancellationToken)));
+            ? new OperationAsync<TAggregateRoot, TId>(Crud.Deleting, aggregateRoot,
+                () => UpdateMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken),
+                () => UpdateMethodAsync<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!,
+                    cancellationToken))
+            : new OperationAsync<TAggregateRoot, TId>(Crud.Deleting, aggregateRoot,
+                () => DeleteMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken),
+                () => AddMethodAsync<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!,
+                    cancellationToken)));
 
         return Task.CompletedTask;
     }
@@ -89,7 +91,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     /// <summary>  </summary>
     public async Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
-        var total = OperationsExecuted.Count + Operations.Count + OperationsExecutedAsync.Count + OperationsAsync.Count;
+        var total = OperationsExecuted.Count + OperationsExecutedAsync.Count;
 
         foreach (var operation in OperationsExecuted.ToList())
         {
@@ -110,9 +112,10 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
+    public virtual async Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult(Result.Create(Rollback()));
+        var total = await RollbackAsync(cancellationToken);
+        return Result.Create(total);
     }
 
     private async Task<int> CommitAsync(CancellationToken cancellationToken)
@@ -154,16 +157,16 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
     protected virtual Task AfterCommitAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
     /// <summary>  </summary>
-    protected abstract Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+        CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    protected abstract Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+        CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
-    protected abstract Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
-        where T : class, IAggregateRoot<TId> where TId : notnull;
+    protected abstract Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+        CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
     /// <summary>  </summary>
     protected void Audit(IEnumerable<IOperation> operations, IEnumerable<IOperationAsync> operationsAsync)
@@ -176,4 +179,8 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
             operationsList.Where(x => x.Crud == Crud.Deleting).Select(a => a.AggregateRoot)
                 .OfType<IEntityAuditableLogicalRemove>());
     }
+
+    /// <summary>  </summary>
+    public abstract Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken)
+        where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

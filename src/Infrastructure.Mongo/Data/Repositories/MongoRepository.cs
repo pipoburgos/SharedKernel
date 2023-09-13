@@ -64,39 +64,6 @@ public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAg
         : new BsonArray();
 
     /// <summary>  </summary>
-    public override TAggregateRoot? GetById(TId id)
-    {
-        var aggregateRoot = MongoUnitOfWork.Set<TAggregateRoot>().Find(a => a.Id!.Equals(id)).SingleOrDefault();
-
-        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
-        {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
-                ? default
-                : aggregateRoot;
-        }
-
-        return aggregateRoot;
-    }
-
-    /// <summary>  </summary>
-    public override async Task<TAggregateRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken)
-    {
-        var cursor = await MongoUnitOfWork.Set<TAggregateRoot>()
-            .FindAsync(a => a.Id!.Equals(id), cancellationToken: cancellationToken);
-
-        var aggregateRoot = cursor.SingleOrDefault();
-
-        if (aggregateRoot is IEntityAuditableLogicalRemove ag)
-        {
-            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(ag)
-                ? default
-                : aggregateRoot;
-        }
-
-        return aggregateRoot;
-    }
-
-    /// <summary>  </summary>
     public List<TAggregateRoot> GetAll()
     {
         return MongoUnitOfWork.Set<TAggregateRoot>().Find(FilterDefinition<TAggregateRoot>.Empty).ToList();
