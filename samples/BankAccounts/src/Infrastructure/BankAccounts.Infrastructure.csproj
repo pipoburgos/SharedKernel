@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Newtonsoft\SharedKernel.Infrastructure.Newtonsoft.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\Application\BankAccounts.Application.csproj" />
   </ItemGroup>

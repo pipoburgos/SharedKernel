@@ -1,6 +1,8 @@
 ﻿using BankAccounts.Acceptance.Tests.Shared;
 using BankAccounts.Application.BankAccounts.Commands;
 using BankAccounts.Domain.BankAccounts;
+using BankAccounts.Domain.Documents;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Testing.Acceptance.Extensions;
 
@@ -37,6 +39,13 @@ namespace BankAccounts.Acceptance.Tests.BankAccounts
                 .Any(x => x.Id == BankAccountId.Create(bankAccountId))
                 .Should()
                 .BeTrue();
+
+            _bankAccountClientFactory
+                .Services.GetRequiredService<IDocumentRepository>()
+                .GetById(bankAccountId)!
+                .Text
+                .Should()
+                .Be("Some text");
         }
 
         [Fact]

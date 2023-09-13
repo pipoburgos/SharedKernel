@@ -1,5 +1,6 @@
 ﻿using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
+using BankAccounts.Domain.Documents;
 
 namespace BankAccounts.Application.BankAccounts.Commands;
 
@@ -7,17 +8,20 @@ internal class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccou
 {
     private readonly IDateTime _dateTime;
     private readonly IBankAccountRepository _bankAccountRepository;
+    private readonly IDocumentRepository _documentRepository;
     private readonly IBankAccountUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
 
     public CreateBankAccountHandler(
         IDateTime dateTime,
         IBankAccountRepository bankAccountRepository,
+        IDocumentRepository documentRepository,
         IBankAccountUnitOfWork unitOfWork,
         IEventBus eventBus)
     {
         _dateTime = dateTime;
         _bankAccountRepository = bankAccountRepository;
+        _documentRepository = documentRepository;
         _unitOfWork = unitOfWork;
         _eventBus = eventBus;
     }
@@ -32,6 +36,8 @@ internal class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccou
             .Bind(t => BankAccount.Create(BankAccountId.Create(command.Id), t.Item1.Value, t.Item2, t.Item3,
                 _dateTime.UtcNow))
             .Tap(bankAccount => _bankAccountRepository.AddAsync(bankAccount, cancellationToken))
+            .Tap(bankAccount => _documentRepository
+                .AddAsync(Document.Create(bankAccount.Id.Value, "Some text"), cancellationToken))
             .Tap(_ => _unitOfWork.SaveChangesResultAsync(cancellationToken))
             .Tap(bankAccount => _eventBus.Publish(bankAccount.PullDomainEvents(), cancellationToken))
             .ToApplicationResultUnit();

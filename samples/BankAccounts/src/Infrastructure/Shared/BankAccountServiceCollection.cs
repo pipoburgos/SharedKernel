@@ -15,6 +15,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.FluentValidation;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
+using SharedKernel.Infrastructure.Redis.Data;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Infrastructure.System;
 
@@ -57,6 +58,7 @@ public static class BankAccountServiceCollection
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
             .AddEntityFrameworkCoreSqlServerDbContext<BankAccountDbContext>(connectionString, ServiceLifetime.Scoped)
+            .AddRedisDbContext<BankAccountRedisDbContext>(configuration, ServiceLifetime.Scoped)
             .AddGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
             .AddDapperSqlServer(connectionString)
             .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
