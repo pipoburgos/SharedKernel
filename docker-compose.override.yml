@@ -40,7 +40,7 @@ services:
     redis:
         image: redis:latest
         ports:
-            - 8771:637
+            - 8771:6379
 
     smtp:
         image: ixdotai/smtp:latest
