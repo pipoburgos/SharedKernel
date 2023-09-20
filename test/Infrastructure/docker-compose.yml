@@ -30,15 +30,10 @@ services:
             - 22223:5672
 
     smtp:
-        image: ixdotai/smtp:latest
+        image: jijiechen/papercut:latest
         ports:
-            - 127.0.0.1:22224:25
-        environment:
-            - SMARTHOST_ADDRESS=smtp.sendgrid.net
-            - SMARTHOST_PORT=587
-            - SMARTHOST_USER=apikey
-            - SMARTHOST_PASSWORD=SG.blahblahblahblahWoSpQodvLakqXQfxo
-            - SMARTHOST_ALIASES=*.sendgrid.net
+            - 22224:25
+            - 37408:37408
  
     activemq:
         image: islandora/activemq:main
