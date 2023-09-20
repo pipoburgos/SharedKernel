@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
+using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.System.Threading;
-using SharedKernel.Integration.Tests.Data;
-using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
+using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
 using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
@@ -28,7 +27,7 @@ public class PostgreSqlApp : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
 
         return services
-            .AddEntityFrameworkCorePostgreSqlUnitOfWorkAsync<ISharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
+            .AddEntityFrameworkCorePostgreSqlUnitOfWork<IPostgreSqlSharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
             .AddPostgreSqlMutex(connection);
     }
 }

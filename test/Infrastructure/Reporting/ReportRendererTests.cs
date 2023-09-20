@@ -1,9 +1,6 @@
 ﻿using FluentAssertions;
 using SharedKernel.Application.Reporting;
 using SharedKernel.Infrastructure.Reporting;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Reporting;
@@ -16,7 +13,7 @@ public class ReportRendererTests
         if (!OperatingSystem.IsWindows())
             return;
 
-        var service = new ReportRenderer(null);
+        var service = new ReportRenderer();
         const string path = "random path.rdlc";
         const ExportReportType extension = ExportReportType.Pdf;
 
@@ -31,7 +28,7 @@ public class ReportRendererTests
         if (!OperatingSystem.IsWindows())
             return;
 
-        var service = new ReportRenderer(null);
+        var service = new ReportRenderer();
         const string path = "Reporting/BillExampleReport.rdlc";
         const ExportReportType extension = ExportReportType.Pdf;
 

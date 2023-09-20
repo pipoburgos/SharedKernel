@@ -19,6 +19,8 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
 
     public string Environment { get; set; } = "Testing";
 
+    public string Culture { get; set; } = "en-US";
+
     public DateTime? DateTime { get; set; }
 
     public override async ValueTask DisposeAsync()
@@ -95,7 +97,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
     }
 
-    public async Task<HttpClient> CreateClientAsync(string language = "en-US")
+    public async Task<HttpClient> CreateClientAsync(string? language = "en-US")
     {
         if (_firstTime)
         {
@@ -110,7 +112,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
 
         var client = CreateClient();
         client.Timeout = TimeSpan.FromMinutes(2);
-        client.DefaultRequestHeaders.Add("Accept-Language", language);
+        client.DefaultRequestHeaders.Add("Accept-Language", language ?? Culture);
         return client;
     }
 
@@ -123,7 +125,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         await unitOfWork.Database.MigrateAsync(cancellationToken);
     }
 
-    internal DatabaseManager? Database() => _dataBase;
+    public DatabaseManager? Database() => _dataBase;
 
     public abstract DbContext GetNewDbContext();
 }

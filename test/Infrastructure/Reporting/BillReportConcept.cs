@@ -2,12 +2,12 @@
 {
     public class BillReportConcept
     {
-        public string Concept { get; set; }
+        public string Concept { get; set; } = null!;
 
-        public string IvaAmount { get; set; }
+        public string IvaAmount { get; set; } = null!;
 
-        public string TaxableString { get; set; }
+        public string TaxableString { get; set; } = null!;
 
-        public string TotalString { get; set; }
+        public string TotalString { get; set; } = null!;
     }
 }

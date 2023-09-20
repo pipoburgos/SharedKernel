@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,6 +13,20 @@ namespace SharedKernel.Api.ServiceCollectionExtensions;
 /// <summary> Authentication Extensions. </summary>
 public static class AuthenticationExtensions
 {
+    /// <summary>  </summary>
+    public static IServiceCollection AddSharedKernelWindowsAuthentication(this IServiceCollection services)
+    {
+        services
+            .AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+            .AddNegotiate();
+
+        return services
+            .AddHttpContextAccessor()
+            .RemoveAll<IIdentityService>()
+            .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()
+            .AddAuthorization(options => options.FallbackPolicy = options.DefaultPolicy);
+    }
+
     /// <summary> Configures OpenIdOptions, Authentication, cookies and bearer token. </summary>
     /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
     /// <param name="configuration">Represents a set of key/value application configuration properties.</param>

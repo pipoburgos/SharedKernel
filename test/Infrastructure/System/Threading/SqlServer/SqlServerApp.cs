@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
+using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading;
-using SharedKernel.Integration.Tests.Data;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
 
@@ -18,7 +17,7 @@ public class SqlServerApp : InfrastructureTestCase<FakeStartup>
 
     public override void BeforeStart()
     {
-        var dbContext = GetRequiredServiceOnNewScope<SharedKernelDbContext>();
+        var dbContext = GetRequiredServiceOnNewScope<SharedKernelEntityFrameworkDbContext>();
         //dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
     }
@@ -28,7 +27,7 @@ public class SqlServerApp : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
 
         return services
-            .AddEntityFrameworkCoreSqlServerUnitOfWorkAsync<ISharedKernelUnitOfWork, SharedKernelDbContext>(connection)
+            .AddEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork, SharedKernelEntityFrameworkDbContext>(connection)
             .AddSqlServerMutex(connection);
     }
 }
