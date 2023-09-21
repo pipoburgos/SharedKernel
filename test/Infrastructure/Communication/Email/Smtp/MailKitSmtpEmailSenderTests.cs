@@ -2,14 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Exceptions;
-using SharedKernel.Infrastructure.Communication.Email.Smtp;
+using SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 using SharedKernel.Testing.Infrastructure;
 using Xunit;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 {
     [Collection("DockerHook")]
-    public class SmtpEmailSenderTests : InfrastructureTestCase<FakeStartup>
+    public class MailKitSmtpEmailSenderTests : InfrastructureTestCase<FakeStartup>
     {
         protected override string GetJsonFile()
         {
@@ -18,7 +18,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services.AddSmtp(Configuration);
+            return services.AddMailKitSmtp(Configuration);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
         //{
         //    var smtp = GetRequiredServiceOnNewScope<IOptions<SmtpSettings>>();
         //    smtp.Value.Password = null;
-        //    var sender = new SmtpEmailSender(smtp);
+        //    var sender = new MailKitSmtpEmailSender(smtp);
 
         //    var bytes = await GetPhotoBinary();
 
@@ -89,7 +89,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
         //    var smtp = GetRequiredServiceOnNewScope<IOptions<SmtpSettings>>();
         //    smtp.Value.Password = null;
-        //    var sender = new SmtpEmailSender(smtp);
+        //    var sender = new MailKitSmtpEmailSender(smtp);
 
         //    var bytes = await GetPhotoBinary();
 

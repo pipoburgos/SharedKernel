@@ -120,13 +120,7 @@
   <data name="EF_CORE_SAVE_CHANGES" xml:space="preserve">
     <value>Problem saving changes.</value>
   </data>
-  <data name="EMAIL_ATTACH_EXT" xml:space="preserve">
-    <value>Attachment required.</value>
-  </data>
   <data name="REDIS_UPDATE" xml:space="preserve">
     <value>Error in redis update operation.</value>
-  </data>
-  <data name="SMT_PASS_EMPTY" xml:space="preserve">
-    <value>Smtp password required.</value>
   </data>
 </root>

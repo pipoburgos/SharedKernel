@@ -19,7 +19,7 @@ namespace SharedKernel.Infrastructure.Exceptions {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ExceptionCodes {
@@ -70,29 +70,11 @@ namespace SharedKernel.Infrastructure.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attachment required..
-        /// </summary>
-        public static string EMAIL_ATTACH_EXT {
-            get {
-                return ResourceManager.GetString("EMAIL_ATTACH_EXT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Error in redis update operation..
         /// </summary>
         public static string REDIS_UPDATE {
             get {
                 return ResourceManager.GetString("REDIS_UPDATE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Smtp password required..
-        /// </summary>
-        public static string SMT_PASS_EMPTY {
-            get {
-                return ResourceManager.GetString("SMT_PASS_EMPTY", resourceCulture);
             }
         }
     }

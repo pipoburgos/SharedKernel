@@ -123,10 +123,4 @@
   <data name="REDIS_UPDATE" xml:space="preserve">
     <value>Error al actualizar vía Redis.</value>
   </data>
-  <data name="EMAIL_ATTACH_EXT" xml:space="preserve">
-    <value>El adjunto tiene que tener una extensión.</value>
-  </data>
-  <data name="SMT_PASS_EMPTY" xml:space="preserve">
-    <value>Contraseña smtp requerida.</value>
-  </data>
 </root>

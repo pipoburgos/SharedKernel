@@ -38,12 +38,12 @@
     <Using Include="SharedKernel.Domain.Events" />
     <Using Include="SharedKernel.Domain.Requests" />
     <Using Include="System.Runtime.CompilerServices" />
-    <Using Remove="System.Net.Http"/>
+    <Using Remove="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

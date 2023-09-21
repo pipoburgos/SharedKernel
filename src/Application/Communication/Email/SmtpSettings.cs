@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Infrastructure.Communication.Email.Smtp;
+﻿namespace SharedKernel.Application.Communication.Email;
 
 /// <summary>  </summary>
 public class SmtpSettings
