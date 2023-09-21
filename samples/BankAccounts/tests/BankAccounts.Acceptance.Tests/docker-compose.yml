@@ -36,4 +36,4 @@ services:
         image: jijiechen/papercut:latest
         ports:
             - 9772:25
-            - 37408:37408
+            # - 37408:37408
