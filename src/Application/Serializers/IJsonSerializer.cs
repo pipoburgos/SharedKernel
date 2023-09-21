@@ -4,7 +4,7 @@
 public interface IJsonSerializer
 {
     /// <summary>  </summary>
-    string Serialize(object value, NamingConvention namingConvention = NamingConvention.CamelCase);
+    string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase);
 
     /// <summary>  </summary>
     /// <returns></returns>

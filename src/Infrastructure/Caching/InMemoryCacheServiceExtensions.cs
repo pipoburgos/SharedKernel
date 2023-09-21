@@ -16,6 +16,7 @@ namespace SharedKernel.Infrastructure.Caching
         public static IServiceCollection AddInMemoryCache(this IServiceCollection services)
         {
             return services
+                .AddLogging()
                 .AddMemoryCache()
                 .AddTransient<ICacheHelper, InMemoryCacheHelper>();
         }

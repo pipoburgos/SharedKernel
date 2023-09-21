@@ -136,8 +136,8 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
             if (eventData == default)
                 throw new ArgumentException(nameof(body));
 
-            var data = eventData["data"];
-            var attributesString = data["attributes"].ToString();
+            var data = eventData[RequestExtensions.Data];
+            var attributesString = data[RequestExtensions.Attributes].ToString();
 
             var attributes = jsonSerializer.Deserialize<Dictionary<string, string>>(attributesString!);
 
@@ -153,8 +153,8 @@ namespace SharedKernel.Integration.Tests.Events.Serialization
                 {
                     attributes[nameof(DomainEvent.AggregateId)],
                     attributes,
-                    data["id"].ToString()!,
-                    data["occurred_on"].ToString()!
+                    data[RequestExtensions.Id].ToString()!,
+                    data[RequestExtensions.OccurredOn].ToString()!
                 })!;
 
             return domainEvent;

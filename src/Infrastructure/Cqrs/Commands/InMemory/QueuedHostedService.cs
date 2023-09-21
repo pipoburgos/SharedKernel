@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
 {
@@ -30,8 +29,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             using var scope = _serviceScopeFactory.CreateScope();
 
             scope.ServiceProvider
-                .GetRequiredService<ICustomLogger<QueuedHostedService>>()
-                .Info("Queued Hosted Service is running for async commands");
+                .GetRequiredService<ILogger<QueuedHostedService>>()
+                .LogInformation("Queued Hosted Service is running for async commands");
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -46,8 +45,8 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 catch (Exception ex)
                 {
                     scope.ServiceProvider
-                        .GetRequiredService<ICustomLogger<QueuedHostedService>>()
-                        .Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                        .GetRequiredService<ILogger<QueuedHostedService>>()
+                        .LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
@@ -64,7 +63,7 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
             using var scope = _serviceScopeFactory.CreateScope();
 
             scope.ServiceProvider
-                .GetRequiredService<ICustomLogger<QueuedHostedService>>().Info("Queued Hosted Service is stopping.");
+                .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopping.");
 
             while (scope.ServiceProvider.GetRequiredService<IBackgroundTaskQueue>().Any())
             {
@@ -79,12 +78,12 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
                 catch (Exception ex)
                 {
                     scope.ServiceProvider
-                        .GetRequiredService<ICustomLogger<QueuedHostedService>>().Error(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+                        .GetRequiredService<ILogger<QueuedHostedService>>().LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
                 }
             }
 
             scope.ServiceProvider
-                .GetRequiredService<ICustomLogger<QueuedHostedService>>().Info("Queued Hosted Service is stopped.");
+                .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopped.");
 
             await base.StopAsync(cancellationToken);
         }

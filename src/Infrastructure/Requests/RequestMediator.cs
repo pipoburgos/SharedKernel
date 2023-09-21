@@ -3,7 +3,6 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Serializers;
 using System.Security.Claims;
@@ -16,7 +15,7 @@ namespace SharedKernel.Infrastructure.Requests;
 /// </summary>
 internal class RequestMediator : IRequestMediator
 {
-    private readonly ICustomLogger<RequestMediator> _logger;
+    private readonly ILogger<RequestMediator> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IRequestDeserializer _requestDeserializer;
     private readonly IJsonSerializer _jsonSerializer;
@@ -26,7 +25,7 @@ internal class RequestMediator : IRequestMediator
     /// Constructor
     /// </summary>
     public RequestMediator(
-        ICustomLogger<RequestMediator> logger,
+        ILogger<RequestMediator> logger,
         IServiceScopeFactory serviceScopeFactory,
         IRequestDeserializer requestDeserializer,
         IJsonSerializer jsonSerializer,
@@ -56,7 +55,7 @@ internal class RequestMediator : IRequestMediator
         {
             try
             {
-                _logger.Info($"Executing {handlerType.FullName} with data: {requestSerialized}");
+                _logger.LogInformation($"Executing {handlerType.FullName} with data: {requestSerialized}");
 
                 using var scope = _serviceScopeFactory.CreateScope();
 
@@ -85,7 +84,7 @@ internal class RequestMediator : IRequestMediator
             }
             catch (Exception e)
             {
-                _logger.Error(e, e.Message);
+                _logger.LogError(e, e.Message);
             }
         });
     }
@@ -97,21 +96,21 @@ internal class RequestMediator : IRequestMediator
         if (identityService == default)
             return;
 
-        var eventData = _jsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(body);
+        var eventData = _jsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(body, NamingConvention.PascalCase);
         if (eventData == default)
             throw new ArgumentException(nameof(eventData));
 
-        var headers = eventData["headers"];
+        var headers = eventData[RequestExtensions.Headers];
 
-        var authorization = headers["authorization"]?.ToString();
+        var authorization = headers[RequestExtensions.Authorization]?.ToString();
         if (authorization != default && !string.IsNullOrWhiteSpace(authorization))
             identityService.AddKeyValue("Authorization", authorization);
 
-        var domainClaimsString = headers["claims"]?.ToString();
+        var domainClaimsString = headers[RequestExtensions.Claims]?.ToString();
         if (domainClaimsString == null)
             return;
 
-        var domainClaims = _jsonSerializer.Deserialize<List<RequestClaim>?>(domainClaimsString!);
+        var domainClaims = _jsonSerializer.Deserialize<List<RequestClaim>?>(domainClaimsString!, NamingConvention.PascalCase);
         if (domainClaims == default || !domainClaims.Any())
             return;
 

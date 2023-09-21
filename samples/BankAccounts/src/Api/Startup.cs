@@ -8,7 +8,7 @@ using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
-using SharedKernel.Infrastructure.Newtonsoft;
+using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 using SharedKernel.Infrastructure.Redis.Events;
@@ -36,7 +36,7 @@ public class Startup
         _services = services
             .AddInMemoryCommandBus()
             .AddRedisCommandBusAsync(_configuration)
-            .AddNewtonsoftSerializer()
+            .AddNetJsonSerializer()
             .AddInMemoryQueryBus()
             .AddRedisEventBus(_configuration)
             .AddRedisDistributedCache(_configuration)

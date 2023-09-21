@@ -3,14 +3,14 @@
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 
 /// <summary>  </summary>
-public class EntityFrameworkCoreRequestFailoverRepository<TContext> : IRequestFailoverRepository where TContext : DbContext
+public class EntityFrameworkCoreRequestFailoverRepository<TContext> : IDisposable, IRequestFailoverRepository, IAsyncDisposable where TContext : DbContext
 {
     private readonly TContext _context;
 
     /// <summary>  </summary>
-    public EntityFrameworkCoreRequestFailoverRepository(TContext context)
+    public EntityFrameworkCoreRequestFailoverRepository(IDbContextFactory<TContext> dbContextFactory)
     {
-        _context = context;
+        _context = dbContextFactory.CreateDbContext();
     }
 
     /// <summary>  </summary>
@@ -18,5 +18,20 @@ public class EntityFrameworkCoreRequestFailoverRepository<TContext> : IRequestFa
     {
         await _context.Set<ErrorRequest>().AddAsync(request, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>  </summary>
+    public void Dispose()
+    {
+        if (_context is IDisposable contextDisposable)
+            contextDisposable.Dispose();
+        else
+            _ = _context.DisposeAsync().AsTask();
+    }
+
+    /// <summary>  </summary>
+    public async ValueTask DisposeAsync()
+    {
+        await _context.DisposeAsync();
     }
 }

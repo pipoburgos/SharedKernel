@@ -1,7 +1,7 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 
@@ -15,7 +15,7 @@ public class RabbitMqEventBus : RabbitMqPublisher, IEventBus
 
     /// <summary>  </summary>
     public RabbitMqEventBus(
-        ICustomLogger<RabbitMqPublisher> logger,
+        ILogger<RabbitMqPublisher> logger,
         IRequestSerializer requestSerializer,
         RabbitMqConnectionFactory config,
         IPipeline pipeline,

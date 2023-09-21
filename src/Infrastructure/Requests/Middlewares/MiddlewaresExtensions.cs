@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 using SharedKernel.Infrastructure.Requests.Middlewares.Validation;
@@ -31,7 +30,7 @@ public static class MiddlewaresExtensions
     {
         return services
             .AddTransient<ITimeHandler>(s =>
-                new TimeHandler(s.GetRequiredService<ICustomLogger<TimeHandler>>(), milliseconds))
+                new TimeHandler(s.GetRequiredService<ILogger<TimeHandler>>(), milliseconds))
             .AddTransient<IMiddleware, TimerMiddleware>();
     }
 

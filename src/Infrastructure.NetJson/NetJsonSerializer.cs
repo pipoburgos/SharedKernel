@@ -8,10 +8,9 @@ namespace SharedKernel.Infrastructure.NetJson;
 public class NetJsonSerializer : IJsonSerializer
 {
     /// <summary>  </summary>
-    public string Serialize(object value, NamingConvention namingConvention = NamingConvention.CamelCase)
+    public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-
-        return JsonSerializer.Serialize(value, GetOptions(namingConvention));
+        return value == null ? string.Empty : JsonSerializer.Serialize(value, GetOptions(namingConvention));
     }
 
     /// <summary>  </summary>
@@ -36,6 +35,7 @@ public class NetJsonSerializer : IJsonSerializer
                 policy = JsonNamingPolicy.CamelCase;
                 break;
             case NamingConvention.PascalCase:
+                policy = new PascalCaseNamingPolicy();
                 break;
             case NamingConvention.SnakeCase:
                 break;

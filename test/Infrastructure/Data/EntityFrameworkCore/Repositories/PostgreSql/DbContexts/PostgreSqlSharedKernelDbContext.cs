@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
@@ -9,8 +10,9 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.P
 public class PostgreSqlSharedKernelDbContext : EntityFrameworkDbContext, IPostgreSqlSharedKernelUnitOfWork
 {
     public PostgreSqlSharedKernelDbContext(DbContextOptions<PostgreSqlSharedKernelDbContext> options,
-        IClassValidatorService? classValidatorService = default, IAuditableService? auditableService = default) : base(
-        options, "skr", typeof(SharedKernelEntityFrameworkDbContext).Assembly, classValidatorService, auditableService)
+        IJsonSerializer? jsonSerializer = default, IClassValidatorService? classValidatorService = default,
+        IAuditableService? auditableService = default) : base(options, "skr",
+        typeof(SharedKernelEntityFrameworkDbContext).Assembly, jsonSerializer, classValidatorService, auditableService)
     {
     }
 }

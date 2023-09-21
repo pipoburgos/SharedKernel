@@ -27,21 +27,20 @@ internal class RequestDeserializer : IRequestDeserializer
         if (eventData == default)
             throw new ArgumentException(nameof(body));
 
-        var data = eventData["data"];
-        var attributesString = data["attributes"].ToString();
+        var data = eventData[RequestExtensions.Data];
+        var attributesString = data[RequestExtensions.Attributes].ToString();
 
-        var attributes = _jsonSerializer.Deserialize<Dictionary<string, string>>(attributesString!);
+        var attributes = _jsonSerializer.Deserialize<Dictionary<string, string>>(attributesString!, NamingConvention.PascalCase);
 
         if (attributes == default)
             throw new ArgumentException(nameof(body));
 
-        var x = data["type"].ToString();
+        var x = data[RequestExtensions.Type].ToString();
         var requestType = _requestProviderFactory.Get(x!);
 
         var instance = ReflectionHelper.CreateInstance<Request>(requestType);
 
-        const string key = nameof(DomainEvent.AggregateId);
-        if (attributes.TryGetValue(key, out var attribute))
+        if (attributes.TryGetValue(nameof(DomainEvent.AggregateId), out var attribute))
         {
             return ((DomainEvent)requestType
                 .GetTypeInfo()
@@ -50,8 +49,8 @@ internal class RequestDeserializer : IRequestDeserializer
                 {
                     attribute,
                     attributes,
-                    data["id"].ToString()!,
-                    data["occurred_on"].ToString()!
+                    data[RequestExtensions.Id].ToString()!,
+                    data[RequestExtensions.OccurredOn].ToString()!
                 })!)!;
         }
 
@@ -61,8 +60,8 @@ internal class RequestDeserializer : IRequestDeserializer
             ?.Invoke(instance, new object[]
             {
                 attributes,
-                data["id"].ToString()!,
-                data["occurred_on"].ToString()!
+                data[RequestExtensions.Id].ToString()!,
+                data[RequestExtensions.OccurredOn].ToString()!
             })!)!;
     }
 }

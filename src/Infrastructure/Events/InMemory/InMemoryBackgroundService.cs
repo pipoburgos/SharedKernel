@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Events.InMemory
 {
@@ -45,8 +44,8 @@ namespace SharedKernel.Infrastructure.Events.InMemory
             catch (Exception ex)
             {
                 scope.ServiceProvider
-                    .GetRequiredService<ICustomLogger<InMemoryBackgroundService>>()
-                    .Error(ex, "Error occurred executing event.");
+                    .GetRequiredService<ILogger<InMemoryBackgroundService>>()
+                    .LogError(ex, "Error occurred executing event.");
             }
         }
     }

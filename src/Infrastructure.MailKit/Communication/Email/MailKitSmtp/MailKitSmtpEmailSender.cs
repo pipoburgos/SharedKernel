@@ -21,6 +21,9 @@ public class MailKitSmtpEmailSender : IEmailSender
     }
 
     /// <summary>  </summary>
+    public bool Sender => true;
+
+    /// <summary>  </summary>
     public Task SendEmailAsync(Mail email, CancellationToken cancellationToken)
     {
         return SendEmailAsync(new List<Mail> { email }, cancellationToken);

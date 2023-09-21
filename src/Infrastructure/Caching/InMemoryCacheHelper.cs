@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using SharedKernel.Application.Caching;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Caching;
 
 internal class InMemoryCacheHelper : ICacheHelper
 {
     private readonly IMemoryCache _memoryCache;
-    private readonly ICustomLogger<InMemoryCacheHelper> _customLogger;
+    private readonly ILogger<InMemoryCacheHelper> _logger;
 
-    public InMemoryCacheHelper(IMemoryCache memoryCache, ICustomLogger<InMemoryCacheHelper> customLogger)
+    public InMemoryCacheHelper(IMemoryCache memoryCache, ILogger<InMemoryCacheHelper> logger)
     {
         _memoryCache = memoryCache;
-        _customLogger = customLogger;
+        _logger = logger;
     }
 
     public Task<T?> GetAsync<T>(string key) where T : notnull
@@ -31,7 +30,7 @@ internal class InMemoryCacheHelper : ICacheHelper
     {
         return _memoryCache.GetOrCreateAsync(key, entry =>
         {
-            _customLogger.Verbose($"Retrieving from cache {key}");
+            _logger.LogTrace($"Retrieving from cache {key}");
             entry.SlidingExpiration = timeSpan;
             return generator();
         });

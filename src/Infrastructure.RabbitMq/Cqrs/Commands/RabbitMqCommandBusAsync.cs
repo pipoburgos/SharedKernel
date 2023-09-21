@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
@@ -16,7 +16,7 @@ public class RabbitMqCommandBusAsync : RabbitMqPublisher, ICommandBusAsync
     public RabbitMqCommandBusAsync(
         IRequestSerializer requestSerializer,
         IPipeline pipeline,
-        ICustomLogger<RabbitMqPublisher> logger,
+        ILogger<RabbitMqPublisher> logger,
         RabbitMqConnectionFactory config,
         IOptions<RabbitMqConfigParams> rabbitMqParams) : base(logger, config, rabbitMqParams)
     {

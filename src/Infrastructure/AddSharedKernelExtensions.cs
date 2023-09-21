@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.Security.Cryptography;
 using SharedKernel.Application.Serializers;
-using SharedKernel.Application.Settings;
 using SharedKernel.Application.System;
 using SharedKernel.Application.System.Threading;
 using SharedKernel.Infrastructure.Logging;
@@ -21,13 +19,11 @@ public static class AddSharedKernelExtensions
     public static IServiceCollection AddSharedKernel(this IServiceCollection services)
     {
         return services
-            .AddLogging()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
-            .AddTransient(typeof(IOptionsService<>), typeof(OptionsService<>))
+            .AddSharedKernelLogging()
+            .AddSharedKernelOptions()
             .AddTransient<IBase64, Base64>()
             .AddTransient<IBinarySerializer, BinarySerializer>()
             .AddTransient<ICulture, ThreadUiCulture>()
-            .AddTransient<ICustomLogger, DefaultCustomLogger>()
             .AddTransient<IDateTime, MachineDateTime>()
             .AddTransient<IMd5Encryptor, Md5Encryptor>()
             .AddTransient<IGuid, GuidGenerator>()

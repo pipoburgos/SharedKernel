@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
-using SharedKernel.Infrastructure.Logging;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Events;
 
@@ -20,7 +18,6 @@ public static class ServiceCollectionExtensions
         return services
             .AddActiveMqHealthChecks(configuration, "ActiveMq Event Bus", "ActiveMq", "EventBus")
             .AddHostedService<ActiveMqConsumer>()
-            .AddTransient<IEventBus, ActiveMqEventBus>()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
+            .AddTransient<IEventBus, ActiveMqEventBus>();
     }
 }

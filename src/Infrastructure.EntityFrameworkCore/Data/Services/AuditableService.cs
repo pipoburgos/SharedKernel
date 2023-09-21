@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SharedKernel.Application.Logging;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Infrastructure.Data.Services;
@@ -13,11 +13,11 @@ public class AuditableService : IAuditableService
     private readonly IEntityAuditableService _entityAuditableService;
     private readonly IGuid _guid;
     private readonly IDateTime _dateTime;
-    private readonly ICustomLogger<AuditableService> _customLogger;
+    private readonly ILogger<AuditableService> _customLogger;
 
     /// <summary>  </summary>
     public AuditableService(IEntityAuditableService entityAuditableService, IGuid guid, IDateTime dateTime,
-        ICustomLogger<AuditableService> customLogger)
+        ILogger<AuditableService> customLogger)
     {
         _entityAuditableService = entityAuditableService;
         _guid = guid;
@@ -55,7 +55,7 @@ public class AuditableService : IAuditableService
 
         foreach (var removed in auditedLogicalRemoveEntities)
         {
-            _customLogger.Verbose($"Logically deleting the entity {removed.Entity.GetType()}");
+            _customLogger.LogTrace($"Logically deleting the entity {removed.Entity.GetType()}");
             removed.State = EntityState.Modified;
         }
     }
@@ -93,7 +93,7 @@ public class AuditableService : IAuditableService
             if (id == null)
             {
                 var exception = new Exception($"Property not found {string.Join(",", propertyNames)}");
-                _customLogger.Error(exception, exception.Message);
+                _customLogger.LogError(exception, exception.Message);
             }
             else
             {

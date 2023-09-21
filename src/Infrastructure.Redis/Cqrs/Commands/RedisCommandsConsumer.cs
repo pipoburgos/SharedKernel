@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
-using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 
@@ -25,7 +25,7 @@ internal class RedisCommandsConsumer : BackgroundService
         using var scope = _serviceScopeFactory.CreateScope();
         var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
-        var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<RedisCommandsConsumer>>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<RedisCommandsConsumer>>();
         while (!stoppingToken.IsCancellationRequested)
         {
             try
@@ -43,7 +43,7 @@ internal class RedisCommandsConsumer : BackgroundService
                         }
                         catch (Exception ex)
                         {
-                            logger.Error(ex, ex.Message);
+                            logger.LogError(ex, ex.Message);
                         }
                     }
                 }
@@ -54,7 +54,7 @@ internal class RedisCommandsConsumer : BackgroundService
             }
             catch (RedisConnectionException e)
             {
-                logger.Error(e, e.Message);
+                logger.LogError(e, e.Message);
             }
         }
     }

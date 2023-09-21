@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Newtonsoft;
@@ -7,9 +8,9 @@ namespace SharedKernel.Infrastructure.Newtonsoft;
 public class NewtonsoftSerializer : IJsonSerializer
 {
     /// <summary>  </summary>
-    public string Serialize(object value, NamingConvention namingConvention = NamingConvention.CamelCase)
+    public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonConvert.SerializeObject(value, GetOptions(namingConvention));
+        return value == null ? string.Empty : JsonConvert.SerializeObject(value, GetOptions(namingConvention));
     }
 
     /// <summary>  </summary>
@@ -26,13 +27,14 @@ public class NewtonsoftSerializer : IJsonSerializer
 
     private JsonSerializerSettings GetOptions(NamingConvention namingConvention)
     {
-        var contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
+        IContractResolver contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
         switch (namingConvention)
         {
             case NamingConvention.CamelCase:
                 contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.PascalCase:
+                contractResolver = new PascalCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.SnakeCase:
                 break;

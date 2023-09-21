@@ -1,16 +1,15 @@
-﻿using SharedKernel.Application.Logging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
 /// <summary>  </summary>
 public class TimeHandler : ITimeHandler
 {
-    private readonly ICustomLogger<TimeHandler> _logger;
+    private readonly ILogger<TimeHandler> _logger;
     private readonly int _milliseconds;
 
     /// <summary> Constructor. </summary>
-    public TimeHandler(ICustomLogger<TimeHandler> logger, int milliseconds)
+    public TimeHandler(ILogger<TimeHandler> logger, int milliseconds)
     {
         _logger = logger;
         _milliseconds = milliseconds;
@@ -22,6 +21,6 @@ public class TimeHandler : ITimeHandler
         var name = typeof(TRequest).Name;
 
         if (timer.ElapsedMilliseconds > _milliseconds)
-            _logger.Warn($"TimerBehaviour: {name} ({timer.ElapsedMilliseconds} milliseconds) {request}");
+            _logger.LogWarning($"TimerBehaviour: {name} ({timer.ElapsedMilliseconds} milliseconds) {request}");
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.UnitOfWorks;
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data;
 

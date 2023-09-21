@@ -7,9 +7,6 @@ using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Infrastructure.Data.Queryable;
 using System.Linq.Expressions;
-#if !NET6_0 && !NET7_0 && !NET8_0
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
-#endif
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries
 {

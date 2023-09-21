@@ -33,7 +33,8 @@ public abstract class DomainEvent : Request
     /// <summary> Sets aggregate id. </summary>
     public void SetAggregateId(string id)
     {
-        AggregateId = id;
+        if (string.IsNullOrWhiteSpace(AggregateId))
+            AggregateId = id;
     }
 
     /// <summary> The event identifier for message queues. </summary>

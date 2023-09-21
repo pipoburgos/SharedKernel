@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
+using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 
@@ -40,8 +41,13 @@ public static class ServiceCollectionExtensions
 
 
         return services
-            .AddOptions()
             .Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)))
-            .AddTransient<IEmailSender, MailKitSmtpEmailSender>();
+            .AddTransient<MailKitSmtpEmailSender>()
+            .AddTransient<IEmailSender, MailKitSmtpEmailSender>()
+            .AddTransient<IEmailSender>(sp =>
+                new RetryEmailDecorator(
+                    sp.GetRequiredService<ICustomLogger<RetryEmailDecorator>>(),
+                    sp.GetRequiredService<MailKitSmtpEmailSender>(),
+                    default));
     }
 }

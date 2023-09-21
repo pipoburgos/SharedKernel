@@ -10,10 +10,12 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.Data;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Communication.Email;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Infrastructure.Events;
 using SharedKernel.Infrastructure.FluentValidation;
+using SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Redis.Data;
 using SharedKernel.Infrastructure.Requests.Middlewares;
@@ -54,7 +56,9 @@ public static class BankAccountServiceCollection
     {
         var connectionString = configuration.GetConnectionString(connectionStringName)!;
         return services
-            .AddSmtp(configuration)
+            .AddMailKitSmtp(configuration)
+            .AddOutbox()
+            .AddEntityFrameworkCoreOutboxMailRepository<BankAccountDbContext>()
             .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
             .AddEntityFrameworkCoreSqlServerDbContext<BankAccountDbContext>(connectionString, ServiceLifetime.Scoped)

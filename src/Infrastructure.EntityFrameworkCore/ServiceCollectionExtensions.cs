@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Logging;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.Data.DbContexts;
 using SharedKernel.Infrastructure.Data.Services;
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
-using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Infrastructure.System;
 using SharedKernel.Infrastructure.Validator;
 
@@ -31,7 +28,6 @@ public static class ServiceCollectionExtensions
             .AddTransient<IEntityAuditableService, EntityAuditableService>()
             .AddTransient<IGuid, GuidGenerator>()
             .AddTransient<IIdentityService, DefaultIdentityService>()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
             .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>));
     }
 }

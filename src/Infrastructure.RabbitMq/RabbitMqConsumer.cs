@@ -1,10 +1,10 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
 using SharedKernel.Application.RetryPolicies;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
@@ -19,7 +19,7 @@ internal class RabbitMqConsumer
     private readonly IRequestDeserializer _requestDeserializer;
     private readonly RabbitMqConnectionFactory _config;
     private readonly IRequestMediator _requestMediator;
-    private readonly ICustomLogger<RabbitMqConsumer> _logger;
+    private readonly ILogger<RabbitMqConsumer> _logger;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
     private readonly IRetriever _retriever;
     private const string HeaderRedelivery = "redelivery_count";
@@ -29,7 +29,7 @@ internal class RabbitMqConsumer
         IRequestDeserializer requestDeserializer,
         RabbitMqConnectionFactory config,
         IRequestMediator requestMediator,
-        ICustomLogger<RabbitMqConsumer> logger,
+        ILogger<RabbitMqConsumer> logger,
         IOptions<RabbitMqConfigParams> rabbitMqParams,
         IRetriever retriever)
     {
@@ -65,7 +65,7 @@ internal class RabbitMqConsumer
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, ex.Message);
+                _logger.LogError(ex, ex.Message);
                 HandleConsumptionError(ea, queue, ExchangeType.Direct);
             }
 
@@ -99,7 +99,7 @@ internal class RabbitMqConsumer
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, ex.Message);
+                _logger.LogError(ex, ex.Message);
                 HandleConsumptionError(ea, topicName, ExchangeType.Topic);
             }
 

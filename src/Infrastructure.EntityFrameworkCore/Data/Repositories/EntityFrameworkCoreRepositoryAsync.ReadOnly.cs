@@ -2,7 +2,6 @@
 using SharedKernel.Domain.Repositories.Read;
 using SharedKernel.Domain.Repositories.Read.Specification;
 using SharedKernel.Domain.Specifications.Common;
-using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
 

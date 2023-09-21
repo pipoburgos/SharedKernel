@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Exceptions;
+using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Testing.Infrastructure;
 using Xunit;
@@ -18,7 +19,7 @@ namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return services.AddSmtp(Configuration);
+            return services.AddSharedKernel().AddSmtp(Configuration);
         }
 
         [Fact]

@@ -34,7 +34,7 @@ namespace BankAccounts.Domain.BankAccounts
                 .EnsureAppendError(_ => initialMovement == default! || initialMovement.Amount > 0,
                     Error.Create(BankAccountErrors.QuantityCannotBeNegative, nameof(initialMovement)))
                 .Map(_ => new BankAccount(id, accountNumber, owner, initialMovement))
-                .Tap(bankAccount => bankAccount.Record(new BankAccountCreated(bankAccount.Id.ToString()!)));
+                .Tap(bankAccount => bankAccount.Record(new BankAccountCreated(bankAccount.Id.Value.ToString()!)));
 
         public InternationalBankAccountNumber InternationalBankAccountNumber { get; private set; } = null!;
 

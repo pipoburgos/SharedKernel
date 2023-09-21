@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using SharedKernel.Application.Logging;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Diagnostics;
 
 namespace SharedKernel.Infrastructure.HealthChecks
 {
@@ -9,13 +8,13 @@ namespace SharedKernel.Infrastructure.HealthChecks
     /// </summary>
     public class CpuHealthCheck : IHealthCheck
     {
-        private readonly ICustomLogger<CpuHealthCheck> _logger;
+        private readonly ILogger<CpuHealthCheck> _logger;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        public CpuHealthCheck(ICustomLogger<CpuHealthCheck> logger)
+        public CpuHealthCheck(ILogger<CpuHealthCheck> logger)
         {
             _logger = logger;
         }
@@ -30,7 +29,7 @@ namespace SharedKernel.Infrastructure.HealthChecks
         {
             var time = Process.GetCurrentProcess().TotalProcessorTime;
 
-            _logger.Info($"CPU {time}");
+            _logger.LogInformation($"CPU {time}");
 
             var status = HealthStatus.Healthy;
             if (time > TimeSpan.FromSeconds(10))

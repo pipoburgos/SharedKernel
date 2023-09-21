@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Hosting
 {
@@ -37,8 +36,8 @@ namespace SharedKernel.Infrastructure.Hosting
                 catch (Exception ex)
                 {
                     scope.ServiceProvider
-                        .GetRequiredService<ICustomLogger<BackgroundServiceBase>>()
-                        .Error(ex, "Error occurred executing background service.");
+                        .GetRequiredService<ILogger<BackgroundServiceBase>>()
+                        .LogError(ex, "Error occurred executing background service.");
                 }
             }
         }

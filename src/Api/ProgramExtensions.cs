@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Logging;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Data;
 
 namespace SharedKernel.Api
@@ -25,11 +25,11 @@ namespace SharedKernel.Api
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
 
-            var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
 
             try
             {
-                logger.Info("Starting web host");
+                logger.LogInformation("Starting web host");
                 var populateDatabase = services.GetService<IPopulateDatabase>();
                 if (populateDatabase != default)
                     await populateDatabase.Populate(CancellationToken.None);
@@ -38,8 +38,8 @@ namespace SharedKernel.Api
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "An error occurred while migrating or seeding the database.");
-                logger.Fatal(ex, "Host terminated unexpectedly");
+                logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                logger.LogCritical(ex, "Host terminated unexpectedly");
                 throw;
             }
         }

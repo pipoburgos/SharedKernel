@@ -3,11 +3,11 @@ using Apache.NMS.ActiveMQ;
 using Apache.NMS.ActiveMQ.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
-using SharedKernel.Application.Logging;
 using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
@@ -38,7 +38,7 @@ public class ActiveMqConsumer : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var logger = scope.ServiceProvider.GetRequiredService<ICustomLogger<ActiveMqConsumer>>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<ActiveMqConsumer>>();
 
         try
         {
@@ -72,12 +72,12 @@ public class ActiveMqConsumer : BackgroundService
         }
         catch (Exception ex)
         {
-            logger.Error(ex, ex.Message);
+            logger.LogError(ex, ex.Message);
         }
     }
 
     private async Task<IMessageConsumer> ConsumeQueue(IOptions<ActiveMqConfiguration> configuration, ISession session,
-        IRequestMediator domainEventMediator, ICustomLogger<ActiveMqConsumer> logger)
+        IRequestMediator domainEventMediator, ILogger<ActiveMqConsumer> logger)
     {
         var destination = new ActiveMQQueue(configuration.Value.Queue);
 
@@ -95,7 +95,7 @@ public class ActiveMqConsumer : BackgroundService
             }
             catch (Exception ex)
             {
-                logger.Error(ex, ex.Message);
+                logger.LogError(ex, ex.Message);
             }
         };
 
@@ -103,7 +103,7 @@ public class ActiveMqConsumer : BackgroundService
     }
 
     private async Task<IMessageConsumer> ConsumeTopics(ISession session, IRequestMediator domainEventMediator,
-        ICustomLogger<ActiveMqConsumer> logger)
+        ILogger<ActiveMqConsumer> logger)
     {
         const string topicPattern = ">"; // Utiliza el comodín ">" para suscribirte a todos los topics
         var destination = new ActiveMQTopic(topicPattern);
@@ -123,7 +123,7 @@ public class ActiveMqConsumer : BackgroundService
             }
             catch (Exception ex)
             {
-                logger.Error(ex, ex.Message);
+                logger.LogError(ex, ex.Message);
             }
         };
 

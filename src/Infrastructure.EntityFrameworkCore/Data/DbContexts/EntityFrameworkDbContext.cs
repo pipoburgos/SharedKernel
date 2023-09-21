@@ -1,4 +1,5 @@
-﻿using SharedKernel.Application.Validator;
+﻿using SharedKernel.Application.Serializers;
+using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Validators;
@@ -26,7 +27,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 
     /// <summary> Constructor. </summary>
     protected EntityFrameworkDbContext(DbContextOptions options, string schema, Assembly assemblyConfigurations,
-        IClassValidatorService? classValidatorService = default,
+        IJsonSerializer? jsonSerializer = default, IClassValidatorService? classValidatorService = default,
         IAuditableService? auditableService = default) : base(options)
     {
         Id = Guid.NewGuid();
@@ -34,6 +35,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         _classValidatorService = classValidatorService;
         _auditableService = auditableService;
         Schema = schema;
+        JsonSerializer = jsonSerializer;
         // ReSharper disable once VirtualMemberCallInConstructor
         ChangeTracker.LazyLoadingEnabled = false;
         _originalEntries = new List<OriginalEntry>();
@@ -48,6 +50,9 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 
     /// <summary>  </summary>
     public string Schema { get; }
+
+    /// <summary>  </summary>
+    public IJsonSerializer? JsonSerializer { get; }
 
     /// <summary>  </summary>
     public IDbConnection GetConnection => Database.GetDbConnection();

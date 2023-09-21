@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts" />
   </ItemGroup>
 
 </Project>

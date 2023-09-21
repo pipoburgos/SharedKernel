@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Logging;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Testing.Infrastructure;
 using Xunit;
 
@@ -13,14 +12,13 @@ namespace SharedKernel.Integration.Tests.Caching
         protected override IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
                 .AddInMemoryCache();
         }
 
         [Fact]
         public async Task TestCache()
         {
-            var log = GetRequiredServiceOnNewScope<ICustomLogger<InMemoryCacheHelper>>();
+            var log = GetRequiredServiceOnNewScope<ILogger<InMemoryCacheHelper>>();
             var memoryCache = GetRequiredServiceOnNewScope<IMemoryCache>();
 
             var inMemoryCacheHelper = new InMemoryCacheHelper(memoryCache, log);

@@ -4,12 +4,12 @@
     public class Mail
     {
         /// <summary> . </summary>
-        public Mail()
+        protected Mail()
         {
         }
 
         /// <summary> . </summary>
-        public Mail(string to, string subject, string? body = default, string? from = default,
+        public Mail(string to, string? subject, string? body = default, string? from = default,
             List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
         {
             From = from;
@@ -21,7 +21,7 @@
         }
 
         /// <summary> . </summary>
-        public Mail(List<string> to, string subject, string? body = default, string? from = default,
+        public Mail(List<string> to, string? subject, string? body = default, string? from = default,
             List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
         {
             From = from;

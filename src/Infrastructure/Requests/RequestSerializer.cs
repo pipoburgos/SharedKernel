@@ -31,19 +31,25 @@ internal class RequestSerializer : IRequestSerializer
 
         return _jsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
         {
-            {"headers", new Dictionary<string, object?>
             {
-                {"claims", domainClaims},
-                {"authorization", _identityService?.GetKeyValue("Authorization")}
-            }!},
-            {"data", new Dictionary<string,object>
+                RequestExtensions.Headers, new Dictionary<string, object?>
+                {
+                    {RequestExtensions.Claims, domainClaims},
+                    {RequestExtensions.Authorization, _identityService?.GetKeyValue("Authorization")}
+                }!
+            },
             {
-                {"id" , request.RequestId},
-                {"type", request.GetUniqueName()},
-                {"occurred_on", request.OccurredOn},
-                {"attributes", attributes}
-            }},
-            {"meta", new Dictionary<string,object>()}
-        });
+                RequestExtensions.Data, new Dictionary<string, object>
+                {
+                    {RequestExtensions.Id, request.RequestId},
+                    {RequestExtensions.Type, request.GetUniqueName()},
+                    {RequestExtensions.OccurredOn, request.OccurredOn},
+                    {RequestExtensions.Attributes, attributes}
+                }
+            },
+            {
+                RequestExtensions.Meta, new Dictionary<string, object>()
+            }
+        }, NamingConvention.PascalCase);
     }
 }

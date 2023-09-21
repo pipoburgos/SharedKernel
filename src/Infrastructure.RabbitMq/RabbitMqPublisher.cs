@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
-using SharedKernel.Application.Logging;
 using System.Text;
 
 namespace SharedKernel.Infrastructure.RabbitMq;
@@ -10,13 +10,13 @@ namespace SharedKernel.Infrastructure.RabbitMq;
 public class RabbitMqPublisher
 {
     private const string HeaderReDelivery = "redelivery_count";
-    private readonly ICustomLogger<RabbitMqPublisher> _logger;
+    private readonly ILogger<RabbitMqPublisher> _logger;
     private readonly RabbitMqConnectionFactory _config;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
     /// <summary>  </summary>
     public RabbitMqPublisher(
-        ICustomLogger<RabbitMqPublisher> logger,
+        ILogger<RabbitMqPublisher> logger,
         RabbitMqConnectionFactory config,
         IOptions<RabbitMqConfigParams> rabbitMqParams)
     {
@@ -55,7 +55,7 @@ public class RabbitMqPublisher
         }
         catch (RabbitMQClientException ex)
         {
-            _logger.Error(ex, ex.Message);
+            _logger.LogError(ex, ex.Message);
         }
 
         return Task.CompletedTask;

@@ -3,8 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SharedKernel.Application.Cqrs.Commands;
-using SharedKernel.Application.Logging;
-using SharedKernel.Infrastructure.Logging;
 using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
@@ -22,7 +20,6 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IConnectionMultiplexer>(sp =>
                 ConnectionMultiplexer.Connect(sp.GetRequiredService<IOptions<RedisCacheOptions>>().Value
                     .Configuration!))
-            .AddTransient<ICommandBusAsync, RedisCommandBusAsync>()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
+            .AddTransient<ICommandBusAsync, RedisCommandBusAsync>();
     }
 }
