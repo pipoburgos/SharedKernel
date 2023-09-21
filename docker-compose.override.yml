@@ -45,5 +45,5 @@ services:
     smtp:
         image: jijiechen/papercut:latest
         ports:
-            - 8772:25
+            - "8772:25"
             - 37408:37408

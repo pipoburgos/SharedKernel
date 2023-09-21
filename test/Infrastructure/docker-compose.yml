@@ -32,8 +32,8 @@ services:
     smtp:
         image: jijiechen/papercut:latest
         ports:
-            - 22224:25
-            # - 37408:37408
+            - "22224:25"
+            - 37408:37408
  
     activemq:
         image: islandora/activemq:main
