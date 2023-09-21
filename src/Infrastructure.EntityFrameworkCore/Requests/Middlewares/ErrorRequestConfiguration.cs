@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 
 /// <summary>  </summary>
 public class ErrorRequestConfiguration : IEntityTypeConfiguration<ErrorRequest>

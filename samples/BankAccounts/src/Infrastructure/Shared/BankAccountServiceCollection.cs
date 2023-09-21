@@ -61,7 +61,8 @@ public static class BankAccountServiceCollection
             .AddRedisDbContext<BankAccountRedisDbContext>(configuration, ServiceLifetime.Scoped)
             .AddGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
             .AddDapperSqlServer(connectionString)
-            .AddEntityFrameworkFailoverMiddleware<BankAccountDbContext>()
+            .AddFailoverMiddleware()
+            .AddEntityFrameworkCoreFailoverRepository<BankAccountDbContext>()
             .AddValidationMiddleware()
             .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)
             .AddTimerMiddleware();

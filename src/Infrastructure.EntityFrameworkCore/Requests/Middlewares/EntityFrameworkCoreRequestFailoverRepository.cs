@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Repositories;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 
 /// <summary>  </summary>
 public class EntityFrameworkCoreRequestFailoverRepository<TContext> : IRequestFailoverRepository where TContext : DbContext

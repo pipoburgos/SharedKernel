@@ -14,12 +14,13 @@ public class FailoverCommonLogic
 
     /// <summary>  </summary>
     public FailoverCommonLogic(
-        IRequestFailoverRepository requestFailOverRepository,
+        IRequestFailoverRepository? requestFailOverRepository,
         IJsonSerializer jsonSerializer,
         IRequestSerializer requestSerializer,
         IGuid guid)
     {
-        _requestFailOverRepository = requestFailOverRepository;
+        _requestFailOverRepository =
+            requestFailOverRepository ?? throw new NotImplementedException("IRequestFailoverRepository not registered");
         _jsonSerializer = jsonSerializer;
         _requestSerializer = requestSerializer;
         _guid = guid;
