@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.Redis;
 

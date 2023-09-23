@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Infrastructure.Security.Cryptography;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Security.Cryptography
 {

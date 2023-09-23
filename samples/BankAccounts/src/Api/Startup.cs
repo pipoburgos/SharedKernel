@@ -6,6 +6,7 @@ using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.NetJson;
@@ -33,6 +34,26 @@ public class Startup
     /// <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddControllers(o =>
+            {
+                //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+
+                //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
+                //    ? "FakeBearer"
+                //    : JwtBearerDefaults.AuthenticationScheme);
+
+                //var policy = policyBuilder.Build();
+
+                //o.Filters.Add(new AuthorizeFilter(policy));
+                o.Conventions.Add(new ControllerDocumentationConvention());
+            })
+            .AddJsonOptions(o =>
+            {
+                var settings = NetJsonSerializer.GetOptions(NamingConvention.CamelCase);
+                o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
+                o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
+            });
+
         _services = services
             .AddInMemoryCommandBus()
             .AddRedisCommandBusAsync(_configuration)
@@ -44,20 +65,7 @@ public class Startup
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
-            .AddSharedKernelApi(CorsPolicy,
-                _configuration.GetSection("Origins").Get<string[]>() ?? Array.Empty<string>(), o =>
-                {
-                    //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
-
-                    //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
-                    //    ? "FakeBearer"
-                    //    : JwtBearerDefaults.AuthenticationScheme);
-
-                    //var policy = policyBuilder.Build();
-
-                    //o.Filters.Add(new AuthorizeFilter(policy));
-                    o.Conventions.Add(new ControllerDocumentationConvention());
-                });
+            .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>());
     }
 
     /// <summary> Configurar los middlewares </summary>

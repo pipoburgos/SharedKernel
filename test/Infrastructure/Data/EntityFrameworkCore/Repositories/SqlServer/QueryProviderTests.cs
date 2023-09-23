@@ -5,7 +5,6 @@ using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
 #endif
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
-using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Infrastructure.Data.Queryable;
@@ -13,7 +12,6 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 using SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer
 {

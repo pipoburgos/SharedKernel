@@ -1,5 +1,8 @@
 version: '3.4'
 
+volumes:
+    bankAccounts:
+
 services:
 
     bankaccounts.api:
@@ -20,8 +23,8 @@ services:
         ports:
              - 8765:1433
         volumes:
-            - ./docker-data/sql_server/data:/var/opt/mssql/data
-            - ./docker-data/sql_server/backups:/var/opt/mssql/backups
+            - bankAccounts:/var/opt/mssql/data
+            - bankAccounts:/var/opt/mssql/backups
 
     activemq:
         image: islandora/activemq:main

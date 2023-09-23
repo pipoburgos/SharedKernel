@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using SharedKernel.Domain.ValueObjects.PersonalDocumentation;
-using Xunit;
+﻿using SharedKernel.Domain.ValueObjects.PersonalDocumentation;
 
 namespace SharedKernel.Domain.Tests.ValueObjects.PersonalDocumentation
 {

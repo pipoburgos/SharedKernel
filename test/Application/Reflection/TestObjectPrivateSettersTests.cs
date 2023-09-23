@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Reflection;
-using Xunit;
 
 namespace SharedKernel.Application.Tests.Reflection
 {

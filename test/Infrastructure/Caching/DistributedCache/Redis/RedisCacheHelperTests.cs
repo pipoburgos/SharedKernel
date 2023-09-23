@@ -4,7 +4,6 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching.DistributedCache.Redis
 {

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Redis.Events;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.Redis;
 

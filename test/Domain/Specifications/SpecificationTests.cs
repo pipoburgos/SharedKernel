@@ -1,7 +1,6 @@
 ﻿using SharedKernel.Domain.Specifications.Common;
 using SharedKernel.Domain.Tests.Entities;
 using System.Linq.Expressions;
-using Xunit;
 
 // ReSharper disable JoinDeclarationAndInitializer
 

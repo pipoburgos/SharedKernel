@@ -1,11 +1,9 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Exceptions;
 using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp
 {

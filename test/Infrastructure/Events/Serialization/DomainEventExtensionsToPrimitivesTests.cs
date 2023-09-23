@@ -1,10 +1,8 @@
-﻿using FluentAssertions;
-using SharedKernel.Application.Reflection;
+﻿using SharedKernel.Application.Reflection;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Requests;
 using System.Reflection;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.Serialization
 {

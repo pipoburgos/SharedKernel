@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using Xunit;
-
-namespace SharedKernel.Domain.Tests.Entities
+﻿namespace SharedKernel.Domain.Tests.Entities
 {
     public class CartWithIdOfValueObjectTests
     {

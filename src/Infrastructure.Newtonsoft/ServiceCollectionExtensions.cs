@@ -14,4 +14,19 @@ public static class ServiceCollectionExtensions
             .RemoveAll<IJsonSerializer>()
             .AddTransient<IJsonSerializer, NewtonsoftSerializer>();
     }
+
+#if !NETFRAMEWORK && !NETSTANDARD
+    /// <summary>  </summary>
+    public static IMvcBuilder AddSharedKernelNewtonsoftJson(this IMvcBuilder mvcBuilder)
+    {
+        return mvcBuilder.AddNewtonsoftJson(options =>
+        {
+            var settings = NewtonsoftSerializer.GetOptions(NamingConvention.CamelCase);
+            options.SerializerSettings.DateTimeZoneHandling = settings.DateTimeZoneHandling;
+            options.SerializerSettings.ContractResolver = settings.ContractResolver;
+            options.SerializerSettings.NullValueHandling = settings.NullValueHandling;
+            options.SerializerSettings.ConstructorHandling = settings.ConstructorHandling;
+        });
+    }
+#endif
 }

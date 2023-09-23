@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Prometheus;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.System;
@@ -37,7 +36,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         /// <param name="policyName">The policy name of a configured policy.</param>
         /// <param name="origins">All domains who calls the api</param>
         /// <returns></returns>
-        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName, string[] origins)
+        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName, string[]? origins = default)
         {
             return services
                 .AddOptions()
@@ -46,7 +45,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 {
                     options.AddPolicy(policyName,
                         builder => builder
-                            .WithOrigins(origins)
+                            .WithOrigins(origins ?? Array.Empty<string>())
                             .AllowAnyMethod()
                             .SetIsOriginAllowed(_ => true)
                             .AllowAnyHeader()
@@ -61,29 +60,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                     // Advertise the API versions supported for the particular endpoint
                     config.ReportApiVersions = true;
                 });
-        }
-
-        /// <summary>
-        /// Adds Options, Metrics, Cors, Api versioning, Api controllers, Fluent api validators and Newtonsoft to service collection
-        /// </summary>
-        /// <param name="services">The service collection</param>
-        /// <param name="policyName">The policy name of a configured policy.</param>
-        /// <param name="origins">All domains who calls the api</param>
-        /// <param name="configureControllers">Adds services for controllers to the specified <see cref="IServiceCollection"/>. This method will not register services used for views or pages.</param>
-        /// <returns></returns>
-        public static IServiceCollection AddSharedKernelApi(this IServiceCollection services, string policyName,
-            string[] origins, Action<MvcOptions> configureControllers)
-        {
-            services
-                .AddSharedKernelApi(policyName, origins)
-                .AddControllers(configureControllers)
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                });
-
-            return services;
         }
 
         /// <summary>

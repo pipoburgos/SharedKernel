@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Infrastructure.System;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.System
 {

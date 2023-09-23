@@ -25,7 +25,8 @@ public class NetJsonSerializer : IJsonSerializer
         return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
     }
 
-    private JsonSerializerOptions GetOptions(NamingConvention namingConvention)
+    /// <summary>  </summary>
+    public static JsonSerializerOptions GetOptions(NamingConvention namingConvention)
     {
         var policy = JsonNamingPolicy.CamelCase;
 

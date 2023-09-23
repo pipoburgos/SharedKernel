@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using SharedKernel.Domain.Specifications;
+﻿using SharedKernel.Domain.Specifications;
 using SharedKernel.Domain.Tests.Users;
-using Xunit;
 
 namespace SharedKernel.Domain.Tests.Specifications
 {

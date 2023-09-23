@@ -6,7 +6,6 @@ using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql
 {
