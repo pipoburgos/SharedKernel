@@ -41,7 +41,11 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
         {
             return services
                 .AddOptions()
+#if !NET8_0
                 .AddMetrics()
+#else
+                .AddMetrics(x => x.Configuration.Configure(o => o.Enabled = true))
+#endif
                 .AddCors(options =>
                 {
                     options.AddPolicy(policyName,

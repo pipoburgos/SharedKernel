@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure.ActiveMq
         /// <summary> </summary>
         public Task PublishTopic(string textMessage, string topicName)
         {
-            return PublishCommon(textMessage, topicName: topicName);
+            return PublishCommon(textMessage, topicName);
         }
 
         /// <summary> </summary>

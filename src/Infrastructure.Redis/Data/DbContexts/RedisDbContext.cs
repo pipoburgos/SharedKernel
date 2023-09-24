@@ -71,14 +71,14 @@ public abstract class RedisDbContext : DbContextAsync
     protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
-            token: cancellationToken);
+            cancellationToken);
     }
 
     /// <summary>  </summary>
     protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
-            token: cancellationToken);
+            cancellationToken);
     }
 
     /// <summary>  </summary>

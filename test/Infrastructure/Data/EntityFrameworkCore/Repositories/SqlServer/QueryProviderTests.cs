@@ -246,7 +246,7 @@ namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.S
         public async Task EntityFrameworkCoreQueryProviderJoin()
         {
             var cancellationToken = CancellationToken.None;
-            await using var dbContext = GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContext();
+            await using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContextAsync(cancellationToken);
             await dbContext.Database.EnsureDeletedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
             var user = UserMother.Create(Guid.NewGuid(), "a");
