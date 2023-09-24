@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
@@ -7,7 +6,6 @@ using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.Dapper.Data.Queries;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Dapper.Queries
 {

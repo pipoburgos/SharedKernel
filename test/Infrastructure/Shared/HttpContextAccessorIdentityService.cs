@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using SharedKernel.Application.Security;
-using System.Security.Claims;
 
-namespace SharedKernel.Api.Security;
+namespace SharedKernel.Integration.Tests.Shared;
 
 /// <summary> User authentication. </summary>
 public class HttpContextAccessorIdentityService : IIdentityService

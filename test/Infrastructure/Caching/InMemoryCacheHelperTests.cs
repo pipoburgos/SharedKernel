@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Caching
 {

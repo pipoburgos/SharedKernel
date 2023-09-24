@@ -3,7 +3,6 @@ using SharedKernel.Infrastructure.Mongo.Data;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
 using SharedKernel.Integration.Tests.Data.Mongo.Repositories;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo;
 

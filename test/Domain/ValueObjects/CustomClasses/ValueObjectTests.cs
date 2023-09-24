@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using Xunit;
-
-namespace SharedKernel.Domain.Tests.ValueObjects.CustomClasses;
+﻿namespace SharedKernel.Domain.Tests.ValueObjects.CustomClasses;
 
 public class ValueObjectTests
 {

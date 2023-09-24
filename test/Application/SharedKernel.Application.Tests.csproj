@@ -26,4 +26,9 @@
     <ProjectReference Include="..\..\src\Testing\SharedKernel.Testing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="FluentAssertions" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
 </Project>

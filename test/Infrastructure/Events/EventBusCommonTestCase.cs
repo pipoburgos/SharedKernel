@@ -1,7 +1,5 @@
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SharedKernel.Api.Security;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.Security;
 using SharedKernel.Domain.Tests.Users;
@@ -14,6 +12,7 @@ using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Integration.Tests.Cqrs.Commands;
 using SharedKernel.Testing.Infrastructure;
 using System.Security.Claims;
+using SharedKernel.Integration.Tests.Shared;
 
 namespace SharedKernel.Integration.Tests.Events;
 

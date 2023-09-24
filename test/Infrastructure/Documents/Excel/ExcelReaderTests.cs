@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using SharedKernel.Application.Documents;
+﻿using SharedKernel.Application.Documents;
 using SharedKernel.Infrastructure.NPOI.Documents.Excel;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Documents.Excel;
 

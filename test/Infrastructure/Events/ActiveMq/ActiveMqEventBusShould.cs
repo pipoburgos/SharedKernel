@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.ActiveMq.Events;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.ActiveMq;
 

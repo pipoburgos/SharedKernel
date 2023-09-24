@@ -40,6 +40,12 @@ public readonly struct Result<T>
     }
 
     /// <summary>  </summary>
+    public static Result<T?> Empty()
+    {
+        return new Result<T?>((T?)default!);
+    }
+
+    /// <summary>  </summary>
     public static Result<T> Create(T value)
     {
         return new Result<T>(value);

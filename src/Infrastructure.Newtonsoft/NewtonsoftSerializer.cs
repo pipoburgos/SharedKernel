@@ -25,7 +25,8 @@ public class NewtonsoftSerializer : IJsonSerializer
         return JsonConvert.DeserializeAnonymousType(value, obj, GetOptions(namingConvention))!;
     }
 
-    private JsonSerializerSettings GetOptions(NamingConvention namingConvention)
+    /// <summary>  </summary>
+    public static JsonSerializerSettings GetOptions(NamingConvention namingConvention)
     {
         IContractResolver contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
         switch (namingConvention)
@@ -47,16 +48,12 @@ public class NewtonsoftSerializer : IJsonSerializer
                 break;
         }
 
-        var x = new JsonSerializerSettings
+        return new JsonSerializerSettings
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             ContractResolver = contractResolver,
             NullValueHandling = NullValueHandling.Ignore,
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
-
-        return x;
     }
-
-
 }

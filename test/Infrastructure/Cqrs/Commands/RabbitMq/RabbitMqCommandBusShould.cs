@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.RabbitMq;
 

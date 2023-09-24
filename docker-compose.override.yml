@@ -23,8 +23,8 @@ services:
         ports:
              - 8765:1433
         volumes:
-            -  bankAccounts:/var/opt/mssql/data
-            -  bankAccounts:/var/opt/mssql/backups
+            - bankAccounts:/var/opt/mssql/data
+            - bankAccounts:/var/opt/mssql/backups
 
     activemq:
         image: islandora/activemq:main

@@ -7,6 +7,9 @@ public static class Result
     public static readonly Unit Unit = Unit.Value;
 
     /// <summary>  </summary>
+    public static Result<T?> Empty<T>() => Result<T>.Empty();
+
+    /// <summary>  </summary>
     public static Result<T> Create<T>(T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>

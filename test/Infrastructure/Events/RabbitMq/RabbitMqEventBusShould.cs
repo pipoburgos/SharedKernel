@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.RabbitMq.Events;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq;
 

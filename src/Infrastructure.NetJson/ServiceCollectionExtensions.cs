@@ -14,4 +14,17 @@ public static class ServiceCollectionExtensions
             .RemoveAll<IJsonSerializer>()
             .AddTransient<IJsonSerializer, NetJsonSerializer>();
     }
+
+    //#if !NETFRAMEWORK && !NETSTANDARD
+    //    /// <summary>  </summary>
+    //    public static IMvcBuilder AddSharedKernelNetJson(this IMvcBuilder mvcBuilder)
+    //    {
+    //        return mvcBuilder.AddJsonOptions(o =>
+    //           {
+    //               var settings = NetJsonSerializer.GetOptions(NamingConvention.CamelCase);
+    //               o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
+    //               o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
+    //           });
+    //    }
+    //#endif
 }

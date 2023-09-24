@@ -1,9 +1,7 @@
-﻿using FluentAssertions;
-using SharedKernel.Application.UnitOfWorks;
+﻿using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Domain.Repositories;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Testing.Infrastructure;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 

@@ -1,10 +1,8 @@
-﻿using FluentAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Validator;
 using SharedKernel.Infrastructure.Cqrs.Commands;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.InMemory;
 
