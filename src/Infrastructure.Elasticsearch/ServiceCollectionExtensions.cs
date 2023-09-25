@@ -11,12 +11,12 @@ public static class ServiceCollectionExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
         var connectionConfiguration = new ConnectionConfiguration(new SingleNodeConnectionPool(uri))
-            .DisableAutomaticProxyDetection()
+            //.DisableAutomaticProxyDetection()
             .EnableApiVersioningHeader()
-            .EnableHttpCompression()
-            .DisableDirectStreaming()
-            .PrettyJson()
-            .RequestTimeout(TimeSpan.FromMinutes(2));
+            //.EnableHttpCompression()
+            //.DisableDirectStreaming()
+            //.PrettyJson()
+            .RequestTimeout(TimeSpan.FromSeconds(30));
 
         services.Add(new ServiceDescriptor(typeof(ElasticLowLevelClient),
             _ => new ElasticLowLevelClient(connectionConfiguration), serviceLifetime));

@@ -10,11 +10,6 @@ namespace SharedKernel.Integration.Tests.Data.Elasticsearch;
 [Collection("DockerHook")]
 public class ElasticsearchUserUnitOfWorkTests : UserUnitOfWorkTests<ElasticsearchUserRepository, ISharedKernelElasticsearchUnitOfWork>
 {
-    public override void BeforeStart()
-    {
-        Thread.Sleep(10_000);
-    }
-
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services

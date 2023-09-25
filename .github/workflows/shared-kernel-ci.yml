@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
       - name: Test
-        run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
+        run: dotnet test --no-build --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
       - name: Prep packages
