@@ -1,4 +1,5 @@
 ﻿using Elasticsearch.Net;
+using Elasticsearch.Net.Specification.IndicesApi;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Entities;
@@ -37,7 +38,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
         {
             var created = Client.Indices.Create<StringResponse>(GetIndex<TAggregateRoot>(),
-                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 1 } }));
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 1 } }), new CreateIndexRequestParameters());
 
             if (!created.Success)
                 throw created.OriginalException;
@@ -125,7 +126,21 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
             return default;
 
-        var searchResponse = Client.Get<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString());
+        var searchResponse = Client.Search<StringResponse>(GetIndex<TAggregateRoot>(), PostData.Serializable(new
+        {
+            from = 0,
+            size = 2,
+            query = new
+            {
+                match = new
+                {
+                    _id = new
+                    {
+                        query = id.ToString()
+                    }
+                }
+            }
+        }));
 
         if (searchResponse.HttpStatusCode == 404)
             return default;
@@ -162,8 +177,21 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
             return default;
 
-        var searchResponse = await Client.GetAsync<StringResponse>(
-            GetIndex<TAggregateRoot>(), id.ToString(), ctx: cancellationToken);
+        var searchResponse = await Client.SearchAsync<StringResponse>(GetIndex<TAggregateRoot>(), PostData.Serializable(new
+        {
+            from = 0,
+            size = 2,
+            query = new
+            {
+                match = new
+                {
+                    _id = new
+                    {
+                        query = id.ToString()
+                    }
+                }
+            }
+        }), ctx: cancellationToken);
 
         if (searchResponse.HttpStatusCode == 404)
             return default;
