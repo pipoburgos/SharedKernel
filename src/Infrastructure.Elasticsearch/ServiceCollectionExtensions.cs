@@ -12,6 +12,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionConfiguration = new ConnectionConfiguration(new SingleNodeConnectionPool(uri))
             .DisableAutomaticProxyDetection()
+            .EnableApiVersioningHeader()
             .EnableHttpCompression()
             .DisableDirectStreaming()
             .PrettyJson()
