@@ -68,6 +68,7 @@
     <Using Include="SharedKernel.Domain.ValueObjects" />
     <Using Include="System.Collections" />
     <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>
