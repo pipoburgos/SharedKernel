@@ -4,7 +4,6 @@ using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.DbContexts;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.Data.Elasticsearch;
 
