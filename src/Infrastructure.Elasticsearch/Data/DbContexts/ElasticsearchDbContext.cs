@@ -79,7 +79,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
         {
             var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<TAggregateRoot>(),
-                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 1 } }),
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
                 ctx: cancellationToken);
 
             if (!created.Success)
