@@ -26,24 +26,33 @@ internal class OutboxHostedService : BackgroundService
 
             var senders = scope.ServiceProvider.GetServices<IEmailSender>();
 
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<OutboxHostedService>>();
+
             var emailSender = senders.LastOrDefault(x => x.Sender);
 
             if (emailSender == default)
                 throw new InvalidOperationException("IEmailSender EmailSender.Sender == true not registered.");
 
-            var outboxMailRepository = scope.ServiceProvider.GetService<IOutboxMailRepository>();
-
-            if (outboxMailRepository == default)
-                throw new InvalidOperationException("IOutboxMailRepository not registered.");
-
-            var mails = await outboxMailRepository.GetPendingMails(stoppingToken);
-
-            foreach (var outboxMail in mails)
+            try
             {
-                await emailSender.SendEmailAsync(outboxMail, stoppingToken);
+                var outboxMailRepository = scope.ServiceProvider.GetService<IOutboxMailRepository>();
 
-                outboxMail.Pending = true;
-                await outboxMailRepository.Update(outboxMail, stoppingToken);
+                if (outboxMailRepository == default)
+                    throw new InvalidOperationException("IOutboxMailRepository not registered.");
+
+                var mails = await outboxMailRepository.GetPendingMails(stoppingToken);
+
+                foreach (var outboxMail in mails)
+                {
+                    await emailSender.SendEmailAsync(outboxMail, stoppingToken);
+
+                    outboxMail.Pending = true;
+                    await outboxMailRepository.Update(outboxMail, stoppingToken);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
             }
 
             await Task.Delay(5_000, stoppingToken);
