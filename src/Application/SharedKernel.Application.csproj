@@ -37,7 +37,10 @@
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Events" />
     <Using Include="SharedKernel.Domain.Requests" />
+    <Using Include="System.Collections" />
+    <Using Include="System.Globalization" />
     <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Runtime.Serialization" />
     <Using Remove="System.Net.Http" />
   </ItemGroup>
 

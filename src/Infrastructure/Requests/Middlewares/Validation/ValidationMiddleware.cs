@@ -41,7 +41,7 @@ public class ValidationMiddleware : IMiddleware
     {
         var validationFailures = await ValidateAsync(request, cancellationToken);
 
-        if (validationFailures.Any())
+        if (validationFailures.Count > 0)
         {
             return ApplicationResult.Failure<TResponse>(
                 validationFailures.Select(e => ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
@@ -52,7 +52,7 @@ public class ValidationMiddleware : IMiddleware
 
     private static void ThrowValidationFailureException(List<ValidationFailure> validationFailures)
     {
-        if (validationFailures.Any())
+        if (validationFailures.Count > 0)
             throw new ValidationFailureException(validationFailures);
     }
 

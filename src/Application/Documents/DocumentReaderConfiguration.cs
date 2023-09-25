@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace SharedKernel.Application.Documents
+﻿namespace SharedKernel.Application.Documents
 {
     /// <summary>  </summary>
     public class DocumentReaderConfiguration

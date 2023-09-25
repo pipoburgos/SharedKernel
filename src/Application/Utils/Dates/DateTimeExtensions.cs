@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace SharedKernel.Application.Utils.Dates
+﻿namespace SharedKernel.Application.Utils.Dates
 {
     /// <summary>
     /// 

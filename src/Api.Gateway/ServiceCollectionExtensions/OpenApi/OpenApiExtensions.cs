@@ -62,7 +62,7 @@ namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
 
                 swaggerGenOptions.DescribeAllParametersInCamelCase();
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
                 var basePath = AppDomain.CurrentDomain.BaseDirectory;
 #else
                 var basePath = AppDomain.CurrentDomain.BaseDirectory

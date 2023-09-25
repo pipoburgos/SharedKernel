@@ -8,7 +8,7 @@ namespace BankAccounts.Api.BankAccounts
     public class CreateBankAccountEndpoint : BankAccountBaseEndpoint
     {
         /// <summary> Create a bank account. </summary>
-        [HttpPost("{bankAccountId:guid}")]
+        [HttpPost("{bankAccountId}")]
         public async Task<IActionResult> Handle(//[FromServices] ICommandBusAsync commandBusAsync,
             Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
         {

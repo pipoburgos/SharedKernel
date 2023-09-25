@@ -153,7 +153,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         {
             return Result
                 .Create(Unit.Value)
-#if NET47_OR_GREATER || NET5_0_OR_GREATER || NETSTANDARD
+#if NET47_OR_GREATER || NET6_0_OR_GREATER || NETSTANDARD
                 .Combine(
                     _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries().Select(e => e.Entity)
                         .ToList()) ?? Result.Create(Unit.Value),

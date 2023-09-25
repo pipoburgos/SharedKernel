@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 
 namespace SharedKernel.Application.Extensions
 {
@@ -43,7 +42,7 @@ namespace SharedKernel.Application.Extensions
             {
                 if (!first)
                 {
-                    sb.Append("&");
+                    sb.Append('&');
                 }
 
                 parameters.TryGetValue(key, out var param);

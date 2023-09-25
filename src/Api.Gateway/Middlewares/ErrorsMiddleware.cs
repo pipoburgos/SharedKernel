@@ -31,12 +31,12 @@ namespace SharedKernel.Api.Gateway.Middlewares
                                 if (error.Error.GetType() == typeof(AuthenticationException))
                                 {
                                     context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                                    context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
                                 }
                                 else
                                 {
                                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                                    context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
 
                                     //context.Response.AddApplicationError(error.Error.Message);
                                     await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);

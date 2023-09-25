@@ -10,9 +10,9 @@ internal sealed class NotNullAttribute : Attribute
 }
 
 
-#if !NET40 && !NET45 && !NET451 && !NET452 && !NET46 && !NET461
+#if NET462_OR_GREATER || NETSTANDARD || NET6_0_OR_GREATER
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 
 [AttributeUsage(AttributeTargets.Parameter)]
 internal sealed class CallerArgumentExpressionAttribute : Attribute
@@ -35,7 +35,7 @@ public class Guard
     /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
     public static T ThrowIfNull<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
-        [CallerArgumentExpression("argument")] string? paramName = default)
+        [CallerArgumentExpression(nameof(argument))] string? paramName = default)
     {
 #if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(argument, paramName);
@@ -55,7 +55,7 @@ public class Guard
     /// <param name="throwOnNullEmptyOrWhiteSpaceString">Only applicable to strings.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
     public static T ThrowIfNullOrDefault<T>([NotNull] T argument, bool throwOnNullEmptyOrWhiteSpaceString = true,
-        [CallerArgumentExpression("argument")] string? paramName = default)
+        [CallerArgumentExpression(nameof(argument))] string? paramName = default)
     {
         ThrowIfNull(argument, throwOnNullEmptyOrWhiteSpaceString, paramName);
 

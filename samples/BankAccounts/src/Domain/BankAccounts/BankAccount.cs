@@ -10,7 +10,7 @@ namespace BankAccounts.Domain.BankAccounts
 
         protected BankAccount()
         {
-            _movements = new List<Movement>();
+            _movements = new();
         }
 
         protected BankAccount(BankAccountId id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,

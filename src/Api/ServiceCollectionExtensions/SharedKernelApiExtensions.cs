@@ -5,7 +5,7 @@ using Prometheus;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 #endif
@@ -78,7 +78,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions
                 .UseHttpMetrics();
         }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <summary>
         /// AddRequestLocalization.
         /// </summary>
