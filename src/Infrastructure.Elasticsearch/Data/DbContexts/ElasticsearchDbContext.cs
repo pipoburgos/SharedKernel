@@ -32,16 +32,16 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary>  </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var exists = Client.Indices.Exists<StringResponse>(GetIndex<TAggregateRoot>());
+        //var exists = Client.Indices.Exists<StringResponse>(GetIndex<TAggregateRoot>());
 
-        if (exists.HttpStatusCode == 404)
-        {
-            var created = Client.Indices.Create<StringResponse>(GetIndex<TAggregateRoot>(),
-                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }));
+        //if (exists.HttpStatusCode == 404)
+        //{
+        //    var created = Client.Indices.Create<StringResponse>(GetIndex<TAggregateRoot>(),
+        //        JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }));
 
-            if (!created.Success)
-                throw created.OriginalException;
-        }
+        //    if (!created.Success)
+        //        throw created.OriginalException;
+        //}
 
         var added = Client.Index<StringResponse>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString(),
             JsonSerializer.Serialize(aggregateRoot));
@@ -73,18 +73,18 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     protected override async Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var exists = await Client.Indices
-            .ExistsAsync<StringResponse>(GetIndex<TAggregateRoot>(), ctx: cancellationToken);
+        //var exists = await Client.Indices
+        //    .ExistsAsync<StringResponse>(GetIndex<TAggregateRoot>(), ctx: cancellationToken);
 
-        if (exists.HttpStatusCode == 404)
-        {
-            var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<TAggregateRoot>(),
-                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
-                ctx: cancellationToken);
+        //if (exists.HttpStatusCode == 404)
+        //{
+        //    var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<TAggregateRoot>(),
+        //        JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
+        //        ctx: cancellationToken);
 
-            if (!created.Success)
-                throw created.OriginalException;
-        }
+        //    if (!created.Success)
+        //        throw created.OriginalException;
+        //}
 
         var added = await Client.IndexAsync<StringResponse>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString(),
             JsonSerializer.Serialize(aggregateRoot), ctx: cancellationToken);
