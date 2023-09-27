@@ -1,4 +1,5 @@
-﻿using Elasticsearch.Net;
+﻿using System.Net.Http;
+using Elasticsearch.Net;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Entities;
@@ -169,7 +170,17 @@ public abstract class ElasticsearchDbContext : DbContextAsync
             return default;
 
         if (searchResponse.HttpStatusCode != 200)
-            throw searchResponse.OriginalException;
+        {
+            var client = new HttpClient();
+
+            var result =
+                await client.GetAsync($"http://admin:password@127.0.0.1:22228/{GetIndex<TAggregateRoot>()}/_doc/{id}",
+                    cancellationToken);
+
+            var st = await result.Content.ReadAsStringAsync(cancellationToken);
+            throw new Exception(st);
+            //throw searchResponse.OriginalException;
+        }
 
         var document = JsonSerializer
             .Deserialize<Dictionary<string, object>>(searchResponse.Body);
