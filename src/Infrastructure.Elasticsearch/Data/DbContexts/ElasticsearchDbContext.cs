@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using Elasticsearch.Net;
+﻿using Elasticsearch.Net;
+using Elasticsearch.Net.Specification.IndicesApi;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Entities;
@@ -33,16 +33,16 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary>  </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        //var exists = Client.Indices.Exists<StringResponse>(GetIndex<TAggregateRoot>());
+        var exists = Client.Indices.Exists<StringResponse>(GetIndex<TAggregateRoot>());
 
-        //if (exists.HttpStatusCode == 404)
-        //{
-        //    var created = Client.Indices.Create<StringResponse>(GetIndex<TAggregateRoot>(),
-        //        JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }));
+        if (exists.HttpStatusCode == 404)
+        {
+            var created = Client.Indices.Create<StringResponse>(GetIndex<TAggregateRoot>(),
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 1 } }), new CreateIndexRequestParameters());
 
-        //    if (!created.Success)
-        //        throw created.OriginalException;
-        //}
+            if (!created.Success)
+                throw created.OriginalException;
+        }
 
         var added = Client.Index<StringResponse>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString(),
             JsonSerializer.Serialize(aggregateRoot));
@@ -74,18 +74,18 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     protected override async Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        //var exists = await Client.Indices
-        //    .ExistsAsync<StringResponse>(GetIndex<TAggregateRoot>(), ctx: cancellationToken);
+        var exists = await Client.Indices
+            .ExistsAsync<StringResponse>(GetIndex<TAggregateRoot>(), ctx: cancellationToken);
 
-        //if (exists.HttpStatusCode == 404)
-        //{
-        //    var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<TAggregateRoot>(),
-        //        JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
-        //        ctx: cancellationToken);
+        if (exists.HttpStatusCode == 404)
+        {
+            var created = await Client.Indices.CreateAsync<StringResponse>(GetIndex<TAggregateRoot>(),
+                JsonSerializer.Serialize(new { settings = new { number_of_shards = 2, number_of_replicas = 2 } }),
+                ctx: cancellationToken);
 
-        //    if (!created.Success)
-        //        throw created.OriginalException;
-        //}
+            if (!created.Success)
+                throw created.OriginalException;
+        }
 
         var added = await Client.IndexAsync<StringResponse>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString(),
             JsonSerializer.Serialize(aggregateRoot), ctx: cancellationToken);
@@ -163,14 +163,14 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (exists.HttpStatusCode == 404)
             return default;
 
-        var searchResponse = await Client.GetAsync<StringResponse>(
-            GetIndex<TAggregateRoot>(), id.ToString(), ctx: cancellationToken);
+        var searchResponse = await Client.GetAsync<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString(), ctx: cancellationToken);
 
         if (searchResponse.HttpStatusCode == 404)
             return default;
 
         if (searchResponse.HttpStatusCode != 200)
         {
+#if NET7_0
             var client = new HttpClient();
 
             var result =
@@ -179,7 +179,9 @@ public abstract class ElasticsearchDbContext : DbContextAsync
 
             var st = await result.Content.ReadAsStringAsync(cancellationToken);
             throw new Exception(st);
-            //throw searchResponse.OriginalException;
+#else
+            throw searchResponse.OriginalException;
+#endif
         }
 
         var document = JsonSerializer
