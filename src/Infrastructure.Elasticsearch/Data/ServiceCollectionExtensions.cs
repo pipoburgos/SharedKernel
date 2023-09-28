@@ -27,4 +27,24 @@ public static class ServiceCollectionExtensions
             .AddElasticsearchDbContext<TDbContext>(uri, serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
+
+    /// <summary>  </summary>
+    public static IServiceCollection AddElasticsearchDbContextLowLevel<TDbContext>(this IServiceCollection services, Uri uri,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        where TDbContext : ElasticsearchDbContextLowLevel
+    {
+        return services
+            .AddDbContext<TDbContext>(serviceLifetime)
+            .AddElasticsearchHealthChecks(uri, serviceLifetime);
+    }
+
+    /// <summary>  </summary>
+    public static IServiceCollection AddElasticsearchUnitOfWorkLowLevel<TUnitOfWork, TDbContext>(this IServiceCollection services,
+        Uri uri, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        where TDbContext : ElasticsearchDbContextLowLevel, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
+    {
+        return services
+            .AddElasticsearchDbContextLowLevel<TDbContext>(uri, serviceLifetime)
+            .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
+    }
 }

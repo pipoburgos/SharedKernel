@@ -20,7 +20,6 @@
     <Compile Remove="Data\Redis\**" />
     <Compile Remove="Documents\**" />
     <Compile Remove="Events\**" />
-    <Compile Remove="Hooks\**" />
     <Compile Remove="Reporting\**" />
     <Compile Remove="Security\**" />
     <Compile Remove="System\**" />
@@ -35,7 +34,6 @@
     <EmbeddedResource Remove="Data\Redis\**" />
     <EmbeddedResource Remove="Documents\**" />
     <EmbeddedResource Remove="Events\**" />
-    <EmbeddedResource Remove="Hooks\**" />
     <EmbeddedResource Remove="Reporting\**" />
     <EmbeddedResource Remove="Security\**" />
     <EmbeddedResource Remove="System\**" />
@@ -50,7 +48,6 @@
     <None Remove="Data\Redis\**" />
     <None Remove="Documents\**" />
     <None Remove="Events\**" />
-    <None Remove="Hooks\**" />
     <None Remove="Reporting\**" />
     <None Remove="Security\**" />
     <None Remove="System\**" />

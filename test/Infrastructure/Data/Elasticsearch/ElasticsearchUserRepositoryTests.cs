@@ -18,7 +18,7 @@ public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<El
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddElasticsearchDbContext<SharedKernelElasticsearchDbContext>(
+            .AddElasticsearchDbContextLowLevel<SharedKernelElasticsearchDbContext>(
                 new Uri("http://admin:password@127.0.0.1:22228"))
             .AddNewtonsoftSerializer()
             .AddTransient<ElasticsearchUserRepository>();

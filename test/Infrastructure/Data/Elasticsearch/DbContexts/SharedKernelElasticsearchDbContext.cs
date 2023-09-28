@@ -6,11 +6,10 @@ using SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.Elasticsearch.DbContexts;
 
-public class SharedKernelElasticsearchDbContext : ElasticsearchDbContext, ISharedKernelElasticsearchUnitOfWork
+public class SharedKernelElasticsearchDbContext : ElasticsearchDbContextLowLevel, ISharedKernelElasticsearchUnitOfWork
 {
-    public SharedKernelElasticsearchDbContext(ElasticLowLevelClient client, IJsonSerializer jsonSerializer,
-        IEntityAuditableService auditableService, IClassValidatorService classValidatorService) : base(client,
-        jsonSerializer, auditableService, classValidatorService)
+    public SharedKernelElasticsearchDbContext(ElasticLowLevelClient client, IJsonSerializer jsonSerializer, IEntityAuditableService auditableService,
+        IClassValidatorService classValidatorService) : base(client, jsonSerializer, auditableService, classValidatorService)
     {
     }
 }
