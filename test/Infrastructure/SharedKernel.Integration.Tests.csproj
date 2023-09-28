@@ -9,15 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
     <Compile Remove="System\Threading\Mongo\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
     <EmbeddedResource Remove="System\Threading\Mongo\**" />
-    <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
     <None Remove="System\Threading\Mongo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\ElasticsearchBankAccountRepositoryTests.cs" />
+    <Compile Remove="Data\Elasticsearch\ElasticsearchUserUnitOfWorkTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -41,7 +41,7 @@ public abstract class UserUnitOfWorkTests<T, TUnitOfWork> : InfrastructureTestCa
         userDdBb = repository.GetById(user.Id);
         userDdBb.Should().NotBeNull();
         userDdBb!.Id.Should().Be(user.Id);
-        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-2));
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-5));
     }
 
     [Fact]

@@ -44,7 +44,6 @@ public class MutexManager : IMutexManager
     public async Task<T> RunOneAtATimeFromGivenKeyAsync<T>(string key, Func<Task<T>> function,
         CancellationToken cancellationToken)
     {
-        await Task.Delay(5_000, cancellationToken);
         var locker = await _lockerFactory.CreateAsync(key, cancellationToken);
         try
         {
