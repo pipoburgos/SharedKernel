@@ -9,7 +9,7 @@ public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryA
     where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
     /// <summary>  </summary>
-    protected ElasticsearchRepository(ElasticsearchDbContextLowLevel elasticsearchDbContext) : base(elasticsearchDbContext)
+    protected ElasticsearchRepository(ElasticsearchDbContext elasticsearchDbContext) : base(elasticsearchDbContext)
     {
     }
 }

@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions
     /// <summary>  </summary>
     public static IServiceCollection AddElasticsearchDbContextLowLevel<TDbContext>(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
-        where TDbContext : ElasticsearchDbContextLowLevel
+        where TDbContext : ElasticsearchDbContext
     {
         return services
             .AddDbContext<TDbContext>(serviceLifetime)
@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
     /// <summary>  </summary>
     public static IServiceCollection AddElasticsearchUnitOfWorkLowLevel<TUnitOfWork, TDbContext>(this IServiceCollection services,
         Uri uri, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
-        where TDbContext : ElasticsearchDbContextLowLevel, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
+        where TDbContext : ElasticsearchDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
         return services
             .AddElasticsearchDbContextLowLevel<TDbContext>(uri, serviceLifetime)

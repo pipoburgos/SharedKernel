@@ -1,7 +1,7 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elasticsearch.Net;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using ConnectionConfiguration = Elasticsearch.Net.ConnectionConfiguration;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
@@ -14,7 +14,15 @@ public static class ServiceCollectionExtensions
     {
         var settings = new ElasticsearchClientSettings(uri);
 
-        var connectionConfiguration = new ConnectionSettings(new SingleNodeConnectionPool(uri));
+        var connectionConfiguration = new ConnectionConfiguration(new SingleNodeConnectionPool(uri))
+            //.DisableAutomaticProxyDetection()
+            .EnableApiVersioningHeader()
+            //.EnableHttpCompression()
+            //.DisableDirectStreaming()
+            //.PrettyJson()
+            .RequestTimeout(TimeSpan.FromSeconds(30));
+
+        //var connectionConfiguration = new ConnectionSettings(new SingleNodeConnectionPool(uri));
 
         services.Add(new ServiceDescriptor(typeof(ElasticsearchClient),
             _ => new ElasticsearchClient(settings), serviceLifetime));
