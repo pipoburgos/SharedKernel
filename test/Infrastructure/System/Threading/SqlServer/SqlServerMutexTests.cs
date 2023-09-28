@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace SharedKernel.Integration.Tests.System.Threading.SqlServer;
+﻿namespace SharedKernel.Integration.Tests.System.Threading.SqlServer;
 
 [Collection("DockerHook")]
 public class SqlServerMutexTests : CommonMutexTests<SqlServerApp>

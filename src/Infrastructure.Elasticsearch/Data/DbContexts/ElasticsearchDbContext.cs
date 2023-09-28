@@ -1,5 +1,4 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using Elastic.Transport.Products.Elasticsearch;
 using Elasticsearch.Net;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
@@ -47,8 +46,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary>  </summary>
     protected override void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var updated = Client.Update(aggregateRoot, aggregateRoot, GetIndex<TAggregateRoot>(),
-            aggregateRoot.Id.ToString()!);
+        var updated = Client.Index(aggregateRoot, GetIndex<TAggregateRoot>());
 
         updated.ThrowOriginalExceptionIfIsNotValid();
     }
@@ -62,33 +60,40 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     }
 
     /// <summary>  </summary>
-    protected override async Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+    protected override Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        await CreateIndexIfNotExistsAsync<TAggregateRoot>(cancellationToken);
+        AddMethod<TAggregateRoot, TId>(aggregateRoot);
+        return Task.CompletedTask;
 
-        var added = await Client.IndexAsync(aggregateRoot, GetIndex<TAggregateRoot>(), cancellationToken);
+        //await CreateIndexIfNotExistsAsync<TAggregateRoot>(cancellationToken);
 
-        added.ThrowOriginalExceptionIfIsNotValid();
+        //var added = await Client.IndexAsync(aggregateRoot, GetIndex<TAggregateRoot>(), cancellationToken);
+
+        //added.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary>  </summary>
-    protected override async Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+    protected override Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var updated = await Client.UpdateAsync(aggregateRoot, aggregateRoot, GetIndex<TAggregateRoot>(),
-            aggregateRoot.Id.ToString()!, cancellationToken);
+        UpdateMethod<TAggregateRoot, TId>(aggregateRoot);
+        return Task.CompletedTask;
 
-        updated.ThrowOriginalExceptionIfIsNotValid();
+        //var updated = await Client.IndexAsync(aggregateRoot, GetIndex<TAggregateRoot>(), cancellationToken);
+
+        //updated.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary>  </summary>
-    protected override async Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
+    protected override Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var deleted = await Client.DeleteAsync(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!, cancellationToken);
+        DeleteMethod<TAggregateRoot, TId>(aggregateRoot);
+        return Task.CompletedTask;
+        //var deleted = await Client.DeleteAsync(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!, cancellationToken);
 
-        deleted.ThrowOriginalExceptionIfIsNotValid();
+        //deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary>  </summary>
@@ -106,93 +111,41 @@ public abstract class ElasticsearchDbContext : DbContextAsync
 
         var searchResponse = _lowLevelClient.Get<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString()!);
 
-        return searchResponse.ThrowOriginalExceptionIfIsNotValid() ? default : Deserialize<TAggregateRoot>(searchResponse);
+        if (searchResponse.HttpStatusCode == 404)
+            return default;
+
+        if (searchResponse.HttpStatusCode != 200)
+            throw searchResponse.OriginalException;
+
+        return Deserialize<TAggregateRoot>(searchResponse);
     }
 
     /// <summary>  </summary>
-    public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
+    public override Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
         CancellationToken cancellationToken) where TAggregateRoot : class
     {
-        var existsIndex = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
+        return Task.FromResult(GetById<TAggregateRoot, TId>(id));
+        //var existsIndex = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
 
-        if (!existsIndex.Exists)
-            return default;
+        //if (!existsIndex.Exists)
+        //    return default;
 
-        var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id.ToString()!, cancellationToken);
+        //var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id.ToString()!, cancellationToken);
 
-        if (!existsDoc.Exists)
-            return default;
+        //if (!existsDoc.Exists)
+        //    return default;
 
-        var searchResponse = await _lowLevelClient
-            .GetAsync<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString()!, ctx: cancellationToken);
+        //var searchResponse = await _lowLevelClient
+        //    .GetAsync<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString()!, ctx: cancellationToken);
 
-        return searchResponse.ThrowOriginalExceptionIfIsNotValid() ? default : Deserialize<TAggregateRoot>(searchResponse);
+        //if (searchResponse.HttpStatusCode == 404)
+        //    return default;
+
+        //if (searchResponse.HttpStatusCode != 200)
+        //    throw searchResponse.OriginalException;
+
+        //return Deserialize<TAggregateRoot>(searchResponse);
     }
-
-    ///// <summary>  </summary>
-    //public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
-    //{
-    //    var existsIndex = Client.Indices.Exists(GetIndex<TAggregateRoot>());
-
-    //    if (!existsIndex.Exists)
-    //        return default;
-
-    //    var existsDoc = Client.Exists(GetIndex<TAggregateRoot>(), id.ToString()!);
-
-    //    if (!existsDoc.Exists)
-    //        return default;
-
-    //    var search = Client.Get<TAggregateRoot>(GetIndex<TAggregateRoot>(), id.ToString()!);
-
-    //    search.ThrowOriginalExceptionIfIsNotValid();
-
-    //    var aggregateRoot = search.Source;
-
-    //    if (aggregateRoot == null)
-    //        return default;
-
-    //    if (aggregateRoot is IEntityAuditableLogicalRemove a)
-    //    {
-    //        return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
-    //            ? default
-    //            : aggregateRoot;
-    //    }
-
-    //    return aggregateRoot;
-    //}
-
-    ///// <summary>  </summary>
-    //public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
-    //    CancellationToken cancellationToken) where TAggregateRoot : class
-    //{
-    //    var existsIndex = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
-
-    //    if (!existsIndex.Exists)
-    //        return default;
-
-    //    var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id.ToString()!, cancellationToken);
-
-    //    if (!existsDoc.Exists)
-    //        return default;
-
-    //    var search = Client.Get<TAggregateRoot>(GetIndex<TAggregateRoot>(), id.ToString()!);
-
-    //    search.ThrowOriginalExceptionIfIsNotValid();
-
-    //    var aggregateRoot = search.Source;
-
-    //    if (aggregateRoot == null)
-    //        return default;
-
-    //    if (aggregateRoot is IEntityAuditableLogicalRemove a)
-    //    {
-    //        return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
-    //            ? default
-    //            : aggregateRoot;
-    //    }
-
-    //    return aggregateRoot;
-    //}
 
     private TAggregateRoot? Deserialize<TAggregateRoot>(StringResponse searchResponse) where TAggregateRoot : class
     {
@@ -228,45 +181,16 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         created.ThrowOriginalExceptionIfIsNotValid();
     }
 
-    private async Task CreateIndexIfNotExistsAsync<TAggregateRoot>(CancellationToken cancellationToken)
-    {
-        var exists = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
+    //private async Task CreateIndexIfNotExistsAsync<TAggregateRoot>(CancellationToken cancellationToken)
+    //{
+    //    var exists = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
 
-        if (!exists.Exists)
-            return;
+    //    if (!exists.Exists)
+    //        return;
 
-        var created = await Client.Indices.CreateAsync(GetIndex<TAggregateRoot>(),
-            x => x.Settings(new Elastic.Clients.Elasticsearch.IndexManagement.IndexSettings { NumberOfReplicas = 0 }), cancellationToken);
+    //    var created = await Client.Indices.CreateAsync(GetIndex<TAggregateRoot>(),
+    //        x => x.Settings(new Elastic.Clients.Elasticsearch.IndexManagement.IndexSettings { NumberOfReplicas = 0 }), cancellationToken);
 
-        created.ThrowOriginalExceptionIfIsNotValid();
-    }
-}
-
-/// <summary>  </summary>
-public static class Response
-{
-    /// <summary>  </summary>
-    public static void ThrowOriginalExceptionIfIsNotValid(this ElasticsearchResponse response)
-    {
-        if (response.IsValidResponse)
-            return;
-
-        if (!response.TryGetOriginalException(out var ex))
-            return;
-
-        if (ex != null)
-            throw ex;
-    }
-
-    /// <summary>  </summary>
-    public static bool ThrowOriginalExceptionIfIsNotValid(this ElasticsearchResponseBase response)
-    {
-        if (response.HttpStatusCode == 404)
-            return true;
-
-        if (response.HttpStatusCode != 200)
-            throw response.OriginalException;
-
-        return false;
-    }
+    //    created.ThrowOriginalExceptionIfIsNotValid();
+    //}
 }

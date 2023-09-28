@@ -9,48 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Adapter\**" />
-    <Compile Remove="Caching\**" />
-    <Compile Remove="Communication\**" />
-    <Compile Remove="Cqrs\**" />
-    <Compile Remove="Data\Dapper\**" />
-    <Compile Remove="Data\EntityFrameworkCore\**" />
-    <Compile Remove="Data\FileSystem\**" />
-    <Compile Remove="Data\Mongo\**" />
-    <Compile Remove="Data\Redis\**" />
-    <Compile Remove="Documents\**" />
-    <Compile Remove="Events\**" />
     <Compile Remove="Reporting\**" />
-    <Compile Remove="Security\**" />
-    <Compile Remove="System\**" />
-    <EmbeddedResource Remove="Adapter\**" />
-    <EmbeddedResource Remove="Caching\**" />
-    <EmbeddedResource Remove="Communication\**" />
-    <EmbeddedResource Remove="Cqrs\**" />
-    <EmbeddedResource Remove="Data\Dapper\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\**" />
-    <EmbeddedResource Remove="Data\FileSystem\**" />
-    <EmbeddedResource Remove="Data\Mongo\**" />
-    <EmbeddedResource Remove="Data\Redis\**" />
-    <EmbeddedResource Remove="Documents\**" />
-    <EmbeddedResource Remove="Events\**" />
+    <Compile Remove="System\Threading\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <EmbeddedResource Remove="Security\**" />
-    <EmbeddedResource Remove="System\**" />
-    <None Remove="Adapter\**" />
-    <None Remove="Caching\**" />
-    <None Remove="Communication\**" />
-    <None Remove="Cqrs\**" />
-    <None Remove="Data\Dapper\**" />
-    <None Remove="Data\EntityFrameworkCore\**" />
-    <None Remove="Data\FileSystem\**" />
-    <None Remove="Data\Mongo\**" />
-    <None Remove="Data\Redis\**" />
-    <None Remove="Documents\**" />
-    <None Remove="Events\**" />
+    <EmbeddedResource Remove="System\Threading\**" />
     <None Remove="Reporting\**" />
-    <None Remove="Security\**" />
-    <None Remove="System\**" />
+    <None Remove="System\Threading\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,7 +71,76 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Caching\DistributedCache\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Caching\DistributedCache\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Communication\Email\Photo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Communication\Email\Smtp\appsettings.smtp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\ActiveMq\appsettings.ActiveMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\RabbitMq\appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cqrs\Commands\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\FileSystem\appsettings.fileSystem.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Mongo\appsettings.mongo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="docker-compose.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Documents\Excel\ExcelFile.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Documents\Txt\TxtFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Documents\Csv\CsvFile.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Documents\Database\DatabaseFile.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Documents\Xml\XmlFile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\ActiveMq\appsettings.ActiveMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\InMemory\appsettings.inMemory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\RabbitMq\appsettings.rabbitMq.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

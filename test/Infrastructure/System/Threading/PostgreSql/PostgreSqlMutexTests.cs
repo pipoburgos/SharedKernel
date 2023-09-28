@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
+﻿namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
 
 [Collection("DockerHook")]
 public class PostgreSqlMutexTests : CommonMutexTests<PostgreSqlApp>

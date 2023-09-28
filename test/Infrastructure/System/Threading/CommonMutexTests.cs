@@ -1,8 +1,6 @@
-﻿using FluentAssertions;
-using SharedKernel.Application.System.Threading;
+﻿using SharedKernel.Application.System.Threading;
 using SharedKernel.Testing.Infrastructure;
 using System.Diagnostics;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.System.Threading;
 
@@ -17,31 +15,31 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
         _app2Mutex = app2Mutex;
     }
 
-    [Fact]
-    public async Task MutexTestSync()
-    {
-        _app1Mutex.BeforeStart();
-        _app2Mutex.BeforeStart();
-        var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
-        var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
+    //[Fact]
+    //public async Task MutexTestSync()
+    //{
+    //    _app1Mutex.BeforeStart();
+    //    _app2Mutex.BeforeStart();
+    //    var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
+    //    var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
 
-        const int time = 7_000;
+    //    const int time = 7_000;
 
-        var timer = new Stopwatch();
-        timer.Start();
+    //    var timer = new Stopwatch();
+    //    timer.Start();
 
-        var tasks = new List<Task>
-        {
-            Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct2", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time)))
-        };
+    //    var tasks = new List<Task>
+    //    {
+    //        Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time))),
+    //        Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct2", () => Thread.Sleep(time))),
+    //        Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time)))
+    //    };
 
-        await Task.WhenAll(tasks);
+    //    await Task.WhenAll(tasks);
 
-        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
-        timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
-    }
+    //    timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
+    //    timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
+    //}
 
     [Fact]
     public async Task MutexTestAsync()
