@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using SharedKernel.Application.System.Threading;
+﻿using SharedKernel.Application.System.Threading;
 using SharedKernel.Testing.Infrastructure;
-using System.Diagnostics;
-using Xunit;
 
 namespace SharedKernel.Integration.Tests.System.Threading;
 
@@ -10,6 +7,7 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
 {
     private readonly TApp _app1Mutex;
     private readonly TApp _app2Mutex;
+    private const int Delay = 50;
 
     public CommonMutexTests(TApp app1Mutex, TApp app2Mutex)
     {
@@ -18,29 +16,35 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
     }
 
     [Fact]
-    public async Task MutexTestSync()
+    public async Task MutexTest()
     {
         _app1Mutex.BeforeStart();
         _app2Mutex.BeforeStart();
         var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
         var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
 
-        const int time = 7_000;
+        var tasks = new List<Task>();
 
-        var timer = new Stopwatch();
-        timer.Start();
+        var firstTaskCompleted = false;
 
-        var tasks = new List<Task>
+        tasks.Add(Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey", () =>
         {
-            Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKeyDistinct2", () => Thread.Sleep(time))),
-            Task.Run(() => mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey2", () => Thread.Sleep(time)))
-        };
+            Thread.Sleep(500);
+            firstTaskCompleted = true;
+        })));
+
+        await Task.Delay(Delay);
+
+        tasks.Add(Task.Run(() =>
+            mutexFactory1.RunOneAtATimeFromGivenKey("MutexKeyDistinct", () => firstTaskCompleted.Should().BeFalse())));
+
+        await Task.Delay(Delay);
+
+        tasks.Add(Task.Run(() =>
+            mutexFactory2.RunOneAtATimeFromGivenKey("MutexKey", () => firstTaskCompleted.Should().BeTrue())));
 
         await Task.WhenAll(tasks);
 
-        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
-        timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
     }
 
     [Fact]
@@ -51,35 +55,35 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
         var mutexFactory1 = _app1Mutex.GetRequiredService<IMutexManager>();
         var mutexFactory2 = _app2Mutex.GetRequiredService<IMutexManager>();
 
-        const int time = 7_000;
-
         var tasks = new List<Task>();
 
-        var timer = new Stopwatch();
-        timer.Start();
+        var firstTaskCompleted = false;
 
         tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexKey", async () =>
         {
-            await Task.Delay(time);
+            await Task.Delay(500);
+            firstTaskCompleted = true;
             return Task.CompletedTask;
         }, CancellationToken.None));
 
-        tasks.Add(mutexFactory2.RunOneAtATimeFromGivenKeyAsync("MutexKeyDistinct", async () =>
+        await Task.Delay(Delay);
+
+        tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexKeyDistinct", async () =>
         {
-            await Task.Delay(time);
+            await Task.Delay(0);
+            firstTaskCompleted.Should().BeFalse();
             return Task.CompletedTask;
         }, CancellationToken.None));
+
+        await Task.Delay(Delay);
 
         tasks.Add(mutexFactory2.RunOneAtATimeFromGivenKeyAsync("MutexKey", async () =>
         {
-            await Task.Delay(time);
+            await Task.Delay(0);
+            firstTaskCompleted.Should().BeTrue();
             return Task.CompletedTask;
         }, CancellationToken.None));
 
         await Task.WhenAll(tasks);
-
-        timer.Stop();
-        timer.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(time * 2);
-        timer.ElapsedMilliseconds.Should().BeLessOrEqualTo(time * 3);
     }
 }

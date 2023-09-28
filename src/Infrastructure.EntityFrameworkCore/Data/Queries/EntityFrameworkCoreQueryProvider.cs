@@ -66,7 +66,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries
             Expression<Func<T, TResult>>? selector = default, CancellationToken cancellationToken = default)
             where T : class where TResult : class
         {
-#if NET6_0 || NET7_0 || NET8_0
+#if NET6_0_OR_GREATER
             var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
 #else
             var dbContext = _factory.CreateDbContext();

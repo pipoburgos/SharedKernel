@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace SharedKernel.Integration.Tests.System.Threading.Redis;
+﻿namespace SharedKernel.Integration.Tests.System.Threading.Redis;
 
 [Collection("DockerHook")]
 public class RedisMutexTests : CommonMutexTests<RedisApp>

@@ -9,18 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\**" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <Compile Remove="Reporting\**" />
-    <Compile Remove="System\Threading\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <Compile Remove="System\Threading\Mongo\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <EmbeddedResource Remove="System\Threading\**" />
-    <None Remove="Data\Elasticsearch\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <EmbeddedResource Remove="System\Threading\Mongo\**" />
     <None Remove="Reporting\**" />
-    <None Remove="System\Threading\**" />
+    <None Remove="System\Threading\Mongo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\ElasticsearchBankAccountRepositoryTests.cs" />
+    <Compile Remove="Data\Elasticsearch\ElasticsearchUserUnitOfWorkTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
