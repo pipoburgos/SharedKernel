@@ -17,21 +17,17 @@ internal class RedisMutexFactory : IMutexFactory
 
     public IDisposable Create(string key)
     {
-        var @lock = new RedisDistributedLock(key, GetDatabase());
+        var redis = ConnectionMultiplexer.Connect(_options.Value.Configuration!);
+        var @lock = new RedisDistributedLock(key, redis.GetDatabase());
         var sqlDistributedLockHandle = @lock.Acquire();
         return sqlDistributedLockHandle;
     }
 
     public async Task<IDisposable> CreateAsync(string key, CancellationToken cancellationToken)
     {
-        var @lock = new RedisDistributedLock(key, GetDatabase());
+        var redis = await ConnectionMultiplexer.ConnectAsync(_options.Value.Configuration!);
+        var @lock = new RedisDistributedLock(key, redis.GetDatabase());
         var sqlDistributedLockHandle = await @lock.AcquireAsync(cancellationToken: cancellationToken);
         return sqlDistributedLockHandle;
-    }
-
-    private IDatabase GetDatabase()
-    {
-        var redis = ConnectionMultiplexer.Connect(_options.Value.Configuration!);
-        return redis.GetDatabase();
     }
 }

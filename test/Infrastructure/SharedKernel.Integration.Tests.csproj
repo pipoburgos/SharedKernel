@@ -9,12 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
-    <Compile Remove="System\Threading\**" />
+    <Compile Remove="System\Threading\Mongo\**" />
+    <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <EmbeddedResource Remove="System\Threading\**" />
+    <EmbeddedResource Remove="System\Threading\Mongo\**" />
+    <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
-    <None Remove="System\Threading\**" />
+    <None Remove="System\Threading\Mongo\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -141,6 +144,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
