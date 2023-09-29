@@ -147,11 +147,13 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public Result<int> SaveChangesResult()
+    public virtual Result<int> SaveChangesResult()
     {
+#if !NET462 && !NET47 && !NET471
         try
         {
-            return Result
+#endif
+        return Result
                 .Create(Unit.Value)
 #if NET47_OR_GREATER || NET6_0_OR_GREATER || NETSTANDARD
                 .Combine(
@@ -162,30 +164,28 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 #endif
                 .Tap(_ => _auditableService?.Audit(this))
                 .Map(_ => base.SaveChanges());
-        }
 #if !NET462 && !NET47 && !NET471
+        }
         catch (DbUpdateException exUpdate)
         {
             return Result.Failure<int>(exUpdate.Entries.Select(e => Error.Create(e.ToString())));
         }
 #endif
-        finally
-        {
-            Rollback();
-        }
     }
 
     /// <summary>  </summary>
-    public Task<int> SaveChangesAsync()
+    public virtual Task<int> SaveChangesAsync()
     {
         return SaveChangesAsync(CancellationToken.None);
     }
 
     /// <summary>  </summary>
-    public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public new virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
+#if !NET462 && !NET47 && !NET471
         try
         {
+#endif
             _originalEntries.AddRange(ChangeTracker.Entries()
                 .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
 
@@ -194,17 +194,11 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
                 .OfType<IValidatableObject>().ToList());
             _auditableService?.Audit(this);
             return await base.SaveChangesAsync(cancellationToken);
-        }
 #if !NET462 && !NET47 && !NET471
+        }
         catch (DbUpdateException dbUpdateException)
         {
             throw new Exception(string.Join(", ", dbUpdateException.Entries.Select(e => e.ToString())), dbUpdateException);
-        }
-#else
-        // ReSharper disable once RedundantCatchClause
-        catch (Exception)
-        {
-            throw;
         }
 #endif
     }
@@ -225,11 +219,10 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
                         {Error.Create(dbUpdateException.InnerException?.ToString() ?? dbUpdateException.Message)}
                     .Concat(dbUpdateException.Entries.Select(e => Error.Create(e.ToString())))),
                 expetion =>
-                    Result.Failure<int>(Error.Create(expetion.InnerException?.ToString() ?? expetion.Message)),
-                () => RollbackAsync(cancellationToken));
+                    Result.Failure<int>(Error.Create(expetion.InnerException?.ToString() ?? expetion.Message)));
 
     /// <summary>  </summary>
-    public int Rollback()
+    public virtual int Rollback()
     {
         foreach (var entryInfo in _originalEntries)
         {
@@ -262,7 +255,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public int RejectChanges()
+    public virtual int RejectChanges()
     {
         var changedEntries = ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList();
 
@@ -287,14 +280,14 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public Result<int> RollbackResult()
+    public virtual Result<int> RollbackResult()
     {
         return Rollback();
     }
 
     /// <inheritdoc />
     /// <summary> Rollback all changes. </summary>
-    public Task<int> RollbackAsync(CancellationToken cancellationToken)
+    public virtual Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
         foreach (var entryInfo in _originalEntries)
         {
@@ -327,7 +320,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     }
 
     /// <summary>  </summary>
-    public Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
+    public virtual Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
         return Task.FromResult(RollbackResult());
     }

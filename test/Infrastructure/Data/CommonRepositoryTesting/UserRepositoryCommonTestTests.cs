@@ -35,6 +35,32 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
     }
 
     [Fact]
+    public async Task TestGetByIdAndSaveChangesAsync()
+    {
+        BeforeStart();
+
+        var repository = GetRequiredServiceOnNewScope<T>();
+        var user = UserMother.Create();
+        await repository.AddAsync(user, CancellationToken.None);
+
+        // Test not exists if not call SaveChanges
+        var repository2 = GetRequiredServiceOnNewScope<T>();
+        var userDdBb = await repository2.GetByIdAsync(user.Id, CancellationToken.None);
+        userDdBb.Should().BeNull();
+
+
+        var total = await repository.SaveChangesAsync(CancellationToken.None);
+
+        total.Should().BeGreaterOrEqualTo(1);
+
+        repository = GetRequiredServiceOnNewScope<T>();
+        userDdBb = await repository.GetByIdAsync(user.Id, CancellationToken.None);
+        userDdBb.Should().NotBeNull();
+        userDdBb!.Id.Should().Be(user.Id);
+        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-5));
+    }
+
+    [Fact]
     public void TestNameChangesTestUpdateMethod()
     {
         BeforeStart();
@@ -110,32 +136,6 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
         repoUser.Addresses.Count().Should().Be(10);
         repoUser.Emails.Should().BeEquivalentTo(roberto.Emails);
         repoUser.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddSeconds(-30));
-    }
-
-    [Fact]
-    public async Task TestGetByIdAndSaveChangesAsync()
-    {
-        BeforeStart();
-
-        var repository = GetRequiredServiceOnNewScope<T>();
-        var user = UserMother.Create();
-        await repository.AddAsync(user, CancellationToken.None);
-
-        // Test not exists if not call SaveChanges
-        var repository2 = GetRequiredServiceOnNewScope<T>();
-        var userDdBb = await repository2.GetByIdAsync(user.Id, CancellationToken.None);
-        userDdBb.Should().BeNull();
-
-
-        var total = await repository.SaveChangesAsync(CancellationToken.None);
-
-        total.Should().BeGreaterOrEqualTo(1);
-
-        repository = GetRequiredServiceOnNewScope<T>();
-        userDdBb = await repository.GetByIdAsync(user.Id, CancellationToken.None);
-        userDdBb.Should().NotBeNull();
-        userDdBb!.Id.Should().Be(user.Id);
-        userDdBb.CreatedAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(-5));
     }
 
     [Fact]

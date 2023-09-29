@@ -9,7 +9,7 @@ namespace SharedKernel.Domain.Tests.Users
         {
             var faker = new Faker();
 
-            var user = User.Create(id ?? faker.Random.Uuid(), name ?? faker.Random.Word(),
+            var user = User.Create(id ?? Guid.NewGuid(), name ?? faker.Random.Word(),
                 birthday ?? faker.Date.Past().ToUniversalTime());
 
             user.ChangeNumberOfChildren(numberOfChildren ?? faker.Person.Random.Number(1, 7));
