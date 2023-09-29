@@ -12,7 +12,10 @@ public class ElasticsearchBankAccountRepositoryTests : BankAccountRepositoryComm
 {
     public override void BeforeStart()
     {
-        Thread.Sleep(10_000);
+        var db = GetRequiredService<SharedKernelElasticsearchDbContext>();
+
+        db.Client.Indices.Delete("user");
+        db.Client.Indices.Delete("bankaccount");
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)

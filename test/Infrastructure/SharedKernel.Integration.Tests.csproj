@@ -18,11 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\ElasticsearchBankAccountRepositoryTests.cs" />
-    <Compile Remove="Data\Elasticsearch\ElasticsearchUserUnitOfWorkTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
