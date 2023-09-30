@@ -9,10 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
     <Compile Remove="System\Threading\Mongo\**" />
+    <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
     <EmbeddedResource Remove="System\Threading\Mongo\**" />
+    <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
     <None Remove="System\Threading\Mongo\**" />
   </ItemGroup>

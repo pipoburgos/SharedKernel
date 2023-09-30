@@ -41,9 +41,17 @@ public abstract class PageOptionsBinder
         for (var i = 0; i < ordersFieldsValues.Values.Count; i++)
         {
             var field = ordersFieldsValues.ToArray()[i];
-            var ok = bool.TryParse(ordersAscendingValues.ToArray()[i], out var ascending);
-            if (!string.IsNullOrWhiteSpace(field))
-                orders.Add(new Order(field, !ok || ascending));
+            if (ordersAscendingValues.Length >= i+1)
+            {
+                var ok = bool.TryParse(ordersAscendingValues.ToArray()[i], out var ascending);
+                if (!string.IsNullOrWhiteSpace(field))
+                    orders.Add(new Order(field, !ok || ascending));
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(field))
+                    orders.Add(new Order(field, true));
+            }
         }
         pageOptions.Orders = orders;
 
