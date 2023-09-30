@@ -194,7 +194,6 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
             .OfType<IValidatableObject>().ToList());
         _auditableService?.Audit(this);
         return await base.SaveChangesAsync(cancellationToken);
-        }
 #if !NET462 && !NET47 && !NET471
         }
         catch (DbUpdateException dbUpdateException)
