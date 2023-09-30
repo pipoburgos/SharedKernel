@@ -186,14 +186,15 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         try
         {
 #endif
-            _originalEntries.AddRange(ChangeTracker.Entries()
-                .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
+        _originalEntries.AddRange(ChangeTracker.Entries()
+            .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
 
-            _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
-            _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
-                .OfType<IValidatableObject>().ToList());
-            _auditableService?.Audit(this);
-            return await base.SaveChangesAsync(cancellationToken);
+        _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
+        _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
+            .OfType<IValidatableObject>().ToList());
+        _auditableService?.Audit(this);
+        return await base.SaveChangesAsync(cancellationToken);
+        }
 #if !NET462 && !NET47 && !NET471
         }
         catch (DbUpdateException dbUpdateException)
