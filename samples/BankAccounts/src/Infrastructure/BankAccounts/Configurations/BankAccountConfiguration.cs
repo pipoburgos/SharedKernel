@@ -10,8 +10,11 @@ namespace BankAccounts.Infrastructure.BankAccounts.Configurations
                 .Property(x => x.Id)
                 .HasConversion(x => x.Value, l => BankAccountId.Create(l))
                 .IsRequired();
-
+#if NET8_0_OR_GREATER
+            builder.ComplexProperty(ba => ba.InternationalBankAccountNumber, ba =>
+#else
             builder.OwnsOne(ba => ba.InternationalBankAccountNumber, ba =>
+#endif
             {
                 ba.Property(e => e.CountryCheckDigit).HasMaxLength(4);
                 ba.Property(e => e.EntityCode).HasMaxLength(4);
