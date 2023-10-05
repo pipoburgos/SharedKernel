@@ -21,6 +21,6 @@ public class DefaultIdentityService : IIdentityService
 
 #if !NET40
     /// <summary> </summary>
-    public ClaimsPrincipal User { get; set; } = null!;
+    public ClaimsPrincipal? User { get; set; }
 #endif
 }
