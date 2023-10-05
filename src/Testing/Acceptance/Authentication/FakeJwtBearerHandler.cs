@@ -14,10 +14,13 @@ namespace SharedKernel.Testing.Acceptance.Authentication
 {
     internal class FakeJwtBearerHandler : AuthenticationHandler<FakeJwtBearerOptions>
     {
+#if NET8_0_OR_GREATER
         public FakeJwtBearerHandler(IOptionsMonitor<FakeJwtBearerOptions> options, ILoggerFactory logger,
-            UrlEncoder encoder, ISystemClock clock) : base(options, logger,
-            encoder, clock)
-        { }
+            UrlEncoder encoder) : base(options, logger, encoder) { }
+#else
+        public FakeJwtBearerHandler(IOptionsMonitor<FakeJwtBearerOptions> options, ILoggerFactory logger,
+            UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+#endif
 
 
         /// <summary>
