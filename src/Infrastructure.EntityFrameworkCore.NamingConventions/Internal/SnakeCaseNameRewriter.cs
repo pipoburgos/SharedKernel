@@ -1,16 +1,19 @@
 using System.Text;
 
-namespace EFCore.NamingConventions.Internal;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.Internal;
 
+/// <summary>  </summary>
 public class SnakeCaseNameRewriter : INameRewriter
 {
     private readonly CultureInfo _culture;
 
+    /// <summary>  </summary>
     public SnakeCaseNameRewriter(CultureInfo culture)
     {
         _culture = culture;
     }
 
+    /// <summary>  </summary>
     public virtual string RewriteName(string name)
     {
         var builder = new StringBuilder(name.Length + Math.Min(2, name.Length / 5));

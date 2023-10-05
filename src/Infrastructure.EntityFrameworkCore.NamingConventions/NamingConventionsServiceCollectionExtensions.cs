@@ -1,5 +1,6 @@
-using EFCore.NamingConventions.Internal;
 using JetBrains.Annotations;
+using SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.Internal;
+
 // ReSharper disable RedundantNullnessAttributeWithNullableReferenceTypes
 
 // ReSharper disable once CheckNamespace

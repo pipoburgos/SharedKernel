@@ -1,6 +1,7 @@
 // ReSharper disable ConvertTypeCheckPatternToNullCheck
-namespace EFCore.NamingConventions.Internal;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.Internal;
 
+/// <summary>  </summary>
 public class NameRewritingConvention :
     IEntityTypeAddedConvention,
     IEntityTypeAnnotationChangedConvention,
@@ -17,11 +18,13 @@ public class NameRewritingConvention :
 
     private readonly INameRewriter _namingNameRewriter;
 
+    /// <summary>  </summary>
     public NameRewritingConvention(INameRewriter nameRewriter)
     {
         _namingNameRewriter = nameRewriter;
     }
 
+    /// <summary>  </summary>
     public virtual void ProcessEntityTypeAdded(
         IConventionEntityTypeBuilder entityTypeBuilder,
         IConventionContext<IConventionEntityTypeBuilder> context)
@@ -45,6 +48,7 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public void ProcessEntityTypeBaseTypeChanged(
         IConventionEntityTypeBuilder entityTypeBuilder,
         IConventionEntityType? newBaseType,
@@ -73,11 +77,13 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public virtual void ProcessPropertyAdded(
         IConventionPropertyBuilder propertyBuilder,
         IConventionContext<IConventionPropertyBuilder> context)
         => RewriteColumnName(propertyBuilder);
 
+    /// <summary>  </summary>
     public void ProcessForeignKeyOwnershipChanged(IConventionForeignKeyBuilder relationshipBuilder, IConventionContext<bool?> context)
     {
         var foreignKey = relationshipBuilder.Metadata;
@@ -108,6 +114,7 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public void ProcessEntityTypeAnnotationChanged(
         IConventionEntityTypeBuilder entityTypeBuilder,
         string name,
@@ -208,6 +215,7 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public void ProcessForeignKeyAdded(
         IConventionForeignKeyBuilder relationshipBuilder,
         IConventionContext<IConventionForeignKeyBuilder> context)
@@ -218,6 +226,7 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public void ProcessKeyAdded(IConventionKeyBuilder keyBuilder, IConventionContext<IConventionKeyBuilder> context)
     {
         if (keyBuilder.Metadata.GetName() is { } keyName)
@@ -226,6 +235,7 @@ public class NameRewritingConvention :
         }
     }
 
+    /// <summary>  </summary>
     public void ProcessIndexAdded(
         IConventionIndexBuilder indexBuilder,
         IConventionContext<IConventionIndexBuilder> context)

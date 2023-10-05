@@ -1,13 +1,17 @@
-namespace EFCore.NamingConventions.Internal;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.Internal;
 
+/// <summary>  </summary>
 public class NamingConventionSetPlugin : IConventionSetPlugin
 {
     private readonly IDbContextOptions _options;
+
+    /// <summary>  </summary>
     public NamingConventionSetPlugin(IDbContextOptions options)
     {
         _options = options;
     }
 
+    /// <summary>  </summary>
     public ConventionSet ModifyConventions(ConventionSet conventionSet)
     {
         var extension = _options.FindExtension<NamingConventionsOptionsExtension>()!;

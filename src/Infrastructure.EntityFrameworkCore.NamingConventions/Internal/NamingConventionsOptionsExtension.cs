@@ -1,28 +1,35 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EFCore.NamingConventions.Internal;
+namespace SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.Internal;
 
+/// <summary>  </summary>
 public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
 {
     private DbContextOptionsExtensionInfo? _info;
     private NamingConvention _namingConvention;
     private CultureInfo? _culture;
 
+    /// <summary>  </summary>
     public NamingConventionsOptionsExtension() {}
+
+    /// <summary>  </summary>
     protected NamingConventionsOptionsExtension(NamingConventionsOptionsExtension copyFrom)
     {
         _namingConvention = copyFrom._namingConvention;
         _culture = copyFrom._culture;
     }
 
+    /// <summary>  </summary>
     public virtual DbContextOptionsExtensionInfo Info => _info ??= new ExtensionInfo(this);
 
+    /// <summary>  </summary>
     protected virtual NamingConventionsOptionsExtension Clone() => new(this);
 
     internal virtual NamingConvention NamingConvention => _namingConvention;
     internal virtual CultureInfo? Culture => _culture;
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithoutNaming()
     {
         var clone = Clone();
@@ -30,6 +37,7 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithSnakeCaseNamingConvention(CultureInfo? culture = null)
     {
         var clone = Clone();
@@ -38,6 +46,7 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithLowerCaseNamingConvention(CultureInfo? culture = null)
     {
         var clone = Clone();
@@ -46,6 +55,7 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithUpperCaseNamingConvention(CultureInfo? culture = null)
     {
         var clone = Clone();
@@ -54,6 +64,7 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithUpperSnakeCaseNamingConvention(CultureInfo? culture = null)
     {
         var clone = Clone();
@@ -62,6 +73,7 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public virtual NamingConventionsOptionsExtension WithCamelCaseNamingConvention(CultureInfo? culture = null)
     {
         var clone = Clone();
@@ -70,8 +82,10 @@ public class NamingConventionsOptionsExtension : IDbContextOptionsExtension
         return clone;
     }
 
+    /// <summary>  </summary>
     public void Validate(IDbContextOptions options) {}
 
+    /// <summary>  </summary>
     public void ApplyServices(IServiceCollection services)
         => services.AddEntityFrameworkNamingConventions();
 

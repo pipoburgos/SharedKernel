@@ -4,6 +4,22 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
+    <Description>Naming EF core mappings</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>Entity Framework Core;entity-framework-core;ef;efcore;orm;sql</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+    <Version>8.0.0.2-rc.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

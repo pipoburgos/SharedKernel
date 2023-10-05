@@ -91,7 +91,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernelInfrastructure.iText", "src\Infrastructure.iText\SharedKernelInfrastructure.iText.csproj", "{66AB1F39-4880-4FB8-B769-F11F62AC2898}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.NamingConventions", "src\EFCore.NamingConventions\EFCore.NamingConventions.csproj", "{0C6E8D80-3ABD-40B5-A888-EA6C555666CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions", "src\Infrastructure.EntityFrameworkCore.NamingConventions\SharedKernel.Infrastructure.EntityFrameworkCore.NamingConventions.csproj", "{0C6E8D80-3ABD-40B5-A888-EA6C555666CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
