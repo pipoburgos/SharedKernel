@@ -18,7 +18,7 @@ internal class SampleCommandHandler : ICommandRequestHandler<SampleCommand>
 
     public Task Handle(SampleCommand command, CancellationToken cancellationToken)
     {
-        if (_identityService.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter"))
+        if (_identityService.User?.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
             _saveValueSingletonService.SetId(command.Value);
 
         return Task.CompletedTask;

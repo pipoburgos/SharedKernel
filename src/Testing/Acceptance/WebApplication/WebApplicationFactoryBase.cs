@@ -97,7 +97,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
     }
 
-    public async Task<HttpClient> CreateClientAsync(string? language = "en-US")
+    public virtual async Task<HttpClient> CreateClientAsync(string? language = "en-US")
     {
         if (_firstTime)
         {

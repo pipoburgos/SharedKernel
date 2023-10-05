@@ -11,13 +11,13 @@
   <ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
-    <Compile Remove="System\Threading\Mongo\**" />
+    <Compile Remove="System\Threading\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <EmbeddedResource Remove="System\Threading\Mongo\**" />
+    <EmbeddedResource Remove="System\Threading\**" />
     <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
-    <None Remove="System\Threading\Mongo\**" />
+    <None Remove="System\Threading\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +56,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.iText\SharedKernelInfrastructure.iText.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.MailKit\SharedKernel.Infrastructure.MailKit.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
@@ -146,13 +147,10 @@
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
+    <None Update="Security\SignedPdf.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="System\Threading\Redis\appsettings.redis.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
+    <None Update="Security\UnsignedPdf.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

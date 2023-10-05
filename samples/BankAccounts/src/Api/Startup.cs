@@ -1,6 +1,9 @@
 ﻿using BankAccounts.Infrastructure.Shared;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
@@ -23,12 +26,14 @@ public class Startup
     private const string CorsPolicy = "CorsPolicy";
 
     private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private IServiceCollection? _services;
 
     /// <summary> Constructor. </summary>
-    public Startup(IConfiguration configuration)
+    public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
         _configuration = configuration;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     /// <summary> Configurar la lista de servicios para poder crear el contenedor de dependencias </summary>
@@ -36,15 +41,15 @@ public class Startup
     {
         services.AddControllers(o =>
             {
-                //var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+                var policyBuilder = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
 
-                //policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
-                //    ? "FakeBearer"
-                //    : JwtBearerDefaults.AuthenticationScheme);
+                policyBuilder.AddAuthenticationSchemes(_webHostEnvironment.EnvironmentName.Contains("Testing")
+                    ? "FakeBearer"
+                    : JwtBearerDefaults.AuthenticationScheme);
 
-                //var policy = policyBuilder.Build();
+                var policy = policyBuilder.Build();
 
-                //o.Filters.Add(new AuthorizeFilter(policy));
+                o.Filters.Add(new AuthorizeFilter(policy));
                 o.Conventions.Add(new ControllerDocumentationConvention());
             })
             .AddJsonOptions(o =>

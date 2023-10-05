@@ -29,7 +29,7 @@ namespace SharedKernel.Integration.Tests.Events
             if (random == 1)
                 throw new Exception("To retry");
 
-            if (_httpContextAccessor.User.Claims.Any(e => e.Type == "Name" && e.Value == "Peter"))
+            if (_httpContextAccessor.User?.Claims.Any(e => e.Type == "Name" && e.Value == "Peter") == true)
                 _publishUserCreatedDomainEvent.SumTotal();
 
             return Task.CompletedTask;

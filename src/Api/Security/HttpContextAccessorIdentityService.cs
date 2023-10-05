@@ -46,13 +46,13 @@ public class HttpContextAccessorIdentityService : IIdentityService
     }
 
     /// <summary> User. </summary>
-    public ClaimsPrincipal User
+    public ClaimsPrincipal? User
     {
-        get => _httpContextAccessor.HttpContext?.User!;
+        get => _httpContextAccessor.HttpContext?.User;
         set
         {
             _httpContextAccessor.HttpContext ??= new DefaultHttpContext();
-            _httpContextAccessor.HttpContext.User = value;
+            _httpContextAccessor.HttpContext.User = value!;
         }
     }
 
@@ -61,14 +61,14 @@ public class HttpContextAccessorIdentityService : IIdentityService
     /// <returns></returns>
     public bool IsInRole(string role)
     {
-        return User.IsInRole(role);
+        return User?.IsInRole(role) == true;
     }
 
     /// <summary> </summary>
     /// <returns></returns>
     public virtual bool IsAuthenticated()
     {
-        return User.Identity?.IsAuthenticated == true;
+        return User?.Identity?.IsAuthenticated == true;
     }
 
     /// <summary> </summary>
@@ -91,7 +91,7 @@ public class HttpContextAccessorIdentityService : IIdentityService
     /// <returns></returns>
     protected virtual Guid GetUserId()
     {
-        var id = User.FindFirst(ClaimTypes.Sid)?.Value;
+        var id = User?.FindFirst(ClaimTypes.Sid)?.Value;
 
         return !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out _) ? new Guid(id) : Guid.Empty;
     }
