@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 
 namespace EFCore.NamingConventions.Internal;
@@ -8,7 +7,9 @@ public class SnakeCaseNameRewriter : INameRewriter
     private readonly CultureInfo _culture;
 
     public SnakeCaseNameRewriter(CultureInfo culture)
-        => _culture = culture;
+    {
+        _culture = culture;
+    }
 
     public virtual string RewriteName(string name)
     {
@@ -32,11 +33,11 @@ public class SnakeCaseNameRewriter : INameRewriter
                 case UnicodeCategory.TitlecaseLetter:
                     if (previousCategory == UnicodeCategory.SpaceSeparator ||
                         previousCategory == UnicodeCategory.LowercaseLetter ||
-                        previousCategory != UnicodeCategory.DecimalDigitNumber &&
-                        previousCategory != null &&
-                        currentIndex > 0 &&
-                        currentIndex + 1 < name.Length &&
-                        char.IsLower(name[currentIndex + 1]))
+                        (previousCategory != UnicodeCategory.DecimalDigitNumber &&
+                         previousCategory != null &&
+                         currentIndex > 0 &&
+                         currentIndex + 1 < name.Length &&
+                         char.IsLower(name[currentIndex + 1])))
                     {
                         builder.Append('_');
                     }

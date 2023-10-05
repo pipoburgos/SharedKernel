@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using EFCore.NamingConventions.Internal;
 using JetBrains.Annotations;
+// ReSharper disable RedundantNullnessAttributeWithNullableReferenceTypes
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

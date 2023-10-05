@@ -1,4 +1,3 @@
-using System.Globalization;
 using EFCore.NamingConventions.Internal;
 
 // ReSharper disable once CheckNamespace

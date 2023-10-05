@@ -1,3 +1,4 @@
+// ReSharper disable ConvertTypeCheckPatternToNullCheck
 namespace EFCore.NamingConventions.Internal;
 
 public class NameRewritingConvention :
@@ -17,7 +18,9 @@ public class NameRewritingConvention :
     private readonly INameRewriter _namingNameRewriter;
 
     public NameRewritingConvention(INameRewriter nameRewriter)
-        => _namingNameRewriter = nameRewriter;
+    {
+        _namingNameRewriter = nameRewriter;
+    }
 
     public virtual void ProcessEntityTypeAdded(
         IConventionEntityTypeBuilder entityTypeBuilder,

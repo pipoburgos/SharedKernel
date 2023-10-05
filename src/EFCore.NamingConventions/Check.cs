@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using JetBrains.Annotations;
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.EntityFrameworkCore;

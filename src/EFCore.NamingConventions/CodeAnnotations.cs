@@ -1,6 +1,8 @@
 
 
 // ReSharper disable once CheckNamespace
+// ReSharper disable RedundantNullnessAttributeWithNullableReferenceTypes
+// ReSharper disable ArrangeConstructorOrDestructorBody
 namespace JetBrains.Annotations;
 
 [AttributeUsage(

@@ -1,12 +1,12 @@
-using System.Globalization;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
-
 namespace EFCore.NamingConventions.Internal;
 
 public class NamingConventionSetPlugin : IConventionSetPlugin
 {
     private readonly IDbContextOptions _options;
-    public NamingConventionSetPlugin(IDbContextOptions options) => _options = options;
+    public NamingConventionSetPlugin(IDbContextOptions options)
+    {
+        _options = options;
+    }
 
     public ConventionSet ModifyConventions(ConventionSet conventionSet)
     {
