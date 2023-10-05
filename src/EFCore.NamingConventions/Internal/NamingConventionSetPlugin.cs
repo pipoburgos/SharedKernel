@@ -1,7 +1,4 @@
-using System;
 using System.Globalization;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 
 namespace EFCore.NamingConventions.Internal;

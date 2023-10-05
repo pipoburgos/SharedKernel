@@ -1,10 +1,3 @@
-using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-
 namespace EFCore.NamingConventions.Internal;
 
 public class NameRewritingConvention :
@@ -18,7 +11,7 @@ public class NameRewritingConvention :
     IEntityTypeBaseTypeChangedConvention,
     IModelFinalizingConvention
 {
-    private static readonly StoreObjectType[] _storeObjectTypes
+    private static readonly StoreObjectType[] StoreObjectTypes
         = { StoreObjectType.Table, StoreObjectType.View, StoreObjectType.Function, StoreObjectType.SqlQuery };
 
     private readonly INameRewriter _namingNameRewriter;
@@ -146,10 +139,10 @@ public class NameRewritingConvention :
             // So we need to check if the entity is within a TPT hierarchy, or is an owned entity within a TPT hierarchy.
 
             var rootType = entityType.GetRootType();
-            var isTPT = rootType.GetDerivedTypes().FirstOrDefault() is { } derivedType
+            var isTpt = rootType.GetDerivedTypes().FirstOrDefault() is { } derivedType
                 && derivedType.GetTableName() != rootType.GetTableName();
 
-            if (entityType.FindRowInternalForeignKeys(tableIdentifier).FirstOrDefault() is null && !isTPT)
+            if (entityType.FindRowInternalForeignKeys(tableIdentifier).FirstOrDefault() is null && !isTpt)
             {
                 if (primaryKey.GetDefaultName() is { } primaryKeyName)
                 {
@@ -290,6 +283,7 @@ public class NameRewritingConvention :
         }
     }
 
+#if NET8_0_OR_GREATER
     private void RewriteColumnName(IConventionPropertyBuilder propertyBuilder)
     {
         var property = propertyBuilder.Metadata;
@@ -308,7 +302,7 @@ public class NameRewritingConvention :
             propertyBuilder.HasColumnName(_namingNameRewriter.RewriteName(baseColumnName));
         }
 
-        foreach (var storeObjectType in _storeObjectTypes)
+        foreach (var storeObjectType in StoreObjectTypes)
         {
             var identifier = StoreObjectIdentifier.Create(entityType, storeObjectType);
             if (identifier is null)
@@ -323,4 +317,39 @@ public class NameRewritingConvention :
             }
         }
     }
+#else
+    private void RewriteColumnName(IConventionPropertyBuilder propertyBuilder)
+    {
+        var property = propertyBuilder.Metadata;
+        var entityType = property.DeclaringEntityType;
+
+        // Remove any previous setting of the column name we may have done, so we can get the default recalculated below.
+        property.Builder.HasNoAnnotation(RelationalAnnotationNames.ColumnName);
+
+        // TODO: The following is a temporary hack. We should probably just always set the relational override below,
+        // but https://github.com/dotnet/efcore/pull/23834
+        var baseColumnName = StoreObjectIdentifier.Create(property.DeclaringEntityType, StoreObjectType.Table) is { } tableIdentifier
+            ? property.GetDefaultColumnName(tableIdentifier)
+            : property.GetDefaultColumnName();
+        if (baseColumnName is not null)
+        {
+            propertyBuilder.HasColumnName(_namingNameRewriter.RewriteName(baseColumnName));
+        }
+
+        foreach (var storeObjectType in StoreObjectTypes)
+        {
+            var identifier = StoreObjectIdentifier.Create(entityType, storeObjectType);
+            if (identifier is null)
+            {
+                continue;
+            }
+
+            if (property.GetColumnNameConfigurationSource(identifier.Value) == ConfigurationSource.Convention
+                && property.GetColumnName(identifier.Value) is { } columnName)
+            {
+                propertyBuilder.HasColumnName(_namingNameRewriter.RewriteName(columnName), identifier.Value);
+            }
+        }
+    }
+#endif
 }

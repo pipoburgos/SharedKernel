@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFCore.NamingConventions\EFCore.NamingConventions\EFCore.NamingConventions.csproj" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0'" />
+    <ProjectReference Include="..\EFCore.NamingConventions\EFCore.NamingConventions.csproj" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0'" />
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\SharedKernel.Infrastructure.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
