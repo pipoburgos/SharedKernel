@@ -23,6 +23,6 @@ public interface IIdentityService
 
 #if !NET40
     /// <summary> Users claims. </summary>
-    ClaimsPrincipal User { get; set; }
+    ClaimsPrincipal? User { get; set; }
 #endif
 }

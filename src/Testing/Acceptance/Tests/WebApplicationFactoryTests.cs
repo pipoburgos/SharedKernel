@@ -12,7 +12,7 @@ namespace SharedKernel.Testing.Acceptance.Tests;
 public abstract class WebApplicationFactoryBaseTests<T> where T : class
 {
     private readonly WebApplicationFactoryBase<T> _factory;
-    protected abstract T CreateStartup(IConfiguration configuration);
+    protected abstract T CreateStartup(IConfiguration configuration, WebHostBuilderContext webHostBuilderContext);
     protected abstract void ConfigureServices(T startup, IServiceCollection services);
 
     public WebApplicationFactoryBaseTests(WebApplicationFactoryBase<T> factory)
@@ -37,7 +37,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
                         config.AddConfiguration(hostingContext.Configuration);
                         config.AddJsonFile("appsettings.json");
                         config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Testing.json"), false);
-                        startup = CreateStartup(config.Build());
+                        startup = CreateStartup(config.Build(), hostingContext);
                     })
                     .ConfigureServices(sc =>
                     {

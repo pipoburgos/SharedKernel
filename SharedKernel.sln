@@ -89,6 +89,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.MailKit", "src\Infrastructure.MailKit\SharedKernel.Infrastructure.MailKit.csproj", "{0117D21B-7FF4-48B3-ADC3-8EB7EEE53C3A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernelInfrastructure.iText", "src\Infrastructure.iText\SharedKernelInfrastructure.iText.csproj", "{66AB1F39-4880-4FB8-B769-F11F62AC2898}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -243,6 +245,10 @@ Global
 		{0117D21B-7FF4-48B3-ADC3-8EB7EEE53C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0117D21B-7FF4-48B3-ADC3-8EB7EEE53C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0117D21B-7FF4-48B3-ADC3-8EB7EEE53C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66AB1F39-4880-4FB8-B769-F11F62AC2898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AB1F39-4880-4FB8-B769-F11F62AC2898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AB1F39-4880-4FB8-B769-F11F62AC2898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AB1F39-4880-4FB8-B769-F11F62AC2898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
