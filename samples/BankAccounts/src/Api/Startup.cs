@@ -66,7 +66,6 @@ public class Startup
             .AddInMemoryQueryBus()
             .AddRedisEventBus(_configuration)
             .AddRedisDistributedCache(_configuration)
-            //.AddSqlServerDistributedCache(_configuration.GetConnectionString("BankAccountConnection")!)
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
