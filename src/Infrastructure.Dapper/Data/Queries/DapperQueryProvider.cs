@@ -25,7 +25,7 @@ public sealed class DapperQueryProvider : IDisposable
     }
 
     /// <summary>  </summary>
-    public async Task<T> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object? parameters = default,
+    public async Task<T?> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object? parameters = default,
         CancellationToken cancellationToken = default)
     {
         var connection = _dbConnectionFactory.GetConnection();

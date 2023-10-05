@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="7.0.0" />
-    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.9.3" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.10.0" />
   </ItemGroup>
 
   <ItemGroup>
