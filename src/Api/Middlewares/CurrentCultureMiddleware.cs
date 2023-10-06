@@ -28,32 +28,20 @@ public static class CurrentCultureMiddleware
         {
             if (supportedCultures.Any())
             {
-                var userLanguages = context.Request.Headers["Accept-Language"].ToString();
+                var requestCulture = context.Request.GetTypedHeaders()
+                    .AcceptLanguage
+                    .OrderByDescending(x => x.Quality ?? 1) // Quality defines priority from 0 to 1, where 1 is the highest.
+                    .Select(x => x.Value.ToString())
+                    .FirstOrDefault(supportedCultures.Contains);
 
-                if (!string.IsNullOrWhiteSpace(userLanguages))
+                if (requestCulture == default)
                 {
-                    var requestCultures = userLanguages.Contains(',')
-                        ? userLanguages.Split(',').ToList()
-                        : new List<string> { userLanguages };
-
-                    string? requestCultur = default;
-                    foreach (var culture in requestCultures)
-                    {
-                        if (!supportedCultures.Contains(culture))
-                            break;
-
-                        requestCultur = culture;
-                    }
-
-                    if (requestCultur == default)
-                    {
-                        context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                        context.Response.WriteAsJsonAsync("Invalid Accept-Language values.");
-                        return Task.CompletedTask;
-                    }
-
-                    defaultLanguage = new CultureInfo(requestCultur);
+                    context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    context.Response.WriteAsJsonAsync("Invalid Accept-Language values.");
+                    return Task.CompletedTask;
                 }
+
+                defaultLanguage = new CultureInfo(requestCulture);
             }
 
             Thread.CurrentThread.CurrentCulture = defaultLanguage;
