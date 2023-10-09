@@ -23,25 +23,25 @@ namespace SharedKernel.Infrastructure.Documents.Xml
         public long LineNumber { get; }
 
         /// <summary>  </summary>
-        public T? Get<T>(int index)
+        public T Get<T>(int index)
         {
             var value = _element.Descendants().ToArray()[index]?.Value ??
                         _element.Attributes().ToArray()[index]?.Value;
 
             if (string.IsNullOrWhiteSpace(value))
-                return default;
+                return default!;
 
             return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
         }
 
         /// <summary>  </summary>
-        public T? Get<T>(string name)
+        public T Get<T>(string name)
         {
             var value = _element.Descendants(name).SingleOrDefault()?.Value ??
                         _element.Attributes(name).SingleOrDefault()?.Value;
 
             if (string.IsNullOrWhiteSpace(value))
-                return default;
+                return default!;
 
             return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
         }

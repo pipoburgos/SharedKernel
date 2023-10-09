@@ -7,8 +7,8 @@ public interface IRowData
     long LineNumber { get; }
 
     /// <summary>  </summary>
-    T? Get<T>(int index);
+    T Get<T>(int index);
 
     /// <summary>  </summary>
-    T? Get<T>(string name);
+    T Get<T>(string name);
 }
