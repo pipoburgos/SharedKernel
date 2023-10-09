@@ -23,13 +23,13 @@ public class TxtRow : IRowData
     public long LineNumber { get; }
 
     /// <summary>  </summary>
-    public T? Get<T>(int index)
+    public T Get<T>(int index)
     {
         if (_cells == default!)
-            return default;
+            return default!;
 
         if (_cells.Count < index + 1)
-            return default;
+            return default!;
 
         var cell = _cells[index];
 
@@ -37,20 +37,20 @@ public class TxtRow : IRowData
     }
 
     /// <summary>  </summary>
-    public T? Get<T>(string name)
+    public T Get<T>(string name)
     {
         if (_cells == default!)
-            return default;
+            return default!;
 
         var index = _columnNames.FindIndex(x => x == name);
 
         return Get<T>(index);
     }
 
-    private T? GetCellValue<T>(string value)
+    private T GetCellValue<T>(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return default;
+            return default!;
 
         return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }

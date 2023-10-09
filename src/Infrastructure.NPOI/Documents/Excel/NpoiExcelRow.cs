@@ -52,7 +52,10 @@ public class NpoiExcelRow : IRowData
         switch (cell.CellType)
         {
             case CellType.Numeric:
-                cellValue = cell.NumericCellValue;
+                if (DateUtil.IsCellDateFormatted(cell))
+                    cellValue = cell.DateCellValue;
+                else
+                    cellValue = cell.NumericCellValue;
                 break;
             case CellType.String:
                 cellValue = cell.StringCellValue;
@@ -80,6 +83,8 @@ public class NpoiExcelRow : IRowData
         if (cellValue == default)
             return default!;
 
-        return (T)Convert.ChangeType(cellValue, typeof(T), _cultureInfo);
+        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+        return (T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo);
     }
 }
