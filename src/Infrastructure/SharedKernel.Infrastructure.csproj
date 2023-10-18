@@ -37,15 +37,15 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0-rc.1.23419.4" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0-rc.1.23421.29" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0-rc.1.23419.4" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0-rc.1.23419.4" />
-    <PackageReference Include="System.CodeDom" Version="8.0.0-rc.1.23419.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0-rc.1.23479.6" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0-rc.2.23480.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0-rc.1.23479.6" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0-rc.1.23479.6" />
+    <PackageReference Include="System.CodeDom" Version="8.0.0-rc.1.23479.6" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.DirectoryServices" Version="8.0.0-rc.1.23419.4" />
+    <PackageReference Include="System.DirectoryServices" Version="8.0.0-rc.1.23479.6" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0-rc.1.23419.4" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0-rc.1.23479.6" />
   </ItemGroup>
 
   <ItemGroup>

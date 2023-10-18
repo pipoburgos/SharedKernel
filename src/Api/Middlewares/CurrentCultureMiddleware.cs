@@ -12,10 +12,9 @@ public static class CurrentCultureMiddleware
     public static IApplicationBuilder UseSharedKernelCurrentCulture(this IApplicationBuilder app,
         params string[] supportedCultures)
     {
-        var defaultCulture = new CultureInfo("en-US");
         var supported = supportedCultures.Select(x => new CultureInfo(x)).ToList();
 
-        var defaultLanguage = supported.Any() ? supported.First() : defaultCulture;
+        var defaultLanguage = supported.Any() ? supported.First() : new CultureInfo("en-US");
 
         app.UseRequestLocalization(new RequestLocalizationOptions
         {
@@ -26,7 +25,7 @@ public static class CurrentCultureMiddleware
 
         app.Use((context, next) =>
         {
-            if (supportedCultures.Any())
+            if (supportedCultures.Any() && context.Request.GetTypedHeaders().AcceptLanguage.Any())
             {
                 var requestCulture = context.Request.GetTypedHeaders()
                     .AcceptLanguage
