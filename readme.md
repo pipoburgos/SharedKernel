@@ -27,11 +27,11 @@ This is a shared kernel implementation [based on hgraca post](https://herbertogr
     
 
 ### Target Frameworks compatibility:
-- Application Core Layer: net40, net45, net451, net452, net46, net461, net462, net47, net471, net472, net48, netstandard2.0, netstandard2.1, net6.0 and net7.0
+- Application Core Layer: net40, net45, net451, net452, net46, net461, net462, net47, net471, net472, net48, netstandard2.0, netstandard2.1, net6.0, net7.0 and net8.0
 
-- Infrastructure Layer: net462, net47, net471, net472, net48, netstandard2.0, netstandard2.1, net6.0 and net7.0
+- Infrastructure Layer: net462, net47, net471, net472, net48, netstandard2.0, netstandard2.1, net6.0, net7.0 and net8.0
 
-- User Interface Layer: net6.0 and net7.0
+- User Interface Layer: net6.0, net7.0 and net8.0
 
 
 ### References
