@@ -75,7 +75,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
 
     //    stopWatch.Stop();
 
-    //    stopWatch.ElapsedMilliseconds.Should().BeGreaterOrEqualTo(3_000);
+    //    stopWatch.ElapsedMilliseconds.Should().BeGreaterThanOrEqualTo(3_000);
     //    stopWatch.ElapsedMilliseconds.Should().BeLessOrEqualTo(5_900);
     //}
 

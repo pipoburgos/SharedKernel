@@ -24,10 +24,10 @@ public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTe
 
 
         var total2 = repository2.SaveChanges();
-        total2.Should().BeGreaterOrEqualTo(0);
+        total2.Should().BeGreaterThanOrEqualTo(0);
 
         var total = repository.SaveChanges();
-        total.Should().BeGreaterOrEqualTo(1);
+        total.Should().BeGreaterThanOrEqualTo(1);
     }
 
     [Fact]
@@ -46,14 +46,14 @@ public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTe
 
 
         var total = repository.SaveChanges();
-        total.Should().BeGreaterOrEqualTo(1);
+        total.Should().BeGreaterThanOrEqualTo(1);
 
         repository = GetRequiredServiceOnNewScope<T>();
         bankAccountDdBb = repository.GetById(bankAccount.Id);
         bankAccountDdBb.Should().NotBeNull();
         repository.Remove(bankAccountDdBb!);
         var total2 = repository.SaveChanges();
-        total2.Should().BeGreaterOrEqualTo(1);
+        total2.Should().BeGreaterThanOrEqualTo(1);
 
         var repository3 = GetRequiredServiceOnNewScope<T>();
         var bankAccountDdBb3 = repository3.GetById(bankAccount.Id);
@@ -80,14 +80,14 @@ public abstract class BankAccountRepositoryCommonTestTests<T> : InfrastructureTe
 
 
         var total = await repository.SaveChangesAsync(CancellationToken.None);
-        total.Should().BeGreaterOrEqualTo(1);
+        total.Should().BeGreaterThanOrEqualTo(1);
 
         repository = GetRequiredServiceOnNewScope<T>();
         bankAccountDdBb = await repository.GetByIdAsync(bankAccount.Id, CancellationToken.None);
         bankAccountDdBb.Should().NotBeNull();
         await repository.RemoveAsync(bankAccountDdBb!, CancellationToken.None);
         var total2 = await repository.SaveChangesAsync(CancellationToken.None);
-        total2.Should().BeGreaterOrEqualTo(1);
+        total2.Should().BeGreaterThanOrEqualTo(1);
 
         var repository3 = GetRequiredServiceOnNewScope<T>();
         var bankAccountDdBb3 = await repository3.GetByIdAsync(bankAccount.Id, CancellationToken.None);
