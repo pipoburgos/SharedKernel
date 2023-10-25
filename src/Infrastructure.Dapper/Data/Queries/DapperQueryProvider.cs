@@ -53,7 +53,7 @@ public sealed class DapperQueryProvider : IDisposable
     }
 
     /// <summary>  </summary>
-    public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
+    public async Task<IPagedList<T>> ToPagedListSync<T>(string sql, object parameters, PageOptions pageOptions,
         string? preselect = default, CancellationToken cancellationToken = default)
     {
         var connection = _dbConnectionFactory.GetConnection();
@@ -87,6 +87,42 @@ public sealed class DapperQueryProvider : IDisposable
         var elements = await connection.QueryAsync<T>(queryString, parameters);
 
         return new PagedList<T>(total, elements);
+    }
+
+    /// <summary>  </summary>
+    public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
+        string? preselect = default, CancellationToken cancellationToken = default)
+    {
+        var connection = _dbConnectionFactory.GetConnection();
+        _connections.Add(connection);
+        await connection.OpenAsync(cancellationToken);
+
+        var pre = string.Empty;
+        if (!string.IsNullOrWhiteSpace(preselect))
+            pre = $"{preselect} {Environment.NewLine}";
+
+        var queryCountString = $"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS";
+
+        _logger.LogTrace(queryCountString);
+        var totalTask = connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
+
+        var queryString = $"{preselect}{sql}";
+        if (pageOptions.Orders != default! && pageOptions.Orders.Any())
+        {
+            var orders = pageOptions.Orders.Select(order =>
+                order.Field + (!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : " DESC"));
+            queryString += $"{Environment.NewLine}ORDER BY {string.Join(", ", orders)}";
+        }
+
+        if (pageOptions.Take.HasValue)
+            queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
+
+        _logger.LogTrace(queryString);
+        var elementsTask = connection.QueryAsync<T>(queryString, parameters);
+
+
+        await Task.WhenAll(totalTask, elementsTask);
+        return new PagedList<T>(await totalTask, await elementsTask);
     }
 
     private void Dispose(bool disposing)
