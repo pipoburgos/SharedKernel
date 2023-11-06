@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
         where TDbContext : EntityFrameworkDbContext
     {
         return services
-            .AddSqlServerHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
+            .AddSqlServerHealthChecks(connectionString, $"SqlServer EFCore {typeof(TDbContext)}")
             .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseSqlServer(connectionString, b => b
