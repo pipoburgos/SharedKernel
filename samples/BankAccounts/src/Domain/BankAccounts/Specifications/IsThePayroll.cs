@@ -1,11 +1,10 @@
-﻿namespace BankAccounts.Domain.BankAccounts.Specifications
+﻿namespace BankAccounts.Domain.BankAccounts.Specifications;
+
+internal class IsThePayroll : ISpecification<Movement>
 {
-    internal class IsThePayroll : ISpecification<Movement>
+    public Expression<Func<Movement, bool>> SatisfiedBy()
     {
-        public Expression<Func<Movement, bool>> SatisfiedBy()
-        {
-            return movement => movement.Concept.ToLower().Contains("payroll")
-                || movement.Amount > 1_100;
-        }
+        return movement => movement.Concept.ToLower().Contains("payroll")
+                           || movement.Amount > 1_100;
     }
 }

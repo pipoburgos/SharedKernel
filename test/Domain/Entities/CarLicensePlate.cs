@@ -1,19 +1,18 @@
 ﻿using SharedKernel.Domain.ValueObjects;
 
-namespace SharedKernel.Domain.Tests.Entities
+namespace SharedKernel.Domain.Tests.Entities;
+
+public class CarLicensePlate : ValueObject<CarLicensePlate>
 {
-    public class CarLicensePlate : ValueObject<CarLicensePlate>
+    protected CarLicensePlate() { }
+
+    public static CarLicensePlate Create(string license)
     {
-        protected CarLicensePlate() { }
-
-        public static CarLicensePlate Create(string license)
+        return new CarLicensePlate
         {
-            return new CarLicensePlate
-            {
-                Value = license.PadLeft(8, '0')
-            };
-        }
-
-        public string Value { get; private set; } = null!;
+            Value = license.PadLeft(8, '0')
+        };
     }
+
+    public string Value { get; private set; } = null!;
 }

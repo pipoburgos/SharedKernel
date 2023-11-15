@@ -4,47 +4,46 @@ using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Testing.Infrastructure;
 
-namespace SharedKernel.Integration.Tests.Caching
+namespace SharedKernel.Integration.Tests.Caching;
+
+public class InMemoryCacheHelperTests : InfrastructureTestCase<FakeStartup>
 {
-    public class InMemoryCacheHelperTests : InfrastructureTestCase<FakeStartup>
+    protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        protected override IServiceCollection ConfigureServices(IServiceCollection services)
+        return services
+            .AddInMemoryCache();
+    }
+
+    [Fact]
+    public async Task TestCache()
+    {
+        var log = GetRequiredServiceOnNewScope<ILogger<InMemoryCacheHelper>>();
+        var memoryCache = GetRequiredServiceOnNewScope<IMemoryCache>();
+
+        var inMemoryCacheHelper = new InMemoryCacheHelper(memoryCache, log);
+
+        inMemoryCacheHelper.Remove("prueba");
+        var id = Guid.NewGuid();
+        var contador = 0;
+
+        Task<Guid> FuncionGeneraValor()
         {
-            return services
-                .AddInMemoryCache();
+            contador++;
+            return Task.FromResult(id);
         }
 
-        [Fact]
-        public async Task TestCache()
-        {
-            var log = GetRequiredServiceOnNewScope<ILogger<InMemoryCacheHelper>>();
-            var memoryCache = GetRequiredServiceOnNewScope<IMemoryCache>();
+        var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            var inMemoryCacheHelper = new InMemoryCacheHelper(memoryCache, log);
+        var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            inMemoryCacheHelper.Remove("prueba");
-            var id = Guid.NewGuid();
-            var contador = 0;
+        Assert.Equal(id, await savingAndGetting);
+        Assert.Equal(id, await getting);
+        Assert.Equal(1, contador);
 
-            Task<Guid> FuncionGeneraValor()
-            {
-                contador++;
-                return Task.FromResult(id);
-            }
+        inMemoryCacheHelper.Remove("prueba");
+        var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            Assert.Equal(id, await savingAndGetting);
-            Assert.Equal(id, await getting);
-            Assert.Equal(1, contador);
-
-            inMemoryCacheHelper.Remove("prueba");
-            var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            Assert.Equal(id, n3);
-            Assert.Equal(2, contador);
-        }
+        Assert.Equal(id, n3);
+        Assert.Equal(2, contador);
     }
 }

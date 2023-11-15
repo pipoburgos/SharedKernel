@@ -2,52 +2,50 @@
 using SharedKernel.Application.Settings;
 using System.DirectoryServices;
 
-namespace SharedKernel.Infrastructure.ActiveDirectory
+namespace SharedKernel.Infrastructure.ActiveDirectory;
+
+internal class ActiveDirectoryService : IActiveDirectoryService
 {
+    private readonly ActiveDirectorySettings _settings;
 
-    internal class ActiveDirectoryService : IActiveDirectoryService
+    public ActiveDirectoryService(
+        IOptionsService<ActiveDirectorySettings> settings)
     {
-        private readonly ActiveDirectorySettings _settings;
-
-        public ActiveDirectoryService(
-            IOptionsService<ActiveDirectorySettings> settings)
-        {
-            _settings = settings.Value;
-        }
+        _settings = settings.Value;
+    }
 
 
-        public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings.Path);
+    public bool IsConfigured => !string.IsNullOrWhiteSpace(_settings.Path);
 
 #pragma warning disable CA1416 // Validate platform compatibility
-        public bool Exists(string user, string password)
+    public bool Exists(string user, string password)
+    {
+        if (!IsConfigured)
+            return true;
+
+        var directorySearcher = new DirectorySearcher(new DirectoryEntry("LDAP://" + _settings.Path, user, password))
         {
-            if (!IsConfigured)
-                return true;
-
-            var directorySearcher = new DirectorySearcher(new DirectoryEntry("LDAP://" + _settings.Path, user, password))
-            {
-                Filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" + user + "))"
-            };
+            Filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" + user + "))"
+        };
 
 
-            var userResult = directorySearcher.FindOne();
+        var userResult = directorySearcher.FindOne();
 
-            if (userResult == null)
-                return false;
+        if (userResult == null)
+            return false;
 
-            var commonNames = _settings.CommonNamesKey.Contains(",")
-                ? _settings.CommonNamesKey.Split(',')
-                : new[] { _settings.CommonNamesKey };
+        var commonNames = _settings.CommonNamesKey.Contains(",")
+            ? _settings.CommonNamesKey.Split(',')
+            : new[] { _settings.CommonNamesKey };
 
-            var organizationalUnits = _settings.OrganizationalUnitsKey.Contains(",")
-                ? _settings.OrganizationalUnitsKey.Split(',')
-                : new[] { _settings.OrganizationalUnitsKey };
+        var organizationalUnits = _settings.OrganizationalUnitsKey.Contains(",")
+            ? _settings.OrganizationalUnitsKey.Split(',')
+            : new[] { _settings.OrganizationalUnitsKey };
 
-            return userResult.Path
-                .Replace($"LDAP://{_settings.Path}/", string.Empty)
-                .Split(',')
-                .Any(p => commonNames.Contains(p) || organizationalUnits.Contains(p));
-        }
-#pragma warning restore CA1416 // Validate platform compatibility
+        return userResult.Path
+            .Replace($"LDAP://{_settings.Path}/", string.Empty)
+            .Split(',')
+            .Any(p => commonNames.Contains(p) || organizationalUnits.Contains(p));
     }
+#pragma warning restore CA1416 // Validate platform compatibility
 }

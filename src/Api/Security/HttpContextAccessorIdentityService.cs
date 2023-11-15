@@ -42,7 +42,7 @@ public class HttpContextAccessorIdentityService : IIdentityService
         if (_httpContextAccessor.HttpContext?.Request.Headers.ContainsKey(key) == true)
             return;
 
-        _httpContextAccessor.HttpContext?.Request.Headers.Add(key, value);
+        _httpContextAccessor.HttpContext?.Request.Headers.Append(key, value);
     }
 
     /// <summary> User. </summary>

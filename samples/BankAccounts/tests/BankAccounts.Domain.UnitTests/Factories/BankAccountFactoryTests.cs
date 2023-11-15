@@ -3,114 +3,113 @@ using BankAccounts.Domain.Tests.Data;
 
 // ReSharper disable ExpressionIsAlwaysNull
 
-namespace BankAccounts.Domain.Tests.Factories
+namespace BankAccounts.Domain.Tests.Factories;
+
+public class BankAccountFactoryTests
 {
-    public class BankAccountFactoryTests
+    [Fact]
+    public void CheckBankAccountDefaultId()
     {
-        [Fact]
-        public void CheckBankAccountDefaultId()
-        {
-            // Arrange
-            BankAccountId? id = default;
-            InternationalBankAccountNumber? iban = default;
-            User? user = default;
-            Movement? movement = default;
-            var now = new DateTime(2000, 1, 1);
+        // Arrange
+        BankAccountId? id = default;
+        InternationalBankAccountNumber? iban = default;
+        User? user = default;
+        Movement? movement = default;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var createFunction = () => BankAccount.Create(id!, iban!, user!, movement!, now);
+        // Act
+        var createFunction = () => BankAccount.Create(id!, iban!, user!, movement!, now);
 
-            // Assert
-            createFunction
-                .Should()
-                .Throw<ArgumentNullException>()
-                .WithMessage("Value cannot be null. (Parameter 'id')");
-        }
+        // Assert
+        createFunction
+            .Should()
+            .Throw<ArgumentNullException>()
+            .WithMessage("Value cannot be null. (Parameter 'id')");
+    }
 
-        [Fact]
-        public void CheckBankAccountDefaultIban()
-        {
-            // Arrange
-            var id = BankAccountId.Create(Guid.NewGuid());
-            InternationalBankAccountNumber? iban = default;
-            User? user = default;
-            Movement? movement = default;
-            var now = new DateTime(2000, 1, 1);
+    [Fact]
+    public void CheckBankAccountDefaultIban()
+    {
+        // Arrange
+        var id = BankAccountId.Create(Guid.NewGuid());
+        InternationalBankAccountNumber? iban = default;
+        User? user = default;
+        Movement? movement = default;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var createFunction = () => BankAccount.Create(id, iban!, user!, movement!, now);
+        // Act
+        var createFunction = () => BankAccount.Create(id, iban!, user!, movement!, now);
 
-            // Assert
-            createFunction.Should().Throw<ArgumentNullException>();
-        }
+        // Assert
+        createFunction.Should().Throw<ArgumentNullException>();
+    }
 
-        [Fact]
-        public void CheckBankAccountDefaultUser()
-        {
-            // Arrange
-            var id = Guid.NewGuid();
-            var iban = Substitute.For<InternationalBankAccountNumber>();
-            User? user = default;
-            Movement? movement = default;
-            var now = new DateTime(2000, 1, 1);
+    [Fact]
+    public void CheckBankAccountDefaultUser()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var iban = Substitute.For<InternationalBankAccountNumber>();
+        User? user = default;
+        Movement? movement = default;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user!, movement!, now);
+        // Act
+        var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user!, movement!, now);
 
-            // Assert
-            createFunction.Should().Throw<ArgumentNullException>();
-        }
+        // Assert
+        createFunction.Should().Throw<ArgumentNullException>();
+    }
 
-        [Fact]
-        public void CheckBankAccountDefaultMovement()
-        {
-            // Arrange
-            var id = Guid.NewGuid();
-            var iban = Substitute.For<InternationalBankAccountNumber>();
-            var user = Substitute.For<User>();
-            Movement? movement = default;
-            var now = new DateTime(2000, 1, 1);
+    [Fact]
+    public void CheckBankAccountDefaultMovement()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var iban = Substitute.For<InternationalBankAccountNumber>();
+        var user = Substitute.For<User>();
+        Movement? movement = default;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement!, now);
+        // Act
+        var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement!, now);
 
-            // Assert
-            createFunction.Should().Throw<ArgumentNullException>();
-        }
+        // Assert
+        createFunction.Should().Throw<ArgumentNullException>();
+    }
 
-        [Fact]
-        public void CheckBankAccountOk()
-        {
-            // Arrange
-            var id = Guid.NewGuid();
-            var iban = Substitute.For<InternationalBankAccountNumber>();
-            var user = Substitute.For<User>();
-            var movement = Movement.Create(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
-            var now = new DateTime(2000, 1, 1);
+    [Fact]
+    public void CheckBankAccountOk()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var iban = Substitute.For<InternationalBankAccountNumber>();
+        var user = Substitute.For<User>();
+        var movement = Movement.Create(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
+        // Act
+        var createFunction = () => BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now);
 
-            // Assert
-            createFunction.Should().NotThrow();
-        }
+        // Assert
+        createFunction.Should().NotThrow();
+    }
 
-        [Fact]
-        public void CheckBankAccountCreatedEvent()
-        {
-            // Arrange
-            var id = Guid.NewGuid();
-            var iban = Substitute.For<InternationalBankAccountNumber>();
-            var user = UserTestFactory.Create().Value;
-            var movement = Movement.Create(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
-            var now = new DateTime(2000, 1, 1);
+    [Fact]
+    public void CheckBankAccountCreatedEvent()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var iban = Substitute.For<InternationalBankAccountNumber>();
+        var user = UserTestFactory.Create().Value;
+        var movement = Movement.Create(Guid.NewGuid(), "concept", 2, DateTime.Now).Value;
+        var now = new DateTime(2000, 1, 1);
 
-            // Act
-            var bankAccount = BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now).Value;
+        // Act
+        var bankAccount = BankAccount.Create(BankAccountId.Create(id), iban, user, movement, now).Value;
 
-            // Assert
-            var events = bankAccount.PullDomainEvents();
-            events.Count.Should().BeGreaterOrEqualTo(1);
-        }
+        // Assert
+        var events = bankAccount.PullDomainEvents();
+        events.Count.Should().BeGreaterOrEqualTo(1);
     }
 }

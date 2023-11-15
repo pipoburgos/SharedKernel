@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace SharedKernel.Application.Validator;
+﻿namespace SharedKernel.Application.Validator;
 
 /// <summary>An exception that represents failed validation</summary>
 [Serializable]
@@ -34,22 +32,5 @@ public class ValidationFailureException : Exception
     {
         var values = errors.Select(x => Environment.NewLine + " -- " + x.PropertyName + ": " + x.ErrorMessage);
         return $"Validation failed: {string.Join(string.Empty, values)}";
-    }
-
-    /// <summary>  </summary>
-    protected ValidationFailureException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-        Errors = (info.GetValue("errors", typeof(IEnumerable<ValidationFailure>)) as IEnumerable<ValidationFailure>)!;
-    }
-
-    /// <summary>  </summary>
-    public override void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        if (info == null)
-            throw new ArgumentNullException(nameof(info));
-
-        info.AddValue("errors", Errors);
-        base.GetObjectData(info, context);
     }
 }

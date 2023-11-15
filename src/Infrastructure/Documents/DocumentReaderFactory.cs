@@ -1,38 +1,37 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Documents;
 
-namespace SharedKernel.Infrastructure.Documents
+namespace SharedKernel.Infrastructure.Documents;
+
+/// <summary>  </summary>
+public class DocumentReaderFactory : IDocumentReaderFactory
 {
+    private readonly IServiceProvider _serviceProvider;
+
     /// <summary>  </summary>
-    public class DocumentReaderFactory : IDocumentReaderFactory
+    public DocumentReaderFactory(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        /// <summary>  </summary>
-        public DocumentReaderFactory(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+    /// <summary>  </summary>
+    public IDocumentReader Create(string name)
+    {
+        var providers = _serviceProvider.GetServices<IDocumentReader>().ToDictionary(e => e.Extension.ToLower());
 
-        /// <summary>  </summary>
-        public IDocumentReader Create(string name)
-        {
-            var providers = _serviceProvider.GetServices<IDocumentReader>().ToDictionary(e => e.Extension.ToLower());
+        var extension = name;
+        if (name.Contains('.'))
+            extension = name.Split('.').Last().ToLower();
 
-            var extension = name;
-            if (name.Contains('.'))
-                extension = name.Split('.').Last().ToLower();
+        if (!providers.ContainsKey(extension))
+            throw new NotImplementedException($"Document reader '{extension}' no implemented.");
 
-            if (!providers.ContainsKey(extension))
-                throw new NotImplementedException($"Document reader '{extension}' no implemented.");
+        return providers[extension];
+    }
 
-            return providers[extension];
-        }
-
-        /// <summary>  </summary>
-        public IEnumerable<string> GetExtensions()
-        {
-            return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLower());
-        }
+    /// <summary>  </summary>
+    public IEnumerable<string> GetExtensions()
+    {
+        return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLower());
     }
 }

@@ -1,52 +1,51 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace SharedKernel.Infrastructure.Events.InMemory
+namespace SharedKernel.Infrastructure.Events.InMemory;
+
+/// <summary>
+/// 
+/// </summary>
+public class InMemoryBackgroundService : BackgroundService
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
     /// <summary>
     /// 
     /// </summary>
-    public class InMemoryBackgroundService : BackgroundService
+    /// <param name="serviceScopeFactory"></param>
+    public InMemoryBackgroundService(IServiceScopeFactory serviceScopeFactory)
     {
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serviceScopeFactory"></param>
-        public InMemoryBackgroundService(IServiceScopeFactory serviceScopeFactory)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
+
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _serviceScopeFactory = serviceScopeFactory;
+            await Execute(scope);
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    private static async Task Execute(IServiceScope scope)
+    {
+        try
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Execute(scope);
-            }
+            await scope.ServiceProvider.GetRequiredService<IInMemoryDomainEventsConsumer>()
+                .ExecuteAll(CancellationToken.None);
         }
-
-        private static async Task Execute(IServiceScope scope)
+        catch (Exception ex)
         {
-            try
-            {
-                await scope.ServiceProvider.GetRequiredService<IInMemoryDomainEventsConsumer>()
-                    .ExecuteAll(CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                scope.ServiceProvider
-                    .GetRequiredService<ILogger<InMemoryBackgroundService>>()
-                    .LogError(ex, "Error occurred executing event.");
-            }
+            scope.ServiceProvider
+                .GetRequiredService<ILogger<InMemoryBackgroundService>>()
+                .LogError(ex, "Error occurred executing event.");
         }
     }
 }

@@ -3,60 +3,59 @@ using SharedKernel.Application.Documents;
 using SharedKernel.Infrastructure.Documents;
 using System.Data;
 
-namespace SharedKernel.Infrastructure.DotNetDBF.Documents.Database
+namespace SharedKernel.Infrastructure.DotNetDBF.Documents.Database;
+
+/// <summary>  </summary>
+public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
 {
     /// <summary>  </summary>
-    public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
+    public override string Extension => "dbf";
+
+    /// <summary>  </summary>
+    public override IEnumerable<IRowData> ReadStream(Stream stream)
     {
-        /// <summary>  </summary>
-        public override string Extension => "dbf";
+        using var reader = new DBFReader(stream);
 
-        /// <summary>  </summary>
-        public override IEnumerable<IRowData> ReadStream(Stream stream)
+        reader.SetSelectFields(reader.Fields.Select(f => f.Name).ToArray());
+
+        for (var row = 0; row < reader.RecordCount; row++)
         {
-            using var reader = new DBFReader(stream);
+            var rowData = new DatabaseRow(row, reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList(), Configuration.CultureInfo);
+            yield return rowData;
+        }
+    }
 
-            reader.SetSelectFields(reader.Fields.Select(f => f.Name).ToArray());
+    /// <summary>  </summary>
+    public override DataTable Read(Stream stream)
+    {
+        using var reader = new DBFReader(stream);
 
-            for (var row = 0; row < reader.RecordCount; row++)
-            {
-                var rowData = new DatabaseRow(row, reader.NextRecord().ToList(), reader.Fields.Select(x => x.Name).ToList(), Configuration.CultureInfo);
-                yield return rowData;
-            }
+        var dataTable = new DataTable();
+        if (Configuration.IncludeLineNumbers)
+            dataTable.Columns.Add(Configuration.ColumnLineNumberName, typeof(int));
+
+        foreach (var header in reader.Fields)
+        {
+            dataTable.Columns.Add(header.Name);
         }
 
-        /// <summary>  </summary>
-        public override DataTable Read(Stream stream)
-        {
-            using var reader = new DBFReader(stream);
+        reader.SetSelectFields(reader.Fields.Select(f => f.Name).ToArray());
 
-            var dataTable = new DataTable();
+        for (var row = 0; row < reader.RecordCount; row++)
+        {
+            var dtRow = dataTable.NewRow();
+
+            var values = new List<object>();
+
             if (Configuration.IncludeLineNumbers)
-                dataTable.Columns.Add(Configuration.ColumnLineNumberName, typeof(int));
+                values.Add(row + 1);
 
-            foreach (var header in reader.Fields)
-            {
-                dataTable.Columns.Add(header.Name);
-            }
+            values.AddRange(reader.NextRecord().Select(x => x).ToList());
 
-            reader.SetSelectFields(reader.Fields.Select(f => f.Name).ToArray());
-
-            for (var row = 0; row < reader.RecordCount; row++)
-            {
-                var dtRow = dataTable.NewRow();
-
-                var values = new List<object>();
-
-                if (Configuration.IncludeLineNumbers)
-                    values.Add(row + 1);
-
-                values.AddRange(reader.NextRecord().Select(x => x).ToList());
-
-                dtRow.ItemArray = values.Take(dataTable.Columns.Count).ToArray();
-                dataTable.Rows.Add(dtRow);
-            }
-
-            return dataTable;
+            dtRow.ItemArray = values.Take(dataTable.Columns.Count).ToArray();
+            dataTable.Rows.Add(dtRow);
         }
+
+        return dataTable;
     }
 }

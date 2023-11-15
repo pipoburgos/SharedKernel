@@ -1,52 +1,51 @@
 ﻿using SharedKernel.Application.System;
 using System.Net;
 
-namespace SharedKernel.Infrastructure.System
+namespace SharedKernel.Infrastructure.System;
+
+/// <summary>
+/// 
+/// </summary>
+public class WebUtils : IWeb
 {
     /// <summary>
     /// 
     /// </summary>
-    public class WebUtils : IWeb
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public string HtmlEncode(string str)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string HtmlEncode(string str)
-        {
-            return WebUtility.HtmlEncode(str);
-        }
+        return WebUtility.HtmlEncode(str);
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string HtmlDecode(string str)
-        {
-            return WebUtility.HtmlDecode(str);
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public string HtmlDecode(string str)
+    {
+        return WebUtility.HtmlDecode(str);
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string UrlEncode(string str)
-        {
-            // ReSharper disable once RedundantSuppressNullableWarningExpression
-            return WebUtility.UrlEncode(str)!;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public string UrlEncode(string str)
+    {
+        // ReSharper disable once RedundantSuppressNullableWarningExpression
+        return WebUtility.UrlEncode(str)!;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string UrlDecode(string str)
-        {
-            return WebUtility.UrlDecode(str);
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public string UrlDecode(string str)
+    {
+        return WebUtility.UrlDecode(str);
     }
 }

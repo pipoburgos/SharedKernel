@@ -7,56 +7,55 @@ using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
 using SharedKernel.Testing.Infrastructure;
 
-namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql
+namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql;
+
+[Collection("DockerHook")]
+public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
 {
-    [Collection("DockerHook")]
-    public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
+    protected override string GetJsonFile()
     {
-        protected override string GetJsonFile()
+        return "Caching/DistributedCache/PostgreSql/appsettings.postgreSql.json";
+    }
+
+    protected override IServiceCollection ConfigureServices(IServiceCollection services)
+    {
+        return services
+            .AddDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
+            .AddPostgreSqlDistributedCache(Configuration);
+    }
+
+    [Fact]
+    public async Task TestCache()
+    {
+        var distributedCache = GetRequiredServiceOnNewScope<IDistributedCache>();
+
+        var binarySerializer = GetRequiredServiceOnNewScope<IBinarySerializer>();
+
+        var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
+
+        inMemoryCacheHelper.Remove("prueba");
+
+        var id = Guid.NewGuid();
+        var contador = 0;
+
+        Task<Guid> FuncionGeneraValor()
         {
-            return "Caching/DistributedCache/PostgreSql/appsettings.postgreSql.json";
+            contador++;
+            return Task.FromResult(id);
         }
 
-        protected override IServiceCollection ConfigureServices(IServiceCollection services)
-        {
-            return services
-                .AddDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
-                .AddPostgreSqlDistributedCache(Configuration);
-        }
+        var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-        [Fact]
-        public async Task TestCache()
-        {
-            var distributedCache = GetRequiredServiceOnNewScope<IDistributedCache>();
+        var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            var binarySerializer = GetRequiredServiceOnNewScope<IBinarySerializer>();
+        Assert.Equal(id, await savingAndGetting);
+        Assert.Equal(id, await getting);
+        Assert.Equal(1, contador);
 
-            var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
+        inMemoryCacheHelper.Remove("prueba");
+        var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
 
-            inMemoryCacheHelper.Remove("prueba");
-
-            var id = Guid.NewGuid();
-            var contador = 0;
-
-            Task<Guid> FuncionGeneraValor()
-            {
-                contador++;
-                return Task.FromResult(id);
-            }
-
-            var savingAndGetting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            var getting = inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            Assert.Equal(id, await savingAndGetting);
-            Assert.Equal(id, await getting);
-            Assert.Equal(1, contador);
-
-            inMemoryCacheHelper.Remove("prueba");
-            var n3 = await inMemoryCacheHelper.GetOrCreateAsync("prueba", FuncionGeneraValor);
-
-            Assert.Equal(id, n3);
-            Assert.Equal(2, contador);
-        }
+        Assert.Equal(id, n3);
+        Assert.Equal(2, contador);
     }
 }

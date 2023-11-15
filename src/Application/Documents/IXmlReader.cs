@@ -1,7 +1,6 @@
-﻿namespace SharedKernel.Application.Documents
+﻿namespace SharedKernel.Application.Documents;
+
+/// <summary>  </summary>
+public interface IXmlReader : IDocumentReader
 {
-    /// <summary>  </summary>
-    public interface IXmlReader : IDocumentReader
-    {
-    }
 }

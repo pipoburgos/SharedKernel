@@ -1,20 +1,19 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace SharedKernel.Testing.Acceptance.Authentication
+namespace SharedKernel.Testing.Acceptance.Authentication;
+
+/// <summary>
+/// Used to setup defaults for all <see cref="FakeJwtBearerOptions"/>.
+/// </summary>
+public class FakeJwtBearerPostConfigureOptions : IPostConfigureOptions<FakeJwtBearerOptions>
 {
     /// <summary>
-    /// Used to setup defaults for all <see cref="FakeJwtBearerOptions"/>.
+    /// Invoked to post configure a JwtBearerOptions instance.
     /// </summary>
-    public class FakeJwtBearerPostConfigureOptions : IPostConfigureOptions<FakeJwtBearerOptions>
+    /// <param name="name">The name of the options instance being configured.</param>
+    /// <param name="options">The options instance to configure.</param>
+    public void PostConfigure(string? name, FakeJwtBearerOptions options)
     {
-        /// <summary>
-        /// Invoked to post configure a JwtBearerOptions instance.
-        /// </summary>
-        /// <param name="name">The name of the options instance being configured.</param>
-        /// <param name="options">The options instance to configure.</param>
-        public void PostConfigure(string? name, FakeJwtBearerOptions options)
-        {
 
-        }
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace SharedKernel.Integration.Tests.Events.Serialization
+﻿namespace SharedKernel.Integration.Tests.Events.Serialization;
+
+public partial class DomainEventExtensionsToPrimitivesTests
 {
-    public partial class DomainEventExtensionsToPrimitivesTests
+    public enum Gender
     {
-        public enum Gender
-        {
-            Male = 1,
-            Female = 2
-        }
+        Male = 1,
+        Female = 2
     }
 }

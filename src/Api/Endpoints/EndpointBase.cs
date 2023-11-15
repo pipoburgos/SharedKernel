@@ -51,8 +51,8 @@ public abstract class EndpointBase : ControllerBase
     protected async Task Streaming(string filePath, CancellationToken cancellationToken)
     {
         Response.StatusCode = 200;
-        Response.Headers.Add(HeaderNames.ContentDisposition, $"attachment; filename=\"{Path.GetFileName(filePath)}\"");
-        Response.Headers.Add(HeaderNames.ContentType, "application/octet-stream");
+        Response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"{Path.GetFileName(filePath)}\"");
+        Response.Headers.Append(HeaderNames.ContentType, "application/octet-stream");
         await using var inputStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         var outputStream = Response.Body;
         const int bufferSize = 1 << 10;

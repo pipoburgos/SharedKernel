@@ -4,376 +4,375 @@ using System.Linq.Expressions;
 
 // ReSharper disable JoinDeclarationAndInitializer
 
-namespace SharedKernel.Domain.Tests.Specifications
+namespace SharedKernel.Domain.Tests.Specifications;
+
+/// <summary>
+/// Summary description for SpecificationTests
+/// </summary>
+public class SpecificationTests
 {
-    /// <summary>
-    /// Summary description for SpecificationTests
-    /// </summary>
-    public class SpecificationTests
+
+    //[Fact]
+    //public void CreateNewDirectSpecificationTest()
+    //{
+    //    //Arrange
+    //    DirectSpecification<SampleEntity> adHocSpecification;
+    //    Expression<Func<SampleEntity, bool>> spec = s => s.Id == Guid.NewGuid();
+
+    //    //Act
+    //    adHocSpecification = new DirectSpecification<SampleEntity>(spec);
+
+    //    //Assert
+    //    Assert.Equal(new PrivateObject(adHocSpecification).GetField("_matchingCriteria"), spec);
+    //}
+
+    [Fact]
+    public void CreateDirectSpecificationNullSpecThrowArgumentNullExceptionTest()
     {
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new DirectSpecification<SampleEntity>(default!));
+    }
 
-        //[Fact]
-        //public void CreateNewDirectSpecificationTest()
-        //{
-        //    //Arrange
-        //    DirectSpecification<SampleEntity> adHocSpecification;
-        //    Expression<Func<SampleEntity, bool>> spec = s => s.Id == Guid.NewGuid();
+    [Fact]
+    public void CreateAndSpecificationTest()
+    {
+        //Arrange
+        var identifier = Guid.NewGuid();
+        var leftAdHocSpecification = new DirectSpecification<SampleEntity>(s => s.Id == identifier);
+        var rightAdHocSpecification = new DirectSpecification<SampleEntity>(s => s.SampleProperty.Length > 2);
 
-        //    //Act
-        //    adHocSpecification = new DirectSpecification<SampleEntity>(spec);
+        //Act
+        var composite = new AndSpecification<SampleEntity>(leftAdHocSpecification, rightAdHocSpecification);
 
-        //    //Assert
-        //    Assert.Equal(new PrivateObject(adHocSpecification).GetField("_matchingCriteria"), spec);
-        //}
+        //Assert
+        Assert.NotNull(composite.SatisfiedBy());
+        Assert.Equal(leftAdHocSpecification, composite.LeftSideSpecification);
+        Assert.Equal(rightAdHocSpecification, composite.RightSideSpecification);
 
-        [Fact]
-        public void CreateDirectSpecificationNullSpecThrowArgumentNullExceptionTest()
-        {
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new DirectSpecification<SampleEntity>(default!));
-        }
+        var list = new List<SampleEntity>();
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
+        var sampleB = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-        [Fact]
-        public void CreateAndSpecificationTest()
-        {
-            //Arrange
-            var identifier = Guid.NewGuid();
-            var leftAdHocSpecification = new DirectSpecification<SampleEntity>(s => s.Id == identifier);
-            var rightAdHocSpecification = new DirectSpecification<SampleEntity>(s => s.SampleProperty.Length > 2);
+        list.AddRange(new[] { sampleA, sampleB });
 
-            //Act
-            var composite = new AndSpecification<SampleEntity>(leftAdHocSpecification, rightAdHocSpecification);
 
-            //Assert
-            Assert.NotNull(composite.SatisfiedBy());
-            Assert.Equal(leftAdHocSpecification, composite.LeftSideSpecification);
-            Assert.Equal(rightAdHocSpecification, composite.RightSideSpecification);
+        var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
 
-            var list = new List<SampleEntity>();
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
-            var sampleB = new SampleEntity(identifier) { SampleProperty = "the sample property" };
+        Assert.True(result.Count == 1);
+    }
 
-            list.AddRange(new[] { sampleA, sampleB });
+    [Fact]
+    public void CreateOrSpecificationTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
+        var identifier = Guid.NewGuid();
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-            Assert.True(result.Count == 1);
-        }
+        //Act
+        var composite = new OrSpecification<SampleEntity>(leftAdHocSpecification, rightAdHocSpecification);
 
-        [Fact]
-        public void CreateOrSpecificationTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+        //Assert
+        Assert.NotNull(composite.SatisfiedBy());
+        Assert.Equal(leftAdHocSpecification, composite.LeftSideSpecification);
+        Assert.Equal(rightAdHocSpecification, composite.RightSideSpecification);
 
-            var identifier = Guid.NewGuid();
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
+        var list = new List<SampleEntity>();
 
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            //Act
-            var composite = new OrSpecification<SampleEntity>(leftAdHocSpecification, rightAdHocSpecification);
+        var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-            //Assert
-            Assert.NotNull(composite.SatisfiedBy());
-            Assert.Equal(leftAdHocSpecification, composite.LeftSideSpecification);
-            Assert.Equal(rightAdHocSpecification, composite.RightSideSpecification);
+        list.AddRange(new[] { sampleA, sampleB });
 
-            var list = new List<SampleEntity>();
 
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
+        var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
 
-            var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
+        Assert.Equal(2, result.Count);
+    }
 
-            list.AddRange(new[] { sampleA, sampleB });
+    [Fact]
+    public void CreateAndSpecificationNullLeftSpecThrowArgumentNullExceptionTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-            Assert.Equal(2, result.Count);
-        }
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(default!, rightAdHocSpecification));
+    }
 
-        [Fact]
-        public void CreateAndSpecificationNullLeftSpecThrowArgumentNullExceptionTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+    [Fact]
+    public void CreateAndSpecificationNullRightSpecThrowArgumentNullExceptionTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
 
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.SampleProperty.Length > 2;
 
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
 
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(default!, rightAdHocSpecification));
-        }
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(leftAdHocSpecification, default!));
+    }
 
-        [Fact]
-        public void CreateAndSpecificationNullRightSpecThrowArgumentNullExceptionTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
+    [Fact]
+    public void CreateOrSpecificationNullLeftSpecThrowArgumentNullExceptionTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.SampleProperty.Length > 2;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new AndSpecification<SampleEntity>(leftAdHocSpecification, default!));
-        }
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(default!, rightAdHocSpecification));
+    }
 
-        [Fact]
-        public void CreateOrSpecificationNullLeftSpecThrowArgumentNullExceptionTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+    [Fact]
+    public void CreateOrSpecificationNullRightSpecThrowArgumentNullExceptionTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
 
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.SampleProperty.Length > 2;
 
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
 
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(default!, rightAdHocSpecification));
-        }
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(leftAdHocSpecification, default!));
+    }
 
-        [Fact]
-        public void CreateOrSpecificationNullRightSpecThrowArgumentNullExceptionTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
+    [Fact]
+    public void UseSpecificationLogicAndOperatorTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.SampleProperty.Length > 2;
+        var identifier = Guid.NewGuid();
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
 
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new OrSpecification<SampleEntity>(leftAdHocSpecification, default!));
-        }
+        //Act
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-        [Fact]
-        public void UseSpecificationLogicAndOperatorTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+        ISpecification<SampleEntity> andSpec = leftAdHocSpecification & rightAdHocSpecification;
 
-            var identifier = Guid.NewGuid();
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
+        //Assert
 
+        var list = new List<SampleEntity>();
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            //Act
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-            ISpecification<SampleEntity> andSpec = leftAdHocSpecification & rightAdHocSpecification;
+        var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-            //Assert
+        list.AddRange(new[] { sampleA, sampleB, sampleC });
 
-            var list = new List<SampleEntity>();
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
+        var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
 
-            var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
+        Assert.True(result.Count == 1);
+    }
 
-            var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
+    [Fact]
+    public void UseSpecificationAndOperatorTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
-            list.AddRange(new[] { sampleA, sampleB, sampleC });
+        var identifier = Guid.NewGuid();
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
 
-            Assert.True(result.Count == 1);
-        }
+        //Act
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-        [Fact]
-        public void UseSpecificationAndOperatorTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+        ISpecification<SampleEntity> andSpec = leftAdHocSpecification && rightAdHocSpecification;
 
-            var identifier = Guid.NewGuid();
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
+        var list = new List<SampleEntity>();
 
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            //Act
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-            ISpecification<SampleEntity> andSpec = leftAdHocSpecification && rightAdHocSpecification;
+        var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-            var list = new List<SampleEntity>();
+        list.AddRange(new[] { sampleA, sampleB, sampleC });
 
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
+        var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
 
-            var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
+        Assert.True(result.Count == 1);
+    }
 
-            list.AddRange(new[] { sampleA, sampleB, sampleC });
+    [Fact]
+    public void UseSpecificationBitwiseOrOperatorTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
+        var identifier = Guid.NewGuid();
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
 
-            Assert.True(result.Count == 1);
-        }
+        //Act
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-        [Fact]
-        public void UseSpecificationBitwiseOrOperatorTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+        var orSpec = leftAdHocSpecification | rightAdHocSpecification;
 
-            var identifier = Guid.NewGuid();
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
+        //Assert
+        var list = new List<SampleEntity>();
 
-            //Act
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            var orSpec = leftAdHocSpecification | rightAdHocSpecification;
+        var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
+        list.AddRange(new[] { sampleA, sampleB });
 
-            //Assert
-            var list = new List<SampleEntity>();
+        var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
+        Assert.Equal(2, result.Count);
+    }
 
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
+    [Fact]
+    public void UseSpecificationOrOperatorTest()
+    {
+        //Arrange
+        DirectSpecification<SampleEntity> leftAdHocSpecification;
+        DirectSpecification<SampleEntity> rightAdHocSpecification;
 
-            var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
+        var identifier = Guid.NewGuid();
+        Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
+        Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
-            list.AddRange(new[] { sampleA, sampleB });
 
-            var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
-            Assert.Equal(2, result.Count);
-        }
+        //Act
+        leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
+        rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
 
-        [Fact]
-        public void UseSpecificationOrOperatorTest()
-        {
-            //Arrange
-            DirectSpecification<SampleEntity> leftAdHocSpecification;
-            DirectSpecification<SampleEntity> rightAdHocSpecification;
+        var orSpec = leftAdHocSpecification || rightAdHocSpecification;
 
-            var identifier = Guid.NewGuid();
-            Expression<Func<SampleEntity, bool>> leftSpec = s => s.Id == identifier;
-            Expression<Func<SampleEntity, bool>> rightSpec = s => s.SampleProperty.Length > 2;
 
+        //Assert
+        var list = new List<SampleEntity>();
+        var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
 
-            //Act
-            leftAdHocSpecification = new DirectSpecification<SampleEntity>(leftSpec);
-            rightAdHocSpecification = new DirectSpecification<SampleEntity>(rightSpec);
+        var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-            var orSpec = leftAdHocSpecification || rightAdHocSpecification;
+        list.AddRange(new[] { sampleA, sampleB });
 
+        var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
 
-            //Assert
-            var list = new List<SampleEntity>();
-            var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
+        Assert.True(result.Count == 2);
+    }
 
-            var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
+    //[Fact]
+    //public void CreateNotSpecificationithSpecificationTest()
+    //{
+    //    //Arrange
+    //    Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
+    //    var specification = new DirectSpecification<SampleEntity>(specificationCriteria);
 
-            list.AddRange(new[] { sampleA, sampleB });
+    //    //Act
+    //    var notSpec = new NotSpecification<SampleEntity>(specification);
+    //    var resultCriteria = new PrivateObject(notSpec).GetField("_originalCriteria") as Expression<Func<SampleEntity, bool>>;
 
-            var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
+    //    //Assert
+    //    Assert.NotNull(notSpec);
+    //    Assert.NotNull(resultCriteria);
+    //    Assert.NotNull(notSpec.SatisfiedBy());
+    //}
 
-            Assert.True(result.Count == 2);
-        }
+    //[Fact]
+    //public void CreateNotSpecificationWithCriteriaTest()
+    //{
+    //    //Arrange
+    //    Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
 
-        //[Fact]
-        //public void CreateNotSpecificationithSpecificationTest()
-        //{
-        //    //Arrange
-        //    Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
-        //    var specification = new DirectSpecification<SampleEntity>(specificationCriteria);
+    //    //Act
+    //    var notSpec = new NotSpecification<SampleEntity>(specificationCriteria);
 
-        //    //Act
-        //    var notSpec = new NotSpecification<SampleEntity>(specification);
-        //    var resultCriteria = new PrivateObject(notSpec).GetField("_originalCriteria") as Expression<Func<SampleEntity, bool>>;
+    //    //Assert
+    //    Assert.NotNull(notSpec);
+    //    Assert.NotNull(new PrivateObject(notSpec).GetField("_originalCriteria"));
+    //}
 
-        //    //Assert
-        //    Assert.NotNull(notSpec);
-        //    Assert.NotNull(resultCriteria);
-        //    Assert.NotNull(notSpec.SatisfiedBy());
-        //}
+    [Fact]
+    public void CreateNotSpecificationFromNegationOperator()
+    {
+        //Arrange
+        Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
 
-        //[Fact]
-        //public void CreateNotSpecificationWithCriteriaTest()
-        //{
-        //    //Arrange
-        //    Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
 
-        //    //Act
-        //    var notSpec = new NotSpecification<SampleEntity>(specificationCriteria);
+        //Act
+        var spec = new DirectSpecification<SampleEntity>(specificationCriteria);
+        ISpecification<SampleEntity> notSpec = !spec;
 
-        //    //Assert
-        //    Assert.NotNull(notSpec);
-        //    Assert.NotNull(new PrivateObject(notSpec).GetField("_originalCriteria"));
-        //}
+        //Assert
+        Assert.NotNull(notSpec);
+    }
 
-        [Fact]
-        public void CreateNotSpecificationFromNegationOperator()
-        {
-            //Arrange
-            Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
+    [Fact]
+    public void CheckNotSpecificationOperators()
+    {
+        //Arrange
+        Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
 
+        //Act
+        Specification<SampleEntity> spec = new DirectSpecification<SampleEntity>(specificationCriteria);
+        var notSpec = !spec;
+        ISpecification<SampleEntity> resultAnd = notSpec && spec;
+        ISpecification<SampleEntity> resultOr = notSpec || spec;
 
-            //Act
-            var spec = new DirectSpecification<SampleEntity>(specificationCriteria);
-            ISpecification<SampleEntity> notSpec = !spec;
+        //Assert
+        Assert.NotNull(notSpec);
+        Assert.NotNull(resultAnd);
+        Assert.NotNull(resultOr);
+    }
 
-            //Assert
-            Assert.NotNull(notSpec);
-        }
+    [Fact]
+    public void CreateNotSpecificationNullSpecificationThrowArgumentNullExceptionTest()
+    {
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((ISpecification<SampleEntity>?)default!));
+    }
 
-        [Fact]
-        public void CheckNotSpecificationOperators()
-        {
-            //Arrange
-            Expression<Func<SampleEntity, bool>> specificationCriteria = t => t.Id == Guid.NewGuid();
+    [Fact]
+    public void CreateNotSpecificationNullCriteriaThrowArgumentNullExceptionTest()
+    {
+        //Act
+        Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((Expression<Func<SampleEntity, bool>>?)default!));
+    }
 
-            //Act
-            Specification<SampleEntity> spec = new DirectSpecification<SampleEntity>(specificationCriteria);
-            var notSpec = !spec;
-            ISpecification<SampleEntity> resultAnd = notSpec && spec;
-            ISpecification<SampleEntity> resultOr = notSpec || spec;
+    [Fact]
+    public void CreateTrueSpecificationTest()
+    {
+        //Arrange
+        ISpecification<SampleEntity> trueSpec = new TrueSpecification<SampleEntity>();
+        const bool expected = true;
+        var actual = trueSpec.SatisfiedBy().Compile()(new SampleEntity());
 
-            //Assert
-            Assert.NotNull(notSpec);
-            Assert.NotNull(resultAnd);
-            Assert.NotNull(resultOr);
-        }
-
-        [Fact]
-        public void CreateNotSpecificationNullSpecificationThrowArgumentNullExceptionTest()
-        {
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((ISpecification<SampleEntity>?)default!));
-        }
-
-        [Fact]
-        public void CreateNotSpecificationNullCriteriaThrowArgumentNullExceptionTest()
-        {
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new NotSpecification<SampleEntity>((Expression<Func<SampleEntity, bool>>?)default!));
-        }
-
-        [Fact]
-        public void CreateTrueSpecificationTest()
-        {
-            //Arrange
-            ISpecification<SampleEntity> trueSpec = new TrueSpecification<SampleEntity>();
-            const bool expected = true;
-            var actual = trueSpec.SatisfiedBy().Compile()(new SampleEntity());
-
-            //Assert
-            Assert.NotNull(trueSpec);
-            Assert.Equal(expected, actual);
-        }
+        //Assert
+        Assert.NotNull(trueSpec);
+        Assert.Equal(expected, actual);
     }
 }

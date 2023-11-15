@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
@@ -19,7 +19,7 @@
     <PackageTags>C# DDD UnitOfWork CQRS CommandBus QueryBus EventBus SSRS</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>7.3.13.1</Version>
+    <Version>8.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +37,10 @@
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Events" />
     <Using Include="SharedKernel.Domain.Requests" />
+    <Using Include="System.Collections" />
+    <Using Include="System.Globalization" />
     <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Runtime.Serialization" />
     <Using Remove="System.Net.Http" />
   </ItemGroup>
 

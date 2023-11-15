@@ -1,39 +1,38 @@
-﻿namespace SharedKernel.Domain.Specifications
+﻿namespace SharedKernel.Domain.Specifications;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class ContainsTextSpecification<T> : Specification<T>
 {
+    private string Value { get; }
+
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class ContainsTextSpecification<T> : Specification<T>
+    /// <param name="value"></param>
+    public ContainsTextSpecification(string value)
     {
-        private string Value { get; }
+        Value = value;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public ContainsTextSpecification(string value)
-        {
-            Value = value;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public override Expression<Func<T, bool>> SatisfiedBy()
+    {
+        ISpecification<T> specification = new FalseSpecification<T>();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override Expression<Func<T, bool>> SatisfiedBy()
-        {
-            ISpecification<T> specification = new FalseSpecification<T>();
+        specification = typeof(T) == typeof(string)
+            ? specification.Or(new TheComparisonMatchesSpecification<T>(default, Value, Operator.Contains))
+            : typeof(T)
+                .GetProperties()
+                .Where(p => p.CanWrite && p.PropertyType == typeof(string))
+                .Aggregate(specification, (current, property) =>
+                    current.Or(new TheComparisonMatchesSpecification<T>(property, Value, Operator.Contains)));
 
-            specification = typeof(T) == typeof(string)
-                ? specification.Or(new TheComparisonMatchesSpecification<T>(default, Value, Operator.Contains))
-                : typeof(T)
-                    .GetProperties()
-                    .Where(p => p.CanWrite && p.PropertyType == typeof(string))
-                    .Aggregate(specification, (current, property) =>
-                        current.Or(new TheComparisonMatchesSpecification<T>(property, Value, Operator.Contains)));
-
-            return specification.SatisfiedBy();
-        }
+        return specification.SatisfiedBy();
     }
 }

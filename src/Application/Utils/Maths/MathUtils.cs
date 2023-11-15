@@ -1,19 +1,18 @@
-﻿namespace SharedKernel.Application.Utils.Maths
+﻿namespace SharedKernel.Application.Utils.Maths;
+
+/// <summary>
+/// 
+/// </summary>
+public static class MathUtils
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class MathUtils
+    /// <param name="num"></param>
+    /// <param name="total"></param>
+    /// <returns></returns>
+    public static double GetPercentage(int num, int total)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="num"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public static double GetPercentage(int num, int total)
-        {
-            return Math.Round(total == default ? 0 : (double) num / total * 100, 2);
-        }
+        return Math.Round(total == default ? 0 : (double) num / total * 100, 2);
     }
 }

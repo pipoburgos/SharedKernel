@@ -1,52 +1,51 @@
 ﻿using SharedKernel.Application.Events;
 using SharedKernel.Infrastructure.Requests;
 
-namespace SharedKernel.Infrastructure.Events.Synchronous
+namespace SharedKernel.Infrastructure.Events.Synchronous;
+
+/// <summary>
+/// 
+/// </summary>
+public class SynchronousEventBus : IEventBus
 {
+    private readonly IRequestSerializer _requestSerializer;
+    private readonly IRequestMediator _requestMediator;
+
+    /// <summary> Contructor. </summary>
+    /// <param name="requestSerializer"></param>
+    /// <param name="requestMediator"></param>
+    public SynchronousEventBus(
+        IRequestSerializer requestSerializer,
+        IRequestMediator requestMediator)
+    {
+        _requestSerializer = requestSerializer;
+        _requestMediator = requestMediator;
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    public class SynchronousEventBus : IEventBus
+    /// <param name="event"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
-        private readonly IRequestSerializer _requestSerializer;
-        private readonly IRequestMediator _requestMediator;
+        var eventSerialized = _requestSerializer.Serialize(@event);
+        return _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
+    }
 
-        /// <summary> Contructor. </summary>
-        /// <param name="requestSerializer"></param>
-        /// <param name="requestMediator"></param>
-        public SynchronousEventBus(
-            IRequestSerializer requestSerializer,
-            IRequestMediator requestMediator)
-        {
-            _requestSerializer = requestSerializer;
-            _requestMediator = requestMediator;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="event"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="events"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
+    {
+        foreach (var @event in events)
         {
             var eventSerialized = _requestSerializer.Serialize(@event);
-            return _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="events"></param>
-        /// <param name="cancellationToken"></param>
-        public async Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
-        {
-            foreach (var @event in events)
-            {
-                var eventSerialized = _requestSerializer.Serialize(@event);
-                await _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
-                    cancellationToken);
-            }
+            await _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
+                cancellationToken);
         }
     }
 }

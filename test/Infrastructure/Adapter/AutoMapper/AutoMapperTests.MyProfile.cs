@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 
-namespace SharedKernel.Integration.Tests.Adapter.AutoMapper
+namespace SharedKernel.Integration.Tests.Adapter.AutoMapper;
+
+public partial class AutoMapperTests
 {
-    public partial class AutoMapperTests
+    internal class MyProfile : Profile
     {
-        internal class MyProfile : Profile
+        public MyProfile()
         {
-            public MyProfile()
-            {
-                CreateMap<DocumentSource, DocumentTarget>();
-            }
+            CreateMap<DocumentSource, DocumentTarget>();
         }
     }
 }

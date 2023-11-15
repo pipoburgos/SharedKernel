@@ -1,41 +1,40 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace SharedKernel.Infrastructure.System
+namespace SharedKernel.Infrastructure.System;
+
+/// <summary>
+/// 
+/// </summary>
+public static class AddFromAssemblyExtensions
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class AddFromAssemblyExtensions
+    /// <param name="services"></param>
+    /// <param name="assembly"></param>
+    /// <param name="serviceLifetime"></param>
+    /// <param name="genericTypes"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly,
+        ServiceLifetime serviceLifetime, params Type[] genericTypes)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="assembly"></param>
-        /// <param name="serviceLifetime"></param>
-        /// <param name="genericTypes"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly,
-            ServiceLifetime serviceLifetime, params Type[] genericTypes)
+        var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass && !t.IsAbstract);
+
+        foreach (var type in classTypes)
         {
-            var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass && !t.IsAbstract);
+            var interfaces = type.ImplementedInterfaces
+                .Select(i => i.GetTypeInfo())
+                .Where(i => i.IsGenericType &&
+                            genericTypes.Any(genericType => i.GetGenericTypeDefinition() == genericType))
+                .ToList();
 
-            foreach (var type in classTypes)
+            foreach (var handlerInterfaceType in interfaces)
             {
-                var interfaces = type.ImplementedInterfaces
-                    .Select(i => i.GetTypeInfo())
-                    .Where(i => i.IsGenericType &&
-                                genericTypes.Any(genericType => i.GetGenericTypeDefinition() == genericType))
-                    .ToList();
-
-                foreach (var handlerInterfaceType in interfaces)
-                {
-                    services.Add(new ServiceDescriptor(handlerInterfaceType.AsType(), type.AsType(), serviceLifetime));
-                }
+                services.Add(new ServiceDescriptor(handlerInterfaceType.AsType(), type.AsType(), serviceLifetime));
             }
-
-            return services;
         }
+
+        return services;
     }
 }

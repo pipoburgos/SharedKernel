@@ -1,7 +1,6 @@
-﻿namespace SharedKernel.Application.Documents
+﻿namespace SharedKernel.Application.Documents;
+
+/// <summary>  </summary>
+public interface ICsvReader : IDocumentReader
 {
-    /// <summary>  </summary>
-    public interface ICsvReader : IDocumentReader
-    {
-    }
 }

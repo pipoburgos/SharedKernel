@@ -27,8 +27,8 @@ public static class ExceptionHandlerMiddleware
         {
             builder.Run(async context =>
             {
-                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                context.Response.Headers.Add("Content-Type", "application/json;charset=utf-8");
+                context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+                context.Response.Headers.Append("Content-Type", "application/json;charset=utf-8");
                 var error = context.Features.Get<IExceptionHandlerFeature>();
                 if (error == default)
                     return;

@@ -45,11 +45,7 @@ public static class OpenApiExtensions
                     "DELETE" => 5,
                     _ => 6
                 };
-#if NET5_0
-                    var relativePath = a.RelativePath;
-#else
                 var relativePath = a.RelativePath ?? string.Empty;
-#endif
                 var path = $"{relativePath}_{relativePath.Length.ToString().PadLeft(5, '0')}{order}";
 
                 return path;
@@ -61,7 +57,7 @@ public static class OpenApiExtensions
 
             swaggerGenOptions.DescribeAllParametersInCamelCase();
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
 #else
                 var basePath = AppDomain.CurrentDomain.BaseDirectory

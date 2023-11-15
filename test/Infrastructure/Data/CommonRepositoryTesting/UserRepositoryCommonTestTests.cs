@@ -25,7 +25,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
 
         var total = repository.SaveChanges();
 
-        total.Should().BeGreaterOrEqualTo(1);
+        total.Should().BeGreaterThanOrEqualTo(1);
 
         repository = GetRequiredServiceOnNewScope<T>();
         userDdBb = repository.GetById(user.Id);
@@ -51,7 +51,7 @@ public abstract class UserRepositoryCommonTestTests<T> : InfrastructureTestCase<
 
         var total = await repository.SaveChangesAsync(CancellationToken.None);
 
-        total.Should().BeGreaterOrEqualTo(1);
+        total.Should().BeGreaterThanOrEqualTo(1);
 
         repository = GetRequiredServiceOnNewScope<T>();
         userDdBb = await repository.GetByIdAsync(user.Id, CancellationToken.None);

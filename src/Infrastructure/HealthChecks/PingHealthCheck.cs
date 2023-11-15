@@ -1,51 +1,50 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Net.NetworkInformation;
 
-namespace SharedKernel.Infrastructure.HealthChecks
+namespace SharedKernel.Infrastructure.HealthChecks;
+
+/// <summary>
+/// 
+/// </summary>
+public class PingHealthCheck : IHealthCheck
 {
+    private readonly string _host;
+    private readonly int _timeout;
+
     /// <summary>
     /// 
     /// </summary>
-    public class PingHealthCheck : IHealthCheck
+    /// <param name="host"></param>
+    /// <param name="timeout"></param>
+    public PingHealthCheck(string host, int timeout)
     {
-        private readonly string _host;
-        private readonly int _timeout;
+        _host = host;
+        _timeout = timeout;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="host"></param>
-        /// <param name="timeout"></param>
-        public PingHealthCheck(string host, int timeout)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+    /// <returns></returns>
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+        CancellationToken cancellationToken = default)
+    {
+        try
         {
-            _host = host;
-            _timeout = timeout;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
-        /// <returns></returns>
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
-            CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                using var ping = new Ping();
-                var reply = await ping.SendPingAsync(_host, _timeout);
-                if (reply.Status != IPStatus.Success)
-                {
-                    return HealthCheckResult.Unhealthy();
-                }
-
-                return reply.RoundtripTime >= _timeout ? HealthCheckResult.Degraded() : HealthCheckResult.Healthy();
-            }
-            catch
+            using var ping = new Ping();
+            var reply = await ping.SendPingAsync(_host, _timeout);
+            if (reply.Status != IPStatus.Success)
             {
                 return HealthCheckResult.Unhealthy();
             }
+
+            return reply.RoundtripTime >= _timeout ? HealthCheckResult.Degraded() : HealthCheckResult.Healthy();
+        }
+        catch
+        {
+            return HealthCheckResult.Unhealthy();
         }
     }
 }

@@ -18,7 +18,7 @@ public class ValidationResult
     /// <param name="validationResult"></param>
     protected ValidationResult(ValidationResult validationResult)
     {
-#if !NET40 && !NET45 && !NET451 && !NET452 && !NET46 && !NET461
+#if NET462_OR_GREATER || NETSTANDARD || NET6_0_OR_GREATER
         Guard.ThrowIfNull(validationResult);
 #endif
         ErrorMessage = validationResult.ErrorMessage;

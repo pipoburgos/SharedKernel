@@ -1,10 +1,9 @@
-namespace SharedKernel.Domain.Tests.Shared
+namespace SharedKernel.Domain.Tests.Shared;
+
+public static class RandomElementPicker
 {
-    public static class RandomElementPicker
+    public static string From(params string[] values)
     {
-        public static string From(params string[] values)
-        {
-            return values[IntegerMother.Between(0, values.Length - 1)];
-        }
+        return values[IntegerMother.Between(0, values.Length - 1)];
     }
 }

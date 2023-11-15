@@ -1,9 +1,5 @@
 ﻿using SharedKernel.Application.Exceptions;
-using System.Collections;
-using System.Globalization;
 using System.Reflection;
-using System.Runtime.Serialization;
-// ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
 namespace SharedKernel.Application.Reflection;
 
@@ -16,11 +12,13 @@ public static class ReflectionHelper
         if (name == default!)
             return default!;
 
-
-        name = name.ToUpper(CultureInfo.InvariantCulture);
         return AppDomain.CurrentDomain
             .GetAssemblies()
-            .FirstOrDefault(x => x.FullName?.ToUpper(CultureInfo.InvariantCulture).Contains(name) == true);
+#if NET6_0_OR_GREATER
+            .FirstOrDefault(x => x.FullName?.Contains(name, StringComparison.InvariantCulture) == true);
+#else
+            .FirstOrDefault(x => x.FullName.ToUpper(CultureInfo.InvariantCulture).Contains(name.ToUpper(CultureInfo.InvariantCulture)));
+#endif
     }
 
     /// <summary>  </summary>
@@ -57,10 +55,18 @@ public static class ReflectionHelper
     /// <summary>  </summary>
     public static T CreateInstance<T>(Type type)
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(type);
+#else
         if (type == default)
             throw new ArgumentNullException(nameof(type));
+#endif
 
-        var instance = (T)FormatterServices.GetUninitializedObject(type);
+#if NET6_0_OR_GREATER
+        var instance = (T)RuntimeHelpers.GetUninitializedObject(type);
+#else
+        var instance = (T) FormatterServices.GetUninitializedObject(type);
+#endif
 
         if (instance == null)
             throw new ArgumentNullException(nameof(T));
@@ -71,12 +77,7 @@ public static class ReflectionHelper
     /// <summary>  </summary>
     public static T CreateInstance<T>()
     {
-        var instance = (T)FormatterServices.GetUninitializedObject(typeof(T));
-
-        if (instance == null)
-            throw new ArgumentNullException(nameof(T));
-
-        return instance;
+        return CreateInstance<T>(typeof(T));
     }
 
     /// <summary>  </summary>

@@ -1,179 +1,178 @@
 ﻿using SharedKernel.Application.Reflection;
 
-namespace SharedKernel.Application.Tests.Reflection
+namespace SharedKernel.Application.Tests.Reflection;
+
+public class TestObjectPrivateSettersTests
 {
-    public class TestObjectPrivateSettersTests
+    [Fact]
+    public void CreateObject()
     {
-        [Fact]
-        public void CreateObject()
-        {
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
 
-            Assert.NotNull(obj);
-        }
+        Assert.NotNull(obj);
+    }
 
-        [Fact]
-        public void SetPropertyValueGuidDefault()
-        {
-            Guid id = default;
+    [Fact]
+    public void SetPropertyValueGuidDefault()
+    {
+        Guid id = default;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
 
-            Assert.NotNull(obj);
-            Assert.Equal(id, obj.Id);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(id, obj.Id);
+    }
 
-        [Fact]
-        public void SetPropertyValueGuidEmpty()
-        {
-            var id = Guid.Empty;
+    [Fact]
+    public void SetPropertyValueGuidEmpty()
+    {
+        var id = Guid.Empty;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
 
-            Assert.NotNull(obj);
-            Assert.Equal(id, obj.Id);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(id, obj.Id);
+    }
 
-        [Fact]
-        public void SetPropertyValueGuidNewGuid()
-        {
-            var id = Guid.NewGuid();
+    [Fact]
+    public void SetPropertyValueGuidNewGuid()
+    {
+        var id = Guid.NewGuid();
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Id), id);
 
-            Assert.NotNull(obj);
-            Assert.Equal(id, obj.Id);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(id, obj.Id);
+    }
 
-        [Fact]
-        public void SetPropertyValueNullableGuidNull()
-        {
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), null);
+    [Fact]
+    public void SetPropertyValueNullableGuidNull()
+    {
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), null);
 
-            Assert.NotNull(obj);
-            Assert.Null(obj.AdminId);
-        }
+        Assert.NotNull(obj);
+        Assert.Null(obj.AdminId);
+    }
 
-        [Fact]
-        public void SetPropertyValueNullableGuidEmpty()
-        {
-            Guid? adminId = Guid.Empty;
+    [Fact]
+    public void SetPropertyValueNullableGuidEmpty()
+    {
+        Guid? adminId = Guid.Empty;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), adminId);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), adminId);
 
-            Assert.NotNull(obj);
-            Assert.Equal(adminId, obj.AdminId);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(adminId, obj.AdminId);
+    }
 
-        [Fact]
-        public void SetPropertyValueNullableGuidNewGuid()
-        {
-            Guid? adminId = Guid.NewGuid();
+    [Fact]
+    public void SetPropertyValueNullableGuidNewGuid()
+    {
+        Guid? adminId = Guid.NewGuid();
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), adminId);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.AdminId), adminId);
 
-            Assert.NotNull(obj);
-            Assert.Equal(adminId, obj.AdminId);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(adminId, obj.AdminId);
+    }
 
-        [Fact]
-        public void SetPropertyValueAge()
-        {
-            const int age = 3;
+    [Fact]
+    public void SetPropertyValueAge()
+    {
+        const int age = 3;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Age), age);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Age), age);
 
-            Assert.NotNull(obj);
-            Assert.Equal(age, obj.Age);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(age, obj.Age);
+    }
 
-        [Fact]
-        public void SetPropertyValueDateTimeNow()
-        {
-            var created = DateTime.Now;
+    [Fact]
+    public void SetPropertyValueDateTimeNow()
+    {
+        var created = DateTime.Now;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Created), created);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Created), created);
 
-            Assert.NotNull(obj);
-            Assert.Equal(created, obj.Created);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(created, obj.Created);
+    }
 
-        [Fact]
-        public void SetPropertyValueNullableDateTimeNow()
-        {
-            var birthday = DateTime.Now;
+    [Fact]
+    public void SetPropertyValueNullableDateTimeNow()
+    {
+        var birthday = DateTime.Now;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Birthday), birthday);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Birthday), birthday);
 
-            Assert.NotNull(obj);
-            Assert.Equal(birthday, obj.Birthday);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(birthday, obj.Birthday);
+    }
 
-        [Fact]
-        public void SetPropertyValueStringNull()
-        {
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), null);
+    [Fact]
+    public void SetPropertyValueStringNull()
+    {
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), null);
 
-            Assert.NotNull(obj);
-            Assert.Null(obj.Name);
-        }
+        Assert.NotNull(obj);
+        Assert.Null(obj.Name);
+    }
 
-        [Fact]
-        public void SetPropertyValueStringEmpty()
-        {
-            var name = string.Empty;
+    [Fact]
+    public void SetPropertyValueStringEmpty()
+    {
+        var name = string.Empty;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
 
-            Assert.NotNull(obj);
-            Assert.Equal(name, obj.Name);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(name, obj.Name);
+    }
 
-        [Fact]
-        public void SetPropertyValueStringWhitespace()
-        {
-            const string name = "   ";
+    [Fact]
+    public void SetPropertyValueStringWhitespace()
+    {
+        const string name = "   ";
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
 
-            Assert.NotNull(obj);
-            Assert.Equal(name, obj.Name);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(name, obj.Name);
+    }
 
-        [Fact]
-        public void SetPropertyValueNameNotNullNotEmpty()
-        {
-            const string name = "Roberto";
+    [Fact]
+    public void SetPropertyValueNameNotNullNotEmpty()
+    {
+        const string name = "Roberto";
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Name), name);
 
-            Assert.NotNull(obj);
-            Assert.Equal(name, obj.Name);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(name, obj.Name);
+    }
 
-        [Fact]
-        public void SetPropertyValueNullableDouble()
-        {
-            double? latitude = 2.3;
+    [Fact]
+    public void SetPropertyValueNullableDouble()
+    {
+        double? latitude = 2.3;
 
-            var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
-            ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Latitude), latitude);
+        var obj = ReflectionHelper.CreateInstance<TestObjectPrivateSetters>();
+        ReflectionHelper.SetProperty(obj, nameof(TestObjectPrivateSetters.Latitude), latitude);
 
-            Assert.NotNull(obj);
-            Assert.Equal(latitude, obj.Latitude);
-        }
+        Assert.NotNull(obj);
+        Assert.Equal(latitude, obj.Latitude);
     }
 }

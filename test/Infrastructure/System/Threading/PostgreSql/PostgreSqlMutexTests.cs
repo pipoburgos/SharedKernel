@@ -1,4 +1,5 @@
-﻿namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
+﻿#if !NET8_0
+namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
 
 [Collection("DockerHook")]
 public class PostgreSqlMutexTests : CommonMutexTests<PostgreSqlApp>
@@ -7,3 +8,4 @@ public class PostgreSqlMutexTests : CommonMutexTests<PostgreSqlApp>
     {
     }
 }
+#endif

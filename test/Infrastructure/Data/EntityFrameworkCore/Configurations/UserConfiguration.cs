@@ -3,35 +3,34 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using SharedKernel.Domain.Tests.Users;
 
-namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Configurations
+namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Configurations;
+
+internal class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            builder.Property(x => x.Id).ValueGeneratedNever();
+        builder.Property(x => x.Id).ValueGeneratedNever();
 
-            builder.Property(u => u.Name).HasMaxLength(256);
+        builder.Property(u => u.Name).HasMaxLength(256);
 
-            // This line will map private members
-            builder.Metadata.SetPropertyAccessMode(PropertyAccessMode.PreferField);
+        // This line will map private members
+        builder.Metadata.SetPropertyAccessMode(PropertyAccessMode.PreferField);
 
-            // This line will map private navigation properties
-            builder.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
+        // This line will map private navigation properties
+        builder.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
 
 
-            // This Converter will perform the conversion to and from Json to the desired type
-            builder.Property(e => e.Emails).HasConversion(
-                v => JsonConvert.SerializeObject(v,
-                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                v => JsonConvert.DeserializeObject<List<string>>(v,
-                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
+        // This Converter will perform the conversion to and from Json to the desired type
+        builder.Property(e => e.Emails).HasConversion(
+            v => JsonConvert.SerializeObject(v,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
+            v => JsonConvert.DeserializeObject<List<string>>(v,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
 
-            builder.Property(e => e.Addresses).HasColumnName("JsonAddresses").HasConversion(
-                v => JsonConvert.SerializeObject(v,
-                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                v => JsonConvert.DeserializeObject<List<Address>>(v,
-                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
-        }
+        builder.Property(e => e.Addresses).HasColumnName("JsonAddresses").HasConversion(
+            v => JsonConvert.SerializeObject(v,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
+            v => JsonConvert.DeserializeObject<List<Address>>(v,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })!);
     }
 }
