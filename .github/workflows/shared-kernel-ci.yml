@@ -2,16 +2,16 @@ name: Shared Kernel CI
 
 on:
   push:
-    branches: [ "master", "migration-net8.0" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "master", "migration-net8.0" ]
+    branches: [ "master" ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        dotnet-version: [ '8.0.100-rc.2.23502.2' ]
+        dotnet-version: [ '8.0.100' ]
 
     steps:
       - uses: actions/checkout@v3
