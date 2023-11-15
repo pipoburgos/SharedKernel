@@ -45,11 +45,7 @@ public static class OpenApiExtensions
                     "DELETE" => 5,
                     _ => 6
                 };
-#if NET5_0
-                    var relativePath = a.RelativePath;
-#else
                 var relativePath = a.RelativePath ?? string.Empty;
-#endif
                 var path = $"{relativePath}_{relativePath.Length.ToString().PadLeft(5, '0')}{order}";
 
                 return path;
