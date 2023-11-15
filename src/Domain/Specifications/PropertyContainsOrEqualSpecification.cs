@@ -1,54 +1,53 @@
 ﻿using System.Reflection;
 
-namespace SharedKernel.Domain.Specifications
+namespace SharedKernel.Domain.Specifications;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class PropertyContainsOrEqualSpecification<T> : Specification<T> where T : class
 {
+    private PropertyInfo PropertyInfo { get; }
+
+    private string Value { get; }
+
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class PropertyContainsOrEqualSpecification<T> : Specification<T> where T : class
+    /// <param name="propertyInfo"></param>
+    /// <param name="value"></param>
+    public PropertyContainsOrEqualSpecification(PropertyInfo propertyInfo, string value)
     {
-        private PropertyInfo PropertyInfo { get; }
+        PropertyInfo = propertyInfo;
+        Value = value;
+    }
 
-        private string Value { get; }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public override Expression<Func<T, bool>> SatisfiedBy()
+    {
+        var parameterExp = Expression.Parameter(typeof(T), "type");
+        var propertyExp = Expression.Property(parameterExp, PropertyInfo.Name);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="propertyInfo"></param>
-        /// <param name="value"></param>
-        public PropertyContainsOrEqualSpecification(PropertyInfo propertyInfo, string value)
-        {
-            PropertyInfo = propertyInfo;
-            Value = value;
-        }
+        var methodInfo = PropertyInfo.PropertyType == typeof(string)
+            ? typeof(string).GetMethod("Contains", new[] { typeof(string) })
+            : PropertyInfo.PropertyType.GetMethod("Equals", new[] { PropertyInfo.PropertyType });
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override Expression<Func<T, bool>> SatisfiedBy()
-        {
-            var parameterExp = Expression.Parameter(typeof(T), "type");
-            var propertyExp = Expression.Property(parameterExp, PropertyInfo.Name);
+        if (methodInfo == null)
+            throw new Exception("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");
 
-            var methodInfo = PropertyInfo.PropertyType == typeof(string)
-                ? typeof(string).GetMethod("Contains", new[] { typeof(string) })
-                : PropertyInfo.PropertyType.GetMethod("Equals", new[] { PropertyInfo.PropertyType });
+        // Property value
+        object value;
+        if (PropertyInfo.PropertyType != typeof(string))
+            value = Convert.ChangeType(Value, PropertyInfo.PropertyType);
+        else
+            value = Value;
 
-            if (methodInfo == null)
-                throw new Exception("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");
-
-            // Property value
-            object value;
-            if (PropertyInfo.PropertyType != typeof(string))
-                value = Convert.ChangeType(Value, PropertyInfo.PropertyType);
-            else
-                value = Value;
-
-            var someValue = Expression.Constant(value, PropertyInfo.PropertyType);
-            var containsMethodExp = Expression.Call(propertyExp, methodInfo, someValue);
-            return Expression.Lambda<Func<T, bool>>(containsMethodExp, parameterExp);
-        }
+        var someValue = Expression.Constant(value, PropertyInfo.PropertyType);
+        var containsMethodExp = Expression.Call(propertyExp, methodInfo, someValue);
+        return Expression.Lambda<Func<T, bool>>(containsMethodExp, parameterExp);
     }
 }

@@ -1,23 +1,22 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi
+namespace SharedKernel.Api.Gateway.ServiceCollectionExtensions.OpenApi;
+
+/// <summary>
+/// 
+/// </summary>
+public class TagReOrderDocumentFilter : IDocumentFilter
 {
     /// <summary>
     /// 
     /// </summary>
-    public class TagReOrderDocumentFilter : IDocumentFilter
+    /// <param name="swaggerDoc"></param>
+    /// <param name="context"></param>
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="swaggerDoc"></param>
-        /// <param name="context"></param>
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-        {
-            swaggerDoc.Tags = swaggerDoc.Tags
-                .OrderBy(tag => tag.Name)
-                .ToList();
-        }
+        swaggerDoc.Tags = swaggerDoc.Tags
+            .OrderBy(tag => tag.Name)
+            .ToList();
     }
 }

@@ -4,57 +4,56 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Data;
 
-namespace SharedKernel.Api
+namespace SharedKernel.Api;
+
+/// <summary>
+/// 
+/// </summary>
+public static class ProgramExtensions
 {
+    /// <summary>
+    /// Populate database and then runs the api asynchronous.
+    /// Needs to call services.AddSharedKernel()
+    /// Needs to register IPopulateDatabase in service collection. <see cref="IPopulateDatabase"/>
+    /// </summary>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static async Task RunAsync<TStartup>(string[] args) where TStartup : class
+    {
+        var host = CreateWebHostBuilder<TStartup>(args).Build();
+
+        using var scope = host.Services.CreateScope();
+        var services = scope.ServiceProvider;
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+
+        try
+        {
+            logger.LogInformation("Starting web host");
+            var populateDatabase = services.GetService<IPopulateDatabase>();
+            if (populateDatabase != default)
+                await populateDatabase.Populate(CancellationToken.None);
+
+            await host.RunAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+            logger.LogCritical(ex, "Host terminated unexpectedly");
+            throw;
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    public static class ProgramExtensions
+    /// <typeparam name="TStartup"></typeparam>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static IWebHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
     {
-        /// <summary>
-        /// Populate database and then runs the api asynchronous.
-        /// Needs to call services.AddSharedKernel()
-        /// Needs to register IPopulateDatabase in service collection. <see cref="IPopulateDatabase"/>
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static async Task RunAsync<TStartup>(string[] args) where TStartup : class
-        {
-            var host = CreateWebHostBuilder<TStartup>(args).Build();
-
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
-
-            try
-            {
-                logger.LogInformation("Starting web host");
-                var populateDatabase = services.GetService<IPopulateDatabase>();
-                if (populateDatabase != default)
-                    await populateDatabase.Populate(CancellationToken.None);
-
-                await host.RunAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-                logger.LogCritical(ex, "Host terminated unexpectedly");
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TStartup"></typeparam>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static IWebHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
-        {
-            return WebHost
-                .CreateDefaultBuilder(args)
-                .UseStartup<TStartup>();
-        }
+        return WebHost
+            .CreateDefaultBuilder(args)
+            .UseStartup<TStartup>();
     }
 }

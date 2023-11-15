@@ -1,10 +1,9 @@
-namespace SharedKernel.Domain.Tests.Shared
+namespace SharedKernel.Domain.Tests.Shared;
+
+public static class UuidMother
 {
-    public static class UuidMother
+    public static string Random()
     {
-        public static string Random()
-        {
-            return Guid.NewGuid().ToString();
-        }
+        return Guid.NewGuid().ToString();
     }
 }

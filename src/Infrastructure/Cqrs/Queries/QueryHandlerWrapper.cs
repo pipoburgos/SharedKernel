@@ -1,22 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Cqrs.Queries;
 
-namespace SharedKernel.Infrastructure.Cqrs.Queries
+namespace SharedKernel.Infrastructure.Cqrs.Queries;
+
+internal abstract class QueryHandlerWrapper<TResponse>
 {
-    internal abstract class QueryHandlerWrapper<TResponse>
-    {
-        public abstract Task<TResponse> Handle(IQueryRequest<TResponse> query, IServiceProvider provider,
-            CancellationToken cancellationToken);
-    }
+    public abstract Task<TResponse> Handle(IQueryRequest<TResponse> query, IServiceProvider provider,
+        CancellationToken cancellationToken);
+}
 
-    internal class QueryHandlerWrapper<TQuery, TResponse> : QueryHandlerWrapper<TResponse> where TQuery : IQueryRequest<TResponse>
+internal class QueryHandlerWrapper<TQuery, TResponse> : QueryHandlerWrapper<TResponse> where TQuery : IQueryRequest<TResponse>
+{
+    public override Task<TResponse> Handle(IQueryRequest<TResponse> query, IServiceProvider provider, CancellationToken cancellationToken)
     {
-        public override Task<TResponse> Handle(IQueryRequest<TResponse> query, IServiceProvider provider, CancellationToken cancellationToken)
-        {
-            var handler = (IQueryRequestHandler<TQuery, TResponse>) provider.CreateScope().ServiceProvider
-                .GetRequiredService(typeof(IQueryRequestHandler<TQuery, TResponse>));
+        var handler = (IQueryRequestHandler<TQuery, TResponse>) provider.CreateScope().ServiceProvider
+            .GetRequiredService(typeof(IQueryRequestHandler<TQuery, TResponse>));
 
-            return handler.Handle((TQuery)query, cancellationToken);
-        }
+        return handler.Handle((TQuery)query, cancellationToken);
     }
 }

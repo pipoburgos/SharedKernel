@@ -2,69 +2,68 @@
 using Apache.NMS.ActiveMQ;
 using Microsoft.Extensions.Options;
 
-namespace SharedKernel.Infrastructure.ActiveMq
+namespace SharedKernel.Infrastructure.ActiveMq;
+
+/// <summary> </summary>
+public class ActiveMqPublisher
 {
+    private readonly ActiveMqConfiguration _configuration;
+
     /// <summary> </summary>
-    public class ActiveMqPublisher
+    public ActiveMqPublisher(IOptions<ActiveMqConfiguration> configuration)
     {
-        private readonly ActiveMqConfiguration _configuration;
+        _configuration = configuration.Value;
+    }
 
-        /// <summary> </summary>
-        public ActiveMqPublisher(IOptions<ActiveMqConfiguration> configuration)
+    /// <summary> </summary>
+    public Task PublishTopic(string textMessage, string topicName)
+    {
+        return PublishCommon(textMessage, topicName);
+    }
+
+    /// <summary> </summary>
+    public Task PublishOnQueue(string textMessage)
+    {
+        return PublishCommon(textMessage);
+    }
+
+    private async Task PublishCommon(string textMessage, string? topicName = default)
+    {
+        var connecturi = new Uri(_configuration.BrokerUri);
+        var connectionFactory = new ConnectionFactory(connecturi);
+
+        // Create a Connection
+        using var connection = await connectionFactory.CreateConnectionAsync();
+
+        await connection.StartAsync();
+
+        // Create a Session
+        using var session = await connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
+
+        IDestination destination;
+        if (!string.IsNullOrWhiteSpace(topicName))
         {
-            _configuration = configuration.Value;
+            destination = await session.GetTopicAsync(topicName);
+        }
+        else if (!string.IsNullOrWhiteSpace(_configuration.Queue))
+        {
+            destination = await session.GetQueueAsync(_configuration.Queue);
+        }
+        else
+        {
+            throw new ArgumentNullException(
+                $"At least one value must not be empty. {nameof(_configuration.Queue)} or {nameof(topicName)}");
         }
 
-        /// <summary> </summary>
-        public Task PublishTopic(string textMessage, string topicName)
-        {
-            return PublishCommon(textMessage, topicName);
-        }
+        // Create a MessageProducer from the Session to the Topic or Queue
+        var producer = await session.CreateProducerAsync(destination);
+        producer.DeliveryMode = MsgDeliveryMode.NonPersistent;
 
-        /// <summary> </summary>
-        public Task PublishOnQueue(string textMessage)
-        {
-            return PublishCommon(textMessage);
-        }
+        var message = await session.CreateTextMessageAsync(textMessage);
 
-        private async Task PublishCommon(string textMessage, string? topicName = default)
-        {
-            var connecturi = new Uri(_configuration.BrokerUri);
-            var connectionFactory = new ConnectionFactory(connecturi);
+        // Tell the producer to send the message
+        await producer.SendAsync(message);
 
-            // Create a Connection
-            using var connection = await connectionFactory.CreateConnectionAsync();
-
-            await connection.StartAsync();
-
-            // Create a Session
-            using var session = await connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
-
-            IDestination destination;
-            if (!string.IsNullOrWhiteSpace(topicName))
-            {
-                destination = await session.GetTopicAsync(topicName);
-            }
-            else if (!string.IsNullOrWhiteSpace(_configuration.Queue))
-            {
-                destination = await session.GetQueueAsync(_configuration.Queue);
-            }
-            else
-            {
-                throw new ArgumentNullException(
-                    $"At least one value must not be empty. {nameof(_configuration.Queue)} or {nameof(topicName)}");
-            }
-
-            // Create a MessageProducer from the Session to the Topic or Queue
-            var producer = await session.CreateProducerAsync(destination);
-            producer.DeliveryMode = MsgDeliveryMode.NonPersistent;
-
-            var message = await session.CreateTextMessageAsync(textMessage);
-
-            // Tell the producer to send the message
-            await producer.SendAsync(message);
-
-            await connection.CloseAsync();
-        }
+        await connection.CloseAsync();
     }
 }

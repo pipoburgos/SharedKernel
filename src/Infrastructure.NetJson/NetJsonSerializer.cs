@@ -51,9 +51,9 @@ public class NetJsonSerializer : IJsonSerializer
 
         return new JsonSerializerOptions
         {
-            //Converters = { new NoSetterResolver() },
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = policy
+            PropertyNamingPolicy = policy,
+            Converters = { new DateTimeConverter() } //, new NoSetterResolver() }
         };
     }
 

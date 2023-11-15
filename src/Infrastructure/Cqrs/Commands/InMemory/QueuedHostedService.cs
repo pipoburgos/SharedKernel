@@ -1,91 +1,90 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory
+namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
+
+/// <summary>
+/// 
+/// </summary>
+public class QueuedHostedService : BackgroundService
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
     /// <summary>
     /// 
     /// </summary>
-    public class QueuedHostedService : BackgroundService
+    /// <param name="serviceScopeFactory"></param>
+    public QueuedHostedService(IServiceScopeFactory serviceScopeFactory)
     {
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serviceScopeFactory"></param>
-        public QueuedHostedService(IServiceScopeFactory serviceScopeFactory)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
+
+        scope.ServiceProvider
+            .GetRequiredService<ILogger<QueuedHostedService>>()
+            .LogInformation("Queued Hosted Service is running for async commands");
+
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _serviceScopeFactory = serviceScopeFactory;
-        }
+            var workItem = await scope.ServiceProvider
+                .GetRequiredService<IBackgroundTaskQueue>()
+                .DequeueAsync(stoppingToken);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            using var scope = _serviceScopeFactory.CreateScope();
-
-            scope.ServiceProvider
-                .GetRequiredService<ILogger<QueuedHostedService>>()
-                .LogInformation("Queued Hosted Service is running for async commands");
-
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                var workItem = await scope.ServiceProvider
-                    .GetRequiredService<IBackgroundTaskQueue>()
-                    .DequeueAsync(stoppingToken);
+                await workItem(stoppingToken);
+            }
+            catch (Exception ex)
+            {
+                scope.ServiceProvider
+                    .GetRequiredService<ILogger<QueuedHostedService>>()
+                    .LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
+            }
 
-                try
-                {
-                    await workItem(stoppingToken);
-                }
-                catch (Exception ex)
-                {
-                    scope.ServiceProvider
-                        .GetRequiredService<ILogger<QueuedHostedService>>()
-                        .LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
-                }
+            await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+        }
+    }
 
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task StopAsync(CancellationToken cancellationToken)
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
+
+        scope.ServiceProvider
+            .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopping.");
+
+        while (scope.ServiceProvider.GetRequiredService<IBackgroundTaskQueue>().Any())
+        {
+            var workItem = await scope.ServiceProvider
+                .GetRequiredService<IBackgroundTaskQueue>()
+                .DequeueAsync(cancellationToken);
+
+            try
+            {
+                await workItem(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                scope.ServiceProvider
+                    .GetRequiredService<ILogger<QueuedHostedService>>().LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public override async Task StopAsync(CancellationToken cancellationToken)
-        {
-            using var scope = _serviceScopeFactory.CreateScope();
+        scope.ServiceProvider
+            .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopped.");
 
-            scope.ServiceProvider
-                .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopping.");
-
-            while (scope.ServiceProvider.GetRequiredService<IBackgroundTaskQueue>().Any())
-            {
-                var workItem = await scope.ServiceProvider
-                    .GetRequiredService<IBackgroundTaskQueue>()
-                    .DequeueAsync(cancellationToken);
-
-                try
-                {
-                    await workItem(cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    scope.ServiceProvider
-                        .GetRequiredService<ILogger<QueuedHostedService>>().LogError(ex, "Error occurred executing {WorkItem}.", nameof(workItem));
-                }
-            }
-
-            scope.ServiceProvider
-                .GetRequiredService<ILogger<QueuedHostedService>>().LogInformation("Queued Hosted Service is stopped.");
-
-            await base.StopAsync(cancellationToken);
-        }
+        await base.StopAsync(cancellationToken);
     }
 }

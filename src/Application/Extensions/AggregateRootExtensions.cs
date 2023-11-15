@@ -1,14 +1,13 @@
-﻿namespace SharedKernel.Application.Extensions
+﻿namespace SharedKernel.Application.Extensions;
+
+/// <summary> AggregateRoot extensions. </summary>
+public static class AggregateRootExtensions
 {
-    /// <summary> AggregateRoot extensions. </summary>
-    public static class AggregateRootExtensions
+    /// <summary> Pull all domain events. </summary>
+    /// <param name="aggregateRoots"></param>
+    /// <returns></returns>
+    public static IEnumerable<DomainEvent> PullDomainEvents(this IEnumerable<IAggregateRoot> aggregateRoots)
     {
-        /// <summary> Pull all domain events. </summary>
-        /// <param name="aggregateRoots"></param>
-        /// <returns></returns>
-        public static IEnumerable<DomainEvent> PullDomainEvents(this IEnumerable<IAggregateRoot> aggregateRoots)
-        {
-            return aggregateRoots.SelectMany(a => a.PullDomainEvents());
-        }
+        return aggregateRoots.SelectMany(a => a.PullDomainEvents());
     }
 }

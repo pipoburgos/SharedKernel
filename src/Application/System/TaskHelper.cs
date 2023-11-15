@@ -1,9 +1,9 @@
-﻿namespace SharedKernel.Application.System
+﻿namespace SharedKernel.Application.System;
+
+/// <summary>Gets a task that has already completed successfully.</summary>
+/// <returns>The successfully completed task.</returns>
+public static class TaskHelper
 {
-    /// <summary>Gets a task that has already completed successfully.</summary>
-    /// <returns>The successfully completed task.</returns>
-    public static class TaskHelper
-    {
 
 #if NET46_OR_GREATER || NET5_OR_GREATER || NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
         /// <summary>Gets a task that has already completed successfully.</summary>
@@ -59,11 +59,10 @@
 
         private static TaskFactory Create() => new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
 #else
-        /// <summary>Gets a task that has already completed successfully.</summary>
-        /// <returns>The successfully completed task.</returns>
-        public static Task CompletedTask => new Task(() => { });
+    /// <summary>Gets a task that has already completed successfully.</summary>
+    /// <returns>The successfully completed task.</returns>
+    public static Task CompletedTask => new Task(() => { });
 
 #endif
 
-    }
 }

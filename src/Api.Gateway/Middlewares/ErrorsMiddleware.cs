@@ -4,48 +4,47 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace SharedKernel.Api.Gateway.Middlewares
+namespace SharedKernel.Api.Gateway.Middlewares;
+
+/// <summary>
+/// 
+/// </summary>
+public static class ErrorsMiddleware
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ErrorsMiddleware
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseErrors(this IApplicationBuilder app)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseErrors(this IApplicationBuilder app)
-        {
-            app.UseExceptionHandler(
-                builder =>
-                {
-                    builder.Run(
-                        async context =>
+        app.UseExceptionHandler(
+            builder =>
+            {
+                builder.Run(
+                    async context =>
+                    {
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+
+                        if (error != null)
                         {
-                            var error = context.Features.Get<IExceptionHandlerFeature>();
-
-                            if (error != null)
+                            if (error.Error.GetType() == typeof(AuthenticationException))
                             {
-                                if (error.Error.GetType() == typeof(AuthenticationException))
-                                {
-                                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                                    context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
-                                }
-                                else
-                                {
-                                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                                    context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
-
-                                    //context.Response.AddApplicationError(error.Error.Message);
-                                    await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
-                                }
+                                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                                context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
                             }
-                        });
-                });
+                            else
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
 
-            return app;
-        }
+                                //context.Response.AddApplicationError(error.Error.Message);
+                                await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                            }
+                        }
+                    });
+            });
+
+        return app;
     }
 }

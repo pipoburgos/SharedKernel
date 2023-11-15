@@ -1,28 +1,27 @@
 ﻿using SharedKernel.Domain.Events;
 
-namespace SharedKernel.Domain.Tests.Users
+namespace SharedKernel.Domain.Tests.Users;
+
+internal class UserCreated : DomainEvent
 {
-    internal class UserCreated : DomainEvent
+    public UserCreated(Guid id, string name, string aggregateId, string? eventId = default, string? occurredOn = default) :
+        base(aggregateId, eventId, occurredOn)
     {
-        public UserCreated(Guid id, string name, string aggregateId, string? eventId = default, string? occurredOn = default) :
-            base(aggregateId, eventId, occurredOn)
-        {
-            Id = id;
-            Name = name;
-        }
+        Id = id;
+        Name = name;
+    }
 
-        public Guid Id { get; }
+    public Guid Id { get; }
 
-        public string Name { get; }
+    public string Name { get; }
 
-        public override string GetEventName()
-        {
-            return "user.created";
-        }
+    public override string GetEventName()
+    {
+        return "user.created";
+    }
 
-        public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
-        {
-            return new UserCreated(new Guid(body[nameof(Id)]), body[nameof(Name)], aggregateId, eventId, occurredOn);
-        }
+    public override DomainEvent FromPrimitives(string aggregateId, Dictionary<string, string> body, string eventId, string occurredOn)
+    {
+        return new UserCreated(new Guid(body[nameof(Id)]), body[nameof(Name)], aggregateId, eventId, occurredOn);
     }
 }

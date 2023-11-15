@@ -1,28 +1,27 @@
-namespace SharedKernel.Infrastructure.RabbitMq
+namespace SharedKernel.Infrastructure.RabbitMq;
+
+/// <summary>
+/// 
+/// </summary>
+public static class RabbitMqExchangeNameFormatter
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class RabbitMqExchangeNameFormatter
+    /// <param name="exchangeName"></param>
+    /// <returns></returns>
+    public static string Retry(string exchangeName)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="exchangeName"></param>
-        /// <returns></returns>
-        public static string Retry(string exchangeName)
-        {
-            return $"retry-{exchangeName}";
-        }
+        return $"retry-{exchangeName}";
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="exchangeName"></param>
-        /// <returns></returns>
-        public static string DeadLetter(string exchangeName)
-        {
-            return $"dead_letter-{exchangeName}";
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="exchangeName"></param>
+    /// <returns></returns>
+    public static string DeadLetter(string exchangeName)
+    {
+        return $"dead_letter-{exchangeName}";
     }
 }

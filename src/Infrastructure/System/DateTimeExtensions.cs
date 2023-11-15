@@ -1,22 +1,21 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.System;
 
-namespace SharedKernel.Infrastructure.System
+namespace SharedKernel.Infrastructure.System;
+
+/// <summary>
+/// 
+/// </summary>
+public static class DateTimeExtensions
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class DateTimeExtensions
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddMachineDateTime(this IServiceCollection services)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddMachineDateTime(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<IDateTime, MachineDateTime>();
-        }
+        return services
+            .AddTransient<IDateTime, MachineDateTime>();
     }
 }

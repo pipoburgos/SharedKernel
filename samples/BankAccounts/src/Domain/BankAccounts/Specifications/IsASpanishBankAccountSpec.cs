@@ -1,10 +1,9 @@
-﻿namespace BankAccounts.Domain.BankAccounts.Specifications
+﻿namespace BankAccounts.Domain.BankAccounts.Specifications;
+
+internal class IsASpanishBankAccountSpec : ISpecification<BankAccount>
 {
-    internal class IsASpanishBankAccountSpec : ISpecification<BankAccount>
+    public Expression<Func<BankAccount, bool>> SatisfiedBy()
     {
-        public Expression<Func<BankAccount, bool>> SatisfiedBy()
-        {
-            return bankAccount => bankAccount.InternationalBankAccountNumber.CountryCheckDigit.ToUpper().StartsWith("ES");
-        }
+        return bankAccount => bankAccount.InternationalBankAccountNumber.CountryCheckDigit.ToUpper().StartsWith("ES");
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace SharedKernel.Domain.Validators
+﻿namespace SharedKernel.Domain.Validators;
+
+/// <summary> Validate entity or agregate root. </summary>
+public interface IValidatableObject
 {
-    /// <summary> Validate entity or agregate root. </summary>
-    public interface IValidatableObject
-    {
-        /// <summary> Validate. </summary>
-        /// <param name="validationContext"></param>
-        /// <returns></returns>
-        IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
-    }
+    /// <summary> Validate. </summary>
+    /// <param name="validationContext"></param>
+    /// <returns></returns>
+    IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
 }

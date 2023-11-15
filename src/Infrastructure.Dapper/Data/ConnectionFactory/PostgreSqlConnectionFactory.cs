@@ -1,20 +1,19 @@
 ﻿using Npgsql;
 using System.Data.Common;
 
-namespace SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory
+namespace SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
+
+internal class PostgreSqlConnectionFactory : IDbConnectionFactory
 {
-    internal class PostgreSqlConnectionFactory : IDbConnectionFactory
+    private readonly string _connectionString;
+
+    public PostgreSqlConnectionFactory(string connectionString)
     {
-        private readonly string _connectionString;
+        _connectionString = connectionString;
+    }
 
-        public PostgreSqlConnectionFactory(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        public DbConnection GetConnection()
-        {
-            return new NpgsqlConnection(_connectionString);
-        }
+    public DbConnection GetConnection()
+    {
+        return new NpgsqlConnection(_connectionString);
     }
 }

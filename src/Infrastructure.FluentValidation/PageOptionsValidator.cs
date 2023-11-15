@@ -1,47 +1,46 @@
 ﻿using FluentValidation;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 
-namespace SharedKernel.Infrastructure.FluentValidation
+namespace SharedKernel.Infrastructure.FluentValidation;
+
+/// <summary>  </summary>
+public class PageOptionsValidator : AbstractValidator<PageOptions>
 {
     /// <summary>  </summary>
-    public class PageOptionsValidator : AbstractValidator<PageOptions>
+    public PageOptionsValidator(
+        OrderValidator orderValidator,
+        FilterPropertyValidator filterPropertyValidator)
     {
-        /// <summary>  </summary>
-        public PageOptionsValidator(
-            OrderValidator orderValidator,
-            FilterPropertyValidator filterPropertyValidator)
-        {
-            RuleForEach(a => a.Orders)
-                .NotEmpty()
-                .SetValidator(orderValidator);
+        RuleForEach(a => a.Orders)
+            .NotEmpty()
+            .SetValidator(orderValidator);
 
-            RuleForEach(a => a.FilterProperties)
-                .SetValidator(filterPropertyValidator);
-        }
+        RuleForEach(a => a.FilterProperties)
+            .SetValidator(filterPropertyValidator);
     }
+}
 
+/// <summary>  </summary>
+public class OrderValidator : AbstractValidator<Order>
+{
     /// <summary>  </summary>
-    public class OrderValidator : AbstractValidator<Order>
+    public OrderValidator()
     {
-        /// <summary>  </summary>
-        public OrderValidator()
-        {
-            RuleFor(a => a.Field)
-                .NotEmpty();
-        }
+        RuleFor(a => a.Field)
+            .NotEmpty();
     }
+}
 
+/// <summary>  </summary>
+public class FilterPropertyValidator : AbstractValidator<FilterProperty>
+{
     /// <summary>  </summary>
-    public class FilterPropertyValidator : AbstractValidator<FilterProperty>
+    public FilterPropertyValidator()
     {
-        /// <summary>  </summary>
-        public FilterPropertyValidator()
-        {
-            RuleFor(a => a.Field)
-                .NotEmpty();
+        RuleFor(a => a.Field)
+            .NotEmpty();
 
-            RuleFor(a => a.Value)
-                .NotEmpty();
-        }
+        RuleFor(a => a.Value)
+            .NotEmpty();
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace BankAccounts.Domain.Shared
+﻿namespace BankAccounts.Domain.Shared;
+
+internal abstract class BankAccountBaseException : Exception
 {
-    internal abstract class BankAccountBaseException : Exception
-    {
-    }
 }

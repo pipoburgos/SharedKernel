@@ -1,58 +1,57 @@
-﻿namespace SharedKernel.Application.Utils.Taxes
+﻿namespace SharedKernel.Application.Utils.Taxes;
+
+/// <summary>
+/// 
+/// </summary>
+public static class ValueAddedTaxExtensions
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ValueAddedTaxExtensions
+    /// <param name="value"></param>
+    /// <param name="valueAddedTax"></param>
+    /// <returns></returns>
+    public static double CalculateValueAddedTax(this float value, double? valueAddedTax)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valueAddedTax"></param>
-        /// <returns></returns>
-        public static double CalculateValueAddedTax(this float value, double? valueAddedTax)
-        {
-            return ((double) value).CalculateValueAddedTax(valueAddedTax);
-        }
+        return ((double) value).CalculateValueAddedTax(valueAddedTax);
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valueAddedTax"></param>
-        /// <returns></returns>
-        public static double CalculateValueAddedTax(this double value, double? valueAddedTax)
-        {
-            if (valueAddedTax == null)
-                return 0;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="valueAddedTax"></param>
+    /// <returns></returns>
+    public static double CalculateValueAddedTax(this double value, double? valueAddedTax)
+    {
+        if (valueAddedTax == null)
+            return 0;
 
-            return value * (valueAddedTax.Value / 100);
-        }
+        return value * (valueAddedTax.Value / 100);
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valueAddedTax"></param>
-        /// <returns></returns>
-        public static double CalculateWithValueAddedTax(this float value, double? valueAddedTax)
-        {
-            return valueAddedTax == null ? value : ((double) value).CalculateWithValueAddedTax(valueAddedTax);
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="valueAddedTax"></param>
+    /// <returns></returns>
+    public static double CalculateWithValueAddedTax(this float value, double? valueAddedTax)
+    {
+        return valueAddedTax == null ? value : ((double) value).CalculateWithValueAddedTax(valueAddedTax);
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valueAddedTax"></param>
-        /// <returns></returns>
-        public static double CalculateWithValueAddedTax(this double value, double? valueAddedTax)
-        {
-            if (valueAddedTax == null)
-                return value;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="valueAddedTax"></param>
+    /// <returns></returns>
+    public static double CalculateWithValueAddedTax(this double value, double? valueAddedTax)
+    {
+        if (valueAddedTax == null)
+            return value;
 
-            return value * (1 + valueAddedTax.Value / 100);
-        }
+        return value * (1 + valueAddedTax.Value / 100);
     }
 }

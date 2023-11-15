@@ -1,8 +1,7 @@
 ﻿using SharedKernel.Application.UnitOfWorks;
 
-namespace BankAccounts.Application.Shared.UnitOfWork
+namespace BankAccounts.Application.Shared.UnitOfWork;
+
+internal interface IBankAccountUnitOfWork : IUnitOfWorkAsync
 {
-    internal interface IBankAccountUnitOfWork : IUnitOfWorkAsync
-    {
-    }
 }
