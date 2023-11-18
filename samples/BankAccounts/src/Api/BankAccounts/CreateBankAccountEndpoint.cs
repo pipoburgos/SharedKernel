@@ -9,10 +9,9 @@ public class CreateBankAccountEndpoint : BankAccountBaseEndpoint
 {
     /// <summary> Create a bank account. </summary>
     [HttpPost("{bankAccountId}")]
-    public async Task<IActionResult> Handle(//[FromServices] ICommandBusAsync commandBusAsync,
-        Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
+    public Task<IActionResult> Handle(Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
     {
         createBankAccount.AddId(bankAccountId);
-        return OkTyped(await CommandBus.Dispatch(createBankAccount, cancellationToken));
+        return OkTyped(CommandBus.Dispatch(createBankAccount, cancellationToken));
     }
 }

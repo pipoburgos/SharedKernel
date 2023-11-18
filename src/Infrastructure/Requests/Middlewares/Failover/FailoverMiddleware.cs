@@ -44,9 +44,9 @@ public class FailoverMiddleware : IMiddleware
     }
 
     /// <summary>  </summary>
-    public async Task<ApplicationResult<TResponse>> Handle<TRequest, TResponse>(TRequest request,
-        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> next)
-        where TRequest : IRequest<ApplicationResult<TResponse>>
+    public async Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
+        where TRequest : IRequest<Result<TResponse>>
     {
         try
         {

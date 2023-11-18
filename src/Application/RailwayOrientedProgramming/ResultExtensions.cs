@@ -7,20 +7,20 @@ namespace SharedKernel.Application.RailwayOrientedProgramming;
 public static partial class ResultExtensions
 {
     /// <summary>  </summary>
-    public static ApplicationResult<T> ToApplicationResult<T>(this Result<T> result)
+    public static Result<T> ToApplicationResult<T>(this Result<T> result)
     {
         return result.IsSuccess
-            ? ApplicationResult.Create(result.Value)
-            : ApplicationResult.Failure<T>(
+            ? Result.Create(result.Value)
+            : Result.Failure<T>(
                 result.Errors.Select(e => ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
     }
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> ToApplicationResultUnit<T>(this Result<T> result)
+    public static Result<ApplicationUnit> ToApplicationResultUnit<T>(this Result<T> result)
     {
         return result.IsSuccess
-            ? ApplicationResult.Create(ApplicationUnit.Value)
-            : ApplicationResult.Failure<ApplicationUnit>(result.Errors.Select(e =>
+            ? Result.Create(ApplicationUnit.Value)
+            : Result.Failure<ApplicationUnit>(result.Errors.Select(e =>
                 ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
     }
 }

@@ -1,12 +1,13 @@
 ﻿namespace BankAccounts.Application.BankAccounts.Commands;
 
 /// <summary> Create a bank account. </summary>
-public class CreateBankAccount : ICommandRequest<ApplicationResult<ApplicationUnit>>
+public class CreateBankAccount : ICommandRequest<Result<Unit>>
 {
     /// <summary> Constructor. </summary>
-    public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string? surname,
+    public CreateBankAccount(Guid bankAccountId, Guid ownerId, string name, DateTime birthdate, string? surname,
         Guid movementId, decimal amount)
     {
+        BankAccountId = bankAccountId;
         OwnerId = ownerId;
         Name = name;
         Birthdate = birthdate;
@@ -16,7 +17,7 @@ public class CreateBankAccount : ICommandRequest<ApplicationResult<ApplicationUn
     }
 
     /// <summary> Bank account identifier. </summary>
-    public Guid Id { get; private set; }
+    public Guid BankAccountId { get; set; }
 
     /// <summary> Owner identifier. </summary>
     public Guid OwnerId { get; }
@@ -38,7 +39,7 @@ public class CreateBankAccount : ICommandRequest<ApplicationResult<ApplicationUn
 
     /// <summary> Adds bank account identifier </summary>
     /// <param name="id"></param>
-    public void AddId(Guid id) => Id = id;
+    public void AddId(Guid id) => BankAccountId = id;
 
     ///// <summary>  </summary>
     //public override string GetUniqueName()

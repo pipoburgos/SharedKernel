@@ -53,7 +53,7 @@ public class InMemoryCommandBus : ICommandBus
     }
 
     /// <summary>  </summary>
-    public Task<ApplicationResult<TResponse>> Dispatch<TResponse>(ICommandRequest<ApplicationResult<TResponse>> command,
+    public Task<Result<TResponse>> Dispatch<TResponse>(ICommandRequest<Result<TResponse>> command,
         CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
@@ -95,8 +95,8 @@ public class InMemoryCommandBus : ICommandBus
     }
 
     /// <summary>  </summary>
-    public Task<ApplicationResult<TResponse>[]> Dispatch<TResponse>(
-        IEnumerable<ICommandRequest<ApplicationResult<TResponse>>> commands, CancellationToken cancellationToken)
+    public Task<Result<TResponse>[]> Dispatch<TResponse>(
+        IEnumerable<ICommandRequest<Result<TResponse>>> commands, CancellationToken cancellationToken)
     {
         return Task.WhenAll(commands.Select(command => Dispatch(command, cancellationToken)));
     }
@@ -140,8 +140,8 @@ public class InMemoryCommandBus : ICommandBus
     }
 
     /// <summary> Dispatch a command request on a queue. </summary>
-    public Task<ApplicationResult<TResponse>> DispatchOnQueue<TResponse>(
-        ICommandRequest<ApplicationResult<TResponse>> command, string queueName, CancellationToken cancellationToken)
+    public Task<Result<TResponse>> DispatchOnQueue<TResponse>(
+        ICommandRequest<Result<TResponse>> command, string queueName, CancellationToken cancellationToken)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var mutexManager = scope.ServiceProvider.GetService<IMutexManager>();

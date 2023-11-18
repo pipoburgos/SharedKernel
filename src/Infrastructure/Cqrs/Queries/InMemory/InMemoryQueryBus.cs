@@ -35,7 +35,7 @@ public class InMemoryQueryBus : IQueryBus
     }
 
     /// <inheritdoc />
-    public Task<ApplicationResult<TResponse>> Ask<TResponse>(IQueryRequest<ApplicationResult<TResponse>> query, CancellationToken cancellationToken)
+    public Task<Result<TResponse>> Ask<TResponse>(IQueryRequest<Result<TResponse>> query, CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
         {

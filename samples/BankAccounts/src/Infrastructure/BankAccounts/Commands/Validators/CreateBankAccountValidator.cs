@@ -8,7 +8,7 @@ internal class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
 {
     public CreateBankAccountValidator(IBankAccountRepository bankAccountRepository)
     {
-        RuleFor(e => e.Id)
+        RuleFor(e => e.BankAccountId)
             .NotEmpty()
             .MustAsync(async (prop, c) => !await bankAccountRepository.AnyAsync(BankAccountId.Create(prop), c));
 

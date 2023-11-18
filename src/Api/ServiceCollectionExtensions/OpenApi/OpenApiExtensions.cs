@@ -25,8 +25,6 @@ public static class OpenApiExtensions
         var openIdOptions = new OpenIdOptions();
         configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
 
-        services.AddSwaggerGenNewtonsoftSupport();
-
         services.AddFluentValidationRulesToSwagger();
 
         services.AddSwaggerGen(swaggerGenOptions =>

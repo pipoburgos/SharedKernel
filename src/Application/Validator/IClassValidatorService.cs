@@ -1,5 +1,4 @@
-﻿using SharedKernel.Domain.RailwayOrientedProgramming;
-using SharedKernel.Domain.Validators;
+﻿using SharedKernel.Domain.Validators;
 
 namespace SharedKernel.Application.Validator;
 

@@ -23,6 +23,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="RailwayOrientedProgramming\**" />
+    <EmbeddedResource Remove="RailwayOrientedProgramming\**" />
+    <None Remove="RailwayOrientedProgramming\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="" />
     <None Include="readme.md" Pack="true" PackagePath="" />
   </ItemGroup>
@@ -33,9 +39,9 @@
 
   <ItemGroup>
     <Using Include="SharedKernel.Application.Requests" />
-    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Events" />
+    <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Requests" />
     <Using Include="System.Collections" />
     <Using Include="System.Globalization" />

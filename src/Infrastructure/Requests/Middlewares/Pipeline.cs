@@ -36,9 +36,9 @@ public class Pipeline : IPipeline
     }
 
     /// <summary>  </summary>
-    public Task<ApplicationResult<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
-        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
-        where TRequest : IRequest<ApplicationResult<TResponse>>
+    public Task<Result<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> last)
+        where TRequest : IRequest<Result<TResponse>>
     {
         var middlewares = GetMiddlewares();
         return !middlewares.Any()
@@ -72,16 +72,16 @@ public class Pipeline : IPipeline
         return (r, c) => middlewares[i - 1].Handle(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 
-    private Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> GetNext<TRequest, TResponse>(
+    private Func<TRequest, CancellationToken, Task<Result<TResponse>>> GetNext<TRequest, TResponse>(
         IList<IMiddleware> middlewares, int i, int lastIndex,
-        Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
-        where TRequest : IRequest<ApplicationResult<TResponse>>
+        Func<TRequest, CancellationToken, Task<Result<TResponse>>> last)
+        where TRequest : IRequest<Result<TResponse>>
     {
         if (i == lastIndex)
             return last;
 
         i++;
         return (r, c) => middlewares[i - 1]
-            .Handle<TRequest, ApplicationResult<TResponse>>(r, c, GetNext(middlewares, i, lastIndex, last));
+            .Handle<TRequest, Result<TResponse>>(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 }

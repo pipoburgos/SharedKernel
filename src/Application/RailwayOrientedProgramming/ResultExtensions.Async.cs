@@ -7,22 +7,22 @@ namespace SharedKernel.Application.RailwayOrientedProgramming;
 public static partial class ResultExtensions
 {
     /// <summary>  </summary>
-    public static async Task<ApplicationResult<T>> ToApplicationResult<T>(this Task<Result<T>> resultTask)
+    public static async Task<Result<T>> ToApplicationResult<T>(this Task<Result<T>> resultTask)
     {
         var result = await resultTask;
         return result.IsSuccess
-            ? ApplicationResult.Create(result.Value)
-            : ApplicationResult.Failure<T>(result.Errors.Select(e =>
+            ? Result.Create(result.Value)
+            : Result.Failure<T>(result.Errors.Select(e =>
                 ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
     }
 
     /// <summary>  </summary>
-    public static async Task<ApplicationResult<ApplicationUnit>> ToApplicationResultUnit<T>(this Task<Result<T>> resultTask)
+    public static async Task<Result<ApplicationUnit>> ToApplicationResultUnit<T>(this Task<Result<T>> resultTask)
     {
         var result = await resultTask;
         return result.IsSuccess
-            ? ApplicationResult.Create(ApplicationUnit.Value)
-            : ApplicationResult.Failure<ApplicationUnit>(result.Errors.Select(e =>
+            ? Result.Create(ApplicationUnit.Value)
+            : Result.Failure<ApplicationUnit>(result.Errors.Select(e =>
                 ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
     }
 }

@@ -12,7 +12,7 @@ public interface IPipeline
         Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>;
 
     /// <summary>  </summary>
-    Task<ApplicationResult<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
-        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> last)
-        where TRequest : IRequest<ApplicationResult<TResponse>>;
+    Task<Result<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> last)
+        where TRequest : IRequest<Result<TResponse>>;
 }

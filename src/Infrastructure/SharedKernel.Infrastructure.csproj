@@ -59,7 +59,6 @@
   <ItemGroup>
     <Using Include="Microsoft.Extensions.Logging" />
     <Using Include="SharedKernel.Application.Requests" />
-    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Aggregates" />
     <Using Include="SharedKernel.Domain.Entities" />
     <Using Include="SharedKernel.Domain.Entities.Paged" />

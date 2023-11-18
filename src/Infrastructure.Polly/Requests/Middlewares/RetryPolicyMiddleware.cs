@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Application.Cqrs.Middlewares;
-using SharedKernel.Application.RailwayOrientedProgramming;
 using SharedKernel.Application.Requests;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Domain.Requests;
 
 namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
@@ -40,9 +40,9 @@ public class RetryPolicyMiddleware : IMiddleware
     }
 
     /// <summary> Handle errors. </summary>
-    public Task<ApplicationResult<TResponse>> Handle<TRequest, TResponse>(TRequest request,
-        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> next)
-        where TRequest : IRequest<ApplicationResult<TResponse>>
+    public Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
+        where TRequest : IRequest<Result<TResponse>>
     {
         return _retryRetriever.ExecuteAsync(c => next(request, c),
             _retryPolicyExceptionHandler.NeedToRetryTheException, cancellationToken);

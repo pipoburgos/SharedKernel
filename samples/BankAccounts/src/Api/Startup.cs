@@ -9,10 +9,9 @@ using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;
-using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
-using SharedKernel.Infrastructure.NetJson;
+using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 using SharedKernel.Infrastructure.Redis.Events;
@@ -52,23 +51,26 @@ public class Startup
                 o.Filters.Add(new AuthorizeFilter(policy));
                 o.Conventions.Add(new ControllerDocumentationConvention());
             })
-            .AddJsonOptions(o =>
-            {
-                var settings = NetJsonSerializer.GetOptions(NamingConvention.CamelCase);
-                o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
-                o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
-            });
+            .AddSharedKernelNewtonsoftJson();
+        //.AddJsonOptions(o =>
+        //{
+        //    var settings = NetJsonSerializer.GetOptions(NamingConvention.CamelCase);
+        //    o.JsonSerializerOptions.DefaultIgnoreCondition = settings.DefaultIgnoreCondition;
+        //    o.JsonSerializerOptions.PropertyNamingPolicy = settings.PropertyNamingPolicy;
+        //    o.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+        //});
 
         _services = services
             .AddInMemoryCommandBus()
             .AddRedisCommandBusAsync(_configuration)
-            .AddNetJsonSerializer()
+            .AddNewtonsoftSerializer()
             .AddInMemoryQueryBus()
             .AddRedisEventBus(_configuration)
             .AddRedisDistributedCache(_configuration)
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
+            .AddSharedKernelSwaggerGenNewtonsoftSupport()
             .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>());
     }
 

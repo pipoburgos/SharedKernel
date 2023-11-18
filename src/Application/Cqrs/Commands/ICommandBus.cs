@@ -7,7 +7,7 @@ public interface ICommandBus
     Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken);
 
     /// <summary> Dispatch a command that returns a response. </summary>
-    Task<ApplicationResult<TResponse>> Dispatch<TResponse>(ICommandRequest<ApplicationResult<TResponse>> command,
+    Task<Result<TResponse>> Dispatch<TResponse>(ICommandRequest<Result<TResponse>> command,
         CancellationToken cancellationToken);
 
     /// <summary> Dispatch a command request that does not return anything. </summary>
@@ -21,8 +21,8 @@ public interface ICommandBus
         CancellationToken cancellationToken);
 
     /// <summary> Dispatch commands requests that return something. </summary>
-    Task<ApplicationResult<TResponse>[]> Dispatch<TResponse>(
-        IEnumerable<ICommandRequest<ApplicationResult<TResponse>>> commands, CancellationToken cancellationToken);
+    Task<Result<TResponse>[]> Dispatch<TResponse>(
+        IEnumerable<ICommandRequest<Result<TResponse>>> commands, CancellationToken cancellationToken);
 
     /// <summary> Dispatch commands requests on a queue. </summary>
     Task DispatchOnQueue(IEnumerable<ICommandRequest> commands, string queueName, CancellationToken cancellationToken);
@@ -35,7 +35,7 @@ public interface ICommandBus
         CancellationToken cancellationToken);
 
     /// <summary> Dispatch a command request on a queue.. </summary>
-    Task<ApplicationResult<TResponse>> DispatchOnQueue<TResponse>(ICommandRequest<ApplicationResult<TResponse>> command,
+    Task<Result<TResponse>> DispatchOnQueue<TResponse>(ICommandRequest<Result<TResponse>> command,
         string queueName, CancellationToken cancellationToken);
 
     /// <summary> Queue a command request to background service. </summary>

@@ -7,6 +7,6 @@ public interface IQueryBus
     Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken);
 
     /// <summary> Ask a query and return a data transfer object. </summary>
-    Task<ApplicationResult<TResponse>> Ask<TResponse>(IQueryRequest<ApplicationResult<TResponse>> query,
+    Task<Result<TResponse>> Ask<TResponse>(IQueryRequest<Result<TResponse>> query,
         CancellationToken cancellationToken);
 }

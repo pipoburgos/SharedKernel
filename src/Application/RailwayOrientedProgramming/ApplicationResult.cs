@@ -1,29 +1,29 @@
 ﻿namespace SharedKernel.Application.RailwayOrientedProgramming;
 
 /// <summary>  </summary>
-public static class ApplicationResult
+public static class Result
 {
     /// <summary>  </summary>
     public static readonly ApplicationUnit Unit = ApplicationUnit.Value;
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Create<T>(T value) => ApplicationResult<T>.Create(value);
+    public static Result<T> Create<T>(T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Success<T>(this T value) => ApplicationResult<T>.Create(value);
+    public static Result<T> Success<T>(this T value) => Result<T>.Create(value);
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Failure<T>(IEnumerable<ApplicationError> errors) => ApplicationResult<T>.Create(errors);
+    public static Result<T> Failure<T>(IEnumerable<ApplicationError> errors) => Result<T>.Create(errors);
 
     /// <summary>  </summary>
-    public static ApplicationResult<T> Failure<T>(ApplicationError error) => ApplicationResult<T>.Create(new List<ApplicationError> { error });
+    public static Result<T> Failure<T>(ApplicationError error) => Result<T>.Create(new List<ApplicationError> { error });
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> Success() => ApplicationResult<ApplicationUnit>.Create(Unit);
+    public static Result<ApplicationUnit> Success() => Result<ApplicationUnit>.Create(Unit);
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> Failure(IEnumerable<ApplicationError> errors) => ApplicationResult<ApplicationUnit>.Create(errors);
+    public static Result<ApplicationUnit> Failure(IEnumerable<ApplicationError> errors) => Result<ApplicationUnit>.Create(errors);
 
     /// <summary>  </summary>
-    public static ApplicationResult<ApplicationUnit> Failure(ApplicationError error) => ApplicationResult<ApplicationUnit>.Create(new List<ApplicationError> { error });
+    public static Result<ApplicationUnit> Failure(ApplicationError error) => Result<ApplicationUnit>.Create(new List<ApplicationError> { error });
 }

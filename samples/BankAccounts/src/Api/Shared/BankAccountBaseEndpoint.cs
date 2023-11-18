@@ -1,9 +1,9 @@
-﻿using SharedKernel.Api.Controllers;
+﻿using SharedKernel.Api.Endpoints;
 
 namespace BankAccounts.Api.Shared;
 
 /// <summary> Enpoint base. </summary>
 [ApiController, Produces("application/json")]
-public abstract class BankAccountBaseEndpoint : BaseController
+public abstract class BankAccountBaseEndpoint : EndpointBase
 {
 }

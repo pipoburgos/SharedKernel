@@ -35,16 +35,16 @@ public class ValidationMiddleware : IMiddleware
     }
 
     /// <summary>  </summary>
-    public async Task<ApplicationResult<TResponse>> Handle<TRequest, TResponse>(TRequest request,
-        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<ApplicationResult<TResponse>>> next)
-        where TRequest : IRequest<ApplicationResult<TResponse>>
+    public async Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
+        CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
+        where TRequest : IRequest<Result<TResponse>>
     {
         var validationFailures = await ValidateAsync(request, cancellationToken);
 
         if (validationFailures.Count > 0)
         {
-            return ApplicationResult.Failure<TResponse>(
-                validationFailures.Select(e => ApplicationError.Create(e.ErrorMessage, e.PropertyName)));
+            return Result.Failure<TResponse>(
+                validationFailures.Select(e => Error.Create(e.ErrorMessage, e.PropertyName)));
         }
 
         return await next(request, cancellationToken);

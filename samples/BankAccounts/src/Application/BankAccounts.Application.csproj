@@ -22,7 +22,6 @@
     <Using Include="SharedKernel.Application.Cqrs.Queries.Contracts" />
     <Using Include="SharedKernel.Application.Cqrs.Queries.Entities" />
     <Using Include="SharedKernel.Application.Events" />
-    <Using Include="SharedKernel.Application.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Application.System" />
     <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
     <Using Include="SharedKernel.Domain.Specifications.Common" />
