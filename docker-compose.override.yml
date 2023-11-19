@@ -9,9 +9,7 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
         ports:
-            - "80"
-        volumes:
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - "8767:8080"
 
     sql_server:
         image: mcr.microsoft.com/mssql/server:latest
