@@ -49,9 +49,9 @@ public static class OpenApiExtensions
                 return path;
             });
 
-            swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
-
             swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesSchemaFilter>();
+
+            swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
 
             swaggerGenOptions.DescribeAllParametersInCamelCase();
 
@@ -73,7 +73,7 @@ public static class OpenApiExtensions
             if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
                 swaggerGenOptions.OperationFilter<SecurityAllAuthorizeExceptAllowAnonymousOperationFilter>();
 
-            swaggerGenOptions.CustomOperationIds(_ => default);
+            //swaggerGenOptions.CustomOperationIds(_ => default);
 
             swaggerGenOptions.DocumentFilter<TagReOrderDocumentFilter>();
         });
