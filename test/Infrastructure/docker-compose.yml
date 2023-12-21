@@ -60,7 +60,7 @@ services:
             - 22227:5432
 
     elasticsearch:
-        image: elasticsearch:8.11.0
+        image: elasticsearch:8.11.3
         environment:
             - discovery.type=single-node
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -88,7 +88,7 @@ services:
             - 22229:9300
 
     # elasticsearch1:
-    #     image: elasticsearch:8.11.0
+    #     image: elasticsearch:8.11.3
     #     environment:
     #         - node.name=es-node-1
     #         - cluster.name=my-cluster
@@ -111,7 +111,7 @@ services:
     #         - 22229:9300
 
     # elasticsearch2:
-    #     image: elasticsearch:8.11.0
+    #     image: elasticsearch:8.11.3
     #     environment:
     #         - node.name=es-node-2
     #         - cluster.name=my-cluster

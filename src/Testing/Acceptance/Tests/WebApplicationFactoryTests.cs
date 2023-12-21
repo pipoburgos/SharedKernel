@@ -1,11 +1,9 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharedKernel.Testing.Acceptance.WebApplication;
 using System.Net;
-using Xunit;
 
 namespace SharedKernel.Testing.Acceptance.Tests;
 

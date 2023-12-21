@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SharedKernel.Testing.Acceptance.Exceptions;
 using System.Net;
 using System.Net.Http.Headers;

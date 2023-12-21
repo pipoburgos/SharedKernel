@@ -19,7 +19,7 @@
     <PackageTags>C# Testing Docker </PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.0.2</Version>
+    <Version>8.0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -82,6 +82,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Logging" Version="7.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.8.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="xunit" Version="2.6.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
@@ -93,5 +94,15 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api\SharedKernel.Api.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Using Include="FluentAssertions" />
+		<Using Include="NetArchTest.Rules" />
+		<Using Include="Xunit" />
+	</ItemGroup>
 
 </Project>

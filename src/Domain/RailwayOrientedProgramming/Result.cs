@@ -29,4 +29,7 @@ public static class Result
 
     /// <summary>  </summary>
     public static Result<Unit> Failure(Error error) => Result<Unit>.Create(new List<Error> { error });
+
+    /// <summary>  </summary>
+    public static Result<Unit> NotFound() => Result<Unit>.Create(Unit);
 }
