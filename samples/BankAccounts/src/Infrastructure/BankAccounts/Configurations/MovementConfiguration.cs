@@ -2,7 +2,7 @@
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations;
 
-internal class MovementConfiguration : IEntityTypeConfiguration<Movement>
+internal sealed class MovementConfiguration : IEntityTypeConfiguration<Movement>
 {
     public void Configure(EntityTypeBuilder<Movement> builder)
     {

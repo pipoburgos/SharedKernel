@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read;
 
 /// <summary>  </summary>
-public interface IReadAllRepositoryAsync<TAggregate> where TAggregate : IAggregateRoot
+public interface IReadAllRepositoryAsync<TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     Task<List<TAggregate>> GetAllAsync(CancellationToken cancellationToken);

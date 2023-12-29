@@ -7,7 +7,7 @@ namespace BankAccounts.Api.BankAccounts;
 
 /// <summary> Bank accounts Controller. </summary>
 [Route("api/bankAccounts", Name = "Bank Accounts")]
-public class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
+public sealed class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
 {
     /// <summary> Gets the balance. </summary>
     [HttpGet("{bankAccountId:guid}/balance")]

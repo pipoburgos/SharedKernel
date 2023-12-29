@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Save;
 
 /// <summary>  </summary>
-public interface ISaveRepository
+public interface ISaveRepository : IBaseRepository
 {
     /// <summary>  </summary>
     int SaveChanges();

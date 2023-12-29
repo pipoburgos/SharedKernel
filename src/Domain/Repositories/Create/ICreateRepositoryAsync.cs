@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Create;
 
 /// <summary>  </summary>
-public interface ICreateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+public interface ICreateRepositoryAsync<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     Task AddAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);

@@ -3,7 +3,7 @@ using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries.Validators;
 
-internal class GetBankAccountBalanceValidator : AbstractValidator<GetBankAccountBalance>
+internal sealed class GetBankAccountBalanceValidator : AbstractValidator<GetBankAccountBalance>
 {
     public GetBankAccountBalanceValidator(
         IBankAccountRepository bankAccountRepository)

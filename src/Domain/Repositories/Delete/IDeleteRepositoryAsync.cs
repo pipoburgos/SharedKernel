@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Delete;
 
 /// <summary>  </summary>
-public interface IDeleteRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+public interface IDeleteRepositoryAsync<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     Task RemoveAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);

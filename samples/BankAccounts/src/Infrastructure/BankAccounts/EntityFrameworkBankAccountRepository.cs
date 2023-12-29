@@ -3,7 +3,7 @@ using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts;
 
-internal class EntityFrameworkBankAccountRepository :
+internal sealed class EntityFrameworkBankAccountRepository :
     EntityFrameworkCoreRepositoryAsync<BankAccount, BankAccountId, BankAccountDbContext>, IBankAccountRepository
 {
     public EntityFrameworkBankAccountRepository(BankAccountDbContext dbContextBase,

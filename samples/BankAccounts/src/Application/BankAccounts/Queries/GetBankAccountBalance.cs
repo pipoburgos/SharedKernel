@@ -1,7 +1,7 @@
 ﻿namespace BankAccounts.Application.BankAccounts.Queries;
 
 /// <summary> Gets bank account balance. </summary>
-public class GetBankAccountBalance : IQueryRequest<decimal>
+public sealed class GetBankAccountBalance : IQueryRequest<decimal>
 {
     /// <summary> Gets bank account balance. </summary>
     public GetBankAccountBalance(Guid bankAccountId)

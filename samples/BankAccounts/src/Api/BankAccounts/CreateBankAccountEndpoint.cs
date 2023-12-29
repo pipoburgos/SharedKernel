@@ -5,7 +5,7 @@ namespace BankAccounts.Api.BankAccounts;
 
 /// <summary> Bank accounts Controller. </summary>
 [Route("api/bankAccounts", Name = "Bank Accounts")]
-public class CreateBankAccountEndpoint : BankAccountBaseEndpoint
+public sealed class CreateBankAccountEndpoint : BankAccountBaseEndpoint
 {
     /// <summary> Create a bank account. </summary>
     [HttpPost("{bankAccountId:guid}")]

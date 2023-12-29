@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Update;
 
 /// <summary>  </summary>
-public interface IUpdateRepositoryAsync<in TAggregate> where TAggregate : IAggregateRoot
+public interface IUpdateRepositoryAsync<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     Task UpdateAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);

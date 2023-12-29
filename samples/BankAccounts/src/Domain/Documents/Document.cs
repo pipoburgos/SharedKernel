@@ -2,7 +2,11 @@
 
 internal class Document : AggregateRoot<Guid>
 {
-    public Document(Guid id, string text) : base(id)
+    protected Document()
+    {
+    }
+
+    protected Document(Guid id, string text) : base(id)
     {
         Text = text;
     }
@@ -12,5 +16,5 @@ internal class Document : AggregateRoot<Guid>
         return new Document(id, text);
     }
 
-    public string Text { get; private set; }
+    public string Text { get; private set; } = null!;
 }

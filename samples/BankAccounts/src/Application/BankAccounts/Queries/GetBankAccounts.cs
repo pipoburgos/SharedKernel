@@ -1,7 +1,7 @@
 ﻿namespace BankAccounts.Application.BankAccounts.Queries;
 
 /// <summary> Gets bank account balance. </summary>
-public class GetBankAccounts : IQueryRequest<IPagedList<BankAccountItem>>
+public sealed class GetBankAccounts : IQueryRequest<IPagedList<BankAccountItem>>
 {
     /// <summary>  </summary>
     public PageOptions? PageOptions { get; set; }

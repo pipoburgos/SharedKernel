@@ -7,7 +7,7 @@ using SharedKernel.Testing.Acceptance.Tests;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 
-[Collection("WebApplicationFactoryCollection")]
+[Collection("Factory")]
 public class WebApplicationFactoryTests : WebApplicationFactoryBaseTests<Startup>
 {
     protected override Startup CreateStartup(IConfiguration configuration, WebHostBuilderContext webHostBuilderContext)

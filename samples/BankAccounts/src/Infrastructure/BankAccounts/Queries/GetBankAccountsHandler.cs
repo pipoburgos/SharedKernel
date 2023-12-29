@@ -4,7 +4,7 @@ using BankAccounts.Domain.BankAccounts;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries;
 
-internal class GetBankAccountsHandler : IQueryRequestHandler<GetBankAccounts, IPagedList<BankAccountItem>>
+internal sealed class GetBankAccountsHandler : IQueryRequestHandler<GetBankAccounts, IPagedList<BankAccountItem>>
 {
     private readonly EntityFrameworkCoreQueryProvider<BankAccountDbContext> _queryProvider;
 

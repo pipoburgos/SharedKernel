@@ -5,7 +5,7 @@ using SharedKernel.Application.Communication.Email;
 
 namespace BankAccounts.Application.BankAccounts.Subcribers.BankAccountCreatedSubcribers;
 
-internal class SendEmailToOwnerSubcriber : IDomainEventSubscriber<BankAccountCreated>
+internal sealed class SendEmailToOwnerSubcriber : IDomainEventSubscriber<BankAccountCreated>
 {
     private readonly IEmailSender _emailSender;
     private readonly IBankAccountRepository _bankAccountRepository;

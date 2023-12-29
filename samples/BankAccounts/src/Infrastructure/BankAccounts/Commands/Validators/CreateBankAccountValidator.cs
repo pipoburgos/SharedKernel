@@ -4,7 +4,7 @@ using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators;
 
-internal class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
+internal sealed class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
 {
     public CreateBankAccountValidator(IBankAccountRepository bankAccountRepository)
     {

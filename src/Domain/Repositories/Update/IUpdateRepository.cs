@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Update;
 
 /// <summary>  </summary>
-public interface IUpdateRepository<in TAggregate> where TAggregate : IAggregateRoot
+public interface IUpdateRepository<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     void Update(TAggregate aggregateRoot);

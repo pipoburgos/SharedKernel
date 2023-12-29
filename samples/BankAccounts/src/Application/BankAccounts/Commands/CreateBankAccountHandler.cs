@@ -4,7 +4,7 @@ using BankAccounts.Domain.Documents;
 
 namespace BankAccounts.Application.BankAccounts.Commands;
 
-internal class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccount, Result<Unit>>
+internal sealed class CreateBankAccountHandler : ICommandRequestHandler<CreateBankAccount, Result<Unit>>
 {
     private readonly IDateTime _dateTime;
     private readonly IBankAccountRepository _bankAccountRepository;

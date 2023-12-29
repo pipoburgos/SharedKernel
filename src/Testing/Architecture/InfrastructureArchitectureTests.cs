@@ -15,7 +15,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
             .That()
-            .ImplementInterface(typeof(IRepository<,>))
+            .ImplementInterface(typeof(IBaseRepository))
             .Should()
             .BeSealed()
             .And()

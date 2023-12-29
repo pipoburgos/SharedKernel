@@ -1,7 +1,7 @@
 ﻿namespace BankAccounts.Application.BankAccounts.Commands;
 
 /// <summary> Create a bank account. </summary>
-public class CreateBankAccount : ICommandRequest<Result<Unit>>
+public sealed class CreateBankAccount : ICommandRequest<Result<Unit>>
 {
     /// <summary> Constructor. </summary>
     public CreateBankAccount(Guid bankAccountId, Guid ownerId, string name, DateTime birthdate, string? surname,

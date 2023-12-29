@@ -2,7 +2,7 @@
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations;
 
-internal class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
+internal sealed class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
 {
     public void Configure(EntityTypeBuilder<BankAccount> builder)
     {
@@ -13,14 +13,14 @@ internal class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
 #if NET8_0_OR_GREATER
         builder.ComplexProperty(ba => ba.InternationalBankAccountNumber, ba =>
 #else
-            builder.OwnsOne(ba => ba.InternationalBankAccountNumber, ba =>
+        builder.OwnsOne(ba => ba.InternationalBankAccountNumber, ba =>
 #endif
-        {
-            ba.Property(e => e.CountryCheckDigit).HasMaxLength(4);
-            ba.Property(e => e.EntityCode).HasMaxLength(4);
-            ba.Property(e => e.OfficeNumber).HasMaxLength(4);
-            ba.Property(e => e.ControlDigit).HasMaxLength(2);
-            ba.Property(e => e.AccountNumber).HasMaxLength(10).HasColumnName("Number");
-        });
+    {
+        ba.Property(e => e.CountryCheckDigit).HasMaxLength(4);
+        ba.Property(e => e.EntityCode).HasMaxLength(4);
+        ba.Property(e => e.OfficeNumber).HasMaxLength(4);
+        ba.Property(e => e.ControlDigit).HasMaxLength(2);
+        ba.Property(e => e.AccountNumber).HasMaxLength(10).HasColumnName("Number");
+    });
     }
 }

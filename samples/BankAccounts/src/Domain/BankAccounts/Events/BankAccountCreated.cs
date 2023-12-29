@@ -1,6 +1,6 @@
 ﻿namespace BankAccounts.Domain.BankAccounts.Events;
 
-internal class BankAccountCreated : DomainEvent
+internal sealed class BankAccountCreated : DomainEvent
 {
     public BankAccountCreated(string aggregateId, string? eventId = default, string? occurredOn = default)
         : base(aggregateId, eventId, occurredOn)

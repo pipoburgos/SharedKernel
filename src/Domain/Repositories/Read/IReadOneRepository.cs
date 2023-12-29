@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read;
 
 /// <summary>  </summary>
-public interface IReadOneRepository<out TAggregate, in TId> where TAggregate : IAggregateRoot
+public interface IReadOneRepository<out TAggregate, in TId> : IBaseRepository where TAggregate : IAggregateRoot
 {
     /// <summary>  </summary>
     TAggregate? GetById(TId id);

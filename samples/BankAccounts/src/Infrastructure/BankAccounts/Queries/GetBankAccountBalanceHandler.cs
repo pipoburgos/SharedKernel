@@ -4,7 +4,7 @@ using BankAccounts.Domain.BankAccounts.Repository;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Queries;
 
-internal class GetBankAccountBalanceHandler : IQueryRequestHandler<GetBankAccountBalance, decimal>
+internal sealed class GetBankAccountBalanceHandler : IQueryRequestHandler<GetBankAccountBalance, decimal>
 {
     private readonly IBankAccountRepository _bankAccountRepository;
 

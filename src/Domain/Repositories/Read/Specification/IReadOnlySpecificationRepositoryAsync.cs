@@ -1,7 +1,8 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read.Specification;
 
 /// <summary>  </summary>
-public interface IReadOnlySpecificationRepositoryAsync<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot
+public interface IReadOnlySpecificationRepositoryAsync<TAggregateRoot> : IBaseRepository
+    where TAggregateRoot : class, IAggregateRoot
 {
     /// <summary>  </summary>
     Task<List<TAggregateRoot>> WhereReadOnlyAsync(ISpecification<TAggregateRoot> spec,
