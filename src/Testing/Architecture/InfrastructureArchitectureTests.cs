@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SharedKernel.Testing.Architecture;
 
-public abstract class InfrastructureArchitectureTests
+public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
 {
     protected abstract Assembly GetInfrastructureAssembly();
 
@@ -20,10 +20,12 @@ public abstract class InfrastructureArchitectureTests
             .BeSealed()
             .And()
             .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Repository")
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
@@ -37,10 +39,12 @@ public abstract class InfrastructureArchitectureTests
             .BeSealed()
             .And()
             .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Validator")
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
@@ -54,9 +58,11 @@ public abstract class InfrastructureArchitectureTests
             .BeSealed()
             .And()
             .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Configuration")
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 }

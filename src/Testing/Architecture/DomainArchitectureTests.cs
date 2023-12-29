@@ -6,9 +6,11 @@ using System.Reflection;
 
 namespace SharedKernel.Testing.Architecture;
 
-public abstract class DomainArchitectureTests
+public abstract class DomainArchitectureTests : BaseArchitectureTest
 {
     protected abstract Assembly GetDomainAssembly();
+
+    protected abstract void Assert(IEnumerable<Type>? failingTypes);
 
     [Fact]
     public void DomainEvents_Should_BeSealed()
@@ -22,7 +24,7 @@ public abstract class DomainArchitectureTests
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
@@ -40,7 +42,8 @@ public abstract class DomainArchitectureTests
         var failingTypes = entities
             .Where(entity => entity.GetConstructors().Any(c => c.IsPublic));
 
-        failingTypes.Should().BeEmpty();
+        // Assert
+        Assert(failingTypes);
     }
 
 
@@ -59,6 +62,7 @@ public abstract class DomainArchitectureTests
         var failingTypes = entities
             .Where(entity => entity.GetMethods(BindingFlags.Public | BindingFlags.Static).All(c => c.Name != "Create"));
 
-        failingTypes.Should().BeEmpty();
+        // Assert
+        Assert(failingTypes);
     }
 }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SharedKernel.Testing.Architecture;
 
-public abstract class ApplicationArchitectureTests
+public abstract class ApplicationArchitectureTests : BaseArchitectureTest
 {
     protected abstract Assembly GetApplicationAssembly();
 
@@ -23,11 +23,11 @@ public abstract class ApplicationArchitectureTests
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
-    public void QueriesHandlers_Should_BeSealed_And_NotBePublic()
+    public void QueriesHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
         // Act
         var result = Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
@@ -37,10 +37,12 @@ public abstract class ApplicationArchitectureTests
             .BeSealed()
             .And()
             .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Handler")
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
@@ -57,11 +59,11 @@ public abstract class ApplicationArchitectureTests
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 
     [Fact]
-    public void CommandsHandlers_Should_BeSealed_And_NotBePublic()
+    public void CommandsHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
@@ -73,9 +75,11 @@ public abstract class ApplicationArchitectureTests
             .BeSealed()
             .And()
             .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Handler")
             .GetResult();
 
         // Assert
-        result.IsSuccessful.Should().BeTrue();
+        Assert(result);
     }
 }

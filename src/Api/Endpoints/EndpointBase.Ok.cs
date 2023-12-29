@@ -46,6 +46,15 @@ public abstract partial class EndpointBase
     /// Creates a <see cref="IActionResult"/> object that produces an empty <see cref="StatusCodes.Status200OK"/> response.
     /// </summary>
     /// <returns>The created <see cref="IActionResult"/> for the response.</returns>
+    protected async Task<ActionResult<T>> OkTyped<T>(Task<T> task)
+    {
+        return Ok(await task);
+    }
+
+    /// <summary>
+    /// Creates a <see cref="IActionResult"/> object that produces an empty <see cref="StatusCodes.Status200OK"/> response.
+    /// </summary>
+    /// <returns>The created <see cref="IActionResult"/> for the response.</returns>
     protected async Task<IActionResult> OkTyped(Task<Result<Unit>> task)
     {
         return OkTyped(await task);

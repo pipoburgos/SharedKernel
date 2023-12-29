@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Testing.Acceptance.Tests;
 
-namespace BankAccounts.Acceptance.Tests;
+namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 
-[Collection("Factory")]
-public class BankAccountWebApplicationFactoryTests : WebApplicationFactoryBaseTests<Startup>
+[Collection("WebApplicationFactoryCollection")]
+public class WebApplicationFactoryTests : WebApplicationFactoryBaseTests<Startup>
 {
     protected override Startup CreateStartup(IConfiguration configuration, WebHostBuilderContext webHostBuilderContext)
     {
@@ -20,7 +20,7 @@ public class BankAccountWebApplicationFactoryTests : WebApplicationFactoryBaseTe
         startup.ConfigureServices(services);
     }
 
-    public BankAccountWebApplicationFactoryTests(BankAccountClientFactory factory) : base(factory)
+    public WebApplicationFactoryTests(BankAccountClientFactory factory) : base(factory)
     {
     }
 }
