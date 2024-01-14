@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using AsyncKeyedLock;
+using Microsoft.Extensions.Caching.Distributed;
 using SharedKernel.Application.Caching;
 using SharedKernel.Application.Serializers;
 
@@ -9,7 +10,7 @@ public class DistributedCacheHelper : ICacheHelper
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IBinarySerializer _binarySerializer;
-    private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
+    private static readonly AsyncNonKeyedLocker Lock = new(1);
 
     /// <summary>  </summary>
     public DistributedCacheHelper(
@@ -31,15 +32,10 @@ public class DistributedCacheHelper : ICacheHelper
     /// <summary>  </summary>
     public async Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = default) where T : notnull
     {
-        try
+        using (await Lock.LockAsync())
         {
-            await Semaphore.WaitAsync();
             await _distributedCache.SetAsync(key, _binarySerializer.Serialize(value),
                 new DistributedCacheEntryOptions());
-        }
-        finally
-        {
-            Semaphore.Release();
         }
     }
 
@@ -47,9 +43,8 @@ public class DistributedCacheHelper : ICacheHelper
     public async Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null)
         where T : notnull
     {
-        try
+        using (await Lock.LockAsync())
         {
-            await Semaphore.WaitAsync();
             var value = await _distributedCache.GetAsync(key);
 
             if (value != default && value.Length != 0)
@@ -61,10 +56,6 @@ public class DistributedCacheHelper : ICacheHelper
                 new DistributedCacheEntryOptions());
 
             return valueToCache;
-        }
-        finally
-        {
-            Semaphore.Release();
         }
     }
 
