@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Application.System.Threading;
+using SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Redis.Caching;
 using SharedKernel.Testing.Infrastructure;
@@ -17,7 +19,9 @@ public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return services.AddRedisDistributedCache(Configuration);
+        return services
+            .AddAsyncKeyedLockMutex()
+            .AddRedisDistributedCache(Configuration);
     }
 
     [Fact]
@@ -25,9 +29,11 @@ public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
     {
         var distributedCache = GetRequiredServiceOnNewScope<IDistributedCache>();
 
+        var mutexManager = GetRequiredServiceOnNewScope<IMutexManager>();
+
         var binarySerializer = GetRequiredServiceOnNewScope<IBinarySerializer>();
 
-        var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
+        var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, mutexManager, binarySerializer);
 
         inMemoryCacheHelper.Remove("prueba");
 

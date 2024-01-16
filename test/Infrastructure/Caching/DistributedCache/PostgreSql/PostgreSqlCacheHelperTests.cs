@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Application.System.Threading;
+using SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 using SharedKernel.Infrastructure.Caching;
 using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
@@ -20,6 +22,7 @@ public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
+            .AddAsyncKeyedLockMutex()
             .AddDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
             .AddPostgreSqlDistributedCache(Configuration);
     }
@@ -29,9 +32,11 @@ public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
     {
         var distributedCache = GetRequiredServiceOnNewScope<IDistributedCache>();
 
+        var mutexManager = GetRequiredServiceOnNewScope<IMutexManager>();
+
         var binarySerializer = GetRequiredServiceOnNewScope<IBinarySerializer>();
 
-        var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, binarySerializer);
+        var inMemoryCacheHelper = new DistributedCacheHelper(distributedCache, mutexManager, binarySerializer);
 
         inMemoryCacheHelper.Remove("prueba");
 

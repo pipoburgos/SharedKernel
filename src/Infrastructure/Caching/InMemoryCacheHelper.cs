@@ -14,18 +14,20 @@ internal class InMemoryCacheHelper : ICacheHelper
         _logger = logger;
     }
 
-    public Task<T?> GetAsync<T>(string key) where T : notnull
+    public Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : notnull
     {
         return Task.FromResult(_memoryCache.Get<T>(key));
     }
 
-    public Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = default) where T : notnull
+    public Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = default,
+        CancellationToken cancellationToken = default) where T : notnull
     {
-        _memoryCache.Set(key, value);
+        _memoryCache.Set(key, value, timeSpan ?? TimeSpan.MaxValue);
         return Task.CompletedTask;
     }
 
-    public Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = default)
+    public Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = default,
+        CancellationToken cancellationToken = default)
         where T : notnull
     {
         return _memoryCache.GetOrCreateAsync(key, entry =>
