@@ -9,15 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
-    <Compile Remove="System\Threading\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Reporting\**" />
-    <EmbeddedResource Remove="System\Threading\**" />
-    <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
-    <None Remove="System\Threading\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -152,6 +146,15 @@
     </None>
     <None Update="Security\UnsignedPdf.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\Redis\appsettings.redis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
