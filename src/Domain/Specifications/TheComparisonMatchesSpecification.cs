@@ -1,28 +1,26 @@
 ﻿using SharedKernel.Domain.Extensions;
-using System.Reflection;
 
 namespace SharedKernel.Domain.Specifications;
 
 /// <summary>  </summary>
 public class TheComparisonMatchesSpecification<T> : Specification<T>
 {
+    private readonly string _value;
+    private readonly string? _propertyName;
     private readonly Operator? _operator;
-    private PropertyInfo? PropertyInfo { get; }
-
-    private string Value { get; }
 
     /// <summary>  </summary>
-    public TheComparisonMatchesSpecification(PropertyInfo? propertyInfo, string value, Operator? @operator)
+    public TheComparisonMatchesSpecification(string value, string? propertyName, Operator? @operator)
     {
+        _value = value;
+        _propertyName = propertyName;
         _operator = @operator;
-        PropertyInfo = propertyInfo;
-        Value = value;
     }
 
     /// <summary> </summary>
     /// <returns></returns>
     public override Expression<Func<T, bool>> SatisfiedBy()
     {
-        return ExpressionHelper.GenerateExpression<T>(PropertyInfo, _operator, Value);
+        return ExpressionHelper.GenerateExpression<T>(_value, _propertyName, _operator);
     }
 }

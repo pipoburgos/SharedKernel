@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
@@ -11,9 +12,11 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.Postg
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.Migrations
 {
     [DbContext(typeof(PostgreSqlSharedKernelDbContext))]
-    partial class PostgreSqlSharedKernelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240126102443_EmailsToUser")]
+    partial class EmailsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

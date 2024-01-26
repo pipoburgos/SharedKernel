@@ -1,15 +1,40 @@
 ﻿using System.Globalization;
 using System.Reflection;
+using Enumerable = System.Linq.Enumerable;
+using IEnumerable = System.Collections.IEnumerable;
 
 namespace SharedKernel.Domain.Extensions;
 
 /// <summary>  </summary>
 public static class ExpressionHelper
 {
-    /// <summary>  </summary>
-    public static Expression<Func<T, bool>> GenerateExpression<T>(PropertyInfo? propertyInfo, Operator? @operator,
-        string value, bool utcDates = true)
+    private static PropertyInfo? FindProperty<T>(string? name)
     {
+        if (name == null)
+            return null;
+
+        var type = typeof(T);
+        PropertyInfo? propertyInfo = default;
+        foreach (var part in name.Split('.'))
+        {
+            propertyInfo = type.GetProperties()
+                .Where(p => p.CanRead)
+                .SingleOrDefault(t => t.Name.ToUpper() == part.ToUpper());
+
+            if (propertyInfo == default)
+                return propertyInfo;
+
+            type = propertyInfo.PropertyType;
+        }
+        return propertyInfo;
+    }
+
+    /// <summary>  </summary>
+    public static Expression<Func<T, bool>> GenerateExpression<T>(string value, string? propertyName,
+        Operator? @operator, bool utcDates = true)
+    {
+        var propertyInfo = FindProperty<T>(propertyName);
+
         var type = propertyInfo != default ? propertyInfo.PropertyType : typeof(T);
 
         var typeNotNullable = Nullable.GetUnderlyingType(type) ?? type;
@@ -18,23 +43,43 @@ public static class ExpressionHelper
 
         var isDate = typeNotNullable == typeof(DateTime);
 
+        var isEnumerable = !isString && typeof(IEnumerable).IsAssignableFrom(type);
+
         var parameterExpression = Expression.Parameter(typeof(T), "x");
 
-        Expression propertyExpression = propertyInfo == default
+        Expression propertyExpression = propertyName == default || propertyInfo == default
             ? parameterExpression
-            : Expression.Property(parameterExpression, propertyInfo.Name);
+            : NestedExpressionProperty(parameterExpression, propertyName);
 
-        ConstantExpression GetExpression()
+        ConstantExpression CastFromStringToConstantExpression()
         {
             if (string.IsNullOrWhiteSpace(value))
                 return Expression.Constant(value);
 
-            var valueExpression = Convert.ChangeType(value, typeNotNullable!);
+            if (isEnumerable)
+            {
+                var type2 = type.GetGenericArguments().First();
 
-            if (isDate && utcDates)
-                valueExpression = ((DateTime)valueExpression).ToUniversalTime();
+                var typeNotNullable2 = Nullable.GetUnderlyingType(type2) ?? type2;
 
-            return Expression.Constant(valueExpression, type);
+                var valueExpression = Convert.ChangeType(value, typeNotNullable2);
+
+                if (isDate && utcDates)
+                    valueExpression = ((DateTime)valueExpression).ToUniversalTime();
+
+                return Expression.Constant(valueExpression, type2);
+            }
+            else
+            {
+                var valueExpression = Convert.ChangeType(value, typeNotNullable);
+
+                if (isDate && utcDates)
+                    valueExpression = ((DateTime)valueExpression).ToUniversalTime();
+
+                return Expression.Constant(valueExpression, type);
+            }
+
+
         }
 
         @operator ??= isDate ? Operator.DateEqual : isString ? Operator.Contains : Operator.EqualTo;
@@ -43,11 +88,11 @@ public static class ExpressionHelper
         switch (@operator)
         {
             case Operator.EqualTo:
-                binaryExpression = Expression.Equal(propertyExpression, GetExpression());
+                binaryExpression = Expression.Equal(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.NotEqualTo:
-                binaryExpression = Expression.NotEqual(propertyExpression, GetExpression());
+                binaryExpression = Expression.NotEqual(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.IsEqualToNull:
@@ -63,57 +108,72 @@ public static class ExpressionHelper
                 break;
 
             case Operator.LessThanOrEqualTo:
-                binaryExpression = Expression.LessThanOrEqual(propertyExpression, GetExpression());
+                binaryExpression = Expression.LessThanOrEqual(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.GreaterThan:
-                binaryExpression = Expression.GreaterThan(propertyExpression, GetExpression());
+                binaryExpression = Expression.GreaterThan(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.GreaterThanOrEqualTo:
-                binaryExpression = Expression.GreaterThanOrEqual(propertyExpression, GetExpression());
+                binaryExpression = Expression.GreaterThanOrEqual(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.StartsWith:
                 if (!isString)
                     throw new Exception("Method not found string.StartsWith");
 
-                binaryExpression = StartsWith(propertyExpression, GetExpression());
+                binaryExpression = StartsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.NotStartsWith:
                 if (!isString)
                     throw new Exception("Method not found string.StartsWith");
 
-                binaryExpression = NotStartsWith(propertyExpression, GetExpression());
+                binaryExpression = NotStartsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.EndsWith:
                 if (!isString)
                     throw new Exception("Method not found string.EndsWith");
 
-                binaryExpression = EndsWith(propertyExpression, GetExpression());
+                binaryExpression = EndsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.NotEndsWith:
                 if (!isString)
                     throw new Exception("Method not found string.EndsWith");
 
-                binaryExpression = NotEndsWith(propertyExpression, GetExpression());
+                binaryExpression = NotEndsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.Contains:
-                if (!isString)
-                    throw new Exception("Method not found string.Contains");
+                if (isEnumerable)
+                {
+                    binaryExpression = EnumerableContains(propertyExpression, CastFromStringToConstantExpression(),
+                        type.GetGenericArguments().First());
+                }
+                else if (isString)
+                {
+                    binaryExpression = Contains(propertyExpression, CastFromStringToConstantExpression());
+                }
+                else
+                    throw new Exception("Method not found Contains");
 
-                binaryExpression = Contains(propertyExpression, GetExpression());
                 break;
 
             case Operator.NotContains:
-                if (!isString)
-                    throw new Exception("Method not found string.Contains");
+                if (isEnumerable)
+                {
+                    binaryExpression = NotContains(propertyExpression, CastFromStringToConstantExpression());
+                }
+                else if (isString)
+                {
+                    binaryExpression = NotContains(propertyExpression, CastFromStringToConstantExpression());
+                }
+                else
+                    throw new Exception("Method not found Contains");
 
-                binaryExpression = NotContains(propertyExpression, GetExpression());
                 break;
 
             case Operator.IsEmpty:
@@ -186,6 +246,21 @@ public static class ExpressionHelper
         var right = Expression.Lambda<Func<T, bool>>(rightExpression, parameterExpression);
 
         return left.Compose(right, Expression.Or);
+    }
+
+    /// <summary>  </summary>
+    public static Expression EnumerableContains(Expression expression, Expression valueExpression, Type type)
+    {
+        var methodInfo = typeof(Enumerable)
+            .GetMethods()
+            .Where(x => x.Name == nameof(Enumerable.Contains))
+            .Single(x => x.GetParameters().Length == 2)
+            .MakeGenericMethod(type);
+
+        if (methodInfo == null)
+            throw new Exception("Method not found Enumerable.Contains");
+
+        return Expression.Call(methodInfo, expression, valueExpression);
     }
 
     /// <summary>  </summary>
@@ -272,5 +347,17 @@ public static class ExpressionHelper
         }
 
         return storage;
+    }
+
+    private static MemberExpression NestedExpressionProperty(Expression expression, string propertyName)
+    {
+        var parts = propertyName.Split('.');
+        var partsL = parts.Length;
+
+        return partsL > 1
+            ? Expression.Property(
+                NestedExpressionProperty(expression, parts.Take(partsL - 1).Aggregate((a, i) => a + "." + i)),
+                parts[partsL - 1])
+            : Expression.Property(expression, propertyName);
     }
 }

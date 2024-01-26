@@ -17,18 +17,19 @@ public class User : AggregateRootAuditable<Guid>, IValidatableObject
         _addresses = new List<Address>();
     }
 
-    private User(Guid id, string name, DateTime birthdate) : this()
+    private User(Guid id, string name, DateTime birthdate, User? parent) : this()
     {
         Id = id;
         Name = name;
         Birthdate = birthdate;
         _emails = new List<string>();
         _addresses = new List<Address>();
+        Parent = parent;
     }
 
-    public static User Create(Guid id, string name, DateTime birthdate)
+    public static User Create(Guid id, string name, DateTime birthdate, User? parent)
     {
-        var user = new User(id, name, birthdate);
+        var user = new User(id, name, birthdate, parent);
         user.Record(new UserCreated(id, name, id.ToString()));
         return user;
     }
@@ -38,6 +39,8 @@ public class User : AggregateRootAuditable<Guid>, IValidatableObject
     public int? NumberOfChildren { get; private set; }
 
     public DateTime Birthdate { get; private set; }
+
+    public User? Parent { get; private set; }
 
     public IEnumerable<string> Emails => _emails;
 

@@ -60,7 +60,7 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
             .GetTypes();
 
         var failingTypes = entities
-            .Where(entity => entity.GetMethods(BindingFlags.Public | BindingFlags.Static).All(c => c.Name != "Create"));
+            .Where(entity => entity.GetMethods(BindingFlags.Public | BindingFlags.Static).All(c => !c.Name.StartsWith("Create")));
 
         // Assert
         Assert(failingTypes);

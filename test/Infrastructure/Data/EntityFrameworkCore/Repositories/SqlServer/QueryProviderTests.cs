@@ -39,13 +39,13 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
         var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
         var tasks = new List<Task<List<User>>>();
-        for (var i = 0; i < 11; i++)
+        for (var i = 0; i < 22; i++)
         {
             tasks.Add(queryProvider.GetQuery<User>().Where(u => u.Name.Length != 23).ToListAsync());
         }
 
         var queries = await Task.WhenAll(tasks);
-        queries.Length.Should().Be(11);
+        queries.Length.Should().Be(22);
     }
 
     [Fact]
@@ -57,14 +57,14 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
         var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
         var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("NumberOfChildren", "110", FilterOperator.LessThanOrEqualTo) });
+            new List<FilterProperty> { new("NumberOfChildren", "220", FilterOperator.LessThanOrEqualTo) });
 
         var result = await queryProvider
             .GetQuery<User>()
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-        result.Items.Count().Should().Be(total);
-        result.TotalRecordsFiltered.Should().Be(total);
+        result.Items.Count().Should().Be(total * 2);
+        result.TotalRecordsFiltered.Should().Be(total * 2);
     }
 
     [Fact]
@@ -82,8 +82,8 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
             .GetQuery<User>()
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-        result.Items.Count().Should().Be(total);
-        result.TotalRecordsFiltered.Should().Be(total);
+        result.Items.Count().Should().Be(total * 2);
+        result.TotalRecordsFiltered.Should().Be(total * 2);
     }
     //[Fact]
     //public async Task ToPagedListTwoQueries()
@@ -119,7 +119,50 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
         result.Items.Count().Should().Be(10);
-        result.TotalRecordsFiltered.Should().Be(11);
+        result.TotalRecordsFiltered.Should().Be(44);
+    }
+
+    [Fact]
+    public async Task ToPagedListContainsEmail()
+    {
+        await LoadTestDataAsync(CancellationToken.None);
+
+        var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
+
+        var pageOptions = new PageOptions(0, 10, default, true, false, new List<Order> { new("Name", true) }
+                , default);
+        //,new List<FilterProperty> { new("emails", "a@a.es", FilterOperator.Contains) });
+
+        //var result2 = await queryProvider
+        //    .GetQuery<User>()
+        //    .Where(u => u.Emails.Any(a => a == "a@a.es"))
+        //    .ToListAsync();
+
+        var result = await queryProvider
+            .GetQuery<User>()
+            //.Where(u => u.Emails.Contains("a@a.es"))
+            .ToPagedListAsync(pageOptions, CancellationToken.None);
+
+        result.Items.Count().Should().Be(10);
+        result.TotalRecordsFiltered.Should().Be(44);
+    }
+
+    [Fact]
+    public async Task ToPagedListParentName()
+    {
+        await LoadTestDataAsync(CancellationToken.None);
+
+        var queryProvider = GetRequiredServiceOnNewScope<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
+
+        var pageOptions = new PageOptions(0, 10, default, true, false, new List<Order> { new("Name", true) },
+            new List<FilterProperty> { new("parent.name", "abcde@a.es", FilterOperator.NotContains) });
+
+        var result = await queryProvider
+            .GetQuery<User>()
+            .ToPagedListAsync(pageOptions, CancellationToken.None);
+
+        result.Items.Count().Should().Be(10);
+        result.TotalRecordsFiltered.Should().BeGreaterOrEqualTo(22);
     }
 
     [Fact]
@@ -157,7 +200,7 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
         result.Items.Count().Should().Be(10);
-        result.TotalRecordsFiltered.Should().Be(11);
+        result.TotalRecordsFiltered.Should().Be(44);
     }
 
     [Fact]
@@ -266,7 +309,7 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
         Assert.Equal(result.NombresJuntos, user.Name + user.Name);
     }
 
-    private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 11)
+    private async Task LoadTestDataAsync(CancellationToken cancellationToken, int total = 22)
     {
         await using var dbContext = await GetRequiredServiceOnNewScope<IDbContextFactory<SharedKernelEntityFrameworkDbContext>>().CreateDbContextAsync(cancellationToken);
         await dbContext.Database.EnsureDeletedAsync(cancellationToken);
@@ -277,7 +320,7 @@ public class QueryProviderTests : InfrastructureTestCase<FakeStartup>
         var tasks = new List<Task>();
         for (var i = 0; i < total; i++)
         {
-            var roberto = UserMother.Create();
+            var roberto = UserMother.Create(parent: UserMother.Create());
 
             for (var j = 0; j < 10; j++)
             {

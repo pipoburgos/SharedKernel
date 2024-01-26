@@ -5,12 +5,12 @@ namespace SharedKernel.Domain.Tests.Users;
 internal class UserMother
 {
     public static User Create(Guid? id = default, string? name = default, DateTime? birthday = default,
-        int? numberOfChildren = default)
+        int? numberOfChildren = default, User? parent = default)
     {
         var faker = new Faker();
 
         var user = User.Create(id ?? Guid.NewGuid(), name ?? faker.Random.Word(),
-            birthday ?? faker.Date.Past().ToUniversalTime());
+            birthday ?? faker.Date.Past().ToUniversalTime(), parent);
 
         user.ChangeNumberOfChildren(numberOfChildren ?? faker.Person.Random.Number(1, 7));
 

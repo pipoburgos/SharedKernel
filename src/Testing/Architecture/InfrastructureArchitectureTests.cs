@@ -14,15 +14,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .That()
-            .ImplementInterface(typeof(IBaseRepository))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Repository")
-            .GetResult();
+            .BeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository");
 
         // Assert
         Assert(result);
@@ -33,15 +25,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .That()
-            .Inherit(typeof(AbstractValidator<>))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Validator")
-            .GetResult();
+            .BeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator");
 
         // Assert
         Assert(result);
@@ -52,15 +36,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .That()
-            .Inherit(typeof(IEntityTypeConfiguration<>))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Configuration")
-            .GetResult();
+            .BeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration");
 
         // Assert
         Assert(result);

@@ -31,15 +31,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
-            .That()
-            .ImplementInterface(typeof(IQueryRequestHandler<,>))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Handler")
-            .GetResult();
+            .BeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
 
         // Assert
         Assert(result);

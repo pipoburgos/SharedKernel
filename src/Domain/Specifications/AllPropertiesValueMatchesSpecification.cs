@@ -32,24 +32,16 @@ public class AllPropertiesValueMatchesSpecification<T> : ISpecification<T>
         {
             var property = _properties.SingleOrDefault();
             if (property != default)
-                filter = filter.And(new TheComparisonMatchesSpecification<T>(default, property.Value, property.Operator));
+                filter = filter.And(
+                    new TheComparisonMatchesSpecification<T>(property.Value, default, property.Operator));
 
             return filter.SatisfiedBy();
         }
 
-        foreach (var property in _properties)
-        {
-            var propertyInfo = typeof(T)
-                .GetProperties()
-                .Where(p => p.CanRead)
-                .SingleOrDefault(t => t.Name.ToUpper() == property.Field.ToUpper());
-
-            if (propertyInfo == null)
-                throw new ArgumentNullException(nameof(propertyInfo));
-
-            filter = filter.And(new TheComparisonMatchesSpecification<T>(propertyInfo, property.Value, property.Operator));
-        }
-
-        return filter.SatisfiedBy();
+        return _properties
+            .Aggregate(filter, (current, property) =>
+                current.And(
+                    new TheComparisonMatchesSpecification<T>(property.Value, property.Field, property.Operator)))
+            .SatisfiedBy();
     }
 }

@@ -26,12 +26,12 @@ public class ContainsTextSpecification<T> : Specification<T>
         ISpecification<T> specification = new FalseSpecification<T>();
 
         specification = typeof(T) == typeof(string)
-            ? specification.Or(new TheComparisonMatchesSpecification<T>(default, Value, Operator.Contains))
+            ? specification.Or(new TheComparisonMatchesSpecification<T>(Value, default, Operator.Contains))
             : typeof(T)
                 .GetProperties()
                 .Where(p => p.CanWrite && p.PropertyType == typeof(string))
                 .Aggregate(specification, (current, property) =>
-                    current.Or(new TheComparisonMatchesSpecification<T>(property, Value, Operator.Contains)));
+                    current.Or(new TheComparisonMatchesSpecification<T>(Value, property.Name, Operator.Contains)));
 
         return specification.SatisfiedBy();
     }
