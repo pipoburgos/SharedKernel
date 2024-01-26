@@ -8,9 +8,16 @@ namespace SharedKernel.Infrastructure.NPOI;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddDotNetDatabaseReader(this IServiceCollection services)
+    public static IServiceCollection AddNpoiExcelReader(this IServiceCollection services)
     {
         return services
             .AddTransient<IExcelReader, NpoiExcelReader>();
+    }
+
+    /// <summary>  </summary>
+    public static IServiceCollection AddNpoiExcelWriter(this IServiceCollection services)
+    {
+        return services
+            .AddTransient<IExcelWriter, NpoiExcelWriter>();
     }
 }

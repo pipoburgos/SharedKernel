@@ -3,8 +3,11 @@ using NPOI.XSSF.UserModel;
 using SharedKernel.Application.Documents;
 
 namespace SharedKernel.Infrastructure.NPOI.Documents.Excel;
-internal class NpoiExcelWriter : IExcelWriter
+
+/// <summary>  </summary>
+public class NpoiExcelWriter : IExcelWriter
 {
+    /// <summary>  </summary>
     public Stream Write<T>(IEnumerable<T> elements, Dictionary<string, string> headers, string sheetName)
     {
         var workbook = new XSSFWorkbook();
@@ -15,6 +18,7 @@ internal class NpoiExcelWriter : IExcelWriter
         return ToMemoryStream(workbook);
     }
 
+    /// <summary>  </summary>
     private static Stream ToMemoryStream(XSSFWorkbook workbook)
     {
         var stream = new MemoryStream();
