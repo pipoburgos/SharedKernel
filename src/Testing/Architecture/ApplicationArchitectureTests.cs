@@ -17,6 +17,8 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .ImplementInterface(typeof(IQueryRequest<>))
             .Should()
             .BeSealed()
@@ -43,6 +45,8 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .ImplementInterface(typeof(ICommandRequest))
             .Or()
             .ImplementInterface(typeof(ICommandRequest<>))
@@ -60,6 +64,8 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .ImplementInterface(typeof(ICommandRequestHandler<>))
             .Or()
             .ImplementInterface(typeof(ICommandRequestHandler<,>))

@@ -18,6 +18,8 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
         // Act
         var result = Types.InAssembly(GetDomainAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .Inherit(typeof(DomainEvent))
             .Should()
             .BeSealed()
@@ -32,6 +34,8 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
     {
         var entities = Types.InAssembly(GetDomainAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .Inherit(typeof(AggregateRoot<>))
             .Or()
             .Inherit(typeof(Entity<>))
@@ -52,6 +56,8 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
     {
         var entities = Types.InAssembly(GetDomainAssembly())
             .That()
+            .AreNotAbstract()
+            .And()
             .Inherit(typeof(AggregateRoot<>))
             .Or()
             .Inherit(typeof(Entity<>))
