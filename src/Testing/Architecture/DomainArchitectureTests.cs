@@ -35,13 +35,11 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
         var entities = Types.InAssembly(GetDomainAssembly())
             .That()
             .AreNotAbstract()
-            .And()
-            .Inherit(typeof(AggregateRoot<>))
-            .Or()
-            .Inherit(typeof(Entity<>))
-            .Or()
-            .Inherit(typeof(ValueObject<>))
-            .GetTypes();
+            .GetTypes()
+            .Where(t =>
+                typeof(AggregateRoot<>).IsAssignableFrom(t) ||
+                typeof(Entity<>).IsAssignableFrom(t) ||
+                typeof(ValueObject<>).IsAssignableFrom(t));
 
         var failingTypes = entities
             .Where(entity => entity.GetConstructors().Any(c => c.IsPublic));
@@ -54,18 +52,14 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
     [Fact]
     public void Entities_Should_HavePublicFactory()
     {
-        var entities = Types.InAssembly(GetDomainAssembly())
+        var failingTypes = Types.InAssembly(GetDomainAssembly())
             .That()
             .AreNotAbstract()
-            .And()
-            .Inherit(typeof(AggregateRoot<>))
-            .Or()
-            .Inherit(typeof(Entity<>))
-            .Or()
-            .Inherit(typeof(ValueObject<>))
-            .GetTypes();
-
-        var failingTypes = entities
+            .GetTypes()
+            .Where(t =>
+                typeof(AggregateRoot<>).IsAssignableFrom(t) ||
+                typeof(Entity<>).IsAssignableFrom(t) ||
+                typeof(ValueObject<>).IsAssignableFrom(t))
             .Where(entity => entity.GetMethods(BindingFlags.Public | BindingFlags.Static).All(c => !c.Name.StartsWith("Create")));
 
         // Assert

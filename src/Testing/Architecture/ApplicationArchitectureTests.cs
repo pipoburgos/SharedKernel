@@ -48,7 +48,22 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .AreNotAbstract()
             .And()
             .ImplementInterface(typeof(ICommandRequest))
-            .Or()
+            .Should()
+            .BeSealed()
+            .GetResult();
+
+        // Assert
+        Assert(result);
+    }
+
+    [Fact]
+    public void Commands_Should_BeSealed_Result()
+    {
+        // Act
+        var result = Types.InAssembly(GetApplicationAssembly())
+            .That()
+            .AreNotAbstract()
+            .And()
             .ImplementInterface(typeof(ICommandRequest<>))
             .Should()
             .BeSealed()
@@ -67,7 +82,26 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .AreNotAbstract()
             .And()
             .ImplementInterface(typeof(ICommandRequestHandler<>))
-            .Or()
+            .Should()
+            .BeSealed()
+            .And()
+            .NotBePublic()
+            .And()
+            .HaveNameEndingWith("Handler")
+            .GetResult();
+
+        // Assert
+        Assert(result);
+    }
+
+    [Fact]
+    public void CommandsHandlersResult_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
+    {
+        // Act
+        var result = Types.InAssembly(GetApplicationAssembly())
+            .That()
+            .AreNotAbstract()
+            .And()
             .ImplementInterface(typeof(ICommandRequestHandler<,>))
             .Should()
             .BeSealed()
