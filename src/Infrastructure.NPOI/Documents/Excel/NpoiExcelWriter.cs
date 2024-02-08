@@ -23,7 +23,7 @@ public class NpoiExcelWriter : IExcelWriter
     {
         var stream = new MemoryStream();
         workbook.Write(stream, true);
-        stream.Position = 0;
+        stream.Seek(0, SeekOrigin.Begin);
         return stream;
     }
 

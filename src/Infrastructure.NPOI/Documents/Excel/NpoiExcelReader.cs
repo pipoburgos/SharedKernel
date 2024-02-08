@@ -15,6 +15,8 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
     /// <summary>  </summary>
     public override IEnumerable<IRowData> ReadStream(Stream stream)
     {
+        stream.Seek(0, SeekOrigin.Begin);
+
         using var workbook = new XSSFWorkbook(stream);
 
         var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
