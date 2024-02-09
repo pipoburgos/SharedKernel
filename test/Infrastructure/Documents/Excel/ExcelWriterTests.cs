@@ -6,12 +6,10 @@ namespace SharedKernel.Integration.Tests.Documents.Excel;
 public class ExcelWriterTests
 {
     private readonly IExcelWriter _writer;
-    private readonly IExcelReader _reader;
 
     public ExcelWriterTests()
     {
         _writer = new NpoiExcelWriter();
-        _reader = new NpoiExcelReader();
     }
 
     [Fact]
