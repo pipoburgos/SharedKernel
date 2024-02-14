@@ -126,9 +126,12 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
             _originalEntries.AddRange(ChangeTracker.Entries()
                 .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
 
-            _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
-            _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
-                .OfType<IValidatableObject>().ToList());
+            _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries()
+                .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).ToList());
+
+            _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries()
+                .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).OfType<IValidatableObject>()
+                .ToList());
             _auditableService?.Audit(this);
             return base.SaveChanges();
         }
@@ -154,16 +157,18 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         {
 #endif
         return Result
-                .Create(Unit.Value)
+            .Create(Unit.Value)
 #if NET47_OR_GREATER || NET6_0_OR_GREATER || NETSTANDARD
-                .Combine(
-                    _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries().Select(e => e.Entity)
-                        .ToList()) ?? Result.Create(Unit.Value),
-                    _classValidatorService?.ValidateValidatableObjectsResult(ChangeTracker.Entries()
-                        .Select(e => e.Entity).OfType<IValidatableObject>().ToList()) ?? Result.Create(Unit.Value))
+            .Combine(
+                _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries()
+                    .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).ToList()) ??
+                Result.Create(Unit.Value),
+                _classValidatorService?.ValidateValidatableObjectsResult(ChangeTracker.Entries()
+                    .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).OfType<IValidatableObject>()
+                    .ToList()) ?? Result.Create(Unit.Value))
 #endif
-                .Tap(_ => _auditableService?.Audit(this))
-                .Map(_ => base.SaveChanges());
+            .Tap(_ => _auditableService?.Audit(this))
+            .Map(_ => base.SaveChanges());
 #if !NET462 && !NET47 && !NET471
         }
         catch (DbUpdateException exUpdate)
@@ -189,9 +194,12 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         _originalEntries.AddRange(ChangeTracker.Entries()
             .Select(e => new OriginalEntry(e, e.OriginalValues.Clone(), e.State)));
 
-        _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries().Select(e => e.Entity).ToList());
-        _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries().Select(e => e.Entity)
-            .OfType<IValidatableObject>().ToList());
+        _classValidatorService?.ValidateDataAnnotations(ChangeTracker.Entries()
+            .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).ToList());
+
+        _classValidatorService?.ValidateValidatableObjects(ChangeTracker.Entries()
+            .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).OfType<IValidatableObject>().ToList());
+
         _auditableService?.Audit(this);
         return await base.SaveChangesAsync(cancellationToken);
 #if !NET462 && !NET47 && !NET471
@@ -208,10 +216,12 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         Result
             .Create(Unit.Value)
             .Combine(
-                _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries().Select(e => e.Entity)
-                    .ToList()) ?? Result.Create(Unit.Value),
+                _classValidatorService?.ValidateDataAnnotationsResult(ChangeTracker.Entries()
+                    .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).ToList()) ??
+                Result.Create(Unit.Value),
                 _classValidatorService?.ValidateValidatableObjectsResult(ChangeTracker.Entries()
-                    .Select(e => e.Entity).OfType<IValidatableObject>().ToList()) ?? Result.Create(Unit.Value))
+                    .Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).OfType<IValidatableObject>()
+                    .ToList()) ?? Result.Create(Unit.Value))
             .Tap(_ => _auditableService?.Audit(this))
             .Map(_ => Unit.Value)
             .TryBind<Unit, int, DbUpdateException>(_ => base.SaveChangesAsync(cancellationToken),
