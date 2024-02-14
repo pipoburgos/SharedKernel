@@ -19,7 +19,7 @@
     <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.2.2</Version>
+    <Version>8.0.2.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
