@@ -60,7 +60,7 @@ services:
             - 22227:5432
 
     elasticsearch:
-        image: elasticsearch:8.11.3
+        image: elasticsearch:8.12.0
         environment:
             - discovery.type=single-node
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -86,49 +86,3 @@ services:
         ports:
             - 22228:9200
             - 22229:9300
-
-    # elasticsearch1:
-    #     image: elasticsearch:8.11.3
-    #     environment:
-    #         - node.name=es-node-1
-    #         - cluster.name=my-cluster
-    #         - discovery.seed_hosts=elasticsearch2
-    #         - cluster.initial_master_nodes=es-node-1,es-node-2
-    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    #         - ELASTIC_USER=admin
-    #         - ELASTIC_PASSWORD=password
-    #         - bootstrap.memory_lock=true
-    #         - xpack.security.enabled=false
-    #         - xpack.security.http.ssl.enabled=false
-    #         - xpack.security.transport.ssl.enabled=false
-    #     mem_limit: 1g
-    #     ulimits:
-    #         memlock:
-    #             soft: -1
-    #             hard: -1
-    #     ports:
-    #         - 22228:9200
-    #         - 22229:9300
-
-    # elasticsearch2:
-    #     image: elasticsearch:8.11.3
-    #     environment:
-    #         - node.name=es-node-2
-    #         - cluster.name=my-cluster
-    #         - discovery.seed_hosts=elasticsearch1
-    #         - cluster.initial_master_nodes=es-node-1,es-node-2
-    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    #         - ELASTIC_USER=admin
-    #         - ELASTIC_PASSWORD=password
-    #         - bootstrap.memory_lock=true
-    #         - xpack.security.enabled=false
-    #         - xpack.security.http.ssl.enabled=false
-    #         - xpack.security.transport.ssl.enabled=false
-    #     mem_limit: 1g
-    #     ulimits:
-    #         memlock:
-    #             soft: -1
-    #             hard: -1
-    #     ports:
-    #         - 22230:9200
-    #         - 22231:9300
