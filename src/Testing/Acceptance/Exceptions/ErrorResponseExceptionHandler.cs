@@ -36,7 +36,7 @@ public class ErrorResponseExceptionHandler
 
         _errors = new Dictionary<string, string[]>();
 
-        if (!message.StartsWith(ErrorsStartString))
+        if (!message.ToLower().Contains(ErrorsStartString))
         {
             _error = JsonConvert.DeserializeObject<string>(message)!;
             return this;

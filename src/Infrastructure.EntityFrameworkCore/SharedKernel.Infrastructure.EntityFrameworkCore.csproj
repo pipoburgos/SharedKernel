@@ -19,7 +19,7 @@
     <PackageTags>EntityFrameworkCore</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.2.3</Version>
+    <Version>8.0.2.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
