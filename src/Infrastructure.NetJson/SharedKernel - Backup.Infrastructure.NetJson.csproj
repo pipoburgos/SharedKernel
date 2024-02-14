@@ -7,16 +7,16 @@
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-    <Description>IEmailSender infrastructure implementations</Description>
+    <Description>NetJson infrastructure implementations</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.MailKit</PackageId>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.NetJson</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>EmailSender MailKit</PackageTags>
+    <PackageTags>NetJson</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <Version>8.0.2.1</Version>
@@ -28,15 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.Network" Version="8.0.0" />
-    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Remove="System.Net.Http" />
   </ItemGroup>
 
 </Project>

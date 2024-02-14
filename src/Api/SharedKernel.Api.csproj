@@ -19,7 +19,7 @@
     <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.0.8</Version>
+    <Version>8.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,10 +36,10 @@
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.25" Condition="'$(TargetFramework)' == 'net6.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" Condition="'$(TargetFramework)' == 'net7.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="6.0.25" Condition="'$(TargetFramework)' == 'net6.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="7.0.11" Condition="'$(TargetFramework)' == 'net7.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.2" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />

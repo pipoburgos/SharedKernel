@@ -7,16 +7,16 @@
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-    <Description>IEmailSender infrastructure implementations</Description>
+    <Description>AutoMapper infrastructure implementations</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.MailKit</PackageId>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.AutoMapper</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>EmailSender MailKit</PackageTags>
+    <PackageTags>AutoMapper</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <Version>8.0.2.1</Version>
@@ -28,11 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.Network" Version="8.0.0" />
-    <PackageReference Include="MailKit" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" Condition="'$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'netstandard2.0'" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" Condition="'$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'netstandard2.0'" />
+
+    <PackageReference Include="AutoMapper" Version="13.0.1" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'  or '$(TargetFramework)' == 'net8.0'" />
   </ItemGroup>
 
   <ItemGroup>
