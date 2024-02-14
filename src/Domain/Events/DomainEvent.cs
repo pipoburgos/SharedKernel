@@ -33,7 +33,7 @@ public abstract class DomainEvent : Request
     /// <summary> Sets aggregate id. </summary>
     public void SetAggregateId(string id)
     {
-        if (string.IsNullOrWhiteSpace(AggregateId))
+        if (string.IsNullOrWhiteSpace(AggregateId) || id == "0")
             AggregateId = id;
     }
 
