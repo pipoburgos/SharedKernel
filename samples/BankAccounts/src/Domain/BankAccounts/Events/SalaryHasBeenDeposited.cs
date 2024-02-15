@@ -1,6 +1,6 @@
 ﻿namespace BankAccounts.Domain.BankAccounts.Events;
 
-internal sealed class SalaryHasBeenDeposited : DomainEvent
+public sealed class SalaryHasBeenDeposited : DomainEvent
 {
     public SalaryHasBeenDeposited(Guid movementId, string aggregateId, string? eventId = default,
         string? occurredOn = default) : base(aggregateId, eventId, occurredOn)
