@@ -23,6 +23,8 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
             .Inherit(typeof(DomainEvent))
             .Should()
             .BeSealed()
+            .And()
+            .BePublic()
             .GetResult();
 
         // Assert
