@@ -24,7 +24,7 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId> wher
     /// <returns>All domain events recordered</returns>
     public List<DomainEvent> PullDomainEvents()
     {
-        if (Id is 0)
+        if (Id is int)
             _domainEvents.ForEach(e => e.SetAggregateId(Id.ToString()!));
 
         var events = _domainEvents.ToList();
