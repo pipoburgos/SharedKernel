@@ -1,20 +1,48 @@
 ﻿namespace SharedKernel.Testing.Architecture;
 
-internal static class CommonExtensionTests
+public static class CommonExtensionTests
 {
-    public static TestResult BeSealedAndNotPublicEndingWith(this Types types, Type type, string endsWith)
+    public static TestResult ClassBeSealedAndNotPublicEndingWith(this Types types, Type type, string endsWith)
     {
         return types
             .That()
             .Inherit(type)
-            .Should()
-            .NotBeAbstract()
             .And()
+            .AreNotAbstract()
+            .Should()
             .BeSealed()
             .And()
             .NotBePublic()
             .And()
             .HaveNameEndingWith(endsWith)
+            .GetResult();
+    }
+
+    public static TestResult InterfaceBeSealedAndNotPublicEndingWith(this Types types, Type type, string endsWith)
+    {
+        return types
+            .That()
+            .ImplementInterface(type)
+            .And()
+            .AreNotAbstract()
+            .Should()
+            .BeSealed()
+            .And()
+            .NotBePublic()
+            .And()
+            .HaveNameEndingWith(endsWith)
+            .GetResult();
+    }
+
+    public static TestResult InterfaceBeSealed(this Types types, Type type)
+    {
+        return types
+            .That()
+            .ImplementInterface(type)
+            .And()
+            .AreNotAbstract()
+            .Should()
+            .BeSealed()
             .GetResult();
     }
 }

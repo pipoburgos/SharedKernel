@@ -4,7 +4,7 @@ using SharedKernel.Domain.ValueObjects;
 
 namespace BankAccounts.Infrastructure.BankAccounts.Configurations;
 
-internal class UserConfiguration : IEntityTypeConfiguration<User>
+internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     private readonly IJsonSerializer _jsonSerializer;
 

@@ -14,7 +14,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .BeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository");
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository");
 
         // Assert
         Assert(result);
@@ -25,7 +25,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .BeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator");
+            .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator");
 
         // Assert
         Assert(result);
@@ -36,7 +36,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetInfrastructureAssembly())
-            .BeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration");
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration");
 
         // Assert
         Assert(result);

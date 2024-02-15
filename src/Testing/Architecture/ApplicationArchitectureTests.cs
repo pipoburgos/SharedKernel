@@ -16,13 +16,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
-            .That()
-            .AreNotAbstract()
-            .And()
-            .ImplementInterface(typeof(IQueryRequest<>))
-            .Should()
-            .BeSealed()
-            .GetResult();
+            .InterfaceBeSealed(typeof(IQueryRequest<>));
 
         // Assert
         Assert(result);
@@ -33,7 +27,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
-            .BeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
 
         // Assert
         Assert(result);
@@ -44,13 +38,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
-            .That()
-            .AreNotAbstract()
-            .And()
-            .ImplementInterface(typeof(ICommandRequest))
-            .Should()
-            .BeSealed()
-            .GetResult();
+            .InterfaceBeSealed(typeof(ICommandRequest));
 
         // Assert
         Assert(result);
@@ -61,13 +49,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
-            .That()
-            .AreNotAbstract()
-            .And()
-            .ImplementInterface(typeof(ICommandRequest<>))
-            .Should()
-            .BeSealed()
-            .GetResult();
+            .InterfaceBeSealed(typeof(ICommandRequest<>));
 
         // Assert
         Assert(result);
@@ -78,17 +60,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
-            .That()
-            .AreNotAbstract()
-            .And()
-            .ImplementInterface(typeof(ICommandRequestHandler<>))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Handler")
-            .GetResult();
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler");
 
         // Assert
         Assert(result);
@@ -99,17 +71,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     {
         // Act
         var result = Types.InAssembly(GetApplicationAssembly())
-            .That()
-            .AreNotAbstract()
-            .And()
-            .ImplementInterface(typeof(ICommandRequestHandler<,>))
-            .Should()
-            .BeSealed()
-            .And()
-            .NotBePublic()
-            .And()
-            .HaveNameEndingWith("Handler")
-            .GetResult();
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler");
 
         // Assert
         Assert(result);
