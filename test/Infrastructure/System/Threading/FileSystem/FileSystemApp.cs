@@ -6,11 +6,6 @@ namespace SharedKernel.Integration.Tests.System.Threading.FileSystem;
 
 public class FileSystemApp : InfrastructureTestCase<FakeStartup>
 {
-    protected override string GetJsonFile()
-    {
-        return "Data/Redis/appsettings.redis.json";
-    }
-
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
