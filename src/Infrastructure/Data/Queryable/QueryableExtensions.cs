@@ -162,13 +162,13 @@ public static class QueryableExtensions
     /// <returns></returns>
     public static IQueryable<T> OrderAndPaged<T>(this IQueryable<T> queryable, PageOptions pageOptions)
     {
-        var query = return queryable
+        var query = queryable
             .Order(pageOptions.Orders);
 
-        if(pageOptions.Skip.HasValue)
+        if (pageOptions.Skip.HasValue)
             query = query.Skip(pageOptions.Skip.Value);
 
-        if(pageOptions.Take.HasValue)
+        if (pageOptions.Take.HasValue)
             query = query.Take(pageOptions.Take.Value);
 
         return query;
