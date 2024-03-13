@@ -23,7 +23,7 @@ public static class ArchitectureTestsExtensions
             .BePublic()
             .GetResult()
             .FailingTypes
-            .ToList();
+            ?.ToList() ?? new List<Type>();
     }
 
     public static List<Type> TestEntitiesShouldNotHavePublicConstructors(this Assembly assembly)
