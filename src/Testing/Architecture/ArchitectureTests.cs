@@ -27,134 +27,114 @@ public abstract class ArchitectureTests
 
     protected virtual bool CheckQueryValidators => false;
 
-    protected abstract void Assert(TestResult? testResult);
-
-    protected abstract void Assert(List<Type>? failingTypes);
-
-    protected abstract void Assert(List<string> files);
+    protected virtual void Assert(List<string>? failingTypeNames)
+    {
+        failingTypeNames.Should().BeNullOrEmpty();
+    }
 
     [Fact]
     public void DomainEvents_Should_BeSealed()
     {
-        Assert(GetDomainAssembly().TestDomainEventsShouldBeSealed());
+        Assert(GetDomainAssembly().TestDomainEventsShouldBeSealed().Select(x => x.Name).ToList());
     }
 
     [Fact]
     public void Entities_ShouldNot_HavePublicConstructors()
     {
-        Assert(GetDomainAssembly().TestEntitiesShouldNotHavePublicConstructors());
+        Assert(GetDomainAssembly().TestEntitiesShouldNotHavePublicConstructors().Select(x => x.Name).ToList());
     }
 
     [Fact]
     public void Entities_Should_HavePublicFactory()
     {
-        Assert(GetDomainAssembly().TestEntitiesShouldHavePublicFactory());
+        Assert(GetDomainAssembly().TestEntitiesShouldHavePublicFactory().Select(x => x.Name).ToList());
     }
 
     [Fact]
     public void Queries_Should_BeSealed()
     {
-        // Act
-        var result = Types.InAssembly(GetApplicationAssembly())
-            .InterfaceBeSealed(typeof(IQueryRequest<>));
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetApplicationAssembly())
+            .InterfaceBeSealed(typeof(IQueryRequest<>))
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void QueriesHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
-        // Act
-        var result = Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
-            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Commands_Should_BeSealed()
     {
-        // Act
-        var result = Types.InAssembly(GetApplicationAssembly())
-            .InterfaceBeSealed(typeof(ICommandRequest));
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetApplicationAssembly())
+            .InterfaceBeSealed(typeof(ICommandRequest))
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Commands_Should_BeSealed_Result()
     {
-        // Act
-        var result = Types.InAssembly(GetApplicationAssembly())
-            .InterfaceBeSealed(typeof(ICommandRequest<>));
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetApplicationAssembly())
+            .InterfaceBeSealed(typeof(ICommandRequest<>))
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void CommandsHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
-        // Act
-        var result = Types.InAssembly(GetApplicationAssembly())
-            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetApplicationAssembly())
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void CommandsHandlersResult_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
-        // Act
-        var result = Types.InAssembly(GetApplicationAssembly())
-            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetApplicationAssembly())
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Repositories_Should_BeSealed_And_NotBePublic()
     {
-        // Act
-        var result = Types.InAssembly(GetInfrastructureAssembly())
-            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetInfrastructureAssembly())
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Validators_Should_BeSealed_And_NotBePublic()
     {
-        // Act
-        var result = Types.InAssembly(GetInfrastructureAssembly())
-            .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetInfrastructureAssembly())
+            .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Configurations_Should_BeSealed_And_NotBePublic()
     {
-        // Act
-        var result = Types.InAssembly(GetInfrastructureAssembly())
-            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration");
-
-        // Assert
-        Assert(result);
+        Assert(Types.InAssembly(GetInfrastructureAssembly())
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration")
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void Endpoints_Should_BeSealed_And_HaveNameEndingWithEndpoint()
     {
-        // Arrange and Act
-        var result = Types.InAssembly(GetApiAssembly())
+        Assert(Types.InAssembly(GetApiAssembly())
             .That()
             .Inherit(typeof(EndpointBase))
             .And()
@@ -163,26 +143,21 @@ public abstract class ArchitectureTests
             .BeSealed()
             .And()
             .HaveNameEndingWith("Endpoint")
-            .GetResult();
-
-        // Assert
-        Assert(result);
+            .GetResult()
+            .FailingTypeNames
+            .ToList());
     }
 
     [Fact]
     public void TestCqrs()
     {
-        // Arrange and Act
-        var files = new List<Assembly>
+        Assert(new List<Assembly>
         {
             GetApplicationAssembly(),
             GetInfrastructureAssembly(),
             GetApiAssembly(),
             GetUseCasesTestsAssembly(),
             GetAcceptanceTestsAssembly()
-        }.TestCqrsArquitecture(CheckFiles(), CheckQueryValidators);
-
-        // Assert
-        Assert(files);
+        }.TestCqrsArquitecture(CheckFiles(), CheckQueryValidators));
     }
 }
