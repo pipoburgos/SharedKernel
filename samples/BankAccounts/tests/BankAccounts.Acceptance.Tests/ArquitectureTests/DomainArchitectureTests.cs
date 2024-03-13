@@ -1,23 +1,31 @@
 ﻿using BankAccounts.Domain;
-using NetArchTest.Rules;
-using System.Reflection;
+using SharedKernel.Testing.Architecture;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 
-public class DomainArchitectureTests : SharedKernel.Testing.Architecture.DomainArchitectureTests
+public class DomainArchitectureTests
 {
-    protected override Assembly GetDomainAssembly()
+    [Fact]
+    public void DomainEventsShouldBeSealed()
     {
-        return typeof(BankAccountsDomainAssembly).Assembly;
+        var result = typeof(BankAccountsDomainAssembly).Assembly.TestDomainEventsShouldBeSealed();
+
+        result.Should().BeEmpty();
     }
 
-    protected override void Assert(IEnumerable<Type>? failingTypes)
+    [Fact]
+    public void EntitiesShouldHavePublicFactory()
     {
-        failingTypes?.Should().BeEmpty();
+        var result = typeof(BankAccountsDomainAssembly).Assembly.TestEntitiesShouldHavePublicFactory();
+
+        result.Should().BeEmpty();
     }
 
-    protected override void Assert(TestResult? testResult)
+    [Fact]
+    public void EntitiesShouldNotHavePublicConstructors()
     {
-        testResult?.IsSuccessful.Should().BeTrue();
+        var result = typeof(BankAccountsDomainAssembly).Assembly.TestEntitiesShouldNotHavePublicConstructors();
+
+        result.Should().BeEmpty();
     }
 }

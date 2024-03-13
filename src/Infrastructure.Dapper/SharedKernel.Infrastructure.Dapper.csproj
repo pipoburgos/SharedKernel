@@ -19,7 +19,7 @@
     <PackageTags>Dapper</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.2.6</Version>
+    <Version>8.0.3.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,9 +31,9 @@
 	  <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0" Condition="'$(TargetFramework)' != 'net8.0'" />
 	  <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.0" />
-    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
