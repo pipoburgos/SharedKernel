@@ -1,4 +1,6 @@
-﻿using SharedKernel.Application.Cqrs.Queries;
+﻿using FluentValidation;
+using SharedKernel.Application.Cqrs.Commands.Handlers;
+using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Domain.Aggregates;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Events;
@@ -78,7 +80,7 @@ public static class ArchitectureTestsExtensions
         return notFound;
     }
 
-    private static void Validate(IEnumerable<CheckFile> files, List<string> notFound, List<Type> classTypes,
+    private static void Validate(List<CheckFile> files, List<string> notFound, List<Type> classTypes,
         Type useCase, bool checkQueryValidators)
     {
         var related = classTypes
@@ -86,6 +88,7 @@ public static class ArchitectureTestsExtensions
             .Where(x => x.StartsWith(useCase.Name))
             .ToList();
 
+        var founds = new List<Type>();
         foreach (var file in files)
         {
             // Si es internal no hay que añadir los errores de endpoints
@@ -101,9 +104,49 @@ public static class ArchitectureTestsExtensions
                 continue;
 
             if (related.Any(t => t.EndsWith(file.ToString("G"))))
+            {
+                founds.Add(classTypes.Single(x => x.Name == $"{useCase.Name}{file:G}"));
                 continue;
+            }
+
 
             notFound.Add($"{useCase.Name}{file:G}");
+
+        }
+
+        if (!founds.Any())
+            return;
+
+        foreach (var found in founds)
+        {
+            if (found.Name.EndsWith(CheckFile.Validator.ToString("G")))
+            {
+                var any = found.GetInterfaces()
+                    .Any(interfaz =>
+                        interfaz.IsGenericType &&
+                        interfaz.GetGenericArguments()[0] == useCase &&
+                        interfaz.GetGenericTypeDefinition() != typeof(AbstractValidator<>));
+
+                if (!any)
+                {
+                    notFound.Add($"{useCase.Name} not implements AbstractValidator ok");
+                }
+            }
+            else if (found.Name.EndsWith(CheckFile.Handler.ToString("G")))
+            {
+                var any = found.GetInterfaces()
+                    .Any(interfaz =>
+                        interfaz.IsGenericType &&
+                        interfaz.GetGenericArguments()[0] == useCase &&
+                        (interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<>) ||
+                         interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<,>) ||
+                         interfaz.GetGenericTypeDefinition() != typeof(IQueryRequestHandler<,>)));
+
+                if (!any)
+                {
+                    notFound.Add($"{useCase.Name} not implements Handler ok");
+                }
+            }
         }
     }
 

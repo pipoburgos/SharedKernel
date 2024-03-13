@@ -35,19 +35,28 @@ public abstract class ArchitectureTests
     [Fact]
     public void DomainEvents_Should_BeSealed()
     {
-        Assert(GetDomainAssembly().TestDomainEventsShouldBeSealed().Select(x => x.Name).ToList());
+        Assert(GetDomainAssembly()
+            .TestDomainEventsShouldBeSealed()
+            .Select(x => x.Name)
+            .ToList());
     }
 
     [Fact]
     public void Entities_ShouldNot_HavePublicConstructors()
     {
-        Assert(GetDomainAssembly().TestEntitiesShouldNotHavePublicConstructors().Select(x => x.Name).ToList());
+        Assert(GetDomainAssembly()
+            .TestEntitiesShouldNotHavePublicConstructors()
+            .Select(x => x.Name)
+            .ToList());
     }
 
     [Fact]
     public void Entities_Should_HavePublicFactory()
     {
-        Assert(GetDomainAssembly().TestEntitiesShouldHavePublicFactory().Select(x => x.Name).ToList());
+        Assert(GetDomainAssembly()
+            .TestEntitiesShouldHavePublicFactory()
+            .Select(x => x.Name)
+            .ToList());
     }
 
     [Fact]
@@ -55,7 +64,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealed(typeof(IQueryRequest<>))
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -64,7 +74,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -74,7 +85,7 @@ public abstract class ArchitectureTests
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealed(typeof(ICommandRequest))
             .FailingTypeNames
-            .ToList());
+            ?.ToList());
     }
 
     [Fact]
@@ -82,7 +93,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealed(typeof(ICommandRequest<>))
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -91,7 +103,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -100,7 +113,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -109,7 +123,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetInfrastructureAssembly())
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -118,7 +133,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetInfrastructureAssembly())
             .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -127,7 +143,8 @@ public abstract class ArchitectureTests
     {
         Assert(Types.InAssembly(GetInfrastructureAssembly())
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration")
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
@@ -144,7 +161,8 @@ public abstract class ArchitectureTests
             .And()
             .HaveNameEndingWith("Endpoint")
             .GetResult()
-            .FailingTypeNames
+            .FailingTypes
+            ?.Select(x => x.Name)
             .ToList());
     }
 
