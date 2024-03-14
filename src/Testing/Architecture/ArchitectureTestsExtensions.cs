@@ -89,7 +89,6 @@ public static class ArchitectureTestsExtensions
             .Where(x => x.StartsWith(useCase.Name))
             .ToList();
 
-        var founds = new List<Type>();
         foreach (var file in files)
         {
             var name = $"{useCase.Name}{file:G}";
@@ -107,58 +106,60 @@ public static class ArchitectureTestsExtensions
                 continue;
 
             if (related.Any(t => t.EndsWith(file.ToString("G"))))
-            {
-                var tipos = classTypes.Where(x => x.Name.Contains(useCase.Name)).ToList();
-
-                if (!tipos.Any())
-                    notFound.Add($"{name} not found");
-
-                if (tipos.Count(x => x.Name == $"{useCase.Name}{file:G}") != 1)
-                    notFound.Add($"{name} not found");
-
-                founds.Add(tipos.First());
                 continue;
-            }
 
             notFound.Add(name);
-
         }
 
-        if (!founds.Any())
+        var usesCases = classTypes.Where(x => x.Name.Contains(useCase.Name)).ToList();
+
+        if (!usesCases.Any())
             return;
 
-        foreach (var found in founds)
-        {
-            if (found.Name.EndsWith(CheckFile.Validator.ToString("G")))
-            {
-                var any = found.GetInterfaces()
-                    .Any(interfaz =>
-                        interfaz.IsGenericType &&
-                        interfaz.GetGenericArguments()[0] == useCase &&
-                        interfaz.GetGenericTypeDefinition() != typeof(IValidator<>));
-
-                if (!any)
-                {
-                    notFound.Add($"{useCase.Name} not implements AbstractValidator ok");
-                }
-            }
-            else if (found.Name.EndsWith(CheckFile.Handler.ToString("G")))
-            {
-                var any = found.GetInterfaces()
-                    .Any(interfaz =>
-                        interfaz.IsGenericType &&
-                        interfaz.GetGenericArguments()[0] == useCase &&
-                        (interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<>) ||
-                         interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<,>) ||
-                         interfaz.GetGenericTypeDefinition() != typeof(IQueryRequestHandler<,>)));
-
-                if (!any)
-                {
-                    notFound.Add($"{useCase.Name} not implements Handler ok");
-                }
-            }
-        }
+        CheckHandlerImplementation(notFound, classTypes, useCase);
+        CheckValidatorImplementation(notFound, classTypes, useCase);
     }
+
+    private static void CheckHandlerImplementation(List<string> notFound, List<Type> usesCases, Type useCase)
+    {
+        var typeName = $"{useCase.Name}{CheckFile.Handler:G}";
+
+        if (usesCases.Count(x => x.Name == typeName) != 1)
+            return;
+
+        var any = usesCases
+            .Single(x => x.Name == typeName)
+            .GetInterfaces()
+            .Any(interfaz =>
+                interfaz.IsGenericType &&
+                interfaz.GetGenericArguments()[0] == useCase &&
+                (interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<>) ||
+                 interfaz.GetGenericTypeDefinition() != typeof(ICommandRequestHandler<,>) ||
+                 interfaz.GetGenericTypeDefinition() != typeof(IQueryRequestHandler<,>)));
+
+        if (!any)
+            notFound.Add($"{useCase.Name}Hander implementation error");
+    }
+
+    private static void CheckValidatorImplementation(List<string> notFound, List<Type> usesCases, Type useCase)
+    {
+        var typeName = $"{useCase.Name}{CheckFile.Validator:G}";
+
+        if (usesCases.Count(x => x.Name == typeName) != 1)
+            return;
+
+        var anyValidator = usesCases
+            .Single(x => x.Name == typeName)
+            .GetInterfaces()
+            .Any(interfaz =>
+                interfaz.IsGenericType &&
+                interfaz.GetGenericArguments()[0] == useCase &&
+                interfaz.GetGenericTypeDefinition() != typeof(AbstractValidator<>));
+
+        if (!anyValidator)
+            notFound.Add($"{useCase.Name}Validator implementation error");
+    }
+
 
     private static bool Implements(this Type type, Type @interface)
     {
