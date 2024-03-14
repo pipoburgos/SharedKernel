@@ -63,6 +63,7 @@ public static class ArchitectureTestsExtensions
         var classTypes = assemblies
             .SelectMany(a => a.GetTypes())
             .Where(t => t.IsClass && !t.IsAbstract)
+            .OrderBy(x => x.FullName)
             .ToList();
 
         var usesCases = classTypes
@@ -91,6 +92,8 @@ public static class ArchitectureTestsExtensions
         var founds = new List<Type>();
         foreach (var file in files)
         {
+            var name = $"{useCase.Name}{file:G}";
+
             // Si es internal no hay que añadir los errores de endpoints
             if (!useCase.IsPublic &&
                 (file == CheckFile.Endpoint ||
@@ -105,12 +108,19 @@ public static class ArchitectureTestsExtensions
 
             if (related.Any(t => t.EndsWith(file.ToString("G"))))
             {
-                founds.Add(classTypes.Single(x => x.Name == $"{useCase.Name}{file:G}"));
+                var tipos = classTypes.Where(x => x.Name.Contains(useCase.Name)).ToList();
+
+                if (!tipos.Any())
+                    notFound.Add($"{name} not found");
+
+                if (tipos.Count(x => x.Name == $"{useCase.Name}{file:G}") != 1)
+                    notFound.Add($"{name} not found");
+
+                founds.Add(tipos.First());
                 continue;
             }
 
-
-            notFound.Add($"{useCase.Name}{file:G}");
+            notFound.Add(name);
 
         }
 
@@ -125,7 +135,7 @@ public static class ArchitectureTestsExtensions
                     .Any(interfaz =>
                         interfaz.IsGenericType &&
                         interfaz.GetGenericArguments()[0] == useCase &&
-                        interfaz.GetGenericTypeDefinition() != typeof(AbstractValidator<>));
+                        interfaz.GetGenericTypeDefinition() != typeof(IValidator<>));
 
                 if (!any)
                 {

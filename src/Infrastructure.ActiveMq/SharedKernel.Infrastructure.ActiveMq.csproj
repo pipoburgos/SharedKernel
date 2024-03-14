@@ -19,7 +19,7 @@
     <PackageTags>ActiveMq CommandBus EventBus</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.3.2</Version>
+    <Version>8.0.3.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
