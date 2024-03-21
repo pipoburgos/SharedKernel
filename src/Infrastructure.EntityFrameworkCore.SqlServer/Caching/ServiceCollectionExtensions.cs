@@ -32,10 +32,9 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddSqlServerDistributedCache(this IServiceCollection services,
         string connectionString, string schema = "dbo", string table = "Cache")
-
     {
         return services
-            .AddSqlServerHealthChecks(connectionString, "SqlServer Cache", "DistrubutedCache")
+            .AddSqlServerHealthChecks(connectionString, "SqlServer Cache", "DistributedCache")
             .AddDistributedSqlServerCache(options =>
             {
                 options.ConnectionString = connectionString;
