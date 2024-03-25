@@ -16,7 +16,8 @@ public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
     {
         using var reader = new DBFReader(stream);
 
-        reader.SetSelectFields(reader.Fields.Select(f => f.Name).ToArray());
+        ColumnNames = reader.Fields.Select(f => f.Name).ToList();
+        reader.SetSelectFields(ColumnNames.ToArray());
 
         for (var row = 0; row < reader.RecordCount; row++)
         {
@@ -33,6 +34,8 @@ public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
         var dataTable = new DataTable();
         if (Configuration.IncludeLineNumbers)
             dataTable.Columns.Add(Configuration.ColumnLineNumberName, typeof(int));
+
+        ColumnNames = reader.Fields.Select(f => f.Name).ToList();
 
         foreach (var header in reader.Fields)
         {

@@ -15,6 +15,9 @@ public interface IDocumentReader
     IDocumentReader Configure(Action<DocumentReaderConfiguration> change);
 
     /// <summary>  </summary>
+    List<string> ColumnNames { get; }
+
+    /// <summary>  </summary>
     IEnumerable<IRowData> ReadStream(Stream stream);
 
     /// <summary>  </summary>

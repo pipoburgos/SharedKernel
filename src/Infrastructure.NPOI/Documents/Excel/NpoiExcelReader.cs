@@ -21,14 +21,14 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
 
         var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
 
-        var columnNames = GetColumnNames(sheet);
+        SetColumnNames(sheet);
         for (var rowIndex = 1; rowIndex <= sheet.LastRowNum; rowIndex++)
         {
             var row = sheet.GetRow(rowIndex);
             if (row == null)
                 continue;
 
-            yield return new NpoiExcelRow(rowIndex + 1, row, columnNames, Configuration.CultureInfo);
+            yield return new NpoiExcelRow(rowIndex + 1, row, ColumnNames, Configuration.CultureInfo);
         }
     }
 
@@ -62,12 +62,12 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
         var dataTable = new DataTable(sheet.SheetName);
 
         // write the header row
-        var columnNames = GetColumnNames(sheet);
+        SetColumnNames(sheet);
 
         if (Configuration.IncludeLineNumbers)
             dataTable.Columns.Add(Configuration.ColumnLineNumberName);
 
-        foreach (var column in columnNames)
+        foreach (var column in ColumnNames)
         {
             dataTable.Columns.Add(column);
         }
@@ -99,7 +99,7 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
         return dataTable;
     }
 
-    private List<string> GetColumnNames(ISheet sheet)
+    private void SetColumnNames(ISheet sheet)
     {
         var headerRow = sheet.GetRow(0);
         var duplicates = 0;
@@ -118,6 +118,6 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
             }
         }
 
-        return columns;
+        ColumnNames = columns;
     }
 }

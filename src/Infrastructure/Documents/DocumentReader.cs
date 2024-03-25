@@ -7,7 +7,16 @@ namespace SharedKernel.Infrastructure.Documents;
 public abstract class DocumentReader : IDocumentReader
 {
     /// <summary>  </summary>
+    protected DocumentReader()
+    {
+        ColumnNames = new List<string>();
+    }
+
+    /// <summary>  </summary>
     public abstract string Extension { get; }
+
+    /// <summary>  </summary>
+    public List<string> ColumnNames { get; protected set; }
 
     /// <summary>  </summary>
     public DocumentReaderConfiguration Configuration { get; private set; } = new();
