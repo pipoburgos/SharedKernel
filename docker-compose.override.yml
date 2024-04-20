@@ -43,8 +43,9 @@ services:
         ports:
             - 8771:6379
 
-    smtp:
-        image: jijiechen/papercut:latest
+    mailserver:
+        image: mailserver/docker-mailserver:latest
+        hostname: 127.0.0.1
         ports:
             - "8772:25"
             - 37408:37408

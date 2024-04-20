@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#if NET8_0
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
@@ -15,3 +16,4 @@ public class PostgreSqlSharedKernelDbContextFactory : IDesignTimeDbContextFactor
         return new PostgreSqlSharedKernelDbContext(optionsBuilder.Options);
     }
 }
+#endif

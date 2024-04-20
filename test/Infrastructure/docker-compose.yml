@@ -36,7 +36,7 @@ services:
             - 37408:37408
  
     activemq:
-        image: islandora/activemq:main
+        image: apache/activemq-artemis
         ports:
             - 8170:8161
             - 22225:61616

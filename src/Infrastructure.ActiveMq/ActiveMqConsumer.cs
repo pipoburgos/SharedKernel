@@ -48,10 +48,15 @@ public class ActiveMqConsumer : BackgroundService
             var connecturi = new Uri($"{configuration.Value.BrokerUri}?wireFormat.maxInactivityDuration=0");
             var connectionFactory = new ConnectionFactory(connecturi);
 
+            if (!string.IsNullOrWhiteSpace(configuration.Value.UserName) &&
+                !string.IsNullOrWhiteSpace(configuration.Value.Password))
+            {
+                connectionFactory.UserName = configuration.Value.UserName;
+                connectionFactory.Password = configuration.Value.Password;
+            }
+
             // Create a Connection
-            using var connection =
-                await connectionFactory.CreateConnectionAsync(configuration.Value.UserName,
-                    configuration.Value.Password);
+            using var connection = await connectionFactory.CreateConnectionAsync();
 
             await connection.StartAsync();
 

@@ -1,4 +1,4 @@
-﻿#if !NET8_0
+﻿#if NET8_0
 namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
 
 [Collection("DockerHook")]

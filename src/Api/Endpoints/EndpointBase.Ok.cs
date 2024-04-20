@@ -52,12 +52,52 @@ public abstract partial class EndpointBase
     }
 
     /// <summary>
-    /// Creates a <see cref="IActionResult"/> object that produces an empty <see cref="StatusCodes.Status200OK"/> response.
+    /// Creates a <see cref="ActionResult"/> object that produces an <see cref="StatusCodes.Status200OK"/> response.
     /// </summary>
-    /// <returns>The created <see cref="IActionResult"/> for the response.</returns>
-    protected async Task<IActionResult> OkTyped(Task<Result<Unit>> task)
+    /// <returns>The created <see cref="ActionResult&lt;Value&gt;"/> for the response.</returns>
+    protected async Task<ActionResult<T>> OkTyped<T>(Task<Result<T>> taskResult)
     {
-        return OkTyped(await task);
+        var result = await taskResult;
+
+        if (result.IsSuccess)
+            return Ok(result.Value);
+
+        var validationFailureErrors = result.Errors
+            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage))
+            .ToList();
+
+        return
+            BadRequest(new ValidationError(new ValidationFailureException(validationFailureErrors)));
     }
 
+    /// <summary>
+    /// Creates a <see cref="ActionResult&lt;Value&gt;"/> object that produces an <see cref="StatusCodes.Status200OK"/> response.
+    /// </summary>
+    /// <returns>The created <see cref="ActionResult&lt;Value&gt;"/> for the response.</returns>
+    protected async Task<IActionResult> OkTyped(Task<Result<Unit>> taskResult)
+    {
+        var result = await taskResult;
+
+        if (result.IsSuccess)
+            return Ok();
+
+        var validationFailureErrors = result.Errors
+            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage))
+            .ToList();
+
+        return
+            BadRequest(new ValidationError(new ValidationFailureException(validationFailureErrors)));
+    }
+
+    /// <summary>
+    /// Creates a <see cref="ActionResult&lt;Value&gt;"/> object that produces an <see cref="StatusCodes.Status200OK"/> response.
+    /// </summary>
+    /// <returns>The created <see cref="ActionResult&lt;Value&gt;"/> for the response.</returns>
+    protected ActionResult<T> OkTyped<T>(Result<T> result)
+    {
+        return result.IsSuccess
+            ? Ok(result.Value)
+            : BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
+                new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+    }
 }

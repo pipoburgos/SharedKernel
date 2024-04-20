@@ -19,7 +19,7 @@
     <PackageTags>FileSystem</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.3.5</Version>
+    <Version>8.0.4.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DistributedLock.FileSystem" Version="1.0.1" />
+    <PackageReference Include="DistributedLock.FileSystem" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

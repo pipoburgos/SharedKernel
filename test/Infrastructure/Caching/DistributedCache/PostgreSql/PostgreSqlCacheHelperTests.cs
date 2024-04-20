@@ -1,4 +1,5 @@
-﻿using Community.Microsoft.Extensions.Caching.PostgreSql;
+﻿#if NET8_0
+using Community.Microsoft.Extensions.Caching.PostgreSql;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
@@ -64,3 +65,4 @@ public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
         Assert.Equal(2, contador);
     }
 }
+#endif

@@ -53,7 +53,7 @@ public class NpoiExcelRow : IRowData
         {
             case CellType.Numeric:
                 if (DateUtil.IsCellDateFormatted(cell))
-                    cellValue = cell.DateCellValue;
+                    cellValue = cell.DateCellValue ?? DateTime.MinValue;
                 else
                     cellValue = cell.NumericCellValue;
                 break;

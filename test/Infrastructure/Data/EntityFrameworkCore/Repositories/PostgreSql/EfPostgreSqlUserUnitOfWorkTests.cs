@@ -1,4 +1,4 @@
-﻿#if !NET8_0
+﻿#if NET8_0
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

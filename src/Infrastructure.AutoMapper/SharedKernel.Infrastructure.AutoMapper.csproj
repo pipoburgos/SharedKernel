@@ -19,7 +19,7 @@
     <PackageTags>AutoMapper</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.3.5</Version>
+    <Version>8.0.4.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

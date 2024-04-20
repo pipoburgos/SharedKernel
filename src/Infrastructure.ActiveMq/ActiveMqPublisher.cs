@@ -32,6 +32,13 @@ public class ActiveMqPublisher
         var connecturi = new Uri(_configuration.BrokerUri);
         var connectionFactory = new ConnectionFactory(connecturi);
 
+        if (!string.IsNullOrWhiteSpace(_configuration.UserName) &&
+            !string.IsNullOrWhiteSpace(_configuration.Password))
+        {
+            connectionFactory.UserName = _configuration.UserName;
+            connectionFactory.Password = _configuration.Password;
+        }
+
         // Create a Connection
         using var connection = await connectionFactory.CreateConnectionAsync();
 

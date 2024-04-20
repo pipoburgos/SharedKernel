@@ -1,4 +1,5 @@
-﻿using Elastic.Clients.Elasticsearch;
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+using Elastic.Clients.Elasticsearch;
 using Elasticsearch.Net;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
@@ -45,7 +46,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary>  </summary>
     protected override void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var updated = Client.Index(aggregateRoot, GetIndex<TAggregateRoot>());
+        var updated = Client.Index(aggregateRoot, index: GetIndex<TAggregateRoot>());
         updated.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -71,7 +72,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     protected override async Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var updated = await Client.IndexAsync(aggregateRoot, GetIndex<TAggregateRoot>(), cancellationToken);
+        var updated = await Client.IndexAsync(aggregateRoot, index: GetIndex<TAggregateRoot>(), cancellationToken);
         updated.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -181,3 +182,5 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         created.ThrowOriginalExceptionIfIsNotValid();
     }
 }
+
+#pragma warning restore CS0618 // Type or member is obsolete
