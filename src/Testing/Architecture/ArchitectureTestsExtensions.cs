@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Domain.Aggregates;
@@ -106,6 +107,9 @@ public static class ArchitectureTestsExtensions
                 continue;
 
             if (related.Any(t => t.EndsWith(file.ToString("G"))))
+                continue;
+
+            if (useCase.Implements(typeof(CommandRequest)))
                 continue;
 
             notFound.Add(name);

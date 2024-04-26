@@ -53,7 +53,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary>  </summary>
     protected override void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var deleted = Client.Delete(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!);
+        var deleted = Client.Delete(GetIndex<TAggregateRoot>(), id: aggregateRoot.Id.ToString()!);
         deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -81,7 +81,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         CancellationToken cancellationToken)
     {
         var deleted = await Client
-            .DeleteAsync(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!, cancellationToken);
+            .DeleteAsync(GetIndex<TAggregateRoot>(), id: aggregateRoot.Id.ToString()!, cancellationToken);
         deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -93,7 +93,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (!existsIndex.Exists)
             return default;
 
-        var existsDoc = Client.Exists(GetIndex<TAggregateRoot>(), id.ToString()!);
+        var existsDoc = Client.Exists(GetIndex<TAggregateRoot>(), id: id.ToString()!);
 
         if (!existsDoc.Exists)
             return default;
@@ -118,7 +118,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (!existsIndex.Exists)
             return default;
 
-        var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id.ToString()!, cancellationToken);
+        var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id: id.ToString()!, cancellationToken);
 
         if (!existsDoc.Exists)
             return default;

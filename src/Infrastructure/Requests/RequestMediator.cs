@@ -67,9 +67,13 @@ internal class RequestMediator : IRequestMediator
                 {
                     case nameof(ICommandRequestHandler<CommandRequest>.Handle):
                         {
-                            var handler = scope.ServiceProvider.GetRequiredService(handlerType);
 
-                            await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters)!)!;
+                            // not call GetRequiredService Async commands are in other api
+                            var handler = scope.ServiceProvider.GetService(handlerType);
+
+                            if (handler != default)
+                                await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters)!)!;
+
                             break;
                         }
                     case nameof(IDomainEventSubscriber<DomainEvent>.On):
