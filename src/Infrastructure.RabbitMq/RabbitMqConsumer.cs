@@ -51,6 +51,7 @@ internal class RabbitMqConsumer
         var consumer = new EventingBasicConsumer(channel);
         consumer.Received += (_, ea) =>
         {
+            var handlerImplemented = false;
             try
             {
                 var body = ea.Body.ToArray();
@@ -60,8 +61,12 @@ internal class RabbitMqConsumer
 
                 var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(@event.GetType());
 
-                TaskHelper.RunSync(_requestMediator.Execute(message, @event, handlerType,
-                    nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
+                handlerImplemented = _requestMediator.HandlerImplemented(message);
+                if (handlerImplemented)
+                {
+                    TaskHelper.RunSync(_requestMediator.Execute(message, @event, handlerType,
+                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
+                }
             }
             catch (Exception ex)
             {
@@ -69,7 +74,8 @@ internal class RabbitMqConsumer
                 HandleConsumptionError(ea, queue, ExchangeType.Direct);
             }
 
-            channel.BasicAck(ea.DeliveryTag, false);
+            if (handlerImplemented)
+                channel.BasicAck(ea.DeliveryTag, false);
         };
 
         channel.BasicConsume(queue, false, consumer);

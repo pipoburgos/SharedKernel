@@ -82,7 +82,7 @@ public class ActiveMqConsumer : BackgroundService
     }
 
     private async Task<IMessageConsumer> ConsumeQueue(IOptions<ActiveMqConfiguration> configuration, ISession session,
-        IRequestMediator domainEventMediator, ILogger<ActiveMqConsumer> logger)
+        IRequestMediator requestMediator, ILogger<ActiveMqConsumer> logger)
     {
         var destination = new ActiveMQQueue(configuration.Value.Queue);
 
@@ -95,7 +95,10 @@ public class ActiveMqConsumer : BackgroundService
                 if (message is not ITextMessage textMessage)
                     return;
 
-                TaskHelper.RunSync(domainEventMediator.Execute(textMessage.Text, typeof(ICommandRequestHandler<>),
+                if (!requestMediator.HandlerImplemented(textMessage.Text))
+                    message.Acknowledge();
+
+                TaskHelper.RunSync(requestMediator.Execute(textMessage.Text, typeof(ICommandRequestHandler<>),
                     nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
             }
             catch (Exception ex)
@@ -107,7 +110,7 @@ public class ActiveMqConsumer : BackgroundService
         return consumer;
     }
 
-    private async Task<IMessageConsumer> ConsumeTopics(ISession session, IRequestMediator domainEventMediator,
+    private async Task<IMessageConsumer> ConsumeTopics(ISession session, IRequestMediator requestMediator,
         ILogger<ActiveMqConsumer> logger)
     {
         const string topicPattern = ">"; // Utiliza el comodín ">" para suscribirte a todos los topics
@@ -122,7 +125,7 @@ public class ActiveMqConsumer : BackgroundService
                 if (message is not ITextMessage textMessage)
                     return;
 
-                TaskHelper.RunSync(domainEventMediator.Execute(textMessage.Text,
+                TaskHelper.RunSync(requestMediator.Execute(textMessage.Text,
                     typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
                     CancellationToken.None));
             }

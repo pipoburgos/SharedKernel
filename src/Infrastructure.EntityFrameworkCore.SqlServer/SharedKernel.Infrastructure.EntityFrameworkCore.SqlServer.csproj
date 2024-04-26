@@ -19,7 +19,7 @@
     <PackageTags>EntityFrameworkCore SqlServer</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.4.2</Version>
+    <Version>8.0.4.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

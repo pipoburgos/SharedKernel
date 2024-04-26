@@ -38,6 +38,17 @@ internal class RequestMediator : IRequestMediator
         _pipeline = pipeline;
     }
 
+    public bool HandlerImplemented(string requestSerialized)
+    {
+        var eventDeserialized = _requestDeserializer.Deserialize(requestSerialized);
+
+        var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(eventDeserialized.GetType());
+
+        using var scope = _serviceScopeFactory.CreateScope();
+
+        return scope.ServiceProvider.GetService(handlerType) != null;
+    }
+
     /// <summary>  </summary>
     public Task Execute(string requestSerialized, Type type, string method, CancellationToken cancellationToken)
     {

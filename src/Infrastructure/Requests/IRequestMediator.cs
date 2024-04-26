@@ -4,6 +4,9 @@
 public interface IRequestMediator
 {
     /// <summary>  </summary>
+    bool HandlerImplemented(string requestSerialized);
+
+    /// <summary>  </summary>
     Task Execute(string requestSerialized, Type type, string method, CancellationToken cancellationToken);
 
     /// <summary>  </summary>
