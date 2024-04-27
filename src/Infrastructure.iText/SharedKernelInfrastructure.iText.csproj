@@ -19,7 +19,7 @@
     <PackageTags>IText7</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.4.3</Version>
+    <Version>8.0.4.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
