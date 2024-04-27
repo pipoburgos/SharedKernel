@@ -49,17 +49,17 @@ public class ActiveMqQueueConsumer : BackgroundService
 
         await connection.StartAsync();
 
-        // Create a Session
-        using var session = await connection.CreateSessionAsync(AcknowledgementMode.ClientAcknowledge);
-
-        var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
-
-        using var consumer = await session.CreateConsumerAsync(destination);
-
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
+                // Create a Session
+                using var session = await connection.CreateSessionAsync(AcknowledgementMode.ClientAcknowledge);
+
+                var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
+
+                using var consumer = await session.CreateConsumerAsync(destination);
+
                 var message = await consumer.ReceiveAsync();
 
                 if (message is not ITextMessage textMessage ||
@@ -70,6 +70,8 @@ public class ActiveMqQueueConsumer : BackgroundService
                     CancellationToken.None);
 
                 await message.AcknowledgeAsync();
+                await consumer.CloseAsync();
+                await session.CloseAsync();
             }
             catch (Exception ex)
             {
@@ -77,8 +79,6 @@ public class ActiveMqQueueConsumer : BackgroundService
             }
         }
 
-        await consumer.CloseAsync();
-        await session.CloseAsync();
         await connection.CloseAsync();
     }
 }

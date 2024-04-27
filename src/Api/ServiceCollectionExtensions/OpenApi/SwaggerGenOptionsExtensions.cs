@@ -61,7 +61,7 @@ public static class SwaggerGenOptionsExtensions
                 Password = new OpenApiOAuthFlow
                 {
                     //AuthorizationUrl = new Uri(authority),
-                    TokenUrl = new Uri(authority + $"{authority}/{tokenEndpoint}"),
+                    TokenUrl = new Uri($"{authority}/{tokenEndpoint}"),
                     Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
                 }
             }
