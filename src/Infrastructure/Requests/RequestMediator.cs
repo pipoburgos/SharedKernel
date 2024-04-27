@@ -10,9 +10,7 @@ using System.Security.Claims;
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>  </summary>
 internal class RequestMediator : IRequestMediator
 {
     private readonly ILogger<RequestMediator> _logger;
@@ -21,9 +19,7 @@ internal class RequestMediator : IRequestMediator
     private readonly IJsonSerializer _jsonSerializer;
     private readonly IPipeline _pipeline;
 
-    /// <summary>
-    /// Constructor
-    /// </summary>
+    /// <summary> Constructor. </summary>
     public RequestMediator(
         ILogger<RequestMediator> logger,
         IServiceScopeFactory serviceScopeFactory,
@@ -38,11 +34,11 @@ internal class RequestMediator : IRequestMediator
         _pipeline = pipeline;
     }
 
-    public bool HandlerImplemented(string requestSerialized)
+    public bool HandlerImplemented(string requestSerialized, Type requestType)
     {
         var eventDeserialized = _requestDeserializer.Deserialize(requestSerialized);
 
-        var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(eventDeserialized.GetType());
+        var handlerType = requestType.MakeGenericType(eventDeserialized.GetType());
 
         using var scope = _serviceScopeFactory.CreateScope();
 
@@ -50,23 +46,18 @@ internal class RequestMediator : IRequestMediator
     }
 
     /// <summary>  </summary>
-    public Task Execute(string requestSerialized, Type type, string method, CancellationToken cancellationToken)
+    public Task Execute(string requestSerialized, Type requestType, string method, CancellationToken cancellationToken)
     {
-        var eventDeserialized = _requestDeserializer.Deserialize(requestSerialized);
+        var request = _requestDeserializer.Deserialize(requestSerialized);
 
-        var handlerType = type.MakeGenericType(eventDeserialized.GetType());
+        var requestTypeGeneric = requestType.MakeGenericType(request.GetType());
 
-        return Execute(requestSerialized, eventDeserialized, handlerType, method, cancellationToken);
-    }
-
-    /// <summary>  </summary>
-    public Task Execute(string requestSerialized, Request request, Type handlerType, string method, CancellationToken cancellationToken)
-    {
         return _pipeline.ExecuteAsync(request, cancellationToken, async (req, ct) =>
         {
             try
             {
-                _logger.LogInformation($"Executing {handlerType.FullName} with data: {requestSerialized}");
+                if (requestSerialized.Length < 10_000)
+                    _logger.LogInformation($"Executing {requestTypeGeneric.FullName} with data: {requestSerialized}");
 
                 using var scope = _serviceScopeFactory.CreateScope();
 
@@ -80,18 +71,18 @@ internal class RequestMediator : IRequestMediator
                         {
 
                             // not call GetRequiredService Async commands are in other api
-                            var handler = scope.ServiceProvider.GetService(handlerType);
+                            var handler = scope.ServiceProvider.GetService(requestTypeGeneric);
 
                             if (handler != default)
-                                await ((Task)handlerType.GetMethod(method)?.Invoke(handler, parameters)!)!;
+                                await ((Task)requestTypeGeneric.GetMethod(method)?.Invoke(handler, parameters)!)!;
 
                             break;
                         }
                     case nameof(IDomainEventSubscriber<DomainEvent>.On):
                         {
-                            var types = scope.ServiceProvider.GetServices(handlerType);
+                            var types = scope.ServiceProvider.GetServices(requestTypeGeneric);
                             await Task.WhenAll(types.Select(type =>
-                                (Task)handlerType.GetMethod(method)?.Invoke(type, parameters)!));
+                                (Task)requestTypeGeneric.GetMethod(method)?.Invoke(type, parameters)!));
                         }
 
                         break;

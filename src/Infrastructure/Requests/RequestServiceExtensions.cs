@@ -14,8 +14,8 @@ public static class RequestServiceExtensions
     public static IServiceCollection AddRequests<T>(this IServiceCollection services, Assembly assembly, string method,
         bool isTopic, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        var commandRequests = GetRequests<T>(assembly);
-        foreach (var eventType in commandRequests)
+        var requests = GetRequests<T>(assembly);
+        foreach (var eventType in requests)
         {
             var eventName = GetUniqueName<T>(eventType, method);
 

@@ -7,7 +7,10 @@ public class ActiveMqConfiguration
     public string BrokerUri { get; set; } = null!;
 
     /// <summary>  </summary>
-    public string Queue { get; set; } = "CommandsQueue";
+    public string ConsumeQueue { get; set; } = "CommandsQueue";
+
+    /// <summary>  </summary>
+    public string PublishQueue { get; set; } = "CommandsQueue";
 
     /// <summary>  </summary>
     public string UserName { get; set; } = null!;

@@ -28,7 +28,6 @@ internal class RedisDomainEventsConsumer : BackgroundService
         var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<RedisDomainEventsConsumer>>();
-
         return connectionMultiplexer.GetSubscriber().SubscribeAsync(RedisChannel.Pattern("*"), (_, value) =>
         {
             try

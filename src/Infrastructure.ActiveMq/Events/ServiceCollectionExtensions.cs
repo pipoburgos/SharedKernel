@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddActiveMqHealthChecks(configuration, "ActiveMq Event Bus", "ActiveMq", "EventBus")
-            .AddHostedService<ActiveMqConsumer>()
+            .AddHostedService<ActiveMqTopicsConsumer>()
             .AddTransient<IEventBus, ActiveMqEventBus>();
     }
 }

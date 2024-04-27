@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddActiveMqHealthChecks(configuration, "ActiveMq Command Bus", "ActiveMq", "CommandBus")
-            .AddHostedService<ActiveMqConsumer>()
+            .AddHostedService<ActiveMqQueueConsumer>()
             .AddTransient<ICommandBusAsync, ActiveMqCommandBusAsync>();
     }
 }

@@ -33,7 +33,7 @@ public class RabbitMqEventBusConfiguration : BackgroundService
 
     private void ConsumeQueue(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
     {
-        var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.Queue;
+        var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ConsumeQueue;
 
         var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(exchangeName);
         var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(exchangeName);

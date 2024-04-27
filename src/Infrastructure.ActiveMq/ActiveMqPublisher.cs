@@ -52,14 +52,14 @@ public class ActiveMqPublisher
         {
             destination = await session.GetTopicAsync(topicName);
         }
-        else if (!string.IsNullOrWhiteSpace(_configuration.Queue))
+        else if (!string.IsNullOrWhiteSpace(_configuration.PublishQueue))
         {
-            destination = await session.GetQueueAsync(_configuration.Queue);
+            destination = await session.GetQueueAsync(_configuration.PublishQueue);
         }
         else
         {
             throw new ArgumentNullException(
-                $"At least one value must not be empty. {nameof(_configuration.Queue)} or {nameof(topicName)}");
+                $"At least one value must not be empty. {nameof(_configuration.PublishQueue)} or {nameof(topicName)}");
         }
 
         // Create a MessageProducer from the Session to the Topic or Queue

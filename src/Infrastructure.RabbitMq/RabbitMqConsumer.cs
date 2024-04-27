@@ -16,7 +16,6 @@ namespace SharedKernel.Infrastructure.RabbitMq;
 /// <summary>  </summary>
 internal class RabbitMqConsumer
 {
-    private readonly IRequestDeserializer _requestDeserializer;
     private readonly RabbitMqConnectionFactory _config;
     private readonly IRequestMediator _requestMediator;
     private readonly ILogger<RabbitMqConsumer> _logger;
@@ -26,14 +25,12 @@ internal class RabbitMqConsumer
 
     /// <summary>  </summary>
     public RabbitMqConsumer(
-        IRequestDeserializer requestDeserializer,
         RabbitMqConnectionFactory config,
         IRequestMediator requestMediator,
         ILogger<RabbitMqConsumer> logger,
         IOptions<RabbitMqConfigParams> rabbitMqParams,
         IRetriever retriever)
     {
-        _requestDeserializer = requestDeserializer;
         _config = config;
         _requestMediator = requestMediator;
         _logger = logger;
@@ -43,6 +40,9 @@ internal class RabbitMqConsumer
 
     public void ConsumeQueue(string queue, ushort prefetchCount = 10)
     {
+        var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
+        const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
+
         var channel = _config.Channel();
 
         DeclareQueue(channel, queue);
@@ -51,21 +51,16 @@ internal class RabbitMqConsumer
         var consumer = new EventingBasicConsumer(channel);
         consumer.Received += (_, ea) =>
         {
-            var handlerImplemented = false;
             try
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                var @event = _requestDeserializer.Deserialize(message);
-
-                var handlerType = typeof(ICommandRequestHandler<>).MakeGenericType(@event.GetType());
-
-                handlerImplemented = _requestMediator.HandlerImplemented(message);
-                if (handlerImplemented)
+                if (_requestMediator.HandlerImplemented(message, commandRequestHandlerType))
                 {
-                    TaskHelper.RunSync(_requestMediator.Execute(message, @event, handlerType,
-                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None));
+                    TaskHelper.RunSync(_requestMediator.Execute(message, commandRequestHandlerType, method,
+                        CancellationToken.None));
+                    channel.BasicAck(ea.DeliveryTag, false);
                 }
             }
             catch (Exception ex)
@@ -73,9 +68,6 @@ internal class RabbitMqConsumer
                 _logger.LogError(ex, ex.Message);
                 HandleConsumptionError(ea, queue, ExchangeType.Direct);
             }
-
-            if (handlerImplemented)
-                channel.BasicAck(ea.DeliveryTag, false);
         };
 
         channel.BasicConsume(queue, false, consumer);
@@ -83,6 +75,9 @@ internal class RabbitMqConsumer
 
     public void ConsumeTopic(string topicName, ushort prefetchCount = 10)
     {
+        var domainEventSubscriberType = typeof(IDomainEventSubscriber<>);
+        const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
+
         var channel = _config.Channel();
 
         DeclareQueue(channel, topicName);
@@ -96,20 +91,18 @@ internal class RabbitMqConsumer
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                var @event = _requestDeserializer.Deserialize(message);
-
-                var handlerType = typeof(IDomainEventSubscriber<>).MakeGenericType(@event.GetType());
-
-                TaskHelper.RunSync(_requestMediator.Execute(message, @event, handlerType,
-                    nameof(IDomainEventSubscriber<DomainEvent>.On), CancellationToken.None));
+                if (_requestMediator.HandlerImplemented(message, domainEventSubscriberType))
+                {
+                    TaskHelper.RunSync(_requestMediator.Execute(message, domainEventSubscriberType, method,
+                        CancellationToken.None));
+                    channel.BasicAck(ea.DeliveryTag, false);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 HandleConsumptionError(ea, topicName, ExchangeType.Topic);
             }
-
-            channel.BasicAck(ea.DeliveryTag, false);
         };
 
         channel.BasicConsume(topicName, false, consumer);

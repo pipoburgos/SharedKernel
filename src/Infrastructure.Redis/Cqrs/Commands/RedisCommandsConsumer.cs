@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Cqrs.Commands;
@@ -26,30 +27,30 @@ internal class RedisCommandsConsumer : BackgroundService
         var connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         var requestMediator = scope.ServiceProvider.GetRequiredService<IRequestMediator>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<RedisCommandsConsumer>>();
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+        var consumeQueue = configuration.GetValue<string?>("RabbitMq:ConsumeQueue") ?? "CommandsQueue";
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                if (connectionMultiplexer.IsConnected)
-                {
-                    var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync("CommandsQueue");
-
-                    if (value.HasValue)
-                    {
-                        try
-                        {
-                            await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
-                                nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, ex.Message);
-                        }
-                    }
-                }
-                else
+                if (!connectionMultiplexer.IsConnected)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                    continue;
+                }
+                var value = await connectionMultiplexer.GetDatabase().ListLeftPopAsync(consumeQueue);
+
+                if (!value.HasValue)
+                    continue;
+
+                try
+                {
+                    await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
+                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, ex.Message);
                 }
             }
             catch (RedisConnectionException e)

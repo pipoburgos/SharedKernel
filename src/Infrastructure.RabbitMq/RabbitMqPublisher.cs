@@ -41,7 +41,7 @@ public class RabbitMqPublisher
     {
         try
         {
-            var queue = isTopic ? _rabbitMqParams.Value.ExchangeName : _rabbitMqParams.Value.Queue;
+            var queue = isTopic ? _rabbitMqParams.Value.ExchangeName : _rabbitMqParams.Value.PublishQueue;
             var exchangeType = isTopic ? ExchangeType.Topic : ExchangeType.Direct;
 
             var channel = _config.Channel();
