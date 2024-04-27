@@ -49,6 +49,7 @@ public static class SwaggerGenOptionsExtensions
         OpenApiOptions openApiOptions)
     {
         var authority = openApiOptions.Authority ?? openIdOptions.Authority;
+        var tokenEndpoint = openApiOptions.TokenEndpoint ?? openIdOptions.TokenEndpoint;
         if (string.IsNullOrWhiteSpace(authority))
             return;
 
@@ -60,7 +61,7 @@ public static class SwaggerGenOptionsExtensions
                 Password = new OpenApiOAuthFlow
                 {
                     //AuthorizationUrl = new Uri(authority),
-                    TokenUrl = new Uri(authority + "/connect/token"),
+                    TokenUrl = new Uri(authority + $"{authority}/{tokenEndpoint}"),
                     Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
                 }
             }

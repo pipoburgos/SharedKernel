@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using SharedKernel.Api.Middlewares;
+using SharedKernel.Api.Newtonsoft;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 using SharedKernel.Application.Security;

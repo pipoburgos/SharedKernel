@@ -12,6 +12,9 @@ public class OpenApiOptions
     /// <summary> Open api name. </summary>
     public string? Name { get; set; }
 
+    /// <summary> TokenEndpoint. </summary>
+    public string? TokenEndpoint { get; set; } = "connect/token";
+
     /// <summary> De Url of swagger.json. Default: "swagger/v1/swagger.json". </summary>
     public string Url { get; set; } = "swagger/v1/swagger.json";
 

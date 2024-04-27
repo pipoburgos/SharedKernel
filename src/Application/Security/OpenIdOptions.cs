@@ -9,6 +9,9 @@ public class OpenIdOptions
     /// <summary>  </summary>
     public bool RequireHttpsMetadata { get; set; }
 
+    /// <summary> TokenEndpoint. </summary>
+    public string? TokenEndpoint { get; set; } = "connect/token";
+
     /// <summary>  </summary>
     public string? Audience { get; set; }
 
