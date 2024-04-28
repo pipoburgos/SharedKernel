@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace SharedKernel.Testing.Acceptance.Authentication;
 
 /// <summary> Allow to set username, roles or anything useful for faking a user. </summary>
-public static class BearerExtensions
+public static class JwtBearerExtensions
 {
     public static IServiceCollection SetFakeJwtBearerHandler(this IServiceCollection services)
     {

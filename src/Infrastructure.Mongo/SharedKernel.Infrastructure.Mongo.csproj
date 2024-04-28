@@ -19,7 +19,7 @@
     <PackageTags>Mongo</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.4.5</Version>
+    <Version>8.0.4.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
