@@ -12,7 +12,7 @@ public class WebApplicationFactoryTests : WebApplicationFactoryBaseTests<Startup
 {
     protected override Startup CreateStartup(IConfiguration configuration, WebHostBuilderContext webHostBuilderContext)
     {
-        return new Startup(configuration, webHostBuilderContext.HostingEnvironment);
+        return new Startup(configuration);
     }
 
     protected override void ConfigureServices(Startup startup, IServiceCollection services)
