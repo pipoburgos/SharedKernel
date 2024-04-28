@@ -18,7 +18,7 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
     public override async Task<HttpClient> CreateClientAsync(string? language = "en-US")
     {
         var client = await base.CreateClientAsync(language);
-        client.SetFakeBearerToken(GenerateClaims());
+        client.AddBearerToken(GenerateClaims());
         return client;
     }
 
@@ -26,13 +26,7 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
     {
         base.ConfigureServices(services);
 
-        services.AddAuthentication(options =>
-        {
-            options.DefaultScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-            options.DefaultAuthenticateScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = FakeJwtBearerDefaults.AuthenticationScheme;
-        }).AddFakeJwtBearer();
-
+        services.SetFakeJwtBearerHandler();
         //services.RemoveAll<IDateTime>().AddTransient(_ =>
         //{
         //    var dateTime = Substitute.For<IDateTime>();
@@ -41,14 +35,8 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
         //});
     }
 
-    public ClaimsIdentity GenerateClaims(string authenticationType = "Bearer")
+    private List<Claim> GenerateClaims()
     {
-        var claims = new List<Claim>
-            {
-                new (ClaimTypes.Sid, "12345678-1234-1234-1234-123456789123")
-            };
-
-        var claimsIdentity = new ClaimsIdentity(claims, authenticationType, ClaimTypes.Email, ClaimTypes.Role);
-        return claimsIdentity;
+        return [new Claim(ClaimTypes.Sid, "12345678-1234-1234-1234-123456789123")];
     }
 }
