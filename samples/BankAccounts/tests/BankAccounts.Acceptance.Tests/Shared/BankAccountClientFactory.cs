@@ -22,9 +22,9 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
         return client;
     }
 
-    protected override void ConfigureServices(IServiceCollection services)
+    protected override void ConfigureTestServices(IServiceCollection services)
     {
-        base.ConfigureServices(services);
+        base.ConfigureTestServices(services);
 
         services.SetFakeJwtBearerHandler();
         //services.RemoveAll<IDateTime>().AddTransient(_ =>

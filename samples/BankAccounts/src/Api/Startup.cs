@@ -39,14 +39,13 @@ public class Startup
     {
         services.AddControllers(o =>
             {
-                o.Conventions.Add(new ControllerDocumentationConvention());
-
                 var authorizationPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .Build();
 
                 o.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                o.Conventions.Add(new ControllerDocumentationConvention());
             })
             .AddSharedKernelNewtonsoftJson();
 
@@ -61,6 +60,7 @@ public class Startup
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
             .AddSharedKernelSwaggerGenNewtonsoftSupport()
+            .AddSharedKernelAuth(_configuration)
             .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>());
     }
 
@@ -77,6 +77,8 @@ public class Startup
             .UseCors(CorsPolicy)
             .UseRouting()
             .UseResponseCaching()
+            .UseAuthentication()
+            .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

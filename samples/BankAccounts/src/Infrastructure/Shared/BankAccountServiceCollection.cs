@@ -65,6 +65,7 @@ public static class BankAccountServiceCollection
             .AddRedisDbContext<BankAccountRedisDbContext>(configuration, ServiceLifetime.Scoped)
             .AddGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
             .AddDapperSqlServer(connectionString)
+            .AddHostedService<BankAccountMigration>()
             .AddFailoverMiddleware()
             .AddEntityFrameworkCoreFailoverRepository<BankAccountDbContext>()
             .AddValidationMiddleware()
