@@ -19,8 +19,14 @@ public static class JwtBearerExtensions
         where T : AuthenticationHandler<JwtBearerOptions>
     {
         return services.Configure<AuthenticationOptions>(o =>
-            o.SchemeMap[JwtBearerDefaults.AuthenticationScheme].HandlerType = typeof(T));
+        {
+            if (o.SchemeMap.TryGetValue(JwtBearerDefaults.AuthenticationScheme, out var value))
+                value.HandlerType = typeof(T);
+            //else
+            //    o.AddScheme<T>(JwtBearerDefaults.AuthenticationScheme, JwtBearerDefaults.AuthenticationScheme);
+        });
     }
+
 
     public static void AddBearerToken(this HttpClient client, List<Claim> claims)
     {
