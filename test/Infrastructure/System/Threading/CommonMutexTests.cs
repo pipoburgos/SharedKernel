@@ -29,7 +29,7 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
 
         tasks.Add(Task.Run(() => mutexFactory1.RunOneAtATimeFromGivenKey("MutexKey", () =>
         {
-            Thread.Sleep(5_000);
+            Thread.Sleep(500);
             firstTaskCompleted = true;
         })));
 
@@ -61,7 +61,7 @@ public abstract class CommonMutexTests<TApp> : IClassFixture<TApp> where TApp : 
 
         tasks.Add(mutexFactory1.RunOneAtATimeFromGivenKeyAsync("MutexKey", async () =>
         {
-            await Task.Delay(5_000);
+            await Task.Delay(500);
             firstTaskCompleted = true;
             return Task.CompletedTask;
         }, CancellationToken.None));

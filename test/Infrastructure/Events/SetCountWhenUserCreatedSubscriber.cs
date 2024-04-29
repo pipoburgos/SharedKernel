@@ -24,7 +24,7 @@ internal class SetCountWhenUserCreatedSubscriber : IDomainEventSubscriber<UserCr
             throw new ArgumentNullException(nameof(@event));
 
         var rnd = new Random();
-        var random = rnd.Next(1, 7);
+        var random = rnd.Next(1, 20);
 
         if (random == 1)
             throw new Exception("To retry");
