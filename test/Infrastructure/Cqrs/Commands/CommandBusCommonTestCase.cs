@@ -8,9 +8,9 @@ using SharedKernel.Infrastructure.FluentValidation;
 using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
+using SharedKernel.Integration.Tests.Shared;
 using SharedKernel.Testing.Infrastructure;
 using System.Security.Claims;
-using SharedKernel.Integration.Tests.Shared;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands;
 
@@ -54,7 +54,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         saveValueSingletonService.Id.Should().Be(command.Value);
     }
 
-    protected async Task DispatchCommandAsync(int secondsRelay = 10)
+    protected async Task DispatchCommandAsync(int secondsRelay = 2)
     {
         var httpContextAccessor = GetServiceOnNewScope<IIdentityService>();
 
