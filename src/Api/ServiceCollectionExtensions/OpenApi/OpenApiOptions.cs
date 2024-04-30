@@ -15,8 +15,8 @@ public class OpenApiOptions
     /// <summary> TokenEndpoint. </summary>
     public string? TokenEndpoint { get; set; } = "connect/token";
 
-    /// <summary> De Url of swagger.json. Default: "swagger/v1/swagger.json". </summary>
-    public string Url { get; set; } = "swagger/v1/swagger.json";
+    /// <summary> De Url of swagger.json. </summary>
+    public string? Url { get; set; }
 
     /// <summary> De Url of api. </summary>
     public string? UrlApi { get; set; }

@@ -103,12 +103,17 @@ public static class OpenApiExtensions
 
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint(options.Value.Url, options.Value.Name ?? "Open API v1");
+            var authority = options.Value.Authority ?? openIdOptions.Value.Authority;
+
+            var url = options.Value.Url;
+            if (string.IsNullOrWhiteSpace(url))
+                url = string.IsNullOrWhiteSpace(authority) ? "v1/swagger.json" : "swagger/v1/swagger.json";
+
+            c.SwaggerEndpoint(url, options.Value.Name ?? "Open API v1");
 
             if (options.Value.Collapsed)
                 c.DocExpansion(DocExpansion.None);
 
-            var authority = options.Value.Authority ?? openIdOptions.Value.Authority;
             if (string.IsNullOrWhiteSpace(authority))
                 return;
 
