@@ -27,7 +27,7 @@ public static class OpenApiExtensions
 
         services.AddFluentValidationRulesToSwagger();
 
-        services.AddSwaggerGen(swaggerGenOptions =>
+        return services.AddSwaggerGen(swaggerGenOptions =>
         {
             swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
 
@@ -50,6 +50,9 @@ public static class OpenApiExtensions
             });
 
             swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesSchemaFilter>();
+
+            // Not working
+            //swaggerGenOptions.SupportNonNullableReferenceTypes();
 
             swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
 
@@ -77,8 +80,6 @@ public static class OpenApiExtensions
 
             swaggerGenOptions.DocumentFilter<TagReOrderDocumentFilter>();
         });
-
-        return services;
     }
 
     /// <summary> Configure Open Api UI. </summary>
