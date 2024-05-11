@@ -49,36 +49,44 @@ public class ActiveMqQueueConsumer : BackgroundService
 
         await connection.StartAsync();
 
+        using var session = await connection.CreateSessionAsync(AcknowledgementMode.ClientAcknowledge);
+
+        var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
+
+        var tasks = new List<Task>();
         while (!stoppingToken.IsCancellationRequested)
         {
-            try
-            {
-                // Create a Session
-                using var session = await connection.CreateSessionAsync(AcknowledgementMode.ClientAcknowledge);
+            var consumer = await session.CreateConsumerAsync(destination);
 
-                var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
+            var message = await consumer.ReceiveAsync();
 
-                using var consumer = await session.CreateConsumerAsync(destination);
-
-                var message = await consumer.ReceiveAsync();
-
-                if (message is not ITextMessage textMessage ||
-                    !requestMediator.HandlerImplemented(textMessage.Text, commandRequestHandlerType))
-                    continue;
-
-                await requestMediator.Execute(textMessage.Text, commandRequestHandlerType, method,
-                    CancellationToken.None);
-
-                await message.AcknowledgeAsync();
-                await consumer.CloseAsync();
-                await session.CloseAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message);
-            }
+            tasks.Add(Send(message, requestMediator, commandRequestHandlerType, method, consumer, logger));
         }
 
+        await Task.WhenAll(tasks);
+        await session.CloseAsync();
         await connection.CloseAsync();
+    }
+
+    private async Task Send(IMessage message, IRequestMediator requestMediator, Type commandRequestHandlerType,
+        string method, IMessageConsumer consumer, ILogger<ActiveMqTopicsConsumer> logger)
+    {
+        try
+        {
+            if (message is not ITextMessage textMessage ||
+            !requestMediator.HandlerImplemented(textMessage.Text, commandRequestHandlerType))
+                return;
+
+            await requestMediator.Execute(textMessage.Text, commandRequestHandlerType, method,
+                CancellationToken.None);
+
+            await message.AcknowledgeAsync();
+            await consumer.CloseAsync();
+            consumer.Dispose();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, ex.Message);
+        }
     }
 }
