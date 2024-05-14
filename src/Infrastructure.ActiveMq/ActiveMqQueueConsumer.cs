@@ -53,14 +53,17 @@ public class ActiveMqQueueConsumer : BackgroundService
 
         var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
 
+        var consumer = await session.CreateConsumerAsync(destination);
+
         var tasks = new List<Task>();
         while (!stoppingToken.IsCancellationRequested)
         {
-            var consumer = await session.CreateConsumerAsync(destination);
-
             var message = await consumer.ReceiveAsync();
 
-            tasks.Add(Send(message, requestMediator, commandRequestHandlerType, method, consumer, logger));
+            var executing = Task.Run(() =>
+                Send(message, requestMediator, commandRequestHandlerType, method, consumer, logger), stoppingToken);
+
+            tasks.Add(executing);
         }
 
         await Task.WhenAll(tasks);
