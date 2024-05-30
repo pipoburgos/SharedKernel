@@ -19,7 +19,7 @@
     <PackageTags>RabbitMq CommandBus EventBus</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.5.1</Version>
+    <Version>8.0.6.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

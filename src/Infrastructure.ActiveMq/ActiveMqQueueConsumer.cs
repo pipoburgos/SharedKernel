@@ -35,6 +35,7 @@ public class ActiveMqQueueConsumer : BackgroundService
         var configuration = scope.ServiceProvider.GetRequiredService<IOptions<ActiveMqConfiguration>>();
 
         var connecturi = new Uri($"{configuration.Value.BrokerUri}?wireFormat.maxInactivityDuration=0");
+
         var connectionFactory = new ConnectionFactory(connecturi);
 
         if (!string.IsNullOrWhiteSpace(configuration.Value.UserName) &&
@@ -44,52 +45,57 @@ public class ActiveMqQueueConsumer : BackgroundService
             connectionFactory.Password = configuration.Value.Password;
         }
 
-        // Create a Connection
         using var connection = await connectionFactory.CreateConnectionAsync();
-
         await connection.StartAsync();
-
         using var session = await connection.CreateSessionAsync(AcknowledgementMode.ClientAcknowledge);
+        using var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
 
-        var destination = new ActiveMQQueue(configuration.Value.ConsumeQueue);
-
-        var consumer = await session.CreateConsumerAsync(destination);
-
-        var tasks = new List<Task>();
-        while (!stoppingToken.IsCancellationRequested)
+        try
         {
-            var message = await consumer.ReceiveAsync();
-
-            var executing = Task.Run(() =>
-                Send(message, requestMediator, commandRequestHandlerType, method, consumer, logger), stoppingToken);
-
-            tasks.Add(executing);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                var consumer = await session.CreateConsumerAsync(destination);
+                logger.LogWarning("Escuchando...");
+                var message = await consumer.ReceiveAsync();
+                logger.LogWarning($"Mensaje {message.NMSCorrelationID} recibido.");
+                await Send(consumer, message, requestMediator, commandRequestHandlerType, method, logger);
+            }
         }
-
-        await Task.WhenAll(tasks);
-        await session.CloseAsync();
-        await connection.CloseAsync();
+        catch (Exception e)
+        {
+            logger.LogError(e, e.Message);
+            throw;
+        }
+        finally
+        {
+            await session.CloseAsync();
+            await connection.CloseAsync();
+        }
     }
 
-    private async Task Send(IMessage message, IRequestMediator requestMediator, Type commandRequestHandlerType,
-        string method, IMessageConsumer consumer, ILogger<ActiveMqTopicsConsumer> logger)
+    private async Task Send(IMessageConsumer consumer, IMessage message, IRequestMediator requestMediator,
+        Type commandRequestHandlerType, string method, ILogger<ActiveMqTopicsConsumer> logger)
     {
         try
         {
             if (message is not ITextMessage textMessage ||
-            !requestMediator.HandlerImplemented(textMessage.Text, commandRequestHandlerType))
+                !requestMediator.HandlerImplemented(textMessage.Text, commandRequestHandlerType))
                 return;
 
-            await requestMediator.Execute(textMessage.Text, commandRequestHandlerType, method,
-                CancellationToken.None);
+            await requestMediator.Execute(textMessage.Text, commandRequestHandlerType, method, CancellationToken.None);
 
             await message.AcknowledgeAsync();
-            await consumer.CloseAsync();
-            consumer.Dispose();
+
+            logger.LogWarning("Mensaje procesado.");
         }
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
+        }
+        finally
+        {
+            await consumer.CloseAsync();
+            consumer.Dispose();
         }
     }
 }
