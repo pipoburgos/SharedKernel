@@ -95,7 +95,7 @@ public static class OpenApiExtensions
             if (string.IsNullOrWhiteSpace(url))
                 return;
 
-            c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            c.RouteTemplate = options.Value.RouteTemplate;
             c.PreSerializeFilters.Add((swaggerDoc, _) =>
             {
                 swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = url } };

@@ -21,6 +21,9 @@ public class OpenApiOptions
     /// <summary> De Url of api. </summary>
     public string? UrlApi { get; set; }
 
+    /// <summary> Default "swagger/{documentName}/swagger.json". </summary>
+    public string? RouteTemplate { get; set; } = "swagger/{documentName}/swagger.json";
+
     /// <summary> Documentation file name. </summary>
     public string? XmlDocumentationFile { get; set; }
 
