@@ -49,7 +49,7 @@ public sealed class DapperQueryProvider : IDisposable
     {
         var connection = _dbConnectionFactory.GetConnection();
         _connections.Add(connection);
-        return new QueryBuilder(connection.ConnectionString, pageOptions);
+        return new QueryBuilder(connection.ConnectionString, pageOptions, true);
     }
 
     /// <summary>  </summary>

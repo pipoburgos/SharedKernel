@@ -11,7 +11,7 @@ public class QueryResult
     private readonly string _connectionString;
 
     /// <summary> </summary>
-    public QueryResult(CustomDynamicParameters parameters, string query, string tempTables, string connectionString, PageOptions state)
+    public QueryResult(DynamicParameters parameters, string query, string tempTables, string connectionString, PageOptions state)
     {
         _connectionString = connectionString;
 
@@ -46,7 +46,7 @@ public class QueryResult
             PagedQuery += $"{Environment.NewLine} OFFSET {state.Skip ?? 0} ROWS\nFETCH NEXT {state.Take} ROWS ONLY";
     }
 
-    private CustomDynamicParameters Parameters { get; }
+    private DynamicParameters Parameters { get; }
 
     private string CountQuery { get; }
 

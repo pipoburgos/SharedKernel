@@ -1,317 +1,199 @@
-﻿using SharedKernel.Application.Cqrs.Queries.Entities;
-using System.Diagnostics;
+﻿using Dapper;
+using SharedKernel.Application.Cqrs.Queries.Entities;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
 /// <summary> </summary>
-public class QueryBuilder
+public partial class QueryBuilder
 {
     #region Miembros
 
-    private const string SelectText = "SELECT";
-    private const string GroupByText = "\nGROUP BY";
-    private const string InnerJoinText = "\n\tINNER JOIN ";
-    private const string LeftJoinText = "\n\tLEFT JOIN ";
-    private const string WhereText = "\nWHERE\n\t";
-    private const string AndText = "\n\tAND ";
-    private const string OrText = "\n\tOR ";
-    private readonly List<string> _condiciones;
+    private const string Select = "SELECT";
+    private const string InnerJoin = "\n\tINNER JOIN ";
+    private const string LeftJoin = "\n\tLEFT JOIN ";
+    private const string Where = "\nWHERE\n\t";
+    private const string And = "\n\tAND ";
+    private const string Or = "\n\tOR ";
     private readonly List<string> _tabs;
-    private readonly List<string> _subTabs;
-    private readonly List<string> _leftJoinsTab;
-    private readonly List<string> _leftJoins;
-    private readonly string _connectionString;
-    private readonly PageOptions _state;
-    private bool _isAnd;
+    private readonly List<string> _joinsTab;
+    private readonly List<string> _joins;
+    private readonly string _connectionString = null!;
+    private readonly PageOptions _state = null!;
+    private readonly bool _isAnd;
     private string _select;
     private string _tempTables = null!;
-    private string _groupBy;
-    private readonly CustomDynamicParameters _dynamicParameters;
 
     #endregion
 
     #region Constructores
 
-    /// <summary> </summary>
-    public QueryBuilder(string connectionString, PageOptions state)
+    /// <summary>  </summary>
+    public QueryBuilder(string connectionString, PageOptions state, bool isAnd)
     {
-        _dynamicParameters = new CustomDynamicParameters();
+        _dynamicParameters = new DynamicParameters();
         _condiciones = new List<string>();
         _tabs = new List<string>();
-        _subTabs = new List<string>();
-        _leftJoinsTab = new List<string>();
-        _leftJoins = new List<string>();
+        _joinsTab = new List<string>();
+        _joins = new List<string>();
         _connectionString = connectionString;
         _state = state;
+        _isAnd = isAnd;
+        _select = string.Empty;
+    }
+
+    /// <summary>  </summary>
+    private QueryBuilder(DynamicParameters dynamicParameters)
+    {
+        _dynamicParameters = dynamicParameters;
+        _condiciones = new List<string>();
+        _tabs = new List<string>();
+        _joinsTab = new List<string>();
+        _joins = new List<string>();
         _isAnd = true;
         _select = string.Empty;
-        _groupBy = string.Empty;
+    }
+
+    /// <summary>  </summary>
+    public QueryBuilder CreateSubQuery()
+    {
+        return new QueryBuilder(_dynamicParameters);
     }
 
     #endregion
 
     #region Métodos públicos
 
-    /// <summary> </summary>
-    public void IsNotAnd()
-    {
-        _isAnd = false;
-    }
-
-    /// <summary> </summary>
+    /// <summary>  </summary>
     public QueryResult Build()
     {
-        var query = _select;
+        if (string.IsNullOrWhiteSpace(_connectionString))
+            throw new DapperException("Falta la cadena de conexión");
 
-        query += GetLeftJoins();
+        var consulta = _select;
 
-        query += GetFilters(_isAnd);
+        consulta += GetJoins();
 
-        query += _groupBy;
+        consulta += GetFilters(_isAnd);
 
-        Debug.WriteLine("-------------------------------------------------------------------------------");
-        Debug.WriteLine(query);
-        Debug.WriteLine("-------------------------------------------------------------------------------");
-
-        return new QueryResult(_dynamicParameters, query, _tempTables, _connectionString, _state);
+        return new QueryResult(_dynamicParameters, consulta, _tempTables, _connectionString, _state);
     }
 
-    /// <summary> </summary>
+    /// <summary>  </summary>
+    public string GetSubConsulta()
+    {
+        NewTab(true);
+
+        var consulta = _select;
+
+        consulta += GetJoins();
+
+        consulta += GetFilters(_isAnd);
+
+        return consulta;
+    }
+
+    /// <summary>  </summary>
+    public int TotalCondiciones => _condiciones.Count;
+
+    /// <summary>  </summary>
+    public QueryBuilder AddSubQueryExists(QueryBuilder subQuery)
+    {
+        _condiciones.Add($"\n\t EXISTS (\n\t\t {subQuery.GetSubConsulta()} )");
+        return this;
+    }
+
+    /// <summary>  </summary>
+    public QueryBuilder AddSubQueryNotExists(QueryBuilder subQuery)
+    {
+        _condiciones.Add($"\n\t NOT EXISTS (\n\t\t {subQuery.GetSubConsulta()} )");
+        return this;
+    }
+
+    /// <summary>  </summary>
+    public QueryBuilder AddSubQuery(string subQuery)
+    {
+        _condiciones.Add(subQuery);
+        return this;
+    }
+
+    /// <summary>  </summary>
     public QueryBuilder AddTempTables(string tables)
     {
         _tempTables = tables;
         return this;
     }
 
-    /// <summary> </summary>
-    public QueryBuilder Select(string select)
+    /// <summary>  </summary>
+    public QueryBuilder AddSelect(string select)
     {
-        _select = SelectText + select;
+        _select = Select + select;
         return this;
     }
 
-    /// <summary> </summary>
-    public void Where(string filter)
+    /// <summary>  </summary>
+    public QueryBuilder AddSelect(string selectTableNameAlias, QueryTable table)
     {
-        _condiciones.Add(filter);
-    }
-
-    /// <summary> </summary>
-    public QueryBuilder Where(Func<QueryBuilder, bool> expression)
-    {
-        var esAnd = expression(this);
-        NewTab(esAnd);
+        _select = $"SELECT '{selectTableNameAlias}' FROM {table}";
         return this;
     }
 
-    /// <summary> </summary>
-    public QueryBuilder Where(bool esAnd, params Func<QueryBuilder, bool>[] expressions)
+    /// <summary>  </summary>
+    public QueryBuilder AddLeftJoin(QueryTable table1, QueryTable table2)
     {
-        foreach (var expression in expressions)
+        _joinsTab.Add($"{LeftJoin}{table1}\n\t\tON {table1.Join} = {table2.Join}");
+        return this;
+    }
+
+    /// <summary>  </summary>
+    public QueryBuilder AddInnerJoin(bool must, QueryTable table1, QueryTable table2, string? more = null)
+    {
+        if (must)
         {
-            var esAndDos = expression(this);
-            NewTab(esAndDos, true);
+            _joinsTab.Add($"{InnerJoin}{table1}\n\t\tON {table1.Join} = {table2.Join}{more}");
         }
-        return AddSubTabsToTab(esAnd);
-    }
 
-    /// <summary> </summary>
-    public QueryBuilder GroupBy(string groupBy)
-    {
-        _groupBy = GroupByText + groupBy;
         return this;
     }
 
-    /// <summary> </summary>
-    public QueryBuilder LeftJoin(QueryTable table1, QueryTable table2)
+    /// <summary>  </summary>
+    public QueryBuilder AddInnerJoin(QueryTable table1, QueryTable table2, string? more = null)
     {
-        _leftJoinsTab.Add($"{LeftJoinText}{table1}\n\t\tON {table1.Join} = {table2.Join}");
+        _joinsTab.Add($"{InnerJoin}{table1}\n\t\tON {table1.Join} = {table2.Join}{more}");
         return this;
-    }
-
-    /// <summary> </summary>
-    public QueryBuilder InnerJoin(QueryTable table1, QueryTable table2, string? more = default)
-    {
-        _leftJoinsTab.Add($"{InnerJoinText}{table1}\n\t\tON {table1.Join} = {table2.Join}{more}");
-        return this;
-    }
-
-    /// <summary> </summary>
-    public QueryBuilder InnerJoin(string query, string paramName, object value)
-    {
-        _dynamicParameters.AddParameter(paramName, value);
-        _leftJoinsTab.Add(query);
-        return this;
-    }
-
-    /// <summary> </summary>
-    public void AddSubQuery(string subQuery)
-    {
-        _condiciones.Add(subQuery);
-    }
-
-    /// <summary> </summary>
-    public void AddParameter(string nombre, object obj)
-    {
-        _dynamicParameters.AddParameter(nombre, obj);
-    }
-
-    /// <summary> </summary>
-    public void AddParameter(string table, string column, bool negar, QueryConditions condicion, string paramName,
-        object? value, string? secondParameter = default, object? value2 = default, string? campo = default,
-        string paramConst = "@", string? table2 = default)
-    {
-        if (_dynamicParameters.ParameterNames.Contains(paramName))
-            throw new Exception("Parameter (" + paramName + ") already exists.");
-
-        if (condicion != QueryConditions.Like && value != default)
-            _dynamicParameters.AddParameter(paramName, value);
-        else if (value != default)
-            // ReSharper disable once RedundantSuppressNullableWarningExpression
-            _dynamicParameters.AddParameter(paramName, value.ToString()!.Replace("%", "$%").Replace("*", "%"));
-
-        if (secondParameter != default && value2 != default)
-            _dynamicParameters.AddParameter(secondParameter, value2);
-
-        if (campo == null)
-            campo = $"{table}.{column}";
-
-        switch (condicion)
-        {
-            case QueryConditions.IsNull:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} IS NOT NULL")
-                    : string.Format($"{campo} IS NULL"));
-                break;
-            case QueryConditions.Like:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} NOT LIKE '%' + {paramConst}{paramName} + '%' ESCAPE '$'")
-                    : string.Format($"{campo} LIKE '%' + {paramConst}{paramName} + '%' ESCAPE '$'"));
-                break;
-            case QueryConditions.Equals:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} <> {paramConst}{paramName}")
-                    : string.Format($"{campo} = {paramConst}{paramName}"));
-                break;
-            case QueryConditions.In:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} NOT IN {paramConst}{paramName}")
-                    : string.Format($"{campo} IN {paramConst}{paramName}"));
-                break;
-            case QueryConditions.Between:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} NOT BETWEEN {paramConst}{paramName} AND {paramConst}{secondParameter}")
-                    : string.Format($"{campo} BETWEEN {paramConst}{paramName} AND {paramConst}{secondParameter}"));
-                break;
-            case QueryConditions.HigherOrEquals:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} < {paramConst}{paramName}")
-                    : string.Format($"{campo} >= {paramConst}{paramName}"));
-                break;
-            case QueryConditions.LowerOrEquals:
-                _condiciones.Add(negar
-                    ? string.Format($"{campo} > {paramConst}{paramName}")
-                    : string.Format($"{campo} <= {paramConst}{paramName}"));
-                break;
-            case QueryConditions.EqualsOr:
-                _condiciones.Add(negar
-                    ? string.Format($"({table}.{column} <> {paramConst}{paramName} OR {table}.{campo} <> {paramConst}{paramName})")
-                    : string.Format($"({table}.{column} = {paramConst}{paramName} OR {table}.{campo} = {paramConst}{paramName})"));
-                break;
-            case QueryConditions.LikeAnd:
-                _condiciones.Add(negar
-                    ? string.Format($"({table}.{column} NOT LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} <> {paramConst}{secondParameter})")
-                    : string.Format($"({table}.{column} LIKE '%' + {paramConst}{paramName} + '%' AND {table2}.{campo} = {paramConst}{secondParameter})"));
-                break;
-            case QueryConditions.HigherEqualsAndOr:
-                _condiciones.Add(negar
-                    ? string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{secondParameter} OR {table}.{column} < {paramConst}{paramName})")
-                    : string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{secondParameter} OR {table}.{column} > {paramConst}{paramName})"));
-                break;
-            case QueryConditions.LowerEqualsAndOr:
-                _condiciones.Add(negar
-                    ? string.Format($"({table}.{column} >= {paramConst}{paramName} AND {table}.{campo} >= {paramConst}{secondParameter} OR {table}.{column} > {paramConst}{paramName})")
-                    : string.Format($"({table}.{column} <= {paramConst}{paramName} AND {table}.{campo} <= {paramConst}{secondParameter} OR {table}.{column} < {paramConst}{paramName})"));
-                break;
-            case QueryConditions.DateEquals:
-                _condiciones.Add(negar
-                    ? string.Format($"CAST({campo} as Date) <> CAST({paramConst}{paramName} As Date)")
-                    : string.Format($"CAST({campo} as Date) = CAST({paramConst}{paramName} As Date)"));
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(condicion), condicion, null);
-        }
     }
 
     #endregion
 
     #region Private Methods
 
-    private void NewTab(bool esAnd, bool esSubTab = false)
+    private void NewTab(bool esAnd)
     {
         if (!_condiciones.Any())
         {
-            _leftJoinsTab.Clear();
+            _joinsTab.Clear();
             return;
         }
 
         var resultado = GetResult(esAnd, _condiciones);
-
-        if (esSubTab)
-        {
-            _subTabs.Add(resultado);
-        }
-        else
-        {
-            _tabs.Add(resultado);
-        }
-
-        _leftJoins.AddRange(_leftJoinsTab);
-        _leftJoinsTab.Clear();
+        _tabs.Add(resultado);
+        _joins.AddRange(_joinsTab);
+        _joinsTab.Clear();
         _condiciones.Clear();
-    }
-
-    private string GetFilters(bool isAnd)
-    {
-        var resultado = _tabs[0];
-        _tabs.RemoveAt(0);
-
-        if (_tabs.Any())
-            resultado += " AND (" + GetResult(isAnd, _tabs) + ")";
-
-        return WhereText + resultado;
-    }
-
-    /// <summary> </summary>
-    public QueryBuilder AddSubTabsToTab(bool isAnd)
-    {
-        if (!_subTabs.Any())
-            return this;
-
-        _tabs.Add(GetResult(isAnd, _subTabs));
-        _subTabs.Clear();
-        return this;
-    }
-
-    /// <summary> </summary>
-    public void AddParameters(string nombre, object obj)
-    {
-        _dynamicParameters.AddParameter(nombre, obj);
     }
 
     private string GetResult(bool isAnd, List<string> lista)
     {
         var resultado =
             (isAnd ? string.Empty : "(") +
-            string.Join(isAnd ? AndText : OrText, lista) +
+            string.Join(isAnd ? And : Or, lista) +
             (isAnd ? string.Empty : ")");
 
         return resultado;
     }
 
-    private string GetLeftJoins()
+    private string GetJoins()
     {
-        return string.Join(string.Empty, _leftJoins.Distinct());
+        return string.Join(string.Empty, _joins.Distinct());
     }
 
     #endregion
