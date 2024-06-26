@@ -23,6 +23,11 @@ jobs:
         run: dotnet restore ./SharedKernel.sln
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.0
+        with:
+          host: ${{ secrets.SONARQUBE_HOST }}
+          login: ${{ secrets.SONARQUBE_TOKEN }}
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
