@@ -26,8 +26,8 @@ jobs:
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@v1.2.1
         with:
-          host: ${{ secrets.SONARQUBE_HOST_URL }}
-          login: ${{ secrets.SONARQUBE_TOKEN }}
+          host: ${{ secrets.SONAR_HOST_URL }}
+          login: ${{ secrets.SONAR_TOKEN }}
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
