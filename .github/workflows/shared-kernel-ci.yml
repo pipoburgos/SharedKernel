@@ -23,6 +23,10 @@ jobs:
         run: dotnet restore ./SharedKernel.sln
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
+      - uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '21'
       - name: SonarCloud Scan
         run: |
           sudo apt update
