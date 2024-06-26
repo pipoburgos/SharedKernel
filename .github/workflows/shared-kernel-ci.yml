@@ -23,6 +23,11 @@ jobs:
         run: dotnet restore ./SharedKernel.sln
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # o 'adopt'
+          java-version: '17'
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@v1.2.1
         with:
