@@ -14,9 +14,9 @@ jobs:
         dotnet-version: [ '8.0.X' ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.7
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
@@ -24,9 +24,9 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
       - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.0
+        uses: kitabisa/sonarqube-action@v1.2.1
         with:
-          host: ${{ secrets.SONARQUBE_HOST }}
+          host: ${{ secrets.SONARQUBE_HOST_URL }}
           login: ${{ secrets.SONARQUBE_TOKEN }}
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
