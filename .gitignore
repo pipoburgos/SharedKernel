@@ -265,3 +265,4 @@ __pycache__/
 /test/ExternalSystems/SqlServer/
 /docker-data
 **/log**.txt
+**/.sonarqube

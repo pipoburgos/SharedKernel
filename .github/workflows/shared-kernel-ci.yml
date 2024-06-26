@@ -26,13 +26,10 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: SonarCloud Scan
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token generado automáticamente por GitHub
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Token de SonarCloud
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"pipoburgos_SharedKernel" /o:"pipoburgos" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-          dotnet build
+          dotnet sonarscanner begin /k:"pipoburgos_SharedKernel" /o:"pipoburgos" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}""
+          dotnet build --configuration Release --no-restore ./SharedKernel.sln
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
