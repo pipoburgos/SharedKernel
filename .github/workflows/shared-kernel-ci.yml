@@ -28,6 +28,8 @@ jobs:
         with:
           host: ${{ secrets.SONAR_HOST_URL }}
           login: ${{ secrets.SONAR_TOKEN }}
+          projectKey: pipoburgos_SharedKernel
+          organization: pipoburgos
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
