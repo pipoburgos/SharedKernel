@@ -10,14 +10,17 @@ public class NpoiExcelRow : IRowData
     private readonly IRow _cells;
     private readonly List<string> _columnNames;
     private readonly CultureInfo _cultureInfo;
+    private readonly IFormulaEvaluator _formulaEvaluator;
 
     /// <summary>  </summary>
-    public NpoiExcelRow(long lineNumber, IRow cells, List<string> columnNames, CultureInfo cultureInfo)
+    public NpoiExcelRow(long lineNumber, IRow cells, List<string> columnNames, CultureInfo cultureInfo,
+        IFormulaEvaluator formulaEvaluator)
     {
         LineNumber = lineNumber;
         _cells = cells;
         _columnNames = columnNames;
         _cultureInfo = cultureInfo;
+        _formulaEvaluator = formulaEvaluator;
     }
 
     /// <summary>  </summary>
@@ -64,7 +67,7 @@ public class NpoiExcelRow : IRowData
                 cellValue = cell.BooleanCellValue;
                 break;
             case CellType.Formula:
-                cellValue = cell.CellFormula;
+                cellValue = GetFormulaValue(cell);
                 break;
             case CellType.Unknown:
                 cellValue = default!;
@@ -86,5 +89,27 @@ public class NpoiExcelRow : IRowData
         var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
 
         return (T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo);
+    }
+    private object GetFormulaValue(ICell cell)
+    {
+        var evaluatedValue = _formulaEvaluator.Evaluate(cell);
+
+        switch (evaluatedValue.CellType)
+        {
+            case CellType.Numeric:
+                if (DateUtil.IsCellDateFormatted(cell))
+                    return cell.DateCellValue ?? DateTime.MinValue;
+                return evaluatedValue.NumberValue;
+            case CellType.String:
+                return evaluatedValue.StringValue;
+            case CellType.Boolean:
+                return evaluatedValue.BooleanValue;
+            case CellType.Blank:
+                return string.Empty;
+            case CellType.Error:
+                return evaluatedValue.ErrorValue;
+            default:
+                return string.Empty;
+        }
     }
 }

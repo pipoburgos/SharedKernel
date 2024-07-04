@@ -21,6 +21,8 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
 
         var sheet = workbook.GetSheetAt(Configuration.SheetIndex);
 
+        var formulateEvaluator = workbook.GetCreationHelper().CreateFormulaEvaluator();
+
         SetColumnNames(sheet);
         for (var rowIndex = 1; rowIndex <= sheet.LastRowNum; rowIndex++)
         {
@@ -28,7 +30,7 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
             if (row == null)
                 continue;
 
-            yield return new NpoiExcelRow(rowIndex + 1, row, ColumnNames, Configuration.CultureInfo);
+            yield return new NpoiExcelRow(rowIndex + 1, row, ColumnNames, Configuration.CultureInfo, formulateEvaluator);
         }
     }
 
