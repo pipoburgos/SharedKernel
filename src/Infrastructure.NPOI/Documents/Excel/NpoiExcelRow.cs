@@ -99,6 +99,7 @@ public class NpoiExcelRow : IRowData
             case CellType.Numeric:
                 if (DateUtil.IsCellDateFormatted(cell))
                     return cell.DateCellValue ?? DateTime.MinValue;
+
                 return evaluatedValue.NumberValue;
             case CellType.String:
                 return evaluatedValue.StringValue;
