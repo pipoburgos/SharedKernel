@@ -101,10 +101,8 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
 
             if (Options.SaveToken)
             {
-                tokenValidatedContext.Properties.StoreTokens(
-                [
-                    new AuthenticationToken { Name = "access_token", Value = token }
-                ]);
+                tokenValidatedContext.Properties.StoreTokens(new List<AuthenticationToken>
+                    { new() { Name = "access_token", Value = token } });
             }
 
             tokenValidatedContext.Success();

@@ -18,10 +18,10 @@ public abstract class AggregateRootAuditableLogicalRemove<TId> : AggregateRootAu
 
 
     /// <summary>  </summary>
-    public virtual void Delete(DateTime deletedAt, Guid deletedBy)
+    public virtual void Delete(DateTime deletedAt, Guid userId)
     {
         DeletedAt = deletedAt;
-        DeletedBy = deletedBy;
+        DeletedBy = userId;
     }
 
     /// <summary>  </summary>

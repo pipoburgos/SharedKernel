@@ -7,16 +7,16 @@
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-    <Description>IEmailSender infrastructure implementations</Description>
+    <Description>RabbitMq infrastructure implementations</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.MailKit</PackageId>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.MassTransit</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>EmailSender MailKit</PackageTags>
+    <PackageTags>MassTransit CommandBus EventBus</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <Version>8.0.6.2</Version>
@@ -28,15 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.Network" Version="8.0.1" />
-    <PackageReference Include="MailKit" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="MassTransit" Version="8.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

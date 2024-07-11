@@ -17,10 +17,10 @@ public abstract class EntityAuditableLogicalRemove<TId> : EntityAuditable<TId>, 
 
 
     /// <summary>  </summary>
-    public virtual void Delete(DateTime deletedAt, Guid deletedBy)
+    public virtual void Delete(DateTime deletedAt, Guid userId)
     {
         DeletedAt = deletedAt;
-        DeletedBy = deletedBy;
+        DeletedBy = userId;
     }
 
     /// <summary>  </summary>

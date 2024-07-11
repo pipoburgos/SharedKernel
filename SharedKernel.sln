@@ -91,6 +91,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernelInfrastructure.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Api.Newtonsoft", "src\Api.Newtonsoft\SharedKernel.Api.Newtonsoft.csproj", "{E7487E90-E6EE-460A-B1B0-B2215B62EAC0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.MassTransit", "src\Infrastructure.MassTransit\SharedKernel.Infrastructure.MassTransit.csproj", "{536F76B0-02AC-4DBD-83C9-0077DEA10092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,10 @@ Global
 		{E7487E90-E6EE-460A-B1B0-B2215B62EAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7487E90-E6EE-460A-B1B0-B2215B62EAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7487E90-E6EE-460A-B1B0-B2215B62EAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536F76B0-02AC-4DBD-83C9-0077DEA10092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536F76B0-02AC-4DBD-83C9-0077DEA10092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536F76B0-02AC-4DBD-83C9-0077DEA10092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536F76B0-02AC-4DBD-83C9-0077DEA10092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,6 +301,7 @@ Global
 		{0117D21B-7FF4-48B3-ADC3-8EB7EEE53C3A} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{66AB1F39-4880-4FB8-B769-F11F62AC2898} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{E7487E90-E6EE-460A-B1B0-B2215B62EAC0} = {9FF73358-40B0-4081-A499-4351F71833C3}
+		{536F76B0-02AC-4DBD-83C9-0077DEA10092} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

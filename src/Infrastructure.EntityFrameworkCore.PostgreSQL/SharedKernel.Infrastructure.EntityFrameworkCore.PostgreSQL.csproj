@@ -30,7 +30,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
     <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="4.0.4" />
-    <PackageReference Include="DistributedLock.Postgres" Version="1.1.0" />
+    <PackageReference Include="DistributedLock.Postgres" Version="1.2.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.4" />
   </ItemGroup>

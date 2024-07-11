@@ -6,6 +6,7 @@
 /// Generally used to enable activation of a named <see cref="T:Microsoft.Extensions.Logging.ICustomLogger" /> from dependency injection.
 /// </summary>
 /// <typeparam name="TCategoryName">The type who's name is used for the customLogger category name.</typeparam>
+// ReSharper disable once UnusedTypeParameter
 public interface ICustomLogger<out TCategoryName>
 {
     /// <overloads>
