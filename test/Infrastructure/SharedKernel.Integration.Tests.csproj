@@ -58,7 +58,6 @@
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.iText\SharedKernelInfrastructure.iText.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.MailKit\SharedKernel.Infrastructure.MailKit.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.MassTransit\SharedKernel.Infrastructure.MassTransit.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Newtonsoft\SharedKernel.Infrastructure.Newtonsoft.csproj" />
