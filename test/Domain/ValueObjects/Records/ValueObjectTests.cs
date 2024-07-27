@@ -321,8 +321,8 @@ public class ValueObjectTests
     public void SameListAreEquals_NotWorkingOnRecords()
     {
         //Arrange
-        var integers1 = new Integers(new List<int> { 1, 3 });
-        var integers2 = new Integers(new List<int> { 1, 3 });
+        var integers1 = new Integers([1, 3]);
+        var integers2 = new Integers([1, 3]);
 
         //Act
 
@@ -336,8 +336,8 @@ public class ValueObjectTests
     public void SameListDistinctOrderAreEquals_NotWorkingOnRecords()
     {
         //Arrange
-        var integers1 = new Integers(new List<int> { 3, 1 });
-        var integers2 = new Integers(new List<int> { 1, 3 });
+        var integers1 = new Integers([3, 1]);
+        var integers2 = new Integers([1, 3]);
 
         //Act
 
@@ -350,8 +350,8 @@ public class ValueObjectTests
     public void IdenticalDataIsNotEqualOperatorIsFalseTestWithList_NotWorkingOnRecords()
     {
         //Arrange
-        var integers1 = new Integers(new List<int> { 3, 1 });
-        var integers2 = new Integers(new List<int> { 1, 3 });
+        var integers1 = new Integers([3, 1]);
+        var integers2 = new Integers([1, 3]);
 
         //Act
         var resultEquals = integers1 != integers2;

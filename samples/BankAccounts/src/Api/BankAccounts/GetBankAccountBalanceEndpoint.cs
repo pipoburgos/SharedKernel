@@ -11,8 +11,8 @@ public sealed class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
 {
     /// <summary> Gets the balance. </summary>
     [HttpGet("{bankAccountId:guid}/balance")]
-    [ResponseCache(Duration = CacheDuration.Day, VaryByQueryKeys = new[] { "*" })]
-    [OutputCache(Duration = CacheDuration.Day, VaryByQueryKeys = new[] { "*" })]
+    [ResponseCache(Duration = CacheDuration.Day, VaryByQueryKeys = ["*"])]
+    [OutputCache(Duration = CacheDuration.Day, VaryByQueryKeys = ["*"])]
     public async Task<ActionResult<decimal>> Handle(Guid bankAccountId, CancellationToken cancellationToken)
     {
         return OkTyped(await QueryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));

@@ -22,11 +22,12 @@ public static class MimeMappingEntity
 
     private abstract class MimeMappingDictionaryBase
     {
-        private static readonly char[] PathSeparatorChars = {
+        private static readonly char[] PathSeparatorChars =
+        [
             Path.DirectorySeparatorChar,
             Path.AltDirectorySeparatorChar,
             Path.VolumeSeparatorChar
-        };
+        ];
 
         private readonly Dictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 

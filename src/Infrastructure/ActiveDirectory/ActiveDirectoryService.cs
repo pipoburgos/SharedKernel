@@ -36,11 +36,11 @@ internal class ActiveDirectoryService : IActiveDirectoryService
 
         var commonNames = _settings.CommonNamesKey.Contains(",")
             ? _settings.CommonNamesKey.Split(',')
-            : new[] { _settings.CommonNamesKey };
+            : [_settings.CommonNamesKey];
 
         var organizationalUnits = _settings.OrganizationalUnitsKey.Contains(",")
             ? _settings.OrganizationalUnitsKey.Split(',')
-            : new[] { _settings.OrganizationalUnitsKey };
+            : [_settings.OrganizationalUnitsKey];
 
         return userResult.Path
             .Replace($"LDAP://{_settings.Path}/", string.Empty)

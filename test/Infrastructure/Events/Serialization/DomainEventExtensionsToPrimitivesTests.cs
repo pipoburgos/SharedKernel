@@ -147,13 +147,12 @@ public partial class DomainEventExtensionsToPrimitivesTests
         var domainEvent = (DomainEvent)@event.GetType()
             .GetTypeInfo()
             .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-            ?.Invoke(instance, new object[]
-            {
+            ?.Invoke(instance, [
                 attributes[nameof(DomainEvent.AggregateId)],
                 attributes,
                 data[RequestExtensions.Id].ToString()!,
                 data[RequestExtensions.OccurredOn].ToString()!
-            })!;
+            ])!;
 
         return domainEvent;
     }

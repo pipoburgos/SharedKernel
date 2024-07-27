@@ -49,7 +49,7 @@ public class InMemoryQueryBus : IQueryBus
 
     private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)
     {
-        Type[] typeArgs = { query.GetType(), typeof(TResponse) };
+        Type[] typeArgs = [query.GetType(), typeof(TResponse)];
 
         var handlerType = typeof(IQueryRequestHandler<,>).MakeGenericType(typeArgs);
         var wrapperType = typeof(QueryHandlerWrapper<,>).MakeGenericType(typeArgs);

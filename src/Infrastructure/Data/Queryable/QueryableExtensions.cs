@@ -189,7 +189,7 @@ public static class QueryableExtensions
             if (new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!))
                 throw new ArgumentException(nameof(sortedColumns));
 
-            sortedList = new List<Order> { new Order(default, true) };
+            sortedList = [new Order(default, true)];
         }
 
         var firstColumn = sortedList.First();
@@ -226,7 +226,7 @@ public static class QueryableExtensions
         var resultExpression = Expression.Call(
             typeof(global::System.Linq.Queryable),
             order,
-            new[] { typeof(TResult), expression.ReturnType },
+            [typeof(TResult), expression.ReturnType],
             source.Expression,
             Expression.Quote(expression));
 
@@ -256,7 +256,7 @@ public static class QueryableExtensions
         var resultExpression = Expression.Call(
             typeof(global::System.Linq.Queryable),
             order,
-            new[] { typeof(TResult), expression.ReturnType },
+            [typeof(TResult), expression.ReturnType],
             source.Expression,
             Expression.Quote(expression));
 

@@ -2,9 +2,7 @@
 
 namespace SharedKernel.Application.Extensions;
 
-/// <summary>
-/// String extensions
-/// </summary>
+/// <summary> String extensions. </summary>
 public static class StringExtensions
 {
     /// <summary>
@@ -49,7 +47,7 @@ public static class StringExtensions
 
             var stringParam = Convert.ToString(param);
 #if NETCOREAPP || NET5_0 || NET6_0
-                if (stringParam != null)
+            if (stringParam != null)
 #endif
             sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(stringParam));
 
@@ -60,18 +58,10 @@ public static class StringExtensions
         return first ? string.Empty : sb.ToString();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    public static string ConvertTimeSpanToString(TimeSpan time) => $"{time.Hours:D2}:{time.Minutes:D2}";
+    /// <summary> Converto time span to format HH:mm. </summary>
+    public static string ToHoursMinutes(this TimeSpan time) => time.ToString(@"hh\:mm");
 
-    /// <summary>
-    /// Capitalize first letter
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <summary> Capitalize first letter. </summary>
     public static string CapitalizeFirstLetter(this string text)
     {
         switch (text.Length)
@@ -81,24 +71,11 @@ public static class StringExtensions
             case 1:
                 return text.ToUpper();
             default:
-                return char.ToUpper(text[0]) + text.Substring(1);
+                return $"{char.ToUpper(text[0])}{text.Substring(1)}";
         }
     }
 
-    /// <summary>
-    /// Ignorar mayúsculas y minúsculas
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="toCheck"></param>
-    /// <returns></returns>
-    public static bool ContainsIgnoreCase(this string source, string toCheck) =>
-        source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
-
-    /// <summary>
-    /// Remove brackets
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <summary> Remove brackets. </summary>
     public static string WithoutBrackets(this string text) =>
         new string(text.Normalize(NormalizationForm.FormD)
                 .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray())

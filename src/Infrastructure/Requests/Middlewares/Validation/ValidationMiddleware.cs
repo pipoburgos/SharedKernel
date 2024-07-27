@@ -104,7 +104,7 @@ public class ValidationMiddleware : IMiddleware
         if (method == default)
             throw new Exception($"Method 'IClassValidator.{methodName}' not found");
 
-        var failuresTaskObject = method.Invoke(validator, new object[] { request, cancellationToken });
+        var failuresTaskObject = method.Invoke(validator, [request, cancellationToken]);
 
         if (failuresTaskObject is not Task<List<ValidationFailure>> validationResult)
             throw new Exception($"{nameof(Task<List<ValidationFailure>>)} null on executing '{result}.{methodName}'");

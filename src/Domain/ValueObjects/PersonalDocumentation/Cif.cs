@@ -90,7 +90,7 @@ public class Cif : ValueObject<Cif>
                 // Al estar los índices de los arrays en base cero, el primer
                 // elemento del array se corresponderá con la unidad del número
                 // 10, es decir, el número cero.
-                char[] characters = { 'J', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+                char[] characters = ['J', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
                 digitoControl = characters[sumaTotal].ToString();
                 break;
             default:

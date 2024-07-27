@@ -45,23 +45,21 @@ internal class RequestDeserializer : IRequestDeserializer
             return ((DomainEvent)requestType
                 .GetTypeInfo()
                 .GetDeclaredMethod(nameof(DomainEvent.FromPrimitives))
-                ?.Invoke(instance, new object[]
-                {
+                ?.Invoke(instance, [
                     attribute,
                     attributes,
                     data[RequestExtensions.Id].ToString()!,
                     data[RequestExtensions.OccurredOn].ToString()!
-                })!)!;
+                ])!)!;
         }
 
         return ((Request)requestType
             .GetTypeInfo()
             .GetDeclaredMethod(nameof(Request.FromPrimitives))
-            ?.Invoke(instance, new object[]
-            {
+            ?.Invoke(instance, [
                 attributes,
                 data[RequestExtensions.Id].ToString()!,
                 data[RequestExtensions.OccurredOn].ToString()!
-            })!)!;
+            ])!)!;
     }
 }

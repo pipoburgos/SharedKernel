@@ -21,6 +21,6 @@ public static class ListMother
 
     public static List<T> One<T>(T element)
     {
-        return new List<T> {element};
+        return [element];
     }
 }

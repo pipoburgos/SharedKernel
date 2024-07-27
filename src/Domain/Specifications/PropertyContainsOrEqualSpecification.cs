@@ -33,8 +33,8 @@ public class PropertyContainsOrEqualSpecification<T> : Specification<T> where T 
         var propertyExp = Expression.Property(parameterExp, PropertyInfo.Name);
 
         var methodInfo = PropertyInfo.PropertyType == typeof(string)
-            ? typeof(string).GetMethod("Contains", new[] { typeof(string) })
-            : PropertyInfo.PropertyType.GetMethod("Equals", new[] { PropertyInfo.PropertyType });
+            ? typeof(string).GetMethod("Contains", [typeof(string)])
+            : PropertyInfo.PropertyType.GetMethod("Equals", [PropertyInfo.PropertyType]);
 
         if (methodInfo == null)
             throw new Exception("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");

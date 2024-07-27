@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Application.Extensions;
+﻿namespace SharedKernel.Domain.Extensions;
 
 /// <summary> List extensions. </summary>
 public static class ListExtensions

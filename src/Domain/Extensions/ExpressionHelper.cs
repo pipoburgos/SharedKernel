@@ -266,7 +266,7 @@ public static class ExpressionHelper
     /// <summary>  </summary>
     public static Expression Contains(Expression expression, Expression valueExpression)
     {
-        var methodInfo = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) });
+        var methodInfo = typeof(string).GetMethod(nameof(string.Contains), [typeof(string)]);
 
         if (methodInfo == null)
             throw new Exception("Method not found string.Contains");
@@ -283,7 +283,7 @@ public static class ExpressionHelper
     /// <summary>  </summary>
     public static Expression StartsWith(Expression expression, Expression valueExpression)
     {
-        var methodInfo = typeof(string).GetMethod(nameof(string.StartsWith), new[] { typeof(string) });
+        var methodInfo = typeof(string).GetMethod(nameof(string.StartsWith), [typeof(string)]);
 
         if (methodInfo == null)
             throw new Exception("Method not found string.StartsWith");
@@ -300,7 +300,7 @@ public static class ExpressionHelper
     /// <summary>  </summary>
     public static Expression EndsWith(Expression expression, Expression valueExpression)
     {
-        var methodInfo = typeof(string).GetMethod(nameof(string.EndsWith), new[] { typeof(string) });
+        var methodInfo = typeof(string).GetMethod(nameof(string.EndsWith), [typeof(string)]);
 
         if (methodInfo == null)
             throw new Exception("Method not found string.EndsWith");

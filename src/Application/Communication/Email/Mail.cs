@@ -13,7 +13,7 @@ public class Mail
         List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
     {
         From = from;
-        To = new List<string> { to };
+        To = [to];
         EmailsBcc = emailsBcc;
         Subject = subject;
         Body = body;

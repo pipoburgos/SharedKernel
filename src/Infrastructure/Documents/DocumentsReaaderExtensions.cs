@@ -17,6 +17,6 @@ public static class DocumentsReaaderExtensions
             .AddTransient<ICsvReader, CsvReader>()
             .AddTransient<IDocumentReaderFactory, DocumentReaderFactory>()
             .AddFromMatchingInterface<IDocumentReader>(serviceLifetime,
-                assemblies ?? new[] { typeof(DocumentReaderFactory).Assembly });
+                assemblies ?? [typeof(DocumentReaderFactory).Assembly]);
     }
 }
