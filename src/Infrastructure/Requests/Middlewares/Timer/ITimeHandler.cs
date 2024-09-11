@@ -2,9 +2,9 @@
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface ITimeHandler
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Handle<TRequest>(TRequest request, Stopwatch timer);
 }

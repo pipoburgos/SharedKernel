@@ -33,7 +33,7 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : Repos
 
     #region Protected Methods
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected IQueryable<TAggregateRoot> GetQuery(bool tracking = true, bool showDeleted = false,
         EntityFrameworkDbContext? dbContextBase = default)
     {
@@ -64,7 +64,7 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : Repos
         return query.AsNoTracking();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual IQueryable<TAggregateRoot> GetAggregate(IQueryable<TAggregateRoot> query)
     {
         return query;
@@ -72,68 +72,68 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : Repos
 
     #endregion
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override TAggregateRoot GetById(TId id)
     {
         return GetQuery().Where(a => a.Id!.Equals(id)).SingleOrDefault()!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<TAggregateRoot> GetAll()
     {
         return GetQuery().ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual bool Any()
     {
         return GetQuery(false).Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual bool NotAny()
     {
         return !GetQuery(false).Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override bool Any(TId id)
     {
         return GetQuery(false).Where(a => a.Id!.Equals(id)).Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override bool NotAny(TId id)
     {
         return !GetQuery(false).Where(a => a.Id!.Equals(id)).Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Where(spec.SatisfiedBy()).ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
 
     public virtual TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Single(spec.SatisfiedBy());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual TAggregateRoot SingleOrDefault(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().SingleOrDefault(spec.SatisfiedBy())!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual bool Any(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery(false).Any(spec.SatisfiedBy());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool NotAny(ISpecification<TAggregateRoot> spec)
     {
         return !GetQuery(false).Any(spec.SatisfiedBy());

@@ -11,10 +11,10 @@ using SharedKernel.Infrastructure.Validator;
 
 namespace SharedKernel.Infrastructure.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDbContext<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime) where TDbContext : DbContextAsync
     {
@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
             .AddTransient<IClassValidatorService, ClassValidatorService>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddGlobalUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : GlobalUnitOfWork, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWork
@@ -38,7 +38,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddGlobalUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : GlobalUnitOfWorkAsync, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWorkAsync

@@ -3,18 +3,18 @@ using SharedKernel.Application.Mapper;
 
 namespace SharedKernel.Infrastructure.AutoMapper;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AutoMapperFactory : IMapperFactory
 {
     private readonly IConfigurationProvider _configurationProvider;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public AutoMapperFactory(IConfigurationProvider configurationProvider)
     {
         _configurationProvider = configurationProvider;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Application.Mapper.IMapper Create()
     {
         return new AutoMapperAdapter(_configurationProvider);

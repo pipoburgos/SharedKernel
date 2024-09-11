@@ -3,7 +3,7 @@ using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey> :
         IEntityTypeConfiguration<TEntity>
         where TEntity : EntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey>
@@ -19,7 +19,7 @@ public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslat
     }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation> :
     EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, Language, string>
     where TEntity : EntityIsTranslatable<TEntityId, TEntity, TTranslation, Language, string>

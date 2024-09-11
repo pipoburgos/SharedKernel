@@ -26,7 +26,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
     public void QueriesHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
         // Act
-        var result = Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
+        var result = Types.InAssemblies([GetApplicationAssembly(), GetInfrastructureAssembly()])
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
 
         // Assert

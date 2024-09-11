@@ -3,15 +3,15 @@
 /// <summary> The entity validator base contract. </summary>
 public interface IClassValidator<in T>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     List<ValidationFailure> ValidateList(T item);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Validate(T item);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<List<ValidationFailure>> ValidateListAsync(T item, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task ValidateAsync(T item, CancellationToken cancellationToken);
 }

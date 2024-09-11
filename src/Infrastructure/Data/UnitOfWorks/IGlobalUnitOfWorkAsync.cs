@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IGlobalUnitOfWorkAsync : IUnitOfWorkAsync
 {
 }

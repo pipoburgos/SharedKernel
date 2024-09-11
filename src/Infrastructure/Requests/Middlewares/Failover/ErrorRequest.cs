@@ -2,15 +2,15 @@
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ErrorRequest : Entity<string>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected ErrorRequest()
     {
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected ErrorRequest(string id, string request, string exception, string? occurredOn = default) : base(id)
     {
         OccurredOn = occurredOn ?? DateTime.UtcNow.ToString("s", CultureInfo.CurrentCulture);
@@ -18,7 +18,7 @@ public class ErrorRequest : Entity<string>
         Exception = exception;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static ErrorRequest Create(string id, string request, string exception, string? occurredOn = default)
     {
         return new ErrorRequest(id, request, exception, occurredOn);

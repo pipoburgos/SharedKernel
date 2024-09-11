@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class TimerMiddleware : IMiddleware
 {
     private readonly ITimeHandler _timeHandler;
@@ -16,7 +16,7 @@ public class TimerMiddleware : IMiddleware
         _timer = new Stopwatch();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task Handle<TRequest>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task> next) where TRequest : IRequest
     {
@@ -26,7 +26,7 @@ public class TimerMiddleware : IMiddleware
         _timeHandler.Handle(request, _timer);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<TResponse> Handle<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> next) where TRequest : IRequest<TResponse>
     {
@@ -37,7 +37,7 @@ public class TimerMiddleware : IMiddleware
         return response;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
         CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
         where TRequest : IRequest<Result<TResponse>>

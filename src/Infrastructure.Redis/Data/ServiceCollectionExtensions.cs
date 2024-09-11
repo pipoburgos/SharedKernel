@@ -6,10 +6,10 @@ using SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Redis.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRedisDbContext<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : RedisDbContext
@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
             .AddRedisHealthChecks(configuration, "Redis UnitOfWork", "Redis UnitOfWork");
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRedisUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : RedisDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork

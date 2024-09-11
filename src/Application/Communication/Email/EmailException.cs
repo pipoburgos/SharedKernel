@@ -8,9 +8,9 @@ namespace SharedKernel.Application.Communication.Email;
 [Serializable]
 public class EmailException : SharedKernelApplicationException
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public EmailException(string code) : base(code) { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public EmailException(Exception ex) : base("exc", ex) { }
 }

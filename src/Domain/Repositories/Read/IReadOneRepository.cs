@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IReadOneRepository<out TAggregate, in TId> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     TAggregate? GetById(TId id);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool Any(TId id);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool NotAny(TId id);
 }

@@ -4,18 +4,18 @@ using System.Transactions;
 
 namespace SharedKernel.Infrastructure.Data.Transactions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ModuleTransactionAsync : IModuleTransactionAsync
 {
     private TransactionScope? _transaction;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Begin()
     {
         _transaction ??= new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void End()
     {
         _transaction?.Complete();
@@ -28,7 +28,7 @@ public class ModuleTransactionAsync : IModuleTransactionAsync
         _transaction = default;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="disposing"></param>
     // ReSharper disable once UnusedParameter.Global
     protected virtual void Dispose(bool disposing)
@@ -37,14 +37,14 @@ public class ModuleTransactionAsync : IModuleTransactionAsync
         Debug.WriteLine("Transaction released !!!");
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     ~ModuleTransactionAsync()
     {
         Dispose(false);

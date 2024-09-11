@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Domain.Specifications;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class IsClassTypeSpecification<T> : ISpecification<T>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Expression<Func<T, bool>> SatisfiedBy()
     {
         return x =>

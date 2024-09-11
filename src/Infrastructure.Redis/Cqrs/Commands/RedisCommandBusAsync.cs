@@ -6,7 +6,7 @@ using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RedisCommandBusAsync : ICommandBusAsync
 {
     private readonly IPipeline _pipeline;
@@ -14,7 +14,7 @@ internal class RedisCommandBusAsync : ICommandBusAsync
     private readonly IConfiguration _configuration;
     private readonly IRequestSerializer _requestSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RedisCommandBusAsync(
         IPipeline pipeline,
         IConnectionMultiplexer connectionMultiplexer,
@@ -27,7 +27,7 @@ internal class RedisCommandBusAsync : ICommandBusAsync
         _requestSerializer = requestSerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(CommandRequest command, CancellationToken cancellationToken)
     {
         var publishQueue = _configuration.GetValue<string?>("RabbitMq:PublishQueue") ?? "CommandsQueue";
@@ -40,7 +40,7 @@ internal class RedisCommandBusAsync : ICommandBusAsync
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(IEnumerable<CommandRequest> commands, CancellationToken cancellationToken)
     {
         return Task.WhenAll(commands.Select(@event => Dispatch(@event, cancellationToken)));

@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.ActiveMq;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddActiveMqHealthChecks(this IServiceCollection services, IConfiguration configuration,
         string name, params string[] tags)
     {
@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddActiveMqOptions(this IServiceCollection services, IConfiguration configuration)
     {
         return services

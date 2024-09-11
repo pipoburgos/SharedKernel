@@ -4,10 +4,10 @@ using SharedKernel.Infrastructure.DotNetDBF.Documents.Database;
 
 namespace SharedKernel.Infrastructure.DotNetDBF;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDotNetDatabaseReader(this IServiceCollection services)
     {
         return services

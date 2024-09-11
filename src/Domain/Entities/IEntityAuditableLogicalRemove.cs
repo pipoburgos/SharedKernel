@@ -1,17 +1,17 @@
 ﻿namespace SharedKernel.Domain.Entities;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IEntityAuditableLogicalRemove : IEntityAuditable
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Guid? DeletedBy { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DateTime? DeletedAt { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Delete(DateTime deletedAt, Guid userId);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Restore();
 }

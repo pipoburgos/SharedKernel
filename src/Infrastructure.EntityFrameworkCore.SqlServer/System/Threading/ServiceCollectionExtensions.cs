@@ -3,7 +3,7 @@ using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.System.Threading;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register Redis IMutexManager and IMutex factory. </summary>

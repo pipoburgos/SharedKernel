@@ -4,10 +4,10 @@ using SharedKernel.Application.Cqrs.Commands;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddActiveMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
     {
         return services

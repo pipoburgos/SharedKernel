@@ -1,10 +1,10 @@
 ﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 // ReSharper disable once PartialTypeWithSinglePart
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T> Tap<T>(this Result<T> r, Action<T> predicate)
     {
         if (r.IsSuccess)

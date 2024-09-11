@@ -5,14 +5,14 @@ using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries.InMemory;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class InMemoryQueryBus : IQueryBus
 {
     private readonly IPipeline _pipeline;
     private readonly IServiceProvider _serviceProvider;
     private static readonly ConcurrentDictionary<Type, object> QueryHandlers = new();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public InMemoryQueryBus(
         IPipeline pipeline,
         IServiceProvider serviceProvider)

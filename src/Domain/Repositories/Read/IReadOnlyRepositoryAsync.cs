@@ -1,15 +1,15 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IReadOnlyRepositoryAsync<TAggregate, in TId> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<TAggregate?> GetByIdReadOnlyAsync(TId id, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<TAggregate?> GetDeleteByIdReadOnlyAsync(TId id, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<List<TAggregate>> GetAllReadOnlyAsync(CancellationToken cancellationToken);
 
 }

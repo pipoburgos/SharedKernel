@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Domain.Repositories.Delete;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IDeleteRepository<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Remove(TAggregate aggregateRoot);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void RemoveRange(IEnumerable<TAggregate> aggregates);
 }

@@ -1,10 +1,10 @@
 ﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 // ReSharper disable once PartialTypeWithSinglePart
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T> Ensure<T>(this Result<T> result, Func<T, bool> predicate, Error error)
     {
         if (result.IsFailure)
@@ -13,7 +13,7 @@ public static partial class ResultExtensions
         return predicate(result.Value) ? result : Result.Failure<T>(error);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T> EnsureAppendError<T>(this Result<T> result, Func<T, bool> predicate, Error error)
     {
         if (predicate(result.Value))

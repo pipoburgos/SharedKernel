@@ -7,14 +7,14 @@ using System.Data.Common;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public sealed class DapperQueryProvider : IDisposable
 {
     private readonly ILogger<DapperQueryProvider> _logger;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly List<DbConnection> _connections;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DapperQueryProvider(
         ILogger<DapperQueryProvider> logger,
         IDbConnectionFactory dbConnectionFactory)
@@ -24,7 +24,7 @@ public sealed class DapperQueryProvider : IDisposable
         _connections = new List<DbConnection>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<T?> ExecuteQueryFirstOrDefaultAsync<T>(string sql, object? parameters = default,
         CancellationToken cancellationToken = default)
     {
@@ -34,7 +34,7 @@ public sealed class DapperQueryProvider : IDisposable
         return await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<List<T>> ExecuteQueryAsync<T>(string sql, object? parameters = default,
         CancellationToken cancellationToken = default)
     {
@@ -44,7 +44,7 @@ public sealed class DapperQueryProvider : IDisposable
         return (await connection.QueryAsync<T>(sql, parameters)).ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder Set(PageOptions pageOptions)
     {
         var connection = _dbConnectionFactory.GetConnection();
@@ -52,7 +52,7 @@ public sealed class DapperQueryProvider : IDisposable
         return new QueryBuilder(connection.ConnectionString, pageOptions, true);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<IPagedList<T>> ToPagedListSync<T>(string sql, object parameters, PageOptions pageOptions,
         string? preselect = default, CancellationToken cancellationToken = default)
     {
@@ -89,7 +89,7 @@ public sealed class DapperQueryProvider : IDisposable
         return new PagedList<T>(total, elements);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
         string? preselect = default, CancellationToken cancellationToken = default)
     {
@@ -137,14 +137,14 @@ public sealed class DapperQueryProvider : IDisposable
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     ~DapperQueryProvider()
     {
         Dispose(false);

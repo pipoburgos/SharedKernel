@@ -2,14 +2,14 @@
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class PropertyBuilderExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static PropertyBuilder<TProperty> Currency<TProperty>(this PropertyBuilder<TProperty> propertyBuilder,
         int precision = 18) => propertyBuilder.HasColumnType($"decimal({precision},2)");
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static PropertyBuilder<TProperty> OnlyDate<TProperty>(this PropertyBuilder<TProperty> propertyBuilder) =>
         propertyBuilder.HasColumnType("Date");
 }

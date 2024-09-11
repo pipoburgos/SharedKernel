@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Application.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IOutboxMailRepository
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<List<OutboxMail>> GetPendingMails(CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task Add(OutboxMail outboxMail, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task Update(OutboxMail outboxMail, CancellationToken cancellationToken);
 }

@@ -14,13 +14,13 @@ public class FluentValidator<T> : IClassValidator<T>
 {
     private readonly IValidator<T>? _validator;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public FluentValidator(IValidator<T>? validator = default)
     {
         _validator = validator;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<ValidationFailure> ValidateList(T item)
     {
         if (_validator == default)
@@ -38,7 +38,7 @@ public class FluentValidator<T> : IClassValidator<T>
             .ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Validate(T item)
     {
         if (_validator == default)
@@ -59,7 +59,7 @@ public class FluentValidator<T> : IClassValidator<T>
             throw new ValidationFailureException(failures);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<List<ValidationFailure>> ValidateListAsync(T item, CancellationToken cancellationToken)
     {
         if (_validator == default)
@@ -79,7 +79,7 @@ public class FluentValidator<T> : IClassValidator<T>
             .ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task ValidateAsync(T item, CancellationToken cancellationToken)
     {
         if (_validator == default)

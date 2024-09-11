@@ -8,28 +8,28 @@ using SharedKernel.Application.Exceptions;
 
 namespace SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class MailKitSmtpEmailSender : IEmailSender
 {
     private readonly SmtpSettings _smtp;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public MailKitSmtpEmailSender(
         IOptions<SmtpSettings> emailSettings)
     {
         _smtp = emailSettings.Value;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Sender => true;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task SendEmailAsync(Mail email, CancellationToken cancellationToken)
     {
         return SendEmailAsync(new List<Mail> { email }, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task SendEmailAsync(IEnumerable<Mail> emails, CancellationToken cancellationToken)
     {
         var mails = await CreateMimeMessages(emails, cancellationToken);

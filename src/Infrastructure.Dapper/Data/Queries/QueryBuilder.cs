@@ -27,7 +27,7 @@ public partial class QueryBuilder
 
     #region Constructores
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder(string connectionString, PageOptions state, bool isAnd)
     {
         _dynamicParameters = new DynamicParameters();
@@ -41,7 +41,7 @@ public partial class QueryBuilder
         _select = string.Empty;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private QueryBuilder(DynamicParameters dynamicParameters)
     {
         _dynamicParameters = dynamicParameters;
@@ -53,7 +53,7 @@ public partial class QueryBuilder
         _select = string.Empty;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder CreateSubQuery()
     {
         return new QueryBuilder(_dynamicParameters);
@@ -63,7 +63,7 @@ public partial class QueryBuilder
 
     #region Métodos públicos
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryResult Build()
     {
         if (string.IsNullOrWhiteSpace(_connectionString))
@@ -78,7 +78,7 @@ public partial class QueryBuilder
         return new QueryResult(_dynamicParameters, consulta, _tempTables, _connectionString, _state);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string GetSubConsulta()
     {
         NewTab(true);
@@ -92,59 +92,59 @@ public partial class QueryBuilder
         return consulta;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int TotalCondiciones => _condiciones.Count;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddSubQueryExists(QueryBuilder subQuery)
     {
         _condiciones.Add($"\n\t EXISTS (\n\t\t {subQuery.GetSubConsulta()} )");
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddSubQueryNotExists(QueryBuilder subQuery)
     {
         _condiciones.Add($"\n\t NOT EXISTS (\n\t\t {subQuery.GetSubConsulta()} )");
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddSubQuery(string subQuery)
     {
         _condiciones.Add(subQuery);
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddTempTables(string tables)
     {
         _tempTables = tables;
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddSelect(string select)
     {
         _select = Select + select;
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddSelect(string selectTableNameAlias, QueryTable table)
     {
         _select = $"SELECT '{selectTableNameAlias}' FROM {table}";
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddLeftJoin(QueryTable table1, QueryTable table2)
     {
         _joinsTab.Add($"{LeftJoin}{table1}\n\t\tON {table1.Join} = {table2.Join}");
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddInnerJoin(bool must, QueryTable table1, QueryTable table2, string? more = null)
     {
         if (must)
@@ -155,7 +155,7 @@ public partial class QueryBuilder
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddInnerJoin(QueryTable table1, QueryTable table2, string? more = null)
     {
         _joinsTab.Add($"{InnerJoin}{table1}\n\t\tON {table1.Join} = {table2.Join}{more}");

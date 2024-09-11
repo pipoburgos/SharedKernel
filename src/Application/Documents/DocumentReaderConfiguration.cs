@@ -1,23 +1,23 @@
 ﻿namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DocumentReaderConfiguration
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool IncludeLineNumbers { get; set; } = true;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public char Separator { get; set; } = ';';
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string ColumnLineNumberName { get; set; } = "LineNumber";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int SheetIndex { get; set; } = 0;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int HeadersIndex { get; set; } = 1;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
 }

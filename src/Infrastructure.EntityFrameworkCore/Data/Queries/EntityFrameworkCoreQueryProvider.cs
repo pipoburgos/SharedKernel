@@ -10,28 +10,28 @@ using System.Linq.Expressions;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContext, IDisposable
 {
     private readonly IDbContextFactory<TDbContextBase> _factory;
     private TDbContextBase _lastDbContext = null!;
     private readonly List<TDbContextBase> _dbContexts;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public EntityFrameworkCoreQueryProvider(IDbContextFactory<TDbContextBase> factory)
     {
         _factory = factory;
         _dbContexts = new List<TDbContextBase>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IQueryable<TEntity> GetQuery<TEntity>(bool showDeleted = false) where TEntity : class
     {
         _lastDbContext = GetDbContext();
         return Set<TEntity>(showDeleted);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IQueryable<TEntity> Set<TEntity>(bool showDeleted = false) where TEntity : class
     {
         if (_lastDbContext == default)
@@ -128,7 +128,7 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbCo
         return new PagedList<TResult>(totalAfter, elements);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Dispose()
     {
         foreach (var dbContextBase in _dbContexts)

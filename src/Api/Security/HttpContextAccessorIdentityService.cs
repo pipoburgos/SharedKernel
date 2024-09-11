@@ -20,15 +20,15 @@ public class HttpContextAccessorIdentityService : IIdentityService
     /// <summary> Identifier. </summary>
     public Guid UserId => GetUserId();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<string> GetKeyValues(string header)
     {
         var values = new StringValues();
         var ok = _httpContextAccessor.HttpContext?.Request.Headers.TryGetValue(header, out values);
-        return ok == true ? values : Enumerable.Empty<string>();
+        return ok == true ? values : [];
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string GetKeyValue(string header)
     {
         var values = new StringValues();
@@ -36,7 +36,7 @@ public class HttpContextAccessorIdentityService : IIdentityService
         return ok == true ? values.ToString() : string.Empty;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void AddKeyValue(string key, string value)
     {
         if (_httpContextAccessor.HttpContext?.Request.Headers.ContainsKey(key) == true)

@@ -9,7 +9,7 @@ public class ValidationFailureException : Exception
 
     /// <summary>Creates a new ValidationException</summary>
     public ValidationFailureException(string message)
-        : this(message, Enumerable.Empty<ValidationFailure>())
+        : this(message, [])
     {
     }
 

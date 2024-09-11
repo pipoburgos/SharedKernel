@@ -56,7 +56,7 @@ public static class HttpClientExtensions
             .ConfigureHttpClient<THandler>(services, name, uri);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private static IHttpClientBuilder ConfigureHttpClient<THandler>(this IHttpClientBuilder clientBuilder,
         IServiceCollection services, string name, Uri uri) where THandler : DelegatingHandler
     {
@@ -69,7 +69,7 @@ public static class HttpClientExtensions
             .AddHttpMessageHandler<THandler>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private static IHttpClientBuilder ConfigureHttpClientNetworkCredential(this IHttpClientBuilder clientBuilder,
         Uri uri, string userName, string password, string domain)
     {
@@ -91,7 +91,7 @@ public static class HttpClientExtensions
             });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private static void AddUriHealthChecks(this IServiceCollection services, Uri uri, string name, params string[] tags)
     {
         services

@@ -3,7 +3,7 @@ using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity, TLanguage, TLanguageKey> :
     IEntityTypeConfiguration<TEntityTranslated>
     where TEntityTranslated : class, IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey>
@@ -11,7 +11,7 @@ public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity
     where TLanguage : class
     where TEntityId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual void Configure(EntityTypeBuilder<TEntityTranslated> builder)
     {
         builder.HasKey(a => new { a.EntityId, a.LanguageId });
@@ -26,7 +26,7 @@ public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity
     }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity> :
     EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity, Language, string>
     where TEntityTranslated : class, IEntityTranslated<TEntityId, TEntity, Language, string>

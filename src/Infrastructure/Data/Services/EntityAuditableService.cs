@@ -3,20 +3,20 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.Data.Services;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EntityAuditableService : IEntityAuditableService
 {
     private readonly IIdentityService? _identityService;
     private readonly IDateTime _dateTime;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public EntityAuditableService(IIdentityService? identityService, IDateTime dateTime)
     {
         _identityService = identityService;
         _dateTime = dateTime;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Audit(IEnumerable<IEntityAuditable> added, IEnumerable<IEntityAuditable> modified,
         IEnumerable<IEntityAuditableLogicalRemove> deleted)
     {

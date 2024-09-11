@@ -1,12 +1,12 @@
 ﻿namespace SharedKernel.Domain.Entities;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AuditChange : AggregateRoot<Guid>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected AuditChange() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected AuditChange(Guid id, string registryId, string table, string property, string? originalValue,
         string? currentValue, DateTime date, State state)
     {
@@ -20,31 +20,31 @@ public class AuditChange : AggregateRoot<Guid>
         State = state;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static AuditChange Create(Guid id, string registryId, string table, string property, string? originalValue,
         string? currentValue, DateTime date, State state)
     {
         return new AuditChange(id, registryId, table, property, originalValue, currentValue, date, state);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string RegistryId { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Table { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Property { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? OriginalValue { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? CurrentValue { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime Date { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public State State { get; private set; }
 }

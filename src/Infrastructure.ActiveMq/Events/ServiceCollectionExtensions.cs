@@ -4,7 +4,7 @@ using SharedKernel.Application.Events;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>

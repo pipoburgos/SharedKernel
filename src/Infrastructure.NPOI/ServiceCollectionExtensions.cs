@@ -4,17 +4,17 @@ using SharedKernel.Infrastructure.NPOI.Documents.Excel;
 
 namespace SharedKernel.Infrastructure.NPOI;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddNpoiExcelReader(this IServiceCollection services)
     {
         return services
             .AddTransient<IExcelReader, NpoiExcelReader>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddNpoiExcelWriter(this IServiceCollection services)
     {
         return services

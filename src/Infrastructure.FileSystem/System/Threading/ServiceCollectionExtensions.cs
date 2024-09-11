@@ -3,7 +3,7 @@ using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.FileSystem.System.Threading;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register File System IMutexManager and IMutex factory. </summary>

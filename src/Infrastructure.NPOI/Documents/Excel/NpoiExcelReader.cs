@@ -6,13 +6,13 @@ using System.Data;
 
 namespace SharedKernel.Infrastructure.NPOI.Documents.Excel;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class NpoiExcelReader : DocumentReader, IExcelReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override string Extension => "xlsx";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override IEnumerable<IRowData> ReadStream(Stream stream)
     {
         stream.Seek(0, SeekOrigin.Begin);
@@ -34,7 +34,7 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DataSet ReadTabs(Stream stream)
     {
         var dataSet = new DataSet();
@@ -51,7 +51,7 @@ public class NpoiExcelReader : DocumentReader, IExcelReader
         return dataSet;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override DataTable Read(Stream stream)
     {
         using IWorkbook workbook = new XSSFWorkbook(stream);

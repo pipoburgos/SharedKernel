@@ -4,11 +4,11 @@ using SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data.Repositories;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class ElasticsearchRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>
     where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected ElasticsearchRepository(ElasticsearchDbContext elasticsearchDbContext) : base(elasticsearchDbContext)
     {
     }

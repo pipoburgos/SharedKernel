@@ -4,7 +4,7 @@ using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register in memory AsyncKeyedLock and IMutex factory. </summary>

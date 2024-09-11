@@ -7,18 +7,18 @@ using System.Text;
 
 namespace SharedKernelInfrastructure.iText;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ElectronicSignatureValidator : IElectronicSignatureValidator
 {
     private readonly IDateTime _dateTime;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public ElectronicSignatureValidator(IDateTime dateTime)
     {
         _dateTime = dateTime;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<bool> Validate(Stream content, string? serialNumber = default, string? nif = default,
         CancellationToken cancellationToken = default)
     {
@@ -30,7 +30,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
         return Task.FromResult(Validar(pdfReader, serialNumber, nif));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<bool> Validate(byte[] content, string? serialNumber = default, string? nif = default,
         CancellationToken cancellationToken = default)
     {
@@ -44,7 +44,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
     }
 
 #if NET6_0_OR_GREATER
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<bool> Validate(string path, string? serialNumber = default, string? nif = default,
         CancellationToken cancellationToken = default)
     {
@@ -57,7 +57,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
         return Validar(pdfReader, serialNumber, nif);
     }
 #else
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<bool> Validate(string path, string? serialNumber = default, string? nif = default,
         CancellationToken cancellationToken = default)
     {
@@ -71,7 +71,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
     }
 
 #endif
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private bool Validar(PdfReader reader, string? serialNumber = default, string? nif = default)
     {
         var pdfDocument = new PdfDocument(reader);
@@ -91,7 +91,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
         return isValid;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private List<X509Certificate> ObtenerCertificadosValidos(PdfDocument pdfDocument)
     {
         var signatureUtil = new SignatureUtil(pdfDocument);
@@ -115,7 +115,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
         return certificados;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool IsPdf(Stream stream)
     {
         stream.Position = 0;

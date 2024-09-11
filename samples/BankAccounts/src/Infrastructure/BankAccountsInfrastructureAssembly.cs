@@ -5,5 +5,5 @@
 
 namespace BankAccounts.Infrastructure;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BankAccountsInfrastructureAssembly { }

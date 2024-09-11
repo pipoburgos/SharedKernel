@@ -3,10 +3,10 @@ using SharedKernel.Application.Settings;
 
 namespace SharedKernel.Infrastructure.Settings;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelOptions(this IServiceCollection services)
     {
         return services

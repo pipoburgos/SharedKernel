@@ -3,10 +3,10 @@ using SharedKernel.Domain.Validators;
 
 namespace SharedKernel.Infrastructure.Validator;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ClassValidatorService : IClassValidatorService
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void ValidateDataAnnotations<T>(IEnumerable<T> classes) where T : class
     {
         var errors = GetDataAnnotationsValidationResult(classes);
@@ -16,7 +16,7 @@ public class ClassValidatorService : IClassValidatorService
                 errors.Select(e => new ValidationFailure(e.ErrorMessage, string.Join(", ", e.MemberNames))));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Result<Unit> ValidateDataAnnotationsResult<T>(IEnumerable<T> classes) where T : class
     {
         var errors = GetDataAnnotationsValidationResult(classes);
@@ -26,7 +26,7 @@ public class ClassValidatorService : IClassValidatorService
             : Result.Success();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual void ValidateValidatableObjects<T>(IEnumerable<T> validatableObjects) where T : class, IValidatableObject
     {
         var errors = GetValidationFailures(validatableObjects);
@@ -35,7 +35,7 @@ public class ClassValidatorService : IClassValidatorService
             throw new ValidationFailureException("Validation errors.", errors);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Result<Unit> ValidateValidatableObjectsResult<T>(IEnumerable<T> validatableObjects) where T : class, IValidatableObject
     {
         var errors = GetValidationFailures(validatableObjects);

@@ -1,4 +1,4 @@
 ﻿namespace BankAccounts.Api;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BankAccountsApiAssembly { }

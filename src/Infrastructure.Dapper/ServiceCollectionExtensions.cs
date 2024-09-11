@@ -1,6 +1,6 @@
 namespace SharedKernel.Infrastructure.Dapper;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
 }

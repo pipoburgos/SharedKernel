@@ -3,18 +3,18 @@
 /// <summary> Synchronous unit of work pattern. </summary>
 public interface IUnitOfWork
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Guid Id { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     int SaveChanges();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Result<int> SaveChangesResult();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     int Rollback();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Result<int> RollbackResult();
 }

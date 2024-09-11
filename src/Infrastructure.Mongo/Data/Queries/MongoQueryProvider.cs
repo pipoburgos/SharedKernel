@@ -8,7 +8,7 @@ public sealed class MongoQueryProvider
 {
     private readonly IMongoDatabase _mongoDatabase;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public MongoQueryProvider(IOptions<MongoSettings> mongoSettings)
     {
         _mongoDatabase = new MongoClient(mongoSettings.Value.ConnectionString)

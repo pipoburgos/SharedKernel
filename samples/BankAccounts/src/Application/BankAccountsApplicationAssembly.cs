@@ -7,5 +7,5 @@
 
 namespace BankAccounts.Application;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BankAccountsApplicationAssembly { }

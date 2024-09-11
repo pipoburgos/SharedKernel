@@ -7,10 +7,10 @@ using SharedKernel.Infrastructure.Mongo.Data.Queries;
 
 namespace SharedKernel.Infrastructure.Mongo.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddMongoDbContext<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : MongoDbContext
@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
             .AddTransient<MongoQueryProvider>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddMongoUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : MongoDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork

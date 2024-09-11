@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SharedKernel.Infrastructure.RabbitMq;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class RabbitMqPublisher
 {
     private const string HeaderReDelivery = "redelivery_count";
@@ -14,7 +14,7 @@ public class RabbitMqPublisher
     private readonly RabbitMqConnectionFactory _config;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RabbitMqPublisher(
         ILogger<RabbitMqPublisher> logger,
         RabbitMqConnectionFactory config,

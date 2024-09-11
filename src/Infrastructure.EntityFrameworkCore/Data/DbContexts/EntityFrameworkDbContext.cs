@@ -45,39 +45,39 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 
     #region Properties
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid Id { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Schema { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IJsonSerializer? JsonSerializer { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IDbConnection GetConnection => Database.GetDbConnection();
 
     #endregion
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         base.Set<TAggregateRoot>().Add(aggregateRoot);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         base.Set<TAggregateRoot>().Update(aggregateRoot);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         base.Set<TAggregateRoot>().Remove(aggregateRoot);
     }
 
-    ///// <summary>  </summary>
+    ///// <summary> . </summary>
     //protected virtual IQueryable<TAggregateRoot> GetQuery<TAggregateRoot, TId>(bool tracking = true,
     //    bool showDeleted = false, EntityFrameworkDbContext? dbContextBase = default) where TAggregateRoot : class
     //{
@@ -108,17 +108,17 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
     //    return query.AsNoTracking();
     //}
 
-    ///// <summary>  </summary>
+    ///// <summary> . </summary>
     //protected abstract IQueryable<TAggregateRoot> GetAggregate<TAggregateRoot, TId>(IQueryable<TAggregateRoot> query);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public TAggregateRoot GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : notnull
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override int SaveChanges()
     {
         try
@@ -149,7 +149,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Result<int> SaveChangesResult()
     {
 #if !NET462 && !NET47 && !NET471
@@ -178,13 +178,13 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<int> SaveChangesAsync()
     {
         return SaveChangesAsync(CancellationToken.None);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public new virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
 #if !NET462 && !NET47 && !NET471
@@ -211,7 +211,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken) =>
         Result
             .Create(Unit.Value)
@@ -231,7 +231,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
                 expetion =>
                     Result.Failure<int>(Error.Create(expetion.InnerException?.ToString() ?? expetion.Message)));
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual int Rollback()
     {
         foreach (var entryInfo in _originalEntries)
@@ -264,7 +264,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         return SaveChanges();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual int RejectChanges()
     {
         var changedEntries = ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList();
@@ -289,7 +289,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         return changedEntries.Count;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Result<int> RollbackResult()
     {
         return Rollback();
@@ -329,13 +329,13 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         return SaveChangesAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
         return Task.FromResult(RollbackResult());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IQueryable<object> Set(Type type)
     {
         var x = GetType()
@@ -345,7 +345,7 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         return (IQueryable<object>)x.Invoke(this, null)!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -355,27 +355,27 @@ public abstract class EntityFrameworkDbContext : DbContext, IDbContextAsync
         modelBuilder.ApplyConfigurationsFromAssembly(_assemblyConfigurations);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task AddAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         return base.Set<TAggregateRoot>().AddAsync(aggregateRoot, cancellationToken).AsTask();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task UpdateAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         base.Set<TAggregateRoot>().Update(aggregateRoot);
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task RemoveAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
         base.Set<TAggregateRoot>().Remove(aggregateRoot);
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {

@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Domain.Repositories.Create;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface ICreateRepositoryAsync<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task AddAsync(TAggregate aggregateRoot, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task AddRangeAsync(IEnumerable<TAggregate> aggregates, CancellationToken cancellationToken);
 }

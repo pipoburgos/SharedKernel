@@ -21,7 +21,7 @@ public class Nif
     /// <summary> NIE value. </summary>
     public string Value { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <returns></returns>
     public bool IsValid()
     {

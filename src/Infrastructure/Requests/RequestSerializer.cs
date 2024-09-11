@@ -4,7 +4,7 @@ using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RequestSerializer : IRequestSerializer
 {
     private readonly IJsonSerializer _jsonSerializer;
@@ -17,7 +17,7 @@ internal class RequestSerializer : IRequestSerializer
         _identityService = identityService;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Serialize(Request request)
     {
         if (request == default!)

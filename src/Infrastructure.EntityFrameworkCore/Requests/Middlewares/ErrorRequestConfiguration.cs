@@ -3,10 +3,10 @@ using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ErrorRequestConfiguration : IEntityTypeConfiguration<ErrorRequest>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Configure(EntityTypeBuilder<ErrorRequest> builder)
     {
         builder.Property(a => a.Id).ValueGeneratedNever().IsRequired().HasMaxLength(50);

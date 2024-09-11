@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Application.Security;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IElectronicSignatureValidator
 {
     /// <summary>
@@ -48,6 +48,6 @@ public interface IElectronicSignatureValidator
     Task<bool> Validate(string path, string? serialNumber = default, string? nif = default,
         CancellationToken cancellationToken = default);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool IsPdf(Stream stream);
 }

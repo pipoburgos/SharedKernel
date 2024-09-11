@@ -3,19 +3,19 @@ using System.Diagnostics;
 
 namespace SharedKernel.Infrastructure.HealthChecks;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class RamHealthCheck : IHealthCheck
 {
     private readonly ILogger<RamHealthCheck> _logger;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="logger"></param>
     public RamHealthCheck(ILogger<RamHealthCheck> logger)
     {
         _logger = logger;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         var process = Process.GetCurrentProcess();

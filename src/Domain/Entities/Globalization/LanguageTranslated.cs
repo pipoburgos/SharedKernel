@@ -1,12 +1,12 @@
 ﻿namespace SharedKernel.Domain.Entities.Globalization;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class LanguageTranslated : EntityTranslated<string, Language>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected LanguageTranslated() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected LanguageTranslated(string entityId, string languageId, bool translated, string name)
     {
         EntityId = entityId;
@@ -15,12 +15,12 @@ public class LanguageTranslated : EntityTranslated<string, Language>
         Name = name;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static LanguageTranslated Create(string entityId, string languageId, bool translated, string name)
     {
         return new LanguageTranslated(entityId, languageId, translated, name);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Name { get; private set; } = null!;
 }

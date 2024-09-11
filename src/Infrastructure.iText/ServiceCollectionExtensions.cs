@@ -3,10 +3,10 @@ using SharedKernel.Application.Security;
 
 namespace SharedKernelInfrastructure.iText;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddiTextElectronicSignatureValidator(this IServiceCollection services)
     {
         return services

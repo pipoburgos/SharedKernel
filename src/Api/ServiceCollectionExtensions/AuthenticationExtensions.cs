@@ -13,7 +13,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions;
 /// <summary> Authentication Extensions. </summary>
 public static class AuthenticationExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelWindowsAuthentication(this IServiceCollection services)
     {
         services

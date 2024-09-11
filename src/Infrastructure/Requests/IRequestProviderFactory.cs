@@ -1,6 +1,6 @@
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal interface IRequestProviderFactory
 {
     /// <summary>

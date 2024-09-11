@@ -4,10 +4,10 @@ using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Newtonsoft;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddNewtonsoftSerializer(this IServiceCollection services)
     {
         return services

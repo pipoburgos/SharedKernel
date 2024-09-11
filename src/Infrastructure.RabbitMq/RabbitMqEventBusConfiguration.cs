@@ -6,18 +6,18 @@ using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.RabbitMq;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class RabbitMqEventBusConfiguration : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RabbitMqEventBusConfiguration(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = _serviceScopeFactory.CreateScope();

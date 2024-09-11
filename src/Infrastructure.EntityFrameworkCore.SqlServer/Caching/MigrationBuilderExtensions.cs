@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Caching;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class MigrationBuilderExtensions
 {
     /// <summary>

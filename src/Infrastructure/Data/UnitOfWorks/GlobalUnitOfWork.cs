@@ -3,20 +3,20 @@ using SharedKernel.Infrastructure.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly List<IDbContext> DbContexts;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
 
     protected readonly List<IDbContext> DbContextsExecuted;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid Id { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected GlobalUnitOfWork(IServiceProvider serviceProvider)
     {
         Id = Guid.NewGuid();
@@ -24,7 +24,7 @@ public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
         DbContextsExecuted = new List<IDbContext>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int SaveChanges()
     {
         var total = 0;
@@ -45,13 +45,13 @@ public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Result<int> SaveChangesResult()
     {
         return SaveChanges();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Rollback()
     {
         var total = 0;
@@ -66,7 +66,7 @@ public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Result<int> RollbackResult()
     {
         return Rollback();

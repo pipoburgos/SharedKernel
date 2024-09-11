@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IReadOneRepositoryAsync<TAggregate, in TId> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<TAggregate?> GetByIdAsync(TId id, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<bool> AnyAsync(TId id, CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken);
 }

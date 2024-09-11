@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Error
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected Error() { }
 
     /// <summary> Creates a new Error. </summary>

@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public partial class QueryBuilder
 {
     private readonly List<string> _condiciones;
@@ -21,14 +21,14 @@ public partial class QueryBuilder
         return Where + resultado;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter(string filter)
     {
         _condiciones.Add(filter);
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter(Func<QueryBuilder, bool> expression)
     {
         var esAnd = expression(this);
@@ -36,7 +36,7 @@ public partial class QueryBuilder
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter<T>(string table, string column, T? desde, T? hasta,
         bool negar)
     {
@@ -59,7 +59,7 @@ public partial class QueryBuilder
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter(string table, string column, object? filter, bool negar = false,
         QueryConditions? condition = null)
     {
@@ -91,7 +91,7 @@ public partial class QueryBuilder
         return AddFilter(table, column, negar, defaultCondition, null, filter);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter(bool must, string table, string column, bool negar, QueryConditions condicion,
         string paramName, object? value, string? nombreParametro2 = null, object? value2 = null, string? campo = null,
         string paramConst = "@", string? table2 = null)
@@ -103,7 +103,7 @@ public partial class QueryBuilder
             paramConst, table2);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddFilter(string table, string column, bool negar, QueryConditions condicion,
         string? paramName, object? value, string? nombreParametro2 = null, object? value2 = null, string? campo = null,
         string paramConst = "@", string? table2 = null)
@@ -205,7 +205,7 @@ public partial class QueryBuilder
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public QueryBuilder AddParameter(string nombre, object? obj)
     {
         if (obj == default)

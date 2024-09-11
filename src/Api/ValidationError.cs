@@ -2,10 +2,10 @@
 
 namespace SharedKernel.Api;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ValidationError
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public ValidationError(ValidationFailureException exception)
     {
         Errors = exception.Errors
@@ -13,22 +13,22 @@ public class ValidationError
             .ToDictionary(a => ToCamelCase(a.Key), b => b.Select(z => z.ErrorMessage).ToArray());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Dictionary<string, string[]> Errors { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string Type => "https://tools.ietf.org/html/rfc7231#section-6.5.1";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string Title => "One or more validation errors occurred.";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static int Status => 400;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string TraceId => Guid.NewGuid().ToString();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private string ToCamelCase(string str) =>
         string.IsNullOrEmpty(str) || str.Length < 2
             ? str

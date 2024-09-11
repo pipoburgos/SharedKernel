@@ -8,7 +8,7 @@ public class ClientServerDateTime : IDateTime
 {
     private readonly IIdentityService _identityService;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="identityService"></param>
     public ClientServerDateTime(
         IIdentityService identityService)

@@ -3,7 +3,7 @@ using SharedKernel.Application.Communication.Email;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> IMPORTANT!!! Add modelBuilder.ApplyConfiguration(new OutboxMailConfiguration()) </summary>

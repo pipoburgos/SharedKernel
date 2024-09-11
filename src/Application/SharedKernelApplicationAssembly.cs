@@ -3,5 +3,5 @@
 
 namespace SharedKernel.Application;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class SharedKernelApplicationAssembly { }

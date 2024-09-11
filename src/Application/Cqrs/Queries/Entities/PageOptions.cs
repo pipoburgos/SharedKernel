@@ -3,7 +3,7 @@
 /// <summary> Base filter for Dapper queries </summary>
 public class PageOptions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public PageOptions() { }
 
     /// <summary> </summary>
@@ -22,21 +22,21 @@ public class PageOptions
     /// <summary> </summary>
     public int? Skip { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int? Take { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? SearchText { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool? ShowDeleted { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool? ShowOnlyDeleted { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<Order>? Orders { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<FilterProperty>? FilterProperties { get; set; }
 }

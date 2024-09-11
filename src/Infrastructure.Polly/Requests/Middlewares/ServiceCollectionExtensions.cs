@@ -6,10 +6,10 @@ using SharedKernel.Infrastructure.Polly.RetryPolicies;
 
 namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRetryPolicyMiddleware<TImp>(this IServiceCollection services,
         IConfiguration configuration) where TImp : class, IRetryPolicyExceptionHandler
     {

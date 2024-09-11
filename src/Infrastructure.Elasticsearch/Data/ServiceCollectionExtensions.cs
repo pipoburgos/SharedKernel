@@ -5,10 +5,10 @@ using SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddElasticsearchDbContext<TDbContext>(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : ElasticsearchDbContext
@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
             .AddElasticsearchHealthChecks(uri, serviceLifetime);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddElasticsearchUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         Uri uri, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : ElasticsearchDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork

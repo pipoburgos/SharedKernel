@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Domain.Repositories.Update;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IUpdateRepository<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Update(TAggregate aggregateRoot);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void UpdateRange(IEnumerable<TAggregate> aggregates);
 }

@@ -3,13 +3,13 @@
 /// <summary> Gets bank account balance. </summary>
 public sealed class GetBankAccounts : IQueryRequest<IPagedList<BankAccountItem>>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public PageOptions? PageOptions { get; set; }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BankAccountItem
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid Id { get; set; }
 }

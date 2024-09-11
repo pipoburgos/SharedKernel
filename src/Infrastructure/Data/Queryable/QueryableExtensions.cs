@@ -134,7 +134,7 @@ public static class QueryableExtensions
         return selector == default ? queryable.ProjectTo<TResult>() : queryable.Select(selector);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IPagedList<T> ToPagedList<T>(this IQueryable<T> queryable, PageOptions pageOptions) where T : class
     {
         var query = queryable

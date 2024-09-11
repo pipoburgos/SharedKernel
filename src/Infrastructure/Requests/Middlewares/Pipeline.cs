@@ -3,19 +3,19 @@ using SharedKernel.Application.Cqrs.Middlewares;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Pipeline : IPipeline
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Pipeline(
         IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task ExecuteAsync<TRequest>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task> last) where TRequest : IRequest
     {
@@ -25,7 +25,7 @@ public class Pipeline : IPipeline
             : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> last) where TRequest : IRequest<TResponse>
     {
@@ -35,7 +35,7 @@ public class Pipeline : IPipeline
             : middlewares[0].Handle(request, cancellationToken, GetNext(middlewares, 1, middlewares.Count, last));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<Result<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request,
         CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> last)
         where TRequest : IRequest<Result<TResponse>>

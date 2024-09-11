@@ -11,7 +11,7 @@ using SharedKernel.Infrastructure.Validator;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register common Ef Core data services. </summary>

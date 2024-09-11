@@ -3,18 +3,18 @@ using SharedKernel.Application.Documents;
 
 namespace SharedKernel.Infrastructure.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DocumentReaderFactory : IDocumentReaderFactory
 {
     private readonly IServiceProvider _serviceProvider;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DocumentReaderFactory(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IDocumentReader Create(string name)
     {
         var providers = _serviceProvider.GetServices<IDocumentReader>().ToDictionary(e => e.Extension.ToLower());
@@ -29,7 +29,7 @@ public class DocumentReaderFactory : IDocumentReaderFactory
         return providers[extension];
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<string> GetExtensions()
     {
         return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLower());

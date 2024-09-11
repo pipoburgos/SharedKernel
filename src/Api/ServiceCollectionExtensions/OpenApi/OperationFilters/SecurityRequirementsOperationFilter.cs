@@ -38,7 +38,7 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
         {
             new OpenApiSecurityRequirement
             {
-                [ oAuthScheme ] = new[] {"policy"}
+                [ oAuthScheme ] = ["policy"]
             }
         };
     }

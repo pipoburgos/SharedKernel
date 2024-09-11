@@ -13,8 +13,8 @@ public class User : AggregateRootAuditable<Guid>, IValidatableObject
     private User()
     {
         Name = default!;
-        _emails = new List<string>();
-        _addresses = new List<Address>();
+        _emails = [];
+        _addresses = [];
     }
 
     private User(Guid id, string name, DateTime birthdate, User? parent) : this()
@@ -22,8 +22,8 @@ public class User : AggregateRootAuditable<Guid>, IValidatableObject
         Id = id;
         Name = name;
         Birthdate = birthdate;
-        _emails = new List<string>();
-        _addresses = new List<Address>();
+        _emails = [];
+        _addresses = [];
         Parent = parent;
     }
 
@@ -72,6 +72,6 @@ public class User : AggregateRootAuditable<Guid>, IValidatableObject
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        return Enumerable.Empty<ValidationResult>();
+        return [];
     }
 }

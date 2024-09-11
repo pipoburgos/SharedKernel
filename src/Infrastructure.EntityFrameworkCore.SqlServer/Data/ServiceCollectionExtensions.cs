@@ -5,7 +5,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service Sql Server into IServiceCollection. </summary>

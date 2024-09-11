@@ -6,5 +6,5 @@
 
 namespace SharedKernel.Domain;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class SharedKernelDomainAssembly { }

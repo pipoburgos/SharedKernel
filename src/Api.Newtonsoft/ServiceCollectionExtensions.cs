@@ -7,10 +7,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SharedKernel.Api.Newtonsoft;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IMvcBuilder AddSharedKernelNewtonsoftJson(this IMvcBuilder mvcBuilder)
     {
         return mvcBuilder.AddNewtonsoftJson(options =>
@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelSwaggerGenNewtonsoftSupport(this IServiceCollection services)
     {
         return services.Replace(

@@ -3,17 +3,17 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Application.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class RetryEmailDecorator : IEmailSender
 {
     private readonly ICustomLogger<RetryEmailDecorator> _logger;
     private readonly IEmailSender _emailSender;
     private readonly IEmailSender? _emailSenderSaver;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected int MaxRetries { get; } = 5;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RetryEmailDecorator(
         ICustomLogger<RetryEmailDecorator> logger,
         IEmailSender emailSender,
@@ -24,16 +24,16 @@ public class RetryEmailDecorator : IEmailSender
         _emailSenderSaver = emailSenderSaver;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Sender => false;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task SendEmailAsync(Mail email, CancellationToken cancellationToken)
     {
         return SendEmailAsync(new List<Mail> { email }, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task SendEmailAsync(IEnumerable<Mail> emails, CancellationToken cancellationToken)
     {
         foreach (var email in emails)

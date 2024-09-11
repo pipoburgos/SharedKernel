@@ -10,7 +10,7 @@ public class RetrieverOptions
     /// </summary>
     public int RetryCount { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Func<int, TimeSpan> RetryAttempt()
     {
         return retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100);

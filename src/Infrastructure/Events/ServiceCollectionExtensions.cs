@@ -9,19 +9,19 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     #region Domain Events Subscribers
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
         Type subscribersType, Type domainType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         return services.AddDomainEventsSubscribers(subscribersType.Assembly, domainType.Assembly, serviceLifetime);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
         Assembly subscribersAssembly, Assembly domainAssembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
@@ -32,14 +32,14 @@ public static class ServiceCollectionExtensions
 
     #endregion
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSynchronousEventBus(this IServiceCollection services)
     {
         return services
             .AddTransient<IEventBus, SynchronousEventBus>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, IConfiguration configuration)
     {
         return services

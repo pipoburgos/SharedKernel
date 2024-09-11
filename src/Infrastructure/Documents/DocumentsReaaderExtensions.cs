@@ -6,10 +6,10 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class DocumentsReaaderExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDocumentReaderFactory(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[]? assemblies)
     {

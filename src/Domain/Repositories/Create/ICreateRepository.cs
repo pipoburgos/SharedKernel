@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Domain.Repositories.Create;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface ICreateRepository<in TAggregate> : IBaseRepository where TAggregate : IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Add(TAggregate aggregateRoot);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void AddRange(IEnumerable<TAggregate> aggregates);
 }

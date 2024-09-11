@@ -1,17 +1,17 @@
 ﻿namespace SharedKernel.Domain.Repositories.Save;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface ISaveRepositoryAsync : ISaveRepository
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<int> RollbackAsync(CancellationToken cancellationToken);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken);
 }

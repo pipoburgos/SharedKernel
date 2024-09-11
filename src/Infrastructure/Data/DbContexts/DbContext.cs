@@ -5,25 +5,25 @@ using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class DbContext : IDbContext
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid Id { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IEntityAuditableService AuditableService;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IClassValidatorService ClassValidatorService;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly List<IOperation> Operations;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly List<IOperation> OperationsExecuted;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected DbContext(IEntityAuditableService auditableService, IClassValidatorService classValidatorService)
     {
         Id = Guid.NewGuid();
@@ -33,7 +33,7 @@ public abstract class DbContext : IDbContext
         OperationsExecuted = new List<IOperation>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -41,7 +41,7 @@ public abstract class DbContext : IDbContext
             () => DeleteMethod<TAggregateRoot, TId>(aggregateRoot)));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -50,7 +50,7 @@ public abstract class DbContext : IDbContext
             () => UpdateMethod<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!)));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -63,7 +63,7 @@ public abstract class DbContext : IDbContext
                 () => AddMethod<TAggregateRoot, TId>(GetById<TAggregateRoot, TId>(aggregateRoot.Id)!)));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual int SaveChanges()
     {
         Validate();
@@ -73,7 +73,7 @@ public abstract class DbContext : IDbContext
         return Commit();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Result<int> SaveChangesResult()
     {
         var addingAndUpdating = Operations.Where(x => x.Crud is Crud.Adding or Crud.Updating).ToList();
@@ -89,7 +89,7 @@ public abstract class DbContext : IDbContext
             .TryBind(_ => Commit());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual int Rollback()
     {
         var total = OperationsExecuted.Count;
@@ -105,21 +105,21 @@ public abstract class DbContext : IDbContext
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Result<int> RollbackResult()
     {
         return Rollback();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
@@ -148,13 +148,13 @@ public abstract class DbContext : IDbContext
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual void BeforeCommit() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual void AfterCommit() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected void Validate()
     {
         var addingAndUpdating = Operations.Where(x => x.Crud is Crud.Adding or Crud.Updating).ToList();
@@ -164,7 +164,7 @@ public abstract class DbContext : IDbContext
         ClassValidatorService.ValidateValidatableObjects(addingAndUpdating.OfType<IValidatableObject>());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual void Audit(IEnumerable<IOperation> operations)
     {
         var operationsList = operations.ToList();
@@ -175,7 +175,7 @@ public abstract class DbContext : IDbContext
                 .OfType<IEntityAuditableLogicalRemove>());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public abstract TAggregateRoot? GetById<TAggregateRoot, TId>(TId id)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

@@ -4,28 +4,28 @@ using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.Newtonsoft;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class NewtonsoftSerializer : IJsonSerializer
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return value == null ? string.Empty : JsonConvert.SerializeObject(value, GetOptions(namingConvention));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonConvert.DeserializeObject<T>(value, GetOptions(namingConvention))!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonConvert.DeserializeAnonymousType(value, obj, GetOptions(namingConvention))!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static JsonSerializerSettings GetOptions(NamingConvention namingConvention)
     {
         IContractResolver contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();

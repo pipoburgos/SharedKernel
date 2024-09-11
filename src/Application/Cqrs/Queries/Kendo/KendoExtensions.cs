@@ -2,10 +2,10 @@
 
 namespace SharedKernel.Application.Cqrs.Queries.Kendo;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class KendoExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static PageOptions ToPageOptions(this DataStateChange state)
     {
         var sort = state.Sort.Select(s => new Order(s.Field, s.Dir != "desc"));

@@ -5,17 +5,17 @@ using SharedKernel.Infrastructure.Data.Queryable;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class QueryableExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Task<IPagedList<T>> ToPagedListAsync<T>(this IQueryable<T> queryable,
         DataStateChange dataStateChange, CancellationToken cancellationToken)
     {
         return queryable.ToPagedListAsync(dataStateChange.ToPageOptions(), cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<IPagedList<T>> ToPagedListAsync<T>(this IQueryable<T> queryable,
         PageOptions pageOptions, CancellationToken cancellationToken)
     {

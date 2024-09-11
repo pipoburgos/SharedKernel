@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Domain.Entities;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class EntityAuditableLogicalRemove<TId> : EntityAuditable<TId>, IEntityAuditableLogicalRemove where TId : notnull
 {
     /// <summary> Entity constructor for ORMs. </summary>
@@ -9,21 +9,21 @@ public abstract class EntityAuditableLogicalRemove<TId> : EntityAuditable<TId>, 
     /// <summary> Constructor. </summary>
     protected EntityAuditableLogicalRemove(TId id) : base(id) { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid? DeletedBy { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime? DeletedAt { get; private set; }
 
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual void Delete(DateTime deletedAt, Guid userId)
     {
         DeletedAt = deletedAt;
         DeletedBy = userId;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual void Restore()
     {
         DeletedBy = null;

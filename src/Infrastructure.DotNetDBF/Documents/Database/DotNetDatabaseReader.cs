@@ -5,13 +5,13 @@ using System.Data;
 
 namespace SharedKernel.Infrastructure.DotNetDBF.Documents.Database;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override string Extension => "dbf";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override IEnumerable<IRowData> ReadStream(Stream stream)
     {
         using var reader = new DBFReader(stream);
@@ -26,7 +26,7 @@ public class DotNetDatabaseReader : DocumentReader, IDatabaseReader
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override DataTable Read(Stream stream)
     {
         using var reader = new DBFReader(stream);

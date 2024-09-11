@@ -1,17 +1,17 @@
 ﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 // ReSharper disable once PartialTypeWithSinglePart
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<TU> Bind<T, TU>(this Result<T> result, Func<T, Result<TU>> predicate)
     {
         return result.IsSuccess
             ? predicate(result.Value)
             : Result.Failure<TU>(result.Errors);
     }
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<TU> TryBind<T, TU>(this Result<T> result, Func<T, TU> predicate,
         Func<Exception, Result<TU>>? capture = default, Action? finallyFunc = default)
     {
@@ -35,7 +35,7 @@ public static partial class ResultExtensions
         return resultError;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<TU> TryBind<T, TU, TException>(this Result<T> result, Func<T, TU> predicate,
         Func<TException, Result<TU>> captureCustom, Func<Exception, Result<TU>>? capture = default,
         Action? finallyFunc = default) where TException : Exception

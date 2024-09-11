@@ -1,31 +1,32 @@
 ﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
-public readonly struct Result<T>
+/// <summary> . </summary>
+public readonly record struct Result<T>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public readonly T Value;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static implicit operator Result<T>(T value) => new(value);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public readonly IEnumerable<Error> Errors;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool IsSuccess => Errors != default && !Errors.Any();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool IsFailure => Errors == default || Errors.Any();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private Result(T value)
     {
         Value = value;
+        // ReSharper disable once UseCollectionExpression
         Errors = Enumerable.Empty<Error>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private Result(IEnumerable<Error> errors)
     {
         if (errors == default)
@@ -39,19 +40,19 @@ public readonly struct Result<T>
         Errors = list;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T?> Empty()
     {
         return new Result<T?>((T?)default!);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T> Create(T value)
     {
         return new Result<T>(value);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<T> Create(IEnumerable<Error> errors)
     {
         return new Result<T>(errors);

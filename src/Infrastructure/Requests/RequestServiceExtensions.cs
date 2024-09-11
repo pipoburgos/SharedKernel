@@ -7,10 +7,10 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class RequestServiceExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRequests<T>(this IServiceCollection services, Assembly assembly, string method,
         bool isTopic, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {

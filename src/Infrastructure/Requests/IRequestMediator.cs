@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IRequestMediator
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool HandlerImplemented(string requestSerialized, Type requestType);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task Execute(string requestSerialized, Type requestType, string method, CancellationToken cancellationToken);
 }

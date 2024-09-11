@@ -5,14 +5,14 @@ using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.Caching;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DistributedCacheHelper : ICacheHelper
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IMutexManager _mutexManager;
     private readonly IBinarySerializer _binarySerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DistributedCacheHelper(
         IDistributedCache distributedCache,
         IMutexManager mutexManager,
@@ -23,7 +23,7 @@ public class DistributedCacheHelper : ICacheHelper
         _binarySerializer = binarySerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : notnull
     {
         var value = await _distributedCache.GetAsync(key, cancellationToken);
@@ -31,7 +31,7 @@ public class DistributedCacheHelper : ICacheHelper
         return value == default || value.Length == 0 ? default : _binarySerializer.Deserialize<T>(value);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task SetAsync<T>(string key, T value, TimeSpan? timeSpan = default,
         CancellationToken cancellationToken = default) where T : notnull
     {
@@ -40,7 +40,7 @@ public class DistributedCacheHelper : ICacheHelper
                 new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = timeSpan }, cancellationToken));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<T?> GetOrCreateAsync<T>(string key, Func<Task<T>> generator, TimeSpan? timeSpan = null,
         CancellationToken cancellationToken = default)
         where T : notnull
@@ -61,7 +61,7 @@ public class DistributedCacheHelper : ICacheHelper
         }, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Remove(string key)
     {
         _distributedCache.Remove(key);

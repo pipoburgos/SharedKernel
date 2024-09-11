@@ -1,8 +1,8 @@
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IRequestSerializer
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     string Serialize(Request domainEvent);
 }

@@ -12,13 +12,13 @@ public interface IIdentityService
     /// <summary> User logged identifier. </summary>
     Guid UserId { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IEnumerable<string> GetKeyValues(string header);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     string GetKeyValue(string header);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void AddKeyValue(string key, string value);
 
 #if !NET40

@@ -38,7 +38,7 @@ public class SecurityAllAuthorizeExceptAllowAnonymousOperationFilter : IOperatio
         {
             new OpenApiSecurityRequirement
             {
-                [ oAuthScheme ] = new[] {"policy"}
+                [ oAuthScheme ] = ["policy"]
             }
         };
     }

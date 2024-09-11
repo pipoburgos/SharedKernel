@@ -8,7 +8,7 @@ using SharedKernel.Infrastructure.Serializers;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>

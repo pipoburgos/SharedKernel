@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IRowData
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     long LineNumber { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     T Get<T>(int index);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     T Get<T>(string name);
 }

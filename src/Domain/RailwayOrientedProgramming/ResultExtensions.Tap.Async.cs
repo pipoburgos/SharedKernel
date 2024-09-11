@@ -3,10 +3,10 @@
 
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<T>> Tap<T>(this Result<T> result, Func<T, Task> predicate)
     {
         if (result.IsSuccess)
@@ -15,7 +15,7 @@ public static partial class ResultExtensions
         return result;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<T>> Tap<T>(this Task<Result<T>> resultTask, Func<T, Task> predicate)
     {
         var result = await resultTask;
@@ -25,7 +25,7 @@ public static partial class ResultExtensions
         return result;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<T>> Tap<T>(this Task<Result<T>> resultTask, Action<T> predicate)
     {
         var result = await resultTask;
@@ -35,7 +35,7 @@ public static partial class ResultExtensions
         return result;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<T>> Tap<T, TU>(this Task<Result<T>> resultTask, Func<T, Task<Result<TU>>> predicate)
     {
         var result = await resultTask;

@@ -6,14 +6,14 @@ using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RedisEventBus : IEventBus
 {
     private readonly IPipeline _pipeline;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
     private readonly IRequestSerializer _requestSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RedisEventBus(
         IPipeline pipeline,
         IConnectionMultiplexer connectionMultiplexer,
@@ -24,7 +24,7 @@ internal class RedisEventBus : IEventBus
         _requestSerializer = requestSerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(@event, cancellationToken, (req, _) =>
@@ -34,7 +34,7 @@ internal class RedisEventBus : IEventBus
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Publish(IEnumerable<DomainEvent> events, CancellationToken cancellationToken)
     {
         return Task.WhenAll(events.Select(@event => Publish(@event, cancellationToken)));

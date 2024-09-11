@@ -2,20 +2,20 @@ using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BackgroundTaskQueue : IBackgroundTaskQueue
 {
     private readonly SemaphoreSlim _signal = new(0);
 
     private readonly ConcurrentQueue<Func<CancellationToken, Task>> _workItems = new();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Any()
     {
         return _workItems.Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void QueueBackground(Func<CancellationToken, Task> workItem)
     {
         if (workItem == null)
@@ -25,7 +25,7 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue
         _signal.Release();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<Func<CancellationToken, Task>> DequeueAsync(
         CancellationToken cancellationToken)
     {

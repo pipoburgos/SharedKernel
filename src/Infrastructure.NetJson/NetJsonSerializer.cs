@@ -4,28 +4,28 @@ using System.Text.Json.Serialization;
 
 namespace SharedKernel.Infrastructure.NetJson;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class NetJsonSerializer : IJsonSerializer
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return value == null ? string.Empty : JsonSerializer.Serialize(value, GetOptions(namingConvention));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static JsonSerializerOptions GetOptions(NamingConvention namingConvention)
     {
         var policy = JsonNamingPolicy.CamelCase;

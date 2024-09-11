@@ -6,7 +6,7 @@ namespace SharedKernel.Application.Reflection;
 /// <summary> Reflection helper. </summary>
 public static class ReflectionHelper
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Assembly? GetAssemblyByName(string name)
     {
         if (name == default!)
@@ -21,7 +21,7 @@ public static class ReflectionHelper
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Type? GetType(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -31,7 +31,7 @@ public static class ReflectionHelper
             .FirstOrDefault(type => type.Name.Equals(name, StringComparison.InvariantCulture));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Type? GetType(string assemblyName, string name)
     {
         if (string.IsNullOrEmpty(assemblyName) && string.IsNullOrEmpty(name))
@@ -42,7 +42,7 @@ public static class ReflectionHelper
         return GetType(assembly, name);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Type? GetType(Assembly? assembly, string name)
     {
         if (assembly == null)
@@ -52,7 +52,7 @@ public static class ReflectionHelper
             .FirstOrDefault(type => type.Name.Equals(name, StringComparison.InvariantCulture));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static T CreateInstance<T>(Type type)
     {
 #if NET6_0_OR_GREATER
@@ -74,13 +74,13 @@ public static class ReflectionHelper
         return instance;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static T CreateInstance<T>()
     {
         return CreateInstance<T>(typeof(T));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static void SetProperty<T>(T obj, string name, object? value)
     {
         var propertyInfo = typeof(T).GetProperty(name);
@@ -111,18 +111,18 @@ public static class ReflectionHelper
         {
             var valueString = value?.ToString();
             if (valueString == null)
-                propertyInfo.SetValue(obj, null, new object[0]);
+                propertyInfo.SetValue(obj, null, []);
             else
-                propertyInfo.SetValue(obj, (Guid?)new Guid(valueString), new object[0]);
+                propertyInfo.SetValue(obj, (Guid?)new Guid(valueString), []);
         }
         else
         {
-            propertyInfo.SetValue(obj, Convert.ChangeType(value, t), new object[0]);
+            propertyInfo.SetValue(obj, Convert.ChangeType(value, t), []);
         }
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static void SetField<T>(T obj, string name, object value)
     {
         if (value == default!)
@@ -157,7 +157,7 @@ public static class ReflectionHelper
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static TResult? GetProperty<T, TResult>(T obj, string name)
     {
         var propertyInfo = typeof(T).GetProperty(name);
@@ -168,11 +168,11 @@ public static class ReflectionHelper
 #else
         return propertyInfo == null || !propertyInfo.CanRead
             ? default
-            : (TResult?)Convert.ChangeType(propertyInfo.GetValue(obj, new object[0]), typeof(TResult));
+            : (TResult?)Convert.ChangeType(propertyInfo.GetValue(obj, []), typeof(TResult));
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static TResult? GetProperty<TResult>(Type type, object obj, string name)
     {
         var propertyInfo = type.GetProperty(name);
@@ -184,11 +184,11 @@ public static class ReflectionHelper
 #else
         return propertyInfo == null || !propertyInfo.CanRead
             ? default
-            : (TResult?)Convert.ChangeType(propertyInfo.GetValue(obj, new object[0]), typeof(TResult));
+            : (TResult?)Convert.ChangeType(propertyInfo.GetValue(obj, []), typeof(TResult));
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string? GetStringValue(this PropertyInfo propertyInfo, Type type, object @object)
     {
         var typeNotNullable = propertyInfo.PropertyType.GetTypeNotNullable();
@@ -240,7 +240,7 @@ public static class ReflectionHelper
         return propertyInfo.GetValue(@object, null)?.ToString();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Type? GetTypeNotNullable(this Type type)
     {
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)

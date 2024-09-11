@@ -4,7 +4,7 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class FailoverCommonLogic
 {
     private readonly IRequestFailoverRepository _requestFailOverRepository;
@@ -12,7 +12,7 @@ public class FailoverCommonLogic
     private readonly IRequestSerializer _requestSerializer;
     private readonly IGuid _guid;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public FailoverCommonLogic(
         IRequestFailoverRepository? requestFailOverRepository,
         IJsonSerializer jsonSerializer,
@@ -26,7 +26,7 @@ public class FailoverCommonLogic
         _guid = guid;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task Handle<TRequest>(TRequest request, Exception e, CancellationToken cancellationToken)
         where TRequest : IRequest
     {

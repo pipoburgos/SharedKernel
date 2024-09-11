@@ -9,5 +9,5 @@
 
 namespace BankAccounts.Domain;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class BankAccountsDomainAssembly { }

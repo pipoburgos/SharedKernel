@@ -3,10 +3,10 @@
 // ReSharper disable InvokeAsExtensionMethod
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<Tuple<T1, T2>>> Combine<T1, T2>(this Task<Result<T1>> resultTask, Result<T2> result2)
     {
         var result = await resultTask;
@@ -16,7 +16,7 @@ public static partial class ResultExtensions
         return Result.Failure<Tuple<T1, T2>>(result.Errors.Concat(result2.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<Tuple<T1, T2, T3>>> Combine<T1, T2, T3>(
         this Task<Result<T1>> resultTask, Result<T2> result2, Result<T3> result3)
     {
@@ -27,7 +27,7 @@ public static partial class ResultExtensions
         return Result.Failure<Tuple<T1, T2, T3>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<Tuple<T1, T2, T3, T4>>> Combine<T1, T2, T3, T4>(
         this Task<Result<T1>> resultTask, Result<T2> result2, Result<T3> result3, Result<T4> result4)
     {
@@ -40,7 +40,7 @@ public static partial class ResultExtensions
             .Concat(result4.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<Tuple<T1, T2, T3, T4, T5>>> Combine<T1, T2, T3, T4, T5>(
         this Task<Result<T1>> resultTask, Result<T2> result2, Result<T3> result3, Result<T4> result4,
         Result<T5> result5)

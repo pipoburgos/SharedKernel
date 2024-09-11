@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.FluentValidation;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register all AbstractValidator from library. </summary>

@@ -53,7 +53,7 @@ public class SpecificationTests
         var sampleA = new SampleEntity(identifier) { SampleProperty = "1" };
         var sampleB = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB });
+        list.AddRange([sampleA, sampleB]);
 
 
         var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
@@ -89,7 +89,7 @@ public class SpecificationTests
 
         var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB });
+        list.AddRange([sampleA, sampleB]);
 
 
         var result = list.AsQueryable().Where(composite.SatisfiedBy()).ToList();
@@ -180,7 +180,7 @@ public class SpecificationTests
 
         var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB, sampleC });
+        list.AddRange([sampleA, sampleB, sampleC]);
 
         var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
 
@@ -213,7 +213,7 @@ public class SpecificationTests
 
         var sampleC = new SampleEntity(identifier) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB, sampleC });
+        list.AddRange([sampleA, sampleB, sampleC]);
 
 
         var result = list.AsQueryable().Where(andSpec.SatisfiedBy()).ToList();
@@ -247,7 +247,7 @@ public class SpecificationTests
 
         var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB });
+        list.AddRange([sampleA, sampleB]);
 
         var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
         Assert.Equal(2, result.Count);
@@ -278,7 +278,7 @@ public class SpecificationTests
 
         var sampleB = new SampleEntity(Guid.NewGuid()) { SampleProperty = "the sample property" };
 
-        list.AddRange(new[] { sampleA, sampleB });
+        list.AddRange([sampleA, sampleB]);
 
         var result = list.AsQueryable().Where(orSpec.SatisfiedBy()).ToList();
 

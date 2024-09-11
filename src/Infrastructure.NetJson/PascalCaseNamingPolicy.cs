@@ -2,10 +2,10 @@
 
 namespace SharedKernel.Infrastructure.NetJson;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class PascalCaseNamingPolicy : JsonNamingPolicy
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override string ConvertName(string name)
     {
         if (string.IsNullOrEmpty(name))

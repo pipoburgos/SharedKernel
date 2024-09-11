@@ -1,29 +1,29 @@
 ﻿namespace SharedKernel.Application.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class SmtpSettings
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public long? MaxSendSize { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string MailServer { get; set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool RequireSsl { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool RequireTls { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int MailPort { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string DefaultSender { get; set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? User { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? Password { get; set; }
 }

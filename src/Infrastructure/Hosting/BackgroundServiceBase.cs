@@ -3,13 +3,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace SharedKernel.Infrastructure.Hosting;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class BackgroundServiceBase : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly TimeSpan? _delay;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="serviceScopeFactory"></param>
     /// <param name="delay">Set to 5 minutes by default. </param>
     protected BackgroundServiceBase(IServiceScopeFactory serviceScopeFactory, TimeSpan? delay = default)
@@ -18,7 +18,7 @@ public abstract class BackgroundServiceBase : BackgroundService
         _delay = delay;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,7 +42,7 @@ public abstract class BackgroundServiceBase : BackgroundService
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="scope"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>

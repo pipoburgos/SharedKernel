@@ -3,10 +3,10 @@ using SharedKernel.Application.Cqrs.Queries.Entities;
 
 namespace SharedKernel.Infrastructure.FluentValidation;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class PageOptionsValidator : AbstractValidator<PageOptions>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public PageOptionsValidator(
         OrderValidator orderValidator,
         FilterPropertyValidator filterPropertyValidator)
@@ -20,10 +20,10 @@ public class PageOptionsValidator : AbstractValidator<PageOptions>
     }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class OrderValidator : AbstractValidator<Order>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public OrderValidator()
     {
         RuleFor(a => a.Field)
@@ -31,10 +31,10 @@ public class OrderValidator : AbstractValidator<Order>
     }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class FilterPropertyValidator : AbstractValidator<FilterProperty>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public FilterPropertyValidator()
     {
         RuleFor(a => a.Field)

@@ -6,17 +6,17 @@ using SharedKernel.Infrastructure.Requests.Middlewares.Validation;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class MiddlewaresExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddValidationMiddleware(this IServiceCollection services)
     {
         return services
             .AddTransient<IMiddleware, ValidationMiddleware>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddTimerMiddleware<TTimeHandler>(this IServiceCollection services)
         where TTimeHandler : class, ITimeHandler
     {
@@ -25,7 +25,7 @@ public static class MiddlewaresExtensions
             .AddTransient<IMiddleware, TimerMiddleware>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddTimerMiddleware(this IServiceCollection services, int milliseconds = 100)
     {
         return services
@@ -34,7 +34,7 @@ public static class MiddlewaresExtensions
             .AddTransient<IMiddleware, TimerMiddleware>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddFailoverMiddleware(this IServiceCollection services)
     {
         return services

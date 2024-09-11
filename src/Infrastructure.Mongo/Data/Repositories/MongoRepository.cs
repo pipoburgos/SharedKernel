@@ -11,15 +11,15 @@ using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.Repositories;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>,
     IReadAllRepository<TAggregateRoot> where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly MongoDbContext MongoUnitOfWork;
 
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected MongoRepository(MongoDbContext mongoDbContext) : base(mongoDbContext)
     {
         MongoUnitOfWork = mongoDbContext;
@@ -27,7 +27,7 @@ public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAg
 
     #region Protected Methods
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected IQueryable<TAggregateRoot> GetQuery(bool showDeleted = false)
     {
         IQueryable<TAggregateRoot> query = MongoUnitOfWork.Set<TAggregateRoot>().AsQueryable();
@@ -45,7 +45,7 @@ public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAg
         return query;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual IQueryable<TAggregateRoot> GetAggregate(IQueryable<TAggregateRoot> query)
     {
         return query;
@@ -53,59 +53,59 @@ public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAg
 
     #endregion
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected BsonDocument ToBsonDocument(string json) => !string.IsNullOrWhiteSpace(json)
         ? BsonSerializer.Deserialize<BsonDocument>(json)
         : new BsonDocument();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected BsonArray ToBsonArray(string json) => !string.IsNullOrWhiteSpace(json)
         ? BsonSerializer.Deserialize<BsonArray>(json)
         : new BsonArray();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<TAggregateRoot> GetAll()
     {
         return MongoUnitOfWork.Set<TAggregateRoot>().Find(FilterDefinition<TAggregateRoot>.Empty).ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Any()
     {
         return MongoUnitOfWork.Set<TAggregateRoot>().Find(FilterDefinition<TAggregateRoot>.Empty).Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool NotAny()
     {
         return !GetQuery().Any();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Where(spec.SatisfiedBy()).ToList();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Single(spec.SatisfiedBy());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public TAggregateRoot? SingleOrDefault(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().SingleOrDefault(spec.SatisfiedBy());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Any(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Any(spec.SatisfiedBy());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool NotAny(ISpecification<TAggregateRoot> spec)
     {
         return !GetQuery().Any(spec.SatisfiedBy());

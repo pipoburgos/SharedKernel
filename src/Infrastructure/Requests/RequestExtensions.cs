@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal static class RequestExtensions
 {
     public const string Headers = "Headers";
@@ -16,7 +16,7 @@ internal static class RequestExtensions
     public const string Meta = "Meta";
 
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Dictionary<string, string?> ToPrimitives(this IRequest domainEvent)
     {
         var primitives = new Dictionary<string, string?>();

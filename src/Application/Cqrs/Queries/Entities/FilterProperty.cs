@@ -3,7 +3,7 @@
 /// <summary> Filter by a property. </summary>
 public class FilterProperty
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public FilterProperty(string field, string value, FilterOperator? @operator = default, bool ignoreCase = true)
     {
         Field = field;

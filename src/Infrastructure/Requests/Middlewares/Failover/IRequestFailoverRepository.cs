@@ -1,8 +1,8 @@
 ﻿namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IRequestFailoverRepository
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Task Save(ErrorRequest request, CancellationToken cancellationToken);
 }

@@ -2,18 +2,18 @@
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class FailoverMiddleware : IMiddleware
 {
     private readonly FailoverCommonLogic _failoverCommonLogic;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public FailoverMiddleware(FailoverCommonLogic failoverCommonLogic)
     {
         _failoverCommonLogic = failoverCommonLogic;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task Handle<TRequest>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task> next) where TRequest : IRequest
     {
@@ -28,7 +28,7 @@ public class FailoverMiddleware : IMiddleware
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<TResponse> Handle<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> next) where TRequest : IRequest<TResponse>
     {
@@ -43,7 +43,7 @@ public class FailoverMiddleware : IMiddleware
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
         CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
         where TRequest : IRequest<Result<TResponse>>

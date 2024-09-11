@@ -7,7 +7,7 @@ using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AuditableService : IAuditableService
 {
     private readonly IEntityAuditableService _entityAuditableService;
@@ -15,7 +15,7 @@ public class AuditableService : IAuditableService
     private readonly IDateTime _dateTime;
     private readonly ILogger<AuditableService> _customLogger;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public AuditableService(IEntityAuditableService entityAuditableService, IGuid guid, IDateTime dateTime,
         ILogger<AuditableService> customLogger)
     {
@@ -25,7 +25,7 @@ public class AuditableService : IAuditableService
         _customLogger = customLogger;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Audit(DbContext dbContext)
     {
         ModifyAuditableEntities(dbContext);

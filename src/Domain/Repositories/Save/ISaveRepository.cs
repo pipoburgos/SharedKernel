@@ -1,17 +1,17 @@
 ﻿namespace SharedKernel.Domain.Repositories.Save;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface ISaveRepository : IBaseRepository
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     int SaveChanges();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Result<int> SaveChangesResult();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     int Rollback();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Result<int> RollbackResult();
 }

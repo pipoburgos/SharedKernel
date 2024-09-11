@@ -49,7 +49,7 @@ public static class SharedKernelApiExtensions
             {
                 options.AddPolicy(policyName,
                     builder => builder
-                        .WithOrigins(origins ?? Array.Empty<string>())
+                        .WithOrigins(origins ?? [])
                         .AllowAnyMethod()
                         .SetIsOriginAllowed(_ => true)
                         .AllowAnyHeader()

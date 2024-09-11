@@ -6,10 +6,10 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
     {
         var smtpSettings = new SmtpSettings();
@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
                     setup.LoginWith(smtpSettings.User!, smtpSettings.Password!);
 
                 setup.AllowInvalidRemoteCertificates = true;
-            }, "Smtp", tags: new[] { "Smtp" });
+            }, "Smtp", tags: ["Smtp"]);
 
 
         return services
@@ -48,7 +48,7 @@ public static class ServiceCollectionExtensions
                     default));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddOutbox(this IServiceCollection services)
     {
         return services

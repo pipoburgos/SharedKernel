@@ -4,10 +4,10 @@ using SharedKernel.Application.Cqrs.Commands;
 
 namespace SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRabbitMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
             .AddHealthChecks()
             .AddRabbitMQ(
                 (sp, _) => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
-                "RabbitMq Command Bus", tags: new[] { "Command Bus", "RabbitMq" });
+                "RabbitMq Command Bus", tags: ["Command Bus", "RabbitMq"]);
 
         return services
             .AddHostedService<RabbitMqEventBusConfiguration>()

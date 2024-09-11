@@ -3,10 +3,10 @@
 
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> Bind<T, TU>(this Task<Result<T>> resultTask, Func<T, Task<Result<TU>>> predicate)
     {
         var result = await resultTask;
@@ -15,7 +15,7 @@ public static partial class ResultExtensions
             : Result.Failure<TU>(result.Errors);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> Bind<T, TU>(this Result<T> result, Func<T, Task<TU>> predicate)
     {
         return result.IsSuccess
@@ -23,7 +23,7 @@ public static partial class ResultExtensions
             : Result.Failure<TU>(result.Errors);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> TryBind<T, TU>(this Result<T> result, Func<T, Task<TU>> predicate,
         Func<Exception, Result<TU>>? capture = default, Func<Task>? finallyFunc = default)
     {
@@ -47,7 +47,7 @@ public static partial class ResultExtensions
         return resultError;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> TryBind<T, TU, TException>(this Result<T> result, Func<T, Task<TU>> predicate,
         Func<TException, Result<TU>> captureCustom, Func<Exception, Result<TU>>? capture = default,
         Func<Task>? finallyFunc = default) where TException : Exception

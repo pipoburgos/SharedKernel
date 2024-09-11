@@ -1,17 +1,17 @@
 ﻿namespace SharedKernel.Domain.Specifications;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class PropertiesContainsOrEqualSpecification<T> : ISpecification<T> where T : class
 {
     private readonly IEnumerable<Property> _properties;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public PropertiesContainsOrEqualSpecification(IEnumerable<Property> properties)
     {
         _properties = properties;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Expression<Func<T, bool>> SatisfiedBy()
     {
         ISpecification<T> filter = new TrueSpecification<T>();

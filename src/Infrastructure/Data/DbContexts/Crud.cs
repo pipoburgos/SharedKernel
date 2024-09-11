@@ -1,14 +1,14 @@
 ﻿namespace SharedKernel.Infrastructure.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public enum Crud
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Adding = 1,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Updating = 2,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Deleting = 3
 }

@@ -72,7 +72,7 @@ public abstract class ArchitectureTests
     [Fact]
     public void QueriesHandlers_Should_BeSealed_And_NotBePublic_And_HaveNameEndingWithHandler()
     {
-        Assert(Types.InAssemblies(new[] { GetApplicationAssembly(), GetInfrastructureAssembly() })
+        Assert(Types.InAssemblies([GetApplicationAssembly(), GetInfrastructureAssembly()])
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler")
             .FailingTypes
             ?.Select(x => x.Name)

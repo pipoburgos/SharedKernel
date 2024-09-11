@@ -6,7 +6,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service PostgreSQL into IServiceCollection. </summary>

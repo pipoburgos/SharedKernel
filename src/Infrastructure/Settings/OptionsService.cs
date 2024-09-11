@@ -3,17 +3,17 @@ using SharedKernel.Application.Settings;
 
 namespace SharedKernel.Infrastructure.Settings;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class OptionsService<TOptions> : IOptionsService<TOptions> where TOptions : class, new()
 {
     private readonly IOptions<TOptions> _options;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public OptionsService(IOptions<TOptions> options)
     {
         _options = options;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public TOptions Value => _options.Value;
 }

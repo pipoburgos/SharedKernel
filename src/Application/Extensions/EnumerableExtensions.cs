@@ -2,10 +2,10 @@
 
 namespace SharedKernel.Application.Extensions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class EnumerableExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IEnumerable<T> FilterContainsProperties<T>(this IEnumerable<T> query, IEnumerable<FilterProperty> properties)
     {
         if (properties == default!)

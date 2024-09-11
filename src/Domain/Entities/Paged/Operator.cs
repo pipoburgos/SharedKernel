@@ -3,57 +3,57 @@
 /// <summary> The filter operator (comparison). </summary>
 public enum Operator
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     EqualTo = 1,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     NotEqualTo = 2,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IsEqualToNull = 3,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IsNotEqualToNull = 4,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     LessThan = 5,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     LessThanOrEqualTo = 6,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     GreaterThan = 7,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     GreaterThanOrEqualTo = 8,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     StartsWith = 9,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     NotStartsWith = 10,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     EndsWith = 11,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     NotEndsWith = 12,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Contains = 13,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     NotContains = 14,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IsEmpty = 15,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IsNotEmpty = 16,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DateEqual = 17,
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     NotDateEqual = 18
 }

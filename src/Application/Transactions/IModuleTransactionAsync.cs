@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Application.Transactions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IModuleTransactionAsync : IDisposable
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Begin();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void End();
 }

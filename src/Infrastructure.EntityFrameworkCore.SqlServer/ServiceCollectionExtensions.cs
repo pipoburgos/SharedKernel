@@ -3,11 +3,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddSqlServerHealthChecks(this IServiceCollection services,
         string connectionString, string name, params string[] tags)
     {

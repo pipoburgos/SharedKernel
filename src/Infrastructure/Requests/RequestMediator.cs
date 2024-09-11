@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RequestMediator : IRequestMediator
 {
     private readonly ILogger<RequestMediator> _logger;
@@ -45,7 +45,7 @@ internal class RequestMediator : IRequestMediator
         return scope.ServiceProvider.GetService(handlerType) != null;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Execute(string requestSerialized, Type requestType, string method, CancellationToken cancellationToken)
     {
         var request = _requestDeserializer.Deserialize(requestSerialized);

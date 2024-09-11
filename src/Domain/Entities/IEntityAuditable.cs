@@ -5,16 +5,16 @@
 /// </summary>
 public interface IEntityAuditable
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Guid CreatedBy { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DateTime CreatedAt { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Guid? LastModifiedBy { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DateTime? LastModifiedAt { get; }
 
     /// <summary> Sets the creation auditable properties. </summary>

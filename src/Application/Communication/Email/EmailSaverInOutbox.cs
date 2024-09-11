@@ -3,13 +3,13 @@ using SharedKernel.Application.System;
 
 namespace SharedKernel.Application.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class EmailSaverInOutboxr : IEmailSender
 {
     private readonly IGuid _guid;
     private readonly IOutboxMailRepository _outboxMailRepository;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public EmailSaverInOutboxr(
         IGuid guid,
         IOutboxMailRepository? outboxMailRepository = default)
@@ -19,16 +19,16 @@ public class EmailSaverInOutboxr : IEmailSender
             outboxMailRepository ?? throw new NotImplementedException("IOutboxMailRepository not registered.");
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Sender => false;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task SendEmailAsync(Mail email, CancellationToken cancellationToken)
     {
         return SendEmailAsync(new List<Mail> { email }, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task SendEmailAsync(IEnumerable<Mail> emails, CancellationToken cancellationToken)
     {
         foreach (var email in emails)

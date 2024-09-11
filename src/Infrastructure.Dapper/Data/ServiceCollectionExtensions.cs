@@ -7,23 +7,23 @@ using System.Collections;
 
 namespace SharedKernel.Infrastructure.Dapper.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDapperSqlServer(this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
         services.AddHealthChecks()
             .AddSqlServer(connectionString, "SELECT 1;", _ => { }, "Sql Server Dapper",
-                HealthStatus.Unhealthy, new[] { "DB", "Sql", "SqlServer" });
+                HealthStatus.Unhealthy, ["DB", "Sql", "SqlServer"]);
 
         services.Add(new ServiceDescriptor(typeof(DapperQueryProvider), typeof(DapperQueryProvider), serviceLifetime));
         return services
             .AddTransient<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddDapperPostgreSql(this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
             .AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string ShowDapperQuery(this string sql, DynamicParameters? parameters = null)
     {
         var result = sql;
@@ -70,7 +70,7 @@ public static class ServiceCollectionExtensions
         return result;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static string ShowDapperParameters(this string sql, DynamicParameters parameters)
     {
         var parametersLines = new List<string>();

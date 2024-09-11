@@ -2,10 +2,10 @@
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Extensions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class DbSetExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Task AddOrNothing<T, TId>(this DbSet<T> dbSet, CancellationToken cancellationToken,
         List<T> records) where T : class, IEntity<TId> where TId : notnull
     {

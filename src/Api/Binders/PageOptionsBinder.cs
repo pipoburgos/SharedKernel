@@ -4,10 +4,10 @@ using FilterOperator = SharedKernel.Application.Cqrs.Queries.Entities.FilterOper
 
 namespace SharedKernel.Api.Binders;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class PageOptionsBinder
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected PageOptions GetPagedOptions(ModelBindingContext bindingContext)
     {
         if (bindingContext == null)

@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Application.Serializers;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IBinarySerializer
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     byte[] Serialize<T>(T value) where T : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     T? Deserialize<T>(byte[] value) where T : notnull;
 }

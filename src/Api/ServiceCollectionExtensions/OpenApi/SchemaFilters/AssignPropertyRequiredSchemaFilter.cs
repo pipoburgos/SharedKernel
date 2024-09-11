@@ -5,10 +5,10 @@ using System.Reflection;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
         if (schema.Properties == null || schema.Properties.Count == 0)

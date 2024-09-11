@@ -6,17 +6,17 @@ using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data.Repositories;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class FileSystemRepository<TAggregateRoot, TId> : RepositoryAsync<TAggregateRoot, TId>
     where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IJsonSerializer JsonSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly string Directory;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected FileSystemRepository(FileSystemDbContext fileSystemDbContext, IConfiguration configuration,
         IJsonSerializer jsonSerializer) : base(fileSystemDbContext)
     {
@@ -27,7 +27,7 @@ public class FileSystemRepository<TAggregateRoot, TId> : RepositoryAsync<TAggreg
             throw new Exception("Empty FileSystemRepositoryPath key on appsettings.");
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected string FileName(TId id)
     {
         return $"{Directory}/{typeof(TAggregateRoot).Name}.{id}.json";

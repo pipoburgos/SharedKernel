@@ -26,7 +26,7 @@ public class PollyRetrieverWrap : IRetriever
         _options = options.Value;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int RetryCount => _options.RetryCount;
 
     /// <summary>

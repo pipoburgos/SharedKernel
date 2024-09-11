@@ -2,18 +2,18 @@
 
 namespace SharedKernel.Infrastructure.HttpClients;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
 {
     private readonly IIdentityService _identityService;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public HttpClientAuthorizationDelegatingHandler(IIdentityService identityService)
     {
         _identityService = identityService;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {

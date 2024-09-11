@@ -1,9 +1,9 @@
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class RequestType : IRequestType
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RequestType(string uniqueName, Type type, bool isTopic)
     {
         UniqueName = uniqueName;
@@ -11,12 +11,12 @@ public class RequestType : IRequestType
         IsTopic = isTopic;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string UniqueName { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Type Type { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool IsTopic { get; }
 }

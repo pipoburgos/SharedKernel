@@ -2,19 +2,19 @@
 
 namespace SharedKernel.Infrastructure.System;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class MachineDateTime : IDateTime
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime UtcNow => DateTime.UtcNow;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime MaxValue => DateTime.MaxValue;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime ClientNow => DateTime.Now;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime ConvertToClientDate(DateTime dateTime)
     {
         switch (dateTime.Kind)

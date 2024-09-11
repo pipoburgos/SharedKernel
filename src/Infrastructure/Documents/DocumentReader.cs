@@ -3,25 +3,25 @@ using System.Data;
 
 namespace SharedKernel.Infrastructure.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class DocumentReader : IDocumentReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected DocumentReader()
     {
         ColumnNames = new List<string>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public abstract string Extension { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<string> ColumnNames { get; protected set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DocumentReaderConfiguration Configuration { get; private set; } = new();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IDocumentReader Configure(Action<DocumentReaderConfiguration> change)
     {
         Configuration = new DocumentReaderConfiguration();
@@ -29,9 +29,9 @@ public abstract class DocumentReader : IDocumentReader
         return this;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public abstract IEnumerable<IRowData> ReadStream(Stream stream);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public abstract DataTable Read(Stream stream);
 }

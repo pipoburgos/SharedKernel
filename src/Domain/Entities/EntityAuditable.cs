@@ -19,26 +19,26 @@ public abstract class EntityAuditable<TId> : Entity<TId>, IEntityAuditable where
         CreatedBy = createdBy;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid CreatedBy { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime CreatedAt { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid? LastModifiedBy { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DateTime? LastModifiedAt { get; private set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Create(DateTime createdAt, Guid createdBy)
     {
         CreatedAt = createdAt;
         CreatedBy = createdBy;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Change(DateTime lastModifiedAt, Guid lastModifiedBy)
     {
         LastModifiedAt = lastModifiedAt;

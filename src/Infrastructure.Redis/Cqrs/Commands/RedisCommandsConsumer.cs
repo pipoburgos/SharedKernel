@@ -20,7 +20,7 @@ internal class RedisCommandsConsumer : BackgroundService
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = _serviceScopeFactory.CreateScope();

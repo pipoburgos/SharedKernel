@@ -1,26 +1,26 @@
 ﻿namespace SharedKernel.Infrastructure.Data.DbContexts;
 
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IOperationAsync
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Crud Crud { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Func<Task> CommitMethodAsync { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Func<Task> RollbackMethodAsync { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IAggregateRoot AggregateRoot { get; set; }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class OperationAsync<T, TId> : IOperationAsync where T : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public OperationAsync(Crud crud, T aggregateRoot, Func<Task> commitMethodAsync, Func<Task> rollbackMethodAsync)
     {
         Crud = crud;
@@ -29,15 +29,15 @@ public class OperationAsync<T, TId> : IOperationAsync where T : class, IAggregat
         RollbackMethodAsync = rollbackMethodAsync;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Crud Crud { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IAggregateRoot AggregateRoot { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Func<Task> CommitMethodAsync { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Func<Task> RollbackMethodAsync { get; }
 }

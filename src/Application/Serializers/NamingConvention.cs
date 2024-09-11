@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Application.Serializers;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public enum NamingConvention
 {
     /// <summary> camelCase </summary>

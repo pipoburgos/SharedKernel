@@ -7,10 +7,10 @@ using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRedisEventBus(this IServiceCollection services,
         IConfiguration configuration)
     {

@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands.InMemory;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class InMemoryCommandBus : ICommandBus
 {
     private readonly IServiceProvider _serviceProvider;
@@ -21,7 +21,7 @@ public class InMemoryCommandBus : ICommandBus
 
     private static readonly ConcurrentDictionary<Type, object> CommandHandlers = new();
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public InMemoryCommandBus(
         IServiceProvider serviceProvider,
         IServiceScopeFactory serviceScopeFactory,
@@ -38,7 +38,7 @@ public class InMemoryCommandBus : ICommandBus
         _parallel = parallel;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TResponse> Dispatch<TResponse>(ICommandRequest<TResponse> command, CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
@@ -52,7 +52,7 @@ public class InMemoryCommandBus : ICommandBus
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<Result<TResponse>> Dispatch<TResponse>(ICommandRequest<Result<TResponse>> command,
         CancellationToken cancellationToken)
     {
@@ -67,7 +67,7 @@ public class InMemoryCommandBus : ICommandBus
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(ICommandRequest command, CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(command, cancellationToken, (req, c) =>
@@ -81,27 +81,27 @@ public class InMemoryCommandBus : ICommandBus
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(IEnumerable<ICommandRequest> commands, CancellationToken cancellationToken)
     {
         return _parallel.ForEachAsync(commands, cancellationToken, Dispatch);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TResponse[]> Dispatch<TResponse>(IEnumerable<ICommandRequest<TResponse>> commands,
         CancellationToken cancellationToken)
     {
         return Task.WhenAll(commands.Select(command => Dispatch(command, cancellationToken)));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<Result<TResponse>[]> Dispatch<TResponse>(
         IEnumerable<ICommandRequest<Result<TResponse>>> commands, CancellationToken cancellationToken)
     {
         return Task.WhenAll(commands.Select(command => Dispatch(command, cancellationToken)));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task DispatchOnQueue(IEnumerable<ICommandRequest> commands, string queueName,
         CancellationToken cancellationToken)
     {
@@ -153,7 +153,7 @@ public class InMemoryCommandBus : ICommandBus
             cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task QueueInBackground(ICommandRequest command)
     {
         _taskQueue.QueueBackground(async _ =>

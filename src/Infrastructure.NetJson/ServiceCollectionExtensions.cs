@@ -4,10 +4,10 @@ using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.NetJson;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddNetJsonSerializer(this IServiceCollection services)
     {
         return services
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     }
 
     //#if !NETFRAMEWORK && !NETSTANDARD
-    //    /// <summary>  </summary>
+    //    /// <summary> . </summary>
     //    public static IMvcBuilder AddSharedKernelNetJson(this IMvcBuilder mvcBuilder)
     //    {
     //        return mvcBuilder.AddJsonOptions(o =>

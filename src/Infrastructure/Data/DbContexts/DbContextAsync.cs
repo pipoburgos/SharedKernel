@@ -5,16 +5,16 @@ using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class DbContextAsync : DbContext, IDbContextAsync
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly List<IOperationAsync> OperationsAsync;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly List<IOperationAsync> OperationsExecutedAsync;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DbContextAsync(IEntityAuditableService auditableService, IClassValidatorService classValidatorService)
         : base(auditableService, classValidatorService)
     {
@@ -22,7 +22,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         OperationsExecutedAsync = new List<IOperationAsync>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task AddAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -33,7 +33,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task UpdateAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -45,7 +45,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task RemoveAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
     {
@@ -62,7 +62,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         Validate();
@@ -72,7 +72,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return CommitAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<Result<int>> SaveChangesResultAsync(CancellationToken cancellationToken)
     {
         var addingAndUpdating = Operations.Where(x => x.Crud == Crud.Adding || x.Crud == Crud.Updating).ToList();
@@ -88,7 +88,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
             .TryBind(async _ => await CommitAsync(cancellationToken));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<int> RollbackAsync(CancellationToken cancellationToken)
     {
         var total = OperationsExecuted.Count + OperationsExecutedAsync.Count;
@@ -111,7 +111,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual async Task<Result<int>> RollbackResultAsync(CancellationToken cancellationToken)
     {
         var total = await RollbackAsync(cancellationToken);
@@ -150,25 +150,25 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         return total;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual Task BeforeCommitAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected virtual Task AfterCommitAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected abstract Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken) where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected void Audit(IEnumerable<IOperation> operations, IEnumerable<IOperationAsync> operationsAsync)
     {
         base.Audit(operations);
@@ -180,7 +180,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
                 .OfType<IEntityAuditableLogicalRemove>());
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public abstract Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

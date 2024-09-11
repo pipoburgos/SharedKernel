@@ -7,10 +7,10 @@ using StackExchange.Redis;
 
 namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddRedisCommandBusAsync(this IServiceCollection services,
         IConfiguration configuration)
     {

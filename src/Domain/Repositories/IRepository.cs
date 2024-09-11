@@ -5,7 +5,7 @@ using SharedKernel.Domain.Repositories.Update;
 
 namespace SharedKernel.Domain.Repositories;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IRepository<TAggregateRoot, in TId> :
     ICreateRepository<TAggregateRoot>,
     IReadOneRepository<TAggregateRoot, TId>,

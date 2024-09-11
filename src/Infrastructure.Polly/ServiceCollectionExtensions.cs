@@ -5,10 +5,10 @@ using SharedKernel.Infrastructure.Polly.RetryPolicies;
 
 namespace SharedKernel.Infrastructure.Polly;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="httpClientBuilder"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
             policyBuilder.WaitAndRetryAsync(retrieverOptions.RetryCount, retrieverOptions.RetryAttempt()));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private static RetrieverOptions GetRetrieverOptions(IConfiguration configuration)
     {
         var retrieverOptions = new RetrieverOptions();

@@ -3,10 +3,10 @@ using Elasticsearch.Net;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ResponseExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static void ThrowOriginalExceptionIfIsNotValid(this ElasticsearchResponse response)
     {
         if (response.IsValidResponse)
@@ -19,7 +19,7 @@ public static class ResponseExtensions
             throw ex;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static bool ThrowOriginalExceptionIfIsNotValid(this ElasticsearchResponseBase response)
     {
         if (response.HttpStatusCode == 404)

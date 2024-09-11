@@ -5,13 +5,13 @@ using System.Xml.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Xml;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class XmlReader : DocumentReader, IXmlReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override string Extension => "xml";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override IEnumerable<IRowData> ReadStream(Stream stream)
     {
         var document = XElement.Load(stream);
@@ -29,7 +29,7 @@ public class XmlReader : DocumentReader, IXmlReader
         //yield return (T)serializer.Deserialize(reader);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override DataTable Read(Stream stream)
     {
         var dataTable = new DataTable();

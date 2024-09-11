@@ -1,11 +1,11 @@
 ﻿namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IDocumentReaderFactory
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IDocumentReader Create(string name);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IEnumerable<string> GetExtensions();
 }

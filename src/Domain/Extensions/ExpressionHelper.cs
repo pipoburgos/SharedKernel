@@ -5,7 +5,7 @@ using IEnumerable = System.Collections.IEnumerable;
 
 namespace SharedKernel.Domain.Extensions;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ExpressionHelper
 {
     private static PropertyInfo? FindProperty<T>(string? name)
@@ -29,7 +29,7 @@ public static class ExpressionHelper
         return propertyInfo;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression<Func<T, bool>> GenerateExpression<T>(string value, string? propertyName,
         Operator? @operator, bool utcDates = true)
     {
@@ -248,7 +248,7 @@ public static class ExpressionHelper
         return left.Compose(right, Expression.Or);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression EnumerableContains(Expression expression, Expression valueExpression, Type type)
     {
         var methodInfo = typeof(Enumerable)
@@ -263,7 +263,7 @@ public static class ExpressionHelper
         return Expression.Call(methodInfo, expression, valueExpression);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression Contains(Expression expression, Expression valueExpression)
     {
         var methodInfo = typeof(string).GetMethod(nameof(string.Contains), [typeof(string)]);
@@ -274,13 +274,13 @@ public static class ExpressionHelper
         return Expression.Call(expression, methodInfo, valueExpression);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression NotContains(Expression expression, Expression valueExpression)
     {
         return Expression.Not(Contains(expression, valueExpression));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression StartsWith(Expression expression, Expression valueExpression)
     {
         var methodInfo = typeof(string).GetMethod(nameof(string.StartsWith), [typeof(string)]);
@@ -291,13 +291,13 @@ public static class ExpressionHelper
         return Expression.Call(expression, methodInfo, valueExpression);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression NotStartsWith(Expression expression, Expression valueExpression)
     {
         return Expression.Not(StartsWith(expression, valueExpression));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression EndsWith(Expression expression, Expression valueExpression)
     {
         var methodInfo = typeof(string).GetMethod(nameof(string.EndsWith), [typeof(string)]);
@@ -308,7 +308,7 @@ public static class ExpressionHelper
         return Expression.Call(expression, methodInfo, valueExpression);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression NotEndsWith(Expression expression, Expression valueExpression)
     {
         return Expression.Not(EndsWith(expression, valueExpression));

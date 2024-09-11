@@ -5,13 +5,13 @@ using System.Xml.Linq;
 
 namespace SharedKernel.Infrastructure.Documents.Xml;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class XmlRow : IRowData
 {
     private readonly XElement _element;
     private readonly CultureInfo _cultureInfo;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public XmlRow(long lineNumber, XElement element, CultureInfo cultureInfo)
     {
         LineNumber = lineNumber;
@@ -19,10 +19,10 @@ public class XmlRow : IRowData
         _cultureInfo = cultureInfo;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public long LineNumber { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(int index)
     {
         var value = _element.Descendants().ToArray()[index]?.Value ??
@@ -34,7 +34,7 @@ public class XmlRow : IRowData
         return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(string name)
     {
         var value = _element.Descendants(name).SingleOrDefault()?.Value ??

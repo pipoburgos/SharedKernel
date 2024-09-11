@@ -4,7 +4,7 @@ using SharedKernel.Application.Events;
 
 namespace SharedKernel.Infrastructure.RabbitMq.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
             .AddHealthChecks()
             .AddRabbitMQ(
                 (sp, _) => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Connection(),
-                "RabbitMq Event Bus", tags: new[] { "Event Bus", "RabbitMq" });
+                "RabbitMq Event Bus", tags: ["Event Bus", "RabbitMq"]);
 
         return services
             .AddHostedService<RabbitMqEventBusConfiguration>()

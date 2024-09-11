@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Timer;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class TimeHandler : ITimeHandler
 {
     private readonly ILogger<TimeHandler> _logger;
@@ -15,7 +15,7 @@ public class TimeHandler : ITimeHandler
         _milliseconds = milliseconds;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Handle<TRequest>(TRequest request, Stopwatch timer)
     {
         var name = typeof(TRequest).Name;

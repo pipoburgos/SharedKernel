@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.Redis.Caching;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>

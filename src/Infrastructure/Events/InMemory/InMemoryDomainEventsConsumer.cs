@@ -10,7 +10,7 @@ public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
     private readonly IRequestMediator _requestMediator;
     private readonly IRequestSerializer _requestSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public InMemoryDomainEventsConsumer(
         EventQueue eventQueue,
         IRequestMediator requestMediator,
@@ -21,7 +21,7 @@ public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
         _requestSerializer = requestSerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="domainEvent"></param>
     public void Add(DomainEvent domainEvent)
     {
@@ -29,7 +29,7 @@ public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
         _eventQueue.Enqueue(eventSerialized);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="domainEvents"></param>
     public void AddRange(IEnumerable<DomainEvent> domainEvents)
     {
@@ -40,7 +40,7 @@ public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
         }
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task ExecuteAll(CancellationToken cancellationToken)
     {
         while (_eventQueue.TryDequeue(out var domainEvent))

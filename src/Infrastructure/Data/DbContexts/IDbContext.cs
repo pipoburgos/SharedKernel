@@ -2,22 +2,22 @@
 
 namespace SharedKernel.Infrastructure.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IDbContext : IUnitOfWork
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Add<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Update<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     void Remove<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     TAggregateRoot? GetById<TAggregateRoot, TId>(TId id)
         where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;
 }

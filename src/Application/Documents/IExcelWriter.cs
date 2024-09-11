@@ -1,8 +1,8 @@
 ﻿namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IExcelWriter
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     Stream Write<T>(IEnumerable<T> elements, Dictionary<string, string> headers, string sheetName);
 }

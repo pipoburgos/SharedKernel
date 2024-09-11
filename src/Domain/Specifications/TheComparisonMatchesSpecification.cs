@@ -2,14 +2,14 @@
 
 namespace SharedKernel.Domain.Specifications;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class TheComparisonMatchesSpecification<T> : Specification<T>
 {
     private readonly string _value;
     private readonly string? _propertyName;
     private readonly Operator? _operator;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public TheComparisonMatchesSpecification(string value, string? propertyName, Operator? @operator)
     {
         _value = value;

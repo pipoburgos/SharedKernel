@@ -5,7 +5,7 @@
 /// </summary>
 public interface IRetriever
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     int RetryCount { get; }
 
     /// <summary>

@@ -1,26 +1,26 @@
 ﻿namespace SharedKernel.Infrastructure.Data.DbContexts;
 
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IOperation
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Crud Crud { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Action CommitMethod { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Action RollbackMethod { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IAggregateRoot AggregateRoot { get; set; }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Operation<T, TId> : IOperation where T : class, IAggregateRoot<TId> where TId : notnull
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Operation(Crud crud, T aggregateRoot, Action commitMethod, Action rollbackMethod)
     {
         Crud = crud;
@@ -29,15 +29,15 @@ public class Operation<T, TId> : IOperation where T : class, IAggregateRoot<TId>
         RollbackMethod = rollbackMethod;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Crud Crud { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IAggregateRoot AggregateRoot { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Action CommitMethod { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Action RollbackMethod { get; }
 }

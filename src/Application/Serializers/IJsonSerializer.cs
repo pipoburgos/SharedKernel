@@ -1,15 +1,15 @@
 ﻿namespace SharedKernel.Application.Serializers;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IJsonSerializer
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <returns></returns>
     T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase);
 }

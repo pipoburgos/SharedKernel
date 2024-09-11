@@ -6,10 +6,10 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class QueryServiceExtension
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
         Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
@@ -17,7 +17,7 @@ public static class QueryServiceExtension
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type type,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
@@ -26,7 +26,7 @@ public static class QueryServiceExtension
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] infrastructureAssembly)
     {
@@ -36,7 +36,7 @@ public static class QueryServiceExtension
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] queryHandlerTypes)
     {
@@ -46,7 +46,7 @@ public static class QueryServiceExtension
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddInMemoryQueryBus(this IServiceCollection services)
     {
         return services

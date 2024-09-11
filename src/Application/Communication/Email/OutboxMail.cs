@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Application.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class OutboxMail : Mail
 {
     /// <summary> . </summary>
@@ -26,9 +26,9 @@ public class OutboxMail : Mail
         Pending = true;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Guid Id { get; set; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Pending { get; set; }
 }

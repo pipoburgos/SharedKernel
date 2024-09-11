@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DapperException : Exception
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DapperException(string message) : base(message)
     {
     }

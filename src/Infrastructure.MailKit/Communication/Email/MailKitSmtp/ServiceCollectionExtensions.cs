@@ -6,10 +6,10 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.MailKit.Communication.Email.MailKitSmtp;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
                     setup.LoginWith(smtpSettings.User!, smtpSettings.Password!);
 
                 setup.AllowInvalidRemoteCertificates = true;
-            }, "Smtp", tags: new[] { "Smtp" });
+            }, "Smtp", tags: ["Smtp"]);
 
 
         return services

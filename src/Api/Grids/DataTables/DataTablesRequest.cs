@@ -5,7 +5,7 @@ namespace SharedKernel.Api.Grids.DataTables;
 /// <summary> Datatables request. </summary>
 public class DataTablesRequest
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DataTablesRequest(int draw, int start, int length, List<Column> columns, IEnumerable<DataTablesOrder> order,
         Search? search = default, IDictionary<string, object>? additionalParameters = default)
     {
@@ -18,24 +18,24 @@ public class DataTablesRequest
         AdditionalParameters = additionalParameters ?? new Dictionary<string, object>();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Draw { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Start { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Length { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Search? Search { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<Column> Columns { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<DataTablesOrder> Order { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IDictionary<string, object> AdditionalParameters { get; }
 }

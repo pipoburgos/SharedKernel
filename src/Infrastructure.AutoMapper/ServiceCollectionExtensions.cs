@@ -5,10 +5,10 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.AutoMapper;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="services"></param>
     /// <param name="assemblies"></param>
     /// <returns></returns>
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
             .AddAutoMapper(assemblies);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <returns></returns>
     public static void UseAutoMapperSharedKernel(IMapperFactory typeAdapterFactory)
     {

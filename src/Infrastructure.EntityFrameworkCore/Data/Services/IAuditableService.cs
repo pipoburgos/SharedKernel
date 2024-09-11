@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Services;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IAuditableService
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     /// <param name="dbContext"></param>
     void Audit(DbContext dbContext);
 }

@@ -1,21 +1,21 @@
 ﻿namespace SharedKernel.Domain.Repositories.Read.Specification;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IReadSpecificationRepository<TAggregateRoot> : IBaseRepository
     where TAggregateRoot : class, IAggregateRoot
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     List<TAggregateRoot> Where(ISpecification<TAggregateRoot> spec);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     TAggregateRoot Single(ISpecification<TAggregateRoot> spec);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     TAggregateRoot? SingleOrDefault(ISpecification<TAggregateRoot> spec);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool Any(ISpecification<TAggregateRoot> spec);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool NotAny(ISpecification<TAggregateRoot> spec);
 }

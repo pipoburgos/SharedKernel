@@ -5,10 +5,10 @@ using SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddFileSystemDbContext<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : FileSystemDbContext
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
         return services.AddDbContext<TDbContext>(serviceLifetime);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddFileSystemUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : FileSystemDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork

@@ -3,10 +3,10 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddPostgreSqlHealthChecks(this IServiceCollection services,
         string connectionString, string name, params string[] tags)
     {

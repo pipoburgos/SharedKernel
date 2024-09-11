@@ -13,7 +13,7 @@ using System.Text;
 
 namespace SharedKernel.Infrastructure.RabbitMq;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RabbitMqConsumer
 {
     private readonly RabbitMqConnectionFactory _config;
@@ -23,7 +23,7 @@ internal class RabbitMqConsumer
     private readonly IRetriever _retriever;
     private const string HeaderRedelivery = "redelivery_count";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RabbitMqConsumer(
         RabbitMqConnectionFactory config,
         IRequestMediator requestMediator,

@@ -3,7 +3,7 @@
 /// <summary> Email sender manager. </summary>
 public interface IEmailSender
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     bool Sender { get; }
 
     /// <summary> Sends an email to default email from. </summary>

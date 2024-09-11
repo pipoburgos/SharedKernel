@@ -5,7 +5,7 @@ using SharedKernel.Domain.Guards;
 
 namespace SharedKernel.Infrastructure.Requests.Middlewares.Validation;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ValidationMiddleware : IMiddleware
 {
     private readonly IServiceProvider _serviceProvider;
@@ -16,7 +16,7 @@ public class ValidationMiddleware : IMiddleware
         _serviceProvider = serviceProvider;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task Handle<TRequest>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task> next) where TRequest : IRequest
     {
@@ -25,7 +25,7 @@ public class ValidationMiddleware : IMiddleware
         await next(request, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<TResponse> Handle<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken,
         Func<TRequest, CancellationToken, Task<TResponse>> next) where TRequest : IRequest<TResponse>
     {
@@ -34,7 +34,7 @@ public class ValidationMiddleware : IMiddleware
         return await next(request, cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public async Task<Result<TResponse>> Handle<TRequest, TResponse>(TRequest request,
         CancellationToken cancellationToken, Func<TRequest, CancellationToken, Task<Result<TResponse>>> next)
         where TRequest : IRequest<Result<TResponse>>

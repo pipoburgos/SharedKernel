@@ -4,7 +4,7 @@ using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey> :
         IEntityTypeConfiguration<TEntity>
         where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey>
@@ -20,7 +20,7 @@ public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TT
     }
 }
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation> :
     AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, Language, string>
     where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, Language, string>

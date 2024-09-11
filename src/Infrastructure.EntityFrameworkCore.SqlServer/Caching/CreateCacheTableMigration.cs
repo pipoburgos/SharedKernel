@@ -2,16 +2,16 @@
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.Caching;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class CreateCacheTableMigration : Migration
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateCacheTable();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropCacheTable();

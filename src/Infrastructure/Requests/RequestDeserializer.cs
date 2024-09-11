@@ -4,13 +4,13 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Requests;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 internal class RequestDeserializer : IRequestDeserializer
 {
     private readonly IJsonSerializer _jsonSerializer;
     private readonly IRequestProviderFactory _requestProviderFactory;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public RequestDeserializer(
         IJsonSerializer jsonSerializer,
         IRequestProviderFactory requestProviderFactory)
@@ -19,7 +19,7 @@ internal class RequestDeserializer : IRequestDeserializer
         _requestProviderFactory = requestProviderFactory;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Request Deserialize(string body)
     {
         var eventData = _jsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(body);

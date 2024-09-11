@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace SharedKernel.Infrastructure.NPOI.Documents.Excel;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class NpoiExcelRow : IRowData
 {
     private readonly IRow _cells;
@@ -12,7 +12,7 @@ public class NpoiExcelRow : IRowData
     private readonly CultureInfo _cultureInfo;
     private readonly IFormulaEvaluator _formulaEvaluator;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public NpoiExcelRow(long lineNumber, IRow cells, List<string> columnNames, CultureInfo cultureInfo,
         IFormulaEvaluator formulaEvaluator)
     {
@@ -23,10 +23,10 @@ public class NpoiExcelRow : IRowData
         _formulaEvaluator = formulaEvaluator;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public long LineNumber { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(int index)
     {
         if (_cells == default!)
@@ -37,7 +37,7 @@ public class NpoiExcelRow : IRowData
         return GetCellValue<T>(cell);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(string name)
     {
         if (_cells == default!)

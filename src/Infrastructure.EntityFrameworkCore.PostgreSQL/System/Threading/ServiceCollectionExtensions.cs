@@ -3,7 +3,7 @@ using SharedKernel.Application.System.Threading;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.System.Threading;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register PostgreSql IMutexManager and IMutex factory. </summary>

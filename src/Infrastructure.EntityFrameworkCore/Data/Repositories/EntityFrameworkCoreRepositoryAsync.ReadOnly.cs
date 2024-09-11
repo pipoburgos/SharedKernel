@@ -24,7 +24,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
 
     #region Constructors
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected EntityFrameworkCoreRepositoryAsync(TDbContext dbContextBase,
         IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextBase)
     {
@@ -50,7 +50,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
         return GetQuery(false, showDeleted, context);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<TAggregateRoot?> GetByIdReadOnlyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery()
@@ -58,7 +58,7 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public virtual Task<TAggregateRoot?> GetDeleteByIdReadOnlyAsync(TId id,
         CancellationToken cancellationToken)
     {
@@ -67,59 +67,59 @@ public abstract class EntityFrameworkCoreRepositoryAsync<TAggregateRoot, TId, TD
             .SingleOrDefaultAsync(cancellationToken)!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<List<TAggregateRoot>> GetAllReadOnlyAsync(CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().ToListAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override Task<bool> AnyAsync(CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().AnyAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override Task<long> CountAsync(CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().LongCountAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override Task<bool> AnyAsync(TId id, CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery()
             .AnyAsync(a => a.Id!.Equals(id), cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<List<TAggregateRoot>> WhereReadOnlyAsync(ISpecification<TAggregateRoot> spec,
         CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().Where(spec.SatisfiedBy()).ToListAsync(cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TAggregateRoot> SingleReadOnlyAsync(ISpecification<TAggregateRoot> spec,
         CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().SingleAsync(spec.SatisfiedBy(), cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task<TAggregateRoot?> SingleOrDefaultReadOnlyAsync(ISpecification<TAggregateRoot> spec,
         CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().SingleOrDefaultAsync(spec.SatisfiedBy(), cancellationToken)!;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override Task<bool> AnyAsync(ISpecification<TAggregateRoot> spec, CancellationToken cancellationToken)
     {
         return GetReadOnlyQuery().AnyAsync(spec.SatisfiedBy(), cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Dispose()
     {
         foreach (var dbContextBase in _contexts)

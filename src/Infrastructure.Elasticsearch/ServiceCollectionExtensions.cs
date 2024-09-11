@@ -5,10 +5,10 @@ using ConnectionConfiguration = Elasticsearch.Net.ConnectionConfiguration;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
 
         services
             .AddHealthChecks()
-            .AddElasticsearch(uri.ToString(), "Elasticsearch", tags: new[] { "DB", "Elasticsearch" });
+            .AddElasticsearch(uri.ToString(), "Elasticsearch", tags: ["DB", "Elasticsearch"]);
 
         return services;
     }

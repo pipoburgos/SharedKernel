@@ -9,19 +9,19 @@ using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.Mongo.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class MongoDbContext : DbContextAsync, IDisposable
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IClientSessionHandle Session;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IMongoDatabase MongoDatabase;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly bool EnableTransactions;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public MongoDbContext(IOptions<MongoSettings> options, IEntityAuditableService auditableService,
         IClassValidatorService classValidatorService) : base(auditableService, classValidatorService)
     {
@@ -31,33 +31,33 @@ public class MongoDbContext : DbContextAsync, IDisposable
         EnableTransactions = options.Value.EnableTransactions;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IMongoCollection<TAggregateRoot> Set<TAggregateRoot>() where TAggregateRoot : class, IAggregateRoot
     {
         return MongoDatabase.GetCollection<TAggregateRoot>(typeof(TAggregateRoot).Name);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     private IClientSessionHandle GetSession()
     {
         return Session;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void BeforeCommit()
     {
         if (EnableTransactions)
             Session.StartTransaction();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void AfterCommit()
     {
         if (EnableTransactions)
             Session.CommitTransaction();
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
     {
         var aggregateRoot = Set<TAggregateRoot>().Find(a => a.Id!.Equals(id)).SingleOrDefault();
@@ -72,46 +72,46 @@ public class MongoDbContext : DbContextAsync, IDisposable
         return aggregateRoot;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         Set<TAggregateRoot>().InsertOne(GetSession(), aggregateRoot);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         Set<TAggregateRoot>()
             .FindOneAndReplace(GetSession(), a => a.Id!.Equals(aggregateRoot.Id), aggregateRoot);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         Set<TAggregateRoot>().DeleteOne(GetSession(), a => a.Id!.Equals(aggregateRoot.Id));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return Set<T>().InsertOneAsync(GetSession(), aggregateRoot, cancellationToken: cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return Set<T>().ReplaceOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id), aggregateRoot,
             cancellationToken: cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return Set<T>().DeleteOneAsync(GetSession(), a => a.Id!.Equals(aggregateRoot.Id),
             cancellationToken: cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken) where TAggregateRoot : class
     {
         var cursor = await Set<TAggregateRoot>()
@@ -129,7 +129,7 @@ public class MongoDbContext : DbContextAsync, IDisposable
         return aggregateRoot;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task BeforeCommitAsync(CancellationToken cancellationToken)
     {
         if (EnableTransactions)
@@ -138,13 +138,13 @@ public class MongoDbContext : DbContextAsync, IDisposable
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task AfterCommitAsync(CancellationToken cancellationToken)
     {
         return EnableTransactions ? Session.CommitTransactionAsync(cancellationToken) : Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Dispose()
     {
         Session.Dispose();

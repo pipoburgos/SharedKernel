@@ -2,9 +2,9 @@
 
 namespace SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IDbConnectionFactory
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DbConnection GetConnection();
 }

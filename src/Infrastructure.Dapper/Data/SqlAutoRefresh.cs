@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace SharedKernel.Infrastructure.Dapper.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class SqlAutoRefresh<TReturn> : IDisposable
 {
     private readonly string _sqlQuery;
@@ -18,7 +18,7 @@ public class SqlAutoRefresh<TReturn> : IDisposable
     private readonly CommandType? _commandType;
     private readonly SqlDependencyAsync _sqlDependencyAsync;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public SqlAutoRefresh(string sqlQuery,
         string connectionString,
         CancellationToken cancellationToken,
@@ -39,7 +39,7 @@ public class SqlAutoRefresh<TReturn> : IDisposable
         SqlDependency.Start(_connectionString);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public SqlAutoRefresh(string sqlQuery,
         string connectionString,
         object? param = default,

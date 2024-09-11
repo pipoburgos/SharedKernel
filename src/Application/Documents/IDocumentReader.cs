@@ -2,24 +2,24 @@
 
 namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IDocumentReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     string Extension { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DocumentReaderConfiguration Configuration { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IDocumentReader Configure(Action<DocumentReaderConfiguration> change);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     List<string> ColumnNames { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     IEnumerable<IRowData> ReadStream(Stream stream);
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DataTable Read(Stream stream);
 }

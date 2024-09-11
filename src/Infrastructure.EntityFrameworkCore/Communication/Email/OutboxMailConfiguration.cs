@@ -4,18 +4,18 @@ using SharedKernel.Application.Serializers;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Communication.Email;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class OutboxMailConfiguration : IEntityTypeConfiguration<OutboxMail>
 {
     private readonly IJsonSerializer _jsonSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public OutboxMailConfiguration(IJsonSerializer jsonSerializer)
     {
         _jsonSerializer = jsonSerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public void Configure(EntityTypeBuilder<OutboxMail> builder)
     {
         builder

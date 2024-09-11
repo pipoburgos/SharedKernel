@@ -73,6 +73,7 @@ public static class EnumerableExtensions
     public static IEnumerable<T> AddFirst<T>(this IEnumerable<T> items, T item) where T : notnull
     {
         if (items == default!)
+            // ReSharper disable once UseCollectionExpression
             return Enumerable.Empty<T>();
 
         var itemsList = items.ToList();
@@ -125,7 +126,7 @@ public static class EnumerableExtensions
 
     #region Specifications
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IEnumerable<TAggregateRoot> AllMatching<TAggregateRoot>(
         this IEnumerable<TAggregateRoot> items, ISpecification<TAggregateRoot> spec)
         where TAggregateRoot : class, IAggregateRoot
@@ -137,7 +138,7 @@ public static class EnumerableExtensions
 
     #region Random
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
     {
         return source.Shuffle().Take(count);
@@ -150,7 +151,7 @@ public static class EnumerableExtensions
 
     #endregion Random
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IEnumerable<T> ContainsText<T>(this IEnumerable<T> query, string searchText)
     {
         Expression<Func<T, bool>> allExpressions = default!;
@@ -166,7 +167,7 @@ public static class EnumerableExtensions
         return query;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Expression<Func<T, bool>> GetExpressionContainsString<T>(string propertyName, string propertyValue)
     {
         var propertyInfo = typeof(T).GetProperties().SingleOrDefault(t => string.Equals(t.Name, propertyName, StringComparison.CurrentCultureIgnoreCase));

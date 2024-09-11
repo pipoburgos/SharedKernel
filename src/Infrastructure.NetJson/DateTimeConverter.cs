@@ -4,10 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace SharedKernel.Infrastructure.NetJson;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class DateTimeConverter : JsonConverter<DateTime>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var x = reader.GetString();
@@ -22,7 +22,7 @@ public class DateTimeConverter : JsonConverter<DateTime>
         return default(DateTime);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value.ToUniversalTime());
 }

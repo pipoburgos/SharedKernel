@@ -1,6 +1,6 @@
 namespace SharedKernel.Application.Events;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IEventBus
 {
     /// <summary> Publish an event to event bus. </summary>

@@ -5,10 +5,10 @@ using SharedKernel.Infrastructure.Mongo.Data;
 
 namespace SharedKernel.Infrastructure.Mongo;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddMongoHealthChecks(this IServiceCollection services, IConfiguration configuration, string name)
     {
         var connectionString = configuration
@@ -17,12 +17,12 @@ public static class ServiceCollectionExtensions
         services
             .AddMongoOptions(configuration)
             .AddHealthChecks()
-            .AddMongoDb(connectionString!, name, HealthStatus.Unhealthy, new[] { "DB", "NoSql", "Mongo" });
+            .AddMongoDb(connectionString!, name, HealthStatus.Unhealthy, ["DB", "NoSql", "Mongo"]);
 
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddMongoOptions(this IServiceCollection services, IConfiguration configuration)
     {
         return services

@@ -1,23 +1,23 @@
 ﻿namespace SharedKernel.Domain.Entities.Globalization;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Language : AggregateRootAuditableLogicalRemove<string>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected Language() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected Language(string id, string name) : base(id)
     {
         Name = name;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Language Create(string id, string name)
     {
         return new Language(id, name);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Name { get; private set; } = null!;
 }

@@ -3,10 +3,10 @@ using SharedKernel.Application.Logging;
 
 namespace SharedKernel.Infrastructure.Logging;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelLogging(this IServiceCollection services)
     {
         return services

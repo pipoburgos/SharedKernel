@@ -5,7 +5,7 @@ namespace SharedKernel.Api.Grids.DataTables;
 /// <summary> Datatables request. </summary>
 public class DataTablesRequest<T>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public DataTablesRequest(T filter, int draw, int start, int length, List<Column> columns,
         IEnumerable<DataTablesOrder> order, Search? search = default)
     {
@@ -18,24 +18,24 @@ public class DataTablesRequest<T>
         Order = order;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Draw { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Start { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public int Length { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Search? Search { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public List<Column> Columns { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IEnumerable<DataTablesOrder> Order { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Filter { get; }
 }

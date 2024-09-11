@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Application.Cqrs.Queries.DataTables;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Column
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Column(string data, string? name = default, Search? search = default, bool searchable = true,
         bool orderable = true)
     {
@@ -14,18 +14,18 @@ public class Column
         Orderable = orderable;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string Data { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string? Name { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Search? Search { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Searchable { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public bool Orderable { get; }
 }

@@ -2,12 +2,12 @@
 
 namespace SharedKernel.Infrastructure.System;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ThreadUiCulture : ICulture
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string LanguageId => Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string LanguageSpaId => "es";
 }

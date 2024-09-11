@@ -3,10 +3,10 @@ using SharedKernel.Application.Reporting;
 
 namespace SharedKernel.Infrastructure.Reporting;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddReportingRenderer(this IServiceCollection services)
     {
         return services

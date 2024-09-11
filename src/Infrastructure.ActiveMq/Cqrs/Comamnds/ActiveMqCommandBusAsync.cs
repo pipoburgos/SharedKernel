@@ -5,13 +5,13 @@ using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class ActiveMqCommandBusAsync : ActiveMqPublisher, ICommandBusAsync
 {
     private readonly IRequestSerializer _requestSerializer;
     private readonly IPipeline _pipeline;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public ActiveMqCommandBusAsync(
         IRequestSerializer requestSerializer,
         IPipeline pipeline,
@@ -21,7 +21,7 @@ public class ActiveMqCommandBusAsync : ActiveMqPublisher, ICommandBusAsync
         _pipeline = pipeline;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(CommandRequest command, CancellationToken cancellationToken)
     {
         return _pipeline.ExecuteAsync(command, cancellationToken, (req, _) =>
@@ -32,7 +32,7 @@ public class ActiveMqCommandBusAsync : ActiveMqPublisher, ICommandBusAsync
         });
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Task Dispatch(IEnumerable<CommandRequest> commands, CancellationToken cancellationToken)
     {
         return Task.WhenAll(commands.Select(command => Dispatch(command, cancellationToken)));

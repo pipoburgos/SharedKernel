@@ -11,7 +11,7 @@ public class DefaultIdentityService : IIdentityService
     public Guid UserId => default;
 
     /// <summary> </summary>
-    public IEnumerable<string> GetKeyValues(string header) => Enumerable.Empty<string>();
+    public IEnumerable<string> GetKeyValues(string header) => [];
 
     /// <summary> </summary>
     public string GetKeyValue(string header) => string.Empty;

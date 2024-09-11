@@ -8,19 +8,19 @@ using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.FileSystem.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class FileSystemDbContext : DbContextAsync
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly IJsonSerializer JsonSerializer;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected readonly string Directory;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected string FileName<TAggregateRoot, TId>(TId id) => $"{Directory}/{typeof(TAggregateRoot).Name}.{id}.json";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected FileSystemDbContext(IConfiguration configuration, IJsonSerializer jsonSerializer,
         IEntityAuditableService auditableService, IClassValidatorService classValidatorService) : base(auditableService,
         classValidatorService)
@@ -32,25 +32,25 @@ public abstract class FileSystemDbContext : DbContextAsync
             throw new Exception("Empty FileSystemRepositoryPath key on appsettings.");
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         File.WriteAllText(FileName<TAggregateRoot, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         File.WriteAllText(FileName<TAggregateRoot, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
         File.Delete(FileName<TAggregateRoot, TId>(aggregateRoot.Id));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
     {
         if (!File.Exists(FileName<TAggregateRoot, TId>(id)))
@@ -68,7 +68,7 @@ public abstract class FileSystemDbContext : DbContextAsync
         return aggregateRoot;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task AddMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
@@ -81,7 +81,7 @@ public abstract class FileSystemDbContext : DbContextAsync
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
@@ -94,7 +94,7 @@ public abstract class FileSystemDbContext : DbContextAsync
 #endif
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
@@ -102,7 +102,7 @@ public abstract class FileSystemDbContext : DbContextAsync
         return Task.CompletedTask;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
         CancellationToken cancellationToken) where TAggregateRoot : class
 

@@ -1,10 +1,10 @@
 ﻿// ReSharper disable InvokeAsExtensionMethod
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<IEnumerable<T1>> Combine<T1>(this IEnumerable<Result<T1>> result)
     {
         var resultList = result.ToList();
@@ -13,7 +13,7 @@ public static partial class ResultExtensions
             : Result.Failure<IEnumerable<T1>>(resultList.SelectMany(r => r.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<Tuple<T1, T2>> Combine<T1, T2>(this Result<T1> result, Result<T2> result2)
     {
         if (!result.IsFailure && !result2.IsFailure)
@@ -22,7 +22,7 @@ public static partial class ResultExtensions
         return Result.Failure<Tuple<T1, T2>>(result.Errors.Concat(result2.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<Tuple<T1, T2, T3>> Combine<T1, T2, T3>(this Result<T1> result, Result<T2> result2,
         Result<T3> result3)
     {
@@ -32,7 +32,7 @@ public static partial class ResultExtensions
         return Result.Failure<Tuple<T1, T2, T3>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<Tuple<T1, T2, T3, T4>> Combine<T1, T2, T3, T4>(this Result<T1> result, Result<T2> result2,
         Result<T3> result3, Result<T4> result4)
     {
@@ -43,7 +43,7 @@ public static partial class ResultExtensions
             .Concat(result4.Errors));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<Tuple<T1, T2, T3, T4, T5>> Combine<T1, T2, T3, T4, T5>(this Result<T1> result,
         Result<T2> result2, Result<T3> result3, Result<T4> result4, Result<T5> result5)
     {

@@ -8,16 +8,16 @@ using SharedKernel.Infrastructure.Data.Services;
 
 namespace SharedKernel.Infrastructure.Redis.Data.DbContexts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public abstract class RedisDbContext : DbContextAsync
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IDistributedCache DistributedCache { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public IJsonSerializer JsonSerializer { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected RedisDbContext(IDistributedCache distributedCache, IJsonSerializer jsonSerializer,
         IEntityAuditableService auditableService, IClassValidatorService classValidatorService) : base(auditableService,
         classValidatorService)
@@ -26,28 +26,28 @@ public abstract class RedisDbContext : DbContextAsync
         JsonSerializer = jsonSerializer;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected string Get<T, TId>(TId id) => $"{typeof(T).Name}.{id}";
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void AddMethod<T, TId>(T aggregateRoot)
     {
         DistributedCache.SetString(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void UpdateMethod<T, TId>(T aggregateRoot)
     {
         DistributedCache.SetString(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override void DeleteMethod<T, TId>(T aggregateRoot)
     {
         DistributedCache.Remove(Get<T, TId>(aggregateRoot.Id));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
     {
         var bytes = DistributedCache.GetString(Get<TAggregateRoot, TId>(id));
@@ -67,27 +67,27 @@ public abstract class RedisDbContext : DbContextAsync
         return aggregateRoot;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task AddMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
             cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task UpdateMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return DistributedCache.SetStringAsync(Get<T, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot),
             cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected override Task DeleteMethodAsync<T, TId>(T aggregateRoot, CancellationToken cancellationToken)
     {
         return DistributedCache.RemoveAsync(Get<T, TId>(aggregateRoot.Id), cancellationToken);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id, CancellationToken cancellationToken) where TAggregateRoot : class
     {
         var bytes = await DistributedCache.GetStringAsync(Get<TAggregateRoot, TId>(id), cancellationToken);

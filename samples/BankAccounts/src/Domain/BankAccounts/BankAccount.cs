@@ -10,7 +10,7 @@ internal class BankAccount : AggregateRoot<BankAccountId>
 
     protected BankAccount()
     {
-        _movements = new();
+        _movements = [];
     }
 
     protected BankAccount(BankAccountId id, InternationalBankAccountNumber internationalBankAccountNumber, User owner,
@@ -22,7 +22,7 @@ internal class BankAccount : AggregateRoot<BankAccountId>
         Guard.ThrowIfNullOrDefault(initialMovement);
         InternationalBankAccountNumber = internationalBankAccountNumber;
         Owner = owner;
-        _movements = new List<Movement> { initialMovement };
+        _movements = [initialMovement];
     }
 
     public static Result<BankAccount> Create(BankAccountId id, InternationalBankAccountNumber accountNumber, User owner,

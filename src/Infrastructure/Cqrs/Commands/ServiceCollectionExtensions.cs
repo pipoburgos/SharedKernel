@@ -8,17 +8,17 @@ using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Cqrs.Commands;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
         Type commandHandlerType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         return services.AddCommandsHandlers(commandHandlerType.Assembly, serviceLifetime);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
         Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
             .AddFromAssembly(assembly, serviceLifetime, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddInMemoryCommandBus(this IServiceCollection services)
     {
         return services

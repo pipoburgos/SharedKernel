@@ -3,7 +3,7 @@ using SharedKernel.Application.UnitOfWorks;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service Sql Server into IServiceCollection. </summary>

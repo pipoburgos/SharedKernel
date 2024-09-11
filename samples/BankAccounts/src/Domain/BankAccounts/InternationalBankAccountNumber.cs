@@ -1,12 +1,12 @@
 ﻿namespace BankAccounts.Domain.BankAccounts;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class InternationalBankAccountNumber : ValueObject<InternationalBankAccountNumber>
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected InternationalBankAccountNumber() { }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     protected InternationalBankAccountNumber(string countryCheckDigit, string entityCode, string officeNumber,
         string controlDigit, string accountNumber)
     {
@@ -17,7 +17,7 @@ public class InternationalBankAccountNumber : ValueObject<InternationalBankAccou
         AccountNumber = accountNumber;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static Result<InternationalBankAccountNumber> Create(string countryCheckDigit, string entityCode,
         string officeNumber, string controlDigit, string accountNumber) =>
         Result.Create<InternationalBankAccountNumber>(default!)
@@ -39,18 +39,18 @@ public class InternationalBankAccountNumber : ValueObject<InternationalBankAccou
             .Map(_ => new InternationalBankAccountNumber(countryCheckDigit, entityCode, officeNumber, controlDigit,
                 accountNumber));
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string CountryCheckDigit { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string EntityCode { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string OfficeNumber { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string ControlDigit { get; private set; } = null!;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public string AccountNumber { get; private set; } = null!;
 }

@@ -12,10 +12,10 @@ using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class AddSharedKernelExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static IServiceCollection AddSharedKernel(this IServiceCollection services)
     {
         return services

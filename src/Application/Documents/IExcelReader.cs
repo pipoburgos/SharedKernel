@@ -2,9 +2,9 @@
 
 namespace SharedKernel.Application.Documents;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public interface IExcelReader : IDocumentReader
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     DataSet ReadTabs(Stream stream);
 }

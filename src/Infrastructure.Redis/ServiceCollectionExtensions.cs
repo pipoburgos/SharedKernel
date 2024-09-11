@@ -9,10 +9,10 @@ using SharedKernel.Infrastructure.Serializers;
 
 namespace SharedKernel.Infrastructure.Redis;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddRedisHealthChecks(this IServiceCollection services, IConfiguration configuration,
         string name, params string[] tags)
     {
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     internal static IServiceCollection AddRedisOptions(this IServiceCollection services, IConfiguration configuration)
     {
         return services

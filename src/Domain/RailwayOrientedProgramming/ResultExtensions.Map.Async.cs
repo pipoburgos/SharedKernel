@@ -3,10 +3,10 @@
 
 namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public static partial class ResultExtensions
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Result<T> result, Func<T, Task<TU>> mapper)
     {
         return result.IsSuccess
@@ -14,7 +14,7 @@ public static partial class ResultExtensions
             : Result.Failure<TU>(result.Errors);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Task<Result<T>> resultTask, Func<T, TU> mapper)
     {
         var result = await resultTask;
@@ -23,7 +23,7 @@ public static partial class ResultExtensions
             : Result.Failure<TU>(result.Errors);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public static async Task<Result<TU>> Map<T, TU>(this Task<Result<T>> resultTask, Func<T, Task<TU>> mapper)
     {
         var result = await resultTask;

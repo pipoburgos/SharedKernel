@@ -1,9 +1,9 @@
 ﻿namespace SharedKernel.Domain.Entities.Paged;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class Property
 {
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public Property(string field, string value, Operator? @operator, bool ignoreCase)
     {
         Field = field;

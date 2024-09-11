@@ -1,6 +1,6 @@
 namespace SharedKernel.Domain.Entities;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 /// <typeparam name="TId"></typeparam>
 public abstract class Entity<TId> : IEntity<TId> where TId : notnull
 {

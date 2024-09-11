@@ -11,6 +11,7 @@ public class ValidationResult
     public ValidationResult(string errorMessage, IEnumerable<string>? memberNames = default)
     {
         ErrorMessage = errorMessage;
+        // ReSharper disable once UseCollectionExpression
         _memberNames = memberNames ?? Enumerable.Empty<string>();
     }
 

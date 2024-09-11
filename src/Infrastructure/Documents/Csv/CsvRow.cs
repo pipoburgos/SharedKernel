@@ -3,14 +3,14 @@ using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Csv;
 
-/// <summary>  </summary>
+/// <summary> . </summary>
 public class CsvRow : IRowData
 {
     private readonly List<string> _cells;
     private readonly List<string> _columnNames;
     private readonly CultureInfo _cultureInfo;
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public CsvRow(long lineNumber, List<string> cells, List<string> columnNames, CultureInfo cultureInfo)
     {
         LineNumber = lineNumber;
@@ -19,10 +19,10 @@ public class CsvRow : IRowData
         _cultureInfo = cultureInfo;
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public long LineNumber { get; }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(int index)
     {
         if (_cells == default!)
@@ -36,7 +36,7 @@ public class CsvRow : IRowData
         return GetCellValue<T>(cell);
     }
 
-    /// <summary>  </summary>
+    /// <summary> . </summary>
     public T Get<T>(string name)
     {
         if (_cells == default!)
