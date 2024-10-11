@@ -19,7 +19,7 @@
     <PackageTags>C# NewtonsoftJson MvcBuilder Swashbuckle</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.8.1</Version>
+    <Version>8.0.10.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,8 +30,8 @@
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.31" Condition="'$(TargetFramework)' == 'net6.0'" />
 	<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.20" Condition="'$(TargetFramework)' == 'net7.0'" />
-	<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" Condition="'$(TargetFramework)' == 'net8.0'" />
-	<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.3" />
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.10" Condition="'$(TargetFramework)' == 'net8.0'" />
+	<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>

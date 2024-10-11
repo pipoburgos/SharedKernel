@@ -19,7 +19,7 @@
     <PackageTags>EmailSender MailKit</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.8.1</Version>
+    <Version>8.0.10.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,8 +29,8 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="8.0.1" />
-    <PackageReference Include="MailKit" Version="4.7.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />

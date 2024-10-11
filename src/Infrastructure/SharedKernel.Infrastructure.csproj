@@ -19,7 +19,7 @@
     <PackageTags>C# InMemoryCache CQRS InMemoryCommandBus InMemoryQueryBus InMemoryEventBus InMemoryMutex LDAP SMTP HealthChecks Logger Serializers</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.8.1</Version>
+    <Version>8.0.10.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,9 +37,9 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="8.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="8.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="System.CodeDom" Version="8.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
