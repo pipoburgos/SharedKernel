@@ -1,7 +1,7 @@
 services:
   sql_server:
     image: mcr.microsoft.com/mssql/server:latest
-    container_name: ${DOCKER_REGISTRY-}sql_server-test
+    container_name: "${DOCKER_REGISTRY-}sql_server-test"
     restart: always
     user: root
     environment:
