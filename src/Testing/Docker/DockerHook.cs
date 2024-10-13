@@ -1,29 +1,32 @@
-﻿namespace SharedKernel.Testing.Docker;
+﻿using Ductus.FluentDocker.Builders;
+using Ductus.FluentDocker.Services;
+
+namespace SharedKernel.Testing.Docker;
 
 public class DockerHook : IDisposable
 {
-    //private readonly ICompositeService _compositeService;
+    private readonly ICompositeService _compositeService;
 
-    //public DockerHook()
-    //{
-    //    _compositeService = new Builder()
-    //        .UseContainer()
-    //        .UseCompose()
-    //        .FromFile("./docker-compose.yml")
-    //        .RemoveOrphans()
-    //        .Build()
-    //        .Start();
+    public DockerHook()
+    {
+        _compositeService = new Builder()
+            .UseContainer()
+            .UseCompose()
+            .FromFile("./docker-compose.yml")
+            .RemoveOrphans()
+            .Build()
+            .Start();
 
-    //    Thread.Sleep(TimeSpan.FromSeconds(20));
-    //}
+        Thread.Sleep(TimeSpan.FromSeconds(20));
+    }
 
     protected virtual void Dispose(bool disposing)
     {
-        //if (!disposing)
-        //return;
+        if (!disposing)
+            return;
 
-        //_compositeService.Stop();
-        //_compositeService.Dispose();
+        _compositeService.Stop();
+        _compositeService.Dispose();
     }
 
     public void Dispose()
