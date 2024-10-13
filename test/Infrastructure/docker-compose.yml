@@ -1,86 +1,85 @@
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_PID=Developer
+    ports:
+      - 22220:1433
 
-    sqlserver:
-        image: mcr.microsoft.com/mssql/server:latest
-        environment:
-            - ACCEPT_EULA=Y
-            - SA_PASSWORD=yourStrong(!)Password
-            - MSSQL_PID=Developer
-        ports:
-            - 22220:1433
-     
-    mongo:
-        image: mongo:latest
-        ports:
-            - 22221:27017
+  mongo:
+    image: mongo:latest
+    ports:
+      - 22221:27017
 
-    redis:
-        image: redis:latest
-        ports:
-            - 22222:6379
+  redis:
+    image: redis:latest
+    ports:
+      - 22222:6379
 
-    rabbitmq:
-        image: rabbitmq:latest
-        environment:
-            - RABBITMQ_DEFAULT_USER=user
-            - RABBITMQ_DEFAULT_PASS=password
-        ports:
-            - 22223:5672
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 22223:5672
 
-    smtp:
-        image: jijiechen/papercut:latest
-        ports:
-            - "22224:25"
-            - 37408:37408
- 
-    activemq:
-        image: apache/activemq-artemis
-        ports:
-            - 8170:8161
-            - 22225:61616
+  smtp:
+    image: jijiechen/papercut:latest
+    ports:
+      - "22224:25"
+      - 37408:37408
 
-    postgres:
-        image: postgres:latest
-        environment:
-            POSTGRES_DB: postgres_testing
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: password
-        ports:
-            - 22226:5432
+  activemq:
+    image: apache/activemq-artemis
+    ports:
+      - 8170:8161
+      - 22225:61616
 
-    postgis:
-        image: postgis/postgis:latest
-        environment:
-            POSTGRES_DB: postgis_testing
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: password
-        ports:
-            - 22227:5432
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres_testing
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - 22226:5432
 
-    # elasticsearch:
-    #     image: elasticsearch:8.12.0
-    #     environment:
-    #         - discovery.type=single-node
-    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    #         - ELASTIC_USER=admin
-    #         - ELASTIC_PASSWORD=password
-    #         - bootstrap.memory_lock=true
-    #         - xpack.security.enabled=false
-    #         - xpack.security.http.ssl.enabled=false
-    #         # - xpack.security.http.ssl.key=certs/es01/es01.key
-    #         # - xpack.security.http.ssl.certificate=certs/es01/es01.crt
-    #         # - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
-    #         - xpack.security.transport.ssl.enabled=false
-    #         # - xpack.security.transport.ssl.key=certs/es01/es01.key
-    #         # - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
-    #         # - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
-    #         # - xpack.security.transport.ssl.verification_mode=certificate
-    #         # - xpack.license.self_generated.type=${LICENSE}
-    #     mem_limit: 1g
-    #     ulimits:
-    #         memlock:
-    #             soft: -1
-    #             hard: -1
-    #     ports:
-    #         - 22228:9200
-    #         - 22229:9300
+  postgis:
+    image: postgis/postgis:latest
+    environment:
+      POSTGRES_DB: postgis_testing
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - 22227:5432
+
+  # elasticsearch:
+  #     image: elasticsearch:8.12.0
+  #     environment:
+  #         - discovery.type=single-node
+  #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #         - ELASTIC_USER=admin
+  #         - ELASTIC_PASSWORD=password
+  #         - bootstrap.memory_lock=true
+  #         - xpack.security.enabled=false
+  #         - xpack.security.http.ssl.enabled=false
+  #         # - xpack.security.http.ssl.key=certs/es01/es01.key
+  #         # - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+  #         # - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+  #         - xpack.security.transport.ssl.enabled=false
+  #         # - xpack.security.transport.ssl.key=certs/es01/es01.key
+  #         # - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+  #         # - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+  #         # - xpack.security.transport.ssl.verification_mode=certificate
+  #         # - xpack.license.self_generated.type=${LICENSE}
+  #     mem_limit: 1g
+  #     ulimits:
+  #         memlock:
+  #             soft: -1
+  #             hard: -1
+  #     ports:
+  #         - 22228:9200
+  #         - 22229:9300

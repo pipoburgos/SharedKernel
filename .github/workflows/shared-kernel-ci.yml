@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3.7.1
       - name: Install Docker Compose
         run: |
           sudo apt-get update
