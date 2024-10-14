@@ -2,16 +2,16 @@ name: Shared Kernel CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: [ '8.0.X' ]
+        dotnet-version: ["8.0.X"]
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -23,18 +23,11 @@ jobs:
         run: dotnet restore ./SharedKernel.sln
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.7.1
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update &&
-          sudo apt-get install -y docker-compose
-          sudo service docker start
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
       - name: Prep packages
         run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
-      - name: Publish to GitHub packages 
+      - name: Publish to GitHub packages
         run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate

@@ -266,3 +266,4 @@ __pycache__/
 /docker-data
 **/log**.txt
 **/.sonarqube
+/inspectcode.xml
