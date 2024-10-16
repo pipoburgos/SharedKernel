@@ -8,26 +8,36 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        dotnet-version: ["8.0.X"]
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4.2.1
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Checkout code
+        uses: actions/checkout@v4.2.1
+
+      - name: Setup .NET 6.0
         uses: actions/setup-dotnet@v4.0.1
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: '6.0.x'
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4.0.1
+        with:
+          dotnet-version: '8.0.x'
+
       - name: Install dependencies
         run: dotnet restore ./SharedKernel.sln
+
       - name: Build
         run: dotnet build --configuration Release --no-restore ./SharedKernel.sln
+
       - name: Test
         run: dotnet test --no-restore --verbosity normal ./SharedKernel.sln
+
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
+
       - name: Prep packages
         run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
+        
       - name: Publish to GitHub packages
         run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
