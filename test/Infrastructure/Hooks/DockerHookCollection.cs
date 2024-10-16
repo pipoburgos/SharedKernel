@@ -3,11 +3,11 @@
 namespace SharedKernel.Integration.Tests.Hooks;
 
 [CollectionDefinition("DockerHook")]
-public class DockerHookCollection : ICollectionFixture<DockerHook>, IDisposable
+public class DockerHookCollection : ICollectionFixture<DockerComposeCmdHook>, IDisposable
 {
-    private readonly DockerHook _dockerHook;
+    private readonly DockerComposeCmdHook _dockerHook;
 
-    public DockerHookCollection(DockerHook dockerHook)
+    public DockerHookCollection(DockerComposeCmdHook dockerHook)
     {
         _dockerHook = dockerHook;
     }
