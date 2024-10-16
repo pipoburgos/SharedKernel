@@ -24,6 +24,12 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Start Docker Compose Infrastructure
+        run: docker compose -f ./test/Infrastructure/docker-compose.yml up -d
+
+      - name: Start Docker Compose BankAccounts
+        run: docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/docker-compose.yml up -d
+
       - name: Install dependencies
         run: dotnet restore ./SharedKernel.sln
 

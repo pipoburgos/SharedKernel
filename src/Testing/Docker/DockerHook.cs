@@ -1,7 +1,4 @@
-﻿//using Ductus.FluentDocker.Builders;
-//using Ductus.FluentDocker.Services;
-
-//namespace SharedKernel.Testing.Docker;
+﻿//namespace SharedKernel.Testing.Docker;
 
 //public class DockerHook : IDisposable
 //{

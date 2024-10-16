@@ -1,10 +1,8 @@
-﻿using SharedKernel.Testing.Docker;
-
-namespace BankAccounts.Acceptance.Tests.Shared;
+﻿namespace BankAccounts.Acceptance.Tests.Shared;
 
 [CollectionDefinition("Factory")]
 public class BankAccountClientFactoryCollection :
-    ICollectionFixture<DockerComposeCmdHook>,
+    //ICollectionFixture<DockerComposeCmdHook>,
     ICollectionFixture<BankAccountClientFactory>
 {
 }

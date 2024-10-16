@@ -1,13 +1,18 @@
-﻿using SharedKernel.Testing.Docker;
+﻿namespace SharedKernel.Integration.Tests.Hooks;
 
-namespace SharedKernel.Integration.Tests.Hooks;
+public sealed class DockerMockHook : IDisposable
+{
+    public void Dispose()
+    {
+    }
+}
 
 [CollectionDefinition("DockerHook")]
-public class DockerHookCollection : ICollectionFixture<DockerComposeCmdHook>, IDisposable
+public class DockerHookCollection : ICollectionFixture<DockerMockHook>, IDisposable
 {
-    private readonly DockerComposeCmdHook _dockerHook;
+    private readonly IDisposable _dockerHook;
 
-    public DockerHookCollection(DockerComposeCmdHook dockerHook)
+    public DockerHookCollection(DockerMockHook dockerHook)
     {
         _dockerHook = dockerHook;
     }
