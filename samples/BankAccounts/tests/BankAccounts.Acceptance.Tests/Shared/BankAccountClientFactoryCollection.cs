@@ -4,7 +4,7 @@ namespace BankAccounts.Acceptance.Tests.Shared;
 
 [CollectionDefinition("Factory")]
 public class BankAccountClientFactoryCollection :
-    ICollectionFixture<DockerWslCmdHook>,
+    ICollectionFixture<DockerComposeCmdHook>,
     ICollectionFixture<BankAccountClientFactory>
 {
 }
