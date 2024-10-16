@@ -201,13 +201,17 @@ public static class EnumerableExtensions
         foreach (var item in sourceList)
         {
             var previous = sourceList.SingleOrDefault(x => isPrevious(x, item));
+#pragma warning disable S2955
             if (previous == null)
+#pragma warning restore S2955
             {
                 result.Add([item]);
                 continue;
             }
 
+#pragma warning disable S2955
             var list = result.SingleOrDefault(x => x.Any(v => v != null && v.Equals(previous)));
+#pragma warning restore S2955
 
             if (list == null)
                 throw new Exception("Previous list not found ");
