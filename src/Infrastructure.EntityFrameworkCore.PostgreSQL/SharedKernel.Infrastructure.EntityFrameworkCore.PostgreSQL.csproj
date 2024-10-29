@@ -32,7 +32,7 @@
     <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="4.0.6" />
     <PackageReference Include="DistributedLock.Postgres" Version="1.2.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.8" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.10" />
   </ItemGroup>
 
   <ItemGroup>
