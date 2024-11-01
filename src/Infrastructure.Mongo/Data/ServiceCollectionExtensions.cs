@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using SharedKernel.Application.UnitOfWorks;
 using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.Mongo.Data.DbContexts;
@@ -11,10 +14,20 @@ namespace SharedKernel.Infrastructure.Mongo.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
+    public static bool IsRegistered { get; set; }
+
+    /// <summary> . </summary>
     public static IServiceCollection AddMongoDbContext<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : MongoDbContext
     {
+        // Register the GuidSerializer with Standard representation
+        if (!IsRegistered)
+        {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            IsRegistered = true;
+        }
+
         return services
             .AddDbContext<TDbContext>(serviceLifetime)
             .AddMongoHealthChecks(configuration, "Mongo")

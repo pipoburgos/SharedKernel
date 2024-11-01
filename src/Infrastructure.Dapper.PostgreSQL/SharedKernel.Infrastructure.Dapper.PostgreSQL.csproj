@@ -7,16 +7,16 @@
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-    <Description>NPOI infrastructure implementations</Description>
+    <Description>Dapper infrastructure implementations</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.NPOI</PackageId>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.Dapper.PostgreSQL</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>NPOI</PackageTags>
+    <PackageTags>Dapper</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
     <Version>8.0.10.2</Version>
@@ -28,12 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NPOI" Version="2.7.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+	  <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
+	  <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using SharedKernel.Infrastructure;
 using SharedKernel.Infrastructure.Communication.Email.Smtp;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
-using SharedKernel.Infrastructure.Dapper.Data;
+using SharedKernel.Infrastructure.Dapper.SqlServer.Data;
 using SharedKernel.Infrastructure.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Communication.Email;
 using SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;

@@ -1,7 +1,7 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 using System.Data.Common;
 
@@ -10,13 +10,13 @@ namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 /// <summary> . </summary>
 public sealed class DapperQueryProvider : IDisposable
 {
-    private readonly ILogger<DapperQueryProvider> _logger;
+    private readonly ICustomLogger<DapperQueryProvider> _logger;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly List<DbConnection> _connections;
 
     /// <summary> . </summary>
     public DapperQueryProvider(
-        ILogger<DapperQueryProvider> logger,
+        ICustomLogger<DapperQueryProvider> logger,
         IDbConnectionFactory dbConnectionFactory)
     {
         _logger = logger;
@@ -47,9 +47,7 @@ public sealed class DapperQueryProvider : IDisposable
     /// <summary> . </summary>
     public QueryBuilder Set(PageOptions pageOptions)
     {
-        var connection = _dbConnectionFactory.GetConnection();
-        _connections.Add(connection);
-        return new QueryBuilder(connection.ConnectionString, pageOptions, true);
+        return new QueryBuilder(_dbConnectionFactory, pageOptions, true);
     }
 
     /// <summary> . </summary>
@@ -66,7 +64,7 @@ public sealed class DapperQueryProvider : IDisposable
 
         var queryCountString = $"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS";
 
-        _logger.LogTrace(queryCountString);
+        _logger.Verbose(queryCountString);
         var total = await connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
 
         if (total == default)
@@ -83,7 +81,7 @@ public sealed class DapperQueryProvider : IDisposable
         if (pageOptions.Take.HasValue)
             queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
-        _logger.LogTrace(queryString);
+        _logger.Verbose(queryString);
         var elements = await connection.QueryAsync<T>(queryString, parameters);
 
         return new PagedList<T>(total, elements);
@@ -103,7 +101,7 @@ public sealed class DapperQueryProvider : IDisposable
 
         var queryCountString = $"{pre}SELECT COUNT(1) FROM ({sql}) ALIAS";
 
-        _logger.LogTrace(queryCountString);
+        _logger.Verbose(queryCountString);
         var totalTask = connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
 
         var queryString = $"{preselect}{sql}";
@@ -117,7 +115,7 @@ public sealed class DapperQueryProvider : IDisposable
         if (pageOptions.Take.HasValue)
             queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
 
-        _logger.LogTrace(queryString);
+        _logger.Verbose(queryString);
         var elementsTask = connection.QueryAsync<T>(queryString, parameters);
 
 

@@ -19,7 +19,7 @@
     <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-	<Version>8.0.10.1</Version>
+	<Version>8.0.10.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +33,7 @@
     <PackageReference Include="DistributedLock.Postgres" Version="1.2.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.10" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>

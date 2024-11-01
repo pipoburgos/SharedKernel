@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure.MailKit\SharedKernel.Infrastructure.MailKit.csproj" />

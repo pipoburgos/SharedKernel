@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
@@ -17,7 +18,7 @@ public partial class QueryBuilder
     private readonly List<string> _tabs;
     private readonly List<string> _joinsTab;
     private readonly List<string> _joins;
-    private readonly string _connectionString = null!;
+    private readonly IDbConnectionFactory _dbConnectionFactory = null!;
     private readonly PageOptions _state = null!;
     private readonly bool _isAnd;
     private string _select;
@@ -28,14 +29,14 @@ public partial class QueryBuilder
     #region Constructores
 
     /// <summary> . </summary>
-    public QueryBuilder(string connectionString, PageOptions state, bool isAnd)
+    public QueryBuilder(IDbConnectionFactory dbConnectionFactory, PageOptions state, bool isAnd)
     {
         _dynamicParameters = new DynamicParameters();
         _condiciones = new List<string>();
         _tabs = new List<string>();
         _joinsTab = new List<string>();
         _joins = new List<string>();
-        _connectionString = connectionString;
+        _dbConnectionFactory = dbConnectionFactory;
         _state = state;
         _isAnd = isAnd;
         _select = string.Empty;
@@ -66,16 +67,13 @@ public partial class QueryBuilder
     /// <summary> . </summary>
     public QueryResult Build()
     {
-        if (string.IsNullOrWhiteSpace(_connectionString))
-            throw new DapperException("Falta la cadena de conexión");
-
         var consulta = _select;
 
         consulta += GetJoins();
 
         consulta += GetFilters(_isAnd);
 
-        return new QueryResult(_dynamicParameters, consulta, _tempTables, _connectionString, _state);
+        return new QueryResult(_dynamicParameters, consulta, _tempTables, _state, _dbConnectionFactory);
     }
 
     /// <summary> . </summary>

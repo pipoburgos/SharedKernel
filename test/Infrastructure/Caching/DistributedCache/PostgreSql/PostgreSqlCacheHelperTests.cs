@@ -6,7 +6,7 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Application.System.Threading;
 using SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 using SharedKernel.Infrastructure.Caching;
-using SharedKernel.Infrastructure.Dapper.Data;
+using SharedKernel.Infrastructure.Dapper.PostgreSQL.Data;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Caching;
 using SharedKernel.Testing.Infrastructure;
 

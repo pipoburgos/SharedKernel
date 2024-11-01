@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
 
-namespace SharedKernel.Infrastructure.Dapper.Data;
+namespace SharedKernel.Infrastructure.Dapper.SqlServer.Data;
 
 /// <summary> . </summary>
 public class SqlAutoRefresh<TReturn> : IDisposable

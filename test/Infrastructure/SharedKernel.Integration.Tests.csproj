@@ -50,7 +50,8 @@
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AsyncKeyedLock\SharedKernel.Infrastructure.AsyncKeyedLock.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.Dapper.PostgreSQL\SharedKernel.Infrastructure.Dapper.PostgreSQL.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" Condition="'$(TargetFramework)' == 'net8.0'" />

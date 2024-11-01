@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Tests.Users;
-using SharedKernel.Infrastructure.Dapper.Data;
 using SharedKernel.Infrastructure.Dapper.Data.Queries;
+using SharedKernel.Infrastructure.Dapper.SqlServer.Data;
+using SharedKernel.Infrastructure.Logging;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Testing.Infrastructure;
 
@@ -24,6 +25,7 @@ public class SqlServerDapperQueryProviderTests : InfrastructureTestCase<FakeStar
         return services
             .AddDbContext<SharedKernelEntityFrameworkDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
             .AddDbContextFactory<SharedKernelEntityFrameworkDbContext>()
+            .AddSharedKernelLogging()
             .AddDapperSqlServer(Configuration.GetConnectionString("DapperConnectionString")!);
     }
 

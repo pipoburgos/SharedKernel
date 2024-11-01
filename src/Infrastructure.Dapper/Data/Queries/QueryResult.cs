@@ -1,19 +1,19 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
 /// <summary> </summary>
 public class QueryResult
 {
-    private readonly string _connectionString;
+    private readonly IDbConnectionFactory _dbConnectionFactory;
 
     /// <summary> </summary>
-    public QueryResult(DynamicParameters parameters, string query, string tempTables, string connectionString, PageOptions state)
+    public QueryResult(DynamicParameters parameters, string query, string tempTables, PageOptions state, IDbConnectionFactory dbConnectionFactory)
     {
-        _connectionString = connectionString;
+        _dbConnectionFactory = dbConnectionFactory;
 
         var parameterProperties = parameters.ParameterNames
             .Select(p => "@" + p)
@@ -55,7 +55,7 @@ public class QueryResult
     /// <summary> </summary>
     public async Task<IPagedList<TResult>> ToPagedListAsync<TResult>(CancellationToken cancellationToken)
     {
-        using var connection = new SqlConnection(_connectionString);
+        using var connection = _dbConnectionFactory.GetConnection();
 
         await connection.OpenAsync(cancellationToken);
 

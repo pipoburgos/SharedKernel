@@ -30,7 +30,7 @@ public abstract class MongoRepository<TAggregateRoot, TId> : RepositoryAsync<TAg
     /// <summary> . </summary>
     protected IQueryable<TAggregateRoot> GetQuery(bool showDeleted = false)
     {
-        IQueryable<TAggregateRoot> query = MongoUnitOfWork.Set<TAggregateRoot>().AsQueryable();
+        var query = MongoUnitOfWork.Set<TAggregateRoot>().AsQueryable();
 
         query = GetAggregate(query);
 
