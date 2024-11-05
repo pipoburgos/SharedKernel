@@ -29,7 +29,7 @@ public class CreateBankAccountHandlerTests
         var command = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1980, 2, 24),
             "Fernández", Guid.NewGuid(), 34);
 
-        //command.AddId(id);
+        command.AddId(id);
 
         _dateTime.UtcNow.Returns(new DateTime(2022, 2, 14));
 
