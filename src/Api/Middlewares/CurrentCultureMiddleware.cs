@@ -20,7 +20,7 @@ public static class CurrentCultureMiddleware
         {
             DefaultRequestCulture = new RequestCulture(defaultLanguage),
             SupportedCultures = supported,
-            SupportedUICultures = supported
+            SupportedUICultures = supported,
         });
 
         app.Use((context, next) =>

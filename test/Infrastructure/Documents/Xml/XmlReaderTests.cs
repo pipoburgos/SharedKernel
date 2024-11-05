@@ -24,7 +24,7 @@ public class XmlReaderTests
                 Id = data.Get<string>("id"),
                 Author = data.Get<string>("author"),
                 Price = data.Get<double>("price"),
-                PublishDate = data.Get<DateTime>("publish_date")
+                PublishDate = data.Get<DateTime>("publish_date"),
             })
             .ToList();
 

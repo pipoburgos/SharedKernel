@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.NetJson.Policies;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -28,7 +29,7 @@ public class NetJsonSerializer : IJsonSerializer
     /// <summary> . </summary>
     public static JsonSerializerOptions GetOptions(NamingConvention namingConvention)
     {
-        var policy = JsonNamingPolicy.CamelCase;
+        JsonNamingPolicy? policy;
 
         switch (namingConvention)
         {
@@ -39,13 +40,19 @@ public class NetJsonSerializer : IJsonSerializer
                 policy = new PascalCaseNamingPolicy();
                 break;
             case NamingConvention.SnakeCase:
+                policy = JsonNamingPolicy.SnakeCaseLower;
                 break;
             case NamingConvention.TrainCase:
+                policy = new TrainCaseNamingPolicy();
                 break;
             case NamingConvention.KebapCase:
+                policy = JsonNamingPolicy.KebabCaseLower;
+                break;
+            case NamingConvention.NoAction:
+                policy = null;
                 break;
             default:
-                policy = JsonNamingPolicy.CamelCase;
+                policy = null;
                 break;
         }
 
@@ -53,7 +60,7 @@ public class NetJsonSerializer : IJsonSerializer
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNamingPolicy = policy,
-            Converters = { new DateTimeConverter() } //, new NoSetterResolver() }
+            Converters = { new DateTimeConverter() }, //, new NoSetterResolver() }
         };
     }
 

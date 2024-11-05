@@ -10,5 +10,5 @@ public enum Crud
     Updating = 2,
 
     /// <summary> . </summary>
-    Deleting = 3
+    Deleting = 3,
 }

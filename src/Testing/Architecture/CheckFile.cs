@@ -7,5 +7,5 @@ public enum CheckFile
     HandlerTests = 4,
     Validator = 8,
     Endpoint = 16,
-    Handler = 32
+    Handler = 32,
 }

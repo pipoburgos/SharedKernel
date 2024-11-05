@@ -51,7 +51,7 @@ public class Pipeline : IPipeline
         return _serviceScopeFactory.CreateScope().ServiceProvider.GetServices<IMiddleware>().ToList();
     }
 
-    private Func<TRequest, CancellationToken, Task> GetNext<TRequest>(IList<IMiddleware> middlewares,
+    private static Func<TRequest, CancellationToken, Task> GetNext<TRequest>(IList<IMiddleware> middlewares,
         int i, int lastIndex, Func<TRequest, CancellationToken, Task> last) where TRequest : IRequest
     {
         if (i == lastIndex)
@@ -61,7 +61,7 @@ public class Pipeline : IPipeline
         return (r, c) => middlewares[i - 1].Handle(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 
-    private Func<TRequest, CancellationToken, Task<TResponse>> GetNext<TRequest, TResponse>(
+    private static Func<TRequest, CancellationToken, Task<TResponse>> GetNext<TRequest, TResponse>(
         IList<IMiddleware> middlewares, int i, int lastIndex, Func<TRequest, CancellationToken, Task<TResponse>> last)
         where TRequest : IRequest<TResponse>
     {
@@ -72,7 +72,7 @@ public class Pipeline : IPipeline
         return (r, c) => middlewares[i - 1].Handle(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 
-    private Func<TRequest, CancellationToken, Task<Result<TResponse>>> GetNext<TRequest, TResponse>(
+    private static Func<TRequest, CancellationToken, Task<Result<TResponse>>> GetNext<TRequest, TResponse>(
         IList<IMiddleware> middlewares, int i, int lastIndex,
         Func<TRequest, CancellationToken, Task<Result<TResponse>>> last)
         where TRequest : IRequest<Result<TResponse>>

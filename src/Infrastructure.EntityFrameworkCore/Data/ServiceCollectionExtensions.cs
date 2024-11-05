@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         where TDbContext : EntityFrameworkDbContext
     {
         return services
+            .AddHostedService<DbContextMigrateHostedService<TDbContext>>()
             .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseInMemoryDatabase(connectionString), serviceLifetime)

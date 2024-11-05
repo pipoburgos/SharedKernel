@@ -84,10 +84,10 @@ public static class HttpClientExtensions
                             {
                                 UserName = userName,
                                 Password = password,
-                                Domain = domain
+                                Domain = domain,
                             }
-                        }
-                }
+                        },
+                },
             });
     }
 

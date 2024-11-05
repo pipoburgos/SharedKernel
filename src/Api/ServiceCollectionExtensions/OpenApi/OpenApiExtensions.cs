@@ -41,7 +41,7 @@ public static class OpenApiExtensions
                     "PATCH" => 3,
                     "PUT" => 4,
                     "DELETE" => 5,
-                    _ => 6
+                    _ => 6,
                 };
                 var relativePath = a.RelativePath ?? string.Empty;
                 var path = $"{relativePath}_{relativePath.Length.ToString().PadLeft(5, '0')}{order}";
@@ -83,11 +83,13 @@ public static class OpenApiExtensions
     }
 
     /// <summary> Configure Open Api UI. </summary>
-    public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app,
-        IOptions<OpenApiOptions> options, IOptions<OpenIdOptions> openIdOptions)
+    public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app)
     {
-        if (options.Value == default)
+        var options = app.ApplicationServices.GetService<IOptions<OpenApiOptions>>();
+        if (options?.Value == default)
             throw new ArgumentNullException(nameof(options));
+
+        var openIdOptions = app.ApplicationServices.GetService<IOptions<OpenIdOptions>>();
 
         app.UseSwagger(c =>
         {
@@ -104,7 +106,7 @@ public static class OpenApiExtensions
 
         app.UseSwaggerUI(c =>
         {
-            var authority = options.Value.Authority ?? openIdOptions.Value.Authority;
+            var authority = options.Value.Authority ?? openIdOptions?.Value.Authority;
 
             var url = options.Value.Url;
             if (string.IsNullOrWhiteSpace(url))
@@ -123,10 +125,12 @@ public static class OpenApiExtensions
             c.OAuthScopeSeparator(" ");
             c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
 
-            if (openIdOptions.Value.ClientId != default!)
+            if (openIdOptions?.Value.ClientId != default!)
+            {
                 c.OAuthClientId(openIdOptions.Value.ClientId);
-            if (openIdOptions.Value.ClientSecret != default!)
-                c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
+                if (openIdOptions.Value.ClientSecret != default!)
+                    c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
+            }
         });
 
         return app;

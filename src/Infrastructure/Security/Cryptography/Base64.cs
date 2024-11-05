@@ -1,5 +1,5 @@
-﻿using System.Text;
-using SharedKernel.Application.Security.Cryptography;
+﻿using SharedKernel.Application.Security.Cryptography;
+using System.Text;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography;
 
@@ -8,15 +8,15 @@ namespace SharedKernel.Infrastructure.Security.Cryptography;
 /// </summary>
 public class Base64 : IBase64
 {
-#if NETSTANDARD
-        /// <summary>
-        /// 
-        /// </summary>
-        public Base64()
-        {
-            // Fix: NotSupportedException: No data is available for encoding 1252
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
+#if NETSTANDARD || NET
+    /// <summary>
+    /// 
+    /// </summary>
+    public Base64()
+    {
+        // Fix: NotSupportedException: No data is available for encoding 1252
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    }
 #endif
 
     /// <summary>

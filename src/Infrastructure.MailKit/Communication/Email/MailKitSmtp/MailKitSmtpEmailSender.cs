@@ -64,7 +64,7 @@ public class MailKitSmtpEmailSender : IEmailSender
             var mailMessage = new MimeMessage
             {
                 Subject = email.Subject,
-                Body = new TextPart(TextFormat.Html) { Text = email.Body }
+                Body = new TextPart(TextFormat.Html) { Text = email.Body },
             };
 
             mailMessage.From.Add(new MailboxAddress(email.From ?? _smtp.DefaultSender,

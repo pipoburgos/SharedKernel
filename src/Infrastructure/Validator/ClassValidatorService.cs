@@ -44,7 +44,7 @@ public class ClassValidatorService : IClassValidatorService
             : Result.Success();
     }
 
-    private List<global::System.ComponentModel.DataAnnotations.ValidationResult> GetDataAnnotationsValidationResult<T>(
+    private static List<global::System.ComponentModel.DataAnnotations.ValidationResult> GetDataAnnotationsValidationResult<T>(
         IEnumerable<T> classes) where T : class
     {
         var errors = new List<global::System.ComponentModel.DataAnnotations.ValidationResult>();
@@ -57,7 +57,7 @@ public class ClassValidatorService : IClassValidatorService
         return errors;
     }
 
-    private List<ValidationFailure> GetValidationFailures<T>(IEnumerable<T> validatableObjects)
+    private static List<ValidationFailure> GetValidationFailures<T>(IEnumerable<T> validatableObjects)
         where T : class, IValidatableObject
     {
 

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.Newtonsoft.Resolvers;
 
 namespace SharedKernel.Infrastructure.Newtonsoft;
 
@@ -28,7 +29,7 @@ public class NewtonsoftSerializer : IJsonSerializer
     /// <summary> . </summary>
     public static JsonSerializerSettings GetOptions(NamingConvention namingConvention)
     {
-        IContractResolver contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
+        IContractResolver? contractResolver;
         switch (namingConvention)
         {
             case NamingConvention.CamelCase:
@@ -38,13 +39,19 @@ public class NewtonsoftSerializer : IJsonSerializer
                 contractResolver = new PascalCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.SnakeCase:
+                contractResolver = new SnakeCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.TrainCase:
+                contractResolver = new TrainCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.KebapCase:
+                contractResolver = new KebapCasePropertyNamesPrivateSettersContractResolver();
+                break;
+            case NamingConvention.NoAction:
+                contractResolver = null;
                 break;
             default:
-                contractResolver = new CamelCasePropertyNamesPrivateSettersContractResolver();
+                contractResolver = null;
                 break;
         }
 
@@ -53,7 +60,7 @@ public class NewtonsoftSerializer : IJsonSerializer
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
             ContractResolver = contractResolver,
             NullValueHandling = NullValueHandling.Ignore,
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
         };
     }
 }

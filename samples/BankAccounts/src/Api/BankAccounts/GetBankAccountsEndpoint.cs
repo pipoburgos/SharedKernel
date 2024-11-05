@@ -38,7 +38,7 @@ public sealed class GetBankAccountsEndpoint : BankAccountBaseEndpoint
 
             var result = new GetBankAccounts
             {
-                PageOptions = GetPagedOptions(bindingContext)
+                PageOptions = GetPagedOptions(bindingContext),
             };
 
             bindingContext.Result = ModelBindingResult.Success(result);

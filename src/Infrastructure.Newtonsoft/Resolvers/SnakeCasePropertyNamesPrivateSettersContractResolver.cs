@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SharedKernel.Application.Extensions;
 using System.Reflection;
 
-namespace SharedKernel.Infrastructure.Newtonsoft;
+namespace SharedKernel.Infrastructure.Newtonsoft.Resolvers;
 
-internal class PascalCasePropertyNamesPrivateSettersContractResolver : DefaultContractResolver
+internal class SnakeCasePropertyNamesPrivateSettersContractResolver : DefaultContractResolver
 {
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
@@ -25,18 +26,6 @@ internal class PascalCasePropertyNamesPrivateSettersContractResolver : DefaultCo
 
     protected override string ResolvePropertyName(string propertyName)
     {
-        // Convierte el nombre de la propiedad a PascalCase
-        return ToPascalCase(propertyName);
-    }
-
-    private string ToPascalCase(string s)
-    {
-        if (string.IsNullOrEmpty(s))
-            return s;
-
-        var chars = s.ToCharArray();
-        chars[0] = char.ToUpper(chars[0]);
-
-        return new string(chars);
+        return propertyName.ToSnakeCase();
     }
 }

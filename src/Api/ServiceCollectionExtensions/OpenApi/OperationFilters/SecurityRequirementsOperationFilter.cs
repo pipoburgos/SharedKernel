@@ -31,15 +31,15 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
 
         var oAuthScheme = new OpenApiSecurityScheme
         {
-            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" },
         };
 
         operation.Security = new List<OpenApiSecurityRequirement>
         {
             new OpenApiSecurityRequirement
             {
-                [ oAuthScheme ] = ["policy"]
-            }
+                [ oAuthScheme ] = ["policy"],
+            },
         };
     }
 }

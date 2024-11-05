@@ -37,5 +37,5 @@ public enum QueryConditions
     IsNull = 11,
 
     /// <summary> </summary>
-    DateEquals = 12
+    DateEquals = 12,
 }

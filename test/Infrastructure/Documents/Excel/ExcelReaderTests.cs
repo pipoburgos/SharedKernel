@@ -25,7 +25,7 @@ public class ExcelReaderTests
                 Username = data.Get<string>(nameof(ExcelUser.Username)),
                 FirstName = data.Get<string?>("First name"),
                 LastName = data.Get<string?>("Last name"),
-                Date = data.Get<DateTime?>(4)
+                Date = data.Get<DateTime?>(4),
             })
             .ToList();
 

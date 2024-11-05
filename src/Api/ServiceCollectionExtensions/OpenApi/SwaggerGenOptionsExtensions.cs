@@ -62,9 +62,9 @@ public static class SwaggerGenOptionsExtensions
                 {
                     //AuthorizationUrl = new Uri(authority),
                     TokenUrl = new Uri($"{authority}/{tokenEndpoint}"),
-                    Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName)
-                }
-            }
+                    Scopes = openIdOptions.Scopes.ToDictionary(s => s.Name, s => s.DisplayName),
+                },
+            },
         });
     }
 

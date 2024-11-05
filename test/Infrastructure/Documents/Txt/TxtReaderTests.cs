@@ -24,7 +24,7 @@ public class TxtReaderTests
                 Identifier = data.Get<int>(nameof(TxtUser.Identifier)),
                 Username = data.Get<string>(nameof(TxtUser.Username)),
                 FirstName = data.Get<string>("First name"),
-                LastName = data.Get<string>("Last name")
+                LastName = data.Get<string>("Last name"),
             })
             .ToList();
 

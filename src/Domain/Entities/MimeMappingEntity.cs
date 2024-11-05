@@ -26,7 +26,7 @@ public static class MimeMappingEntity
         [
             Path.DirectorySeparatorChar,
             Path.AltDirectorySeparatorChar,
-            Path.VolumeSeparatorChar
+            Path.VolumeSeparatorChar,
         ];
 
         private readonly Dictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);

@@ -40,7 +40,7 @@ public class FromQueryModelOperationFilter : IOperationFilter
         operation.Parameters = parameters;
     }
 
-    private IList<OpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
+    private static IList<OpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
         IList<OpenApiParameter> operationParameters, OperationFilterContext context)
     {
         var newParameters = actionParameters
@@ -51,7 +51,7 @@ public class FromQueryModelOperationFilter : IOperationFilter
         return newParameters.Any() ? newParameters : default;
     }
 
-    private OpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
+    private static OpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
         IList<OpenApiParameter> operationParameters, OperationFilterContext context)
     {
         if (actionParameter.ParameterType == typeof(CancellationToken))
@@ -87,7 +87,7 @@ public class FromQueryModelOperationFilter : IOperationFilter
         {
             Name = actionParameter.Name,
             In = ParameterLocation.Query,
-            Schema = generatedSchema
+            Schema = generatedSchema,
         };
 
         return newParameter;

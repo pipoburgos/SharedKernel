@@ -20,7 +20,7 @@ internal sealed class GetBankAccountsHandler : IQueryRequestHandler<GetBankAccou
             .GetQuery<BankAccount>()
             .Select(x => new BankAccountItem
             {
-                Id = x.Id.Value
+                Id = x.Id.Value,
             })
             .ToPagedListAsync(query.PageOptions!, cancellationToken);
     }

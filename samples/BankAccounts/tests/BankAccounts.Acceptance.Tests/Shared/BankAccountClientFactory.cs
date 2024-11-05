@@ -35,7 +35,7 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
         //});
     }
 
-    private List<Claim> GenerateClaims()
+    private static List<Claim> GenerateClaims()
     {
         return [new(ClaimTypes.Sid, "12345678-1234-1234-1234-123456789123")];
     }

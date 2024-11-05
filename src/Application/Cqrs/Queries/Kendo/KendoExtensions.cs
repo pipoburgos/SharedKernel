@@ -36,7 +36,7 @@ public static class KendoExtensions
             "isnotempty" => FilterOperator.IsNotEmpty,
             "dateeq" => FilterOperator.DateEqual,
             "dateneq" => FilterOperator.NotDateEqual,
-            _ => default
+            _ => default,
         };
     }
 }

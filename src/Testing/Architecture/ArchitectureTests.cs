@@ -175,7 +175,7 @@ public abstract class ArchitectureTests
             GetInfrastructureAssembly(),
             GetApiAssembly(),
             GetUseCasesTestsAssembly(),
-            GetAcceptanceTestsAssembly()
+            GetAcceptanceTestsAssembly(),
         }.TestCqrsArquitecture(CheckFiles(), CheckQueryValidators));
     }
 }

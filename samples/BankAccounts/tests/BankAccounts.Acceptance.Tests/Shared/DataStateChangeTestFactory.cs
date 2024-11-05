@@ -16,7 +16,7 @@ public static class DataStateChangeTestFactory
                 ? new List<SortDescriptor> { new() { Field = sortProperty, Dir = "asc" } }
                 : sort)!,
             Filter = filter,
-            Group = group
+            Group = group,
         };
     }
 }

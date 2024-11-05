@@ -25,7 +25,7 @@ internal class ActiveDirectoryService : IActiveDirectoryService
 
         var directorySearcher = new DirectorySearcher(new DirectoryEntry("LDAP://" + _settings.Path, user, password))
         {
-            Filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" + user + "))"
+            Filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" + user + "))",
         };
 
 

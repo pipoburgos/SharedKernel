@@ -10,7 +10,7 @@ public class CarLicensePlate : ValueObject<CarLicensePlate>
     {
         return new CarLicensePlate
         {
-            Value = license.PadLeft(8, '0')
+            Value = license.PadLeft(8, '0'),
         };
     }
 

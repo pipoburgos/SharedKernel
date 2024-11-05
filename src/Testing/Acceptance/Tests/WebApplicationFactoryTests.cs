@@ -48,7 +48,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
         Action buildServiceProvider = () => serviceCollection.BuildServiceProvider(new ServiceProviderOptions
         {
             ValidateOnBuild = true,
-            ValidateScopes = true
+            ValidateScopes = true,
         });
 
 

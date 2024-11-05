@@ -24,7 +24,7 @@ public class CsvReaderTests
                 Identifier = data.Get<int>(nameof(CsvUser.Identifier)),
                 Username = data.Get<string>(nameof(CsvUser.Username)),
                 FirstName = data.Get<string>("First name"),
-                LastName = data.Get<string>("Last name")
+                LastName = data.Get<string>("Last name"),
             })
             .ToList();
 

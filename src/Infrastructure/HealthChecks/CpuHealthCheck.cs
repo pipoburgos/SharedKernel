@@ -44,7 +44,7 @@ public class CpuHealthCheck : IHealthCheck
 
         var data = new Dictionary<string, object>
         {
-            {"Cpu usage", time}
+            {"Cpu usage", time},
         };
 
         var result = new HealthCheckResult(status, null, null, data);

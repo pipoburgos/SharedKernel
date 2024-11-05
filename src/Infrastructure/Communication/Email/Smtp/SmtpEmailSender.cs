@@ -69,7 +69,7 @@ public class SmtpEmailSender : IEmailSender
                 From = new MailAddress(email.From ?? _smtp.DefaultSender),
                 Subject = email.Subject,
                 Body = email.Body ?? string.Empty,
-                IsBodyHtml = true
+                IsBodyHtml = true,
             };
 
             mailMessage.To.Add(string.Join(";", email.To));

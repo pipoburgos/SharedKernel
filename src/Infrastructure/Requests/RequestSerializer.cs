@@ -35,7 +35,7 @@ internal class RequestSerializer : IRequestSerializer
                 RequestExtensions.Headers, new Dictionary<string, object?>
                 {
                     {RequestExtensions.Claims, domainClaims},
-                    {RequestExtensions.Authorization, _identityService?.GetKeyValue("Authorization")}
+                    {RequestExtensions.Authorization, _identityService?.GetKeyValue("Authorization")},
                 }!
             },
             {
@@ -44,12 +44,12 @@ internal class RequestSerializer : IRequestSerializer
                     {RequestExtensions.Id, request.RequestId},
                     {RequestExtensions.Type, request.GetUniqueName()},
                     {RequestExtensions.OccurredOn, request.OccurredOn},
-                    {RequestExtensions.Attributes, attributes}
+                    {RequestExtensions.Attributes, attributes},
                 }
             },
             {
                 RequestExtensions.Meta, new Dictionary<string, object>()
-            }
+            },
         }, NamingConvention.PascalCase);
     }
 }

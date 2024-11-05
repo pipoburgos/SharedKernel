@@ -1,4 +1,5 @@
-﻿using SharedKernel.Application.Validator;
+﻿using SharedKernel.Application.Extensions;
+using SharedKernel.Application.Validator;
 
 namespace SharedKernel.Api;
 
@@ -10,7 +11,7 @@ public class ValidationError
     {
         Errors = exception.Errors
             .GroupBy(e => e.PropertyName)
-            .ToDictionary(a => ToCamelCase(a.Key), b => b.Select(z => z.ErrorMessage).ToArray());
+            .ToDictionary(a => a.Key.ToCamelCase(), b => b.Select(z => z.ErrorMessage).ToArray());
     }
 
     /// <summary> . </summary>
@@ -27,10 +28,4 @@ public class ValidationError
 
     /// <summary> . </summary>
     public static string TraceId => Guid.NewGuid().ToString();
-
-    /// <summary> . </summary>
-    private string ToCamelCase(string str) =>
-        string.IsNullOrEmpty(str) || str.Length < 2
-            ? str
-            : char.ToLowerInvariant(str[0]) + str[1..];
 }

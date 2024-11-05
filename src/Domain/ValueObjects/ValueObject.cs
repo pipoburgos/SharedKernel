@@ -26,7 +26,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
         return equals;
     }
 
-    private bool EqualsObjects(object? left, object? right)
+    private static bool EqualsObjects(object? left, object? right)
     {
         if (left == default && right == default)
             return true;

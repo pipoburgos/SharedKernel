@@ -21,7 +21,7 @@ public class ExcelWriterTests
             Username = "Robert",
             FirstName = "First name",
             LastName = "Last name",
-            Date = new DateOnly(2023, 12, 31)
+            Date = new DateOnly(2023, 12, 31),
         };
 
         var stream = _writer
@@ -31,7 +31,7 @@ public class ExcelWriterTests
                 {"Username", "Username"},
                 {"FirstName", "First Name"},
                 {"LastName", "Last Name"},
-                {"Date", "Date"}
+                {"Date", "Date"},
             }, "Users");
 
         stream.Length.Should().BeGreaterOrEqualTo(4_150);

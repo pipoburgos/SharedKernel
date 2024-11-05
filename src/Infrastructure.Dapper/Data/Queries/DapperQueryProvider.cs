@@ -3,6 +3,7 @@ using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
+using System.Data;
 using System.Data.Common;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
@@ -121,6 +122,19 @@ public sealed class DapperQueryProvider : IDisposable
 
         await Task.WhenAll(totalTask, elementsTask);
         return new PagedList<T>(await totalTask, await elementsTask);
+    }
+
+    /// <summary> . </summary>
+    public async Task<IEnumerable<T>> ExecuteSpMultipleAsync<T>(string storedProcedure, object? parameters = null,
+        CancellationToken cancellationToken = default)
+    {
+        var connection = _dbConnectionFactory.GetConnection();
+        _connections.Add(connection);
+        await connection.OpenAsync(cancellationToken);
+
+        var reader = await connection.QueryMultipleAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+        return await reader.ReadAsync<T>();
     }
 
     private void Dispose(bool disposing)

@@ -43,9 +43,6 @@ public abstract class Entity<TId> : IEntity<TId> where TId : notnull
     /// <returns><see cref="M:System.Object.Equals"/></returns>
     public override bool Equals(object? obj)
     {
-        if (obj == default)
-            return false;
-
         if (!(obj is Entity<TId>))
             return false;
 

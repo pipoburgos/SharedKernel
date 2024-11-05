@@ -73,7 +73,7 @@ public class ActiveMqQueueConsumer : BackgroundService
         }
     }
 
-    private async Task Send(IMessageConsumer consumer, IMessage message, IRequestMediator requestMediator,
+    private static async Task Send(IMessageConsumer consumer, IMessage message, IRequestMediator requestMediator,
         Type commandRequestHandlerType, string method, ILogger<ActiveMqTopicsConsumer> logger)
     {
         try

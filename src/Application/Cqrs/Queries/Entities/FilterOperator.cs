@@ -55,5 +55,5 @@ public enum FilterOperator
     DateEqual = 17,
 
     /// <summary> . </summary>
-    NotDateEqual = 18
+    NotDateEqual = 18,
 }

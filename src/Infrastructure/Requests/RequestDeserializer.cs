@@ -49,7 +49,7 @@ internal class RequestDeserializer : IRequestDeserializer
                     attribute,
                     attributes,
                     data[RequestExtensions.Id].ToString()!,
-                    data[RequestExtensions.OccurredOn].ToString()!
+                    data[RequestExtensions.OccurredOn].ToString()!,
                 ])!)!;
         }
 
@@ -59,7 +59,7 @@ internal class RequestDeserializer : IRequestDeserializer
             ?.Invoke(instance, [
                 attributes,
                 data[RequestExtensions.Id].ToString()!,
-                data[RequestExtensions.OccurredOn].ToString()!
+                data[RequestExtensions.OccurredOn].ToString()!,
             ])!)!;
     }
 }

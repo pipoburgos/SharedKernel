@@ -29,10 +29,10 @@ public class ApiArchitectureTests : SharedKernel.Testing.Architecture.ApiArchite
             typeof(BankAccountsApplicationAssembly).Assembly,
             typeof(BankAccountsInfrastructureAssembly).Assembly,
             typeof(BankAccountsApiAssembly).Assembly,
-            typeof(ApiArchitectureTests).Assembly
+            typeof(ApiArchitectureTests).Assembly,
         }.TestCqrsArquitecture([
             CheckFile.Handler,
-            CheckFile.Endpoint
+            CheckFile.Endpoint,
         ]);//, true);
     }
 }

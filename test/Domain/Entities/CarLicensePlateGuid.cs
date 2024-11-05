@@ -10,7 +10,7 @@ public class CarLicensePlateGuid : ValueObject<CarLicensePlateGuid>
     {
         return new CarLicensePlateGuid
         {
-            Value = license
+            Value = license,
         };
     }
 

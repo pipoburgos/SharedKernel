@@ -21,7 +21,7 @@ public class RabbitMqConnectionFactory
             HostName = configParams.HostName,
             UserName = configParams.Username,
             Password = configParams.Password,
-            Port = configParams.Port
+            Port = configParams.Port,
         };
     }
 
@@ -35,7 +35,7 @@ public class RabbitMqConnectionFactory
             HostName = configParams.HostName,
             UserName = configParams.Username,
             Password = configParams.Password,
-            Port = configParams.Port
+            Port = configParams.Port,
         };
     }
 

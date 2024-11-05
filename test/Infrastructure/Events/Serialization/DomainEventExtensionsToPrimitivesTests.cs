@@ -151,7 +151,7 @@ public partial class DomainEventExtensionsToPrimitivesTests
                 attributes[nameof(DomainEvent.AggregateId)],
                 attributes,
                 data[RequestExtensions.Id].ToString()!,
-                data[RequestExtensions.OccurredOn].ToString()!
+                data[RequestExtensions.OccurredOn].ToString()!,
             ])!;
 
         return domainEvent;

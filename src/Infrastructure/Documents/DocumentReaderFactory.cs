@@ -23,10 +23,10 @@ public class DocumentReaderFactory : IDocumentReaderFactory
         if (name.Contains('.'))
             extension = name.Split('.').Last().ToLower();
 
-        if (!providers.ContainsKey(extension))
+        if (!providers.TryGetValue(extension, out var provider))
             throw new NotImplementedException($"Document reader '{extension}' no implemented.");
 
-        return providers[extension];
+        return provider;
     }
 
     /// <summary> . </summary>

@@ -20,7 +20,7 @@ namespace SharedKernel.Infrastructure.System
                 .Select(g => new ComboDto<int>
                 {
                     Value = (int)Convert.ChangeType(g, typeof(int)),
-                    Text = g.DisplayAttrName()
+                    Text = g.DisplayAttrName(),
                 })
                 .Where(g => !string.IsNullOrWhiteSpace(g.Text));
 

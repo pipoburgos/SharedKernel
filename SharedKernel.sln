@@ -93,6 +93,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Dapper.SqlServer", "src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj", "{03DEF29C-F46C-4355-AF8A-072E02BA1250}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.PayPal", "src\Infrastructure.PayPal\SharedKernel.Infrastructure.PayPal.csproj", "{0C729A89-83EF-4D70-B9C9-91095A1CA3E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Redsys", "src\Infrastructure.RedsysTPV\SharedKernel.Infrastructure.Redsys.csproj", "{43712384-367F-40A8-87C7-5839530FC97D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +259,14 @@ Global
 		{03DEF29C-F46C-4355-AF8A-072E02BA1250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DEF29C-F46C-4355-AF8A-072E02BA1250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03DEF29C-F46C-4355-AF8A-072E02BA1250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C729A89-83EF-4D70-B9C9-91095A1CA3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C729A89-83EF-4D70-B9C9-91095A1CA3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C729A89-83EF-4D70-B9C9-91095A1CA3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C729A89-83EF-4D70-B9C9-91095A1CA3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43712384-367F-40A8-87C7-5839530FC97D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43712384-367F-40A8-87C7-5839530FC97D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43712384-367F-40A8-87C7-5839530FC97D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43712384-367F-40A8-87C7-5839530FC97D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -302,6 +314,8 @@ Global
 		{E7487E90-E6EE-460A-B1B0-B2215B62EAC0} = {9FF73358-40B0-4081-A499-4351F71833C3}
 		{0D5E6B39-EBC0-43E8-8CFA-67F9AB36B72C} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{03DEF29C-F46C-4355-AF8A-072E02BA1250} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{0C729A89-83EF-4D70-B9C9-91095A1CA3E5} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{43712384-367F-40A8-87C7-5839530FC97D} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

@@ -30,5 +30,5 @@ public enum State
     /// The entity is being tracked by the context and exists in the database, and some or all of its
     /// property values have been modified.
     /// </summary>
-    Modified = 16 // 0x00000010
+    Modified = 16, // 0x00000010
 }

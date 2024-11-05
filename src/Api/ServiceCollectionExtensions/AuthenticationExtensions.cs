@@ -83,7 +83,7 @@ public static class AuthenticationExtensions
                         ValidAudience = openIdOptions.Audience,
 
                         ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero
+                        ClockSkew = TimeSpan.Zero,
                     };
                 }
 
@@ -109,7 +109,7 @@ public static class AuthenticationExtensions
                         }
 
                         return Task.CompletedTask;
-                    }
+                    },
                 };
             });
 

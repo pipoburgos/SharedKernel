@@ -179,7 +179,7 @@ public partial class QueryBuilder
         _condiciones.Clear();
     }
 
-    private string GetResult(bool isAnd, List<string> lista)
+    private static string GetResult(bool isAnd, List<string> lista)
     {
         var resultado =
             (isAnd ? string.Empty : "(") +

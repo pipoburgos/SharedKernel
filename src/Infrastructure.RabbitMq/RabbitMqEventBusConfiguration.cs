@@ -31,7 +31,7 @@ public class RabbitMqEventBusConfiguration : BackgroundService
         return Task.CompletedTask;
     }
 
-    private void ConsumeQueue(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
+    private static void ConsumeQueue(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
     {
         var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ConsumeQueue;
 
@@ -64,7 +64,7 @@ public class RabbitMqEventBusConfiguration : BackgroundService
         }
     }
 
-    private void ConsumeTopics(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
+    private static void ConsumeTopics(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
     {
         var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ExchangeName;
 
@@ -97,14 +97,14 @@ public class RabbitMqEventBusConfiguration : BackgroundService
         }
     }
 
-    private IDictionary<string, object> RetryQueueArguments(string domainEventExchange,
+    private static IDictionary<string, object> RetryQueueArguments(string domainEventExchange,
         string domainEventQueue)
     {
         return new Dictionary<string, object>
             {
                 {"x-dead-letter-exchange", domainEventExchange},
                 {"x-dead-letter-routing-key", domainEventQueue},
-                {"x-message-ttl", 1000}
+                {"x-message-ttl", 1000},
             };
     }
 }

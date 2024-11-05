@@ -40,9 +40,9 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
                         case "uuid":
                             AddPropertyToRequired(schema, property.Key);
                             break;
-                        //default:
-                        //    AddPropertyToRequired(schema, property.Key);
-                        //    break;
+                            //default:
+                            //    AddPropertyToRequired(schema, property.Key);
+                            //    break;
                     }
                     break;
                 default:
@@ -53,13 +53,13 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
         }
     }
 
-    private bool IsSourceTypePropertyNullable(PropertyInfo[] typeProperties, string propertyName)
+    private static bool IsSourceTypePropertyNullable(PropertyInfo[] typeProperties, string propertyName)
     {
         return typeProperties.Any(info =>
             info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase) && IsNullable(info));
     }
 
-    private void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
+    private static void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
     {
         schema.Required ??= new HashSet<string>();
         schema.Required.Add(propertyName);

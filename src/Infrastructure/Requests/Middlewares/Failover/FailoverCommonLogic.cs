@@ -34,7 +34,7 @@ public class FailoverCommonLogic
         {
             {"Type", e.GetType().ToString()},
             {"Message", e.Message},
-            {"StackTrace", e.StackTrace}
+            {"StackTrace", e.StackTrace},
         };
 
         foreach (DictionaryEntry data in e.Data)

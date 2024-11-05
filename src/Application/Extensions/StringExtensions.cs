@@ -5,6 +5,127 @@ namespace SharedKernel.Application.Extensions;
 /// <summary> String extensions. </summary>
 public static class StringExtensions
 {
+    /// <summary> camelCase </summary>
+    public static string ToCamelCase(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        var stringBuilder = new StringBuilder();
+        var capitalizeNext = false;
+
+        for (var i = 0; i < text.Length; i++)
+        {
+            var c = text[i];
+
+            if (c == '_' || c == '-' || c == ' ')
+            {
+                capitalizeNext = true;
+            }
+            else
+            {
+                if (capitalizeNext)
+                {
+                    stringBuilder.Append(char.ToUpper(c));
+                    capitalizeNext = false;
+                }
+                else
+                {
+                    stringBuilder.Append(i == 0 ? char.ToLower(c) : c);
+                }
+            }
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    /// <summary> PascalCase </summary>
+    public static string ToPascalCase(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        var chars = text.ToCharArray();
+        chars[0] = char.ToUpper(chars[0]);
+
+        return new string(chars);
+    }
+
+    /// <summary> kebap-case </summary>
+    public static string ToKebabCase(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        var stringBuilder = new StringBuilder();
+        for (var i = 0; i < text.Length; i++)
+        {
+            var c = text[i];
+
+            if ((char.IsUpper(c) && i > 0) || c == ' ')
+                stringBuilder.Append('-');
+
+            stringBuilder.Append(char.ToLower(c));
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    /// <summary> snake_case </summary>
+    public static string ToSnakeCase(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        var stringBuilder = new StringBuilder();
+        for (var i = 0; i < text.Length; i++)
+        {
+            var c = text[i];
+
+            if ((char.IsUpper(c) && i > 0) || c == ' ')
+                stringBuilder.Append('_');
+
+            stringBuilder.Append(char.ToLower(c));
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    /// <summary> Train-Case  </summary>
+    public static string ToTrainCase(this string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return string.Empty;
+
+        var stringBuilder = new StringBuilder();
+        var capitalizeNext = true;
+
+        for (var i = 0; i < text.Length; i++)
+        {
+            var c = text[i];
+
+            if (c == '_' || c == '-' || c == ' ')
+            {
+                stringBuilder.Append('-');
+                capitalizeNext = true;
+            }
+            else
+            {
+                if (capitalizeNext)
+                {
+                    stringBuilder.Append(char.ToUpper(c));
+                    capitalizeNext = false;
+                }
+                else
+                {
+                    stringBuilder.Append(char.ToLower(c));
+                }
+            }
+        }
+
+        return stringBuilder.ToString();
+    }
+
     /// <summary>
     ///         /// Example Usage:
     /// -------------------------------------------------------

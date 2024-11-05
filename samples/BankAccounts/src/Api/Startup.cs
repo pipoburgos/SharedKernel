@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Extensions.Options;
 using SharedKernel.Api.Middlewares;
 using SharedKernel.Api.Newtonsoft;
 using SharedKernel.Api.ServiceCollectionExtensions;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
-using SharedKernel.Application.Security;
 using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.Newtonsoft;
@@ -65,7 +63,7 @@ public class Startup
     }
 
     /// <summary> Configurar los middlewares </summary>
-    public void Configure(IApplicationBuilder app, IOptions<OpenApiOptions> openApiOptions, IOptions<OpenIdOptions> openIdOptions)
+    public void Configure(IApplicationBuilder app)
     {
         app
             .UseSharedKernelCurrentCulture("en-US", "es-ES")
@@ -84,9 +82,9 @@ public class Startup
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
                 {
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                 });
             })
-            .UseSharedKernelOpenApi(openApiOptions, openIdOptions);
+            .UseSharedKernelOpenApi();
     }
 }

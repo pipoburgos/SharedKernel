@@ -94,7 +94,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
 
             var tokenValidatedContext = new TokenValidatedContext(Context, Scheme, Options)
             {
-                Principal = principal
+                Principal = principal,
             };
 
             await Events.TokenValidated(tokenValidatedContext);
@@ -112,7 +112,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
         {
             var authenticationFailedContext = new AuthenticationFailedContext(Context, Scheme, Options)
             {
-                Exception = ex
+                Exception = ex,
             };
 
             await Events.AuthenticationFailed(authenticationFailedContext);
@@ -125,7 +125,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
         var authResult = await HandleAuthenticateOnceSafeAsync();
         var eventContext = new JwtBearerChallengeContext(Context, Scheme, Options, properties)
         {
-            AuthenticateFailure = authResult.Failure!
+            AuthenticateFailure = authResult.Failure!,
         };
 
         await Events.Challenge(eventContext);

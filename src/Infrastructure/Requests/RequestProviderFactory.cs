@@ -16,9 +16,9 @@ internal class RequestProviderFactory : IRequestProviderFactory
     /// <summary> . </summary>
     public Type Get(string uniqueName)
     {
-        if (!_providers.ContainsKey(uniqueName))
+        if (!_providers.TryGetValue(uniqueName, out var provider))
             throw new ArgumentException($"Request {uniqueName} not registered.");
 
-        return _providers[uniqueName];
+        return provider;
     }
 }

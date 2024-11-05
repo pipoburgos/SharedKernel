@@ -30,7 +30,7 @@ public class DatabaseReaderTests
                 Codnut3 = data.Get<string>("CODNUT3"),
                 Codigoine = data.Get<int>("CODIGOINE"),
                 ShapeLeng = data.Get<double>("SHAPE_Leng"),
-                ShapeArea = data.Get<double>("SHAPE_Area")
+                ShapeArea = data.Get<double>("SHAPE_Area"),
             })
             .ToList();
 

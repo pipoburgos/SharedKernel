@@ -9,15 +9,15 @@ namespace SharedKernel.Infrastructure.Security.Cryptography;
 /// </summary>
 public class Sha256 : ISha256
 {
-#if NETSTANDARD
-        /// <summary>
-        /// 
-        /// </summary>
-        public Sha256()
-        {
-            // Fix: NotSupportedException: No data is available for encoding 1252
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
+#if NETSTANDARD || NET
+    /// <summary>
+    /// 
+    /// </summary>
+    public Sha256()
+    {
+        // Fix: NotSupportedException: No data is available for encoding 1252
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    }
 #endif
 
     /// <summary>

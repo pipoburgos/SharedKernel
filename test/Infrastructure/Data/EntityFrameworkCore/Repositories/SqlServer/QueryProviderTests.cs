@@ -287,7 +287,7 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
             join usuario2 in queryProvider.Set<User>() on usuario1.Id equals usuario2.Id
             select new
             {
-                NombresJuntos = usuario1.Name + usuario2.Name
+                NombresJuntos = usuario1.Name + usuario2.Name,
             };
 
         var result = await query.FirstAsync(cancellationToken);

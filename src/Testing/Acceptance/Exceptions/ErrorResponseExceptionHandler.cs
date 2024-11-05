@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using SharedKernel.Application.Extensions;
 using System.Net;
 
 namespace SharedKernel.Testing.Acceptance.Exceptions;
@@ -44,7 +45,7 @@ public class ErrorResponseExceptionHandler
 
         var jsonResponse = JsonConvert.DeserializeObject<Root>(message, new JsonSerializerSettings
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
         });
 
         if (jsonResponse == default)
@@ -56,7 +57,7 @@ public class ErrorResponseExceptionHandler
             if (string.IsNullOrWhiteSpace(property.Name))
                 _error = valor?.First();
             else
-                _errors.Add(FirstCharToUpper(property.Name), valor!);
+                _errors.Add(property.Name.CapitalizeFirstLetter(), valor!);
         }
 
         return this;
@@ -76,14 +77,6 @@ public class ErrorResponseExceptionHandler
     #endregion
 
     #region Private
-
-    private string FirstCharToUpper(string input) =>
-        input switch
-        {
-            null => throw new ArgumentNullException(nameof(input)),
-            "" => throw new ArgumentException($@"{nameof(input)} cannot be empty", nameof(input)),
-            _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
-        };
 
     // ReSharper disable UnusedMember.Local
     private class Root

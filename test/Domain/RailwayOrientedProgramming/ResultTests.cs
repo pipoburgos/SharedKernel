@@ -46,7 +46,7 @@ public class ResultTests
         CreateDefault().IsSuccess.Should().BeTrue();
     }
 
-    private Result<Path?> CreateNull() => null;
+    private static Result<Path?> CreateNull() => null;
 
-    private Result<Path?> CreateDefault() => null;
+    private static Result<Path?> CreateDefault() => null;
 }
