@@ -26,6 +26,6 @@ internal class PascalCasePropertyNamesPrivateSettersContractResolver : DefaultCo
 
     protected override string ResolvePropertyName(string propertyName)
     {
-        return propertyName.ToCamelCase();
+        return propertyName.ToPascalCase();
     }
 }

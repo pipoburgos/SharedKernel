@@ -4,10 +4,9 @@
 public sealed class CreateBankAccount : ICommandRequest<Result<Unit>>
 {
     /// <summary> Constructor. </summary>
-    public CreateBankAccount(Guid bankAccountId, Guid ownerId, string name, DateTime birthdate, string? surname,
+    public CreateBankAccount(Guid ownerId, string name, DateTime birthdate, string? surname,
         Guid movementId, decimal amount)
     {
-        BankAccountId = bankAccountId;
         OwnerId = ownerId;
         Name = name;
         Birthdate = birthdate;

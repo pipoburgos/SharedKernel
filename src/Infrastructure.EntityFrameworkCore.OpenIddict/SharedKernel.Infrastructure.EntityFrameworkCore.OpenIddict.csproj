@@ -7,19 +7,19 @@
     <IsPackable>true</IsPackable>
     <Authors>Roberto Fernández Salinas</Authors>
     <Company>Roberto Fernández Salinas</Company>
-    <Description>EntityFrameworkCore.PostgreSQL infrastructure implementations</Description>
+    <Description>OpenIddict infrastructure implementations</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL</PackageId>
+    <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
+    <PackageTags>OpenIddict</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-	  <Version>8.0.10.3</Version>
+    <Version>8.0.10.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,16 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
-    <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="4.0.6" />
-    <PackageReference Include="DistributedLock.Postgres" Version="1.2.0" />
-    <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.10" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="5.8.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.8.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\SharedKernel.Infrastructure.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
   </ItemGroup>
 
 </Project>
