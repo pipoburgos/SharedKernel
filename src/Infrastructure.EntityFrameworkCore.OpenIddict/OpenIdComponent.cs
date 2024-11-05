@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
     public static IServiceCollection AddOpenId<TDbContext, TUser, TRole, TKey>(this IServiceCollection services,
-        IConfiguration configuration, Action<IdentityOptions>? configureOptions = null, Action<OpenIddictServerBuilder>? configure = null)
+        IConfiguration configuration, string encryptionKey, Action<IdentityOptions>? configureOptions = null, Action<OpenIddictServerBuilder>? configure = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey>, IDataProtectionKeyContext
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -27,6 +27,6 @@ public static class ServiceCollectionExtensions
             .AddScoped<IRoleManager, RoleManager>()
             .AddSharedKernelIdentity<TDbContext, TUser, TRole, TKey>(configureOptions)
             .AddDataProtection<TDbContext>()
-            .AddServer<TDbContext>(configuration, configure);
+            .AddServer<TDbContext>(configuration, encryptionKey, configure);
     }
 }
