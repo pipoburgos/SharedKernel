@@ -14,8 +14,9 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddOpenId<TDbContext, TUser, TRole, TKey>(this IServiceCollection services,
-        IConfiguration configuration, string encryptionKey, Action<IdentityOptions>? configureOptions = null, Action<OpenIddictServerBuilder>? configure = null)
+    public static IServiceCollection AddOpenIddict<TDbContext, TUser, TRole, TKey>(this IServiceCollection services,
+        IConfiguration configuration, string encryptionKey, Action<IdentityOptions>? configureOptions = null,
+        Action<OpenIddictServerBuilder>? configure = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey>, IDataProtectionKeyContext
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
