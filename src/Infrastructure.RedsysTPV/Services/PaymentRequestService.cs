@@ -69,7 +69,7 @@ internal sealed class PaymentRequestService : IPaymentRequestService
             if (c[1].Length < 2)
                 t += "0";
         }
-        var amount = t.Replace(",", "").Replace(".", "");
+        var amount = t.Replace(",", string.Empty).Replace(".", string.Empty);
         return amount;
     }
 }

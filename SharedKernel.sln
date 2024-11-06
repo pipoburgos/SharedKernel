@@ -97,6 +97,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict", "src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj", "{18741AA9-B389-456C-A5F3-1469F244ACFF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.PayPal", "src\Infrastructure.PayPal\SharedKernel.Infrastructure.PayPal.csproj", "{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -267,6 +269,10 @@ Global
 		{18741AA9-B389-456C-A5F3-1469F244ACFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18741AA9-B389-456C-A5F3-1469F244ACFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18741AA9-B389-456C-A5F3-1469F244ACFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -316,6 +322,7 @@ Global
 		{03DEF29C-F46C-4355-AF8A-072E02BA1250} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{43712384-367F-40A8-87C7-5839530FC97D} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{18741AA9-B389-456C-A5F3-1469F244ACFF} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

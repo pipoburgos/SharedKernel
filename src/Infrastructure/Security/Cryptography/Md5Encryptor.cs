@@ -94,21 +94,15 @@ public class Md5Encryptor : IMd5Encryptor
     /// </summary>
     public string Decrypt(string text, string secretKey)
     {
-        string functionReturnValue;
         if (string.IsNullOrEmpty(text.Trim()))
-        {
-            functionReturnValue = "";
-        }
-        else
-        {
-            Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
-            Des.Mode = CipherMode.ECB;
-            var decryptor = Des.CreateDecryptor();
-            var buff = StringToByteArrayFastest(text);
-            buff = decryptor.TransformFinalBlock(buff, 0, buff.Length);
-            functionReturnValue = Encoding.UTF8.GetString(buff);
-        }
-        return functionReturnValue;
+            return string.Empty;
+
+        Des.Key = HashMd5.ComputeHash(new UnicodeEncoding().GetBytes(secretKey));
+        Des.Mode = CipherMode.ECB;
+        var decryptor = Des.CreateDecryptor();
+        var buff = StringToByteArrayFastest(text);
+        buff = decryptor.TransformFinalBlock(buff, 0, buff.Length);
+        return Encoding.UTF8.GetString(buff);
     }
 
     #endregion Funciones

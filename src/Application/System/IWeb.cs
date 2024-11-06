@@ -1,35 +1,22 @@
-﻿namespace SharedKernel.Application.System;
+﻿using System.Collections.Specialized;
 
-/// <summary>
-/// 
-/// </summary>
+namespace SharedKernel.Application.System;
+
+/// <summary> . </summary>
 public interface IWeb
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
+    /// <summary> . </summary>
     string HtmlEncode(string str);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
+    /// <summary> . </summary>
     string HtmlDecode(string str);
 
-    /// <summary>
-    /// /
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
+    /// <summary> . </summary>
     string UrlEncode(string str);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
+    /// <summary> . </summary>
     string UrlDecode(string str);
+
+    /// <summary> . </summary>
+    NameValueCollection ParseQueryString(string query);
 }
