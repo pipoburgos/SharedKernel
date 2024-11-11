@@ -31,7 +31,7 @@ public class RabbitMqCommandBusAsync : RabbitMqPublisher, ICommandBusAsync
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 
-            return PublishOnQueue(serializedDomainEvent, command.GetUniqueName());
+            return PublishOnQueue(serializedDomainEvent, command.GetUniqueName(), cancellationToken);
         });
     }
 

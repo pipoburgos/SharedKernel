@@ -93,11 +93,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Dapper.SqlServer", "src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj", "{03DEF29C-F46C-4355-AF8A-072E02BA1250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Redsys", "src\Infrastructure.RedsysTPV\SharedKernel.Infrastructure.Redsys.csproj", "{43712384-367F-40A8-87C7-5839530FC97D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.Redsys", "src\Infrastructure.Redsys\SharedKernel.Infrastructure.Redsys.csproj", "{43712384-367F-40A8-87C7-5839530FC97D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict", "src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj", "{18741AA9-B389-456C-A5F3-1469F244ACFF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Infrastructure.PayPal", "src\Infrastructure.PayPal\SharedKernel.Infrastructure.PayPal.csproj", "{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Application.Auth", "src\Application.Auth\SharedKernel.Application.Auth.csproj", "{874D94D8-4235-45BE-8B22-1A8DD20105B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -273,6 +275,10 @@ Global
 		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{874D94D8-4235-45BE-8B22-1A8DD20105B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{874D94D8-4235-45BE-8B22-1A8DD20105B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{874D94D8-4235-45BE-8B22-1A8DD20105B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{874D94D8-4235-45BE-8B22-1A8DD20105B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -323,6 +329,7 @@ Global
 		{43712384-367F-40A8-87C7-5839530FC97D} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{18741AA9-B389-456C-A5F3-1469F244ACFF} = {56027E47-1B66-444E-8432-2830BDC94DC7}
 		{45489ABC-49CD-4CF7-B282-F0A1BB9B460A} = {56027E47-1B66-444E-8432-2830BDC94DC7}
+		{874D94D8-4235-45BE-8B22-1A8DD20105B0} = {9FF73358-40B0-4081-A499-4351F71833C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {183949C1-7C05-4737-ABC0-7511F5A7447A}

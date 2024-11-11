@@ -67,7 +67,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.RabbitMq\SharedKernel.Infrastructure.RabbitMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.RedsysTPV\SharedKernel.Infrastructure.Redsys.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.Redsys\SharedKernel.Infrastructure.Redsys.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Reporting\SharedKernel.Infrastructure.Reporting.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Testing\SharedKernel.Testing.csproj" />

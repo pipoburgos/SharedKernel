@@ -26,38 +26,38 @@ public class RabbitMqPublisher
     }
 
     /// <summary> </summary>
-    public Task PublishTopic(string textMessage, string topicName)
+    public Task PublishTopic(string textMessage, string topicName, CancellationToken cancellationToken)
     {
-        return PublishCommon(textMessage, true, topicName);
+        return PublishCommon(textMessage, true, topicName, cancellationToken);
     }
 
     /// <summary> </summary>
-    public Task PublishOnQueue(string textMessage, string queue)
+    public Task PublishOnQueue(string textMessage, string queue, CancellationToken cancellationToken)
     {
-        return PublishCommon(textMessage, false, queue);
+        return PublishCommon(textMessage, false, queue, cancellationToken);
     }
 
-    private Task PublishCommon(string textMessage, bool isTopic, string name)
+    private async Task PublishCommon(string textMessage, bool isTopic, string name, CancellationToken cancellationToken)
     {
         try
         {
             var queue = isTopic ? _rabbitMqParams.Value.ExchangeName : _rabbitMqParams.Value.PublishQueue;
             var exchangeType = isTopic ? ExchangeType.Topic : ExchangeType.Direct;
 
-            var channel = _config.Channel();
-            channel.ExchangeDeclare(queue, exchangeType);
+            var channel = await _config.CreateChannelAsync(cancellationToken);
+            await channel.ExchangeDeclareAsync(queue, exchangeType, cancellationToken: cancellationToken);
 
             var body = Encoding.UTF8.GetBytes(textMessage);
-            var properties = channel.CreateBasicProperties();
-            properties.Headers = new Dictionary<string, object> { { HeaderReDelivery, 0 } };
+            var properties = new BasicProperties
+            {
+                Headers = new Dictionary<string, object?> { { HeaderReDelivery, 0 } },
+            };
 
-            channel.BasicPublish(queue, name, properties, body);
+            await channel.BasicPublishAsync(queue, name, true, properties, body, cancellationToken: cancellationToken);
         }
         catch (RabbitMQClientException ex)
         {
             _logger.LogError(ex, ex.Message);
         }
-
-        return Task.CompletedTask;
     }
 }

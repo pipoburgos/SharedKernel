@@ -8,7 +8,7 @@
 /// </summary>
 public class Address : BaseAddress
 {
-    /// <summary>Phone number in E.123 format. 50 characters max.</summary>
+    /// <summary> Phone number in E.123 format. 50 characters max.</summary>
     public string Phone { get; set; }
 
     /// <summary>

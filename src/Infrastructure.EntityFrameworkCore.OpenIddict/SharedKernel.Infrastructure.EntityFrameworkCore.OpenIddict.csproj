@@ -19,7 +19,7 @@
     <PackageTags>OpenIddict</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>8.0.10.3</Version>
+    <Version>8.0.10.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.Auth\SharedKernel.Application.Auth.csproj" />
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
+    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
