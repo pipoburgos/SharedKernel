@@ -14,6 +14,6 @@ public class UserRepository<TDbContext, TUser, TRole, TKey> : UserStore<TUser, T
     /// <summary> . </summary>
     public UserRepository(TDbContext context) : base(context)
     {
-        AutoSaveChanges = false;
+        AutoSaveChanges = true;
     }
 }

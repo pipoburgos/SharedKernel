@@ -12,7 +12,7 @@ public class InMemoryEventBusTests : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddInMemoryEventBus(Configuration);
+        return base.ConfigureServices(services).AddInMemoryEventBus();
     }
 
     [Fact]

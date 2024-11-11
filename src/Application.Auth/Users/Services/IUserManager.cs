@@ -46,5 +46,5 @@ public interface IUserManager
     Task UpdateAsync(Guid id, string phoneNumber, CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>
-    Task<List<string>> GetRoles(Guid id, CancellationToken cancellationToken = default);
+    Task<List<string>> GetRolesAsync(Guid id, CancellationToken cancellationToken = default);
 }

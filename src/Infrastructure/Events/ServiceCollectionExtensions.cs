@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Events;
 using SharedKernel.Infrastructure.Events.InMemory;
 using SharedKernel.Infrastructure.Events.Synchronous;
@@ -40,7 +39,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
     {
         return services
             .AddHostedService<InMemoryBackgroundService>()

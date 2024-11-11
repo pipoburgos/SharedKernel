@@ -24,7 +24,7 @@ internal sealed class GetRolesHandler : IQueryRequestHandler<GetRoles, List<stri
 
     public async Task<List<string>> Handle(GetRoles request, CancellationToken cancellationToken)
     {
-        var roles = await _userManager.GetRoles(request.Id, cancellationToken);
+        var roles = await _userManager.GetRolesAsync(request.Id, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         // ReSharper disable once UseCollectionExpression
         await _eventBus.Publish(Enumerable.Empty<DomainEvent>(), cancellationToken);

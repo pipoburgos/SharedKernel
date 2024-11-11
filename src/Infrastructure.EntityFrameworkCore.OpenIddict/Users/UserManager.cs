@@ -164,13 +164,14 @@ public class UserManager : IUserManager
     }
 
     /// <summary> . </summary>
-    public virtual async Task<List<string>> GetRoles(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<List<string>> GetRolesAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var applicationUser = await GetUser(id);
         var roles = await _userManager.GetRolesAsync(applicationUser);
         return roles.ToList();
     }
 
+    /// <summary> . </summary>
     private async Task<IdentityUser<Guid>> GetUser(Guid id)
     {
         var applicationUser = await _userManager.FindByIdAsync(id.ToString());

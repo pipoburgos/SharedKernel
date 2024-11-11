@@ -54,6 +54,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" Condition="'$(TargetFramework)' == 'net8.0'" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" Condition="'$(TargetFramework)' == 'net8.0'" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
@@ -100,6 +101,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Dapper\Queries\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\EntityFrameworkCore\OpenIddict\appsettings.OpenIddict.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
