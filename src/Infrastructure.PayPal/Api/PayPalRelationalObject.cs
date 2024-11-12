@@ -11,7 +11,7 @@ public class PayPalRelationalObject : PayPalResource
     /// A list of HATEOAS (Hypermedia as the Engine of Application State) links.
     /// More information: https://developer.paypal.com/docs/api/#hateoas-links
     /// </summary>
-    public List<Links> Links { get; set; }
+    public List<Links>? Links { get; set; }
 
     /// <summary>
     /// Gets the HATEOAS link that matches the specified relation name.
@@ -20,6 +20,9 @@ public class PayPalRelationalObject : PayPalResource
     /// <returns>A Links object containing the details of the HATEOAS link; null if not found.</returns>
     public Links? GetHateoasLink(string relationName)
     {
+        if (Links == null)
+            return null;
+
         foreach (var link in Links)
             if (link.Rel.Equals(relationName))
                 return link;

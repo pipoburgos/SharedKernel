@@ -10,8 +10,8 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 public class Credit //: PayPalSerializableObject
 {
     /// <summary>Unique identifier of credit resource.</summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>specifies type of credit</summary>
-    public string Type { get; set; }
+    public string? Type { get; set; }
 }

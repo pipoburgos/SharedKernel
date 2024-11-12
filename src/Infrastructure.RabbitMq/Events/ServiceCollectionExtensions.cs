@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
                 tags: ["Event Bus", "RabbitMq"]);
 
         return services
-            .AddHostedService<RabbitMqEventBusConfiguration>()
+            .AddHostedService<RabbitMqBackground>()
             //.AddTransient<MsSqlEventBus, MsSqlEventBus>() // Failover
             .AddTransient<IEventBus, RabbitMqEventBus>()
             .AddTransient<RabbitMqConnectionFactory>()

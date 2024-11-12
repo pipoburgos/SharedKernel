@@ -1,6 +1,4 @@
-﻿using SharedKernel.Infrastructure.PayPal.Api;
-
-namespace SharedKernel.Infrastructure.PayPal.Util;
+﻿namespace SharedKernel.Infrastructure.PayPal.Util;
 
 /// <summary>Helper class that validates arguments.</summary>
 internal class ArgumentValidator
@@ -18,16 +16,16 @@ internal class ArgumentValidator
     }
 
     /// <summary>
-    /// Helper method for validating and setting up an APIContext object in preparation for it being used when sending an HTTP request.
+    /// Helper method for validating and setting up an IPayPalClient object in preparation for it being used when sending an HTTP request.
     /// </summary>
-    /// <param name="apiContext">APIContext used for API calls.</param>
-    public static void ValidateAndSetupApiContext(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for API calls.</param>
+    public static void ValidateAndSetupApiContext(IPayPalClient apiContext)
     {
-        Validate(apiContext, "APIContext");
+        Validate(apiContext, "IPayPalClient");
         Validate(apiContext.AccessToken, "AccessToken");
-        if (apiContext.HttpHeaders == null)
-            apiContext.HttpHeaders = new Dictionary<string, string>();
-        apiContext.HttpHeaders["Content-Type"] = "application/json";
-        apiContext.SdkVersion = new SdkVersion();
+        //if (apiContext.HttpHeaders == null)
+        //    apiContext.HttpHeaders = new Dictionary<string, string>();
+        //apiContext.HttpHeaders["Content-Type"] = "application/json";
+        //apiContext.SdkVersion = new SdkVersion();
     }
 }

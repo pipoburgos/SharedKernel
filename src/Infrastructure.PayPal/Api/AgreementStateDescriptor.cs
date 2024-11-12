@@ -9,8 +9,8 @@
 public class AgreementStateDescriptor //: PayPalSerializableObject
 {
     /// <summary>Reason for changing the state of the agreement.</summary>
-    public string Note { get; set; }
+    public string? Note { get; set; }
 
     /// <summary>The amount and currency of the agreement.</summary>
-    public PayPalCurrency Amount { get; set; }
+    public PayPalCurrency? Amount { get; set; }
 }

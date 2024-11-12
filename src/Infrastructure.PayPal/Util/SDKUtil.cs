@@ -14,22 +14,21 @@ internal class SdkUtil
     /// <param name="pattern">URI path with placeholders that can be replaced with string's Format method</param>
     /// <param name="parameters">Parameters holding actual values for placeholders; They can be wrapper objects for specific query strings like QueryParameters, CreateFromAuthorizationCodeParameters, CreateFromRefreshTokenParameters, UserinfoParameters parameters or a simple Dictionary</param>
     /// <returns>Processed URI path, or null if pattern or parameters is null</returns>
-    public static string FormatUriPath(string pattern, object[] parameters)
+    public static string FormatUriPath(string? pattern, object[]? parameters)
     {
-        var str = pattern;
-        if (pattern != null && parameters != null)
-        {
-            if (parameters.Length == 1 && parameters[0] is CreateFromAuthorizationCodeParameters)
-                parameters = SplitParameters(pattern, ((CreateFromAuthorizationCodeParameters)parameters[0]).ContainerMap);
-            else if (parameters.Length == 1 && parameters[0] is CreateFromRefreshTokenParameters)
-                parameters = SplitParameters(pattern, ((CreateFromRefreshTokenParameters)parameters[0]).ContainerMap);
-            else if (parameters.Length == 1 && parameters[0] is UserinfoParameters)
-                parameters = SplitParameters(pattern, ((UserinfoParameters)parameters[0]).ContainerMap);
-            else if (parameters.Length == 1 && parameters[0] is Dictionary<string, string>)
-                parameters = SplitParameters(pattern, (Dictionary<string, string>)parameters[0]);
-            str = RemoveNullsFromQueryString(string.Format(pattern, parameters));
-        }
-        return str;
+        if (pattern == null || parameters == null)
+            return string.Empty;
+
+        if (parameters.Length == 1 && parameters[0] is CreateFromAuthorizationCodeParameters)
+            parameters = SplitParameters(pattern, ((CreateFromAuthorizationCodeParameters)parameters[0]).ContainerMap);
+        else if (parameters.Length == 1 && parameters[0] is CreateFromRefreshTokenParameters)
+            parameters = SplitParameters(pattern, ((CreateFromRefreshTokenParameters)parameters[0]).ContainerMap);
+        else if (parameters.Length == 1 && parameters[0] is UserinfoParameters)
+            parameters = SplitParameters(pattern, ((UserinfoParameters)parameters[0]).ContainerMap);
+        else if (parameters.Length == 1 && parameters[0] is Dictionary<string, string>)
+            parameters = SplitParameters(pattern, (Dictionary<string, string>)parameters[0]);
+
+        return RemoveNullsFromQueryString(string.Format(pattern, parameters));
     }
 
     /// <summary>

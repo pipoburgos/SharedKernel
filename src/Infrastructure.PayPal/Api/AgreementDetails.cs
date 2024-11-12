@@ -9,32 +9,32 @@
 public class AgreementDetails //: PayPalSerializableObject
 {
     /// <summary>The outstanding balance for this agreement.</summary>
-    public PayPalCurrency OutstandingBalance { get; set; }
+    public PayPalCurrency? OutstandingBalance { get; set; }
 
     /// <summary>Number of cycles remaining for this agreement.</summary>
-    public string CyclesRemaining { get; set; }
+    public string? CyclesRemaining { get; set; }
 
     /// <summary>Number of cycles completed for this agreement.</summary>
-    public string CyclesCompleted { get; set; }
+    public string? CyclesCompleted { get; set; }
 
     /// <summary>
     /// The next billing date for this agreement, represented as 2014-02-19T10:00:00Z format.
     /// </summary>
-    public string NextBillingDate { get; set; }
+    public string? NextBillingDate { get; set; }
 
     /// <summary>
     /// Last payment date for this agreement, represented as 2014-06-09T09:42:31Z format.
     /// </summary>
-    public string LastPaymentDate { get; set; }
+    public string? LastPaymentDate { get; set; }
 
     /// <summary>Last payment amount for this agreement.</summary>
-    public PayPalCurrency LastPaymentAmount { get; set; }
+    public PayPalCurrency? LastPaymentAmount { get; set; }
 
     /// <summary>
     /// Last payment date for this agreement, represented as 2015-02-19T10:00:00Z format.
     /// </summary>
-    public string FinalPaymentDate { get; set; }
+    public string? FinalPaymentDate { get; set; }
 
     /// <summary>Total number of failed payments for this agreement.</summary>
-    public string FailedPaymentCount { get; set; }
+    public string? FailedPaymentCount { get; set; }
 }

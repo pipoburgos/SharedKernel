@@ -11,16 +11,16 @@ public class IdentityError
     /// Gets or sets an ASCII error code. See above link for full list of potential error codes.
     /// </summary>
     //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public string Error { get; set; }
+    public string? Error { get; set; }
 
     /// <summary>Gets or sets the details concerning this error.</summary>
     //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     /// <summary>
     /// Gets or sets a URI identifying a human-readable web page with information about the error. This is used to provide the client
     /// developer with additional information about the error.
     /// </summary>
     //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public string ErrorUri { get; set; }
+    public string? ErrorUri { get; set; }
 }

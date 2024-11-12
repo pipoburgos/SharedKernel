@@ -89,18 +89,18 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// Creates and processes a payment. In the JSON request body, include a `payment` object with the intent, payer, and transactions. For PayPal payments, include redirect URLs in the `payment` object.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Payment</returns>
-    public Payment Create(APIContext apiContext)
+    public Payment Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
 
     /// <summary>Creates (and processes) a new Payment Resource.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payment">Payment object to be used in creating the PayPal resource.</param>
     /// <returns>Payment</returns>
-    public static Payment Create(APIContext apiContext, Payment payment)
+    public static Payment Create(IPayPalClient apiContext, Payment payment)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/payments/payment";
@@ -110,10 +110,10 @@ public class Payment : PayPalRelationalObject
     }
 
     /// <summary>Shows details for a payment, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentId">The ID of the payment for which to show details.</param>
     /// <returns>Payment</returns>
-    public static Payment Get(APIContext apiContext, string paymentId)
+    public static Payment Get(IPayPalClient apiContext, string paymentId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(paymentId, nameof(paymentId));
@@ -126,9 +126,9 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// Partially updates a payment, by ID. You can update the amount, shipping address, invoice ID, and custom data. You cannot use patch after execute has been called.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="patchRequest">PatchRequest</param>
-    public void Update(APIContext apiContext, PatchRequest patchRequest)
+    public void Update(IPayPalClient apiContext, PatchRequest patchRequest)
     {
         Update(apiContext, Id, patchRequest);
     }
@@ -136,10 +136,10 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// Partially update the Payment resource for the given identifier
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentId">ID of the payment to update.</param>
     /// <param name="patchRequest">PatchRequest</param>
-    public static void Update(APIContext apiContext, string paymentId, PatchRequest patchRequest)
+    public static void Update(IPayPalClient apiContext, string paymentId, PatchRequest patchRequest)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(paymentId, nameof(paymentId));
@@ -153,10 +153,10 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// Executes, or completes, a PayPal payment that the payer has approved. You can optionally update selective payment information when you execute a payment.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentExecution">PaymentExecution</param>
     /// <returns>Payment</returns>
-    public Payment Execute(APIContext apiContext, PaymentExecution paymentExecution)
+    public Payment Execute(IPayPalClient apiContext, PaymentExecution paymentExecution)
     {
         return Execute(apiContext, Id, paymentExecution);
     }
@@ -164,12 +164,12 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// Executes the payment (after approved by the Payer) associated with this resource when the payment method is PayPal.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentId">ID of the payment to execute.</param>
     /// <param name="paymentExecution">PaymentExecution</param>
     /// <returns>Payment</returns>
     public static Payment Execute(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string paymentId,
         PaymentExecution paymentExecution)
     {
@@ -185,7 +185,7 @@ public class Payment : PayPalRelationalObject
     /// <summary>
     /// List payments that were made to the merchant who issues the request. Payments can be in any state.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="count">The number of items to list in the response.</param>
     /// <param name="startId">The ID of the starting resource in the response. When results are paged, you can use the `next_id` value as the `start_id` to continue with the next set of results.</param>
     /// <param name="startIndex">The start index of the resources to return. Typically used to jump to a specific position in the resource history based on its cart. Example for starting at the second item in a list of results: `?start_index=2`</param>
@@ -199,7 +199,7 @@ public class Payment : PayPalRelationalObject
     /// <param name="sortOrder">Specifies if order of results is ascending or descending.</param>
     /// <returns>PaymentHistory</returns>
     public static PaymentHistory List(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         int? count = null,
         string startId = "",
         int? startIndex = null,

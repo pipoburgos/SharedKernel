@@ -17,5 +17,5 @@ public class Cost //: PayPalSerializableObject
     /// <summary>
     /// The cost, as an amount value. Valid value is from 0 to 1,000,000.
     /// </summary>
-    public PayPalCurrency Amount { get; set; }
+    public PayPalCurrency? Amount { get; set; }
 }

@@ -60,11 +60,11 @@
 
 //    /// <summary>
 //    /// Creates an Access Token from an Authorization Code.
-//    /// <param name="apiContext">APIContext to be used for the call.</param>
+//    /// <param name="apiContext">IPayPalClient to be used for the call.</param>
 //    /// <param name="createFromAuthorizationCodeParameters">Query parameters used for API call</param>
 //    /// </summary>
 //    public static Tokeninfo CreateFromAuthorizationCode(
-//        APIContext apiContext,
+//        IPayPalClient apiContext,
 //        CreateFromAuthorizationCodeParameters createFromAuthorizationCodeParameters)
 //    {
 //        var resourcePath = SdkUtil.FormatUriPath("v1/identity/openidconnect/tokenservice?grant_type={0}&code={1}&redirect_uri={2}",
@@ -77,11 +77,11 @@
 //    /// <summary>
 //    /// Creates Access and Refresh Tokens from an Authorization Code for future payments.
 //    /// </summary>
-//    /// <param name="apiContext">APIContext to be used for the call.</param>
+//    /// <param name="apiContext">IPayPalClient to be used for the call.</param>
 //    /// <param name="createFromAuthorizationCodeParameters">Query parameters used for the API call.</param>
 //    /// <returns>A TokenInfo object containing the Access and Refresh Tokens.</returns>
 //    public static Tokeninfo CreateFromAuthorizationCodeForFuturePayments(
-//        APIContext apiContext,
+//        IPayPalClient apiContext,
 //        CreateFromAuthorizationCodeParameters createFromAuthorizationCodeParameters)
 //    {
 //        var resourcePath = SdkUtil.FormatUriPath("v1/oauth2/token?grant_type=authorization_code&response_type=token&redirect_uri=urn:ietf:wg:oauth:2.0:oob&code={0}",
@@ -94,12 +94,12 @@
 //    /// <summary>
 //    /// Helper method for creating Access and Refresh Tokens from an Authorization Code.
 //    /// </summary>
-//    /// <param name="apiContext">APIContext to be used for the call.</param>
+//    /// <param name="apiContext">IPayPalClient to be used for the call.</param>
 //    /// <param name="createFromAuthorizationCodeParameters">Query parameters used for the API call.</param>
 //    /// <param name="resourcePath">The path to the REST API resource that will be requested.</param>
 //    /// <returns>A TokenInfo object containing the Access and Refresh Tokens.</returns>
 //    private static Tokeninfo CreateFromAuthorizationCodeParameters(
-//        APIContext apiContext,
+//        IPayPalClient apiContext,
 //        CreateFromAuthorizationCodeParameters createFromAuthorizationCodeParameters,
 //        string resourcePath)
 //    {
@@ -107,7 +107,7 @@
 //        resourcePath = resourcePath.Substring(0, resourcePath.IndexOf("?"));
 //        var dictionary = new Dictionary<string, string> { { "Content-Type", "application/x-www-form-urlencoded" } };
 //        if (apiContext == null)
-//            apiContext = new APIContext();
+//            apiContext = new IPayPalClient();
 //        apiContext.HttpHeaders = dictionary;
 //        apiContext.MaskRequestId = true;
 //        return ConfigureAndExecute<Tokeninfo>(apiContext, HttpMethod.Post, resourcePath, payload);
@@ -125,11 +125,11 @@
 
 //    /// <summary>
 //    /// Creates an Access Token from an Refresh Token
-//    /// <param name="apiContext">APIContext to be used for the call</param>
+//    /// <param name="apiContext">IPayPalClient to be used for the call</param>
 //    /// <param name="createFromRefreshTokenParameters">Query parameters used for API call</param>
 //    /// </summary>
 //    public Tokeninfo CreateFromRefreshToken(
-//        APIContext apiContext,
+//        IPayPalClient apiContext,
 //        CreateFromRefreshTokenParameters createFromRefreshTokenParameters)
 //    {
 //        if (!createFromRefreshTokenParameters.ContainerMap.ContainsKey("client_id"))
@@ -147,7 +147,7 @@
 //        var resource = str.Substring(0, str.IndexOf("?"));
 //        var dictionary = new Dictionary<string, string> { { "Content-Type", "application/x-www-form-urlencoded" } };
 //        if (apiContext == null)
-//            apiContext = new APIContext();
+//            apiContext = new IPayPalClient();
 //        apiContext.HttpHeaders = dictionary;
 //        apiContext.MaskRequestId = true;
 //        var bytes = Encoding.UTF8.GetBytes($"{apiContext.Config["clientId"]}:{apiContext.Config["clientSecret"]}");

@@ -23,10 +23,10 @@ public class Payout : PayPalRelationalObject
     /// <summary>
     /// Create a payout batch resource by passing a sender_batch_header and an items array to the request URI. The sender_batch_header contains payout parameters that describe the handling of a batch resource while the items array conatins payout items.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="syncMode">A value of true will provide an immediate, synchronous response. Without this query keyword or if the value is false, the response will be a background batch mode.</param>
     /// <returns>PayoutCreateResponse</returns>
-    public PayoutBatch Create(APIContext apiContext, bool syncMode = false)
+    public PayoutBatch Create(IPayPalClient apiContext, bool syncMode = false)
     {
         return Create(apiContext, this, syncMode);
     }
@@ -34,11 +34,11 @@ public class Payout : PayPalRelationalObject
     /// <summary>
     /// Create a payout batch resource by passing a sender_batch_header and an items array to the request URI. The sender_batch_header contains payout parameters that describe the handling of a batch resource while the items array conatins payout items.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payout">Payout object to be created as a PayPal resource.</param>
     /// <param name="syncMode">A value of true will provide an immediate, synchronous response. Without this query keyword or if the value is false, the response will be a background batch mode.</param>
     /// <returns>PayoutCreateResponse</returns>
-    public static PayoutBatch Create(APIContext apiContext, Payout payout, bool syncMode = false)
+    public static PayoutBatch Create(IPayPalClient apiContext, Payout payout, bool syncMode = false)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(syncMode, nameof(syncMode));
@@ -53,10 +53,10 @@ public class Payout : PayPalRelationalObject
     /// <summary>
     /// Obtain the status of a specific batch resource by passing the payout batch ID to the request URI. You can issue this call multiple times to get the current status.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payoutBatchId">Identifier of the Payout Resource to obtain data.</param>
     /// <returns>PayoutBatchStatus</returns>
-    public static PayoutBatch Get(APIContext apiContext, string payoutBatchId)
+    public static PayoutBatch Get(IPayPalClient apiContext, string payoutBatchId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(payoutBatchId, nameof(payoutBatchId));

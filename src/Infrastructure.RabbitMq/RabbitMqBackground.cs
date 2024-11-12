@@ -7,12 +7,12 @@ using SharedKernel.Infrastructure.Requests;
 namespace SharedKernel.Infrastructure.RabbitMq;
 
 /// <summary> . </summary>
-public class RabbitMqEventBusConfiguration : BackgroundService
+public class RabbitMqBackground : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     /// <summary> . </summary>
-    public RabbitMqEventBusConfiguration(IServiceScopeFactory serviceScopeFactory)
+    public RabbitMqBackground(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
@@ -20,13 +20,14 @@ public class RabbitMqEventBusConfiguration : BackgroundService
     /// <summary> . </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var ct = CancellationToken.None;
+        var ct = stoppingToken;
 
-        using var scope = _serviceScopeFactory.CreateScope();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var rabbitMqConnectionFactory = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>();
+        await using var connection = await rabbitMqConnectionFactory.CreateConnectionAsync(ct);
+        await using var channel = await connection.CreateChannelAsync(cancellationToken: ct);
 
-        var channel = await scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().CreateChannelAsync(ct);
         var requestsTypes = scope.ServiceProvider.GetServices<IRequestType>().ToList();
-
         await ConsumeQueue(scope, channel, requestsTypes.Where(rt => !rt.IsTopic), ct);
         await ConsumeTopics(scope, channel, requestsTypes.Where(rt => rt.IsTopic), ct);
     }

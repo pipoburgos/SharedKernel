@@ -7,22 +7,8 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 /// </summary>
 public abstract class PayPalResource ////: PayPalSerializableObject
 {
-    ///// <summary>
-    ///// Logs output statements, errors, debug info to a text file
-    ///// </summary>
-    ///// <summary>PayPal debug id from response header</summary>
-    //private string _debugId;
-
-    ///// <summary>Sets the PayPal debug id from response header</summary>
-    //protected void SetDebugId(string debugId)
-    //{
-    //    _debugId = debugId;
-    //}
-
-    //public string GetDebugId()
-    //{
-    //    return _debugId;
-    //}
+    /// <summary>PayPal debug id from response header</summary>
+    public string? DebugId { get; set; }
 
     /// <summary>
     /// Gets the last request sent by the SDK in the current thread.
@@ -44,7 +30,7 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     }
 
     /// <summary>Configures and executes REST call: Supports JSON</summary>
-    /// <param name="apiContext">APIContext object</param>
+    /// <param name="apiContext">IPayPalClient object</param>
     /// <param name="httpMethod">HttpMethod type</param>
     /// <param name="resource">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
@@ -55,7 +41,7 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     protected internal static T ConfigureAndExecute<T>(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         HttpMethod httpMethod,
         string resource,
         T payload,
@@ -66,7 +52,7 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     }
 
     /// <summary>Configures and executes REST call: Supports JSON</summary>
-    /// <param name="apiContext">APIContext object</param>
+    /// <param name="apiContext">IPayPalClient object</param>
     /// <param name="httpMethod">HttpMethod type</param>
     /// <param name="resource">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
@@ -77,7 +63,7 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     protected internal static T ConfigureAndExecute<T>(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         HttpMethod httpMethod,
         string resource,
         PatchRequest payload,
@@ -89,7 +75,7 @@ public abstract class PayPalResource ////: PayPalSerializableObject
 
     /// <summary>Configures and executes REST call: Supports JSON</summary>
     /// <typeparam name="T">Generic Type parameter for response object</typeparam>
-    /// <param name="apiContext">APIContext object</param>
+    /// <param name="apiContext">IPayPalClient object</param>
     /// <param name="httpMethod">HttpMethod type</param>
     /// <param name="resource">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
@@ -100,221 +86,14 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
     /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     protected internal static T ConfigureAndExecute<T>(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         HttpMethod httpMethod,
         string resource,
         object? payload = null,
         string endpoint = "",
         bool setAuthorizationHeader = true)
     {
-        return default;
-        //if (apiContext == null)
-        //    throw new PayPalException("APIContext object is null");
-
-        //try
-        //{
-        //    var configWithDefaults = apiContext.GetConfigWithDefaults();
-        //    var headerMap = GetHeaderMap(apiContext);
-        //    if (!setAuthorizationHeader && headerMap.ContainsKey("Authorization"))
-        //        headerMap.Remove("Authorization");
-        //    if (string.IsNullOrEmpty(endpoint))
-        //        endpoint = GetEndpoint(configWithDefaults);
-        //    Uri? result;
-        //    var baseUri = new Uri(endpoint);
-        //    if (!Uri.TryCreate(baseUri, resource, out result))
-        //        throw new PayPalException("Cannot create URL; baseURI=" + baseUri + ", resourcePath=" + resource);
-
-        //    var connection = ConnectionManager.Instance.GetConnection(configWithDefaults, result.ToString());
-        //    connection.Method = httpMethod.ToString();
-        //    if (headerMap != null && headerMap.ContainsKey("Content-Type"))
-        //    {
-        //        connection.ContentType = headerMap["Content-Type"].Trim();
-        //        headerMap.Remove("Content-Type");
-        //    }
-        //    else
-        //    {
-        //        connection.ContentType = "application/json";
-        //    }
-
-        //    if (headerMap.ContainsKey("User-Agent"))
-        //    {
-        //        var encoding = Encoding.GetEncoding("iso-8859-1", new EncoderReplacementFallback(string.Empty), new DecoderExceptionFallback());
-        //        var bytes = Encoding.Convert(Encoding.UTF8, encoding, Encoding.UTF8.GetBytes(headerMap["User-Agent"]));
-        //        connection.UserAgent = encoding.GetString(bytes);
-        //        headerMap.Remove("User-Agent");
-        //    }
-        //    foreach (var keyValuePair in headerMap)
-        //        connection.Headers.Add(keyValuePair.Key, keyValuePair.Value);
-        //    foreach (string header in (NameObjectCollectionBase)connection.Headers)
-        //        Logger.DebugFormat(header + ":" + connection.Headers[header]);
-        //    var httpConnection = new HttpConnection(configWithDefaults);
-        //    LastRequestDetails.Value = httpConnection.RequestDetails;
-        //    LastResponseDetails.Value = httpConnection.ResponseDetails;
-        //    var str = httpConnection.Execute(payload, connection);
-        //    if (typeof(T).Name.Equals("Object"))
-        //        return default(T);
-        //    if (typeof(T).Name.Equals("String"))
-        //        return (T)Convert.ChangeType(str, typeof(T));
-
-        //    var obj = JsonFormatter.ConvertFromJson<T>(str);
-        //    if ((object)obj is PayPalResource)
-        //    {
-        //        var debugId = httpConnection.ResponseDetails.Headers.Get("PayPal-Debug-Id");
-        //        ((PayPalResource)(object)obj).SetDebugId(debugId);
-        //    }
-        //    return obj;
-        //}
-        //catch (ConnectionException ex)
-        //{
-        //    if (ex is HttpException)
-        //    {
-        //        var httpException = ex as HttpException;
-        //        if (httpException.StatusCode == HttpStatusCode.BadRequest)
-        //        {
-        //            PaymentsException other;
-        //            if (httpException.TryConvertTo(out other))
-        //                throw other;
-        //        }
-        //        else
-        //        {
-        //            IdentityException other;
-        //            if (httpException.StatusCode == HttpStatusCode.Unauthorized && httpException.TryConvertTo(out other))
-        //                throw other;
-        //        }
-        //    }
-        //    throw;
-        //}
-        //catch (PayPalException ex)
-        //{
-        //    throw;
-        //}
-        //catch (Exception ex)
-        //{
-        //    throw new PayPalException(ex.Message, ex);
-        //}
+        return apiContext.Send<T>(httpMethod, resource, payload, endpoint, setAuthorizationHeader).GetAwaiter().GetResult();
     }
 
-    ///// <summary>
-    ///// Gets a collection of headers to be used in an HTTP request.
-    ///// </summary>
-    ///// <param name="apiContext">APIContext object containing information needed to construct the headers map.</param>
-    ///// <returns>A collection of headers.</returns>
-    //public static Dictionary<string, string> GetHeaderMap(APIContext apiContext)
-    //{
-    //    var headerMap = new Dictionary<string, string>();
-    //    if (!string.IsNullOrEmpty(apiContext.AccessToken))
-    //    {
-    //        headerMap["Authorization"] = apiContext.AccessToken;
-    //    }
-    //    else
-    //    {
-    //        var configWithDefaults = apiContext.GetConfigWithDefaults();
-    //        var base64 = EncodeToBase64(configWithDefaults.ContainsKey("clientId") ? configWithDefaults["clientId"] : null, configWithDefaults.ContainsKey("clientSecret") ? configWithDefaults["clientSecret"] : null);
-    //        headerMap["Authorization"] = "Basic " + base64;
-    //    }
-    //    if (!apiContext.MaskRequestId && !string.IsNullOrEmpty(apiContext.RequestId))
-    //        headerMap["PayPal-Request-Id"] = apiContext.RequestId;
-    //    var header = UserAgentHeader.GetHeader();
-    //    if (header != null && header.Count > 0)
-    //        foreach (var keyValuePair in header)
-    //            headerMap[keyValuePair.Key] = keyValuePair.Value;
-    //    if (apiContext.HttpHeaders != null && apiContext.HttpHeaders.Count > 0)
-    //        foreach (var httpHeader in apiContext.HttpHeaders)
-    //            headerMap[httpHeader.Key] = httpHeader.Value;
-    //    return headerMap;
-    //}
-
-    ///// <summary>
-    ///// Gets the endpoint to be used when making an HTTP call to the REST API.
-    ///// </summary>
-    ///// <returns>The endpoint to be used when making an HTTP call to the REST API.</returns>
-    //public static string GetEndpoint(Dictionary<string, string> config)
-    //{
-    //    string? endpoint = null;
-    //    if (config.TryGetValue("endpoint", out var value))
-    //        endpoint = value;
-    //    else if (config.TryGetValue("mode", out var value1))
-    //        switch (value1)
-    //        {
-    //            case "live":
-    //                endpoint = "https://api.paypal.com/";
-    //                break;
-    //            case "sandbox":
-    //                endpoint = "https://api.sandbox.paypal.com/";
-    //                break;
-    //            case "security-test-sandbox":
-    //                endpoint = "https://test-api.sandbox.paypal.com/";
-    //                break;
-    //        }
-
-    //    if (string.IsNullOrEmpty(endpoint))
-    //        endpoint = "https://api.sandbox.paypal.com/";
-    //    if (!endpoint.EndsWith("/"))
-    //        endpoint += "/";
-    //    return endpoint;
-    //}
-
-    ///// <summary>
-    ///// Covnerts the specified client credentials to a base-64 string for authorization purposes.
-    ///// </summary>
-    ///// <param name="clientId">The client ID to be used in generating the base-64 client identifier.</param>
-    ///// <param name="clientSecret">The client secret to be used in generating the base-64 client identifier.</param>
-    ///// <returns>The base-64 encoded client identifier to use in the authorization request.</returns>
-    ///// <exception cref="T:SharedKernel.Infrastructure.PayPal.MissingCredentialException">Thrown if clientId or clientSecret are null or empty.</exception>
-    ///// <exception cref="T:SharedKernel.Infrastructure.PayPal.InvalidCredentialException">Thrown if there is an issue converting the credentials to a formatted authorization string.</exception>
-    ///// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issue encountered. See inner exception for further details.</exception>
-    //private static string EncodeToBase64(string clientId, string clientSecret)
-    //{
-    //    if (string.IsNullOrEmpty(clientId))
-    //        throw new MissingCredentialException("clientId is missing.");
-    //    if (string.IsNullOrEmpty(clientSecret))
-    //        throw new MissingCredentialException("clientSecret is missing.");
-
-    //    try
-    //    {
-    //        return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        switch (ex)
-    //        {
-    //            case FormatException _:
-    //            case ArgumentNullException _:
-    //                throw new InvalidCredentialException("Unable to convert client credentials to base-64 string.\n  clientId: \string.Empty + clientId + "\"\n  clientSecret: \string.Empty + clientSecret + "\"\n  Error: " + ex.Message);
-    //            default:
-    //                throw new PayPalException(ex.Message, ex);
-    //        }
-    //    }
-    //}
-
-    /// <summary>
-    /// List of supported HTTP methods when making HTTP requests to the PayPal REST API.
-    /// </summary>
-    protected internal enum HttpMethod
-    {
-        /// <summary>
-        /// GET HTTP request. This is typically used in API operations to retrieve a static resource.
-        /// </summary>
-        Get,
-        /// <summary>
-        /// HEAD HTTP request. This is typically used to retrieve only the header information for a static resource.
-        /// </summary>
-        Head,
-        /// <summary>
-        /// POST HTTP request. This is typically used in API operations that require data in the request body to complete.
-        /// </summary>
-        Post,
-        /// <summary>
-        /// PUT HTTP request. This is used in some API operations that update a given resource.
-        /// </summary>
-        Put,
-        /// <summary>
-        /// DELETE HTTP request. This is typcially used in API oeprations that delete a given resource.
-        /// </summary>
-        Delete,
-        /// <summary>
-        /// PATCH HTTP request. This is typcially used in API operations that update a given resource.
-        /// </summary>
-        Patch,
-    }
 }

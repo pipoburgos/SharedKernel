@@ -44,11 +44,11 @@ public class PayoutItemDetails : PayPalRelationalObject
     /// <summary>
     /// Obtain the status of a payout item by passing the item ID to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payoutItemId">Payouts generated payout_item_id to obtain status.</param>
     /// <returns>PayoutItemDetails</returns>
     [Obsolete("This method has been moved to the PayoutItem class.", false)]
-    public static PayoutItemDetails Get(APIContext apiContext, string payoutItemId)
+    public static PayoutItemDetails Get(IPayPalClient apiContext, string payoutItemId)
     {
         return PayoutItem.Get(apiContext, payoutItemId);
     }

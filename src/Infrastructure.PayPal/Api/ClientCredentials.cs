@@ -4,8 +4,8 @@
 public abstract class ClientCredentials
 {
     /// <summary>Client ID</summary>
-    public string ClientId { get; set; }
+    public string? ClientId { get; set; }
 
     /// <summary>Client Secret</summary>
-    public string ClientSecret { get; set; }
+    public string? ClientSecret { get; set; }
 }

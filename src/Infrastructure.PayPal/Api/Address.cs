@@ -9,16 +9,16 @@
 public class Address : BaseAddress
 {
     /// <summary> Phone number in E.123 format. 50 characters max.</summary>
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
 
     /// <summary>
     /// Address normalization status, returned only for payers from Brazil.
     /// </summary>
-    public new string NormalizationStatus { get; set; }
+    public string? NormalizationStatus { get; set; }
 
     /// <summary>Address status</summary>
-    public new string Status { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>Type of address (e.g., HOME_OR_WORK, GIFT etc).</summary>
-    public string Type { get; set; }
+    public string? Type { get; set; }
 }

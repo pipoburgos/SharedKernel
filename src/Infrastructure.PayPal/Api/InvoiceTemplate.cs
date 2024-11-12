@@ -40,10 +40,10 @@ public class InvoiceTemplate : PayPalResource
     public bool? Custom { get; set; }
 
     /// <summary>Shows details for a template, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="templateId">The ID of the template for which to show details.</param>
     /// <returns>Template</returns>
-    public static InvoiceTemplate Get(APIContext apiContext, string templateId)
+    public static InvoiceTemplate Get(IPayPalClient apiContext, string templateId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(templateId, nameof(templateId));
@@ -56,10 +56,10 @@ public class InvoiceTemplate : PayPalResource
     /// <summary>
     /// Lists all merchant-created templates. The list shows the emails, addresses, and phone numbers from the merchant profile.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="fields">The fields to return in the response. Value is `all` or `none`. Specify `none` to return only the template name, ID, and default attributes.</param>
     /// <returns>Templates</returns>
-    public static InvoiceTemplates GetAll(APIContext apiContext, string fields = "all")
+    public static InvoiceTemplates GetAll(IPayPalClient apiContext, string fields = "all")
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         var queryParameters = new QueryParameters
@@ -71,16 +71,16 @@ public class InvoiceTemplate : PayPalResource
     }
 
     /// <summary>Deletes a template, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, TemplateId);
     }
 
     /// <summary>Deletes a template, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="templateId">The ID of the template to delete.</param>
-    public static void Delete(APIContext apiContext, string templateId)
+    public static void Delete(IPayPalClient apiContext, string templateId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(templateId, nameof(templateId));
@@ -92,9 +92,9 @@ public class InvoiceTemplate : PayPalResource
     }
 
     /// <summary>Creates a template.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Template</returns>
-    public InvoiceTemplate Create(APIContext apiContext)
+    public InvoiceTemplate Create(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(this, "template");
@@ -105,9 +105,9 @@ public class InvoiceTemplate : PayPalResource
     /// <summary>
     /// Updates a template, by ID. In the JSON request body, pass a complete `template` object. The update method does not support partial updates.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Template</returns>
-    public InvoiceTemplate Update(APIContext apiContext)
+    public InvoiceTemplate Update(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(this, "template");

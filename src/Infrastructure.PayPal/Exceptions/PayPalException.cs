@@ -17,7 +17,7 @@ public class PayPalException : Exception
     /// </summary>
     /// <param name="message">The message that describes the error</param>
     public PayPalException(string message)
-        : this(message, null)
+        : base(message)
     {
     }
 

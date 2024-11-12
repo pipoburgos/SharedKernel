@@ -57,13 +57,13 @@ public class Refund : PayPalRelationalObject
     public string ReasonCode { get; set; }
 
     /// <summary>Shows details for a refund, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="refundId">The ID of the refund for which to show details.</param>
     /// <returns>Refund</returns>
-    public static Refund Get(APIContext apiContext, string refundId)
+    public static Refund Get(IPayPalClient apiContext, string refundId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
-        ArgumentValidator.Validate(refundId, nameof (refundId));
+        ArgumentValidator.Validate(refundId, nameof(refundId));
         var resource = SdkUtil.FormatUriPath("v1/payments/refund/{0}", [
             refundId,
         ]);

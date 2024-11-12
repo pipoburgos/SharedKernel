@@ -24,7 +24,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         return "Data/EntityFrameworkCore/OpenIddict/appsettings.OpenIddict.json";
     }
 
-    public async Task Migrate()
+    private async Task Migrate()
     {
         var dbContext = GetRequiredServiceOnNewScope<AuthDbContext>();
         await dbContext.Database.EnsureDeletedAsync();

@@ -10,5 +10,5 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 public class CreateProfileResponse //: PayPalSerializableObject
 {
     /// <summary>ID of the payment web experience profile.</summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 }

@@ -34,10 +34,10 @@ public class PayoutItem : PayPalResource
     /// <summary>
     /// Obtain the status of a payout item by passing the item ID to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payoutItemId">Payouts generated payout_item_id to obtain status.</param>
     /// <returns>PayoutItemDetails</returns>
-    public static PayoutItemDetails Get(APIContext apiContext, string payoutItemId)
+    public static PayoutItemDetails Get(IPayPalClient apiContext, string payoutItemId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(payoutItemId, nameof(payoutItemId));
@@ -50,10 +50,10 @@ public class PayoutItem : PayPalResource
     /// <summary>
     /// Cancels the unclaimed payment using the items id passed in the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="payoutItemId">Payouts generated payout_item_id to obtain status.</param>
     /// <returns>PayoutItemDetails</returns>
-    public static PayoutItemDetails Cancel(APIContext apiContext, string payoutItemId)
+    public static PayoutItemDetails Cancel(IPayPalClient apiContext, string payoutItemId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(payoutItemId, nameof(payoutItemId));

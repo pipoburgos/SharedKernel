@@ -31,13 +31,13 @@ public class PaymentInstruction : PayPalRelationalObject
     /// <summary>
     /// Obtain the payment instruction resource for the given identifier.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentId">Identifier of the Payment instruction resource to obtain the data for.</param>
     /// <returns>PaymentInstruction</returns>
-    public static PaymentInstruction Get(APIContext apiContext, string paymentId)
+    public static PaymentInstruction Get(IPayPalClient apiContext, string paymentId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
-        ArgumentValidator.Validate(paymentId, nameof (paymentId));
+        ArgumentValidator.Validate(paymentId, nameof(paymentId));
         var resource = SdkUtil.FormatUriPath("v1/payments/payments/payment/{0}/payment-instruction", [
             paymentId,
         ]);

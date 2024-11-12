@@ -9,5 +9,5 @@
 public class AgreementTransactions //: PayPalSerializableObject
 {
     /// <summary>Array of agreement_transaction object.</summary>
-    public List<AgreementTransaction> AgreementTransactionList { get; set; }
+    public List<AgreementTransaction>? AgreementTransactionList { get; set; }
 }

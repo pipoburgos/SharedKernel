@@ -53,10 +53,10 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// Retrieve the details for a particular billing plan by passing the billing plan ID to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="planId">ID of the billing plan to return details about.</param>
     /// <returns>Plan</returns>
-    public static Plan Get(APIContext apiContext, string planId)
+    public static Plan Get(IPayPalClient apiContext, string planId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(planId, nameof(planId));
@@ -69,9 +69,9 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// Create a new billing plan by passing the details for the plan, including the plan name, description, and type, to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Plan</returns>
-    public Plan Create(APIContext apiContext)
+    public Plan Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
@@ -79,10 +79,10 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// Create a new billing plan by passing the details for the plan, including the plan name, description, and type, to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="plan">The Plan object to be used to create the billing plan resource.</param>
     /// <returns>Plan</returns>
-    public static Plan Create(APIContext apiContext, Plan plan)
+    public static Plan Create(IPayPalClient apiContext, Plan plan)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/payments/billing-plans";
@@ -92,9 +92,9 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// Replace specific fields within a billing plan by passing the ID of the billing plan to the request URI. In addition, pass a patch object in the request JSON that specifies the operation to perform, field to update, and new value for each update.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="patchRequest">PatchRequest</param>
-    public void Update(APIContext apiContext, PatchRequest patchRequest)
+    public void Update(IPayPalClient apiContext, PatchRequest patchRequest)
     {
         Update(apiContext, Id, patchRequest);
     }
@@ -102,10 +102,10 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// Replace specific fields within a billing plan by passing the ID of the billing plan to the request URI. In addition, pass a patch object in the request JSON that specifies the operation to perform, field to update, and new value for each update.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="planId">ID of the billing plan to be updated.</param>
     /// <param name="patchRequest">PatchRequest</param>
-    public static void Update(APIContext apiContext, string planId, PatchRequest patchRequest)
+    public static void Update(IPayPalClient apiContext, string planId, PatchRequest patchRequest)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(planId, nameof(planId));
@@ -119,14 +119,14 @@ public class Plan : PayPalRelationalObject
     /// <summary>
     /// List billing plans according to optional query string parameters specified.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="page">A non-zero integer representing the 'page' of the results.</param>
     /// <param name="status">Specifies the status (CREATED, ACTIVE, or INACTIVE) of the billing plans to return.</param>
     /// <param name="pageSize">A non-negative, non-zero integer indicating the maximum number of results to return at one time.</param>
     /// <param name="totalRequired">A boolean indicating total number of items (total_items) and pages (total_pages) are expected to be returned in the response</param>
     /// <returns>PlanList</returns>
     public static PlanList List(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string page = "0",
         string status = "CREATED",
         string pageSize = "10",
@@ -145,16 +145,16 @@ public class Plan : PayPalRelationalObject
     }
 
     /// <summary>Deletes the specified billing plan.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, Id);
     }
 
     /// <summary>Deletes the specified billing plan.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="planId">ID of the billing plan to delete.</param>
-    public static void Delete(APIContext apiContext, string planId)
+    public static void Delete(IPayPalClient apiContext, string planId)
     {
         var patchRequest1 = new PatchRequest
         {

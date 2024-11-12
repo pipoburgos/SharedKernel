@@ -10,10 +10,10 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 public class CarrierAccountToken //: PayPalSerializableObject
 {
     /// <summary>ID of a previously saved carrier account resource.</summary>
-    public string CarrierAccountId { get; set; }
+    public string? CarrierAccountId { get; set; }
 
     /// <summary>
     /// The unique identifier of the payer used when saving this carrier account instrument.
     /// </summary>
-    public string ExternalCustomerId { get; set; }
+    public string? ExternalCustomerId { get; set; }
 }

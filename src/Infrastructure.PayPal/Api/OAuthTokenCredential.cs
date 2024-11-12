@@ -135,7 +135,7 @@
 //    /// <returns>The OAuth access token to use for making PayPal requests.</returns>
 //    private string GenerateOAuthToken()
 //    {
-//        var jobject = (JObject)JsonConvert.DeserializeObject(PayPalResource.ConfigureAndExecute<string>(new APIContext()
+//        var jobject = (JObject)JsonConvert.DeserializeObject(PayPalResource.ConfigureAndExecute<string>(new IPayPalClient()
 //        {
 //            Config = _config,
 //            SdkVersion = _sdkVersion,

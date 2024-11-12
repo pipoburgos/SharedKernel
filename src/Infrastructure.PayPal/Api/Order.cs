@@ -62,10 +62,10 @@ public class Order : PayPalRelationalObject
     public string UpdateTime { get; set; }
 
     /// <summary>Shows details for an order, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="orderId">The ID of the order for which to show details.</param>
     /// <returns>Order</returns>
-    public static Order Get(APIContext apiContext, string orderId)
+    public static Order Get(IPayPalClient apiContext, string orderId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(orderId, nameof(orderId));
@@ -78,10 +78,10 @@ public class Order : PayPalRelationalObject
     /// <summary>
     /// Captures a payment for an order, by ID. To use this call, the original payment call must specify an intent of `order`. In the JSON request body, include the payment amount and indicate whether this capture is the final capture for the authorization.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="capture">Capture</param>
     /// <returns>Capture</returns>
-    public Capture Capture(APIContext apiContext, Capture capture)
+    public Capture Capture(IPayPalClient apiContext, Capture capture)
     {
         return Capture(apiContext, Id, capture);
     }
@@ -89,12 +89,12 @@ public class Order : PayPalRelationalObject
     /// <summary>
     /// Creates (and processes) a new Capture Transaction added as a related resource.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="orderId">ID of the order to capture.</param>
     /// <param name="capture">Capture</param>
     /// <returns>Capture</returns>
     public static Capture Capture(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string orderId,
         Capture capture)
     {
@@ -110,18 +110,18 @@ public class Order : PayPalRelationalObject
     /// <summary>
     /// Voids, or cancels, an order, by ID. You cannot void an order if a payment has already been partially or fully captured.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Order</returns>
-    public Order Void(APIContext apiContext)
+    public Order Void(IPayPalClient apiContext)
     {
         return Void(apiContext, Id);
     }
 
     /// <summary>Voids (cancels) an Order.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="orderId">ID of the order to void.</param>
     /// <returns>Order</returns>
-    public static Order Void(APIContext apiContext, string orderId)
+    public static Order Void(IPayPalClient apiContext, string orderId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(orderId, nameof(orderId));
@@ -134,18 +134,18 @@ public class Order : PayPalRelationalObject
     /// <summary>
     /// Authorizes an order, by ID. Include an `amount` object in the JSON request body.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Authorization</returns>
-    public Authorization Authorize(APIContext apiContext)
+    public Authorization Authorize(IPayPalClient apiContext)
     {
         return Authorize(apiContext, this);
     }
 
     /// <summary>Creates an authorization on an order</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="order">Order object to authorize.</param>
     /// <returns>Authorization</returns>
-    public static Authorization Authorize(APIContext apiContext, Order order)
+    public static Authorization Authorize(IPayPalClient apiContext, Order order)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(order, nameof(order));

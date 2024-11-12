@@ -20,10 +20,10 @@ public class WebhookEventType : PayPalResource
     public string Status { get; set; }
 
     /// <summary>Lists event subscriptions for a webhook, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webhookId">The ID of the webhook for which to list subscriptions.</param>
     /// <returns>WebhookEventTypeList</returns>
-    public static WebhookEventTypeList SubscribedEventTypes(APIContext apiContext, string webhookId)
+    public static WebhookEventTypeList SubscribedEventTypes(IPayPalClient apiContext, string webhookId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(webhookId, nameof(webhookId));
@@ -36,9 +36,9 @@ public class WebhookEventType : PayPalResource
     /// <summary>
     /// Lists available events to which any webhook can subscribe. For a list of supported events, see [Webhook events](/docs/integration/direct/rest/webhooks/webhook-events/).
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>WebhookEventTypeList</returns>
-    public static WebhookEventTypeList AvailableEventTypes(APIContext apiContext)
+    public static WebhookEventTypeList AvailableEventTypes(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/notifications/webhooks-event-types";

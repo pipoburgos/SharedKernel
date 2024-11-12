@@ -130,10 +130,10 @@ public class Sale : PayPalRelationalObject
     /// <summary>
     /// Shows details for a sale, by ID. Returns only sales that were created through the REST API.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="saleId">The ID of the sale for which to show details.</param>
     /// <returns>Sale</returns>
-    public static Sale Get(APIContext apiContext, string saleId)
+    public static Sale Get(IPayPalClient apiContext, string saleId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(saleId, nameof(saleId));
@@ -146,11 +146,11 @@ public class Sale : PayPalRelationalObject
     /// <summary>
     /// Creates (and processes) a new Refund Transaction added as a related resource.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="refund">Refund</param>
     /// <returns>Refund</returns>
-    [Obsolete("Please use Refund(APIContext, string, RefundRequest) instead")]
-    public Refund Refund(APIContext apiContext, Refund refund)
+    [Obsolete("Please use Refund(IPayPalClient, string, RefundRequest) instead")]
+    public Refund Refund(IPayPalClient apiContext, Refund refund)
     {
         return Refund(apiContext, Id, refund);
     }
@@ -158,12 +158,12 @@ public class Sale : PayPalRelationalObject
     /// <summary>
     /// Creates (and processes) a new Refund Transaction added as a related resource.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="saleId">ID of the sale to refund.</param>
     /// <param name="refund">Refund</param>
     /// <returns>Refund</returns>
-    [Obsolete("Please use Refund(APIContext, string, RefundRequest) instead")]
-    public static Refund Refund(APIContext apiContext, string saleId, Refund refund)
+    [Obsolete("Please use Refund(IPayPalClient, string, RefundRequest) instead")]
+    public static Refund Refund(IPayPalClient apiContext, string saleId, Refund refund)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(saleId, nameof(saleId));
@@ -177,11 +177,11 @@ public class Sale : PayPalRelationalObject
     /// <summary>
     /// Refunds a sale, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an `amount` object in the JSON request body.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="refundRequest">RefundRequest</param>
     /// <returns>DetailedRefund</returns>
     public static DetailedRefund Refund(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string saleId,
         RefundRequest refundRequest)
     {

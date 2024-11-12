@@ -145,9 +145,9 @@ public class Invoice : PayPalResource
     /// <summary>List of files that are attached to the invoice.</summary>
     public List<FileAttachment> Attachments { get; set; }
 
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Invoice</returns>
-    public Invoice Create(APIContext apiContext)
+    public Invoice Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
@@ -155,10 +155,10 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Creates a draft invoice. You can optionally create an invoice [template](/docs/api/invoicing/#templates). Then, when you create an invoice from a template, the invoice is populated with the predefined data that the source template contains. To move the invoice from a draft to payable state, you must [send the invoice](/docs/api/invoicing/#invoices_send). In the JSON request body, include invoice details including merchant information. The `invoice` object must include an `items` array.<blockquote><strong>Note:</strong> The merchant specified in an invoice must have a PayPal account in good standing.</blockquote>
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoice">Invoice object to be used for creating the PayPal resource.</param>
     /// <returns>Invoice</returns>
-    public static Invoice Create(APIContext apiContext, Invoice invoice)
+    public static Invoice Create(IPayPalClient apiContext, Invoice invoice)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/invoicing/invoices";
@@ -168,10 +168,10 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Lists invoices that match search criteria. In the JSON request body, include a `search` object that specifies the search criteria.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="search">Search</param>
     /// <returns>InvoiceSearchResponse</returns>
-    public static InvoiceSearchResponse Search(APIContext apiContext, Search search)
+    public static InvoiceSearchResponse Search(IPayPalClient apiContext, Search search)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(search, nameof(search));
@@ -182,18 +182,18 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Sends an invoice, by ID, to a customer.<blockquote><strong>Note:</strong> After you send an invoice, you cannot resend it.</blockquote><br />Optionally, set the `notify_merchant` query parameter to also send the merchant an invoice update notification. Default is `true`.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="notifyMerchant">Indicates whether to send the invoice update notification to the merchant. Default is `true`.</param>
-    public void Send(APIContext apiContext, bool notifyMerchant = true)
+    public void Send(IPayPalClient apiContext, bool notifyMerchant = true)
     {
         Send(apiContext, Id, notifyMerchant);
     }
 
     /// <summary>Sends a legitimate invoice to the payer.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">ID of the invoice to send.</param>
     /// <param name="notifyMerchant">Specifies if the invoice send notification is needed for merchant</param>
-    public static void Send(APIContext apiContext, string invoiceId, bool notifyMerchant = true)
+    public static void Send(IPayPalClient apiContext, string invoiceId, bool notifyMerchant = true)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(invoiceId, nameof(invoiceId));
@@ -210,18 +210,18 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Sends a reminder about an invoice, by ID, to a customer. In the JSON request body, include a `notification` object that defines the subject of the reminder and other details.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="notification">Notification</param>
-    public void Remind(APIContext apiContext, Notification notification)
+    public void Remind(IPayPalClient apiContext, Notification notification)
     {
         Remind(apiContext, Id, notification);
     }
 
     /// <summary>Reminds the payer to pay the invoice.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">ID of the invoice the payer will be reminded to pay.</param>
     /// <param name="notification">Notification</param>
-    public static void Remind(APIContext apiContext, string invoiceId, Notification notification)
+    public static void Remind(IPayPalClient apiContext, string invoiceId, Notification notification)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(invoiceId, nameof(invoiceId));
@@ -235,19 +235,19 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Cancels a sent invoice, by ID, and, optionally, sends a notification about the cancellation to the payer, merchant, and Cc: emails.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="cancelNotification">CancelNotification</param>
-    public void Cancel(APIContext apiContext, CancelNotification cancelNotification)
+    public void Cancel(IPayPalClient apiContext, CancelNotification cancelNotification)
     {
         Cancel(apiContext, Id, cancelNotification);
     }
 
     /// <summary>Cancels an invoice.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">ID of the invoice to cancel.</param>
     /// <param name="cancelNotification">CancelNotification</param>
     public static void Cancel(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         CancelNotification cancelNotification)
     {
@@ -263,19 +263,19 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Marks the status of a specified invoice, by ID, as paid. Include a payment detail object that defines the payment method and other details in the JSON request body.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="paymentDetail">PaymentDetail</param>
-    public void RecordPayment(APIContext apiContext, PaymentDetail paymentDetail)
+    public void RecordPayment(IPayPalClient apiContext, PaymentDetail paymentDetail)
     {
         RecordPayment(apiContext, Id, paymentDetail);
     }
 
     /// <summary>Mark the status of the invoice as paid.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">ID of the invoice to mark as paid.</param>
     /// <param name="paymentDetail">PaymentDetail</param>
     public static void RecordPayment(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         PaymentDetail paymentDetail)
     {
@@ -291,19 +291,19 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Marks the status of an invoice, by ID, as refunded. In the JSON request body, include a payment detail object that defines the payment method and other details.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="refundDetail">RefundDetail</param>
-    public void RecordRefund(APIContext apiContext, RefundDetail refundDetail)
+    public void RecordRefund(IPayPalClient apiContext, RefundDetail refundDetail)
     {
         RecordRefund(apiContext, Id, refundDetail);
     }
 
     /// <summary>Mark the status of the invoice as refunded.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">ID fo the invoice to mark as refunded.</param>
     /// <param name="refundDetail">RefundDetail</param>
     public static void RecordRefund(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         RefundDetail refundDetail)
     {
@@ -317,10 +317,10 @@ public class Invoice : PayPalResource
     }
 
     /// <summary>Shows details for a specified invoice, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">The ID of the invoice for which to show details.</param>
     /// <returns>Invoice</returns>
-    public static Invoice Get(APIContext apiContext, string invoiceId)
+    public static Invoice Get(IPayPalClient apiContext, string invoiceId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(invoiceId, nameof(invoiceId));
@@ -333,13 +333,13 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Lists merchant invoices. Optionally, you can specify one or more query parameters to filter the response.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="page">A *zero-relative* index of the list of merchant invoices.</param>
     /// <param name="pageSize">The number of invoices to list beginning with the specified `page`.</param>
     /// <param name="totalCountRequired">Indicates whether the total count appears in the response. Default is `false`.</param>
     /// <returns>InvoiceSearchResponse</returns>
     public static InvoiceSearchResponse GetAll(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         int page = 1,
         int pageSize = 20,
         bool totalCountRequired = false)
@@ -358,10 +358,10 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Fully updates an invoice, by ID. In the JSON request body, include a complete `invoice` object. This call does not support partial updates.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="notifyMerchant">Indicates whether to send the invoice update notification to the merchant. Default is `true`.</param>
     /// <returns>Invoice</returns>
-    public Invoice Update(APIContext apiContext, bool notifyMerchant = true)
+    public Invoice Update(IPayPalClient apiContext, bool notifyMerchant = true)
     {
         return Update(apiContext, this, notifyMerchant);
     }
@@ -369,11 +369,11 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Full update of the invoice resource for the given identifier.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoice">Invoice object to update.</param>
     /// <param name="notifyMerchant">Specifies if the invoice update notification is needed for merchant</param>
     /// <returns>Invoice</returns>
-    public static Invoice Update(APIContext apiContext, Invoice invoice, bool notifyMerchant = true)
+    public static Invoice Update(IPayPalClient apiContext, Invoice invoice, bool notifyMerchant = true)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(invoice, nameof(invoice));
@@ -390,8 +390,8 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Deletes a draft invoice, by ID. Note that this call works for invoices in the draft state only. For invoices that have already been sent, you can [cancel the invoice](/docs/api/invoicing/#invoices_cancel). After you delete a draft invoice, you can no longer use it or show its details. However, you can reuse its invoice number.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, Id);
     }
@@ -399,9 +399,9 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Deletes a draft invoice, by ID. Note that this call works for invoices in the draft state only. For invoices that have already been sent, you can [cancel the invoice](/docs/api/invoicing/#invoices_cancel). After you delete a draft invoice, you can no longer use it or show its details. However, you can reuse its invoice number.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">The ID of the invoice to delete.</param>
-    public static void Delete(APIContext apiContext, string invoiceId)
+    public static void Delete(IPayPalClient apiContext, string invoiceId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(invoiceId, nameof(invoiceId));
@@ -415,11 +415,11 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Deletes an external payment, by invoice ID and transaction ID.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">The ID of the invoice from which to delete a payment transaction.</param>
     /// <param name="transactionId">The ID of the payment transaction to delete.</param>
     public static void DeleteExternalPayment(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         string transactionId)
     {
@@ -437,11 +437,11 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Deletes an external refund, by invoice ID and transaction ID.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">The ID of the invoice from which to delete the refund transaction.</param>
     /// <param name="transactionId">The ID of the refund transaction to delete.</param>
     public static void DeleteExternalRefund(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         string transactionId)
     {
@@ -459,14 +459,14 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Generates a QR code for an invoice, by ID.<br /><br />The QR code is a PNG image in [Base64-encoded](https://www.base64encode.org/) format that corresponds to the invoice ID. You can generate a QR code for an invoice and add it to a paper or PDF invoice. When a customer uses their mobile device to scan the QR code, he or she is redirected to the PayPal mobile payment flow where he or she can pay online with PayPal or a credit card.<br /><br />Before you get a QR code, you must:<ol><li><p>[Create an invoice](#invoices_create). Specify `qrinvoice@paypal.com` as the recipient email address in the `billing_info` object. Use a customer email address only if you want to email the invoice.</p></li><li><p>[Send an invoice](#invoices_send) to move the invoice from a draft to payable state. If you specify `qrinvoice@paypal.com` as the recipient email address, the invoice is not emailed.</p></li></ol>
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="invoiceId">The ID of the invoice for which to generate a QR code.</param>
     /// <param name="width">The width, in pixels, of the QR code image. Valid value is from 150 to 500. Default is 500.</param>
     /// <param name="height">The height, in pixels, of the QR code image. Valid value is from 150 to 500. Default is 500.</param>
     /// <param name="action">The type of URL for which to generate a QR code. Default is `pay` and is the only supported value.</param>
     /// <returns>Image</returns>
     public static PayPalImage QrCode(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string invoiceId,
         int width = 500,
         int height = 500,
@@ -489,9 +489,9 @@ public class Invoice : PayPalResource
     /// <summary>
     /// Generates the next invoice number that is available to the user.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>InvoiceNumber</returns>
-    public InvoiceNumber GenerateNumber(APIContext apiContext)
+    public InvoiceNumber GenerateNumber(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/invoicing/invoices/next-invoice-number";

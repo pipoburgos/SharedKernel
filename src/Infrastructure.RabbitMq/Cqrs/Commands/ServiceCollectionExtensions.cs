@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
                 tags: ["Command Bus", "RabbitMq"]);
 
         return services
-            .AddHostedService<RabbitMqEventBusConfiguration>()
+            .AddHostedService<RabbitMqBackground>()
             .AddTransient<ICommandBusAsync, RabbitMqCommandBusAsync>()
             .AddTransient<RabbitMqConnectionFactory>()
             .AddTransient<RabbitMqConsumer>();

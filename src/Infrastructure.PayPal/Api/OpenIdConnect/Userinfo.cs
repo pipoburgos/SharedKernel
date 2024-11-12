@@ -81,16 +81,14 @@ public class Userinfo : PayPalResource
 
     /// <summary>
     /// Returns user details
-    /// <param name="apiContext">APIContext to be used for the call.</param>
+    /// <param name="apiContext">IPayPalClient to be used for the call.</param>
     /// <param name="userinfoParameters">Query parameters used for API call</param>
     /// </summary>
-    public static Userinfo GetUserinfo(APIContext apiContext, UserinfoParameters userinfoParameters)
+    public static Userinfo GetUserinfo(IPayPalClient apiContext, UserinfoParameters userinfoParameters)
     {
         var resource = SdkUtil.FormatUriPath("v1/identity/openidconnect/userinfo?schema={0}&access_token={1}", [
             userinfoParameters,
         ]);
-        if (apiContext == null)
-            apiContext = new APIContext();
         apiContext.MaskRequestId = true;
         return ConfigureAndExecute<Userinfo>(apiContext, HttpMethod.Get, resource, setAuthorizationHeader: false);
     }

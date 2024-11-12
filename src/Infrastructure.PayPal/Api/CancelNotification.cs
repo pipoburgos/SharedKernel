@@ -10,10 +10,10 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 public class CancelNotification //: PayPalSerializableObject
 {
     /// <summary>The subject of the notification.</summary>
-    public string Subject { get; set; }
+    public string? Subject { get; set; }
 
     /// <summary>A note to the payer.</summary>
-    public string Note { get; set; }
+    public string? Note { get; set; }
 
     /// <summary>
     /// Indicates whether to send the notification to the merchant.
@@ -28,5 +28,5 @@ public class CancelNotification //: PayPalSerializableObject
     /// <summary>
     /// An array of one or more Cc: emails. If you omit this parameter from the JSON request body, a notification is sent to all Cc: email addresses that are part of the invoice. Otherwise, specify this parameter to limit the email addresses to which a notification is sent.<blockquote><strong>Note:</strong> Additional email addresses are not supported.</blockquote>
     /// </summary>
-    public List<string> CcEmails { get; set; }
+    public List<string>? CcEmails { get; set; }
 }

@@ -26,9 +26,9 @@ public class Webhook : PayPalRelationalObject
     /// <summary>
     /// Subscribes your webhook listener to events. A successful call returns a [`webhook`](/docs/api/webhooks/#definition-webhook) object, which includes the webhook ID for later use.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>Webhook</returns>
-    public Webhook Create(APIContext apiContext)
+    public Webhook Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
@@ -36,10 +36,10 @@ public class Webhook : PayPalRelationalObject
     /// <summary>
     /// Creates the Webhook for the application associated with the access token.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webhook"><seealso cref="T:SharedKernel.Infrastructure.PayPal.Api.Webhook" /> object to be created.</param>
     /// <returns>Webhook</returns>
-    public static Webhook Create(APIContext apiContext, Webhook webhook)
+    public static Webhook Create(IPayPalClient apiContext, Webhook webhook)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/notifications/webhooks";
@@ -47,10 +47,10 @@ public class Webhook : PayPalRelationalObject
     }
 
     /// <summary>Shows details for a webhook, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webhookId">The ID of the webhook for which to show details.</param>
     /// <returns>Webhook</returns>
-    public static Webhook Get(APIContext apiContext, string webhookId)
+    public static Webhook Get(IPayPalClient apiContext, string webhookId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(webhookId, nameof(webhookId));
@@ -61,10 +61,10 @@ public class Webhook : PayPalRelationalObject
     }
 
     /// <summary>Lists all webhooks for an app.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="anchorType">Filters the response by an entity type, `anchor_id`. Value is `APPLICATION` or `ACCOUNT`. Default is `APPLICATION`.</param>
     /// <returns>WebhookList</returns>
-    public static WebhookList GetAll(APIContext apiContext, string anchorType = null)
+    public static WebhookList GetAll(IPayPalClient apiContext, string anchorType = null)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         var queryParameters = new QueryParameters();
@@ -80,10 +80,10 @@ public class Webhook : PayPalRelationalObject
     /// <summary>
     /// Replaces webhook fields with new values. Pass a `json_patch` object with `replace` operation and `path`, which is `/url` for a URL or `/event_types` for events. The `value` is either the URL or a list of events.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="patchRequest">PatchRequest</param>
     /// <returns>Webhook</returns>
-    public Webhook Update(APIContext apiContext, PatchRequest patchRequest)
+    public Webhook Update(IPayPalClient apiContext, PatchRequest patchRequest)
     {
         return Update(apiContext, Id, patchRequest);
     }
@@ -91,12 +91,12 @@ public class Webhook : PayPalRelationalObject
     /// <summary>
     /// Updates the Webhook identified by webhook_id for the application associated with access token.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webhookId">ID of the webhook to be updated.</param>
     /// <param name="patchRequest">PatchRequest</param>
     /// <returns>Webhook</returns>
     public static Webhook Update(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string webhookId,
         PatchRequest patchRequest)
     {
@@ -110,16 +110,16 @@ public class Webhook : PayPalRelationalObject
     }
 
     /// <summary>Deletes a webhook, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, Id);
     }
 
     /// <summary>Deletes a webhook, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webhookId">The ID of the webhook to delete.</param>
-    public static void Delete(APIContext apiContext, string webhookId)
+    public static void Delete(IPayPalClient apiContext, string webhookId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(webhookId, nameof(webhookId));

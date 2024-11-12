@@ -9,32 +9,32 @@
 public class AgreementTransaction //: PayPalSerializableObject
 {
     /// <summary>Id corresponding to this transaction.</summary>
-    public string TransactionId { get; set; }
+    public string? TransactionId { get; set; }
 
     /// <summary>State of the subscription at this time.</summary>
-    public string Status { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>Type of transaction, usually Recurring Payment.</summary>
-    public string TransactionType { get; set; }
+    public string? TransactionType { get; set; }
 
     /// <summary>Amount for this transaction.</summary>
-    public PayPalCurrency Amount { get; set; }
+    public PayPalCurrency? Amount { get; set; }
 
     /// <summary>Fee amount for this transaction.</summary>
-    public PayPalCurrency FeeAmount { get; set; }
+    public PayPalCurrency? FeeAmount { get; set; }
 
     /// <summary>Net amount for this transaction.</summary>
-    public PayPalCurrency NetAmount { get; set; }
+    public PayPalCurrency? NetAmount { get; set; }
 
     /// <summary>Email id of payer.</summary>
-    public string PayerEmail { get; set; }
+    public string? PayerEmail { get; set; }
 
     /// <summary>Business name of payer.</summary>
-    public string PayerName { get; set; }
+    public string? PayerName { get; set; }
 
     /// <summary>Time at which this transaction happened.</summary>
-    public string TimeStamp { get; set; }
+    public string? TimeStamp { get; set; }
 
     /// <summary>Time zone of time_updated field.</summary>
-    public string TimeZone { get; set; }
+    public string? TimeZone { get; set; }
 }

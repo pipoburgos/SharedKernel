@@ -11,17 +11,17 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 public class CreditCard : PayPalRelationalObject
 {
     /// <summary>ID of the credit card being saved for later use.</summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Credit card number. Numeric characters only with no spaces or punctuation. The string must conform with modulo and length required by each credit card type. *Redacted in responses.*
     /// </summary>
-    public string Number { get; set; }
+    public string? Number { get; set; }
 
     /// <summary>
     /// Credit card type. Valid types are: `visa`, `mastercard`, `discover`, `amex`
     /// </summary>
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// Expiration month with no leading zero. Acceptable values are 1 through 12.
@@ -80,18 +80,18 @@ public class CreditCard : PayPalRelationalObject
     public string ValidUntil { get; set; }
 
     /// <summary>Creates a new Credit Card Resource (aka Tokenize).</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>CreditCard</returns>
-    public CreditCard Create(APIContext apiContext)
+    public CreditCard Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
 
     /// <summary>Creates a new Credit Card Resource (aka Tokenize).</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="creditCard">CreditCard object to be used to create the PayPal resource.</param>
     /// <returns>CreditCard</returns>
-    public static CreditCard Create(APIContext apiContext, CreditCard creditCard)
+    public static CreditCard Create(IPayPalClient apiContext, CreditCard creditCard)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/vault/credit-cards";
@@ -101,10 +101,10 @@ public class CreditCard : PayPalRelationalObject
     /// <summary>
     /// Obtain the Credit Card resource for the given identifier.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="creditCardId">Identifier of the credit card resource to obtain the data for.</param>
     /// <returns>CreditCard</returns>
-    public static CreditCard Get(APIContext apiContext, string creditCardId)
+    public static CreditCard Get(IPayPalClient apiContext, string creditCardId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(creditCardId, nameof(creditCardId));
@@ -117,8 +117,8 @@ public class CreditCard : PayPalRelationalObject
     /// <summary>
     /// Delete the Credit Card resource for the given identifier.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, Id);
     }
@@ -126,9 +126,9 @@ public class CreditCard : PayPalRelationalObject
     /// <summary>
     /// Delete the Credit Card resource for the given identifier.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="creditCardId">Identifier of the credit card resource to obtain the data for.</param>
-    public static void Delete(APIContext apiContext, string creditCardId)
+    public static void Delete(IPayPalClient apiContext, string creditCardId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(creditCardId, nameof(creditCardId));
@@ -142,10 +142,10 @@ public class CreditCard : PayPalRelationalObject
     /// <summary>
     /// Update information in a previously saved card. Only the modified fields need to be passed in the request.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="patchRequest">PatchRequest</param>
     /// <returns>CreditCard</returns>
-    public CreditCard Update(APIContext apiContext, PatchRequest patchRequest)
+    public CreditCard Update(IPayPalClient apiContext, PatchRequest patchRequest)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(Id, "Id");
@@ -159,12 +159,12 @@ public class CreditCard : PayPalRelationalObject
     /// <summary>
     /// Update information in a previously saved card. Only the modified fields need to be passed in the request.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="creditCardId">ID fo the credit card to update.</param>
     /// <param name="patchRequest">PatchRequest</param>
     /// <returns>CreditCard</returns>
     public static CreditCard Update(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string creditCardId,
         PatchRequest patchRequest)
     {
@@ -178,7 +178,7 @@ public class CreditCard : PayPalRelationalObject
     }
 
     /// <summary>Retrieves a list of Credit Card resources.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="pageSize">Number of items to be returned in the current page size, by a GET operation.</param>
     /// <param name="page">The page number to be retrieved, for the list of items, by the current GET request.</param>
     /// <param name="startTime">Resource creation time  as ISO8601 date-time format (ex: 1994-11-05T13:15:30Z) that indicates the start of a range of results.</param>
@@ -191,7 +191,7 @@ public class CreditCard : PayPalRelationalObject
     /// <param name="totalRequired">Identifies if total count is required or not. Defaults to true.</param>
     /// <returns>CreditCardList</returns>
     public static CreditCardList List(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         int pageSize = 10,
         int page = 1,
         string startTime = "",

@@ -9,7 +9,7 @@
 public class BankAccountList : PayPalRelationalObject
 {
     /// <summary>A list of bank account resources</summary>
-    public List<BankAccount> Items { get; set; }
+    public List<BankAccount>? Items { get; set; }
 
     /// <summary>
     /// Total number of items present in the given list. Note that the number of items might be larger than the records in the current page.

@@ -46,9 +46,9 @@ public class VerifyWebhookSignature : PayPalRelationalObject
     public WebhookEvent WebhookEvent { get; set; }
 
     /// <summary>Verifies a webhook signature.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>VerifyWebhookSignatureResponse</returns>
-    public VerifyWebhookSignatureResponse Post(APIContext apiContext)
+    public VerifyWebhookSignatureResponse Post(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/notifications/verify-webhook-signature";

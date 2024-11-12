@@ -35,9 +35,9 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Creates a web experience profile. Pass the profile name and details in the JSON request body.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>CreateProfileResponse</returns>
-    public CreateProfileResponse Create(APIContext apiContext)
+    public CreateProfileResponse Create(IPayPalClient apiContext)
     {
         return Create(apiContext, this);
     }
@@ -45,10 +45,10 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Create a web experience profile by passing the name of the profile and other profile details in the request JSON to the request URI.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="webProfile">WebProfile object to be created as a PayPal resource.</param>
     /// <returns>CreateProfileResponse</returns>
-    public static CreateProfileResponse Create(APIContext apiContext, WebProfile webProfile)
+    public static CreateProfileResponse Create(IPayPalClient apiContext, WebProfile webProfile)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/payment-experience/web-profiles";
@@ -58,8 +58,8 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Updates a web experience profile. Pass the ID of the profile to the request URI and pass the profile details in the JSON request body. If your request omits any profile detail fields, the operation removes the previously set values for those fields.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Update(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Update(IPayPalClient apiContext)
     {
         Update(apiContext, this);
     }
@@ -67,9 +67,9 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Update a web experience profile by passing the ID of the profile to the request URI. In addition, pass the profile details in the request JSON. If your request does not include values for all profile detail fields, the previously set values for the omitted fields are removed by this operation.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="profile">WebProfile resource to update.</param>
-    public static void Update(APIContext apiContext, WebProfile profile)
+    public static void Update(IPayPalClient apiContext, WebProfile profile)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(profile, nameof(profile));
@@ -82,9 +82,9 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Partially-updates a web experience profile. Pass the profile ID to the request URI. Pass a patch object with the operation, path of the profile location to update, and, if needed, a new value to complete the operation in the JSON request body.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="patchRequest">PatchRequest</param>
-    public void PartialUpdate(APIContext apiContext, PatchRequest patchRequest)
+    public void PartialUpdate(IPayPalClient apiContext, PatchRequest patchRequest)
     {
         PartialUpdate(apiContext, Id, patchRequest);
     }
@@ -92,11 +92,11 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Partially update an existing web experience profile by passing the ID of the profile to the request URI. In addition, pass a patch object in the request JSON that specifies the operation to perform, path of the profile location to update, and a new value if needed to complete the operation.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="profileId">ID fo the web profile to partially update.</param>
     /// <param name="patchRequest">PatchRequest</param>
     public static void PartialUpdate(
-        APIContext apiContext,
+        IPayPalClient apiContext,
         string profileId,
         PatchRequest patchRequest)
     {
@@ -110,10 +110,10 @@ public class WebProfile : PayPalResource
     }
 
     /// <summary>Shows details for a web experience profile, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="profileId">The ID of the profile for which to show details.</param>
     /// <returns>WebProfile</returns>
-    public static WebProfile Get(APIContext apiContext, string profileId)
+    public static WebProfile Get(IPayPalClient apiContext, string profileId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(profileId, nameof(profileId));
@@ -126,9 +126,9 @@ public class WebProfile : PayPalResource
     /// <summary>
     /// Lists all web experience profiles for a merchant or subject.
     /// </summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <returns>WebProfileList</returns>
-    public static WebProfileList GetList(APIContext apiContext)
+    public static WebProfileList GetList(IPayPalClient apiContext)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         const string resource = "v1/payment-experience/web-profiles";
@@ -136,16 +136,16 @@ public class WebProfile : PayPalResource
     }
 
     /// <summary>Deletes a web experience profile, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
-    public void Delete(APIContext apiContext)
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
+    public void Delete(IPayPalClient apiContext)
     {
         Delete(apiContext, Id);
     }
 
     /// <summary>Deletes a web experience profile, by ID.</summary>
-    /// <param name="apiContext">APIContext used for the API call.</param>
+    /// <param name="apiContext">IPayPalClient used for the API call.</param>
     /// <param name="profileId">The ID of the profile to delete.</param>
-    public static void Delete(APIContext apiContext, string profileId)
+    public static void Delete(IPayPalClient apiContext, string profileId)
     {
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(profileId, nameof(profileId));
