@@ -1,22 +1,32 @@
-﻿using SharedKernel.Infrastructure.PayPal.Exceptions;
+﻿using PayPal.Exceptions;
 
 namespace SharedKernel.Infrastructure.PayPal;
 
+/// <summary> . </summary>
 public class PayPalSettings
 {
+    /// <summary> . </summary>
     public string Mode { get; set; } = "sandbox";
 
+    /// <summary> . </summary>
     public Uri TokenEndpoint { get; set; } = new Uri("https://api-m.sandbox.paypal.com/v1/oauth2/token");
 
+    /// <summary> . </summary>
     public string? ClientId { get; set; }
 
+    /// <summary> . </summary>
     public string? ClientSecret { get; set; }
 
+    /// <summary> . </summary>
     public int RequestRetries { get; set; } = 1;
+
+    /// <summary> . </summary>
     public int ConnectionTimeout { get; set; } = 360000;
 
+    /// <summary> . </summary>
     public string? ProxyAddress { get; set; }
 
+    /// <summary> . </summary>
     public string? ProxyCredentials { get; set; }
 
     /// <summary>

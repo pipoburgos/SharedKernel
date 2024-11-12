@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PayPal.V1;
+using PayPal.V1.Payments;
+using PayPal.V1.Payments.Payments;
+using PayPal.V1.Shared;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Infrastructure.PayPal;
-using SharedKernel.Infrastructure.PayPal.Api;
 using SharedKernel.Testing.Infrastructure;
 using System.Net.Http.Headers;
 using System.Text;

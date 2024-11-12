@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\PayPal\PayPal.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.PayPal.Api;
+using PayPal.V1.Shared;
 
 namespace SharedKernel.Infrastructure.PayPal;
 
+/// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-
+    /// <summary> . </summary>
     public static IServiceCollection AddPayPal(this IServiceCollection services, IConfiguration configuration, Action<PayPalOptions>? configure = null)
     {
         //var openIdOptions = new PayPalOptions();
@@ -17,7 +18,7 @@ public static class ServiceCollectionExtensions
         if (configure != null)
             services.Configure(configure);
 
-        services.AddTransient<IPayPalClient, APIContext>();
+        services.AddTransient<IPayPalClient, PayPalClient>();
         services.AddHttpClient("PayPal");
         return services;
     }
