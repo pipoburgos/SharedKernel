@@ -32,52 +32,52 @@ public class CreditCard : PayPalRelationalObject
     public int ExpireYear { get; set; }
 
     /// <summary>3-4 digit card validation code.</summary>
-    public string Cvv2 { get; set; }
+    public string? Cvv2 { get; set; }
 
     /// <summary>Cardholder's first name.</summary>
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
 
     /// <summary>Cardholder's last name.</summary>
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     /// <summary>Billing Address associated with this card.</summary>
-    public Address BillingAddress { get; set; }
+    public Address? BillingAddress { get; set; }
 
     /// <summary>
     /// A unique identifier of the payer generated and provided by the facilitator. This is required when creating or using a tokenized funding instrument.
     /// </summary>
-    public string PayerId { get; set; }
+    public string? PayerId { get; set; }
 
     /// <summary>
     /// A unique identifier of the customer to whom this bank account belongs. Generated and provided by the facilitator. **This is now used in favor of `payer_id` when creating or using a stored funding instrument in the vault.**
     /// </summary>
-    public string ExternalCustomerId { get; set; }
+    public string? ExternalCustomerId { get; set; }
 
     /// <summary>
     /// A user provided, optional convenvience field that functions as a unique identifier for the merchant on behalf of whom this credit card is being stored for. Note that this has no relation to PayPal merchant id
     /// </summary>
-    public string MerchantId { get; set; }
+    public string? MerchantId { get; set; }
 
     /// <summary>
     /// A unique identifier of the bank account resource. Generated and provided by the facilitator so it can be used to restrict the usage of the bank account to the specific merchant.
     /// </summary>
-    public string ExternalCardId { get; set; }
+    public string? ExternalCardId { get; set; }
 
     /// <summary>State of the credit card funding instrument.</summary>
-    public string State { get; set; }
+    public string? State { get; set; }
 
     /// <summary>
     /// Resource creation time  as ISO8601 date-time format (ex: 1994-11-05T13:15:30Z) that indicates creation time.
     /// </summary>
-    public string CreateTime { get; set; }
+    public string? CreateTime { get; set; }
 
     /// <summary>
     /// Resource creation time  as ISO8601 date-time format (ex: 1994-11-05T13:15:30Z) that indicates the updation time.
     /// </summary>
-    public string UpdateTime { get; set; }
+    public string? UpdateTime { get; set; }
 
     /// <summary>Funding instrument expiration date.</summary>
-    public string ValidUntil { get; set; }
+    public string? ValidUntil { get; set; }
 
     /// <summary>Creates a new Credit Card Resource (aka Tokenize).</summary>
     /// <param name="apiContext">IPayPalClient used for the API call.</param>
@@ -120,6 +120,9 @@ public class CreditCard : PayPalRelationalObject
     /// <param name="apiContext">IPayPalClient used for the API call.</param>
     public void Delete(IPayPalClient apiContext)
     {
+        if (string.IsNullOrWhiteSpace(Id))
+            throw new ArgumentNullException(nameof(Id));
+
         Delete(apiContext, Id);
     }
 
@@ -147,6 +150,9 @@ public class CreditCard : PayPalRelationalObject
     /// <returns>CreditCard</returns>
     public CreditCard Update(IPayPalClient apiContext, PatchRequest patchRequest)
     {
+        if (string.IsNullOrWhiteSpace(Id))
+            throw new ArgumentNullException(nameof(Id));
+
         ArgumentValidator.ValidateAndSetupApiContext(apiContext);
         ArgumentValidator.Validate(Id, "Id");
         ArgumentValidator.Validate(patchRequest, nameof(patchRequest));

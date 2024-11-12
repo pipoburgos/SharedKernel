@@ -9,7 +9,7 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.Caching.DistributedCache.Redis;
 
-[Collection("DockerHook")]
+
 public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()

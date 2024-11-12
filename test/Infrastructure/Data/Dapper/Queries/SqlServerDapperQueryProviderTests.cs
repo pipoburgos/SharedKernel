@@ -10,7 +10,7 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.Data.Dapper.Queries;
 
-[Collection("DockerHook")]
+
 public class SqlServerDapperQueryProviderTests : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()

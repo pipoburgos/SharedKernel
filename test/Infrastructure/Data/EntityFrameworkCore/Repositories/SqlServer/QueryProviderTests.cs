@@ -11,7 +11,7 @@ using SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer;
 
-[Collection("DockerHook")]
+
 public class QueryProviderTests : IClassFixture<SqlServerApp>
 {
     private readonly SqlServerApp _sqlServerApp;

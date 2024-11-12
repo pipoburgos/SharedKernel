@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.Redis;
 
-[Collection("DockerHook")]
+
 public class RedisCommandBusShould : CommandBusCommonTestCase
 {
     protected override string GetJsonFile()

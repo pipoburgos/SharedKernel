@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Infrastructure.PayPal;
+﻿using SharedKernel.Infrastructure.PayPal.Api;
+
+namespace SharedKernel.Infrastructure.PayPal;
 
 /// <summary> . </summary>
 public interface IPayPalClient
@@ -7,7 +9,7 @@ public interface IPayPalClient
     bool MaskRequestId { set; }
 
     /// <summary> . </summary>
-    string? AccessToken { get; }
+    PayPalTokenResponse? Token { get; }
 
     /// <summary> . </summary>
     void AddHeader(string key, string value);

@@ -12,7 +12,7 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.Caching.DistributedCache.PostgreSql;
 
-[Collection("DockerHook")]
+
 public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()

@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.ActiveMq.Events;
 
 namespace SharedKernel.Integration.Tests.Events.ActiveMq;
 
-[Collection("DockerHook")]
+
 public class ActiveMqEventBusShould : EventBusCommonTestCase
 {
     protected override string GetJsonFile()

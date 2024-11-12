@@ -1,7 +1,6 @@
 ﻿using SharedKernel.Infrastructure.PayPal.Api;
 using SharedKernel.Infrastructure.PayPal.Exceptions;
 using System.Collections.Specialized;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -225,43 +224,49 @@ internal class SdkUtil
 
         var result = new NameValueCollection();
 
-        var length = query.Length;
-        for (var index = 0; index < length; ++index)
-        {
-            var startIndex = index;
-            var num = -1;
-            for (; index < length; ++index)
-            {
-                switch (query[index])
-                {
-                    case '&':
-                        continue;
-                    case '=':
-                        if (num < 0)
-                        {
-                            num = index;
-                        }
-                        break;
-                }
-            }
-            string? str1 = null;
-            string str2;
-            if (num >= 0)
-            {
-                str1 = query.Substring(startIndex, num - startIndex);
-                str2 = query.Substring(num + 1, index - num - 1);
-            }
-            else
-            {
-                str2 = query.Substring(startIndex, index - startIndex);
-            }
+        var names = query.Contains("&") ? query.Split("&") : [query];
 
-            result.Add(WebUtility.UrlDecode(str1), WebUtility.UrlDecode(str2));
-            if (index == length - 1 && query[index] == '&')
-                result.Add(null, string.Empty);
-        }
+        names.ToList().ForEach(n => result.Add(n.Split("=").First(), n.Split("=").Last()));
 
         return result;
+
+        //var length = query.Length;
+        //for (var index = 0; index < length; ++index)
+        //{
+        //    var startIndex = index;
+        //    var num = -1;
+        //    for (; index < length; ++index)
+        //    {
+        //        switch (query[index])
+        //        {
+        //            case '&':
+        //                continue;
+        //            case '=':
+        //                if (num < 0)
+        //                {
+        //                    num = index;
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    string? str1 = null;
+        //    string str2;
+        //    if (num >= 0)
+        //    {
+        //        str1 = query.Substring(startIndex, num - startIndex);
+        //        str2 = query.Substring(num + 1, index - num - 1);
+        //    }
+        //    else
+        //    {
+        //        str2 = query.Substring(startIndex, index - startIndex);
+        //    }
+
+        //    result.Add(WebUtility.UrlDecode(str1), WebUtility.UrlDecode(str2));
+        //    if (index == length - 1 && query[index] == '&')
+        //        result.Add(null, string.Empty);
+        //}
+
+        //return result;
     }
 
     ///// <summary>

@@ -6,6 +6,14 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 /// </summary>
 public class ItemList //: PayPalSerializableObject
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public ItemList()
+    {
+        Items = new List<Item>();
+    }
+
     /// <summary>List of items.</summary>
     public List<Item> Items { get; set; }
 

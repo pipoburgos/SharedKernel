@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.RabbitMq.Events;
 
 namespace SharedKernel.Integration.Tests.Events.RabbitMq;
 
-[Collection("DockerHook")]
+
 public class RabbitMqEventBusShould : EventBusCommonTestCase
 {
     protected override string GetJsonFile()

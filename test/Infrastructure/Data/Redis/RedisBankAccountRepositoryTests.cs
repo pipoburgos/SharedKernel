@@ -7,7 +7,7 @@ using SharedKernel.Integration.Tests.Data.Redis.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Redis;
 
-[Collection("DockerHook")]
+
 public class RedisBankAccountRepositoryTests : BankAccountRepositoryCommonTestTests<RedisBankAccountRepository>
 {
     protected override string GetJsonFile()

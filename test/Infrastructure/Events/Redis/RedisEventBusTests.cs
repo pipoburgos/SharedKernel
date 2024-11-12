@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.Redis.Events;
 
 namespace SharedKernel.Integration.Tests.Events.Redis;
 
-[Collection("DockerHook")]
+
 public class RedisEventBusTests : EventBusCommonTestCase
 {
     protected override string GetJsonFile()

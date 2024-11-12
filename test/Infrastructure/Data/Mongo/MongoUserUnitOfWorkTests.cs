@@ -6,7 +6,7 @@ using SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo;
 
-[Collection("DockerHook")]
+
 public class MongoUserUnitOfWorkTests : UserUnitOfWorkTests<MongoUserRepository, ISharedKernelMongoUnitOfWork>
 {
     protected override string GetJsonFile()

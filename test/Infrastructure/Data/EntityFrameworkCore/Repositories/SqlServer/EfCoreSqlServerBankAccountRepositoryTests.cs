@@ -7,7 +7,7 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.SqlServer;
 
-[Collection("DockerHook")]
+
 public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCommonTestTests<EfCoreBankAccountRepository>
 {
     protected override string GetJsonFile()

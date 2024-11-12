@@ -20,14 +20,7 @@ public class PayPalRelationalObject : PayPalResource
     /// <returns>A Links object containing the details of the HATEOAS link; null if not found.</returns>
     public Links? GetHateoasLink(string relationName)
     {
-        if (Links == null)
-            return null;
-
-        foreach (var link in Links)
-            if (link.Rel.Equals(relationName))
-                return link;
-
-        return null;
+        return Links?.FirstOrDefault(l => l.Rel?.Equals(relationName) == true);
     }
 
     /// <summary>Gets the approval URL from a list of HATEOAS links.</summary>

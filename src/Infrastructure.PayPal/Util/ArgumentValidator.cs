@@ -22,7 +22,7 @@ internal class ArgumentValidator
     public static void ValidateAndSetupApiContext(IPayPalClient apiContext)
     {
         Validate(apiContext, "IPayPalClient");
-        Validate(apiContext.AccessToken, "AccessToken");
+        //Validate(apiContext.AccessToken, "AccessToken");
         //if (apiContext.HttpHeaders == null)
         //    apiContext.HttpHeaders = new Dictionary<string, string>();
         //apiContext.HttpHeaders["Content-Type"] = "application/json";

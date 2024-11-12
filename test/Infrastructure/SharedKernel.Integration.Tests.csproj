@@ -65,6 +65,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Newtonsoft\SharedKernel.Infrastructure.Newtonsoft.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.NPOI\SharedKernel.Infrastructure.NPOI.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.PayPal\SharedKernel.Infrastructure.PayPal.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Polly\SharedKernel.Infrastructure.Polly.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.RabbitMq\SharedKernel.Infrastructure.RabbitMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Redis\SharedKernel.Infrastructure.Redis.csproj" />
@@ -152,6 +153,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Events\SynchronousEventBus\appsettings.synchronous.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PayPal\appsettings.PayPal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Security\SignedPdf.pdf">

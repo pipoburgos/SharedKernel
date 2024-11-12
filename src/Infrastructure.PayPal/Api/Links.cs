@@ -12,33 +12,10 @@ public class Links //: PayPalSerializableObject
     /// <summary>
     /// 
     /// </summary>
-    public string Href { get; set; }
+    public string? Href { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public string Rel { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [Obsolete]
-    public HyperSchema TargetSchema { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Method { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [Obsolete]
-    public string Enctype { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [Obsolete]
-    public HyperSchema Schema { get; set; }
+    public string? Rel { get; set; }
 }

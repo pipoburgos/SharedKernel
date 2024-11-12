@@ -9,6 +9,14 @@ namespace SharedKernel.Infrastructure.PayPal.Api;
 /// </summary>
 public class CreditCardList : PayPalRelationalObject
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public CreditCardList()
+    {
+        Items = new List<CreditCard>();
+    }
+
     /// <summary>A list of credit card resources</summary>
     public List<CreditCard> Items { get; set; }
 

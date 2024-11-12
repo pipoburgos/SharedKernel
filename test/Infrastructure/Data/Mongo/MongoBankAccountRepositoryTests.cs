@@ -6,7 +6,7 @@ using SharedKernel.Integration.Tests.Data.Mongo.Repositories;
 
 namespace SharedKernel.Integration.Tests.Data.Mongo;
 
-[Collection("DockerHook")]
+
 public class MongoBankAccountRepositoryTests : BankAccountRepositoryCommonTestTests<MongoBankAccountRepository>
 {
     protected override string GetJsonFile()

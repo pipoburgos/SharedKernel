@@ -6,6 +6,8 @@ public class PayPalSettings
 {
     public string Mode { get; set; } = "sandbox";
 
+    public Uri TokenEndpoint { get; set; } = new Uri("https://api-m.sandbox.paypal.com/v1/oauth2/token");
+
     public string? ClientId { get; set; }
 
     public string? ClientSecret { get; set; }

@@ -7,7 +7,7 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.Communication.Email.Smtp;
 
-[Collection("DockerHook")]
+
 public class SmtpEmailSenderTests : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()

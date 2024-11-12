@@ -17,6 +17,7 @@ using SharedKernel.Testing.Infrastructure;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.OpenIddict;
 
+
 public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
 {
     protected override string GetJsonFile()
@@ -36,7 +37,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("AuthConnectionString")!;
         return services
             .AddSharedKernel()
-            .AddDbContext<AuthDbContext>(o => o.UseSqlServer(connection))
+            .AddDbContext<AuthDbContext>(o => o.UseSqlServer(connection, op => op.EnableRetryOnFailure(5)))
             .AddInMemoryEventBus()
             .AddInMemoryCommandBus()
             .AddInMemoryQueryBus()

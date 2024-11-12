@@ -9,7 +9,7 @@ using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.Postg
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql;
 
-[Collection("DockerHook")]
+
 public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfPostgreSqlUserRepository>
 {
     protected override string GetJsonFile()

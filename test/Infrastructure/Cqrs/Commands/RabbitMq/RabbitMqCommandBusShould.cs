@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.RabbitMq;
 
-[Collection("DockerHook")]
+
 public class RabbitMqCommandBusShould : CommandBusCommonTestCase
 {
     protected override string GetJsonFile()

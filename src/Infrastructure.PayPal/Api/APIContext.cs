@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.PayPal.Exceptions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace SharedKernel.Infrastructure.PayPal.Api;
@@ -29,6 +30,7 @@ public class APIContext : IPayPalClient
         _options = options;
         HttpHeaders = new Dictionary<string, string>();
         ResetRequestId();
+        //AccessToken = new OAuthTokenCredential(ClientId, ClientSecret, GetConfig()).GetAccessToken();
         //SdkVersion = new SdkVersion();
     }
 
@@ -56,7 +58,7 @@ public class APIContext : IPayPalClient
     /// <summary>
     /// Gets or sets the OAuth access token to use when making API requests.
     /// </summary>
-    public string? AccessToken { get; private set; }
+    public PayPalTokenResponse? Token { get; private set; }
 
     /// <summary>
     /// Gets or sets whether or not the PayPal-Request-Id header will be set when making API requests, which is used for ensuring idempotency when making API calls.
@@ -120,39 +122,47 @@ public class APIContext : IPayPalClient
     {
         try
         {
-            var headerMap = GetHeaderMap();
-            if (!setAuthorizationHeader && headerMap.ContainsKey("Authorization"))
-                headerMap.Remove("Authorization");
+            //var headerMap = GetHeaderMap();
+            //if (!setAuthorizationHeader && headerMap.ContainsKey("Authorization"))
+            //    headerMap.Remove("Authorization");
+
+
 
             var request = new HttpRequestMessage();
-            request.Content = new StringContent(_jsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            var body = _jsonSerializer.Serialize(payload, NamingConvention.SnakeCase);
+            request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
             request.Method = httpMethod;
-            if (headerMap.ContainsKey("Content-Type"))
-            {
-                request.Content.Headers.Add("Content-Type", headerMap["Content-Type"].Trim());
-                headerMap.Remove("Content-Type");
-            }
-            else
-            {
-                request.Content.Headers.Add("Content-Type", "application/json");
-            }
+            //if (headerMap.ContainsKey("Content-Type"))
+            //{
+            //    request.Content.Headers.Add("Content-Type", headerMap["Content-Type"].Trim());
+            //    headerMap.Remove("Content-Type");
+            //}
+            //else
+            //{
+            //    request.Content.Headers.Add("Content-Type", "application/json");
+            //}
 
-            if (headerMap.ContainsKey("User-Agent"))
-            {
-                var encoding = Encoding.GetEncoding("iso-8859-1", new EncoderReplacementFallback(string.Empty), new DecoderExceptionFallback());
-                var bytes = Encoding.Convert(Encoding.UTF8, encoding, Encoding.UTF8.GetBytes(headerMap["User-Agent"]));
-                request.Content.Headers.Add("User-Agent", encoding.GetString(bytes));
-                headerMap.Remove("User-Agent");
-            }
+            //if (headerMap.ContainsKey("User-Agent"))
+            //{
+            //    var encoding = Encoding.GetEncoding("iso-8859-1", new EncoderReplacementFallback(string.Empty), new DecoderExceptionFallback());
+            //    var bytes = Encoding.Convert(Encoding.UTF8, encoding, Encoding.UTF8.GetBytes(headerMap["User-Agent"]));
+            //    request.Content.Headers.Add("User-Agent", encoding.GetString(bytes));
+            //    headerMap.Remove("User-Agent");
+            //}
 
-            foreach (var keyValuePair in headerMap)
-                request.Content.Headers.Add(keyValuePair.Key, keyValuePair.Value);
+            //foreach (var keyValuePair in headerMap)
+            //    request.Content.Headers.Add(keyValuePair.Key, keyValuePair.Value);
 
-            foreach (var header in request.Content.Headers)
-                _logger.LogTrace($"{header.Key} : {string.Join(", ", header.Value)}");
+            //foreach (var header in request.Content.Headers)
+            //    _logger.LogTrace($"{header.Key} : {string.Join(", ", header.Value)}");
 
             var client = _clientFactory.CreateClient("PayPal");
+
+            if (Token == null)
+                await GenerateOAuthToken(client);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token.TokenType, Token.AccessToken);
 
             var baseUri = new Uri(_options.Value.Settings.GetEndpoint(), endpoint);
             if (!Uri.TryCreate(baseUri, resource, out _))
@@ -162,17 +172,18 @@ public class APIContext : IPayPalClient
 
             var response = await client.SendAsync(request, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                _logger.LogError("Error en la solicitud a PayPal: {StatusCode}", response.StatusCode);
-                return default!;
-            }
-
 #if NETSTANDARD2_1
             var responseContent = await response.Content.ReadAsStringAsync();
 #else
             var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 #endif
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Error en la solicitud a PayPal: {StatusCode}, {responseContent}", response.StatusCode, responseContent);
+                return default!;
+            }
+
+
 
             var obj = _jsonSerializer.Deserialize<T>(responseContent, NamingConvention.SnakeCase);
 
@@ -221,15 +232,6 @@ public class APIContext : IPayPalClient
     public Dictionary<string, string> GetHeaderMap()
     {
         var headerMap = new Dictionary<string, string>();
-        if (!string.IsNullOrEmpty(AccessToken))
-        {
-            headerMap["Authorization"] = AccessToken;
-        }
-        else
-        {
-            var base64 = EncodeToBase64(_options.Value.Settings.ClientId, _options.Value.Settings.ClientSecret);
-            headerMap["Authorization"] = "Basic " + base64;
-        }
         if (!MaskRequestId && !string.IsNullOrEmpty(RequestId))
             headerMap["PayPal-Request-Id"] = RequestId;
         var header = UserAgentHeader.GetHeader();
@@ -243,37 +245,27 @@ public class APIContext : IPayPalClient
         return headerMap;
     }
 
-    /// <summary>
-    /// Covnerts the specified client credentials to a base-64 string for authorization purposes.
-    /// </summary>
-    /// <param name="clientId">The client ID to be used in generating the base-64 client identifier.</param>
-    /// <param name="clientSecret">The client secret to be used in generating the base-64 client identifier.</param>
-    /// <returns>The base-64 encoded client identifier to use in the authorization request.</returns>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.MissingCredentialException">Thrown if clientId or clientSecret are null or empty.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.InvalidCredentialException">Thrown if there is an issue converting the credentials to a formatted authorization string.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issue encountered. See inner exception for further details.</exception>
-    private static string EncodeToBase64(string? clientId, string? clientSecret)
+    private async Task GenerateOAuthToken(HttpClient httpClient)
     {
-        if (string.IsNullOrEmpty(clientId))
-            throw new MissingCredentialException("clientId is missing.");
-        if (string.IsNullOrEmpty(clientSecret))
-            throw new MissingCredentialException("clientSecret is missing.");
 
-        try
+        // Configura la autenticación básica con ClientId y SecretId en Base64
+        var authToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_options.Value.Settings.ClientId}:{_options.Value.Settings.ClientSecret}"));
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
+
+        // Configura el contenido de la solicitud en application/x-www-form-urlencoded
+        var requestData = new StringContent("grant_type=client_credentials", Encoding.UTF8, "application/x-www-form-urlencoded");
+
+        // Realiza la solicitud POST
+        var response = await httpClient.PostAsync(_options.Value.Settings.TokenEndpoint, requestData);
+
+        // Verifica si la solicitud fue exitosa
+        if (!response.IsSuccessStatusCode)
         {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+            throw new Exception($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
         }
-        catch (Exception ex)
-        {
-            switch (ex)
-            {
-                case FormatException _:
-                case ArgumentNullException _:
-                    throw new InvalidCredentialException(
-                        $"Unable to convert client credentials to base-64 string.\n  clientId: {clientId}\n  clientSecret: {clientSecret}\n  Error: {ex.Message}");
-                default:
-                    throw new PayPalException(ex.Message, ex);
-            }
-        }
+
+        // Deserializa la respuesta en la clase PayPalTokenResponse
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        Token = _jsonSerializer.Deserialize<PayPalTokenResponse>(jsonResponse, NamingConvention.SnakeCase);
     }
 }

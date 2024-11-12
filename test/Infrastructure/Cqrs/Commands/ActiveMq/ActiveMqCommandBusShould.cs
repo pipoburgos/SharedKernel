@@ -3,7 +3,7 @@ using SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 
 namespace SharedKernel.Integration.Tests.Cqrs.Commands.ActiveMq;
 
-[Collection("DockerHook")]
+
 public class ActiveMqCommandBusShould : CommandBusCommonTestCase
 {
     protected override string GetJsonFile()
