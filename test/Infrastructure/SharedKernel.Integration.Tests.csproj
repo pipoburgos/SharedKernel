@@ -9,18 +9,6 @@
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <Compile Remove="Cqrs\Commands\MassTransit\**" />
-    <Compile Remove="Data\Elasticsearch\**" />
-    <Compile Remove="Reporting\**" />
-    <EmbeddedResource Remove="Cqrs\Commands\MassTransit\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
-    <EmbeddedResource Remove="Reporting\**" />
-    <None Remove="Cqrs\Commands\MassTransit\**" />
-    <None Remove="Data\Elasticsearch\**" />
-    <None Remove="Reporting\**" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" Condition="'$(TargetFramework)' == 'net8.0'">
       <PrivateAssets>all</PrivateAssets>

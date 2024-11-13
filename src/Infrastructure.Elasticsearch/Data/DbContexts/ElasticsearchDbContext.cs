@@ -1,5 +1,4 @@
-﻿#pragma warning disable CS0618 // Type or member is obsolete
-using Elastic.Clients.Elasticsearch;
+﻿using Elastic.Clients.Elasticsearch;
 using Elasticsearch.Net;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
@@ -39,21 +38,21 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     {
         CreateIndexIfNotExists<TAggregateRoot>();
 
-        var added = Client.Create(aggregateRoot, GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!);
+        var added = Client.CreateAsync(aggregateRoot, GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!).GetAwaiter().GetResult();
         added.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary> . </summary>
     protected override void UpdateMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var updated = Client.Index(aggregateRoot, index: GetIndex<TAggregateRoot>());
+        var updated = Client.IndexAsync(aggregateRoot, index: GetIndex<TAggregateRoot>()).GetAwaiter().GetResult();
         updated.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary> . </summary>
     protected override void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var deleted = Client.Delete<TAggregateRoot>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!);
+        var deleted = Client.DeleteAsync<TAggregateRoot>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!).GetAwaiter().GetResult();
         deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -89,12 +88,12 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
     {
         var index = GetIndex<TAggregateRoot>();
-        var existsIndex = Client.Indices.Exists(index);
+        var existsIndex = Client.Indices.ExistsAsync(index).GetAwaiter().GetResult();
 
         if (!existsIndex.Exists)
             return default;
 
-        var existsDoc = Client.Exists<TAggregateRoot>(index, id.ToString()!);
+        var existsDoc = Client.ExistsAsync<TAggregateRoot>(index, id.ToString()!).GetAwaiter().GetResult();
 
         if (!existsDoc.Exists)
             return default;
@@ -160,13 +159,13 @@ public abstract class ElasticsearchDbContext : DbContextAsync
 
     private void CreateIndexIfNotExists<TAggregateRoot>()
     {
-        var exists = Client.Indices.Exists(GetIndex<TAggregateRoot>());
+        var exists = Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>()).GetAwaiter().GetResult();
 
         if (exists.Exists)
             return;
 
-        var created = Client.Indices.Create(GetIndex<TAggregateRoot>(),
-            x => x.Settings(new Elastic.Clients.Elasticsearch.IndexManagement.IndexSettings { NumberOfReplicas = 0 }));
+        var created = Client.Indices.CreateAsync(GetIndex<TAggregateRoot>(),
+            x => x.Settings(new Elastic.Clients.Elasticsearch.IndexManagement.IndexSettings { NumberOfReplicas = 0 })).GetAwaiter().GetResult();
 
         created.ThrowOriginalExceptionIfIsNotValid();
     }
@@ -184,5 +183,3 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         created.ThrowOriginalExceptionIfIsNotValid();
     }
 }
-
-#pragma warning restore CS0618 // Type or member is obsolete
