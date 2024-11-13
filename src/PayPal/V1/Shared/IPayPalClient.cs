@@ -4,6 +4,5 @@
 public interface IPayPalClient
 {
     /// <summary> . </summary>
-    T Send<T>(string httpMethod, string resource, object? payload = null, string? endpoint = null,
-        bool setAuthorizationHeader = true, bool maskRequestId = false);
+    T Send<T>(string httpMethod, string relativeUri, object? body = null);
 }

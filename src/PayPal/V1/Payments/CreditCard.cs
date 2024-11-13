@@ -140,7 +140,7 @@ public class CreditCard : PayPalRelationalObject
         var resource = SdkUtil.FormatUriPath("v1/vault/credit-cards/{0}", [
             creditCardId,
         ]);
-        ConfigureAndExecute<CreditCard>(apiContext, "DELETE", resource, maskRequestId: true);
+        ConfigureAndExecute<CreditCard>(apiContext, "DELETE", resource);
     }
 
     /// <summary>

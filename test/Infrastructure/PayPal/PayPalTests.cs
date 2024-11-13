@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PayPal.Exceptions;
 using PayPal.V1;
 using PayPal.V1.Payments;
 using PayPal.V1.Payments.Payments;
@@ -11,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 
 namespace SharedKernel.Integration.Tests.PayPal;
+
 public class PayPalTests : InfrastructureTestCase<FakeStartup>
 {
     private const string ClientId = "AUv8rrc_P-EbP2E0mpb49BV7rFt3Usr-vdUZO8VGOnjRehGHBXkSzchr37SYF2GNdQFYSp72jh5QUhzG";
@@ -92,6 +94,21 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
 
         response.Should().NotBeNull();
         response!.Href.Should().NotBeNullOrWhiteSpace();
+
+
+        var paymentExecution = new PaymentExecution
+        {
+            PayerId = "BGLQTKU6EKZ7N",
+        };
+
+        var payPalPayment = new Payment
+        {
+            Id = createdPayment.Id,
+        };
+
+        var result = () => payPalPayment.Execute(client, paymentExecution);
+
+        result.Should().Throw<PayPalException>();
     }
 
     [Fact]

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using PayPal.Exceptions;
 using PayPal.V1.Shared;
 using SharedKernel.Application.Serializers;
@@ -12,11 +11,9 @@ namespace SharedKernel.Infrastructure.PayPal;
 /// <summary>
 /// IPayPalClient is used when making HTTP calls to the PayPal REST API.
 /// </summary>
-// ReSharper disable once InconsistentNaming
 internal class PayPalClient : IPayPalClient
 {
     private readonly IHttpClientFactory _clientFactory;
-    private readonly ILogger<IPayPalClient> _logger;
     private readonly IJsonSerializer _jsonSerializer;
     private readonly IOptions<PayPalOptions> _options;
 
@@ -25,82 +22,37 @@ internal class PayPalClient : IPayPalClient
     /// </summary>
     public PayPalClient(
         IHttpClientFactory clientFactory,
-        ILogger<PayPalClient> logger,
         IJsonSerializer jsonSerializer,
         IOptions<PayPalOptions> options)
     {
         _clientFactory = clientFactory;
-        _logger = logger;
         _jsonSerializer = jsonSerializer;
         _options = options;
         HttpHeaders = new Dictionary<string, string>();
-        ResetRequestId();
     }
 
-    /// <summary>
-    /// Gets or sets the OAuth access token to use when making API requests.
-    /// </summary>
+    /// <summary> Gets or sets the OAuth access token to use when making API requests.. </summary>
     public PayPalTokenResponse? Token { get; private set; }
 
-    /// <summary>
-    /// Gets or sets the request ID used for ensuring idempotency when making a REST API call.
-    /// </summary>
-    public string RequestId { get; private set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the HTTP headers to include when making HTTP requests to the API.
-    /// </summary>
+    /// <summary> Gets or sets the HTTP headers to include when making HTTP requests to the API.. </summary>
     public Dictionary<string, string> HttpHeaders { get; set; }
 
-    /// <summary>
-    /// Resets the request ID used for ensuring idempotency when making a REST API call.
-    /// </summary>
-    public void ResetRequestId()
+    /// <summary>  </summary>
+    public T Send<T>(string httpMethod, string relativeUri, object? body = null)
     {
-        RequestId = Guid.NewGuid().ToString();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="httpMethod"></param>
-    /// <param name="resource"></param>
-    /// <param name="payload"></param>
-    /// <param name="endpoint"></param>
-    /// <param name="setAuthorizationHeader"></param>
-    /// <param name="maskRequestId"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    /// <exception cref="PayPalException"></exception>
-    /// <exception cref="PaymentsException"></exception>
-    /// <exception cref="IdentityException"></exception>
-    public T Send<T>(string httpMethod, string resource, object? payload = null, string? endpoint = null,
-        bool setAuthorizationHeader = true, bool maskRequestId = false)
-    {
-        return SendAsync<T>(httpMethod, resource, payload, endpoint, CancellationToken.None)
+        return SendAsync<T>(httpMethod, relativeUri, body, CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="httpMethod"></param>
-    /// <param name="resource"></param>
-    /// <param name="payload"></param>
-    /// <param name="endpoint"></param>
-    /// <param name="cancellationToken"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    /// <exception cref="PayPalException"></exception>
-    /// <exception cref="PaymentsException"></exception>
-    /// <exception cref="IdentityException"></exception>
-    public async Task<T> SendAsync<T>(string httpMethod, string resource, object? payload = null, string? endpoint = null, CancellationToken cancellationToken = default)
+    /// <summary>  </summary>
+    public async Task<T> SendAsync<T>(string httpMethod, string relativeUri, object? body = null,
+        CancellationToken cancellationToken = default)
     {
         try
         {
             var request = new HttpRequestMessage();
-            var body = _jsonSerializer.Serialize(payload, NamingConvention.SnakeCase);
-            request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+            var bodyString = _jsonSerializer.Serialize(body, NamingConvention.SnakeCase);
+            request.Content = new StringContent(bodyString, Encoding.UTF8, "application/json");
             request.Method = new HttpMethod(httpMethod);
             var client = _clientFactory.CreateClient("PayPal");
 
@@ -108,11 +60,7 @@ internal class PayPalClient : IPayPalClient
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token.TokenType, Token.AccessToken);
 
-            var baseUri = new Uri(_options.Value.Settings.GetEndpoint(), endpoint);
-            if (!Uri.TryCreate(baseUri, resource, out _))
-                throw new PayPalException("Cannot create URL; baseURI=" + baseUri + ", resourcePath=" + resource);
-
-            request.RequestUri = new Uri(baseUri, resource);
+            request.RequestUri = new Uri(_options.Value.Settings.GetEndpoint(), relativeUri);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -123,8 +71,8 @@ internal class PayPalClient : IPayPalClient
 #endif
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError("Error en la solicitud a PayPal: {StatusCode}, {responseContent}", response.StatusCode, responseContent);
-                return default!;
+                var message = $"Error en la solicitud a PayPal: {response.StatusCode}, {responseContent}";
+                throw new PayPalException(message);
             }
 
             var obj = _jsonSerializer.Deserialize<T>(responseContent, NamingConvention.SnakeCase);
@@ -160,8 +108,9 @@ internal class PayPalClient : IPayPalClient
 
     private async Task<PayPalTokenResponse> GenerateOAuthToken(HttpClient httpClient)
     {
+        var authToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(
+            $"{_options.Value.Settings.ClientId}:{_options.Value.Settings.ClientSecret}"));
 
-        var authToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_options.Value.Settings.ClientId}:{_options.Value.Settings.ClientSecret}"));
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
 
         var requestData = new StringContent("grant_type=client_credentials", Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -169,7 +118,7 @@ internal class PayPalClient : IPayPalClient
         var response = await httpClient.PostAsync(_options.Value.Settings.TokenEndpoint, requestData);
 
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+            throw new PayPalException($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
         return _jsonSerializer.Deserialize<PayPalTokenResponse>(jsonResponse, NamingConvention.SnakeCase);
