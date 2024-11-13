@@ -18,31 +18,29 @@ public class RabbitMqBackground : BackgroundService
     }
 
     /// <summary> . </summary>
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var ct = stoppingToken;
+        using var scope = _serviceScopeFactory.CreateScope();
 
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
-        var rabbitMqConnectionFactory = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>();
-        await using var connection = await rabbitMqConnectionFactory.CreateConnectionAsync(ct);
-        await using var channel = await connection.CreateChannelAsync(cancellationToken: ct);
-
+        var channel = scope.ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>().Channel();
         var requestsTypes = scope.ServiceProvider.GetServices<IRequestType>().ToList();
-        await ConsumeQueue(scope, channel, requestsTypes.Where(rt => !rt.IsTopic), ct);
-        await ConsumeTopics(scope, channel, requestsTypes.Where(rt => rt.IsTopic), ct);
+
+        ConsumeQueue(scope, channel, requestsTypes.Where(rt => !rt.IsTopic));
+        ConsumeTopics(scope, channel, requestsTypes.Where(rt => rt.IsTopic));
+
+        return Task.CompletedTask;
     }
 
-    private static async Task ConsumeQueue(IServiceScope scope, IChannel channel,
-        IEnumerable<IRequestType> requestsTypes, CancellationToken cancellationToken)
+    private static void ConsumeQueue(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
     {
         var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ConsumeQueue;
 
         var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(exchangeName);
         var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(exchangeName);
 
-        await channel.ExchangeDeclareAsync(exchangeName, ExchangeType.Direct, cancellationToken: cancellationToken);
-        await channel.ExchangeDeclareAsync(retryDomainEventExchange, ExchangeType.Direct, cancellationToken: cancellationToken);
-        await channel.ExchangeDeclareAsync(deadLetterDomainEventExchange, ExchangeType.Direct, cancellationToken: cancellationToken);
+        channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
+        channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Direct);
+        channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Direct);
 
         var consumer = scope.ServiceProvider.GetRequiredService<RabbitMqConsumer>();
         foreach (var requestType in requestsTypes)
@@ -51,41 +49,31 @@ public class RabbitMqBackground : BackgroundService
             var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(requestType);
             var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(requestType);
 
-            var queue = await channel.QueueDeclareAsync(requestQueueName, true, false, false,
-                cancellationToken: cancellationToken);
+            var queue = channel.QueueDeclare(requestQueueName, true, false, false);
 
-            var retryQueue = await channel.QueueDeclareAsync(retryQueueName, true, false, false,
-                RetryQueueArguments(exchangeName, requestQueueName), cancellationToken: cancellationToken);
+            var retryQueue = channel.QueueDeclare(retryQueueName, true, false, false,
+                RetryQueueArguments(exchangeName, requestQueueName));
 
-            var deadLetterQueue = await channel.QueueDeclareAsync(deadLetterQueueName, true, false, false,
-                cancellationToken: cancellationToken);
+            var deadLetterQueue = channel.QueueDeclare(deadLetterQueueName, true, false, false);
 
-            await channel.QueueBindAsync(queue, exchangeName, requestQueueName, cancellationToken: cancellationToken);
-
-            await channel.QueueBindAsync(retryQueue, retryDomainEventExchange, requestQueueName,
-                cancellationToken: cancellationToken);
-
-            await channel.QueueBindAsync(deadLetterQueue, deadLetterDomainEventExchange, requestQueueName,
-                cancellationToken: cancellationToken);
-
-            await channel.QueueBindAsync(queue, exchangeName, requestType.UniqueName,
-                cancellationToken: cancellationToken);
-
-            await consumer.ConsumeQueueAsync(requestType.UniqueName, cancellationToken: cancellationToken);
+            channel.QueueBind(queue, exchangeName, requestQueueName);
+            channel.QueueBind(retryQueue, retryDomainEventExchange, requestQueueName);
+            channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, requestQueueName);
+            channel.QueueBind(queue, exchangeName, requestType.UniqueName);
+            consumer.ConsumeQueue(requestType.UniqueName);
         }
     }
 
-    private static async Task ConsumeTopics(IServiceScope scope, IChannel channel,
-        IEnumerable<IRequestType> requestsTypes, CancellationToken cancellationToken)
+    private static void ConsumeTopics(IServiceScope scope, IModel channel, IEnumerable<IRequestType> requestsTypes)
     {
         var exchangeName = scope.ServiceProvider.GetRequiredService<IOptions<RabbitMqConfigParams>>().Value.ExchangeName;
 
         var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(exchangeName);
         var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(exchangeName);
 
-        await channel.ExchangeDeclareAsync(exchangeName, ExchangeType.Topic, cancellationToken: cancellationToken);
-        await channel.ExchangeDeclareAsync(retryDomainEventExchange, ExchangeType.Topic, cancellationToken: cancellationToken);
-        await channel.ExchangeDeclareAsync(deadLetterDomainEventExchange, ExchangeType.Topic, cancellationToken: cancellationToken);
+        channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
+        channel.ExchangeDeclare(retryDomainEventExchange, ExchangeType.Topic);
+        channel.ExchangeDeclare(deadLetterDomainEventExchange, ExchangeType.Topic);
 
         var consumer = scope.ServiceProvider.GetRequiredService<RabbitMqConsumer>();
         foreach (var requestType in requestsTypes)
@@ -94,25 +82,25 @@ public class RabbitMqBackground : BackgroundService
             var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(requestType);
             var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(requestType);
 
-            var queue = await channel.QueueDeclareAsync(domainEventsQueueName, true, false, false, cancellationToken: cancellationToken);
+            var queue = channel.QueueDeclare(domainEventsQueueName, true, false, false);
 
-            var retryQueue = await channel.QueueDeclareAsync(retryQueueName, true, false, false,
-                RetryQueueArguments(exchangeName, domainEventsQueueName), cancellationToken: cancellationToken);
+            var retryQueue = channel.QueueDeclare(retryQueueName, true, false, false,
+                RetryQueueArguments(exchangeName, domainEventsQueueName));
 
-            var deadLetterQueue = await channel.QueueDeclareAsync(deadLetterQueueName, true, false, false, cancellationToken: cancellationToken);
+            var deadLetterQueue = channel.QueueDeclare(deadLetterQueueName, true, false, false);
 
-            await channel.QueueBindAsync(queue, exchangeName, domainEventsQueueName, cancellationToken: cancellationToken);
-            await channel.QueueBindAsync(retryQueue, retryDomainEventExchange, domainEventsQueueName, cancellationToken: cancellationToken);
-            await channel.QueueBindAsync(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName, cancellationToken: cancellationToken);
-            await channel.QueueBindAsync(queue, exchangeName, requestType.UniqueName, cancellationToken: cancellationToken);
-            await consumer.ConsumeTopicAsync(requestType.UniqueName, cancellationToken: cancellationToken);
+            channel.QueueBind(queue, exchangeName, domainEventsQueueName);
+            channel.QueueBind(retryQueue, retryDomainEventExchange, domainEventsQueueName);
+            channel.QueueBind(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName);
+            channel.QueueBind(queue, exchangeName, requestType.UniqueName);
+            consumer.ConsumeTopic(requestType.UniqueName);
         }
     }
 
-    private static IDictionary<string, object?> RetryQueueArguments(string domainEventExchange,
+    private static IDictionary<string, object> RetryQueueArguments(string domainEventExchange,
         string domainEventQueue)
     {
-        return new Dictionary<string, object?>
+        return new Dictionary<string, object>
             {
                 {"x-dead-letter-exchange", domainEventExchange},
                 {"x-dead-letter-routing-key", domainEventQueue},

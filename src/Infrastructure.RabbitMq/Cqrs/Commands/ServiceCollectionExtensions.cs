@@ -16,8 +16,7 @@ public static class ServiceCollectionExtensions
             .AddHealthChecks()
             .AddRabbitMQ(
                 (sp, _) => sp.CreateScope().ServiceProvider.GetRequiredService<RabbitMqConnectionFactory>()
-                    .CreateConnectionAsync(CancellationToken.None).GetAwaiter().GetResult(), "RabbitMq Command Bus",
-                tags: ["Command Bus", "RabbitMq"]);
+                    .Connection(), "RabbitMq Command Bus", tags: ["Command Bus", "RabbitMq"]);
 
         return services
             .AddHostedService<RabbitMqBackground>()

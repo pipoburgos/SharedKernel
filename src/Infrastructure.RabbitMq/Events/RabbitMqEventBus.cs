@@ -38,7 +38,7 @@ public class RabbitMqEventBus : RabbitMqPublisher, IEventBus
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 
-            return PublishTopic(serializedDomainEvent, req.GetEventName(), cancellationToken);
+            return PublishTopic(serializedDomainEvent, req.GetEventName());
         });
     }
 }

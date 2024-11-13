@@ -8,6 +8,9 @@ public class RabbitMqConnectionFactory
 {
     private readonly ConnectionFactory _connectionFactory;
 
+    private static IConnection? ConnectionPrivate { get; set; }
+    private static IModel? ChannelPrivate { get; set; }
+
     /// <summary> . </summary>
     public RabbitMqConnectionFactory(RabbitMqConfigParams rabbitMqParams)
     {
@@ -37,15 +40,14 @@ public class RabbitMqConnectionFactory
     }
 
     /// <summary> . </summary>
-    public Task<IConnection> CreateConnectionAsync(CancellationToken cancellationToken)
+    public IConnection Connection()
     {
-        return _connectionFactory.CreateConnectionAsync(cancellationToken);
+        return ConnectionPrivate ??= _connectionFactory.CreateConnection();
     }
 
     /// <summary> . </summary>
-    public async Task<IChannel> CreateChannelAsync(CancellationToken cancellationToken)
+    public IModel Channel()
     {
-        var connection = await CreateConnectionAsync(cancellationToken);
-        return await connection.CreateChannelAsync(cancellationToken: cancellationToken);
+        return ChannelPrivate ??= Connection().CreateModel();
     }
 }

@@ -6,6 +6,7 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.RetryPolicies;
+using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 using System.Text;
@@ -37,19 +38,18 @@ internal class RabbitMqConsumer
         _retriever = retriever;
     }
 
-    public async Task ConsumeQueueAsync(string queue, ushort prefetchCount = 10,
-        CancellationToken cancellationToken = default)
+    public void ConsumeQueue(string queue, ushort prefetchCount = 10)
     {
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
         const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
 
-        var channel = await _config.CreateChannelAsync(cancellationToken);
+        var channel = _config.Channel();
 
-        await DeclareQueue(channel, queue, cancellationToken);
+        DeclareQueue(channel, queue);
 
-        await channel.BasicQosAsync(0, prefetchCount, false, cancellationToken);
-        var consumer = new AsyncEventingBasicConsumer(channel);
-        consumer.ReceivedAsync += async (_, ea) =>
+        channel.BasicQos(0, prefetchCount, false);
+        var consumer = new EventingBasicConsumer(channel);
+        consumer.Received += (_, ea) =>
         {
             try
             {
@@ -58,33 +58,33 @@ internal class RabbitMqConsumer
 
                 if (_requestMediator.HandlerImplemented(message, commandRequestHandlerType))
                 {
-                    await _requestMediator.Execute(message, commandRequestHandlerType, method, cancellationToken);
-                    await channel.BasicAckAsync(ea.DeliveryTag, false, cancellationToken);
+                    TaskHelper.RunSync(_requestMediator.Execute(message, commandRequestHandlerType, method,
+                        CancellationToken.None));
+                    channel.BasicAck(ea.DeliveryTag, false);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                await HandleConsumptionError(ea, queue, ExchangeType.Direct, cancellationToken);
+                HandleConsumptionError(ea, queue, ExchangeType.Direct);
             }
         };
 
-        await channel.BasicConsumeAsync(queue, false, consumer, cancellationToken);
+        channel.BasicConsume(queue, false, consumer);
     }
 
-    public async Task ConsumeTopicAsync(string topicName, ushort prefetchCount = 10,
-        CancellationToken cancellationToken = default)
+    public void ConsumeTopic(string topicName, ushort prefetchCount = 10)
     {
         var domainEventSubscriberType = typeof(IDomainEventSubscriber<>);
         const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
 
-        var channel = await _config.CreateChannelAsync(cancellationToken);
+        var channel = _config.Channel();
 
-        await DeclareQueue(channel, topicName, cancellationToken);
+        DeclareQueue(channel, topicName);
 
-        await channel.BasicQosAsync(0, prefetchCount, false, cancellationToken);
-        var consumer = new AsyncEventingBasicConsumer(channel);
-        consumer.ReceivedAsync += async (_, ea) =>
+        channel.BasicQos(0, prefetchCount, false);
+        var consumer = new EventingBasicConsumer(channel);
+        consumer.Received += (_, ea) =>
         {
             try
             {
@@ -93,67 +93,61 @@ internal class RabbitMqConsumer
 
                 if (_requestMediator.HandlerImplemented(message, domainEventSubscriberType))
                 {
-                    await _requestMediator.Execute(message, domainEventSubscriberType, method, cancellationToken);
-                    await channel.BasicAckAsync(ea.DeliveryTag, false, cancellationToken);
+                    TaskHelper.RunSync(_requestMediator.Execute(message, domainEventSubscriberType, method,
+                        CancellationToken.None));
+                    channel.BasicAck(ea.DeliveryTag, false);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                await HandleConsumptionError(ea, topicName, ExchangeType.Topic, cancellationToken);
+                HandleConsumptionError(ea, topicName, ExchangeType.Topic);
             }
         };
 
-        await channel.BasicConsumeAsync(topicName, false, consumer, cancellationToken: cancellationToken);
+        channel.BasicConsume(topicName, false, consumer);
     }
 
-    private static Task DeclareQueue(IChannel channel, string queue, CancellationToken cancellationToken)
+    private static void DeclareQueue(IModel channel, string queue)
     {
-        return channel.QueueDeclareAsync(queue, true, false, false, cancellationToken: cancellationToken);
+        channel.QueueDeclare(queue, true, false, false);
     }
 
-    private Task HandleConsumptionError(BasicDeliverEventArgs ea, string queue, string exchangeType, CancellationToken cancellationToken)
+    private void HandleConsumptionError(BasicDeliverEventArgs ea, string queue, string exchangeType)
     {
-        return HasBeenRedeliveredTooMuch(ea.BasicProperties.Headers)
-            ? SendToDeadLetter(ea, queue, exchangeType, cancellationToken)
-            : SendToRetry(ea, queue, exchangeType, cancellationToken);
+        if (HasBeenRedeliveredTooMuch(ea.BasicProperties.Headers))
+            SendToDeadLetter(ea, queue, exchangeType);
+        else
+            SendToRetry(ea, queue, exchangeType);
     }
 
-    private bool HasBeenRedeliveredTooMuch(IDictionary<string, object?>? headers)
+    private bool HasBeenRedeliveredTooMuch(IDictionary<string, object?> headers)
     {
-        return headers != null && (int)(headers[HeaderRedelivery] ?? 0) >= _retriever.RetryCount;
+        return (int)(headers[HeaderRedelivery] ?? 0) >= _retriever.RetryCount;
     }
 
-    private Task SendToRetry(BasicDeliverEventArgs ea, string queue, string exchangeType, CancellationToken cancellationToken)
+    private void SendToRetry(BasicDeliverEventArgs ea, string queue, string exchangeType)
     {
-        return SendMessageTo(RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName), exchangeType, ea,
-            queue, cancellationToken);
+        SendMessageTo(RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName), exchangeType, ea, queue);
     }
 
-    private Task SendToDeadLetter(BasicDeliverEventArgs ea, string queue, string exchangeType, CancellationToken cancellationToken)
+    private void SendToDeadLetter(BasicDeliverEventArgs ea, string queue, string exchangeType)
     {
-        return SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName), exchangeType,
-            ea, queue, cancellationToken);
+        SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName), exchangeType, ea,
+            queue);
     }
 
-    private async Task SendMessageTo(string exchange, string exchangeType, BasicDeliverEventArgs ea, string queue, CancellationToken cancellationToken)
+    private void SendMessageTo(string exchange, string exchangeType, BasicDeliverEventArgs ea, string queue)
     {
-        var channel = await _config.CreateChannelAsync(cancellationToken);
-        await channel.ExchangeDeclareAsync(exchange, exchangeType, cancellationToken: cancellationToken);
+        var channel = _config.Channel();
+        channel.ExchangeDeclare(exchange, exchangeType);
 
+        var body = ea.Body;
         var properties = ea.BasicProperties;
         var headers = ea.BasicProperties.Headers;
+        headers[HeaderRedelivery] = (int)headers[HeaderRedelivery] + 1;
+        properties.Headers = headers;
 
-        if (headers == null)
-            return;
-
-        var next = (int)(headers[HeaderRedelivery] ?? 0) + 1;
-
-        headers.Remove(HeaderRedelivery);
-        headers.Add(HeaderRedelivery, next);
-
-        var basicProperties = new BasicProperties(properties);
-
-        await channel.BasicPublishAsync(exchange, queue, true, basicProperties, ea.Body, cancellationToken);
+        channel.BasicPublish(exchange, queue, properties, body);
     }
 }
