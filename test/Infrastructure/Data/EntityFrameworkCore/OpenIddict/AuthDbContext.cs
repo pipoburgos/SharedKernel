@@ -1,5 +1,4 @@
-﻿#if NET8_0_OR_GREATER
-using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -51,4 +50,3 @@ internal class AuthDbContext : IdentityDbContext<IdentityUser<Guid>, IdentityRol
         return Task.FromResult(0.Success());
     }
 }
-#endif

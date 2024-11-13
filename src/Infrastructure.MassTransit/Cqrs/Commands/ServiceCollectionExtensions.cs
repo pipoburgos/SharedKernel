@@ -8,17 +8,18 @@ namespace SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddMassTransitCommandBusAsync(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitCommandBusAsync(this IServiceCollection services,
+        Action<IBusRegistrationConfigurator> configure)
     {
         services.AddOptions<MassTransitHostOptions>();
 
         return services
             .AddTransient<ICommandBusAsync, MassTransitCommandBusAsync>()
-            .AddTransient<MassTransitConsumer>()
+            .AddTransient<MassTransitCommandConsumer>()
             .AddMassTransit(x =>
             {
-                x.AddConsumer<MassTransitConsumer>();
-                x.UsingInMemory();
+                x.AddConsumer<MassTransitCommandConsumer>();
+                configure(x);
             });
     }
 }

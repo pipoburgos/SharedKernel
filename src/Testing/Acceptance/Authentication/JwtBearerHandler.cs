@@ -106,7 +106,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
             }
 
             tokenValidatedContext.Success();
-            return tokenValidatedContext.Result;
+            return tokenValidatedContext.Result!;
         }
         catch (Exception ex)
         {
@@ -116,7 +116,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
             };
 
             await Events.AuthenticationFailed(authenticationFailedContext);
-            return authenticationFailedContext.Result;
+            return authenticationFailedContext.Result!;
         }
     }
 

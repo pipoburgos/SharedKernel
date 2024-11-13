@@ -89,14 +89,22 @@ public sealed class CertificateManager
         try
         {
             if (config != null && config.TryGetValue("webhook.trustCert", out var value))
+#if NET9_0_OR_GREATER
+                return X509CertificateLoader.LoadCertificateFromFile(value);
+#else
                 return new X509Certificate2(File.ReadAllBytes(value));
+#endif
 
             using (var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("PayPal.Resources.DigiCertSHA2ExtendedValidationServerCA.crt"))
             {
                 using (var destination = new MemoryStream())
                 {
                     manifestResourceStream?.CopyTo(destination);
+#if NET9_0_OR_GREATER
+                    return X509CertificateLoader.LoadCertificate(destination.ToArray());
+#else
                     return new X509Certificate2(destination.ToArray());
+#endif
                 }
             }
         }

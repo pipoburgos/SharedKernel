@@ -1,6 +1,7 @@
-﻿#if NET8_0_OR_GREATER
+﻿using Bogus;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Auth.Roles.Commands;
@@ -28,7 +29,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
     private async Task Migrate()
     {
         var dbContext = GetRequiredServiceOnNewScope<AuthDbContext>();
-        await dbContext.Database.EnsureDeletedAsync();
+        //await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.MigrateAsync();
     }
 
@@ -37,7 +38,9 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("AuthConnectionString")!;
         return services
             .AddSharedKernel()
-            .AddDbContext<AuthDbContext>(o => o.UseSqlServer(connection, op => op.EnableRetryOnFailure(5)))
+            .AddDbContext<AuthDbContext>(o =>
+                o.UseSqlServer(connection, op => op.EnableRetryOnFailure(5)).ConfigureWarnings(warnings =>
+                    warnings.Log(RelationalEventId.PendingModelChangesWarning)))
             .AddInMemoryEventBus()
             .AddInMemoryCommandBus()
             .AddInMemoryQueryBus()
@@ -49,16 +52,24 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
     [Fact]
     public async Task AddUser()
     {
+        await Migrate();
+
         var commandBus = GetRequiredServiceOnNewScope<ICommandBus>();
 
-        await Migrate();
+
 
         var id = Guid.NewGuid();
 
         await commandBus.Dispatch(new CreateRole(id, "testRole"), CancellationToken.None);
 
+        var faker = new Faker();
+
+        var userName = faker.Internet.UserName();
+        var email = faker.Internet.Email();
+        var fakePassword = faker.Internet.Password();
+
         await commandBus.Dispatch(
-            new CreateUser(id, "Roberto", "a@a.es", true, "PassWord$88", "PassWord$", [], ["testRole"]),
+            new CreateUser(id, userName, email, true, fakePassword, fakePassword, [], ["testRole"]),
             CancellationToken.None);
 
 
@@ -69,4 +80,3 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         roles.Should().Contain("testRole");
     }
 }
-#endif

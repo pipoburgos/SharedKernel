@@ -40,11 +40,7 @@ public static class SharedKernelApiExtensions
     {
         return services
             .AddOptions()
-#if !NET8_0
-            .AddMetrics()
-#else
-                .AddMetrics(x => x.Configuration.Configure(o => o.Enabled = true))
-#endif
+            .AddMetrics(x => x.Configuration.Configure(o => o.Enabled = true))
             .AddCors(options =>
             {
                 options.AddPolicy(policyName,

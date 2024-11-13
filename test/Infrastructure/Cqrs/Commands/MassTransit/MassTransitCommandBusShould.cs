@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 
@@ -7,7 +8,10 @@ public class MassTransitCommandBusShould : CommandBusCommonTestCase
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddMassTransitCommandBusAsync();
+        return base.ConfigureServices(services).AddMassTransitCommandBusAsync(x => x.UsingInMemory((context, cfg) =>
+        {
+            cfg.ConfigureEndpoints(context);
+        }));
     }
 
     [Fact]

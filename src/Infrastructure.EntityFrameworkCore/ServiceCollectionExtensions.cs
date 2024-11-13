@@ -18,6 +18,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddEntityFramework<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime) where TDbContext : EntityFrameworkDbContext
     {
+#if !NET6_0_OR_GREATER
+        services.AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
+#else
+        services.AddDbContextFactory<TDbContext>();//lifetime: ServiceLifetime.Scoped);
+#endif
+
         services.Add(new ServiceDescriptor(typeof(IDbContextAsync), sp => sp.GetRequiredService<TDbContext>(),
             serviceLifetime));
 

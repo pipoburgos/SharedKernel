@@ -14,8 +14,8 @@ public class ElasticsearchBankAccountRepositoryTests : BankAccountRepositoryComm
     {
         var db = GetRequiredService<SharedKernelElasticsearchDbContext>();
 
-        db.Client.Indices.Delete("user");
-        db.Client.Indices.Delete("bankaccount");
+        db.Client.Indices.DeleteAsync("user").GetAwaiter().GetResult();
+        db.Client.Indices.DeleteAsync("bankaccount").GetAwaiter().GetResult();
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)

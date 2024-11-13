@@ -8,19 +8,18 @@ namespace SharedKernel.Infrastructure.MassTransit.Events;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
-    public static IServiceCollection AddMassTransitEventBus(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitEventBus(this IServiceCollection services,
+        Action<IBusRegistrationConfigurator> configure)
     {
         services.AddOptions<MassTransitHostOptions>();
 
         return services
             .AddTransient<IEventBus, MassTransitEventBus>()
-            .AddTransient<MassTransitConsumer>()
+            .AddTransient<MassTransitEventConsumer>()
             .AddMassTransit(x =>
             {
-                x.AddConsumer<MassTransitConsumer>();
-                x.UsingInMemory();
+                x.AddConsumer<MassTransitEventConsumer>();
+                configure(x);
             });
     }
 }

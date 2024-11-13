@@ -1,19 +1,18 @@
 ﻿using MassTransit;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
-using SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 using SharedKernel.Infrastructure.Requests;
 
-namespace SharedKernel.Infrastructure.MassTransit;
+namespace SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 
 /// <summary>  </summary>
-public class MassTransitConsumer : IConsumer<MassTransitCommand>
+public class MassTransitCommandConsumer : IConsumer<MassTransitCommand>
 {
     private readonly IRequestMediator _requestMediator;
 
     /// <summary>  </summary>
     /// <param name="requestMediator"></param>
-    public MassTransitConsumer(IRequestMediator requestMediator)
+    public MassTransitCommandConsumer(IRequestMediator requestMediator)
     {
         _requestMediator = requestMediator;
     }
@@ -26,8 +25,11 @@ public class MassTransitConsumer : IConsumer<MassTransitCommand>
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
         const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
 
-        return !_requestMediator.HandlerImplemented(context.Message.Content, commandRequestHandlerType)
-            ? Task.CompletedTask
-            : _requestMediator.Execute(context.Message.Content, commandRequestHandlerType, method, context.CancellationToken);
+        if (context.Message.Content == null ||
+            !_requestMediator.HandlerImplemented(context.Message.Content, commandRequestHandlerType))
+            return Task.CompletedTask;
+
+        return _requestMediator.Execute(context.Message.Content, commandRequestHandlerType, method,
+            context.CancellationToken);
     }
 }

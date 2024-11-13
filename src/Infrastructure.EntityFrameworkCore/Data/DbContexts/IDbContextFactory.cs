@@ -1,4 +1,4 @@
-﻿#if !NET6_0 && !NET7_0 && !NET8_0
+﻿#if !NET6_0_OR_GREATER
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 
 /// <summary>

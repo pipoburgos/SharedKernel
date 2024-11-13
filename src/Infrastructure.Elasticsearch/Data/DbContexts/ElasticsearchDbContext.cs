@@ -53,7 +53,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     /// <summary> . </summary>
     protected override void DeleteMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)
     {
-        var deleted = Client.Delete(GetIndex<TAggregateRoot>(), id: aggregateRoot.Id.ToString()!);
+        var deleted = Client.Delete<TAggregateRoot>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!);
         deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
@@ -81,24 +81,25 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         CancellationToken cancellationToken)
     {
         var deleted = await Client
-            .DeleteAsync(GetIndex<TAggregateRoot>(), id: aggregateRoot.Id.ToString()!, cancellationToken);
+            .DeleteAsync<TAggregateRoot>(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!, cancellationToken);
         deleted.ThrowOriginalExceptionIfIsNotValid();
     }
 
     /// <summary> . </summary>
     public override TAggregateRoot? GetById<TAggregateRoot, TId>(TId id) where TAggregateRoot : class
     {
-        var existsIndex = Client.Indices.Exists(GetIndex<TAggregateRoot>());
+        var index = GetIndex<TAggregateRoot>();
+        var existsIndex = Client.Indices.Exists(index);
 
         if (!existsIndex.Exists)
             return default;
 
-        var existsDoc = Client.Exists(GetIndex<TAggregateRoot>(), id: id.ToString()!);
+        var existsDoc = Client.Exists<TAggregateRoot>(index, id.ToString()!);
 
         if (!existsDoc.Exists)
             return default;
 
-        var searchResponse = _lowLevelClient.Get<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString()!);
+        var searchResponse = _lowLevelClient.Get<StringResponse>(index, id.ToString()!);
 
         if (searchResponse.HttpStatusCode == 404)
             return default;
@@ -113,18 +114,19 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
         CancellationToken cancellationToken) where TAggregateRoot : class
     {
-        var existsIndex = await Client.Indices.ExistsAsync(GetIndex<TAggregateRoot>(), cancellationToken);
+        var index = GetIndex<TAggregateRoot>();
+        var existsIndex = await Client.Indices.ExistsAsync(index, cancellationToken);
 
         if (!existsIndex.Exists)
             return default;
 
-        var existsDoc = await Client.ExistsAsync(GetIndex<TAggregateRoot>(), id: id.ToString()!, cancellationToken);
+        var existsDoc = await Client.ExistsAsync<TAggregateRoot>(index, id.ToString()!, cancellationToken);
 
         if (!existsDoc.Exists)
             return default;
 
         var searchResponse = await _lowLevelClient
-            .GetAsync<StringResponse>(GetIndex<TAggregateRoot>(), id.ToString()!, ctx: cancellationToken);
+            .GetAsync<StringResponse>(index, id.ToString()!, ctx: cancellationToken);
 
         if (searchResponse.HttpStatusCode == 404)
             return default;

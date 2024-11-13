@@ -1,5 +1,4 @@
-﻿#if NET8_0_OR_GREATER
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.OpenIddict;
@@ -15,4 +14,3 @@ internal class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
         return new AuthDbContext(optionsBuilder.Options);
     }
 }
-#endif

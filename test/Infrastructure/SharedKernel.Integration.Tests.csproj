@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-	<LangVersion>latest</LangVersion>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Remove="Cqrs\Commands\MassTransit\**" />
     <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Reporting\**" />
@@ -19,14 +19,22 @@
     <None Remove="Cqrs\Commands\MassTransit\**" />
     <None Remove="Data\Elasticsearch\**" />
     <None Remove="Reporting\**" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" Condition="'$(TargetFramework)' == 'net8.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10" Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" Condition="'$(TargetFramework)' == 'net9.0'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11" Condition="'$(TargetFramework)' == 'net8.0'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" Condition="'$(TargetFramework)' == 'net9.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -54,13 +62,14 @@
     <ProjectReference Include="..\..\src\Infrastructure.Dapper.SqlServer\SharedKernel.Infrastructure.Dapper.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" Condition="'$(TargetFramework)' == 'net8.0'" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.iText\SharedKernelInfrastructure.iText.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.MailKit\SharedKernel.Infrastructure.MailKit.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure.MassTransit\SharedKernel.Infrastructure.MassTransit.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Mongo\SharedKernel.Infrastructure.Mongo.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Newtonsoft\SharedKernel.Infrastructure.Newtonsoft.csproj" />
@@ -156,6 +165,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="PayPal\appsettings.PayPal.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reporting\BillExampleReport.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Security\SignedPdf.pdf">

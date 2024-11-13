@@ -109,7 +109,11 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
             //if (!pdfSign.IsValid(_dateTime.UtcNow))
             //    throw new LexnetException("La hora actual no está dentro de las horas de inicio y finalización nominadas en el certificado.");
 
+#if NET9_0_OR_GREATER
+            certificados.Add(X509CertificateLoader.LoadCertificate(pdfSign.GetEncoded()));
+#else
             certificados.Add(new X509Certificate(pdfSign.GetEncoded()));
+#endif
         }
 
         return certificados;

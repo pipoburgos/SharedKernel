@@ -12,17 +12,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
-      - name: Setup .NET 6.0
-        uses: actions/setup-dotnet@v4.0.1
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4.1.0
         with:
-          dotnet-version: '6.0.x'
-
-      - name: Setup .NET 8.0
-        uses: actions/setup-dotnet@v4.0.1
-        with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Start Docker Compose Infrastructure
         run: docker compose -f ./test/Infrastructure/docker-compose.yml up -d

@@ -19,15 +19,7 @@ public static class ServiceCollectionExtensions
             .AddEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseSqlServer(connectionString, b => b
-#if NET6_0 || NET7_0 || NET8_0
-                    .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-#endif
-                    .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!)), serviceLifetime)
-#if !NET6_0 && !NET7_0 && !NET8_0
-            .AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
-#else
-            .AddDbContextFactory<TDbContext>(lifetime: ServiceLifetime.Scoped);
-#endif
+                    .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!)), serviceLifetime);
     }
 
     /// <summary> Add service Sql Server into IServiceCollection. </summary>

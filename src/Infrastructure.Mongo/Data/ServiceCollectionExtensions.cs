@@ -16,16 +16,24 @@ public static class ServiceCollectionExtensions
     /// <summary> . </summary>
     public static bool IsRegistered { get; set; }
 
+    /// <summary> Lock object to synchronize the registration of the serializer </summary>
+    private static readonly object LockObject = new object();
+
     /// <summary> . </summary>
     public static IServiceCollection AddMongoDbContext<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : MongoDbContext
     {
-        // Register the GuidSerializer with Standard representation
         if (!IsRegistered)
         {
-            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-            IsRegistered = true;
+            lock (LockObject)
+            {
+                if (!IsRegistered)
+                {
+                    BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+                    IsRegistered = true;
+                }
+            }
         }
 
         return services

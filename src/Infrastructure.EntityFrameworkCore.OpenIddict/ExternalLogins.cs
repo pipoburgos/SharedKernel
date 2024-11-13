@@ -14,18 +14,18 @@ public class ExternalLogins
 public class Facebook
 {
     /// <summary> . </summary>
-    public required string AppId { get; set; }
+    public string AppId { get; set; } = null!;
 
     /// <summary> . </summary>
-    public required string AppSecret { get; set; }
+    public string AppSecret { get; set; } = null!;
 }
 
 /// <summary> . </summary>
 public class Google
 {
     /// <summary> . </summary>
-    public required string ClientId { get; set; }
+    public string ClientId { get; set; } = null!;
 
     /// <summary> . </summary>
-    public required string ClientSecret { get; set; }
+    public string ClientSecret { get; set; } = null!;
 }

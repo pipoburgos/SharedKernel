@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
             //.DisableAutomaticProxyDetection()
             .EnableApiVersioningHeader()
             //.EnableHttpCompression()
-            //.DisableDirectStreaming()
+            .DisableDirectStreaming()
             //.PrettyJson()
             .RequestTimeout(TimeSpan.FromSeconds(30));
 

@@ -56,12 +56,12 @@ public static class ServiceCollectionExtensions
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
                     .UseNetTopologySuite()
-#if NET6_0 || NET7_0 || NET8_0
+#if NET6_0_OR_GREATER
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
 #endif
                     .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!))
                 .UseSnakeCaseNamingConvention(), serviceLifetime)
-#if !NET6_0 && !NET7_0 && !NET8_0
+#if !NET6_0_OR_GREATER
             .AddTransient(typeof(IDbContextFactory<>), typeof(DbContextFactory<>));
 #else
                 .AddDbContextFactory<TDbContext>(lifetime: ServiceLifetime.Scoped);

@@ -51,7 +51,7 @@ public static class ServiceCollectionExtensions
             .AddSharedKernelIdentity<TDbContext, TUser, TRole, Guid>(configureOptions)
             .AddScoped<IUserStore<TUser>, UserRepository<TDbContext, TUser, TRole, Guid>>()
             .AddScoped<IRoleStore<TRole>, RoleRepository<TDbContext, TUser, TRole, Guid>>()
-            .AddDataProtection<TDbContext>()
+            .AddSharedKernelDataProtection<TDbContext>()
             .AddServer<TDbContext>(configuration, encryptionKey, configure)
             .AddScoped<IAuthUnitOfWork>(sp => sp.GetRequiredService<TDbContext>());
     }

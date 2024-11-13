@@ -10,7 +10,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.Data
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddDataProtection<TDbContext>(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelDataProtection<TDbContext>(this IServiceCollection services)
         where TDbContext : DbContext, IDataProtectionKeyContext
     {
         services

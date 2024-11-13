@@ -21,7 +21,7 @@ public class UserManager : IUserManager
     public virtual async Task CreateAsync(Guid id, string userName, string email, string password, IEnumerable<string> roles,
         IEnumerable<Claim> claims, bool emailConfirmed = false, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         if (user != null)
             return;
 

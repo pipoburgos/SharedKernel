@@ -69,7 +69,7 @@ public abstract class ConnectTokenEndpoint : ControllerBase
         identity.SetScopes(scopes);
 
         // ValidateAudience
-        identity.SetResources((ImmutableArray<string>)[scope]);
+        identity.SetResources(new ImmutableArray<string> { scope });
 
         identity.SetDestinations(_ => [OpenIddictConstants.Destinations.AccessToken]);
 
