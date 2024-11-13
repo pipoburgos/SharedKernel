@@ -14,6 +14,7 @@ using SharedKernel.Infrastructure.Cqrs.Commands;
 using SharedKernel.Infrastructure.Cqrs.Queries;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Applications;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Roles;
+using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.DataProtection;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.Identity;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.OpenIddict;
@@ -35,6 +36,7 @@ public static class ServiceCollectionExtensions
         where TRole : IdentityRole<Guid>
     {
         return services
+            .AddHostedService<MigrationDbContext<TDbContext>>()
             .Configure<DbContextOptions<TDbContext>>(options =>
             {
                 var builder = new DbContextOptionsBuilder<TDbContext>(options);

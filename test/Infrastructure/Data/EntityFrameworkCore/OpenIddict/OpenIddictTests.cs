@@ -26,16 +26,9 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         return "Data/EntityFrameworkCore/OpenIddict/appsettings.OpenIddict.json";
     }
 
-    private async Task Migrate()
-    {
-        var dbContext = GetRequiredServiceOnNewScope<AuthDbContext>();
-        //await dbContext.Database.EnsureDeletedAsync();
-        await dbContext.Database.MigrateAsync();
-    }
-
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        var connection = Configuration.GetConnectionString("AuthConnectionString")!;
+        var connection = Configuration.GetConnectionString("OpenIddictConnectionString")!;
         return services
             .AddSharedKernel()
             .AddDbContext<AuthDbContext>(o =>
@@ -52,11 +45,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
     [Fact]
     public async Task AddUser()
     {
-        await Migrate();
-
         var commandBus = GetRequiredServiceOnNewScope<ICommandBus>();
-
-
 
         var id = Guid.NewGuid();
 
@@ -66,7 +55,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
 
         var userName = faker.Internet.UserName();
         var email = faker.Internet.Email();
-        var fakePassword = faker.Internet.Password();
+        const string fakePassword = "PassWord$88";
 
         await commandBus.Dispatch(
             new CreateUser(id, userName, email, true, fakePassword, fakePassword, [], ["testRole"]),
