@@ -57,6 +57,11 @@ public class Startup
             .AddRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
+            //.AddOpenApi(o =>
+            //{
+            //    o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0;
+
+            //})
             .AddSharedKernelSwaggerGenNewtonsoftSupport()
             .AddSharedKernelAuth(_configuration)
             .AddSharedKernelApi(CorsPolicy, _configuration.GetSection("Origins").Get<string[]>());
@@ -80,6 +85,7 @@ public class Startup
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //endpoints.MapOpenApi();
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
                 {
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,

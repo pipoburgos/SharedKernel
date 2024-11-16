@@ -1,0 +1,34 @@
+services:
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:latest
+    restart: always
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+    ports:
+      - 8765:1433
+
+  activemq:
+    image: apache/activemq-artemis
+    ports:
+      - 8768:8161
+      - 8769:61616
+
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 8770:5672
+
+  redis:
+    image: redis:latest
+    ports:
+      - 8771:6379
+
+  smtp:
+    image: jijiechen/papercut:latest
+    ports:
+      - "8772:25"
