@@ -27,11 +27,11 @@ public class RabbitMqCommandBusAsync : RabbitMqPublisher, ICommandBusAsync
     /// <summary> . </summary>
     public Task Dispatch(CommandRequest command, CancellationToken cancellationToken)
     {
-        return _pipeline.ExecuteAsync(command, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(command, cancellationToken, (req, ct) =>
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 
-            return PublishOnQueue(serializedDomainEvent, command.GetUniqueName());
+            return PublishOnQueue(serializedDomainEvent, command.GetUniqueName(), ct);
         });
     }
 

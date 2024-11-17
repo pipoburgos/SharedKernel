@@ -2,11 +2,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Application.System;
 using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 using System.Text;
@@ -14,42 +14,116 @@ using System.Text;
 namespace SharedKernel.Infrastructure.RabbitMq;
 
 /// <summary> . </summary>
-internal class RabbitMqConsumer
+internal class RabbitMqConsumer : IDisposable, IAsyncDisposable
 {
-    private readonly RabbitMqConnectionFactory _config;
+    private readonly RabbitMqConnectionFactory _rabbitMqConnectionFactory;
     private readonly IRequestMediator _requestMediator;
     private readonly ILogger<RabbitMqConsumer> _logger;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
     private readonly IRetriever _retriever;
+    private readonly IEnumerable<IRequestType> _requestsTypes;
     private const string HeaderRedelivery = "redelivery_count";
+    private IConnection _connection = null!;
+    private IChannel _channel = null!;
 
     /// <summary> . </summary>
     public RabbitMqConsumer(
-        RabbitMqConnectionFactory config,
+        RabbitMqConnectionFactory rabbitMqConnectionFactory,
         IRequestMediator requestMediator,
         ILogger<RabbitMqConsumer> logger,
         IOptions<RabbitMqConfigParams> rabbitMqParams,
-        IRetriever retriever)
+        IRetriever retriever,
+        IEnumerable<IRequestType> requestsTypes)
     {
-        _config = config;
+        _rabbitMqConnectionFactory = rabbitMqConnectionFactory;
         _requestMediator = requestMediator;
         _logger = logger;
         _rabbitMqParams = rabbitMqParams;
         _retriever = retriever;
+        _requestsTypes = requestsTypes;
     }
 
-    public void ConsumeQueue(string queue, ushort prefetchCount = 10)
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        _connection = await _rabbitMqConnectionFactory.CreateConnectionAsync();
+
+        _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
+
+        await Consume(true, _requestsTypes, cancellationToken);
+        await Consume(false, _requestsTypes, cancellationToken);
+    }
+
+    private async Task Consume(bool isTopic, IEnumerable<IRequestType> requestsTypes, CancellationToken cancellationToken = default)
+    {
+        string exchangeName;
+        string type;
+        if (isTopic)
+        {
+            exchangeName = _rabbitMqParams.Value.ExchangeName;
+            type = ExchangeType.Topic;
+        }
+        else
+        {
+            exchangeName = _rabbitMqParams.Value.ConsumeQueue;
+            type = ExchangeType.Direct;
+        }
+
+        var retryDomainEventExchange = RabbitMqExchangeNameFormatter.Retry(exchangeName);
+        var deadLetterDomainEventExchange = RabbitMqExchangeNameFormatter.DeadLetter(exchangeName);
+
+        await _channel.ExchangeDeclareAsync(exchangeName, type, cancellationToken: cancellationToken);
+        await _channel.ExchangeDeclareAsync(retryDomainEventExchange, type, cancellationToken: cancellationToken);
+        await _channel.ExchangeDeclareAsync(deadLetterDomainEventExchange, type, cancellationToken: cancellationToken);
+
+
+        foreach (var requestType in requestsTypes.Where(r => r.IsTopic == isTopic))
+        {
+            var domainEventsQueueName = RabbitMqQueueNameFormatter.Format(requestType);
+            var retryQueueName = RabbitMqQueueNameFormatter.FormatRetry(requestType);
+            var deadLetterQueueName = RabbitMqQueueNameFormatter.FormatDeadLetter(requestType);
+
+            var queue = await _channel.QueueDeclareAsync(domainEventsQueueName, true, false, false, cancellationToken: cancellationToken);
+
+            var retryQueue = await _channel.QueueDeclareAsync(retryQueueName, true, false, false,
+                RetryQueueArguments(exchangeName, domainEventsQueueName), cancellationToken: cancellationToken);
+
+            var deadLetterQueue = await _channel.QueueDeclareAsync(deadLetterQueueName, true, false, false, cancellationToken: cancellationToken);
+
+            await _channel.QueueBindAsync(queue, exchangeName, domainEventsQueueName, cancellationToken: cancellationToken);
+            await _channel.QueueBindAsync(retryQueue, retryDomainEventExchange, domainEventsQueueName, cancellationToken: cancellationToken);
+            await _channel.QueueBindAsync(deadLetterQueue, deadLetterDomainEventExchange, domainEventsQueueName, cancellationToken: cancellationToken);
+            await _channel.QueueBindAsync(queue, exchangeName, requestType.UniqueName, cancellationToken: cancellationToken);
+            if (isTopic)
+                await ConsumeTopic(requestType.UniqueName, cancellationToken: cancellationToken);
+            else
+                await ConsumeQueue(requestType.UniqueName, cancellationToken: cancellationToken);
+        }
+    }
+
+    private static IDictionary<string, object?> RetryQueueArguments(string domainEventExchange,
+        string domainEventQueue)
+    {
+        return new Dictionary<string, object?>
+            {
+                {"x-dead-letter-exchange", domainEventExchange},
+                {"x-dead-letter-routing-key", domainEventQueue},
+                {"x-message-ttl", 1000},
+            };
+    }
+
+    private async Task ConsumeQueue(string queue, ushort prefetchCount = 10, CancellationToken cancellationToken = default)
     {
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
         const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
 
-        var channel = _config.Channel();
+        _connection = await _rabbitMqConnectionFactory.CreateConnectionAsync();
+        _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
-        DeclareQueue(channel, queue);
+        await DeclareQueue(_channel, queue, cancellationToken);
 
-        channel.BasicQos(0, prefetchCount, false);
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (_, ea) =>
+        await _channel.BasicQosAsync(0, prefetchCount, false, cancellationToken);
+        var consumer = new AsyncEventingBasicConsumer(_channel);
+        consumer.ReceivedAsync += async (_, ea) =>
         {
             try
             {
@@ -58,33 +132,33 @@ internal class RabbitMqConsumer
 
                 if (_requestMediator.HandlerImplemented(message, commandRequestHandlerType))
                 {
-                    TaskHelper.RunSync(_requestMediator.Execute(message, commandRequestHandlerType, method,
-                        CancellationToken.None));
-                    channel.BasicAck(ea.DeliveryTag, false);
+                    await _requestMediator.Execute(message, commandRequestHandlerType, method, cancellationToken);
+                    await _channel.BasicAckAsync(ea.DeliveryTag, false, cancellationToken);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                HandleConsumptionError(ea, queue, ExchangeType.Direct);
+                await HandleConsumptionError(ea, queue, ExchangeType.Direct, cancellationToken);
             }
         };
 
-        channel.BasicConsume(queue, false, consumer);
+        await _channel.BasicConsumeAsync(queue, false, consumer, cancellationToken: cancellationToken);
     }
 
-    public void ConsumeTopic(string topicName, ushort prefetchCount = 10)
+    private async Task ConsumeTopic(string topicName, ushort prefetchCount = 10, CancellationToken cancellationToken = default)
     {
         var domainEventSubscriberType = typeof(IDomainEventSubscriber<>);
         const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
 
-        var channel = _config.Channel();
+        _connection = await _rabbitMqConnectionFactory.CreateConnectionAsync();
+        _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
-        DeclareQueue(channel, topicName);
+        await DeclareQueue(_channel, topicName, cancellationToken);
 
-        channel.BasicQos(0, prefetchCount, false);
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (_, ea) =>
+        await _channel.BasicQosAsync(0, prefetchCount, false, cancellationToken);
+        var consumer = new AsyncEventingBasicConsumer(_channel);
+        consumer.ReceivedAsync += async (_, ea) =>
         {
             try
             {
@@ -93,32 +167,34 @@ internal class RabbitMqConsumer
 
                 if (_requestMediator.HandlerImplemented(message, domainEventSubscriberType))
                 {
-                    TaskHelper.RunSync(_requestMediator.Execute(message, domainEventSubscriberType, method,
-                        CancellationToken.None));
-                    channel.BasicAck(ea.DeliveryTag, false);
+                    await _requestMediator.Execute(message, domainEventSubscriberType, method, cancellationToken);
+                    await _channel.BasicAckAsync(ea.DeliveryTag, false, cancellationToken);
                 }
+            }
+            catch (AlreadyClosedException ex)
+            {
+                _logger.LogError(ex, ex.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                HandleConsumptionError(ea, topicName, ExchangeType.Topic);
+                await HandleConsumptionError(ea, topicName, ExchangeType.Topic, cancellationToken);
             }
         };
 
-        channel.BasicConsume(topicName, false, consumer);
+        await _channel.BasicConsumeAsync(topicName, false, consumer, cancellationToken: cancellationToken);
     }
 
-    private static void DeclareQueue(IModel channel, string queue)
+    private static Task DeclareQueue(IChannel channel, string queue, CancellationToken cancellationToken = default)
     {
-        channel.QueueDeclare(queue, true, false, false);
+        return channel.QueueDeclareAsync(queue, true, false, false, cancellationToken: cancellationToken);
     }
 
-    private void HandleConsumptionError(BasicDeliverEventArgs ea, string queue, string exchangeType)
+    private Task HandleConsumptionError(BasicDeliverEventArgs ea, string queue, string exchangeType, CancellationToken cancellationToken = default)
     {
-        if (HasBeenRedeliveredTooMuch(ea.BasicProperties.Headers))
-            SendToDeadLetter(ea, queue, exchangeType);
-        else
-            SendToRetry(ea, queue, exchangeType);
+        return HasBeenRedeliveredTooMuch(ea.BasicProperties.Headers!)
+            ? SendToDeadLetter(ea, queue, exchangeType, cancellationToken)
+            : SendToRetry(ea, queue, exchangeType, cancellationToken);
     }
 
     private bool HasBeenRedeliveredTooMuch(IDictionary<string, object?> headers)
@@ -126,28 +202,58 @@ internal class RabbitMqConsumer
         return (int)(headers[HeaderRedelivery] ?? 0) >= _retriever.RetryCount;
     }
 
-    private void SendToRetry(BasicDeliverEventArgs ea, string queue, string exchangeType)
+    private Task SendToRetry(BasicDeliverEventArgs ea, string queue, string exchangeType,
+        CancellationToken cancellationToken = default)
     {
-        SendMessageTo(RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName), exchangeType, ea, queue);
+        return SendMessageTo(RabbitMqExchangeNameFormatter.Retry(_rabbitMqParams.Value.ExchangeName), exchangeType, ea,
+            queue, cancellationToken);
     }
 
-    private void SendToDeadLetter(BasicDeliverEventArgs ea, string queue, string exchangeType)
+    private Task SendToDeadLetter(BasicDeliverEventArgs ea, string queue, string exchangeType,
+        CancellationToken cancellationToken = default)
     {
-        SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName), exchangeType, ea,
-            queue);
+        return SendMessageTo(RabbitMqExchangeNameFormatter.DeadLetter(_rabbitMqParams.Value.ExchangeName), exchangeType,
+            ea, queue, cancellationToken);
     }
 
-    private void SendMessageTo(string exchange, string exchangeType, BasicDeliverEventArgs ea, string queue)
+    private async Task SendMessageTo(string exchange, string exchangeType, BasicDeliverEventArgs ea, string queue,
+        CancellationToken cancellationToken = default)
     {
-        var channel = _config.Channel();
-        channel.ExchangeDeclare(exchange, exchangeType);
+        await _channel!.ExchangeDeclareAsync(exchange, exchangeType, cancellationToken: cancellationToken);
 
         var body = ea.Body;
-        var properties = ea.BasicProperties;
-        var headers = ea.BasicProperties.Headers;
-        headers[HeaderRedelivery] = (int)headers[HeaderRedelivery] + 1;
-        properties.Headers = headers;
+        var properties = new BasicProperties
+        {
+            Headers = new Dictionary<string, object?>
+                {{HeaderRedelivery, (int) ea.BasicProperties.Headers![HeaderRedelivery]! + 1}},
+        };
 
-        channel.BasicPublish(exchange, queue, properties, body);
+        await _channel.BasicPublishAsync(exchange, queue, false, properties, body, cancellationToken: cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        if (_channel.IsOpen)
+        {
+            _channel.Dispose();
+        }
+
+        if (_connection.IsOpen)
+            _connection.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_channel.IsOpen)
+        {
+            await _channel.CloseAsync();
+            await _channel.DisposeAsync();
+        }
+
+        if (_connection.IsOpen)
+        {
+            await _connection.CloseAsync();
+            await _connection.DisposeAsync();
+        }
     }
 }

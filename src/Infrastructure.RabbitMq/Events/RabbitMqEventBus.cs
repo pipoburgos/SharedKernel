@@ -34,11 +34,11 @@ public class RabbitMqEventBus : RabbitMqPublisher, IEventBus
     /// <summary> . </summary>
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
-        return _pipeline.ExecuteAsync(@event, cancellationToken, (req, _) =>
+        return _pipeline.ExecuteAsync(@event, cancellationToken, (req, ct) =>
         {
             var serializedDomainEvent = _requestSerializer.Serialize(req);
 
-            return PublishTopic(serializedDomainEvent, req.GetEventName());
+            return PublishTopic(serializedDomainEvent, req.GetEventName(), ct);
         });
     }
 }
