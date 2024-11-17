@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.Redis.System.Threading;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register Redis IMutexManager and IMutex factory. </summary>
-    public static IServiceCollection AddRedisMutex(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelRedisMutex(this IServiceCollection services, IConfiguration configuration)
     {
         return services
             .AddRedisHealthChecks(configuration, "Redis Mutex", "Mutex")

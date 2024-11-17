@@ -22,7 +22,7 @@ public static class SharedKernelApiExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddClientServerDateTime(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelClientServerDateTime(this IServiceCollection services)
     {
         return services
             .RemoveAll<IDateTime>()
@@ -71,7 +71,7 @@ public static class SharedKernelApiExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSpanish(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelSpanish(this IServiceCollection services)
     {
         return services
             .AddLocalization()

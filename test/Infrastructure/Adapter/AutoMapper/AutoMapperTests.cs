@@ -9,7 +9,7 @@ public partial class AutoMapperTests : InfrastructureTestCase<FakeStartup>
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return services.AddAutoMapperSharedKernel(typeof(MyProfile).Assembly);
+        return services.AddSharedKernelAutoMapperSharedKernel(typeof(MyProfile).Assembly);
     }
 
     [Fact]

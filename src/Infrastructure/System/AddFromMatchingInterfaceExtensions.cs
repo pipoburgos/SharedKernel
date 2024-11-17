@@ -15,13 +15,13 @@ public static class AddFromMatchingInterfaceExtensions
     /// <param name="serviceLifetime"></param>
     /// <param name="types"></param>
     /// <returns></returns>
-    public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFromMatchingInterface<TInterface>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] types)
     {
         if (types == default!)
             return services;
 
-        return services.AddFromMatchingInterface<TInterface>(serviceLifetime,
+        return services.AddSharedKernelFromMatchingInterface<TInterface>(serviceLifetime,
             types.Select(t => t.Assembly).ToArray());
     }
 
@@ -32,7 +32,7 @@ public static class AddFromMatchingInterfaceExtensions
     /// <param name="serviceLifetime"></param>
     /// <param name="assemblies"></param>
     /// <returns></returns>
-    public static IServiceCollection AddFromMatchingInterface<TInterface>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFromMatchingInterface<TInterface>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] assemblies)
     {
         if (assemblies == default!)
@@ -55,10 +55,10 @@ public static class AddFromMatchingInterfaceExtensions
     /// <param name="serviceLifetime"></param>
     /// <param name="types"></param>
     /// <returns></returns>
-    public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFromMatchingInterface(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] types)
     {
-        return services.AddFromMatchingInterface(default, serviceLifetime, types);
+        return services.AddSharedKernelFromMatchingInterface(default, serviceLifetime, types);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public static class AddFromMatchingInterfaceExtensions
     /// <param name="types"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static IServiceCollection AddFromMatchingInterface(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFromMatchingInterface(this IServiceCollection services,
         Func<Type, bool>? classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
         params Type[] types)
     {

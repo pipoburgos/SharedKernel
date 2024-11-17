@@ -20,11 +20,11 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
     {
         return services
             .AddSharedKernel()
-            .AddCommandsHandlers(typeof(SampleCommandWithResponseHandler))
-            .AddFluentValidation(typeof(SampleCommandValidator))
-            .AddNetJsonSerializer()
-            .AddValidationMiddleware()
-            .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
+            .AddSharedKernelCommandsHandlers(typeof(SampleCommandWithResponseHandler))
+            .AddSharedKernelFluentValidation(typeof(SampleCommandValidator))
+            .AddSharedKernelNetJsonSerializer()
+            .AddSharedKernelValidationMiddleware()
+            .AddSharedKernelRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
             .AddSingleton<SaveValueSingletonService>()
             .RemoveAll<IIdentityService>()
             .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()

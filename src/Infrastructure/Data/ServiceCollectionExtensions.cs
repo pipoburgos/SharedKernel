@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddDbContext<TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelDbContext<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime) where TDbContext : DbContextAsync
     {
         services.Add(new ServiceDescriptor(typeof(IDbContextAsync), sp => sp.GetRequiredService<TDbContext>(),
@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddGlobalUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelGlobalUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : GlobalUnitOfWork, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWork
     {
@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddGlobalUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelGlobalUnitOfWorkAsync<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TDbContext : GlobalUnitOfWorkAsync, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWorkAsync
     {

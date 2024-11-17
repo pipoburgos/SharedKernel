@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.RabbitMq.Cqrs.Commands;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRabbitMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelRabbitMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));
 

@@ -10,7 +10,7 @@ public class MassTransitEventBusShould : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddMassTransitEventBus(x => x.UsingInMemory((context, cfg) =>
+        return base.ConfigureServices(services).AddSharedKernelMassTransitEventBus(x => x.UsingInMemory((context, cfg) =>
         {
             cfg.ConfigureEndpoints(context);
         }));

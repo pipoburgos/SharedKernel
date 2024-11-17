@@ -14,32 +14,32 @@ public static class ServiceCollectionExtensions
     #region Domain Events Subscribers
 
     /// <summary> . </summary>
-    public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelDomainEventsSubscribers(this IServiceCollection services,
         Type subscribersType, Type domainType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        return services.AddDomainEventsSubscribers(subscribersType.Assembly, domainType.Assembly, serviceLifetime);
+        return services.AddSharedKernelDomainEventsSubscribers(subscribersType.Assembly, domainType.Assembly, serviceLifetime);
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddDomainEventsSubscribers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelDomainEventsSubscribers(this IServiceCollection services,
         Assembly subscribersAssembly, Assembly domainAssembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         return services
-            .AddRequests<DomainEvent>(domainAssembly, nameof(DomainEvent.GetUniqueName), true, serviceLifetime)
-            .AddFromAssembly(subscribersAssembly, serviceLifetime, typeof(IDomainEventSubscriber<>));
+            .AddSharedKernelRequests<DomainEvent>(domainAssembly, nameof(DomainEvent.GetUniqueName), true, serviceLifetime)
+            .AddSharedKernelFromAssembly(subscribersAssembly, serviceLifetime, typeof(IDomainEventSubscriber<>));
     }
 
     #endregion
 
     /// <summary> . </summary>
-    public static IServiceCollection AddSynchronousEventBus(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelSynchronousEventBus(this IServiceCollection services)
     {
         return services
             .AddTransient<IEventBus, SynchronousEventBus>();
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddInMemoryEventBus(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelInMemoryEventBus(this IServiceCollection services)
     {
         return services
             .AddHostedService<InMemoryBackgroundService>()

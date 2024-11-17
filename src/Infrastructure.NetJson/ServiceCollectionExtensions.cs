@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.NetJson;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddNetJsonSerializer(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelNetJsonSerializer(this IServiceCollection services)
     {
         return services
             .RemoveAll<IJsonSerializer>()

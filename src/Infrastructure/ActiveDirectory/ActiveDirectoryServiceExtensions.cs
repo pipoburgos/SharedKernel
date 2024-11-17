@@ -13,7 +13,7 @@ public static class ActiveDirectoryServiceExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddActiveDirectory(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelActiveDirectory(this IServiceCollection services)
     {
         return services
             .AddTransient<IActiveDirectoryService, ActiveDirectoryService>();

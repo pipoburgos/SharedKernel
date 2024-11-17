@@ -11,7 +11,7 @@ namespace SharedKernel.Infrastructure.Requests;
 public static class RequestServiceExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRequests<T>(this IServiceCollection services, Assembly assembly, string method,
+    public static IServiceCollection AddSharedKernelRequests<T>(this IServiceCollection services, Assembly assembly, string method,
         bool isTopic, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         var requests = GetRequests<T>(assembly);

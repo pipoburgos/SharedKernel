@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.AsyncKeyedLock.System.Threading;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register in memory AsyncKeyedLock and IMutex factory. </summary>
-    public static IServiceCollection AddAsyncKeyedLockMutex(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelAsyncKeyedLockMutex(this IServiceCollection services)
     {
         return services
             .AddTransient<IMutexManager, MutexManager>()

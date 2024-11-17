@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.DotNetDBF;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddDotNetDatabaseReader(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelDotNetDatabaseReader(this IServiceCollection services)
     {
         return services
             .AddTransient<IDatabaseReader, DotNetDatabaseReader>();

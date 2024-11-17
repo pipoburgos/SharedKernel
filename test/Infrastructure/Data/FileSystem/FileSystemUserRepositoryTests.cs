@@ -17,8 +17,8 @@ public class FileSystemUserRepositoryTests : UserRepositoryCommonTestTests<FileS
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddFileSystemDbContext<SharedKernelFileSystemDbContext>()
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelFileSystemDbContext<SharedKernelFileSystemDbContext>()
+            .AddSharedKernelNewtonsoftSerializer()
             .AddTransient<FileSystemUserRepository>();
     }
 }

@@ -10,7 +10,7 @@ namespace SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRetryPolicyMiddleware<TImp>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRetryPolicyMiddleware<TImp>(this IServiceCollection services,
         IConfiguration configuration) where TImp : class, IRetryPolicyExceptionHandler
     {
         return services

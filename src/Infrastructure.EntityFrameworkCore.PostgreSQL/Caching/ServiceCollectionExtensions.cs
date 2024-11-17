@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
     /// setup.CreateInfrastructure = configuration["CreateInfrastructure"]; // CreateInfrastructure is optional, default is TRUE This means que every time starts the application the creation of table and database functions will be verified.
     /// setup.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(30); //  ExpiredItemsDeletionInterval is optional This is the periodic interval to scan and delete expired items in the cache. Default is 30 minutes. Minimum allowed is 5 minutes. - If you need less than this please share your use case 😁, just for curiosity...
     /// </summary>
-    public static IServiceCollection AddPostgreSqlDistributedCache(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelPostgreSqlDistributedCache(this IServiceCollection services, IConfiguration configuration)
     {
         var postgreSqlCacheOptions = new PostgreSqlCacheOptions();
         configuration.GetSection(nameof(PostgreSqlCacheOptions)).Bind(postgreSqlCacheOptions);

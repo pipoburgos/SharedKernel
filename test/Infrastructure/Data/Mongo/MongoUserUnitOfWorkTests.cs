@@ -17,7 +17,7 @@ public class MongoUserUnitOfWorkTests : UserUnitOfWorkTests<MongoUserRepository,
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddMongoUnitOfWork<ISharedKernelMongoUnitOfWork, SharedKernelMongoDbContext>(Configuration)
+            .AddSharedKernelMongoUnitOfWork<ISharedKernelMongoUnitOfWork, SharedKernelMongoDbContext>(Configuration)
             .AddTransient<MongoUserRepository>();
     }
 }

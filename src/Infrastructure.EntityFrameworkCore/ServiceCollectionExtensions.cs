@@ -15,7 +15,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register common Ef Core data services. </summary>
-    public static IServiceCollection AddEntityFramework<TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelEntityFramework<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime) where TDbContext : EntityFrameworkDbContext
     {
 #if !NET6_0_OR_GREATER

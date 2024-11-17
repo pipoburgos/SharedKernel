@@ -10,9 +10,9 @@ using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Polly.Requests.Middlewares;
 using SharedKernel.Infrastructure.Requests.Middlewares;
 using SharedKernel.Integration.Tests.Cqrs.Commands;
+using SharedKernel.Integration.Tests.Shared;
 using SharedKernel.Testing.Infrastructure;
 using System.Security.Claims;
-using SharedKernel.Integration.Tests.Shared;
 
 namespace SharedKernel.Integration.Tests.Events;
 
@@ -22,11 +22,11 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
     {
         return services
             .AddSharedKernel()
-            .AddDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
-            .AddNetJsonSerializer()
-            .AddFluentValidation(typeof(SampleCommandValidator))
-            .AddValidationMiddleware()
-            .AddRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
+            .AddSharedKernelDomainEventsSubscribers(typeof(SetCountWhenUserCreatedSubscriber), typeof(UserCreated))
+            .AddSharedKernelNetJsonSerializer()
+            .AddSharedKernelFluentValidation(typeof(SampleCommandValidator))
+            .AddSharedKernelValidationMiddleware()
+            .AddSharedKernelRetryPolicyMiddleware<RetryPolicyExceptionHandler>(Configuration)
             .AddSingleton<PublishUserCreatedDomainEvent>()
             .RemoveAll<IIdentityService>()
             .AddScoped<IIdentityService, HttpContextAccessorIdentityService>()

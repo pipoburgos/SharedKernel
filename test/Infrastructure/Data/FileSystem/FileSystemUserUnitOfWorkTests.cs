@@ -17,8 +17,8 @@ public class FileSystemUserUnitOfWorkTests : UserUnitOfWorkTests<FileSystemUserR
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddFileSystemUnitOfWork<ISharedKernelFileSystemUnitOfWork, SharedKernelFileSystemDbContext>()
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelFileSystemUnitOfWork<ISharedKernelFileSystemUnitOfWork, SharedKernelFileSystemDbContext>()
+            .AddSharedKernelNewtonsoftSerializer()
             .AddTransient<FileSystemUserRepository>();
     }
 }

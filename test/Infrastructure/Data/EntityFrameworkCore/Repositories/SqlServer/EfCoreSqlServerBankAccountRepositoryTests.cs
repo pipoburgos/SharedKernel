@@ -26,7 +26,7 @@ public class EfCoreSqlServerBankAccountRepositoryTests : BankAccountRepositoryCo
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(connection)
+            .AddSharedKernelEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(connection)
             .AddTransient<EfCoreBankAccountRepository>();
     }
 }

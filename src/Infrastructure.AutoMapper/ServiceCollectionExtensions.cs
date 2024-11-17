@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="assemblies"></param>
     /// <returns></returns>
-    public static IServiceCollection AddAutoMapperSharedKernel(this IServiceCollection services, params Assembly[] assemblies)
+    public static IServiceCollection AddSharedKernelAutoMapperSharedKernel(this IServiceCollection services, params Assembly[] assemblies)
     {
         return services
             .AddTransient<Application.Mapper.IMapper, AutoMapperAdapter>()

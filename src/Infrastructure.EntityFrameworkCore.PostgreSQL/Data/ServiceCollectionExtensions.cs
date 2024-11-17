@@ -10,14 +10,14 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Add service PostgreSQL into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgreSqlDbContext<TDbContext>(
+    public static IServiceCollection AddSharedKernelEntityFrameworkCorePostgreSqlDbContext<TDbContext>(
         this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : EntityFrameworkDbContext, IDbContextAsync
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, $"PostgreSql EFCore {typeof(TDbContext)}")
-            .AddEntityFramework<TDbContext>(serviceLifetime)
+            .AddSharedKernelEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
 #if NET6_0_OR_GREATER
@@ -33,26 +33,26 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> Add service PostgreSQL into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgreSqlUnitOfWork<TUnitOfWork, TDbContext>(
+    public static IServiceCollection AddSharedKernelEntityFrameworkCorePostgreSqlUnitOfWork<TUnitOfWork, TDbContext>(
         this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : EntityFrameworkDbContext, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddEntityFrameworkCorePostgreSqlDbContext<TDbContext>(connectionString, serviceLifetime)
+            .AddSharedKernelEntityFrameworkCorePostgreSqlDbContext<TDbContext>(connectionString, serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 
     /// <summary> Add service Postgis into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgisDbContext<TDbContext>(
+    public static IServiceCollection AddSharedKernelEntityFrameworkCorePostgisDbContext<TDbContext>(
         this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : EntityFrameworkDbContext
     {
         return services
             .AddPostgreSqlHealthChecks(connectionString, $"Postgis EFCore {typeof(TDbContext)}")
-            .AddEntityFramework<TDbContext>(serviceLifetime)
+            .AddSharedKernelEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
                     .UseNetTopologySuite()
@@ -69,14 +69,14 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> Add service Postgis into IServiceCollection. </summary>
-    public static IServiceCollection AddEntityFrameworkCorePostgisUnitOfWork<TUnitOfWork, TDbContext>(
+    public static IServiceCollection AddSharedKernelEntityFrameworkCorePostgisUnitOfWork<TUnitOfWork, TDbContext>(
         this IServiceCollection services, string connectionString,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : EntityFrameworkDbContext, TUnitOfWork
         where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddEntityFrameworkCorePostgisDbContext<TDbContext>(connectionString, serviceLifetime)
+            .AddSharedKernelEntityFrameworkCorePostgisDbContext<TDbContext>(connectionString, serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

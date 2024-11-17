@@ -10,7 +10,7 @@ public class InMemoryCommandBusTests : CommandBusCommonTestCase
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddInMemoryCommandBus();
+        return base.ConfigureServices(services).AddSharedKernelInMemoryCommandBus();
     }
 
     [Fact]

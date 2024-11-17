@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
     /// <param name="schema"></param>
     /// <param name="table"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSqlServerDistributedCache(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelSqlServerDistributedCache(this IServiceCollection services,
         string connectionString, string schema = "dbo", string table = "Cache")
     {
         return services

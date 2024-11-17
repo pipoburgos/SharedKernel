@@ -13,7 +13,7 @@ public class RedisCommandBusShould : CommandBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddRedisCommandBusAsync(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelRedisCommandBusAsync(Configuration);
     }
 
     [Fact]

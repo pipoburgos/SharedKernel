@@ -12,10 +12,10 @@ namespace SharedKernel.Infrastructure.Dapper.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddDapperQueryProvider(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelDapperQueryProvider(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped, string? serviceKey = "default")
     {
-        return services.AddKeyed(serviceKey,
+        return services.AddSharedKernelKeyed(serviceKey,
             (sp, key) => new DapperQueryProvider(sp.GetRequiredService<ICustomLogger<DapperQueryProvider>>(),
                 sp.GetRequiredKeyedService<IDbConnectionFactory>(key)), serviceLifetime);
     }

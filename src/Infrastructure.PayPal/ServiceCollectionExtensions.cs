@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.PayPal;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddPayPal(this IServiceCollection services, IConfiguration configuration, Action<PayPalOptions>? configure = null)
+    public static IServiceCollection AddSharedKernelPayPal(this IServiceCollection services, IConfiguration configuration, Action<PayPalOptions>? configure = null)
     {
         //var openIdOptions = new PayPalOptions();
         //configuration.GetSection(nameof(PayPalOptions)).Bind(openIdOptions);

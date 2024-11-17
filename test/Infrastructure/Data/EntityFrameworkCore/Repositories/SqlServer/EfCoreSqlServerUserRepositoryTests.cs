@@ -26,7 +26,7 @@ public class EfCoreSqlServerUserRepositoryTests : UserRepositoryCommonTestTests<
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(connection)
+            .AddSharedKernelEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(connection)
             .AddTransient<EfCoreUserRepository>();
     }
 }

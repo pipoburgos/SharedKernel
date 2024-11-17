@@ -14,7 +14,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.Open
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddServer<TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelServer<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, string encryptionKey, Action<OpenIddictServerBuilder>? configure) where TDbContext : DbContext
     {
         var openIdOptions = new OpenIdOptions();

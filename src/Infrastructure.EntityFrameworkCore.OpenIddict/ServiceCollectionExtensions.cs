@@ -46,15 +46,15 @@ public static class ServiceCollectionExtensions
             .AddScoped<IUserManager, UserManager>()
             .AddScoped<IRoleManager, RoleManager>()
             .AddScoped<IApplicationManager, ApplicationManager>()
-            .AddDomainEventsSubscribers(typeof(SharedKernelApplicationAuthAssembly), typeof(SharedKernelApplicationAuthAssembly))
-            .AddCommandsHandlers(typeof(SharedKernelApplicationAuthAssembly))
-            .AddQueriesHandlers(typeof(SharedKernelApplicationAuthAssembly))
-            .AddFluentValidation(typeof(SharedKernelApplicationAuthAssembly))
+            .AddSharedKernelDomainEventsSubscribers(typeof(SharedKernelApplicationAuthAssembly), typeof(SharedKernelApplicationAuthAssembly))
+            .AddSharedKernelCommandsHandlers(typeof(SharedKernelApplicationAuthAssembly))
+            .AddSharedKernelQueriesHandlers(typeof(SharedKernelApplicationAuthAssembly))
+            .AddSharedKernelFluentValidation(typeof(SharedKernelApplicationAuthAssembly))
             .AddSharedKernelIdentity<TDbContext, TUser, TRole, Guid>(configureOptions)
             .AddScoped<IUserStore<TUser>, UserRepository<TDbContext, TUser, TRole, Guid>>()
             .AddScoped<IRoleStore<TRole>, RoleRepository<TDbContext, TUser, TRole, Guid>>()
             .AddSharedKernelDataProtection<TDbContext>()
-            .AddServer<TDbContext>(configuration, encryptionKey, configure)
+            .AddSharedKernelServer<TDbContext>(configuration, encryptionKey, configure)
             .AddScoped<IAuthUnitOfWork>(sp => sp.GetRequiredService<TDbContext>());
     }
 }

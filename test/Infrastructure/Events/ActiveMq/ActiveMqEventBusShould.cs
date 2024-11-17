@@ -13,7 +13,7 @@ public class ActiveMqEventBusShould : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddActiveMqEventBus(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelActiveMqEventBus(Configuration);
     }
 
     [Fact]

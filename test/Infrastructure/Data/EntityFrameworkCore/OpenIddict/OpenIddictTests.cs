@@ -34,10 +34,10 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
             .AddDbContext<AuthDbContext>(o =>
                 o.UseSqlServer(connection, op => op.EnableRetryOnFailure(5)).ConfigureWarnings(warnings =>
                     warnings.Log(RelationalEventId.PendingModelChangesWarning)))
-            .AddInMemoryEventBus()
-            .AddInMemoryCommandBus()
-            .AddInMemoryQueryBus()
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelInMemoryEventBus()
+            .AddSharedKernelInMemoryCommandBus()
+            .AddSharedKernelInMemoryQueryBus()
+            .AddSharedKernelNewtonsoftSerializer()
             .AddSharedKernelOpenIddict<AuthDbContext, IdentityUser<Guid>, IdentityRole<Guid>>(Configuration,
                 "secret_key_secret_key_secret_key");
     }

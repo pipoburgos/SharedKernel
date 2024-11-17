@@ -10,7 +10,7 @@ namespace SharedKernel.Infrastructure.Communication.Email.Smtp;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSmtp(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelSmtp(this IServiceCollection services, IConfiguration configuration)
     {
         var smtpSettings = new SmtpSettings();
         configuration.GetSection(nameof(SmtpSettings)).Bind(smtpSettings);
@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddOutbox(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelOutbox(this IServiceCollection services)
     {
         return services
             .AddHostedService<OutboxHostedService>()

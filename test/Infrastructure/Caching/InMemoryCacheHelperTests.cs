@@ -11,7 +11,7 @@ public class InMemoryCacheHelperTests : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddInMemoryCache();
+            .AddSharedKernelInMemoryCache();
     }
 
     [Fact]

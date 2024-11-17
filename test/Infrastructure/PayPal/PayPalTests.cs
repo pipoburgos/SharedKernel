@@ -26,11 +26,11 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return services.AddPayPal(Configuration, options =>
+        return services.AddSharedKernelPayPal(Configuration, options =>
         {
             options.Settings.ClientId = ClientId;
             options.Settings.ClientSecret = ClientSecret;
-        }).AddNewtonsoftSerializer();
+        }).AddSharedKernelNewtonsoftSerializer();
     }
 
     [Fact]

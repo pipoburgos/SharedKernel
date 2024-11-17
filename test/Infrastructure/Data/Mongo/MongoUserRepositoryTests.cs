@@ -17,7 +17,7 @@ public class MongoUserRepositoryTests : UserRepositoryCommonTestTests<MongoUserR
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddMongoDbContext<SharedKernelMongoDbContext>(Configuration)
+            .AddSharedKernelMongoDbContext<SharedKernelMongoDbContext>(Configuration)
             .AddTransient<MongoUserRepository>();
     }
 }

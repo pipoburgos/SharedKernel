@@ -11,7 +11,7 @@ namespace SharedKernel.Infrastructure.Redis.Events;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRedisEventBus(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRedisEventBus(this IServiceCollection services,
         IConfiguration configuration)
     {
         return services

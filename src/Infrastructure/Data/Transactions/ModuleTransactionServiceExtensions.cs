@@ -13,7 +13,7 @@ public static class ModuleTransactionServiceExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddTransactions(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelTransactions(this IServiceCollection services)
     {
         return services
             .AddTransient<IModuleTransactionAsync, ModuleTransactionAsync>();

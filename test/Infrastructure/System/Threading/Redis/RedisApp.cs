@@ -14,6 +14,6 @@ public class RedisApp : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddRedisMutex(Configuration);
+            .AddSharedKernelRedisMutex(Configuration);
     }
 }

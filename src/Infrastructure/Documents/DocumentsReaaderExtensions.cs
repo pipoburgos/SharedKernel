@@ -10,13 +10,13 @@ namespace SharedKernel.Infrastructure.Documents;
 public static class DocumentsReaaderExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddDocumentReaderFactory(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelDocumentReaderFactory(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[]? assemblies)
     {
         return services
             .AddTransient<ICsvReader, CsvReader>()
             .AddTransient<IDocumentReaderFactory, DocumentReaderFactory>()
-            .AddFromMatchingInterface<IDocumentReader>(serviceLifetime,
+            .AddSharedKernelFromMatchingInterface<IDocumentReader>(serviceLifetime,
                 assemblies ?? [typeof(DocumentReaderFactory).Assembly]);
     }
 }

@@ -45,10 +45,10 @@ public static class BankAccountServiceCollection
     private static IServiceCollection AddApplication(this IServiceCollection services)
     {
         return services
-            .AddDomainEventsSubscribers(typeof(BankAccountsApplicationAssembly), typeof(BankAccountsDomainAssembly))
-            .AddCommandsHandlers(typeof(BankAccountsApplicationAssembly))
-            .AddQueriesHandlers(typeof(BankAccountsInfrastructureAssembly))
-            .AddFluentValidation(typeof(BankAccountsInfrastructureAssembly));
+            .AddSharedKernelDomainEventsSubscribers(typeof(BankAccountsApplicationAssembly), typeof(BankAccountsDomainAssembly))
+            .AddSharedKernelCommandsHandlers(typeof(BankAccountsApplicationAssembly))
+            .AddSharedKernelQueriesHandlers(typeof(BankAccountsInfrastructureAssembly))
+            .AddSharedKernelFluentValidation(typeof(BankAccountsInfrastructureAssembly));
     }
 
     private static IServiceCollection AddInfrastructure(this IServiceCollection services,
@@ -56,20 +56,20 @@ public static class BankAccountServiceCollection
     {
         var connectionString = configuration.GetConnectionString(connectionStringName)!;
         return services
-            .AddMailKitSmtp(configuration)
-            .AddOutbox()
-            .AddEntityFrameworkCoreOutboxMailRepository<BankAccountDbContext>()
-            .AddFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
+            .AddSharedKernelMailKitSmtp(configuration)
+            .AddSharedKernelOutbox()
+            .AddSharedKernelEntityFrameworkCoreOutboxMailRepository<BankAccountDbContext>()
+            .AddSharedKernelFromMatchingInterface(ServiceLifetime.Transient, typeof(BankAccountsDomainAssembly),
                 typeof(BankAccountsApplicationAssembly), typeof(BankAccountsInfrastructureAssembly))
-            .AddEntityFrameworkCoreSqlServerDbContext<BankAccountDbContext>(connectionString, ServiceLifetime.Scoped)
-            .AddRedisDbContext<BankAccountRedisDbContext>(configuration, ServiceLifetime.Scoped)
-            .AddGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
-            .AddDapperSqlServer(connectionString)
+            .AddSharedKernelEntityFrameworkCoreSqlServerDbContext<BankAccountDbContext>(connectionString, ServiceLifetime.Scoped)
+            .AddSharedKernelRedisDbContext<BankAccountRedisDbContext>(configuration, ServiceLifetime.Scoped)
+            .AddSharedKernelGlobalUnitOfWorkAsync<IBankAccountUnitOfWork, BankAccountGlobalUnitOfWorkAsync>()
+            .AddSharedKernelDapperSqlServer(connectionString)
             .AddHostedService<BankAccountMigration>()
-            .AddFailoverMiddleware()
-            .AddEntityFrameworkCoreFailoverRepository<BankAccountDbContext>()
-            .AddValidationMiddleware()
-            .AddRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)
-            .AddTimerMiddleware();
+            .AddSharedKernelFailoverMiddleware()
+            .AddSharedKernelEntityFrameworkCoreFailoverRepository<BankAccountDbContext>()
+            .AddSharedKernelValidationMiddleware()
+            .AddSharedKernelRetryPolicyMiddleware<BankAccountRetryPolicyExceptionHandler>(configuration)
+            .AddSharedKernelTimerMiddleware();
     }
 }

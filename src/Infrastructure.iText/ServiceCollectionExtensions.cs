@@ -7,7 +7,7 @@ namespace SharedKernelInfrastructure.iText;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddiTextElectronicSignatureValidator(this IServiceCollection services)
+    public static IServiceCollection AddSharedKerneliTextElectronicSignatureValidator(this IServiceCollection services)
     {
         return services
             .AddTransient<IElectronicSignatureValidator, ElectronicSignatureValidator>();

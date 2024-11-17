@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddMassTransitCommandBusAsync(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelMassTransitCommandBusAsync(this IServiceCollection services,
         Action<IBusRegistrationConfigurator> configure)
     {
         services.AddOptions<MassTransitHostOptions>();

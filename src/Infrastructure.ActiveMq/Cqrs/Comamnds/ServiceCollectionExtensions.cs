@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.ActiveMq.Cqrs.Comamnds;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddActiveMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelActiveMqCommandBusAsync(this IServiceCollection services, IConfiguration configuration)
     {
         return services
             .AddActiveMqHealthChecks(configuration, "ActiveMq Command Bus", "ActiveMq", "CommandBus")

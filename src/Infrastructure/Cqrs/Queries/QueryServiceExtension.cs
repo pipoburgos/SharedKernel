@@ -10,44 +10,44 @@ namespace SharedKernel.Infrastructure.Cqrs.Queries;
 public static class QueryServiceExtension
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelQueriesHandlers(this IServiceCollection services,
         Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        services.AddFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+        services.AddSharedKernelFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
         return services;
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddQueriesHandlers(this IServiceCollection services, Type type,
+    public static IServiceCollection AddSharedKernelQueriesHandlers(this IServiceCollection services, Type type,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        services.AddFromAssembly(type.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+        services.AddSharedKernelFromAssembly(type.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
 
         return services;
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelQueriesHandlers(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] infrastructureAssembly)
     {
         foreach (var assembly in infrastructureAssembly)
-            services.AddFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+            services.AddSharedKernelFromAssembly(assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
 
         return services;
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddQueriesHandlers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelQueriesHandlers(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Type[] queryHandlerTypes)
     {
         foreach (var queryHandlerType in queryHandlerTypes)
-            services.AddFromAssembly(queryHandlerType.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
+            services.AddSharedKernelFromAssembly(queryHandlerType.Assembly, serviceLifetime, typeof(IQueryRequestHandler<,>));
 
         return services;
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddInMemoryQueryBus(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelInMemoryQueryBus(this IServiceCollection services)
     {
         return services
             .AddTransient<IQueryBus, InMemoryQueryBus>();

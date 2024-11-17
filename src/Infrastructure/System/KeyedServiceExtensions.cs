@@ -6,7 +6,7 @@ namespace SharedKernel.Infrastructure.System;
 public static class KeyedServiceExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddKeyed<TService>(
+    public static IServiceCollection AddSharedKernelKeyed<TService>(
         this IServiceCollection services,
         object? serviceKey,
         Func<IServiceProvider, object?, TService> implementationFactory,

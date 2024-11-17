@@ -13,7 +13,7 @@ public class RedisEventBusTests : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddRedisEventBus(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelRedisEventBus(Configuration);
     }
 
     [Fact]

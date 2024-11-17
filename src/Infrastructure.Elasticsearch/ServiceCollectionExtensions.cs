@@ -9,7 +9,7 @@ namespace SharedKernel.Infrastructure.Elasticsearch;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
+    public static IServiceCollection AddSharedKernelElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
         var settings = new ElasticsearchClientSettings(uri);

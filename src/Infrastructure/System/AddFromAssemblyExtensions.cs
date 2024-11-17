@@ -16,7 +16,7 @@ public static class AddFromAssemblyExtensions
     /// <param name="serviceLifetime"></param>
     /// <param name="genericTypes"></param>
     /// <returns></returns>
-    public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly,
+    public static IServiceCollection AddSharedKernelFromAssembly(this IServiceCollection services, Assembly assembly,
         ServiceLifetime serviceLifetime, params Type[] genericTypes)
     {
         var classTypes = assembly.GetTypes().Select(t => t.GetTypeInfo()).Where(t => t.IsClass && !t.IsAbstract);

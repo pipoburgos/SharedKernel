@@ -12,23 +12,23 @@ namespace SharedKernel.Infrastructure.Cqrs.Commands;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelCommandsHandlers(this IServiceCollection services,
         Type commandHandlerType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-        return services.AddCommandsHandlers(commandHandlerType.Assembly, serviceLifetime);
+        return services.AddSharedKernelCommandsHandlers(commandHandlerType.Assembly, serviceLifetime);
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddCommandsHandlers(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelCommandsHandlers(this IServiceCollection services,
         Assembly assembly, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         return services
-            .AddRequests<CommandRequest>(assembly, nameof(CommandRequest.GetUniqueName), false, serviceLifetime)
-            .AddFromAssembly(assembly, serviceLifetime, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
+            .AddSharedKernelRequests<CommandRequest>(assembly, nameof(CommandRequest.GetUniqueName), false, serviceLifetime)
+            .AddSharedKernelFromAssembly(assembly, serviceLifetime, typeof(ICommandRequestHandler<>), typeof(ICommandRequestHandler<,>));
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddInMemoryCommandBus(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelInMemoryCommandBus(this IServiceCollection services)
     {
         return services
             .AddHostedService<QueuedHostedService>()

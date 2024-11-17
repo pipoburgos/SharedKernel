@@ -13,7 +13,7 @@ public static class DateTimeExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddMachineDateTime(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelMachineDateTime(this IServiceCollection services)
     {
         return services
             .AddTransient<IDateTime, MachineDateTime>();

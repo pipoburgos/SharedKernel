@@ -18,8 +18,8 @@ public class RedisUserUnitOfWorkTests : UserUnitOfWorkTests<RedisUserRepository,
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddRedisUnitOfWork<ISharedKernelRedisUnitOfWork, SharedKernelRedisDbContext>(Configuration)
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelRedisUnitOfWork<ISharedKernelRedisUnitOfWork, SharedKernelRedisDbContext>(Configuration)
+            .AddSharedKernelNewtonsoftSerializer()
             .AddTransient<RedisUserRepository>();
     }
 }

@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection AddMailKitSmtp(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelMailKitSmtp(this IServiceCollection services, IConfiguration configuration)
     {
         var smtpSettings = new SmtpSettings();
         configuration.GetSection(nameof(SmtpSettings)).Bind(smtpSettings);

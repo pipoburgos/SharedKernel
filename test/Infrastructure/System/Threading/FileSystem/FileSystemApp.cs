@@ -9,6 +9,6 @@ public class FileSystemApp : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddFileSystemMutex(new DirectoryInfo($"{AppDomain.CurrentDomain.BaseDirectory}/tmp"));
+            .AddSharedKernelFileSystemMutex(new DirectoryInfo($"{AppDomain.CurrentDomain.BaseDirectory}/tmp"));
     }
 }

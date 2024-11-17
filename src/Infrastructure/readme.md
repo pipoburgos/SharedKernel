@@ -5,7 +5,7 @@ namespace XXX.Infrastructure;
 
 public static class XXXModule
 {
-    public static IServiceCollection AddXXXModule(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelXXXModule(this IServiceCollection services,
         IConfiguration configuration, string connectionStringName)
     {
         return services

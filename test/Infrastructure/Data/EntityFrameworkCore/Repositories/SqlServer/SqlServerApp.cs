@@ -20,7 +20,7 @@ public class SqlServerApp : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(
+            .AddSharedKernelEntityFrameworkCoreSqlServerDbContext<SharedKernelEntityFrameworkDbContext>(
                 Configuration.GetConnectionString("QueryProviderConnectionString")!)
             .AddHostedService<LoadTestData>();
     }

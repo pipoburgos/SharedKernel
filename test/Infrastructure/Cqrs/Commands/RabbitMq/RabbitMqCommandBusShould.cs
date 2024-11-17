@@ -13,7 +13,7 @@ public class RabbitMqCommandBusShould : CommandBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddRabbitMqCommandBusAsync(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelRabbitMqCommandBusAsync(Configuration);
     }
 
     [Fact]

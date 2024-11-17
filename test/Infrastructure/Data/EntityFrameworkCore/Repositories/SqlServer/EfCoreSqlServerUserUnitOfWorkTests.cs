@@ -26,7 +26,7 @@ public class EfCoreSqlServerUserUnitOfWorkTests : UserUnitOfWorkTests<EfCoreUser
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork,
+            .AddSharedKernelEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork,
                 SharedKernelEntityFrameworkDbContext>(connection)
             .AddTransient<EfCoreUserRepository>();
     }

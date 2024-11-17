@@ -17,7 +17,7 @@ public class MongoBankAccountRepositoryTests : BankAccountRepositoryCommonTestTe
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddMongoDbContext<SharedKernelMongoDbContext>(Configuration)
+            .AddSharedKernelMongoDbContext<SharedKernelMongoDbContext>(Configuration)
             .AddTransient<MongoBankAccountRepository>();
     }
 }

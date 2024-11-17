@@ -13,7 +13,7 @@ public class ActiveMqCommandBusShould : CommandBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddActiveMqCommandBusAsync(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelActiveMqCommandBusAsync(Configuration);
     }
 
     [Fact]

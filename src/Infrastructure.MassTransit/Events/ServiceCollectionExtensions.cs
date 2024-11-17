@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.MassTransit.Events;
 public static class ServiceCollectionExtensions
 {
     /// <summary>  </summary>
-    public static IServiceCollection AddMassTransitEventBus(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelMassTransitEventBus(this IServiceCollection services,
         Action<IBusRegistrationConfigurator> configure)
     {
         services.AddOptions<MassTransitHostOptions>();

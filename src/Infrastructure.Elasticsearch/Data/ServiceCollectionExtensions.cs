@@ -9,22 +9,22 @@ namespace SharedKernel.Infrastructure.Elasticsearch.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddElasticsearchDbContext<TDbContext>(this IServiceCollection services, Uri uri,
+    public static IServiceCollection AddSharedKernelElasticsearchDbContext<TDbContext>(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : ElasticsearchDbContext
     {
         return services
-            .AddDbContext<TDbContext>(serviceLifetime)
-            .AddElasticsearchHealthChecks(uri, serviceLifetime);
+            .AddSharedKernelDbContext<TDbContext>(serviceLifetime)
+            .AddSharedKernelElasticsearchHealthChecks(uri, serviceLifetime);
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddElasticsearchUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelElasticsearchUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         Uri uri, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : ElasticsearchDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddElasticsearchDbContext<TDbContext>(uri, serviceLifetime)
+            .AddSharedKernelElasticsearchDbContext<TDbContext>(uri, serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

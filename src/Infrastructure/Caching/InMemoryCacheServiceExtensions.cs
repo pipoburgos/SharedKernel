@@ -13,7 +13,7 @@ public static class InMemoryCacheServiceExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddInMemoryCache(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelInMemoryCache(this IServiceCollection services)
     {
         return services
             .AddLogging()

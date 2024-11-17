@@ -20,8 +20,8 @@ public class RedisCacheHelperTests : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddAsyncKeyedLockMutex()
-            .AddRedisDistributedCache(Configuration);
+            .AddSharedKernelAsyncKeyedLockMutex()
+            .AddSharedKernelRedisDistributedCache(Configuration);
     }
 
     [Fact]

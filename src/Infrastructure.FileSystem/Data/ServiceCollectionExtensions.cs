@@ -9,20 +9,20 @@ namespace SharedKernel.Infrastructure.FileSystem.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddFileSystemDbContext<TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFileSystemDbContext<TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : FileSystemDbContext
     {
-        return services.AddDbContext<TDbContext>(serviceLifetime);
+        return services.AddSharedKernelDbContext<TDbContext>(serviceLifetime);
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddFileSystemUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelFileSystemUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : FileSystemDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddFileSystemDbContext<TDbContext>(serviceLifetime)
+            .AddSharedKernelFileSystemDbContext<TDbContext>(serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

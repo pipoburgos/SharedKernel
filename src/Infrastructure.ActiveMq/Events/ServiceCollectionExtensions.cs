@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection AddActiveMqEventBus(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelActiveMqEventBus(this IServiceCollection services, IConfiguration configuration)
     {
         return services
             .AddActiveMqHealthChecks(configuration, "ActiveMq Event Bus", "ActiveMq", "EventBus")

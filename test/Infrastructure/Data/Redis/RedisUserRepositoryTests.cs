@@ -18,8 +18,8 @@ public class RedisUserRepositoryTests : UserRepositoryCommonTestTests<RedisUserR
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddRedisDbContext<SharedKernelRedisDbContext>(Configuration)
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelRedisDbContext<SharedKernelRedisDbContext>(Configuration)
+            .AddSharedKernelNewtonsoftSerializer()
             .AddTransient<RedisUserRepository>();
     }
 }

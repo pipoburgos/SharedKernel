@@ -7,7 +7,7 @@ namespace SharedKernel.Infrastructure.FileSystem.System.Threading;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register File System IMutexManager and IMutex factory. </summary>
-    public static IServiceCollection AddFileSystemMutex(this IServiceCollection services, DirectoryInfo directoryInfo)
+    public static IServiceCollection AddSharedKernelFileSystemMutex(this IServiceCollection services, DirectoryInfo directoryInfo)
     {
         return services
             .AddTransient<IMutexManager, MutexManager>()

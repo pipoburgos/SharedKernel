@@ -7,7 +7,7 @@ namespace SharedKernel.Infrastructure.Reporting;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddReportingRenderer(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelReportingRenderer(this IServiceCollection services)
     {
         return services
             .AddTransient<IReportRenderer, ReportRenderer>();

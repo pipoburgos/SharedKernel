@@ -10,14 +10,14 @@ namespace SharedKernel.Infrastructure.Requests.Middlewares;
 public static class MiddlewaresExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddValidationMiddleware(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelValidationMiddleware(this IServiceCollection services)
     {
         return services
             .AddTransient<IMiddleware, ValidationMiddleware>();
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddTimerMiddleware<TTimeHandler>(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelTimerMiddleware<TTimeHandler>(this IServiceCollection services)
         where TTimeHandler : class, ITimeHandler
     {
         return services
@@ -26,7 +26,7 @@ public static class MiddlewaresExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddTimerMiddleware(this IServiceCollection services, int milliseconds = 100)
+    public static IServiceCollection AddSharedKernelTimerMiddleware(this IServiceCollection services, int milliseconds = 100)
     {
         return services
             .AddTransient<ITimeHandler>(s =>
@@ -35,7 +35,7 @@ public static class MiddlewaresExtensions
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddFailoverMiddleware(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelFailoverMiddleware(this IServiceCollection services)
     {
         return services
             .AddTransient<FailoverCommonLogic>()

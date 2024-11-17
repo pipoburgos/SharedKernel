@@ -26,7 +26,7 @@ public class SqlServerDapperQueryProviderTests : InfrastructureTestCase<FakeStar
             .AddDbContext<SharedKernelEntityFrameworkDbContext>(options => options.UseSqlServer(connection!), ServiceLifetime.Transient)
             .AddDbContextFactory<SharedKernelEntityFrameworkDbContext>()
             .AddSharedKernelLogging()
-            .AddDapperSqlServer(Configuration.GetConnectionString("DapperConnectionString")!);
+            .AddSharedKernelDapperSqlServer(Configuration.GetConnectionString("DapperConnectionString")!);
     }
 
     [Fact]

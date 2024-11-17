@@ -10,22 +10,22 @@ namespace SharedKernel.Infrastructure.Redis.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRedisDbContext<TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRedisDbContext<TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         where TDbContext : RedisDbContext
     {
         return services
-            .AddDbContext<TDbContext>(serviceLifetime)
+            .AddSharedKernelDbContext<TDbContext>(serviceLifetime)
             .AddRedisHealthChecks(configuration, "Redis UnitOfWork", "Redis UnitOfWork");
     }
 
     /// <summary> . </summary>
-    public static IServiceCollection AddRedisUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRedisUnitOfWork<TUnitOfWork, TDbContext>(this IServiceCollection services,
         IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : RedisDbContext, TUnitOfWork where TUnitOfWork : class, IUnitOfWork
     {
         return services
-            .AddRedisDbContext<TDbContext>(configuration, serviceLifetime)
+            .AddSharedKernelRedisDbContext<TDbContext>(configuration, serviceLifetime)
             .AddScoped<TUnitOfWork>(s => s.GetRequiredService<TDbContext>());
     }
 }

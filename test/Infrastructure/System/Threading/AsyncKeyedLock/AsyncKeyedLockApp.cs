@@ -8,6 +8,6 @@ public class AsyncKeyedLockApp : InfrastructureTestCase<FakeStartup>
 {
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return services.AddAsyncKeyedLockMutex();
+        return services.AddSharedKernelAsyncKeyedLockMutex();
     }
 }

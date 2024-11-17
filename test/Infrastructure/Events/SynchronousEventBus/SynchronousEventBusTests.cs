@@ -12,7 +12,7 @@ public class SynchronousEventBusTests : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddSynchronousEventBus();
+        return base.ConfigureServices(services).AddSharedKernelSynchronousEventBus();
     }
 
     [Fact]

@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection AddRedisDistributedCache(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelRedisDistributedCache(this IServiceCollection services, IConfiguration configuration)
     {
         return services.AddRedisHealthChecks(configuration, "Redis Cache", "DistributedCache");
     }

@@ -48,13 +48,13 @@ public class Startup
             .AddSharedKernelNewtonsoftJson();
 
         _services = services
-            .AddInMemoryCommandBus()
-            .AddRedisCommandBusAsync(_configuration)
-            .AddNewtonsoftSerializer()
-            .AddInMemoryQueryBus()
-            .AddRedisEventBus(_configuration)
-            .AddRedisDistributedCache(_configuration)
-            .AddRedisMutex(_configuration)
+            .AddSharedKernelInMemoryCommandBus()
+            .AddSharedKernelRedisCommandBusAsync(_configuration)
+            .AddSharedKernelNewtonsoftSerializer()
+            .AddSharedKernelInMemoryQueryBus()
+            .AddSharedKernelRedisEventBus(_configuration)
+            .AddSharedKernelRedisDistributedCache(_configuration)
+            .AddSharedKernelRedisMutex(_configuration)
             .AddBankAccounts(_configuration, "BankAccountConnection")
             .AddSharedKernelOpenApi(_configuration)
             //.AddOpenApi(o =>

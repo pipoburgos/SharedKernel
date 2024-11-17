@@ -13,7 +13,7 @@ public class RabbitMqEventBusShould : EventBusCommonTestCase
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return base.ConfigureServices(services).AddRabbitMqEventBus(Configuration);
+        return base.ConfigureServices(services).AddSharedKernelRabbitMqEventBus(Configuration);
     }
 
     [Fact]

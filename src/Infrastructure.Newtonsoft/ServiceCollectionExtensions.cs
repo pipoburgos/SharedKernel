@@ -8,7 +8,7 @@ namespace SharedKernel.Infrastructure.Newtonsoft;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddNewtonsoftSerializer(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelNewtonsoftSerializer(this IServiceCollection services)
     {
         return services
             .RemoveAll<IJsonSerializer>()

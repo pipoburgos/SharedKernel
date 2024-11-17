@@ -17,7 +17,7 @@ public class MailKitSmtpEmailSenderTests : InfrastructureTestCase<FakeStartup>
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        return services.AddSharedKernel().AddMailKitSmtp(Configuration);
+        return services.AddSharedKernel().AddSharedKernelMailKitSmtp(Configuration);
     }
 
     [Fact]

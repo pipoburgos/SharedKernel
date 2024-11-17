@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection AddRabbitMqEventBus(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRabbitMqEventBus(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.Configure<RabbitMqConfigParams>(configuration.GetSection("RabbitMq"));

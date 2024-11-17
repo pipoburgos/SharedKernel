@@ -12,7 +12,7 @@ namespace SharedKernel.Infrastructure.Redsys;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRedsys<T>(this IServiceCollection services, IConfiguration configuration,
+    public static IServiceCollection AddSharedKernelRedsys<T>(this IServiceCollection services, IConfiguration configuration,
         Action<RedsysOptions>? configureOptions = null) where T : class, IJsonSerializer
     {
         var redsysOptions = new RedsysOptions();

@@ -7,7 +7,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Requests.Middlewares;
 public static class ServiceCollectionExtensions
 {
     /// <summary> IMPORTANT!!! Add modelBuilder.ApplyConfiguration(new ErrorRequestConfiguration()) </summary>
-    public static IServiceCollection AddEntityFrameworkCoreFailoverRepository<TContext>(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelEntityFrameworkCoreFailoverRepository<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
         return services

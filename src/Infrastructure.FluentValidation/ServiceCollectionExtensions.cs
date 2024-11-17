@@ -10,14 +10,14 @@ namespace SharedKernel.Infrastructure.FluentValidation;
 public static class ServiceCollectionExtensions
 {
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddFluentValidation(this IServiceCollection services, Type type,
+    public static IServiceCollection AddSharedKernelFluentValidation(this IServiceCollection services, Type type,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, CascadeMode cascadeMode = CascadeMode.Stop)
     {
-        return services.AddFluentValidation(type.Assembly, serviceLifetime, cascadeMode);
+        return services.AddSharedKernelFluentValidation(type.Assembly, serviceLifetime, cascadeMode);
     }
 
     /// <summary> Register all AbstractValidator from library. </summary>
-    public static IServiceCollection AddFluentValidation(this IServiceCollection services, Assembly assembly,
+    public static IServiceCollection AddSharedKernelFluentValidation(this IServiceCollection services, Assembly assembly,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient, CascadeMode cascadeMode = CascadeMode.Stop)
     {
         ValidatorOptions.Global.DefaultRuleLevelCascadeMode = cascadeMode;

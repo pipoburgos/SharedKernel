@@ -7,7 +7,7 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Communication.Email;
 public static class ServiceCollectionExtensions
 {
     /// <summary> IMPORTANT!!! Add modelBuilder.ApplyConfiguration(new OutboxMailConfiguration()) </summary>
-    public static IServiceCollection AddEntityFrameworkCoreOutboxMailRepository<TContext>(this IServiceCollection services)
+    public static IServiceCollection AddSharedKernelEntityFrameworkCoreOutboxMailRepository<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
         return services

@@ -27,7 +27,7 @@ public class SqlServerApp : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
 
         return services
-            .AddEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork, SharedKernelEntityFrameworkDbContext>(connection)
-            .AddSqlServerMutex(connection);
+            .AddSharedKernelEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork, SharedKernelEntityFrameworkDbContext>(connection)
+            .AddSharedKernelSqlServerMutex(connection);
     }
 }

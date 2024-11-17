@@ -11,7 +11,7 @@ namespace SharedKernel.Infrastructure.Redis.Cqrs.Commands;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddRedisCommandBusAsync(this IServiceCollection services,
+    public static IServiceCollection AddSharedKernelRedisCommandBusAsync(this IServiceCollection services,
         IConfiguration configuration)
     {
         return services
