@@ -48,11 +48,7 @@ internal sealed class PaymentRequestService : IPaymentRequestService
 
         var signature = _signatureManager.GetSignature(merchantParametersString, paymentRequest.Order, options.Key);
 
-        return new PaymentFormData(
-            options.Production
-                ? "https://sis.redsys.es/sis/rest/trataPeticionREST"
-                : "https://sis-t.redsys.es:25443/sis/rest/trataPeticionREST", "HMAC_SHA256_V1",
-            merchantParametersString, signature);
+        return new PaymentFormData(options.FormUrl, options.SignatureVersion, merchantParametersString, signature);
     }
 
     private static string GenerateAmount(decimal price)

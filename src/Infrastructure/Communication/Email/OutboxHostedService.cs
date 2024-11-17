@@ -40,14 +40,17 @@ internal class OutboxHostedService : BackgroundService
                 if (outboxMailRepository == default)
                     throw new InvalidOperationException("IOutboxMailRepository not registered.");
 
-                var mails = await outboxMailRepository.GetPendingMails(stoppingToken);
-
-                foreach (var outboxMail in mails)
+                if (await outboxMailRepository.AnyPending(stoppingToken))
                 {
-                    await emailSender.SendEmailAsync(outboxMail, stoppingToken);
+                    var mails = await outboxMailRepository.GetPendingMails(stoppingToken);
 
-                    outboxMail.Pending = true;
-                    await outboxMailRepository.Update(outboxMail, stoppingToken);
+                    foreach (var outboxMail in mails)
+                    {
+                        await emailSender.SendEmailAsync(outboxMail, stoppingToken);
+
+                        outboxMail.Pending = true;
+                        await outboxMailRepository.Update(outboxMail, stoppingToken);
+                    }
                 }
             }
             catch (Exception e)

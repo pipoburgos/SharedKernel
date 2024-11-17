@@ -59,4 +59,12 @@ public class RedsysOptions
 
     /// <summary> Clave privada. </summary>
     public string Key { get; set; } = null!;
+
+    /// <summary> SignatureVersion. </summary>
+    public string SignatureVersion => "HMAC_SHA256_V1";
+
+    /// <summary> Form url. </summary>
+    public string FormUrl => Production
+        ? "https://sis.redsys.es/sis/rest/trataPeticionREST"
+        : "https://sis-t.redsys.es:25443/sis/rest/trataPeticionREST";
 }

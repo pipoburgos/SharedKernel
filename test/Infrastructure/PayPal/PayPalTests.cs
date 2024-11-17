@@ -67,7 +67,6 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
                 ItemList = itemList,
             },
         };
-        // Adding description about the transaction
 
         var payPalPaymentP = new Payment
         {
@@ -84,7 +83,6 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
             },
         };
 
-        // Create a payment using a APIContext
         var createdPayment = payPalPaymentP.Create(client);
 
         createdPayment.Id.Should().NotBeNullOrWhiteSpace();
@@ -117,23 +115,16 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
         using var httpClient = new HttpClient();
 
         var jsonSerializer = GetRequiredServiceOnNewScope<IJsonSerializer>();
-        // Configura la autenticación básica con ClientId y SecretId en Base64
         var authToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}"));
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authToken);
 
-        // Configura el contenido de la solicitud en application/x-www-form-urlencoded
         var requestData = new StringContent("grant_type=client_credentials", Encoding.UTF8, "application/x-www-form-urlencoded");
 
-        // Realiza la solicitud POST
         var response = await httpClient.PostAsync("https://api-m.sandbox.paypal.com/v1/oauth2/token", requestData);
 
-        // Verifica si la solicitud fue exitosa
         if (!response.IsSuccessStatusCode)
-        {
             throw new Exception($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
-        }
 
-        // Deserializa la respuesta en la clase PayPalTokenResponse
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var token = jsonSerializer.Deserialize<PayPalTokenResponse>(jsonResponse, NamingConvention.SnakeCase);
 

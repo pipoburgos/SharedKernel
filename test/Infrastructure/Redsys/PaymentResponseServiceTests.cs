@@ -13,10 +13,8 @@ public class PaymentResponseServiceTests
 
     public PaymentResponseServiceTests()
     {
-        // Crear el mock de IOptionsSnapshot<RedsysOptions>
         var optionsSnapshotMock = Substitute.For<IOptionsSnapshot<RedsysOptions>>();
 
-        // Crear una instancia de RedsysOptions con los valores de prueba
         var redsysOptions = new RedsysOptions
         {
             MerchantName = "Test Merchant",
@@ -28,7 +26,6 @@ public class PaymentResponseServiceTests
             Key = "Mk9m98IfEblmPfrpsawt7BmxObt98Jev",
         };
 
-        // Configurar el mock para devolver redsysOptions cuando se acceda a .Value
         optionsSnapshotMock.Value.Returns(redsysOptions);
 
         _paymentResponseService = new PaymentResponseService(

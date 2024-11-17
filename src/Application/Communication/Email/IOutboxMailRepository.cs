@@ -4,6 +4,9 @@
 public interface IOutboxMailRepository
 {
     /// <summary> . </summary>
+    Task<bool> AnyPending(CancellationToken cancellationToken);
+
+    /// <summary> . </summary>
     Task<List<OutboxMail>> GetPendingMails(CancellationToken cancellationToken);
 
     /// <summary> . </summary>

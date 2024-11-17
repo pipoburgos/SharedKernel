@@ -14,6 +14,12 @@ public class EntityFrameworkCoreOutboxMailRepository<TContext> : IDisposable, IO
     }
 
     /// <summary> . </summary>
+    public Task<bool> AnyPending(CancellationToken cancellationToken)
+    {
+        return _context.Set<OutboxMail>().AnyAsync(x => x.Pending, cancellationToken);
+    }
+
+    /// <summary> . </summary>
     public Task<List<OutboxMail>> GetPendingMails(CancellationToken cancellationToken)
     {
         return _context.Set<OutboxMail>().Where(x => x.Pending).ToListAsync(cancellationToken);
