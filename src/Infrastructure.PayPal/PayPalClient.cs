@@ -64,7 +64,7 @@ internal class PayPalClient : IPayPalClient
 
             var response = await client.SendAsync(request, cancellationToken);
 
-#if NETSTANDARD2_1
+#if NETSTANDARD2_0_OR_GREATER
             var responseContent = await response.Content.ReadAsStringAsync();
 #else
             var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
