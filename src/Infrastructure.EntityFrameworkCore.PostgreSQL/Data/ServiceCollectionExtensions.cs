@@ -20,9 +20,6 @@ public static class ServiceCollectionExtensions
             .AddSharedKernelEntityFramework<TDbContext>(serviceLifetime)
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
-#if NET6_0_OR_GREATER
-                    .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-#endif
                     .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!))
                 .UseSnakeCaseNamingConvention(), serviceLifetime)
 #if !NET6_0_OR_GREATER
@@ -56,9 +53,6 @@ public static class ServiceCollectionExtensions
             .AddDbContext<TDbContext>(a => a
                 .UseNpgsql(connectionString, b => b
                     .UseNetTopologySuite()
-#if NET6_0_OR_GREATER
-                    .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-#endif
                     .EnableRetryOnFailure(5, TimeSpan.FromSeconds(1.0), default!))
                 .UseSnakeCaseNamingConvention(), serviceLifetime)
 #if !NET6_0_OR_GREATER

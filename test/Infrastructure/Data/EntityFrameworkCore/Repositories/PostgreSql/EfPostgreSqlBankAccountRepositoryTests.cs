@@ -1,4 +1,4 @@
-﻿#if NET8_0
+﻿#if NET8_0_OR_GREATER
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +28,7 @@ public class EfPostgreSqlBankAccountRepositoryTests : BankAccountRepositoryCommo
     {
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
         return services
-            .AddEntityFrameworkCorePostgreSqlDbContext<PostgreSqlSharedKernelDbContext>(connection)
+            .AddSharedKernelEntityFrameworkCorePostgreSqlDbContext<PostgreSqlSharedKernelDbContext>(connection)
             .AddTransient<EfPostgreSqlBankAccountRepository>();
     }
 }

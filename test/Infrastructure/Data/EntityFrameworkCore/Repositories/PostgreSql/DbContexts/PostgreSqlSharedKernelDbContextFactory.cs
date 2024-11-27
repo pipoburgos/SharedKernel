@@ -1,4 +1,4 @@
-﻿#if NET8_0
+﻿#if NET8_0_OR_GREATER
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
