@@ -17,8 +17,9 @@ internal class MigrationDbContext<TDbContext> : IHostedService where TDbContext 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = _serviceProvider.CreateScope();
-        await using var loansDbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
-        await loansDbContext.Database.MigrateAsync(cancellationToken);
+        await using var authDbContext = scope.ServiceProvider.GetRequiredService<TDbContext>();
+        //await authDbContext.Database.EnsureDeletedAsync(cancellationToken);
+        await authDbContext.Database.MigrateAsync(cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

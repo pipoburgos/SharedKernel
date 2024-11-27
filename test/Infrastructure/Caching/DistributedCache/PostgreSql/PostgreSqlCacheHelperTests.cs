@@ -1,5 +1,4 @@
-﻿#if NET8_0
-using Community.Microsoft.Extensions.Caching.PostgreSql;
+﻿using Community.Microsoft.Extensions.Caching.PostgreSql;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
@@ -23,9 +22,9 @@ public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddAsyncKeyedLockMutex()
-            .AddDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
-            .AddPostgreSqlDistributedCache(Configuration);
+            .AddSharedKernelAsyncKeyedLockMutex()
+            .AddSharedKernelDapperPostgreSql(Configuration.GetSection(nameof(PostgreSqlCacheOptions) + ":ConnectionString").Value!)
+            .AddSharedKernelPostgreSqlDistributedCache(Configuration);
     }
 
     [Fact]
@@ -65,4 +64,3 @@ public class PostgreSqlCacheHelperTests : InfrastructureTestCase<FakeStartup>
         Assert.Equal(2, contador);
     }
 }
-#endif

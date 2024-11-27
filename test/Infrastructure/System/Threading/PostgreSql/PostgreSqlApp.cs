@@ -1,4 +1,4 @@
-﻿#if NET8_0
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +28,7 @@ public class PostgreSqlApp : InfrastructureTestCase<FakeStartup>
         var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
 
         return services
-            .AddEntityFrameworkCorePostgreSqlUnitOfWork<IPostgreSqlSharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
-            .AddPostgreSqlMutex(connection);
+            .AddSharedKernelEntityFrameworkCorePostgreSqlUnitOfWork<IPostgreSqlSharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)
+            .AddSharedKernelPostgreSqlMutex(connection);
     }
 }
-#endif

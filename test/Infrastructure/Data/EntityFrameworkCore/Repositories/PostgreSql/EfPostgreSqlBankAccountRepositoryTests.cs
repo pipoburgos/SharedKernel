@@ -1,5 +1,4 @@
-﻿#if NET8_0_OR_GREATER
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
@@ -32,4 +31,3 @@ public class EfPostgreSqlBankAccountRepositoryTests : BankAccountRepositoryCommo
             .AddTransient<EfPostgreSqlBankAccountRepository>();
     }
 }
-#endif

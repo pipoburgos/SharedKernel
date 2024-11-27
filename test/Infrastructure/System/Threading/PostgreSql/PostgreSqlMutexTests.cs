@@ -1,5 +1,4 @@
-﻿#if NET8_0
-namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
+﻿namespace SharedKernel.Integration.Tests.System.Threading.PostgreSql;
 
 
 public class PostgreSqlMutexTests : CommonMutexTests<PostgreSqlApp>
@@ -8,4 +7,3 @@ public class PostgreSqlMutexTests : CommonMutexTests<PostgreSqlApp>
     {
     }
 }
-#endif

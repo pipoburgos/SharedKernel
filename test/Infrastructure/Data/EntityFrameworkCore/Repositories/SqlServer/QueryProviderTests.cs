@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Tests.Users;
-#if NET461 || NETSTANDARD2_1
-using SharedKernel.Infrastructure.Data.EntityFrameworkCore.DbContexts;
-#endif
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
 using SharedKernel.Infrastructure.Data.Queryable;

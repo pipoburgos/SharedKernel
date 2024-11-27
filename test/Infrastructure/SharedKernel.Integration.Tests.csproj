@@ -181,8 +181,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Redsys\" />
-  </ItemGroup>
-
 </Project>
