@@ -1,6 +1,7 @@
 ﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using SharedKernel.Application.Documents;
+using System.Globalization;
 
 namespace SharedKernel.Infrastructure.NPOI.Documents.Excel;
 
@@ -41,7 +42,45 @@ public class NpoiExcelWriter : IExcelWriter
 
             foreach (var value in values)
             {
-                dataRow.CreateCell(colIndex).SetCellValue(value != null ? value.ToString() : string.Empty);
+                if (value == null)
+                {
+
+                    dataRow.CreateCell(colIndex);
+                }
+                else
+                {
+
+                    var cell = dataRow.CreateCell(colIndex);
+
+                    var valueType = value!.GetType();
+
+                    var setCellValueMethod = typeof(ICell).GetMethod("SetCellValue", [valueType]);
+
+                    if (setCellValueMethod != null)
+                    {
+                        setCellValueMethod.Invoke(cell, [value]);
+                    }
+                    else
+                    {
+                        cell.SetCellValue(value.ToString());
+                    }
+
+                    if (valueType == typeof(DateTime))
+                    {
+                        var date = (DateTime)value;
+
+                        var cellStyle = sheet.Workbook.CreateCellStyle();
+                        var dateFormat = sheet.Workbook.CreateDataFormat();
+
+                        var format = CultureInfo.CurrentCulture.DateTimeFormat;
+
+                        cellStyle.DataFormat = dateFormat.GetFormat(date.TimeOfDay == TimeSpan.Zero
+                            ? format.ShortDatePattern
+                            : $"{format.ShortDatePattern} {format.ShortTimePattern}");
+
+                        cell.CellStyle = cellStyle;
+                    }
+                }
                 colIndex++;
             }
 
