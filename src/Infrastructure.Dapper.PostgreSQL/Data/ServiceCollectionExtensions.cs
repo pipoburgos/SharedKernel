@@ -17,6 +17,6 @@ public static class ServiceCollectionExtensions
 
         return services
             .AddSharedKernelDapperQueryProvider(serviceLifetime, serviceKey)
-            .AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString));
+            .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString));
     }
 }
