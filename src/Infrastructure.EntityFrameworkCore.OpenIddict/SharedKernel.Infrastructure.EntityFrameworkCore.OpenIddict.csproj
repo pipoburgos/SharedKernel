@@ -32,8 +32,8 @@
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="OpenIddict.AspNetCore" Version="5.8.0" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.8.0" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
