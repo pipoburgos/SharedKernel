@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Application.Documents;
+using SharedKernel.Domain.Extensions;
 using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Documents.Txt;
@@ -37,6 +38,21 @@ public class TxtRow : IRowData
     }
 
     /// <summary> . </summary>
+    public Result<T> GetResult<T>(int index)
+    {
+        if (_cells == default!)
+            return Result.Failure<T>(Error.Create("Row is null or does not exist."));
+
+        if (_cells.Count < index + 1)
+            return Result.Failure<T>(Error.Create("Row is null or does not exist."));
+
+        var cell = _cells[index];
+
+        return GetCellValueResult<T>(cell);
+    }
+
+
+    /// <summary> . </summary>
     public T Get<T>(string name)
     {
         if (_cells == default!)
@@ -47,11 +63,48 @@ public class TxtRow : IRowData
         return Get<T>(index);
     }
 
+    /// <summary> . </summary>
+    public Result<T> GetResult<T>(string name)
+    {
+        if (_cells == default!)
+        {
+            return typeof(T).IsNullable()
+                ? default!
+                : Result.Failure<T>(Error.Create("Type is required, cell is null"));
+        }
+
+        var index = _columnNames.FindIndex(x => x == name);
+
+        if (index < 0)
+            return Result.Failure<T>(Error.Create($"Column '{name}' not found."));
+
+        return GetResult<T>(index);
+    }
+
     private T GetCellValue<T>(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return default!;
 
-        return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
+        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+        return (T)Convert.ChangeType(value, typeNotNullable, _cultureInfo);
+    }
+
+    private Result<T> GetCellValueResult<T>(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return typeof(T).IsNullable()
+                ? Result.Success<T>(default!)
+                : Result.Failure<T>(Error.Create("Type is required, cell is null"));
+        }
+
+        if (!value.IsConvertible<T>())
+            return Result.Failure<T>(Error.Create($"Cannot convert cell value to type '{typeof(T).Name}'."));
+
+        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+        return ((T)Convert.ChangeType(value, typeNotNullable, _cultureInfo)).Success();
     }
 }

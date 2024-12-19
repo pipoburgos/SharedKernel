@@ -11,4 +11,10 @@ public interface IRowData
 
     /// <summary> . </summary>
     T Get<T>(string name);
+
+    /// <summary> . </summary>
+    Result<T> GetResult<T>(int index);
+
+    /// <summary> . </summary>
+    Result<T> GetResult<T>(string name);
 }

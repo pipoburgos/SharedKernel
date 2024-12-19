@@ -1,6 +1,6 @@
-﻿Username; Identifier;First name;Last name
-booker12;9012;Rachel;Booker
-grey07;2070;Laura;Grey
-johnson81;4081;Craig;Johnson
-jenkins46;9346;Mary;Jenkins
-smith79;5079;Jamie;Smith
+﻿Username; Identifier;First name;Last name;Date
+booker12;9012;Rachel;Booker;31/12/2023
+grey07;2070;Laura;Grey;01/01/2024
+johnson81;4081;Craig;Johnson;
+jenkins46;9346;Mary;Jenkins;03/01/2024
+smith79;5079;;Smith;
