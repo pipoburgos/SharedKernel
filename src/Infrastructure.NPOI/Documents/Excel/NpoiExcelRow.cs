@@ -1,5 +1,7 @@
 ﻿using NPOI.SS.UserModel;
 using SharedKernel.Application.Documents;
+using SharedKernel.Domain.Extensions;
+using SharedKernel.Domain.RailwayOrientedProgramming;
 using System.Globalization;
 
 namespace SharedKernel.Infrastructure.NPOI.Documents.Excel;
@@ -38,6 +40,17 @@ public class NpoiExcelRow : IRowData
     }
 
     /// <summary> . </summary>
+    public Result<T> GetResult<T>(int index)
+    {
+        if (_cells == default!)
+            return default!;
+
+        var cell = _cells.GetCell(index, MissingCellPolicy.CREATE_NULL_AS_BLANK);
+
+        return GetCellValueResult<T>(cell);
+    }
+
+    /// <summary> . </summary>
     public T Get<T>(string name)
     {
         if (_cells == default!)
@@ -48,15 +61,62 @@ public class NpoiExcelRow : IRowData
         return Get<T>(index);
     }
 
+    /// <summary> . </summary>
+    public Result<T> GetResult<T>(string name)
+    {
+        if (_cells == default!)
+        {
+            return Result.Success<T>(default!);
+        }
+
+        var index = _columnNames.FindIndex(x => x == name);
+
+        if (index < 0)
+            return Result.Failure<T>(Error.Create($"Column '{name}' not found."));
+
+        return GetResult<T>(index);
+    }
+
     private T GetCellValue<T>(ICell cell)
     {
-        object cellValue;
+        var cellValue = GetObjectCellValue<T>(cell);
+
+        if (cellValue == default)
+            return default!;
+
+        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+        return (T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo);
+    }
+
+    private Result<T> GetCellValueResult<T>(ICell cell)
+    {
+        var cellValue = GetObjectCellValue<T>(cell);
+
+        if (cellValue == default)
+        {
+            return typeof(T).IsNullable()
+                ? Result.Success<T>(default!)
+                : Result.Failure<T>(Error.Create("Type is required, cell is null"));
+        }
+
+        if (!cellValue.IsConvertible<T>())
+            return Result.Failure<T>(Error.Create($"Cannot convert cell value to type '{typeof(T).Name}'."));
+
+        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
+        return ((T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo)).Success();
+    }
+
+    private object? GetObjectCellValue<T>(ICell cell)
+    {
+        object? cellValue;
 
         switch (cell.CellType)
         {
             case CellType.Numeric:
                 if (DateUtil.IsCellDateFormatted(cell))
-                    cellValue = cell.DateCellValue ?? DateTime.MinValue;
+                    cellValue = cell.DateCellValue;
                 else
                     cellValue = cell.NumericCellValue;
                 break;
@@ -83,13 +143,9 @@ public class NpoiExcelRow : IRowData
                 break;
         }
 
-        if (cellValue == default)
-            return default!;
-
-        var typeNotNullable = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
-
-        return (T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo);
+        return cellValue;
     }
+
     private object GetFormulaValue(ICell cell)
     {
         var evaluatedValue = _formulaEvaluator.Evaluate(cell);
@@ -113,4 +169,5 @@ public class NpoiExcelRow : IRowData
                 return string.Empty;
         }
     }
+
 }

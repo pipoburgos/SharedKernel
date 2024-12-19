@@ -39,16 +39,20 @@ public static class StringExtensions
         return stringBuilder.ToString();
     }
 
-    /// <summary> PascalCase </summary>
+    /// <summary> PascalCase. </summary>
     public static string ToPascalCase(this string text)
     {
         if (string.IsNullOrWhiteSpace(text))
             return string.Empty;
 
-        var chars = text.ToCharArray();
-        chars[0] = char.ToUpper(chars[0]);
+        // Split the text by spaces or other delimiters
+        var words = text.Split([' ', '_', '-'], StringSplitOptions.RemoveEmptyEntries);
 
-        return new string(chars);
+        // Capitalize each word and concatenate
+        var pascalCase = string.Concat(words.Select(word =>
+            char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+
+        return pascalCase;
     }
 
     /// <summary> kebap-case </summary>
