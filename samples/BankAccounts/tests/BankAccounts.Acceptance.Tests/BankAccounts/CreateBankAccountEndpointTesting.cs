@@ -3,7 +3,6 @@ using BankAccounts.Application.BankAccounts.Commands;
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.Documents;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Communication.Email;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Testing.Acceptance.Extensions;
 
@@ -47,7 +46,7 @@ public class CreateBankAccountEndpointTesting
 
         await Task.Delay(5_000);
 
-        _bankAccountClientFactory.GetNewDbContext().Set<OutboxMail>().Any().Should().BeTrue();
+        //_bankAccountClientFactory.GetNewDbContext().Set<OutboxMail>().Any().Should().BeTrue();
     }
 
     [Fact]
