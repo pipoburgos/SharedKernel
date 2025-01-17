@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using SharedKernel.Infrastructure.Mongo.Data;
 
 namespace SharedKernel.Infrastructure.Mongo;
@@ -17,7 +19,9 @@ public static class ServiceCollectionExtensions
         services
             .AddMongoOptions(configuration)
             .AddHealthChecks()
-            .AddMongoDb(connectionString!, name, HealthStatus.Unhealthy, ["DB", "NoSql", "Mongo"]);
+            .AddMongoDb(
+                sp => new MongoClient(connectionString!).GetDatabase(sp.GetRequiredService<IOptions<MongoSettings>>()
+                    .Value.Database), name, HealthStatus.Unhealthy, ["DB", "NoSql", "Mongo"]);
 
         return services;
     }

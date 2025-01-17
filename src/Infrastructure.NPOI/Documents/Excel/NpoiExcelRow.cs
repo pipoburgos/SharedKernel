@@ -79,7 +79,7 @@ public class NpoiExcelRow : IRowData
 
     private T GetCellValue<T>(ICell cell)
     {
-        var cellValue = GetObjectCellValue<T>(cell);
+        var cellValue = GetObjectCellValue(cell);
 
         if (cellValue == default)
             return default!;
@@ -91,7 +91,7 @@ public class NpoiExcelRow : IRowData
 
     private Result<T> GetCellValueResult<T>(ICell cell)
     {
-        var cellValue = GetObjectCellValue<T>(cell);
+        var cellValue = GetObjectCellValue(cell);
 
         if (cellValue == default)
         {
@@ -108,7 +108,7 @@ public class NpoiExcelRow : IRowData
         return ((T)Convert.ChangeType(cellValue, typeNotNullable, _cultureInfo)).Success();
     }
 
-    private object? GetObjectCellValue<T>(ICell cell)
+    private object? GetObjectCellValue(ICell cell)
     {
         object? cellValue;
 

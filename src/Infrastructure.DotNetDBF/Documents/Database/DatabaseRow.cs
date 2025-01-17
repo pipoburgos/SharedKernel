@@ -84,7 +84,7 @@ public class DatabaseRow : IRowData
 
 
 
-    private T GetCellValue<T>(object value)
+    private T GetCellValue<T>(object? value)
     {
         if (value == default!)
             return default!;
@@ -92,7 +92,7 @@ public class DatabaseRow : IRowData
         return (T)Convert.ChangeType(value, typeof(T), _cultureInfo);
     }
 
-    private Result<T> GetCellValueResult<T>(object value)
+    private Result<T> GetCellValueResult<T>(object? value)
     {
         if (value == default!)
             return default!;

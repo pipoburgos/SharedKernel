@@ -10,7 +10,7 @@ public static class ConvertTypeExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsConvertible<T>(this object value)
+    public static bool IsConvertible<T>(this object? value)
     {
         var targetType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
 
