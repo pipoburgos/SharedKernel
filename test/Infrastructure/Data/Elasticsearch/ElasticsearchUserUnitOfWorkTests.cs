@@ -21,9 +21,9 @@ public class ElasticsearchUserUnitOfWorkTests : UserUnitOfWorkTests<Elasticsearc
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
-            .AddElasticsearchUnitOfWork<ISharedKernelElasticsearchUnitOfWork, SharedKernelElasticsearchDbContext>(
+            .AddSharedKernelElasticsearchUnitOfWork<ISharedKernelElasticsearchUnitOfWork, SharedKernelElasticsearchDbContext>(
                 new Uri("http://admin:password@127.0.0.1:22228"))
-            .AddNewtonsoftSerializer()
+            .AddSharedKernelNewtonsoftSerializer()
             .AddTransient<ElasticsearchUserRepository>();
     }
 }
