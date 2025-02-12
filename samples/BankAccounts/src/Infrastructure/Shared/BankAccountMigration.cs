@@ -12,11 +12,11 @@ public class BankAccountMigration : IHostedService
         _serviceProvider = serviceProvider;
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var serviceScope = _serviceProvider.CreateScope();
         var dbContext = serviceScope.ServiceProvider.GetRequiredService<BankAccountDbContext>();
-        return dbContext.Database.MigrateAsync(cancellationToken);
+        await dbContext.Database.MigrateAsync(cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

@@ -15,7 +15,7 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
     private bool _firstTime = true;
     private DatabaseManager? _dataBase;
 
-    public bool DeleteDatabase { get; set; } = false;
+    public bool DeleteDatabase { get; set; } = true;
 
     public string Environment { get; set; } = "Testing";
 
