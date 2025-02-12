@@ -19,7 +19,7 @@
     <PackageTags>Dapper</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.0.5</Version>
+    <Version>9.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +30,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*-*" />
   </ItemGroup>
 

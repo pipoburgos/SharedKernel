@@ -19,7 +19,7 @@
     <PackageTags>MassTransit CommandBus EventBus</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.0.5</Version>
+    <Version>9.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.3.4" />
+    <PackageReference Include="MassTransit" Version="8.3.6" />
   </ItemGroup>
 
   <ItemGroup>
