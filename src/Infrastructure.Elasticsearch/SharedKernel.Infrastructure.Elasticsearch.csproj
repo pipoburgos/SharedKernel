@@ -34,10 +34,10 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="9.0.0" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.17.1" />
-    <PackageReference Include="Elasticsearch.Net" Version="7.17.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
 

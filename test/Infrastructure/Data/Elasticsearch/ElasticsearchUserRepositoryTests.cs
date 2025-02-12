@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Elasticsearch.Data;
 using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
@@ -14,8 +15,7 @@ public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<El
     {
         var db = GetRequiredService<SharedKernelElasticsearchDbContext>();
 
-        db.Client.Indices.DeleteAsync("user").GetAwaiter().GetResult();
-        db.Client.Indices.DeleteAsync("bankaccount").GetAwaiter().GetResult();
+        db.DeleteIndexAsync<User>(CancellationToken.None).GetAwaiter().GetResult();
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)

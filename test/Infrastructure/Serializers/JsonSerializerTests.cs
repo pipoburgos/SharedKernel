@@ -1,4 +1,5 @@
-﻿using SharedKernel.Infrastructure.NetJson;
+﻿using SharedKernel.Domain.Tests.Users;
+using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Infrastructure.Newtonsoft;
 
 namespace SharedKernel.Integration.Tests.Serializers;
@@ -19,6 +20,20 @@ public class JsonSerializerTests
 
         // Assert
         user.Updated.Should().Be(new DateTime(2022, 10, 31, 9, 0, 0, DateTimeKind.Utc));
+    }
+
+    [Fact]
+    public void NetJsonSerializerDomain()
+    {
+        // Arrange
+        var user = UserMother.Create();
+
+        // Act
+        var userText = new NetJsonSerializer().Serialize(user);
+        var user2 = new NetJsonSerializer().Deserialize<User>(userText);
+
+        // Assert
+        user.Should().Be(user2);
     }
 
     [Fact]

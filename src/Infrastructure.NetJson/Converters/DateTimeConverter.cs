@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SharedKernel.Infrastructure.NetJson;
+namespace SharedKernel.Infrastructure.NetJson.Converters;
 
 /// <summary> . </summary>
 public class DateTimeConverter : JsonConverter<DateTime>
@@ -19,7 +19,7 @@ public class DateTimeConverter : JsonConverter<DateTime>
                 DateTimeStyles.AdjustToUniversal, out var result1))
             return result1;
 
-        return default(DateTime);
+        return default;
     }
 
     /// <summary> . </summary>

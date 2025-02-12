@@ -1,7 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using Elasticsearch.Net;
+using Elastic.Transport;
 using Microsoft.Extensions.DependencyInjection;
-using ConnectionConfiguration = Elasticsearch.Net.ConnectionConfiguration;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
@@ -12,23 +11,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSharedKernelElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
-        var settings = new ElasticsearchClientSettings(uri);
+        var pool = new SingleNodePool(uri);
 
-        var connectionConfiguration = new ConnectionConfiguration(new SingleNodeConnectionPool(uri))
-            //.DisableAutomaticProxyDetection()
-            .EnableApiVersioningHeader()
-            //.EnableHttpCompression()
-            .DisableDirectStreaming()
-            //.PrettyJson()
-            .RequestTimeout(TimeSpan.FromSeconds(30));
-
-        //var connectionConfiguration = new ConnectionSettings(new SingleNodeConnectionPool(uri));
+        var settings = new ElasticsearchClientSettings(pool, (_, _) => new CustomElasticsearchSerializer()).DisableDirectStreaming();
 
         services.Add(new ServiceDescriptor(typeof(ElasticsearchClient),
             _ => new ElasticsearchClient(settings), serviceLifetime));
-
-        services.Add(new ServiceDescriptor(typeof(ElasticLowLevelClient),
-            _ => new ElasticLowLevelClient(connectionConfiguration), serviceLifetime));
 
         services
             .AddHealthChecks()

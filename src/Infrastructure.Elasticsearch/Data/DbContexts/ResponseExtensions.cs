@@ -1,5 +1,4 @@
 ﻿using Elastic.Transport.Products.Elasticsearch;
-using Elasticsearch.Net;
 
 namespace SharedKernel.Infrastructure.Elasticsearch.Data.DbContexts;
 
@@ -17,17 +16,5 @@ public static class ResponseExtensions
 
         if (ex != null)
             throw ex;
-    }
-
-    /// <summary> . </summary>
-    public static bool ThrowOriginalExceptionIfIsNotValid(this ElasticsearchResponseBase response)
-    {
-        if (response.HttpStatusCode == 404)
-            return true;
-
-        if (response.HttpStatusCode != 200)
-            throw response.OriginalException;
-
-        return false;
     }
 }
