@@ -19,7 +19,7 @@
     <PackageTags>Mongo</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.0.5</Version>
+    <Version>9.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,7 +36,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
     <PackageReference Include="DistributedLock.Mongo" Version="3.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>

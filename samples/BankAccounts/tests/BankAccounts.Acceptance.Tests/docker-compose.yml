@@ -1,11 +1,10 @@
 services:
   sql_server:
     image: mcr.microsoft.com/mssql/server:latest
-    restart: always
-    user: root
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_PID=Developer
     ports:
       - 9765:1433
 

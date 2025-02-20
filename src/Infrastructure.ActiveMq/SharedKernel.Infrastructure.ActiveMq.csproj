@@ -19,7 +19,7 @@
     <PackageTags>ActiveMq CommandBus EventBus</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.0.5</Version>
+    <Version>9.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Apache.NMS.ActiveMQ" Version="2.1.0" />
+    <PackageReference Include="Apache.NMS.ActiveMQ" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

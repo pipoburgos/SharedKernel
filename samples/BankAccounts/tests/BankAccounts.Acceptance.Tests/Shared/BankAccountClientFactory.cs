@@ -10,6 +10,11 @@ namespace BankAccounts.Acceptance.Tests.Shared;
 
 public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
 {
+    public BankAccountClientFactory()
+    {
+        DeleteDatabase = false;
+    }
+
     public override DbContext GetNewDbContext()
     {
         return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
