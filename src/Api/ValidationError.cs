@@ -1,5 +1,5 @@
-﻿using SharedKernel.Application.Extensions;
-using SharedKernel.Application.Validator;
+﻿using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Extensions;
 
 namespace SharedKernel.Api;
 

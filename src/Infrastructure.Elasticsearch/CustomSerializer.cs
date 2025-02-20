@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
-public class CustomElasticsearchSerializer : Serializer
+internal class CustomElasticsearchSerializer : Serializer
 {
     private readonly JsonSerializerOptions _options;
 

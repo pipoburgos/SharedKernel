@@ -16,7 +16,7 @@ public class ConstructorConverterFactory : JsonConverterFactory
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         var converterType = typeof(ConstructorConverter<>).MakeGenericType(typeToConvert);
-        var converter = Activator.CreateInstance(converterType);
+        var converter = Activator.CreateInstance(converterType, options.PropertyNamingPolicy);
 
         return (JsonConverter)converter!;
     }

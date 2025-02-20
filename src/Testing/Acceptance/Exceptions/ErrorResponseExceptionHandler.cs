@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using SharedKernel.Application.Extensions;
+using SharedKernel.Domain.Extensions;
 using System.Net;
 
 namespace SharedKernel.Testing.Acceptance.Exceptions;

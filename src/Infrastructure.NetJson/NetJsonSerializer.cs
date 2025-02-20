@@ -50,10 +50,10 @@ public class NetJsonSerializer : IJsonSerializer
                 policy = JsonNamingPolicy.KebabCaseLower;
                 break;
             case NamingConvention.NoAction:
-                policy = null;
+                policy = new PascalCaseNamingPolicy();
                 break;
             default:
-                policy = null;
+                policy = new PascalCaseNamingPolicy();
                 break;
         }
 

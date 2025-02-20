@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using SharedKernel.Application.Extensions;
 using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Extensions;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract

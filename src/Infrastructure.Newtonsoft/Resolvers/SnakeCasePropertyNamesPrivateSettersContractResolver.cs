@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SharedKernel.Application.Extensions;
+using SharedKernel.Domain.Extensions;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Newtonsoft.Resolvers;
