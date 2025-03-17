@@ -1,5 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Extensions;
 using SharedKernel.Infrastructure.Data.DbContexts;
 using SharedKernel.Infrastructure.Data.Services;
 
@@ -18,7 +19,7 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     }
 
     /// <summary> . </summary>
-    public string GetIndex<TAggregateRoot>() => typeof(TAggregateRoot).Name.ToLower();
+    public string GetIndex<TAggregateRoot>() => typeof(TAggregateRoot).Name.ToKebabCase();
 
     /// <summary> . </summary>
     protected override void AddMethod<TAggregateRoot, TId>(TAggregateRoot aggregateRoot)

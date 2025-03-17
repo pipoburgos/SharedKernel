@@ -1,6 +1,8 @@
 ﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Serialization;
 using Elastic.Transport;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
@@ -9,14 +11,19 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        Action<JsonSerializerOptions>? configureOptions, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
         var pool = new SingleNodePool(uri);
 
-        var settings = new ElasticsearchClientSettings(pool, (_, _) => new CustomElasticsearchSerializer()).DisableDirectStreaming();
+        services.AddScoped(_ =>
+        {
+            return new ElasticsearchClientSettings(pool, (_, setti) =>
+                    new DefaultSourceSerializer(setti, configureOptions))
+                .DisableDirectStreaming()
+                .EnableDebugMode();
+        });
 
-        services.Add(new ServiceDescriptor(typeof(ElasticsearchClient),
-            _ => new ElasticsearchClient(settings), serviceLifetime));
+        services.AddScoped(serviceProvider => new ElasticsearchClient(serviceProvider.GetRequiredService<ElasticsearchClientSettings>()));
 
         services
             .AddHealthChecks()

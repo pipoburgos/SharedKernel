@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.NetJson\SharedKernel.Infrastructure.NetJson.csproj" />
     <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
 

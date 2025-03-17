@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Elasticsearch.Data;
-using SharedKernel.Infrastructure.Newtonsoft;
+using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.DbContexts;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
@@ -22,8 +23,9 @@ public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<El
     {
         return services
             .AddSharedKernelElasticsearchDbContext<SharedKernelElasticsearchDbContext>(
-                new Uri("http://admin:password@127.0.0.1:22228"))
-            .AddSharedKernelNewtonsoftSerializer()
+                new Uri("http://admin:password@127.0.0.1:22228"),
+                o => NetJsonSerializer.SetOptions(o, NamingConvention.SnakeCase))
+            .AddSharedKernelNetJsonSerializer()
             .AddTransient<ElasticsearchUserRepository>();
     }
 }

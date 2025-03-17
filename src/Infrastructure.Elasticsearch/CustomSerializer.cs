@@ -1,46 +1,48 @@
-﻿using Elastic.Transport;
-using SharedKernel.Application.Serializers;
-using SharedKernel.Infrastructure.NetJson;
-using System.Text.Json;
+﻿//using Elastic.Transport;
+//using SharedKernel.Application.Serializers;
 
-namespace SharedKernel.Infrastructure.Elasticsearch;
+//namespace SharedKernel.Infrastructure.Elasticsearch;
 
-internal class CustomElasticsearchSerializer : Serializer
-{
-    private readonly JsonSerializerOptions _options;
+//internal class CustomElasticsearchSerializer : Serializer
+//{
+//    private readonly IJsonSerializer _jsonSerializer;
 
-    public CustomElasticsearchSerializer()
-    {
-        _options = NetJsonSerializer.GetOptions(NamingConvention.NoAction);
-    }
+//    public CustomElasticsearchSerializer(IJsonSerializer jsonSerializer)
+//    {
+//        _jsonSerializer = jsonSerializer;
+//    }
 
-    public override object? Deserialize(Type type, Stream stream)
-    {
-        return JsonSerializer.Deserialize(stream, type, _options);
-    }
+//    public override object Deserialize(Type type, Stream stream)
+//    {
+//        return _jsonSerializer.Deserialize(type, stream, NamingConvention.SnakeCase);
+//    }
 
-    public override T Deserialize<T>(Stream stream)
-    {
-        return JsonSerializer.Deserialize<T>(stream, _options);
-    }
+//    public override T Deserialize<T>(Stream stream)
+//    {
+//        return _jsonSerializer.Deserialize<T>(stream, NamingConvention.SnakeCase);
+//    }
 
-    public override ValueTask<object?> DeserializeAsync(Type type, Stream stream, CancellationToken cancellationToken = default)
-    {
-        return JsonSerializer.DeserializeAsync(stream, type, _options, cancellationToken);
-    }
+//    public override async ValueTask<object> DeserializeAsync(Type type, Stream stream,
+//        CancellationToken cancellationToken = default)
+//    {
+//        return await _jsonSerializer.DeserializeAsync(type, stream, NamingConvention.SnakeCase, cancellationToken);
+//    }
 
-    public override ValueTask<T> DeserializeAsync<T>(Stream stream, CancellationToken cancellationToken = default)
-    {
-        return JsonSerializer.DeserializeAsync<T>(stream, _options, cancellationToken);
-    }
+//    public override async ValueTask<T> DeserializeAsync<T>(Stream stream, CancellationToken cancellationToken = default)
+//    {
+//        return await _jsonSerializer.DeserializeAsync<T>(stream, NamingConvention.SnakeCase, cancellationToken);
+//    }
 
-    public override void Serialize<T>(T data, Stream stream, SerializationFormatting formatting = SerializationFormatting.None)
-    {
-        JsonSerializer.Serialize(stream, data, _options);
-    }
+//    public override void Serialize<T>(T data, Stream stream,
+//        SerializationFormatting formatting = SerializationFormatting.None)
+//    {
+//        _jsonSerializer.Serialize(data, stream, NamingConvention.SnakeCase);
+//    }
 
-    public override Task SerializeAsync<T>(T data, Stream stream, SerializationFormatting formatting = SerializationFormatting.None, CancellationToken cancellationToken = default)
-    {
-        return JsonSerializer.SerializeAsync(stream, data, _options, cancellationToken);
-    }
-}
+//    public override Task SerializeAsync<T>(T data, Stream stream,
+//        SerializationFormatting formatting = SerializationFormatting.None,
+//        CancellationToken cancellationToken = default)
+//    {
+//        return _jsonSerializer.SerializeAsync(data, stream, NamingConvention.SnakeCase, cancellationToken);
+//    }
+//}

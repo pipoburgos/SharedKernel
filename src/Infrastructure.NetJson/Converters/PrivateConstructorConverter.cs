@@ -1,20 +1,58 @@
-﻿using System.Collections;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SharedKernel.Infrastructure.NetJson.Converters;
 
 /// <summary> . </summary>
-public class ConstructorConverter<T> : JsonConverter<T>
+public class PrivateConstructorConverter<T> : JsonConverter<T>
 {
     private readonly JsonNamingPolicy? _namingPolicy;
 
     /// <summary> . </summary>
-    public ConstructorConverter(JsonNamingPolicy? namingPolicy = null)
+    public PrivateConstructorConverter(JsonNamingPolicy? namingPolicy = null)
     {
         _namingPolicy = namingPolicy;
     }
+
+
+    /// <summary> . </summary>
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        // Crear un nuevo JsonSerializerOptions
+        var newOptions = new JsonSerializerOptions
+        {
+            // Copiar todas las configuraciones relevantes
+            DefaultBufferSize = options.DefaultBufferSize,
+            DictionaryKeyPolicy = options.DictionaryKeyPolicy,
+            Encoder = options.Encoder,
+            IgnoreReadOnlyProperties = options.IgnoreReadOnlyProperties,
+            IncludeFields = options.IncludeFields,
+            MaxDepth = options.MaxDepth,
+            PropertyNameCaseInsensitive = options.PropertyNameCaseInsensitive,
+            PropertyNamingPolicy = options.PropertyNamingPolicy,
+            ReadCommentHandling = options.ReadCommentHandling,
+            ReferenceHandler = options.ReferenceHandler,
+            WriteIndented = options.WriteIndented,
+        };
+
+        // Copiar todos los converters, excepto el actual
+        foreach (var converter in options.Converters.Where(c => c.GetType() != typeof(PrivateConstructorConverterFactory)))
+        {
+            if (converter != this) // Excluir el converter actual
+            {
+                newOptions.Converters.Add(converter);
+            }
+        }
+
+        // Serializar usando las nuevas opciones
+        JsonSerializer.Serialize(writer, value, newOptions);
+    }
+
+
+
+
+
 
     /// <summary> . </summary>
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -58,7 +96,7 @@ public class ConstructorConverter<T> : JsonConverter<T>
                     var arrayType = paramType.GetElementType(); // Tipo de los elementos dentro del array
                     if (arrayType != null)
                     {
-                        var arrayList = new List<object>();
+                        var arrayList = new List<object?>();
                         foreach (var item in element.EnumerateArray())
                         {
                             // Deserializamos cada elemento del array en su tipo adecuado
@@ -97,13 +135,12 @@ public class ConstructorConverter<T> : JsonConverter<T>
         return instance;
     }
 
-    private void PopulateFieldsAndProperties<T>(T instance, JsonElement root, JsonSerializerOptions? options)
+    private void PopulateFieldsAndProperties(T instance, JsonElement root, JsonSerializerOptions? options)
     {
         var type = typeof(T);
 
         // Obtener todas las propiedades (públicas y privadas)
-        var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => p.CanWrite);
+        var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
         foreach (var prop in properties)
         {
@@ -159,7 +196,7 @@ public class ConstructorConverter<T> : JsonConverter<T>
             if (arrayType == null)
                 return GetDefaultValue(targetType);
 
-            var arrayList = new List<object>();
+            var arrayList = new List<object?>();
             foreach (var item in element.EnumerateArray())
             {
                 // Deserializamos cada elemento del array en su tipo adecuado
@@ -177,7 +214,7 @@ public class ConstructorConverter<T> : JsonConverter<T>
         return JsonSerializer.Deserialize(element.GetRawText(), targetType, options);
     }
 
-    private static object GetDefaultValue(Type targetType)
+    private static object? GetDefaultValue(Type targetType)
     {
         var defaultValue = targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>)
             ? Activator.CreateInstance(targetType)  // Crea una lista vacía, como List<string>
@@ -186,73 +223,4 @@ public class ConstructorConverter<T> : JsonConverter<T>
 
         return defaultValue;
     }
-
-    /// <summary> . </summary>
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-    {
-        if (value == null)
-            return;
-
-        writer.WriteStartObject();
-
-        if (value is IDictionary dic)
-        {
-            foreach (var key in dic.Keys)
-            {
-                writer.WritePropertyName(key?.ToString() ?? "null"); // Asegurarse de que la clave esté en formato correcto
-                JsonSerializer.Serialize(writer, dic[key], options);
-            }
-        }
-        else
-        {
-            var properties = value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => p.CanRead)
-                .ToList();
-
-            foreach (var property in properties)
-            {
-                //if (property.PropertyType.IsClass && !property.PropertyType.IsValueType)
-                //{
-                //    JsonSerializer.Serialize(writer, property.GetValue(value), property.PropertyType, options);
-                //}
-                //else
-                //{
-                var propertyValue = property.GetValue(value);
-
-                var jsonPropertyName = _namingPolicy?.ConvertName(property.Name) ?? property.Name;
-
-                writer.WritePropertyName(jsonPropertyName);
-
-                if (propertyValue != null)
-                {
-                    if (propertyValue is string stringValue)
-                    {
-                        writer.WriteStringValue(stringValue);
-                    }
-                    else if (propertyValue is IDictionary dictionary)
-                    {
-                        // Manejo especial para Dictionary
-                        writer.WriteStartObject();
-                        foreach (var key in dictionary.Keys)
-                        {
-                            writer.WritePropertyName(key?.ToString() ?? "null"); // Asegurarse de que la clave esté en formato correcto
-                            JsonSerializer.Serialize(writer, dictionary[key], options);
-                        }
-                        writer.WriteEndObject();
-                    }
-                    else
-                    {
-                        JsonSerializer.Serialize(writer, propertyValue, property.PropertyType, options);
-                    }
-                }
-                else
-                {
-                    writer.WriteNullValue();
-                }
-                //}
-            }
-        }
-        writer.WriteEndObject();
-    }
-
 }
