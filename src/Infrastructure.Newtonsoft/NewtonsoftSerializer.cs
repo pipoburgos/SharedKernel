@@ -108,10 +108,10 @@ public class NewtonsoftSerializer : IJsonSerializer
                 contractResolver = new KebapCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.NoAction:
-                contractResolver = null;
+                contractResolver = new PropertyNamesPrivateSettersContractResolver();
                 break;
             default:
-                contractResolver = null;
+                contractResolver = new PropertyNamesPrivateSettersContractResolver();
                 break;
         }
 
