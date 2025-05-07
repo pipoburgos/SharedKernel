@@ -52,11 +52,11 @@ internal class SdkUtil
     /// <param name="queryParameters">Dictionary for Query parameters</param>
     /// <returns>Processed URI path</returns>
     public static string FormatUriPath(
-        string? pattern,
+        string pattern,
         Dictionary<string, string>? pathParameters,
         Dictionary<string, string>? queryParameters)
     {
-        if (!string.IsNullOrEmpty(pattern) && pathParameters != null && pathParameters.Count > 0)
+        if (!string.IsNullOrWhiteSpace(pattern) && pathParameters != null && pathParameters.Count > 0)
             foreach (var pathParameter in pathParameters)
             {
                 var oldValue = "{" + pathParameter.Key.Trim() + "}";
@@ -64,10 +64,9 @@ internal class SdkUtil
                     pattern = pattern.Replace(oldValue, pathParameter.Value.Trim());
             }
 
-        var str = pattern ?? string.Empty;
         if (queryParameters != null && queryParameters.Count > 0)
         {
-            var stringBuilder = new StringBuilder(str);
+            var stringBuilder = new StringBuilder(pattern);
             if (stringBuilder.ToString().Contains("?"))
             {
                 if (!stringBuilder.ToString().EndsWith("?") && !stringBuilder.ToString().EndsWith("&"))
@@ -82,12 +81,12 @@ internal class SdkUtil
             //    stringBuilder.Append(HttpUtility.UrlEncode(queryParameter.Key, Encoding.UTF8)).Append("=")
             //        .Append(HttpUtility.UrlEncode(queryParameter.Value, Encoding.UTF8)).Append("&");
 
-            str = stringBuilder.ToString();
+            pattern = stringBuilder.ToString();
         }
 
-        return !str.Contains("{") && !str.Contains("}")
-            ? str
-            : throw new PayPalException("Unable to formatURI Path : " + str +
+        return !pattern.Contains("{") && !pattern.Contains("}")
+            ? pattern
+            : throw new PayPalException("Unable to formatURI Path : " + pattern +
                                         ", unable to replace placeholders with the map : " + pathParameters);
     }
 
