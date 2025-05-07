@@ -60,7 +60,11 @@ public class Dni : ValueObject<Dni>
     private static string DeleteInvalidChars(string numero)
     {
         // All characters that are not numbers or letters.
-        var regex = new Regex(@"[^\w]");
+#if NET40
+        var regex = new Regex(@"[^\w]", RegexOptions.None);
+#else
+        var regex = new Regex(@"[^\w]", RegexOptions.None, TimeSpan.FromMinutes(1));
+#endif
         return regex.Replace(numero, string.Empty).ToUpper();
     }
 

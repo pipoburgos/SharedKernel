@@ -52,7 +52,7 @@ internal class SdkUtil
     /// <param name="queryParameters">Dictionary for Query parameters</param>
     /// <returns>Processed URI path</returns>
     public static string FormatUriPath(
-        string pattern,
+        string? pattern,
         Dictionary<string, string>? pathParameters,
         Dictionary<string, string>? queryParameters)
     {
@@ -64,7 +64,7 @@ internal class SdkUtil
                     pattern = pattern.Replace(oldValue, pathParameter.Value.Trim());
             }
 
-        var str = pattern;
+        var str = pattern ?? string.Empty;
         if (queryParameters != null && queryParameters.Count > 0)
         {
             var stringBuilder = new StringBuilder(str);
