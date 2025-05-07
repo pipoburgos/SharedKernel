@@ -130,7 +130,7 @@ public class PrivateConstructorConverter<T> : JsonConverter<T>
         foreach (var field in fields)
         {
             var name = field.Name.Contains(">k__BackingField")
-                ? Regex.Match(field.Name, @"<(.+?)>").Groups[1].Value
+                ? Regex.Match(field.Name, @"<(.+?)>", RegexOptions.None, TimeSpan.FromMinutes(1)).Groups[1].Value
                 : field.Name.Substring(1).CapitalizeFirstLetter();
 
             var jsonPropertyName = _namingPolicy?.ConvertName(name) ?? name;

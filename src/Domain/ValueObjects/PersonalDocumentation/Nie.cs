@@ -73,8 +73,7 @@ public class Nie
     private static string DeleteInvalidChars(string number)
     {
         // All characters that are not numbers or letters.
-        const string chars = @"[^\w]";
-        var regex = new Regex(chars);
+        var regex = new Regex(@"[^\w]", RegexOptions.None);
         return regex.Replace(number, string.Empty).ToUpper();
     }
 

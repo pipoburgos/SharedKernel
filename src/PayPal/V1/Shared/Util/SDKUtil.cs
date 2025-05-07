@@ -148,14 +148,20 @@ internal class SdkUtil
     /// <returns>Escaped XML string</returns>
     public static string? EscapeInvalidXmlCharsRegex(string? textContent)
     {
-        string? str = null;
-        if (textContent != null && textContent.Length > 0)
-            str = Regex.Replace(
-                Regex.Replace(
-                    Regex.Replace(
-                        Regex.Replace(Regex.Replace(textContent, "&(?!(amp;|lt;|gt;|quot;|apos;))", "&amp;"), "<",
-                            "&lt;"), ">", "&gt;"), "\"", " & quot; "), "'", "&apos;");
-        return str;
+        if (string.IsNullOrEmpty(textContent))
+            return textContent;
+
+        return Regex.Replace(textContent, @"[&<>""']",
+            match => match.Value switch
+            {
+                "&" => "&amp;",
+                "<" => "&lt;",
+                ">" => "&gt;",
+                "\"" => "&quot;",
+                "'" => "&apos;",
+                _ => match.Value,
+            },
+            RegexOptions.None, TimeSpan.FromMinutes(1));
     }
 
     /// <summary>Escapes invalid XML characters using &amp; escapes</summary>

@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using SharedKernel.Application.System;
+﻿using SharedKernel.Application.System;
+using System.Text.RegularExpressions;
 
 namespace SharedKernel.Infrastructure.System;
 
@@ -16,7 +16,7 @@ public class StringHelper : IStringHelper
     public string ToLowerUnderscore(string text)
     {
         const string rgx = @"(?x)( [A-Z][a-z,0-9]+ | [A-Z]+(?![a-z]) )";
-        text = Regex.Replace(text, rgx, "_$0").ToLower();
+        text = Regex.Replace(text, rgx, "_$0", RegexOptions.None, TimeSpan.FromMinutes(1)).ToLower();
         if (text.StartsWith("_"))
             text = text.Substring(1);
 

@@ -155,7 +155,7 @@ public sealed class CertificateManager
             return false;
 
         // ReSharper disable once RedundantEnumerableCastCall
-        var array = Regex.Matches(clientCerts[0].Subject, "CN=[a-zA-Z._-]+").Cast<Match>().Select(m => m.Value).ToArray();
+        var array = Regex.Matches(clientCerts[0].Subject, "CN=[a-zA-Z._-]+", RegexOptions.None, TimeSpan.FromMinutes(1)).Cast<Match>().Select(m => m.Value).ToArray();
         return array.Length != 0 && array[0].StartsWith("CN=") && array[0].EndsWith(".paypal.com");
     }
 }
