@@ -11,13 +11,22 @@ public class DateTimeConverter : JsonConverter<DateTime>
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var dateTime = reader.GetString();
-        if (DateTime.TryParseExact(dateTime ?? string.Empty, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture,
-                DateTimeStyles.AdjustToUniversal, out var result2))
-            return result2.ToUniversalTime();
 
-        if (DateTime.TryParseExact(dateTime ?? string.Empty, "yyyy-MM-ddTHH:mm:ss.FFFZ", CultureInfo.InvariantCulture,
-                DateTimeStyles.AdjustToUniversal, out var result1))
-            return result1;
+        var formats = new[]
+        {
+            "yyyy-MM-ddTHH:mm:ss.fffffffZ",
+            "yyyy-MM-ddTHH:mm:ss.ffffffZ",
+            "yyyy-MM-ddTHH:mm:ss.fffffZ",
+            "yyyy-MM-ddTHH:mm:ss.ffffZ",
+            "yyyy-MM-ddTHH:mm:ss.fffZ",
+            "yyyy-MM-ddTHH:mm:ss.ffZ",
+            "yyyy-MM-ddTHH:mm:ss.fZ",
+            "yyyy-MM-ddTHH:mm:ssZ",
+            "yyyy-MM-ddTHH:mm:ss",
+        };
+
+        if (DateTime.TryParseExact(dateTime, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out var result))
+            return result.ToUniversalTime();
 
         throw new JsonException($"Invalid date {dateTime}");
     }

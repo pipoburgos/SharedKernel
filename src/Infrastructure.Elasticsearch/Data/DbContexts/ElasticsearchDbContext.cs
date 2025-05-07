@@ -1,6 +1,8 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using SharedKernel.Application.Validator;
+using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Extensions;
+using SharedKernel.Domain.Specifications;
 using SharedKernel.Infrastructure.Data.DbContexts;
 using SharedKernel.Infrastructure.Data.Services;
 
@@ -67,8 +69,8 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     protected override async Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var response = await _client.DeleteAsync(
-            aggregateRoot, aggregateRoot.Id.ToString()!, cancellationToken: cancellationToken);
+        var response = await _client.DeleteAsync<TAggregateRoot>(
+            GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!, cancellationToken);
 
         response.ThrowOriginalExceptionIfIsNotValid();
     }
@@ -94,7 +96,16 @@ public abstract class ElasticsearchDbContext : DbContextAsync
         if (!searchResponse.IsValidResponse || !searchResponse.Found)
             return default;
 
-        return searchResponse.Source;
+        var aggregateRoot = searchResponse.Source;
+
+        if (aggregateRoot is IEntityAuditableLogicalRemove a)
+        {
+            return new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy().Compile()(a)
+                ? default
+                : aggregateRoot;
+        }
+
+        return aggregateRoot;
     }
 
     private async Task CreateIndexIfNotExistsAsync<TAggregateRoot>(CancellationToken cancellationToken)

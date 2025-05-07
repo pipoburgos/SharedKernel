@@ -144,7 +144,7 @@ public static class ReflectionHelper
                     fieldInfo.SetValue(obj, null);
                 else
 #endif
-                fieldInfo.SetValue(obj, new Guid(valueString));
+                    fieldInfo.SetValue(obj, new Guid(valueString));
             }
             else
             {
@@ -264,5 +264,19 @@ public static class ReflectionHelper
 
         // Si se encontró un constructor sin parámetros, devolver true
         return constructor != null;
+    }
+
+    /// <summary> . </summary>
+    public static List<FieldInfo> GetAllFields(this Type? type)
+    {
+        var fields = new List<FieldInfo>();
+
+        while (type != null)
+        {
+            fields.AddRange(type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly));
+            type = type.BaseType;
+        }
+
+        return fields;
     }
 }
