@@ -65,7 +65,7 @@ public static class ReflectionHelper
 #if NET6_0_OR_GREATER
         var instance = (T)RuntimeHelpers.GetUninitializedObject(type);
 #else
-        var instance = (T) FormatterServices.GetUninitializedObject(type);
+        var instance = (T)FormatterServices.GetUninitializedObject(type);
 #endif
 
         if (instance == null)
@@ -144,7 +144,7 @@ public static class ReflectionHelper
                     fieldInfo.SetValue(obj, null);
                 else
 #endif
-                fieldInfo.SetValue(obj, new Guid(valueString));
+                    fieldInfo.SetValue(obj, new Guid(valueString));
             }
             else
             {
@@ -246,5 +246,37 @@ public static class ReflectionHelper
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
             ? Nullable.GetUnderlyingType(type)
             : type;
+    }
+
+    /// <summary> . </summary>
+    public static bool HasParameterlessConstructor(this Type type)
+    {
+        if (type == null)
+            throw new ArgumentNullException(nameof(type));
+
+        // Buscar un constructor sin parámetros
+        var constructor = type.GetConstructor(
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            null, // Usar el enlazador predeterminado
+            Type.EmptyTypes, // Tipos de parámetros (vacío para sin parámetros)
+            null // Modificadores de parámetros (no aplica aquí)
+        );
+
+        // Si se encontró un constructor sin parámetros, devolver true
+        return constructor != null;
+    }
+
+    /// <summary> . </summary>
+    public static List<FieldInfo> GetAllFields(this Type? type)
+    {
+        var fields = new List<FieldInfo>();
+
+        while (type != null)
+        {
+            fields.AddRange(type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly));
+            type = type.BaseType;
+        }
+
+        return fields;
     }
 }

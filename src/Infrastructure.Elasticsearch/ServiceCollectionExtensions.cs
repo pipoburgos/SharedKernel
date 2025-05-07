@@ -1,7 +1,8 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using Elasticsearch.Net;
+using Elastic.Clients.Elasticsearch.Serialization;
+using Elastic.Transport;
 using Microsoft.Extensions.DependencyInjection;
-using ConnectionConfiguration = Elasticsearch.Net.ConnectionConfiguration;
+using System.Text.Json;
 
 namespace SharedKernel.Infrastructure.Elasticsearch;
 
@@ -10,25 +11,19 @@ public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelElasticsearchHealthChecks(this IServiceCollection services, Uri uri,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        Action<JsonSerializerOptions>? configureOptions, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
-        var settings = new ElasticsearchClientSettings(uri);
+        var pool = new SingleNodePool(uri);
 
-        var connectionConfiguration = new ConnectionConfiguration(new SingleNodeConnectionPool(uri))
-            //.DisableAutomaticProxyDetection()
-            .EnableApiVersioningHeader()
-            //.EnableHttpCompression()
-            .DisableDirectStreaming()
-            //.PrettyJson()
-            .RequestTimeout(TimeSpan.FromSeconds(30));
+        services.AddScoped(_ =>
+        {
+            return new ElasticsearchClientSettings(pool, (_, setti) =>
+                    new DefaultSourceSerializer(setti, configureOptions))
+                .DisableDirectStreaming()
+                .EnableDebugMode();
+        });
 
-        //var connectionConfiguration = new ConnectionSettings(new SingleNodeConnectionPool(uri));
-
-        services.Add(new ServiceDescriptor(typeof(ElasticsearchClient),
-            _ => new ElasticsearchClient(settings), serviceLifetime));
-
-        services.Add(new ServiceDescriptor(typeof(ElasticLowLevelClient),
-            _ => new ElasticLowLevelClient(connectionConfiguration), serviceLifetime));
+        services.AddScoped(serviceProvider => new ElasticsearchClient(serviceProvider.GetRequiredService<ElasticsearchClientSettings>()));
 
         services
             .AddHealthChecks()

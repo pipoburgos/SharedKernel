@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Application.Documents;
-using SharedKernel.Application.Extensions;
 using SharedKernel.Domain.Extensions;
 using System.Globalization;
 using System.Xml.Linq;

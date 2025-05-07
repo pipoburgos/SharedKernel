@@ -9,15 +9,75 @@ namespace SharedKernel.Infrastructure.Newtonsoft;
 public class NewtonsoftSerializer : IJsonSerializer
 {
     /// <summary> . </summary>
+    public async Task<T?> DeserializeAsync<T>(Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        var reader = new StreamReader(stream);
+
+#if NET6_0_OR_GREATER
+        var content = await reader.ReadToEndAsync(cancellationToken);
+#else
+        var content = await reader.ReadToEndAsync();
+#endif
+
+        return JsonConvert.DeserializeObject<T>(content, GetOptions(namingConvention))!;
+    }
+
+    /// <summary> . </summary>
     public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return value == null ? string.Empty : JsonConvert.SerializeObject(value, GetOptions(namingConvention));
     }
 
     /// <summary> . </summary>
+    public void Serialize<T>(T data, Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        var writer = new StreamWriter(stream);
+        writer.Write(JsonConvert.SerializeObject(data, GetOptions(namingConvention)));
+    }
+
+    /// <summary> . </summary>
+    public async Task SerializeAsync<T>(T data, Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        var writer = new StreamWriter(stream);
+        await writer.WriteAsync(JsonConvert.SerializeObject(data, GetOptions(namingConvention)));
+    }
+
+    /// <summary> . </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonConvert.DeserializeObject<T>(value, GetOptions(namingConvention))!;
+    }
+
+    /// <summary> . </summary>
+    public object Deserialize(Type type, Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        var reader = new StreamReader(stream);
+        var content = reader.ReadToEnd();
+        return JsonConvert.DeserializeObject(content, type, GetOptions(namingConvention))!;
+    }
+
+    /// <summary> . </summary>
+    public T Deserialize<T>(Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        var reader = new StreamReader(stream);
+        var content = reader.ReadToEnd();
+        return JsonConvert.DeserializeObject<T>(content, GetOptions(namingConvention))!;
+    }
+
+    /// <summary> . </summary>
+    public async Task<object> DeserializeAsync(Type type, Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        var reader = new StreamReader(stream);
+#if NET6_0_OR_GREATER
+        var content = await reader.ReadToEndAsync(cancellationToken);
+#else
+        var content = await reader.ReadToEndAsync();
+#endif
+
+        return JsonConvert.DeserializeObject(content, type, GetOptions(namingConvention))!;
     }
 
     /// <summary> . </summary>
@@ -48,10 +108,10 @@ public class NewtonsoftSerializer : IJsonSerializer
                 contractResolver = new KebapCasePropertyNamesPrivateSettersContractResolver();
                 break;
             case NamingConvention.NoAction:
-                contractResolver = null;
+                contractResolver = new PropertyNamesPrivateSettersContractResolver();
                 break;
             default:
-                contractResolver = null;
+                contractResolver = new PropertyNamesPrivateSettersContractResolver();
                 break;
         }
 

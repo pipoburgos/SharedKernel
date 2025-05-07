@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Application.Serializers;
+using SharedKernel.Infrastructure.NetJson.Converters;
 using SharedKernel.Infrastructure.NetJson.Policies;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,22 +9,71 @@ namespace SharedKernel.Infrastructure.NetJson;
 /// <summary> . </summary>
 public class NetJsonSerializer : IJsonSerializer
 {
+
+
     /// <summary> . </summary>
     public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return value == null ? string.Empty : JsonSerializer.Serialize(value, GetOptions(namingConvention));
+        return JsonSerializer.Serialize(value, GetOptions(namingConvention));
+    }
+
+    /// <summary> . </summary>
+    public void Serialize<T>(T data, Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        JsonSerializer.Serialize(stream, data, GetOptions(namingConvention));
+    }
+
+    /// <summary> . </summary>
+    public async Task SerializeAsync<T>(T data, Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        await JsonSerializer.SerializeAsync(stream, data, GetOptions(namingConvention), cancellationToken);
     }
 
     /// <summary> . </summary>
     public T Deserialize<T>(string value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
+        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))
+            ?? throw new JsonException("Deserialization returned null.");
+    }
+
+    /// <summary> . </summary>
+    public object Deserialize(Type type, Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        return JsonSerializer.Deserialize(stream, type, GetOptions(namingConvention))
+            ?? throw new JsonException("Deserialization returned null.");
+    }
+
+    /// <summary> . </summary>
+    public T? Deserialize<T>(Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        if (TryReturnDefault(stream, out T? deserialize))
+            return deserialize;
+
+        return JsonSerializer.Deserialize<T>(stream, GetOptions(namingConvention));
+    }
+
+    /// <summary> . </summary>
+    public async Task<T?> DeserializeAsync<T>(Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        return await JsonSerializer.DeserializeAsync<T>(stream, GetOptions(namingConvention), cancellationToken)
+               ?? throw new JsonException("Deserialization returned null.");
+    }
+
+    /// <summary> . </summary>
+    public async Task<object> DeserializeAsync(Type type, Stream stream,
+        NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
+    {
+        return await JsonSerializer.DeserializeAsync(stream, type, GetOptions(namingConvention), cancellationToken)
+            ?? throw new JsonException("Deserialization returned null.");
     }
 
     /// <summary> . </summary>
     public T DeserializeAnonymousType<T>(string value, T obj, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
-        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))!;
+        return JsonSerializer.Deserialize<T>(value, GetOptions(namingConvention))
+            ?? throw new JsonException("Deserialization returned null.");
     }
 
     /// <summary> . </summary>
@@ -56,64 +106,36 @@ public class NetJsonSerializer : IJsonSerializer
                 break;
         }
 
+        return GetOptions(policy);
+    }
+
+    /// <summary> . </summary>
+    public static JsonSerializerOptions GetOptions(JsonNamingPolicy? jsonNamingPolicy)
+    {
         return new JsonSerializerOptions
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = policy,
-            Converters = { new DateTimeConverter() }, //, new NoSetterResolver() }
+            PropertyNamingPolicy = jsonNamingPolicy,
+            Converters =
+            {
+                new DateTimeConverter(),
+                new PrivateConstructorConverterFactory(),
+            },
         };
     }
 
-    //private class NoSetterResolver : JsonConverterFactory
-    //{
-    //    public override bool CanConvert(Type typeToConvert)
-    //    {
-    //        return typeToConvert.IsClass;
-    //    }
+    /// <summary> . </summary>
+    public static void SetOptions(JsonSerializerOptions jsonNamingPolicy, NamingConvention namingConvention)
+    {
+        jsonNamingPolicy.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        jsonNamingPolicy.PropertyNamingPolicy = GetOptions(namingConvention).PropertyNamingPolicy;
+        jsonNamingPolicy.Converters.Add(new DateTimeConverter());
+        jsonNamingPolicy.Converters.Add(new PrivateConstructorConverterFactory());
+    }
 
-    //    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-    //    {
-    //        var converterType = typeof(NoSetterConverter<>).MakeGenericType(typeToConvert);
-    //        var converter = Activator.CreateInstance(converterType);
-
-    //        return (JsonConverter)converter;
-    //    }
-    //}
-
-    //private class NoSetterConverter<T> : JsonConverter<T> where T : class, new()
-    //{
-    //    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    //    {
-    //        var instance = new T();
-    //        var properties = typeof(T).GetProperties();
-
-    //        using (var doc = JsonDocument.ParseValue(ref reader))
-    //        {
-    //            var root = doc.RootElement;
-
-    //            foreach (var property in properties)
-    //            {
-    //                if (root.TryGetProperty(property.Name, out var value))
-    //                {
-    //                    property.SetValue(instance, value.GetString());
-    //                }
-    //            }
-    //        }
-
-    //        return instance;
-    //    }
-
-    //    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-    //    {
-    //        writer.WriteStartObject();
-
-    //        foreach (var property in typeof(T).GetProperties())
-    //        {
-    //            writer.WritePropertyName(property.Name);
-    //            JsonSerializer.Serialize(writer, property.GetValue(value), options);
-    //        }
-
-    //        writer.WriteEndObject();
-    //    }
-    //}
+    private static bool TryReturnDefault<T>(Stream? stream, out T? deserialize)
+    {
+        deserialize = default;
+        return stream is null || stream == Stream.Null || (stream.CanSeek && stream.Length == 0);
+    }
 }

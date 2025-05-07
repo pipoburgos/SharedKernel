@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SharedKernel.Domain.Extensions;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.Newtonsoft.Resolvers;
 
-internal class CamelCasePropertyNamesPrivateSettersContractResolver : CamelCasePropertyNamesContractResolver
+internal class PropertyNamesPrivateSettersContractResolver : DefaultContractResolver
 {
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
@@ -22,10 +21,5 @@ internal class CamelCasePropertyNamesPrivateSettersContractResolver : CamelCaseP
         prop.Writable = hasPrivateSetter;
 
         return prop;
-    }
-
-    protected override string ResolvePropertyName(string propertyName)
-    {
-        return propertyName.ToCamelCase();
     }
 }

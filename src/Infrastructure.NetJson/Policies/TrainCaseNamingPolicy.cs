@@ -1,4 +1,4 @@
-﻿using SharedKernel.Application.Extensions;
+﻿using SharedKernel.Domain.Extensions;
 using System.Text.Json;
 
 namespace SharedKernel.Infrastructure.NetJson.Policies;

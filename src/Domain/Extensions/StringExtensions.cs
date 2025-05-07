@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
-namespace SharedKernel.Application.Extensions;
+namespace SharedKernel.Domain.Extensions;
 
 /// <summary> String extensions. </summary>
 public static class StringExtensions
@@ -45,12 +46,12 @@ public static class StringExtensions
         if (string.IsNullOrWhiteSpace(text))
             return string.Empty;
 
-        // Split the text by spaces or other delimiters
+        // Separar por espacios, guiones o guiones bajos
         var words = text.Split([' ', '_', '-'], StringSplitOptions.RemoveEmptyEntries);
 
-        // Capitalize each word and concatenate
+        // Convertir cada palabra respetando las mayúsculas existentes
         var pascalCase = string.Concat(words.Select(word =>
-            char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+            char.ToUpper(word[0]) + (word.Length > 1 ? word.Substring(1) : string.Empty)));
 
         return pascalCase;
     }
@@ -66,14 +67,18 @@ public static class StringExtensions
         {
             var c = text[i];
 
-            if ((char.IsUpper(c) && i > 0) || c == ' ')
+            if (char.IsUpper(c) && i > 0 && text[i - 1] != '-')
                 stringBuilder.Append('-');
 
-            stringBuilder.Append(char.ToLower(c));
+            if (c == ' ' || c == '_')
+                stringBuilder.Append('-');
+            else
+                stringBuilder.Append(char.ToLower(c));
         }
 
-        return stringBuilder.ToString();
+        return stringBuilder.ToString().Trim('-');
     }
+
 
     /// <summary> snake_case </summary>
     public static string ToSnakeCase(this string text)
@@ -82,23 +87,36 @@ public static class StringExtensions
             return string.Empty;
 
         var stringBuilder = new StringBuilder();
+
         for (var i = 0; i < text.Length; i++)
         {
             var c = text[i];
 
-            if ((char.IsUpper(c) && i > 0) || c == ' ')
+            if (char.IsWhiteSpace(c) || c == '-' || c == '_')
+            {
                 stringBuilder.Append('_');
+            }
+            else if (char.IsUpper(c))
+            {
+                // Verificamos manualmente si es necesario agregar '_'
+                if (i > 0 && stringBuilder.Length > 0 && stringBuilder[stringBuilder.Length - 1] != '_')
+                    stringBuilder.Append('_');
 
-            stringBuilder.Append(char.ToLower(c));
+                stringBuilder.Append(char.ToLower(c));
+            }
+            else
+            {
+                stringBuilder.Append(c);
+            }
         }
 
-        return stringBuilder.ToString();
+        return stringBuilder.ToString().Trim('_'); // Elimina guiones bajos extras al inicio o final
     }
 
     /// <summary> Train-Case  </summary>
     public static string ToTrainCase(this string text)
     {
-        if (string.IsNullOrEmpty(text))
+        if (string.IsNullOrWhiteSpace(text))
             return string.Empty;
 
         var stringBuilder = new StringBuilder();
@@ -108,10 +126,19 @@ public static class StringExtensions
         {
             var c = text[i];
 
-            if (c == '_' || c == '-' || c == ' ')
+            if (char.IsWhiteSpace(c) || c == '-' || c == '_')
             {
                 stringBuilder.Append('-');
                 capitalizeNext = true;
+            }
+            else if (char.IsUpper(c))
+            {
+                // Si no es el primer carácter y el anterior no es guion, agregamos '-'
+                if (i > 0 && char.IsLower(text[i - 1]) && stringBuilder[stringBuilder.Length - 1] != '-')
+                    stringBuilder.Append('-');
+
+                stringBuilder.Append(c);
+                capitalizeNext = false;
             }
             else
             {
@@ -122,13 +149,15 @@ public static class StringExtensions
                 }
                 else
                 {
-                    stringBuilder.Append(char.ToLower(c));
+                    stringBuilder.Append(c);
                 }
             }
         }
 
-        return stringBuilder.ToString();
+        return stringBuilder.ToString().Trim('-'); // Evita guiones al inicio o final
     }
+
+
 
     /// <summary>
     ///         /// Example Usage:

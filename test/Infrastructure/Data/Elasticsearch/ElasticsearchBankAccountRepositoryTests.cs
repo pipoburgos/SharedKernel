@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Serializers;
+using SharedKernel.Domain.Tests.BankAccounts;
 using SharedKernel.Infrastructure.Elasticsearch.Data;
-using SharedKernel.Infrastructure.Newtonsoft;
+using SharedKernel.Infrastructure.NetJson;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.DbContexts;
 using SharedKernel.Integration.Tests.Data.Elasticsearch.Repositories;
@@ -14,16 +16,17 @@ public class ElasticsearchBankAccountRepositoryTests : BankAccountRepositoryComm
     {
         var db = GetRequiredService<SharedKernelElasticsearchDbContext>();
 
-        db.Client.Indices.DeleteAsync("user").GetAwaiter().GetResult();
-        db.Client.Indices.DeleteAsync("bankaccount").GetAwaiter().GetResult();
+
+        db.DeleteIndexAsync<BankAccount>(CancellationToken.None).GetAwaiter().GetResult();
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         return services
             .AddSharedKernelElasticsearchDbContext<SharedKernelElasticsearchDbContext>(
-                new Uri("http://admin:password@127.0.0.1:22228"))
-            .AddSharedKernelNewtonsoftSerializer()
+                new Uri("http://admin:password@127.0.0.1:22228"),
+                o => NetJsonSerializer.SetOptions(o, NamingConvention.SnakeCase))
+            .AddSharedKernelNetJsonSerializer()
             .AddTransient<ElasticsearchBankAccountRepository>();
     }
 }
