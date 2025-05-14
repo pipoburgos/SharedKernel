@@ -19,7 +19,7 @@
     <PackageTags>Elasticsearch</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.4.2</Version>
+    <Version>9.0.5.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="9.0.0" />
-    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.18.0" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
