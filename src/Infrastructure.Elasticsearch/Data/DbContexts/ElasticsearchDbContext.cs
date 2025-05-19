@@ -69,8 +69,8 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     protected override async Task DeleteMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-        var response = await _client.DeleteAsync(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!,
-            cancellationToken: cancellationToken);
+        var response = await _client.DeleteAsync(
+            new DeleteRequest(GetIndex<TAggregateRoot>(), aggregateRoot.Id.ToString()!), cancellationToken);
 
         response.ThrowOriginalExceptionIfIsNotValid();
     }
