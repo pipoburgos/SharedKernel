@@ -18,12 +18,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped(_ =>
         {
             return new ElasticsearchClientSettings(pool, (_, setti) =>
-                    new DefaultSourceSerializer(setti, configureOptions))
-                .DisableDirectStreaming()
-                .EnableDebugMode();
+                    new DefaultSourceSerializer(setti, configureOptions));
+            //.DisableDirectStreaming()
+            //.EnableDebugMode();
         });
 
-        services.AddScoped(serviceProvider => new ElasticsearchClient(serviceProvider.GetRequiredService<ElasticsearchClientSettings>()));
+        services.AddSingleton(serviceProvider => new ElasticsearchClient(serviceProvider.GetRequiredService<ElasticsearchClientSettings>()));
 
         services
             .AddHealthChecks()

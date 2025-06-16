@@ -1,5 +1,4 @@
-﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -24,8 +23,6 @@ public static class OpenApiExtensions
 
         var openIdOptions = new OpenIdOptions();
         configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
-
-        services.AddFluentValidationRulesToSwagger();
 
         return services.AddSwaggerGen(swaggerGenOptions =>
         {

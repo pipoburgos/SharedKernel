@@ -9,12 +9,6 @@
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Data\Elasticsearch\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
-    <None Remove="Data\Elasticsearch\**" />
-  </ItemGroup>
-
   <!--<ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
@@ -39,7 +33,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -47,6 +41,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MicroElements.IsExternalInit" Version="1.1.0" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.1" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.1" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Api.Swashbuckle.FluentValidation\SharedKernel.Api.Swashbuckle.FluentValidation.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AsyncKeyedLock\SharedKernel.Infrastructure.AsyncKeyedLock.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />

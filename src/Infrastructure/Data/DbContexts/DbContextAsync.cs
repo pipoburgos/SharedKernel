@@ -143,6 +143,7 @@ public abstract class DbContextAsync : DbContext, IDbContextAsync
         catch (Exception)
         {
             await RollbackAsync(cancellationToken);
+            throw;
         }
 
         await AfterCommitAsync(cancellationToken);

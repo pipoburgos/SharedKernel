@@ -141,6 +141,7 @@ public abstract class DbContext : IDbContext
         catch (Exception)
         {
             Rollback();
+            throw;
         }
 
         AfterCommit();

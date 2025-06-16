@@ -56,7 +56,10 @@ internal class SdkUtil
         Dictionary<string, string>? pathParameters,
         Dictionary<string, string>? queryParameters)
     {
-        if (!string.IsNullOrWhiteSpace(pattern) && pathParameters != null && pathParameters.Count > 0)
+        if (string.IsNullOrWhiteSpace(pattern))
+            return string.Empty;
+
+        if (pathParameters != null && pathParameters.Count > 0)
             foreach (var pathParameter in pathParameters)
             {
                 var oldValue = "{" + pathParameter.Key.Trim() + "}";

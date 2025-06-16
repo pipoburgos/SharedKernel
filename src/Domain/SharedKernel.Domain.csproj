@@ -19,7 +19,7 @@
     <PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository Rop Railway Oriented Programming Guards</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.5.1</Version>
+    <Version>9.0.6.1</Version>
     <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
   </PropertyGroup>
 

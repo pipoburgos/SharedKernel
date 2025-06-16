@@ -57,10 +57,10 @@ services:
       - 22227:5432
 
   elasticsearch:
-      image: elasticsearch:9.0.1
+      image: elasticsearch:9.0.2
       environment:
           - discovery.type=single-node
-          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+          - "ES_JAVA_OPTS=-Xms1g -Xmx1g" # Heap mínimo
           - ELASTIC_USER=admin
           - ELASTIC_PASSWORD=password
           - bootstrap.memory_lock=true
@@ -75,7 +75,7 @@ services:
           # - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
           # - xpack.security.transport.ssl.verification_mode=certificate
           # - xpack.license.self_generated.type=${LICENSE}
-      mem_limit: 1g
+      mem_limit: 4g
       ulimits:
           memlock:
               soft: -1
