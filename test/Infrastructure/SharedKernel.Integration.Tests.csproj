@@ -53,7 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Api.Swashbuckle.FluentValidation\SharedKernel.Api.Swashbuckle.FluentValidation.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.ActiveMq\SharedKernel.Infrastructure.ActiveMq.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AsyncKeyedLock\SharedKernel.Infrastructure.AsyncKeyedLock.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.AutoMapper\SharedKernel.Infrastructure.AutoMapper.csproj" />
