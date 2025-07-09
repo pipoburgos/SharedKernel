@@ -42,12 +42,6 @@ jobs:
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
 
-      - name: Prep packages
-        run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
-        
-      - name: Publish to GitHub packages
-        run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
-
       - name: Install xmllint
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
@@ -81,3 +75,9 @@ jobs:
           name: Release v${{ steps.get_version.outputs.version }}
           draft: false
           prerelease: false
+
+      - name: Prep packages
+        run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
+        
+      - name: Publish to GitHub packages
+        run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
