@@ -2,33 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>AutoMapper infrastructure implementations</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.AutoMapper</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>AutoMapper</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="AutoMapper" Version="15.0.0" />
   </ItemGroup>
 
   <ItemGroup>

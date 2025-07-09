@@ -47,3 +47,34 @@ jobs:
         
       - name: Publish to GitHub packages
         run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+      - name: Get version from Directory.Build.props
+        id: get_version
+        run: |
+          VERSION=$(xmllint --xpath "string(//Version)" Directory.Build.props)
+          echo "Version found: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          TAG_EXISTS=$(git ls-remote --tags origin refs/tags/v${{ steps.get_version.outputs.version }})
+          if [ -n "$TAG_EXISTS" ]; then
+            echo "Tag already exists. Exiting."
+            exit 0
+          fi
+
+      - name: Create Git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag v${{ steps.get_version.outputs.version }}
+          git push origin v${{ steps.get_version.outputs.version }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false

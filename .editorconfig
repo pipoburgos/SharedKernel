@@ -1,0 +1,25 @@
+[*.cs]
+dotnet_diagnostic.CS1591.severity = none         # Missing XML comment for publicly visible type or member 'Type_or_Member'
+dotnet_diagnostic.IDE0028.severity = none        # Use collection initializer
+dotnet_diagnostic.RCS1138.severity = none        # Add summary to documentation comment
+dotnet_diagnostic.RS0019.severity = none         # Duplicate resource
+dotnet_diagnostic.SA1005.severity = none         # Single line comment should begin with a space
+dotnet_diagnostic.SA1101.severity = none         # Prefix local calls with this
+dotnet_diagnostic.SA1117.severity = none         # The parameters should all be placed on the same line or each parameter should be placed on its own line
+dotnet_diagnostic.SA1127.severity = none         # Generic type constraints should be on their own line
+dotnet_diagnostic.SA1200.severity = none         # A C# using directive is placed outside of a namespace element
+dotnet_diagnostic.SA1208.severity = none         # A using directive which declares a member of the System namespace appears after a using directive which declares a member of a different namespace, within a C# code file
+dotnet_diagnostic.SA1309.severity = none         # Field names must not begin with an underscore
+dotnet_diagnostic.SA1503.severity = none         # Braces should not be omitted
+dotnet_diagnostic.SA1600.severity = none         # Elements should be documented
+dotnet_diagnostic.SA1606.severity = none         # Element documentation should have summary text
+dotnet_diagnostic.SA1611.severity = none         # The documentation for parameter 'data' is missing
+dotnet_diagnostic.SA1614.severity = none         # Element parameter documentation should have text
+dotnet_diagnostic.SA1615.severity = none         # A C# element is missing documentation for its return value.
+dotnet_diagnostic.SA1616.severity = none         # The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
+dotnet_diagnostic.SA1618.severity = none         # The documentation for parameter 'data' is missing
+dotnet_diagnostic.SA1623.severity = none         # The property's documentation summary text should begin with: 'Gets or sets'
+dotnet_diagnostic.SA1629.severity = none         # Documentation text should end with a period
+dotnet_diagnostic.SA1633.severity = none         # A C# code file is missing a standard file header
+dotnet_diagnostic.SA1642.severity = none         # Constructor summary documentation should begin with standard text
+resharper_duplicate_resource_highlighting = none # Duplicate resource

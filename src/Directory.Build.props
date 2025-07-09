@@ -1,0 +1,27 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
+    <Authors>Roberto Fernández Salinas</Authors>
+    <Company>Roberto Fernández Salinas</Company>
+    <Description>C# DDD Domain Layer</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
+    <Version>9.0.7.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)build/common/icon.png" Pack="true" PackagePath="" />
+    <None Include="readme.md" Pack="true" PackagePath="" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)build/common/stylecop.json" />
+  </ItemGroup>
+
+</Project>

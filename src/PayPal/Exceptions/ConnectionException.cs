@@ -21,7 +21,7 @@ public class ConnectionException : PayPalException
     public HttpWebRequest Request { get; private set; }
 
     /// <summary>
-    /// Represents errors that occur during application execution
+    /// Represents errors that occur during application execution.
     /// </summary>
     /// <param name="message">The message that describes the error</param>
     /// <param name="response">The response from server</param>

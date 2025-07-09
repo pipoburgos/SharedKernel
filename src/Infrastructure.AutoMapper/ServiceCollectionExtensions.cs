@@ -17,7 +17,10 @@ public static class ServiceCollectionExtensions
         return services
             .AddTransient<Application.Mapper.IMapper, AutoMapperAdapter>()
             .AddTransient<IMapperFactory>(s => new AutoMapperFactory(s.GetRequiredService<IConfigurationProvider>()))
-            .AddAutoMapper(assemblies);
+            .AddAutoMapper(x =>
+            {
+                x.AddMaps(assemblies);
+            });
     }
 
     /// <summary> . </summary>

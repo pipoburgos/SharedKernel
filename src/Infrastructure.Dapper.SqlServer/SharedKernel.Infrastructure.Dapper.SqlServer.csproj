@@ -2,34 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>Dapper infrastructure implementations</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.Dapper.SqlServer</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageTags>Dapper</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
+    <PackageTags>Dapper Sql Server</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.14.0" />
+    <PackageReference Include="Azure.Identity" Version="1.14.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*-*" />
   </ItemGroup>

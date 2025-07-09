@@ -2,30 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>C# DDD Distributed Services Layer</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Api</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="App.Metrics.AspNetCore" Version="4.3.0" />
@@ -39,7 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.*-*" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
     <PackageReference Include="System.Text.Encodings.Web" Version="9.0.*-*" />
     <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2" />
   </ItemGroup>
@@ -47,12 +27,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>-->
 
 </Project>

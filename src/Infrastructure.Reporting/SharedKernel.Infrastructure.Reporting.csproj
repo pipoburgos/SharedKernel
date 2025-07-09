@@ -2,30 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>IReportRenderer AspNetCore.Reporting implementation</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.Reporting</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>SSRS rdlc rdl AspNetCore.Reporting</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
@@ -33,7 +13,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="System.Security.Permissions" Version="9.0.*-*" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.6" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>

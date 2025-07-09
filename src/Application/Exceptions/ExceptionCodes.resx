@@ -121,7 +121,7 @@
     <value>Attachment required.</value>
   </data>
   <data name="REFLEXION_001" xml:space="preserve">
-    <value>Error al setear el valor por reflexión</value>
+    <value>Error setting the value via reflection</value>
   </data>
   <data name="SMT_PASS_EMPTY" xml:space="preserve">
     <value>Smtp password required.</value>

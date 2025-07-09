@@ -10,11 +10,13 @@ namespace SharedKernel.Testing.Acceptance.Authentication;
 /// <summary> Allow to set username, roles or anything useful for faking a user. </summary>
 public static class JwtBearerExtensions
 {
+    /// <summary> . </summary>
     public static IServiceCollection SetFakeJwtBearerHandler(this IServiceCollection services)
     {
         return services.ChangeBearerHandlerType<FakeJwtBearerHandler>();
     }
 
+    /// <summary> . </summary>
     public static IServiceCollection ChangeBearerHandlerType<T>(this IServiceCollection services)
         where T : AuthenticationHandler<JwtBearerOptions>
     {
@@ -27,7 +29,7 @@ public static class JwtBearerExtensions
         });
     }
 
-
+    /// <summary> . </summary>
     public static void AddBearerToken(this HttpClient client, List<Claim> claims)
     {
         var token = JsonConvert.SerializeObject(claims.GroupBy(a => a.Type)

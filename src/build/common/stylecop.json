@@ -1,0 +1,7 @@
+{
+  "settings": {
+    "namingRules": {
+      "allowUnderscoreInFieldNames": true
+    }
+  }
+}

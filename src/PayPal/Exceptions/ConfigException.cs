@@ -8,7 +8,7 @@ public class ConfigException : PayPalException
     /// <summary>
     /// Represents errors that are related to the application's configuration.
     /// </summary>
-    /// <param name="message">The message that describes the error</param>
+    /// <param name="message">The message that describes the error. </param>
     public ConfigException(string message)
         : base(message)
     {

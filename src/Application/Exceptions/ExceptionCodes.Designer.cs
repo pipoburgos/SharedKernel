@@ -70,7 +70,7 @@ namespace SharedKernel.Application.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error al setear el valor por reflexión.
+        ///   Looks up a localized string similar to Error setting the value via reflection.
         /// </summary>
         public static string REFLEXION_001 {
             get {

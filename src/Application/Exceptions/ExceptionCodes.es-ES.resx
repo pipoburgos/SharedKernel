@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EMAIL_ATTACH_EXT" xml:space="preserve">
-    <value>Attachment required.</value>
+    <value>Adjunto requerido.</value>
   </data>
   <data name="REFLEXION_001" xml:space="preserve">
     <value>Error al setear el valor por reflexión</value>
   </data>
   <data name="SMT_PASS_EMPTY" xml:space="preserve">
-    <value>Smtp password required.</value>
+    <value>Contraseña smtp requerida.</value>
   </data>
 </root>

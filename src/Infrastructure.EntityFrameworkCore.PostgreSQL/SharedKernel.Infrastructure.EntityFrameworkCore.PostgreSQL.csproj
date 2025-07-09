@@ -2,34 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>EntityFrameworkCore.PostgreSQL infrastructure implementations</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-    <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="5.0.0" />
+    <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="5.0.1" />
     <PackageReference Include="DistributedLock.Postgres" Version="1.3.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'" />

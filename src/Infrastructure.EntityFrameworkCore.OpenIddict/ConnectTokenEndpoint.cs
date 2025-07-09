@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using System.Collections.Immutable;
 using System.Security.Claims;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict;
@@ -69,7 +68,7 @@ public abstract class ConnectTokenEndpoint : ControllerBase
         identity.SetScopes(scopes);
 
         // ValidateAudience
-        identity.SetResources(new ImmutableArray<string> { scope });
+        identity.SetResources([scope]);
 
         identity.SetDestinations(_ => [OpenIddictConstants.Destinations.AccessToken]);
 

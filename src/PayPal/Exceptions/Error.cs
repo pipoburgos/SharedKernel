@@ -2,7 +2,7 @@
 namespace PayPal.Exceptions;
 
 /// <summary>
-/// Details of an Error
+/// Details of an Error.
 /// <para>
 /// See <a href="https://developer.paypal.com/docs/api/">PayPal Developer documentation</a> for more information.
 /// </para>

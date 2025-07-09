@@ -2,30 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>true</IsPackable>
-    <Authors>Roberto Fernández Salinas</Authors>
-    <Company>Roberto Fernández Salinas</Company>
     <Description>FluentValidation AspNetCore.Reporting implementation</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.FluentValidation</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>FluentValidation</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>9.0.6.1</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net463' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" />
