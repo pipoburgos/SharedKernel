@@ -1,10 +1,8 @@
 ﻿namespace SharedKernel.Domain.Specifications;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary> Delete specification for entities that implement. </summary>
 /// <typeparam name="T"></typeparam>
-public class DeletedSpecification<T> : ISpecification<T> where T : class , IEntityAuditableLogicalRemove
+public class DeletedSpecification<T> : ISpecification<T> where T : class, IEntityAuditableLogicalRemove
 {
     /// <summary>
     /// 

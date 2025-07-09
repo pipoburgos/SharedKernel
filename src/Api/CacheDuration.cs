@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Api;
 
 /// <summary> . </summary>
-public class CacheDuration
+public static class CacheDuration
 {
     /// <summary> . </summary>
     public const int Minute = 60;

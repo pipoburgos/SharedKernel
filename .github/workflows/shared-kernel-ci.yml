@@ -48,6 +48,9 @@ jobs:
       - name: Publish to GitHub packages
         run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
       - name: Get version from Directory.Build.props
         id: get_version
         run: |

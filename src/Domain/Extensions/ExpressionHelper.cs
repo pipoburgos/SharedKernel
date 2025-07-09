@@ -19,7 +19,7 @@ public static class ExpressionHelper
         {
             propertyInfo = type.GetProperties()
                 .Where(p => p.CanRead)
-                .SingleOrDefault(t => t.Name.ToUpper() == part.ToUpper());
+                .SingleOrDefault(t => string.Equals(t.Name, part, StringComparison.CurrentCultureIgnoreCase));
 
             if (propertyInfo == default)
                 return propertyInfo;

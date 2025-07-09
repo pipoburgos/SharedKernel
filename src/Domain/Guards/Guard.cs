@@ -28,7 +28,7 @@ internal sealed class CallerArgumentExpressionAttribute : Attribute
 #endif
 
 /// <summary> Throws an <see cref="ArgumentNullException"/> if is null. </summary>
-public class Guard
+public static class Guard
 {
     /// <summary>Throws an <see cref="ArgumentNullException"/> if <paramref name="argument"/> is null.</summary>
     /// <param name="argument">The reference type argument to validate as non-null.</param>

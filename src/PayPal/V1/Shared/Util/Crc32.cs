@@ -3,7 +3,7 @@
 namespace PayPal.V1.Shared.Util;
 
 /// <summary>Helper class for computing a CRC32 checksum value.</summary>
-public class Crc32
+public static class Crc32
 {
     /// <summary>CRC32 polynomial table with 0xedb88320 seed.</summary>
     private static readonly uint[] Table =

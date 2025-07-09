@@ -22,7 +22,7 @@ public class PropertiesContainsOrEqualSpecification<T> : ISpecification<T> where
         foreach (var property in _properties.Where(f => !string.IsNullOrWhiteSpace(f.Value)))
         {
             var propertyInfo = typeof(T).GetProperties().Where(p => p.CanWrite)
-                .SingleOrDefault(t => t.Name.ToUpper() == property.Field.ToUpper());
+                .SingleOrDefault(t => string.Equals(t.Name, property.Field, StringComparison.CurrentCultureIgnoreCase));
 
             if (propertyInfo == null)
                 throw new ArgumentNullException(nameof(propertyInfo));
