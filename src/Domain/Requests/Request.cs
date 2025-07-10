@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using SharedKernel.Domain.Exceptions;
+using System.Globalization;
 
 namespace SharedKernel.Domain.Requests;
 
@@ -48,7 +49,7 @@ public abstract class Request : IRequest
         if (Enum.TryParse<TEnum>(body[name], out var result))
             return result;
 
-        throw new Exception($"Error parsing {body[name]}");
+        throw new TextException($"Error parsing {body[name]}");
     }
 
     /// <summary> Cast Datetime from body. </summary>

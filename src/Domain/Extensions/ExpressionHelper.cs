@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using SharedKernel.Domain.Exceptions;
+using System.Globalization;
 using System.Reflection;
 using Enumerable = System.Linq.Enumerable;
 using IEnumerable = System.Collections.IEnumerable;
@@ -121,21 +122,21 @@ public static class ExpressionHelper
 
             case Operator.StartsWith:
                 if (!isString)
-                    throw new Exception("Method not found string.StartsWith");
+                    throw new TextException("Method not found string.StartsWith");
 
                 binaryExpression = StartsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.NotStartsWith:
                 if (!isString)
-                    throw new Exception("Method not found string.StartsWith");
+                    throw new TextException("Method not found string.StartsWith");
 
                 binaryExpression = NotStartsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;
 
             case Operator.EndsWith:
                 if (!isString)
-                    throw new Exception("Method not found string.EndsWith");
+                    throw new TextException("Method not found string.EndsWith");
 
                 binaryExpression = EndsWith(propertyExpression, CastFromStringToConstantExpression());
                 break;

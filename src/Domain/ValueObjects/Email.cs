@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Domain.ValueObjects;
+﻿using SharedKernel.Domain.Exceptions;
+
+namespace SharedKernel.Domain.ValueObjects;
 
 /// <summary> </summary>
 public class Email : ValueObject<Email>
@@ -17,7 +19,7 @@ public class Email : ValueObject<Email>
     {
         var email = CreateResult(value);
         if (email.IsFailure)
-            throw new Exception(string.Join(",", email.Errors));
+            throw new TextException(string.Join(",", email.Errors));
 
         return email.Value;
     }

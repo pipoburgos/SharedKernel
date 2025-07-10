@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using SharedKernel.Domain.Exceptions;
+using System.Reflection;
 
 namespace SharedKernel.Domain.Specifications;
 
@@ -37,7 +38,7 @@ public class PropertyContainsOrEqualSpecification<T> : Specification<T> where T 
             : PropertyInfo.PropertyType.GetMethod("Equals", [PropertyInfo.PropertyType]);
 
         if (methodInfo == null)
-            throw new Exception("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");
+            throw new TextException("Method not found PropertyContainsOrEqualSpecification.SatisfiedBy");
 
         // Property value
         object value;

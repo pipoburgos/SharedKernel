@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Resources;
-using System.Runtime.Serialization;
 
 namespace SharedKernel.Domain.Exceptions;
 
@@ -11,7 +10,10 @@ namespace SharedKernel.Domain.Exceptions;
 public abstract class ResourceException : Exception
 {
     /// <summary> Gets the Code. </summary>
-    public string Code { get; }
+    public string Code { get; } = null!;
+
+    /// <summary> Instanciates a new instance of the <see cref="ResourceException"/> class with a specified error code and an inner exception. </summary>
+    protected ResourceException() { }
 
     /// <summary> Instanciates a new instance of the <see cref="ResourceException"/> class with a specified error code and an inner exception. </summary>
     protected ResourceException(string code, string resourcePath, Assembly assembly) : base(new ResourceManager(resourcePath, assembly).GetString(code))
@@ -19,16 +21,17 @@ public abstract class ResourceException : Exception
         Code = code;
     }
 
-    /// <summary> Instanciates a new instance of the <see cref="ResourceException"/> class with a specified error code and an inner exception. </summary>
-    protected ResourceException(string code, string resourcePath, Assembly assembly, Exception innerException) : base(new ResourceManager(resourcePath, assembly).GetString(code), innerException)
+    /// <summary>
+    /// Instanciates a new instance of the <see cref="ResourceException"/> class
+    /// with a specified error code and an inner exception.
+    /// </summary>
+    protected ResourceException(
+        string code,
+        string resourcePath,
+        Assembly assembly,
+        Exception innerException)
+        : base(new ResourceManager(resourcePath, assembly).GetString(code), innerException)
     {
         Code = code;
     }
-
-    /// <summary> Instanciates a new instance of the <see cref="ResourceException"/> class with a specified error code and an inner exception. </summary>
-    protected ResourceException() { }
-
-    /// <summary> Instanciates a new instance of the <see cref="ResourceException"/> class with a specified error code and an inner exception. </summary>
-    protected ResourceException(SerializationInfo info, StreamingContext context)
-        : base(info, context) { }
 }
