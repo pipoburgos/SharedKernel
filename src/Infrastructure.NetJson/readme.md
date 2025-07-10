@@ -19,9 +19,6 @@ namespace XXX.Infrastructure
             IConfiguration configuration, string connectionStringName)
         {
             return services
-                .AddAutoMapper(new XXXAutoMapperProfile(), typeof(ApplicationCommandHandler).Assembly,
-                    typeof(UserRegistered).Assembly,
-                    typeof(XXXDbContext).Assembly)
                 .AddDomainEvents(typeof(XXXEvent))
                 .AddDomainEventsSubscribers(typeof(XXXEventSusbcriber))
                 .AddCommandsHandlers(typeof(ApplicationCommandHandler))
