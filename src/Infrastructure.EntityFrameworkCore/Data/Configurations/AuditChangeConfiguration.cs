@@ -3,7 +3,7 @@ using SharedKernel.Domain.Entities;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-class AuditChangeConfiguration : IEntityTypeConfiguration<AuditChange>
+public class AuditChangeConfiguration : IEntityTypeConfiguration<AuditChange>
 {
     public void Configure(EntityTypeBuilder<AuditChange> builder)
     {

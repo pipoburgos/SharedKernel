@@ -19,7 +19,7 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
         var typeProperties = context.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var property in schema.Properties)
         {
-            if (IsSourceTypePropertyNullable(typeProperties, property.Key))// || property.Value.Nullable)
+            if (IsSourceTypePropertyNullable(typeProperties, property.Key)) // || property.Value.Nullable)
             {
                 continue;
             }

@@ -24,7 +24,6 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary> . </summary>
-    /// <returns></returns>
     public static void UseAutoMapperSharedKernel(IMapperFactory typeAdapterFactory)
     {
         MapperFactory.SetCurrent(typeAdapterFactory);

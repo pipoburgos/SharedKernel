@@ -25,7 +25,7 @@ public class CpuHealthCheck : IHealthCheck
     /// <param name="context"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         var time = Process.GetCurrentProcess().TotalProcessorTime;
 
@@ -49,6 +49,6 @@ public class CpuHealthCheck : IHealthCheck
 
         var result = new HealthCheckResult(status, null, null, data);
 
-        return await Task.FromResult(result);
+        return Task.FromResult(result);
     }
 }

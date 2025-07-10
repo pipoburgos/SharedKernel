@@ -10,7 +10,6 @@ public sealed class ParameterRebind : ExpressionVisitor
 {
     private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
 
-    /// <inheritdoc />
     /// <summary>
     /// Default constructor
     /// </summary>

@@ -27,7 +27,7 @@ public class FailoverCommonLogic
     }
 
     /// <summary> . </summary>
-    public async Task Handle<TRequest>(TRequest request, Exception e, CancellationToken cancellationToken)
+    public Task Handle<TRequest>(TRequest request, Exception e, CancellationToken cancellationToken)
         where TRequest : IRequest
     {
         var error = new Dictionary<string, string?>
@@ -55,6 +55,6 @@ public class FailoverCommonLogic
             errorRequest = ErrorRequest.Create(_guid.NewGuid().ToString(), requestString, exceptionString);
         }
 
-        await _requestFailOverRepository.Save(errorRequest, cancellationToken);
+        return _requestFailOverRepository.Save(errorRequest, cancellationToken);
     }
 }

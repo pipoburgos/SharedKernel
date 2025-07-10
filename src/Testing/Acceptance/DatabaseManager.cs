@@ -12,9 +12,9 @@ public class DatabaseManager : IAsyncDisposable
         Context = context;
     }
 
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        await Context.DisposeAsync();
+        return Context.DisposeAsync();
     }
 
     public T AddAndSaveChanges<T>(T entity)

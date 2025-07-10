@@ -15,13 +15,13 @@ public class RoleManager : IRoleManager
     }
 
     /// <summary> . </summary>
-    public virtual Task<bool> Exists(string role, CancellationToken cancellationToken)
+    public virtual Task<bool> Exists(string role, CancellationToken cancellationToken = default)
     {
         return _roleManager.RoleExistsAsync(role);
     }
 
     /// <summary> . </summary>
-    public virtual async Task<bool> Create(Guid id, string role, CancellationToken cancellationToken)
+    public virtual async Task<bool> Create(Guid id, string role, CancellationToken cancellationToken = default)
     {
         if (await _roleManager.RoleExistsAsync(role))
             return true;

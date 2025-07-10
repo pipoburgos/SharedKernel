@@ -43,13 +43,14 @@ public abstract class RepositoryAsync<TAggregateRoot, TId> : Repository<TAggrega
     /// <summary> . </summary>
     public virtual async Task<bool> NotAnyAsync(TId id, CancellationToken cancellationToken)
     {
-        return await GetByIdAsync(id, cancellationToken) == default;
+        var entity = await GetByIdAsync(id, cancellationToken);
+        return entity == default;
     }
 
     /// <summary> . </summary>
-    public virtual async Task UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+    public virtual Task UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
-        await _dbContextAsync.UpdateAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken);
+        return _dbContextAsync.UpdateAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken);
     }
 
     /// <summary> . </summary>
@@ -59,9 +60,9 @@ public abstract class RepositoryAsync<TAggregateRoot, TId> : Repository<TAggrega
     }
 
     /// <summary> . </summary>
-    public virtual async Task RemoveAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+    public virtual Task RemoveAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
-        await _dbContextAsync.RemoveAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken);
+        return _dbContextAsync.RemoveAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken);
     }
 
     /// <summary> . </summary>

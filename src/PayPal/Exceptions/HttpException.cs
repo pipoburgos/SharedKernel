@@ -63,9 +63,9 @@ public class HttpException : ConnectionException
         {
             other = (T)Activator.CreateInstance(typeof(T), this)!;
         }
-        // ReSharper disable once EmptyGeneralCatchClause
         catch (Exception)
         {
+            // Error
         }
         return other != null;
     }
@@ -74,10 +74,4 @@ public class HttpException : ConnectionException
     /// Gets the prefix to use when logging the exception information.
     /// </summary>
     protected override string ExceptionMessagePrefix => "HTTP Exception";
-
-    /// <summary>Override of the default log message.</summary>
-    /// <param name="message">The message to be logged.</param>
-    protected override void LogDefaultMessage(string message)
-    {
-    }
 }

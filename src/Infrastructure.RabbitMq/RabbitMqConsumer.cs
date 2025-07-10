@@ -16,13 +16,13 @@ namespace SharedKernel.Infrastructure.RabbitMq;
 /// <summary> . </summary>
 internal class RabbitMqConsumer : IDisposable, IAsyncDisposable
 {
+    private const string HeaderRedelivery = "redelivery_count";
     private readonly RabbitMqConnectionFactory _rabbitMqConnectionFactory;
     private readonly IRequestMediator _requestMediator;
     private readonly ILogger<RabbitMqConsumer> _logger;
     private readonly IOptions<RabbitMqConfigParams> _rabbitMqParams;
     private readonly IRetriever _retriever;
     private readonly IEnumerable<IRequestType> _requestsTypes;
-    private const string HeaderRedelivery = "redelivery_count";
     private IConnection _connection = null!;
     private IChannel _channel = null!;
 

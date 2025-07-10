@@ -11,11 +11,11 @@ using System.Linq.Expressions;
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Queries;
 
 /// <summary> . </summary>
-public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbContextBase : DbContext, IDisposable
+public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposable where TDbContextBase : DbContext, IDisposable
 {
     private readonly IDbContextFactory<TDbContextBase> _factory;
-    private TDbContextBase _lastDbContext = null!;
     private readonly List<TDbContextBase> _dbContexts;
+    private TDbContextBase _lastDbContext = null!;
 
     /// <summary> . </summary>
     public EntityFrameworkCoreQueryProvider(IDbContextFactory<TDbContextBase> factory)
@@ -128,7 +128,7 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> where TDbCo
         return new PagedList<TResult>(totalAfter, elements);
     }
 
-    /// <summary> . </summary>
+    /// <summary> Disposes the resources used by the query provider. </summary>
     public void Dispose()
     {
         foreach (var dbContextBase in _dbContexts)

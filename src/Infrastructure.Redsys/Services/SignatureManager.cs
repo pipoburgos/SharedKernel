@@ -2,6 +2,7 @@
 using SharedKernel.Infrastructure.Redsys.Contracts;
 
 namespace SharedKernel.Infrastructure.Redsys.Services;
+
 /// <summary> . </summary>
 internal sealed class SignatureManager : ISignatureManager
 {

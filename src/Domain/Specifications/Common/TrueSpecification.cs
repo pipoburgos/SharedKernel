@@ -13,7 +13,6 @@ public sealed class TrueSpecification<TEntity> : ISpecification<TEntity>
     /// <summary>
     /// <see cref="!: Specification{TEntity}" />
     /// </summary>
-    /// <returns><see cref="!: Specification{TEntity}" /></returns>
     public Expression<Func<TEntity, bool>> SatisfiedBy()
     {
         //Create "result variable" transform adhoc execution plan in prepared plan

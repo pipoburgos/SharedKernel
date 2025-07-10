@@ -16,7 +16,8 @@ public class ActiveMqEventBus : ActiveMqPublisher, IEventBus
     public ActiveMqEventBus(
         IRequestSerializer requestSerializer,
         IPipeline pipeline,
-        IOptions<ActiveMqConfiguration> configuration) : base(configuration)
+        IOptions<ActiveMqConfiguration> configuration)
+        : base(configuration)
     {
         _requestSerializer = requestSerializer;
         _pipeline = pipeline;

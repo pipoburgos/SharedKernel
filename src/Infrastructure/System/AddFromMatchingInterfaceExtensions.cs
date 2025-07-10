@@ -72,7 +72,6 @@ public static class AddFromMatchingInterfaceExtensions
     /// <param name="serviceLifetime"></param>
     /// <param name="types"></param>
     /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
     public static IServiceCollection AddSharedKernelFromMatchingInterface(this IServiceCollection services,
         Func<Type, bool>? classesInclude, ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
         params Type[] types)

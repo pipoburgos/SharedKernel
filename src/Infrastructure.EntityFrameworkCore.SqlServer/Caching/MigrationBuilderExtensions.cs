@@ -34,7 +34,6 @@ public static class MigrationBuilderExtensions
     /// <param name="migrationBuilder"></param>
     /// <param name="schema"></param>
     /// <param name="table"></param>
-    /// <returns></returns>
     public static void CreateCacheTable(this MigrationBuilder migrationBuilder, string schema = "dbo",
         string table = "Cache")
     {
@@ -78,7 +77,6 @@ GO
     /// <param name="migrationBuilder"></param>
     /// <param name="schema"></param>
     /// <param name="table"></param>
-    /// <returns></returns>
     public static void DropCacheTable(this MigrationBuilder migrationBuilder, string schema = "dbo",
         string table = "Cache")
     {

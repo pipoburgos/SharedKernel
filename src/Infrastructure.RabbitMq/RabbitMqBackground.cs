@@ -20,11 +20,11 @@ public class RabbitMqBackground : IHostedService
     /// 
     /// </summary>
     /// <param name="cancellationToken"></param>
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         _serviceScope = _serviceScopeFactory.CreateScope();
         _rabbitMqConsumer = _serviceScope.ServiceProvider.GetRequiredService<RabbitMqConsumer>();
-        await _rabbitMqConsumer.StartAsync(cancellationToken);
+        return _rabbitMqConsumer.StartAsync(cancellationToken);
     }
 
     /// <summary>

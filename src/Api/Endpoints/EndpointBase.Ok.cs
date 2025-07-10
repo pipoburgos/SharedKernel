@@ -5,6 +5,7 @@ using SharedKernel.Domain.RailwayOrientedProgramming;
 
 namespace SharedKernel.Api.Endpoints;
 
+/// <summary> a. </summary>
 public abstract partial class EndpointBase
 {
     /// <summary>

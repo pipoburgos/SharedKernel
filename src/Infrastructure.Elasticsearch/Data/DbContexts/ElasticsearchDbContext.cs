@@ -14,8 +14,11 @@ public abstract class ElasticsearchDbContext : DbContextAsync
     private readonly ElasticsearchClient _client;
 
     /// <summary> . </summary>
-    protected ElasticsearchDbContext(ElasticsearchClient client, IEntityAuditableService auditableService,
-        IClassValidatorService classValidatorService) : base(auditableService, classValidatorService)
+    protected ElasticsearchDbContext(
+        ElasticsearchClient client,
+        IEntityAuditableService auditableService,
+        IClassValidatorService classValidatorService)
+        : base(auditableService, classValidatorService)
     {
         _client = client;
     }

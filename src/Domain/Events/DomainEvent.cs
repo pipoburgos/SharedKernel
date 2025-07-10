@@ -5,8 +5,8 @@ public abstract class DomainEvent : Request
 {
     #region Constructors
 
-    /// <summary> Domain event serializable constructor. </summary>
-    protected DomainEvent() { }
+    ///// <summary> Domain event serializable constructor. </summary>
+    //protected DomainEvent() { }
 
     /// <summary> Domain event constructor. </summary>
     protected DomainEvent(string? eventId = default, string? occurredOn = default) : base(eventId, occurredOn)

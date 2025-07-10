@@ -85,13 +85,7 @@ public abstract class FileSystemDbContext : DbContextAsync
     protected override Task UpdateMethodAsync<TAggregateRoot, TId>(TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken)
     {
-#if NETSTANDARD2_1 || NET6_0_OR_GREATER
-        return File.WriteAllTextAsync(FileName<TAggregateRoot, TId>(aggregateRoot.Id),
-            JsonSerializer.Serialize(aggregateRoot), cancellationToken);
-#else
-        File.WriteAllText(FileName<TAggregateRoot, TId>(aggregateRoot.Id), JsonSerializer.Serialize(aggregateRoot));
-        return Task.CompletedTask;
-#endif
+        return AddMethodAsync<TAggregateRoot, TId>(aggregateRoot, cancellationToken);
     }
 
     /// <summary> . </summary>
@@ -105,7 +99,6 @@ public abstract class FileSystemDbContext : DbContextAsync
     /// <summary> . </summary>
     public override async Task<TAggregateRoot?> GetByIdAsync<TAggregateRoot, TId>(TId id,
         CancellationToken cancellationToken) where TAggregateRoot : class
-
     {
         if (!File.Exists(FileName<TAggregateRoot, TId>(id)))
             return default;

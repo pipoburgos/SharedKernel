@@ -23,30 +23,30 @@ public static class CurrentCultureMiddleware
             SupportedUICultures = supported,
         });
 
-        app.Use((context, next) =>
+        app.Use(async (context, next) =>
         {
             if (supportedCultures.Any() && context.Request.GetTypedHeaders().AcceptLanguage.Any())
             {
                 var requestCulture = context.Request.GetTypedHeaders()
                     .AcceptLanguage
-                    .OrderByDescending(x => x.Quality ?? 1) // Quality defines priority from 0 to 1, where 1 is the highest.
+                    .OrderByDescending(x => x.Quality ?? 1)
                     .Select(x => x.Value.ToString())
                     .FirstOrDefault(supportedCultures.Contains);
 
                 if (requestCulture == default)
                 {
                     context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                    context.Response.WriteAsJsonAsync("Invalid Accept-Language values.");
-                    return Task.CompletedTask;
+                    await context.Response.WriteAsJsonAsync("Invalid Accept-Language values.");
+                    return;
                 }
 
                 defaultLanguage = new CultureInfo(requestCulture);
             }
 
             Thread.CurrentThread.CurrentCulture = defaultLanguage;
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentUICulture = defaultLanguage;
 
-            return next();
+            await next();
         });
 
         return app;

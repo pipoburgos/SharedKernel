@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace PayPal.V1.Shared.Util;
 
 /// <summary>Helper methods for this SDK.</summary>
-internal class SdkUtil
+internal static class SdkUtil
 {
     /// <summary>Formats the URI path for REST calls.</summary>
     /// <param name="pattern">URI path with placeholders that can be replaced with string's Format method</param>
@@ -111,7 +111,7 @@ internal class SdkUtil
                 foreach (var str in strArray2)
                 {
                     var strArray3 = str.Split('=');
-                    if (strArray3.Length == 2 && !strArray3[1].Trim().ToLower().Equals("null") && strArray3[1].Trim().Length != 0)
+                    if (strArray3.Length == 2 && !strArray3[1].Trim().Equals("null", StringComparison.OrdinalIgnoreCase) && strArray3[1].Trim().Length != 0)
                         stringBuilder.Append(str).Append("&");
                 }
                 formatString = !stringBuilder.ToString().EndsWith("&") ? stringBuilder.ToString() : stringBuilder.ToString().Substring(0, stringBuilder.ToString().Length - 1);

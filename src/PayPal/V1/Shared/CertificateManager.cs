@@ -8,16 +8,17 @@ namespace PayPal.V1.Shared;
 /// <summary>Manager class for storing X509 certificates.</summary>
 public sealed class CertificateManager
 {
+    /// <summary>
+    /// Private static member for locking the singleton object while it's being instantiated.
+    /// </summary>
+    private static readonly object SyncRoot = new object();
+
     ///// <summary>Cache of X509 certificates.</summary>
     //private static readonly ConcurrentDictionary<string, X509Certificate2Collection> Certificates;
     /// <summary>
     /// Private static member for storing the single instance.
     /// </summary>
     private static volatile CertificateManager? _instance;
-    /// <summary>
-    /// Private static member for locking the singleton object while it's being instantiated.
-    /// </summary>
-    private static readonly object SyncRoot = new object();
 
     ///// <summary>Private constructor prevent direct instantiation</summary>
     //static CertificateManager()

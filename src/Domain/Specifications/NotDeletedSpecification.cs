@@ -4,7 +4,7 @@
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class NotDeletedSpecification<T> : ISpecification<T> where T : class , IEntityAuditableLogicalRemove
+public class NotDeletedSpecification<T> : ISpecification<T> where T : class, IEntityAuditableLogicalRemove
 {
     /// <summary>
     /// 

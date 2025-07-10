@@ -37,11 +37,11 @@ public class NewtonsoftSerializer : IJsonSerializer
     }
 
     /// <summary> . </summary>
-    public async Task SerializeAsync<T>(T data, Stream stream,
+    public Task SerializeAsync<T>(T data, Stream stream,
         NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
     {
         var writer = new StreamWriter(stream);
-        await writer.WriteAsync(JsonConvert.SerializeObject(data, GetOptions(namingConvention)));
+        return writer.WriteAsync(JsonConvert.SerializeObject(data, GetOptions(namingConvention)));
     }
 
     /// <summary> . </summary>

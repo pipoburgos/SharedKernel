@@ -11,6 +11,7 @@ public static partial class ResultExtensions
             ? predicate(result.Value)
             : Result.Failure<TU>(result.Errors);
     }
+
     /// <summary> . </summary>
     public static Result<TU> TryBind<T, TU>(this Result<T> result, Func<T, TU> predicate,
         Func<Exception, Result<TU>>? capture = default, Action? finallyFunc = default)

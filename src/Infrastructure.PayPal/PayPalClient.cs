@@ -31,7 +31,7 @@ internal class PayPalClient : IPayPalClient
         HttpHeaders = new Dictionary<string, string>();
     }
 
-    /// <summary> Gets or sets the OAuth access token to use when making API requests.. </summary>
+    /// <summary> Gets the OAuth access token to use when making API requests.. </summary>
     public PayPalTokenResponse? Token { get; private set; }
 
     /// <summary> Gets or sets the HTTP headers to include when making HTTP requests to the API.. </summary>

@@ -24,10 +24,10 @@ public class NetJsonSerializer : IJsonSerializer
     }
 
     /// <summary> . </summary>
-    public async Task SerializeAsync<T>(T data, Stream stream,
+    public Task SerializeAsync<T>(T data, Stream stream,
         NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
     {
-        await JsonSerializer.SerializeAsync(stream, data, GetOptions(namingConvention), cancellationToken);
+        return JsonSerializer.SerializeAsync(stream, data, GetOptions(namingConvention), cancellationToken);
     }
 
     /// <summary> . </summary>

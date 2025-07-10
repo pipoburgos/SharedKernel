@@ -49,8 +49,8 @@ public class EntityFrameworkCoreOutboxMailRepository<TContext> : IDisposable, IO
     }
 
     /// <summary> . </summary>
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        await _context.DisposeAsync();
+        return _context.DisposeAsync();
     }
 }

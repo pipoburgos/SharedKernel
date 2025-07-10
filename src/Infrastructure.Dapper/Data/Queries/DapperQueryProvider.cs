@@ -156,7 +156,9 @@ public sealed class DapperQueryProvider : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    /// <summary> . </summary>
+    /// <summary>
+    /// Finalizes an instance of the <see cref="DapperQueryProvider"/> class.
+    /// </summary>
     ~DapperQueryProvider()
     {
         Dispose(false);

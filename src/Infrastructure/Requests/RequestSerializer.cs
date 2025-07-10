@@ -29,17 +29,17 @@ internal class RequestSerializer : IRequestSerializer
             .Select(c => new RequestClaim(c.Type, c.Value))
             .ToList();
 
-        return _jsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object>>
+        return _jsonSerializer.Serialize(new Dictionary<string, Dictionary<string, object?>>
         {
             {
                 RequestExtensions.Headers, new Dictionary<string, object?>
                 {
-                    {RequestExtensions.Claims, domainClaims},
-                    {RequestExtensions.Authorization, _identityService?.GetKeyValue("Authorization")},
-                }!
+                    { RequestExtensions.Claims, domainClaims },
+                    { RequestExtensions.Authorization, _identityService?.GetKeyValue("Authorization")},
+                }
             },
             {
-                RequestExtensions.Data, new Dictionary<string, object>
+                RequestExtensions.Data, new Dictionary<string, object?>
                 {
                     {RequestExtensions.Id, request.RequestId},
                     {RequestExtensions.Type, request.GetUniqueName()},
@@ -48,7 +48,7 @@ internal class RequestSerializer : IRequestSerializer
                 }
             },
             {
-                RequestExtensions.Meta, new Dictionary<string, object>()
+                RequestExtensions.Meta, new Dictionary<string, object?>()
             },
         }, NamingConvention.PascalCase);
     }

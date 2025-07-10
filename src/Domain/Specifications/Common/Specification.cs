@@ -43,7 +43,7 @@ public abstract class Specification<TEntity> : ISpecification<TEntity>
     /// Or operator
     /// </summary>
     /// <param name="leftSideSpecification">left operand in this OR operation</param>
-    /// <param name="rightSideSpecification">left operand in this OR operation</param>
+    /// <param name="rightSideSpecification">right operand in this OR operation</param>
     /// <returns>New specification </returns>
     public static Specification<TEntity> operator |(Specification<TEntity> leftSideSpecification,
         Specification<TEntity> rightSideSpecification)

@@ -158,7 +158,9 @@ public static class ExpressionHelper
                     binaryExpression = Contains(propertyExpression, CastFromStringToConstantExpression());
                 }
                 else
+                {
                     throw new Exception("Method not found Contains");
+                }
 
                 break;
 
@@ -172,7 +174,9 @@ public static class ExpressionHelper
                     binaryExpression = NotContains(propertyExpression, CastFromStringToConstantExpression());
                 }
                 else
+                {
                     throw new Exception("Method not found Contains");
+                }
 
                 break;
 

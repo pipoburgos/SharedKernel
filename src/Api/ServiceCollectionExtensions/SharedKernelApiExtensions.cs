@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Prometheus;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Prometheus;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
 #if NET6_0_OR_GREATER

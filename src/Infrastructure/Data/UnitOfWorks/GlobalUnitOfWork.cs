@@ -10,7 +10,6 @@ public abstract class GlobalUnitOfWork : IGlobalUnitOfWork
     protected readonly List<IDbContext> DbContexts;
 
     /// <summary> . </summary>
-
     protected readonly List<IDbContext> DbContextsExecuted;
 
     /// <summary> . </summary>

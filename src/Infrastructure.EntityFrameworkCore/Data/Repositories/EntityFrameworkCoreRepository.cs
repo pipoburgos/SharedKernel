@@ -115,7 +115,6 @@ public abstract class EntityFrameworkCoreRepository<TAggregateRoot, TId> : Repos
     }
 
     /// <summary> . </summary>
-
     public virtual TAggregateRoot Single(ISpecification<TAggregateRoot> spec)
     {
         return GetQuery().Single(spec.SatisfiedBy());

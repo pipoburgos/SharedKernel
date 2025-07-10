@@ -4,7 +4,7 @@ using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 
 namespace SharedKernel.Infrastructure.Dapper.Data.Queries;
 
-/// <summary> </summary>
+/// <summary> A. </summary>
 public partial class QueryBuilder
 {
     #region Miembros

@@ -42,9 +42,10 @@ public static class Guard
         if (throwOnNullEmptyOrWhiteSpaceString && argument is string s && string.IsNullOrWhiteSpace(s))
             throw new ArgumentNullException(paramName);
 #else
-        // ReSharper disable once ArrangeMissingParentheses
         if (argument is null ||
-            throwOnNullEmptyOrWhiteSpaceString && argument is string s && string.IsNullOrWhiteSpace(s))
+            (throwOnNullEmptyOrWhiteSpaceString &&
+            argument is string s &&
+            string.IsNullOrWhiteSpace(s)))
             throw new ArgumentNullException(paramName);
 #endif
         return argument;

@@ -5,7 +5,9 @@ using SharedKernel.Application.System;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
+#pragma warning disable SA1300
 namespace SharedKernelInfrastructure.iText;
+#pragma warning restore SA1300
 
 /// <summary> . </summary>
 public class ElectronicSignatureValidator : IElectronicSignatureValidator

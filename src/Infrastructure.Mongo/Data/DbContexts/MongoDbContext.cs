@@ -117,7 +117,7 @@ public class MongoDbContext : DbContextAsync, IDisposable
         var cursor = await Set<TAggregateRoot>()
             .FindAsync(a => a.Id!.Equals(id), cancellationToken: cancellationToken);
 
-        var aggregateRoot = cursor.SingleOrDefault();
+        var aggregateRoot = await cursor.SingleOrDefaultAsync(cancellationToken);
 
         if (aggregateRoot is IEntityAuditableLogicalRemove ag)
         {

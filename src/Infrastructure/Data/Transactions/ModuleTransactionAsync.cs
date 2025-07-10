@@ -44,7 +44,9 @@ public class ModuleTransactionAsync : IModuleTransactionAsync
         GC.SuppressFinalize(this);
     }
 
-    /// <summary> . </summary>
+    /// <summary>
+    /// Finalizes an instance of the <see cref="ModuleTransactionAsync"/> class.
+    /// </summary>
     ~ModuleTransactionAsync()
     {
         Dispose(false);

@@ -38,9 +38,12 @@ public static class ProgramExtensions
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+            const string errorMessage = "An error occurred while migrating or seeding the database.";
+            logger.LogError(ex, errorMessage);
             logger.LogCritical(ex, "Host terminated unexpectedly");
-            throw;
+
+            // Rethrow the exception with additional context
+            throw new InvalidOperationException(errorMessage, ex);
         }
     }
 

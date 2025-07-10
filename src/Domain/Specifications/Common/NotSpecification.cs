@@ -45,7 +45,6 @@ public sealed class NotSpecification<TEntity> : Specification<TEntity>
     /// <summary>
     /// <see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" />
     /// </summary>
-    /// <returns><see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" /></returns>
     public override Expression<Func<TEntity, bool>> SatisfiedBy()
     {
 

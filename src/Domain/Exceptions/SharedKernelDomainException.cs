@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Domain.Exceptions;
+﻿using System.Runtime.Serialization;
+
+namespace SharedKernel.Domain.Exceptions;
 
 /// <summary>
 /// 
@@ -6,18 +8,18 @@
 [Serializable]
 public abstract class SharedKernelDomainException : ResourceException
 {
-    private const string ResourcePath =  "SharedKernel.Domain.Exceptions.ExceptionCodes";
+    private const string ResourcePath = "SharedKernel.Domain.Exceptions.ExceptionCodes";
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="code"></param>
+    /// <summary> Instanciates a new instance of the <see cref="SharedKernelDomainException"/> class with a specified error code and an inner exception. </summary>
     protected SharedKernelDomainException(string code) : base(code, ResourcePath, typeof(SharedKernelDomainException).Assembly) { }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="code"></param>
-    /// <param name="innerException"></param>
+    /// <summary> Instanciates a new instance of the <see cref="SharedKernelDomainException"/> class with a specified error code and an inner exception. </summary>
     protected SharedKernelDomainException(string code, Exception innerException) : base(code, ResourcePath, typeof(SharedKernelDomainException).Assembly, innerException) { }
+
+    /// <summary> Instanciates a new instance of the <see cref="SharedKernelDomainException"/> class with a specified error code and an inner exception. </summary>
+    protected SharedKernelDomainException() { }
+
+    /// <summary> Instanciates a new instance of the <see cref="SharedKernelDomainException"/> class with a specified error code and an inner exception. </summary>
+    protected SharedKernelDomainException(SerializationInfo info, StreamingContext context)
+        : base(info, context) { }
 }

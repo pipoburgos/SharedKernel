@@ -28,6 +28,8 @@ public class ExistsSpecification<TId, TEntity, TTranslation> : Specification<TEn
     /// <summary> . </summary>
     public override Expression<Func<TEntity, bool>> SatisfiedBy()
     {
-        return l => l.Translations.Any(t => !t.EntityId!.Equals(_id) && t.Name.ToUpper() == _name.ToUpper());
+        return l => l.Translations.Any(t =>
+            !t.EntityId!.Equals(_id) &&
+            string.Equals(t.Name, _name, StringComparison.OrdinalIgnoreCase));
     }
 }

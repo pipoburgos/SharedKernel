@@ -47,26 +47,24 @@ public class WebUtils : IWeb
             query = query.Substring(1);
 
         var result = new NameValueCollection();
-
         var length = query.Length;
-        for (var index = 0; index < length; ++index)
+
+        var index = 0;
+
+        while (index < length)
         {
             var startIndex = index;
             var num = -1;
-            for (; index < length; ++index)
+
+            while (index < length && query[index] != '&')
             {
-                switch (query[index])
+                if (query[index] == '=' && num < 0)
                 {
-                    case '&':
-                        continue;
-                    case '=':
-                        if (num < 0)
-                        {
-                            num = index;
-                        }
-                        break;
+                    num = index;
                 }
+                index++;
             }
+
             string? str1 = null;
             string str2;
             if (num >= 0)
@@ -80,10 +78,18 @@ public class WebUtils : IWeb
             }
 
             result.Add(UrlDecode(str1!), UrlDecode(str2));
-            if (index == length - 1 && query[index] == '&')
-                result.Add(null, string.Empty);
+
+            // Avanzar después de '&'
+            if (index < length && query[index] == '&')
+            {
+                index++;
+                if (index == length)
+                    result.Add(null, string.Empty);
+            }
         }
 
         return result;
     }
+
+
 }
