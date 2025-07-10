@@ -48,7 +48,7 @@ jobs:
       - name: Get version from Directory.Build.props
         id: get_version
         run: |
-          VERSION=$(xmllint --xpath "string(//Version)" Directory.Build.props)
+          VERSION=$(xmllint --xpath "string(//Version)" ./src/Directory.Build.props)
           echo "Version found: $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
