@@ -4,6 +4,8 @@ dotnet_diagnostic.IDE0028.severity = suggestion        # Use collection initiali
 dotnet_diagnostic.RCS1138.severity = suggestion        # Add summary to documentation comment
 dotnet_diagnostic.RS0019.severity = suggestion         # Duplicate resource
 dotnet_diagnostic.S125.severity = suggestion           # Remove this commented out code.
+dotnet_diagnostic.S3249.severity = suggestion          # Remove this 'base' call to 'object.GetHashCode', which is directly based on the object reference.
+dotnet_diagnostic.S3875.severity = suggestion          # Remove this overload of 'operator =='.
 dotnet_diagnostic.SA1005.severity = suggestion         # Single line comment should begin with a space
 dotnet_diagnostic.SA1028.severity = suggestion         # Code should not contain trailing whitespace (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1028.md)
 dotnet_diagnostic.SA1101.severity = suggestion         # Prefix local calls with this (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1101.md)
