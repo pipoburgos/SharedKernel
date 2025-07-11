@@ -47,7 +47,7 @@ public sealed class OrSpecification<T> : CompositeSpecification<T>
     /// <summary>
     /// <see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" />
     /// </summary>
-    /// <returns><see cref="T:SharedKernel.Domain.Specifications.Common.ISpecification`1" /></returns>
+    /// <returns>True o false.</returns>
     public override Expression<Func<T, bool>> SatisfiedBy()
     {
         var left = _leftSideSpecification.SatisfiedBy();

@@ -4,8 +4,6 @@ dotnet_diagnostic.IDE0028.severity = suggestion        # Use collection initiali
 dotnet_diagnostic.RCS1138.severity = suggestion        # Add summary to documentation comment
 dotnet_diagnostic.RS0019.severity = suggestion         # Duplicate resource
 dotnet_diagnostic.S125.severity = suggestion           # Remove this commented out code.
-dotnet_diagnostic.S3249.severity = suggestion          # Remove this 'base' call to 'object.GetHashCode', which is directly based on the object reference.
-dotnet_diagnostic.S3875.severity = suggestion          # Remove this overload of 'operator =='.
 dotnet_diagnostic.SA1005.severity = suggestion         # Single line comment should begin with a space
 dotnet_diagnostic.SA1028.severity = suggestion         # Code should not contain trailing whitespace (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1028.md)
 dotnet_diagnostic.SA1101.severity = suggestion         # Prefix local calls with this (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1101.md)
@@ -18,6 +16,7 @@ dotnet_diagnostic.SA1200.severity = suggestion         # A C# using directive is
 dotnet_diagnostic.SA1201.severity = suggestion         # A constructor should not follow a property (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1201.md)
 dotnet_diagnostic.SA1208.severity = suggestion         # A using directive which declares a member of the System namespace appears after a using directive which declares a member of a different namespace, within a C# code file  (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1208.md)
 dotnet_diagnostic.SA1309.severity = suggestion         # Field names must not begin with an underscore
+dotnet_diagnostic.SA1401.severity = suggestion         # A field within a C# class has an access modifier other than private.
 dotnet_diagnostic.SA1503.severity = suggestion         # Braces should not be omitted (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1503.md)
 dotnet_diagnostic.SA1515.severity = suggestion         # Single-line comment should be preceded by blank line (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1515.md)
 dotnet_diagnostic.SA1600.severity = suggestion         # Elements should be documented (https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1600.md)

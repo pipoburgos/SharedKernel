@@ -1,5 +1,4 @@
-﻿
-// ReSharper disable StringLiteralTypo
+﻿// ReSharper disable StringLiteralTypo
 
 namespace SharedKernel.Domain.Entities;
 

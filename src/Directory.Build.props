@@ -1,5 +1,7 @@
 <Project>
+
   <PropertyGroup>
+    <NoWarn>$(NoWarn);SA1005;SA1507;S6608;S3442;SA1649;SA1013;SA1012;S2325;SA1508;SA1602;SA1502;S112;SA1505;SA1518;S1144;SA1202;SA1512;SA1513;SA1118;SA1516;SA1402;SA1009;SA1519;SA1204;SA1101;SA1401</NoWarn>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>

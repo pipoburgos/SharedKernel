@@ -93,7 +93,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
             }
             else
             {
-                hashCode ^= index * 13;//only for support {"a",null,null,"a"} <> {null,"a","a",null}
+                hashCode ^= index * 13; //only for support {"a",null,null,"a"} <> {null,"a","a",null}
             }
         }
 

@@ -33,8 +33,10 @@ public static partial class ResultExtensions
     {
         var result = await resultTask;
         if (!result.IsFailure && !result2.IsFailure && !result3.IsFailure && !result4.IsFailure)
+        {
             return Result.Success(new Tuple<T1, T2, T3, T4>(result.Value, result2.Value, result3.Value,
                 result4.Value));
+        }
 
         return Result.Failure<Tuple<T1, T2, T3, T4>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors)
             .Concat(result4.Errors));

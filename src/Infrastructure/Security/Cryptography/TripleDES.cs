@@ -1,6 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using SharedKernel.Application.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
-using SharedKernel.Application.Security.Cryptography;
+#pragma warning disable S5547
 
 namespace SharedKernel.Infrastructure.Security.Cryptography;
 
@@ -25,7 +26,7 @@ public class TripleDes : ITripleDes
         tripleDes.Key = key;
         tripleDes.Mode = CipherMode.CBC;
         tripleDes.Padding = PaddingMode.Zeros;
-        var ict = tripleDes.CreateEncryptor();
+        var ict = tripleDes.CreateEncryptor(tripleDes.Key, tripleDes.IV);
         var enc = ict.TransformFinalBlock(data, 0, data.Length);
         return Encoding.GetEncoding(1252).GetString(enc);
     }

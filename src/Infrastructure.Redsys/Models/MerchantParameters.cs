@@ -1,6 +1,8 @@
 ﻿using SharedKernel.Infrastructure.Redsys.Enums;
-
 // ReSharper disable InconsistentNaming
+#pragma warning disable SA1313
+#pragma warning disable SA1117
+
 
 namespace SharedKernel.Infrastructure.Redsys.Models;
 

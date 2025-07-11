@@ -38,7 +38,7 @@ public abstract class Request : IRequest
     public abstract string GetUniqueName();
 
     /// <summary> Create a new request with default values. </summary>
-    public abstract Request FromPrimitives(Dictionary<string, string> body, string id, string occurredOn);
+    public abstract Request FromPrimitives(Dictionary<string, string> body, string eventId, string occurredOn);
 
     /// <summary> Cast enum from body. </summary>
     public TEnum GetEnumFromBody<TEnum>(Dictionary<string, string> body, string name) where TEnum : struct

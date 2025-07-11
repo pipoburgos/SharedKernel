@@ -35,16 +35,16 @@ public sealed class ParameterRebind : ExpressionVisitor
     /// <summary>
     /// Visit pattern method
     /// </summary>
-    /// <param name="p">A Parameter expression</param>
+    /// <param name="node">A Parameter expression</param>
     /// <returns>New visited expression</returns>
-    protected override Expression VisitParameter(ParameterExpression p)
+    protected override Expression VisitParameter(ParameterExpression node)
     {
-        if (_map.TryGetValue(p, out var replacement))
+        if (_map.TryGetValue(node, out var replacement))
         {
-            p = replacement;
+            node = replacement;
         }
 
-        return base.VisitParameter(p);
+        return base.VisitParameter(node);
     }
 
 }

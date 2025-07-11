@@ -1,6 +1,7 @@
 ﻿using SharedKernel.Application.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;
+#pragma warning disable S5547
 
 namespace SharedKernel.Infrastructure.Security.Cryptography;
 
@@ -54,7 +55,8 @@ public class Md5Encryptor : IMd5Encryptor
         //For lowercase a-f letters:
         //return val - (val < 58 ? 48 : 87);
         //Or the two combined, but a bit slower:
-        return val - (val < 58 ? 48 : val < 97 ? 55 : 87);
+        var x = val < 97 ? 55 : 87;
+        return val - (val < 58 ? 48 : x);
     }
 
     #endregion

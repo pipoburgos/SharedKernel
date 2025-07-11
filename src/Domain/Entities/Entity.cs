@@ -1,3 +1,5 @@
+// ReSharper disable BaseObjectGetHashCodeCallInGetHashCode
+#pragma warning disable S3875
 namespace SharedKernel.Domain.Entities;
 
 /// <summary> . </summary>
@@ -39,8 +41,8 @@ public abstract class Entity<TId> : IEntity<TId> where TId : notnull
     #region Overrides Methods
 
     /// <summary> <see cref="M:System.Object.Equals"/> </summary>
-    /// <param name="obj"><see cref="M:System.Object.Equals"/></param>
-    /// <returns><see cref="M:System.Object.Equals"/></returns>
+    /// <param name="obj"> The object to compare with the current object. </param>
+    /// <returns><see langword="true" /> if the specified object  is equal to the current object; otherwise, <see langword="false" />.</returns>
     public override bool Equals(object? obj)
     {
         if (!(obj is Entity<TId>))
@@ -51,20 +53,16 @@ public abstract class Entity<TId> : IEntity<TId> where TId : notnull
 
         var item = (Entity<TId>)obj;
 
-        var equals = Id.Equals(item.Id);
-
-        return equals;
+        return Id.Equals(item.Id);
     }
 
     /// <summary> <see cref="M:System.Object.GetHashCode"/> </summary>
-    /// <returns><see cref="M:System.Object.GetHashCode"/></returns>
+    /// <returns> A hash code for the current object. </returns>
     public override int GetHashCode()
     {
-        // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
         if (IsTransient())
             return base.GetHashCode();
 
-        // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
         // ReSharper disable once NonReadonlyMemberInGetHashCode
         return Id.GetHashCode() ^ 31;
     }
