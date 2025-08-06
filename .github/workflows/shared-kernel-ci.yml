@@ -8,7 +8,11 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
@@ -42,15 +46,14 @@ jobs:
       - name: Pack
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
 
-      - name: Install xmllint
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
-
       - name: Get version from Directory.Build.props
         id: get_version
+        shell: pwsh
         run: |
-          VERSION=$(xmllint --xpath "string(//Version)" ./src/Directory.Build.props)
-          echo "Version found: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          [xml]$xml = Get-Content ./src/Directory.Build.props
+          $version = $xml.Project.PropertyGroup.Version
+          "Version found: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Check if tag already exists
         id: check_tag
