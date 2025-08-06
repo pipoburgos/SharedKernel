@@ -38,6 +38,17 @@ public class CsvRow : IRowData
     }
 
     /// <summary> . </summary>
+    public T Get<T>(string name)
+    {
+        if (_cells == default!)
+            return default!;
+
+        var index = _columnNames.FindIndex(x => x == name);
+
+        return Get<T>(index);
+    }
+
+    /// <summary> . </summary>
     public Result<T> GetResult<T>(int index)
     {
         if (_cells == default!)
@@ -49,18 +60,6 @@ public class CsvRow : IRowData
         var cell = _cells[index];
 
         return GetCellValueResult<T>(cell);
-    }
-
-
-    /// <summary> . </summary>
-    public T Get<T>(string name)
-    {
-        if (_cells == default!)
-            return default!;
-
-        var index = _columnNames.FindIndex(x => x == name);
-
-        return Get<T>(index);
     }
 
     /// <summary> . </summary>

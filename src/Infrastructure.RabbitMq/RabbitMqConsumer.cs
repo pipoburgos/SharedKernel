@@ -14,7 +14,7 @@ using System.Text;
 namespace SharedKernel.Infrastructure.RabbitMq;
 
 /// <summary> . </summary>
-internal class RabbitMqConsumer : IDisposable, IAsyncDisposable
+internal sealed class RabbitMqConsumer : IDisposable, IAsyncDisposable
 {
     private const string HeaderRedelivery = "redelivery_count";
     private readonly RabbitMqConnectionFactory _rabbitMqConnectionFactory;

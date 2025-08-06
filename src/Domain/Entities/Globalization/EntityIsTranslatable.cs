@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Domain.Entities.Globalization;
+﻿#pragma warning disable S2436
+
+namespace SharedKernel.Domain.Entities.Globalization;
 
 /// <summary> . </summary>
 public abstract class EntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey> :

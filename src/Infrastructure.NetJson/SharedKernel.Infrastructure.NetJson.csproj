@@ -20,4 +20,12 @@
     <Using Remove="System.Net.Http" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
+  </ItemGroup>
+
 </Project>

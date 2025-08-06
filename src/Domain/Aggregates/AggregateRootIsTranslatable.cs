@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Domain.Entities.Globalization;
+#pragma warning disable S2436
 
 namespace SharedKernel.Domain.Aggregates;
 
