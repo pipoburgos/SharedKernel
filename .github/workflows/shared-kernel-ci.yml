@@ -28,11 +28,11 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Start Docker Compose Infrastructure
-        run: docker compose -f ./test/Infrastructure/docker-compose.yml up -d
-
-      - name: Start Docker Compose BankAccounts
-        run: docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/docker-compose.yml up -d
+      - name: Start docker test containers
+        if: runner.os == 'Linux'
+        run: |
+          docker compose -f ./test/Infrastructure/docker-compose.yml up -d
+          docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/docker-compose.yml up -d
 
       - name: Install dependencies
         run: dotnet restore ./SharedKernel.sln
@@ -41,6 +41,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore --verbosity normal ./SharedKernel.sln
 
       - name: Test
+        if: runner.os == 'Linux'
         run: dotnet test --configuration Release --no-build --no-restore --verbosity normal ./SharedKernel.sln
 
       - name: Pack
