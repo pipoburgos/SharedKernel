@@ -60,11 +60,12 @@ jobs:
         id: check_tag
         shell: bash
         run: |
-          TAG_EXISTS=$(git ls-remote --tags origin refs/tags/v${{ steps.get_version.outputs.version }})
-          if [ -n "$TAG_EXISTS" ]; then
-            echo "Tag already exists. Exiting."
-            exit 0
-          fi
+            TAG_EXISTS=$(git ls-remote --tags origin refs/tags/v${{ steps.get_version.outputs.version }})
+            if [ -n "$TAG_EXISTS" ]; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
 
       - name: Create Git tag
         if: steps.check_tag.outputs.exists == 'false'
