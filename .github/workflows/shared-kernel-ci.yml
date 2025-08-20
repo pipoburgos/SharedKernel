@@ -52,7 +52,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nuget-packages
-          path: src/*/bin/Release/*.nupkg
+          path: |
+            src/*/bin/Release/*.nupkg
+            src/Directory.Build.props
 
 
   release:
@@ -66,14 +68,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: nuget-packages
-          path: ./packages
-
+          path: .
 
       - name: Get version from Directory.Build.props
         id: get_version
         shell: pwsh
         run: |
-          [xml]$xml = Get-Content ./src/Directory.Build.props
+          [xml]$xml = Get-Content ./Directory.Build.props
           $version = $xml.Project.PropertyGroup.Version
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
@@ -113,4 +114,8 @@ jobs:
         run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
 
       - name: Publish to GitHub packages
-        run: dotnet nuget push src/*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+        run: dotnet nuget push ./*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+      - name: Publish to GitHub packages
+        run: dotnet nuget push ./*/bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+

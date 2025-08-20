@@ -103,6 +103,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayPal", "src\PayPal\PayPal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Infrastructure.MassTransit", "src\Infrastructure.MassTransit\SharedKernel.Infrastructure.MassTransit.csproj", "{32130565-506C-4BE2-A4E4-2648F0A3F41A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\shared-kernel-ci.yml = .github\workflows\shared-kernel-ci.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
