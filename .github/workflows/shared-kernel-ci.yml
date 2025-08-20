@@ -47,14 +47,22 @@ jobs:
         if: runner.os == 'Linux'
         run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
 
+      - name: Prepare artifact folder
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p packages
+          mkdir -p version
+          cp src/*/bin/Release/*.nupkg packages/
+          cp src/Directory.Build.props version/
+
       - name: Upload packages
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
           name: nuget-packages
           path: |
-            src/*/bin/Release/*.nupkg
-            src/Directory.Build.props
+              packages/
+              version/
 
 
   release:
@@ -74,7 +82,7 @@ jobs:
         id: get_version
         shell: pwsh
         run: |
-          [xml]$xml = Get-Content ./Directory.Build.props
+          [xml]$xml = Get-Content ./version/Directory.Build.props
           $version = $xml.Project.PropertyGroup.Version
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
@@ -120,8 +128,8 @@ jobs:
         run: dotnet nuget add source --username pipoburgos --password ${{ secrets.NUGET_PASSWORD }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/pipoburgos/index.json"
 
       - name: Publish to GitHub packages
-        run: dotnet nuget push ./*/bin/Release/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+        run: dotnet nuget push ./packages/*.nupkg --api-key ${{ secrets.API_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
       - name: Publish to GitHub packages
-        run: dotnet nuget push ./*/bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+        run: dotnet nuget push ./packages/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
 
