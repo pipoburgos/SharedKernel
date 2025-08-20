@@ -78,6 +78,12 @@ jobs:
           $version = $xml.Project.PropertyGroup.Version
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
+      - name: Setup Git remote only
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          no-checkout: true
+
       - name: Check if tag already exists
         id: check_tag
         shell: bash
