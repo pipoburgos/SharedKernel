@@ -3,8 +3,6 @@ name: Shared Kernel CI
 on:
   push:
     branches: ["master"]
-    tags:
-      - 'v*'
   pull_request:
     branches: ["master"]
 
@@ -127,19 +125,22 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Push to NuGet.org
-        run: dotnet nuget push nuget-packages/packages/*.nupkg \
+        run: |
+          dotnet nuget push ./packages/*.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
 
       - name: Prep GitHub Packages source
-        run: dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+        run: |
+          dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
           --name "github" \
           --username ${{ github.actor }} \
           --password ${{ secrets.GITHUB_TOKEN }} \
           --store-password-in-clear-text
 
       - name: Push to GitHub Packages
-        run: dotnet nuget push nuget-packages/packages/*.nupkg \
+        run: |
+          dotnet nuget push ./packages/*.nupkg \
           --source "github" \
           --skip-duplicate
