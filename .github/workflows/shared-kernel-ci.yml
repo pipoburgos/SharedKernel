@@ -126,7 +126,7 @@ jobs:
 
       - name: Push to NuGet.org
         run: |
-          dotnet nuget push ./packages/*.nupkg \
+          dotnet nuget push $PWD/packages/*.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
@@ -141,6 +141,6 @@ jobs:
 
       - name: Push to GitHub Packages
         run: |
-          dotnet nuget push ./packages/*.nupkg \
+          dotnet nuget push $PWD/packages/*.nupkg \
           --source "github" \
           --skip-duplicate
