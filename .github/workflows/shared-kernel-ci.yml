@@ -82,7 +82,7 @@ jobs:
         id: get_version
         shell: pwsh
         run: |
-          [xml]$xml = Get-Content ./version/Directory.Build.props
+          [xml]$xml = Get-Content version/Directory.Build.props
           $version = $xml.Project.PropertyGroup.Version
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
@@ -126,7 +126,7 @@ jobs:
 
       - name: Push to NuGet.org
         run: |
-          dotnet nuget push $PWD/packages/*.nupkg \
+          dotnet nuget push packages/*.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
@@ -141,6 +141,6 @@ jobs:
 
       - name: Push to GitHub Packages
         run: |
-          dotnet nuget push $PWD/packages/*.nupkg \
+          dotnet nuget push packages/*.nupkg \
           --source "github" \
           --skip-duplicate
