@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AsyncKeyedLock" Version="7.1.6" />
+    <PackageReference Include="AsyncKeyedLock" Version="7.1.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.*-*" />
   </ItemGroup>
 
