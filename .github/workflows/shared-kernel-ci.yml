@@ -36,6 +36,12 @@ jobs:
       - name: Start docker test containers
         if: runner.os == 'Linux'
         run: |
+          docker compose -f ./test/Infrastructure/compose.yml up -d
+          docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/compose.yml up -d
+          
+      - name: Start docker test containers
+        if: runner.os == 'Linux'
+        run: |
           docker compose -f ./test/Infrastructure/docker-compose.yml up -d
           docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/docker-compose.yml up -d
 
