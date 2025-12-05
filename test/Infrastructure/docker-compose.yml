@@ -88,8 +88,8 @@ services:
         soft: -1
         hard: -1
       nofile:
-      soft: 65536
-      hard: 65536
+        soft: 65536
+        hard: 65536
     ports:
       - 22228:9200
       - 22229:9300
