@@ -1,5 +1,4 @@
-﻿
-namespace PayPal.V1;
+﻿namespace PayPal.V1;
 
 /// <summary>
 /// Additional details of the payment amount.

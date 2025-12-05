@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
     <Description>EntityFrameworkCore.SqlServer infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer</PackageId>
     <PackageTags>EntityFrameworkCore SqlServer</PackageTags>
@@ -9,23 +9,16 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.15.0" />
+    <PackageReference Include="Azure.Identity" Version="1.17.1" />
     <PackageReference Include="DistributedLock.SqlServer" Version="1.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.*-*" Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net463' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="9.0.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.*-*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\SharedKernel.Infrastructure.EntityFrameworkCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

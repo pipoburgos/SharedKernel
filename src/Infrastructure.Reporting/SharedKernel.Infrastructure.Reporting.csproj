@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
     <Description>IReportRenderer AspNetCore.Reporting implementation</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.Reporting</PackageId>
     <PackageTags>SSRS rdlc rdl AspNetCore.Reporting</PackageTags>
@@ -9,23 +9,15 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*-*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.*-*" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="System.Security.Permissions" Version="9.0.*-*" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.7" />
+    <PackageReference Include="System.Security.Permissions" Version="10.0.*-*" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*-*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

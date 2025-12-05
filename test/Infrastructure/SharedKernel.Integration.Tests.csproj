@@ -1,13 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Caching\DistributedCache\PostgreSql\**" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <Compile Remove="System\Threading\PostgreSql\**" />
+    <EmbeddedResource Remove="Caching\DistributedCache\PostgreSql\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <EmbeddedResource Remove="System\Threading\PostgreSql\**" />
+    <None Remove="Caching\DistributedCache\PostgreSql\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <None Remove="System\Threading\PostgreSql\**" />
+  </ItemGroup>
 
   <!--<ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
@@ -16,15 +28,11 @@
   </ItemGroup>-->
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -32,8 +40,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.*-*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -42,9 +54,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MicroElements.IsExternalInit" Version="1.1.0" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.3" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.3" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.*-*" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.*-*" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.*-*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,7 +72,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />
+    <!--<ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />-->
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
@@ -86,9 +98,6 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Caching\DistributedCache\PostgreSql\appsettings.postgreSql.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Caching\DistributedCache\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -111,9 +120,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\OpenIddict\appsettings.OpenIddict.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
@@ -172,9 +178,6 @@
     </None>
     <None Update="Security\UnsignedPdf.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="System\Threading\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

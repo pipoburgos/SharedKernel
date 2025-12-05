@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;net9.0;net10.0</TargetFrameworks>
     <Description>Dapper infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.Dapper.SqlServer</PackageId>
     <PackageTags>Dapper Sql Server</PackageTags>
@@ -9,22 +9,14 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.15.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*-*" />
+    <PackageReference Include="Azure.Identity" Version="1.17.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*-*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
     <ProjectReference Include="..\Infrastructure.Dapper\SharedKernel.Infrastructure.Dapper.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

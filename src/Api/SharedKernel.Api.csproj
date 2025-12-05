@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <Description>C# DDD Distributed Services Layer</Description>
     <PackageId>Pipoburgos.SharedKernel.Api</PackageId>
     <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
@@ -13,27 +13,19 @@
     <PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="4.3.0" />
     <PackageReference Include="App.Metrics.Formatters.Prometheus" Version="4.3.0" />-->
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.*-*" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.*-*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.*-*" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="10.0.*-*" />
     <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

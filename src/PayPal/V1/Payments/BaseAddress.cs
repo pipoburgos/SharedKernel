@@ -1,5 +1,4 @@
-﻿
-namespace PayPal.V1.Payments;
+﻿namespace PayPal.V1.Payments;
 
 /// <summary>
 /// Base Address object used as billing address in a payment or extended for Shipping Address.

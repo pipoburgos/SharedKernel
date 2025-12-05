@@ -2,15 +2,15 @@
   <ItemGroup>
 
     <!-- Análisis general de código y seguridad -->
-    <PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="9.0.*-*" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="10.0.*-*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.*-*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.*-*" PrivateAssets="all" />
 
     <!-- Estilo y convenciones de código -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
 
     <!-- Refactorizaciones inteligentes -->
-    <PackageReference Include="Roslynator.Analyzers" Version="4.14.0" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.14.*-*" PrivateAssets="all" />
 
     <!-- Correcciones y mejores prácticas async/await -->
     <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="all" />
@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" PrivateAssets="all" />
 
     <!-- SonarQube / SonarCloud (si usas Sonar) -->
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.16.1.129956" PrivateAssets="all" />
 
   </ItemGroup>
 

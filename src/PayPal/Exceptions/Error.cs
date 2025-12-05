@@ -1,5 +1,4 @@
-﻿
-namespace PayPal.Exceptions;
+﻿namespace PayPal.Exceptions;
 
 /// <summary>
 /// Details of an Error.

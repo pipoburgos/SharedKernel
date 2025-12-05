@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
     <Description>FluentValidation AspNetCore.Reporting implementation</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.FluentValidation</PackageId>
     <PackageTags>FluentValidation</PackageTags>
@@ -9,19 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net463' or '$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" Condition="'$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" Condition="'$(TargetFramework)' == 'net9.0' or '$(TargetFramework)' == 'net10.0'" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

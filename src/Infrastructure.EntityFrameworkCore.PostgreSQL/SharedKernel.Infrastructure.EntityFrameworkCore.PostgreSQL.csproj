@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Description>EntityFrameworkCore.PostgreSQL infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL</PackageId>
     <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
@@ -9,25 +9,17 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-    <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="5.0.1" />
+    <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="6.0.2" />
     <PackageReference Include="DistributedLock.Postgres" Version="1.3.0" />
-    <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="8.0.*-*" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <!--<PackageReference Include="EFCore.NamingConventions" Version="10.0.0" Condition="'$(TargetFramework)' == 'net10.0'" />-->
+    <!--<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="10.0.*-*" Condition="'$(TargetFramework)' == 'net10.0'" />-->
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Text.Json" Version="10.0.*-*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\SharedKernel.Infrastructure.EntityFrameworkCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

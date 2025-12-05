@@ -1,5 +1,4 @@
-﻿
-using PayPal.V1.Shared;
+﻿using PayPal.V1.Shared;
 
 namespace PayPal.V1.Payments;
 

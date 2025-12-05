@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
     <Description>C# DDD Infrastructure Layer</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
     <PackageTags>C# InMemoryCache CQRS InMemoryCommandBus InMemoryQueryBus InMemoryEventBus InMemoryMutex LDAP SMTP HealthChecks Logger Serializers</PackageTags>
@@ -17,15 +17,15 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.*-*" />
-    <PackageReference Include="System.CodeDom" Version="9.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*-*" />
+    <PackageReference Include="System.CodeDom" Version="10.0.*-*" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.DirectoryServices" Version="9.0.*-*" />
+    <PackageReference Include="System.DirectoryServices" Version="10.0.*-*" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.*-*" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*-*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,14 +68,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionCodes.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.15.0.120848" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Roslynator.Analyzers" Version="4.14.0" />
   </ItemGroup>
 
 </Project>

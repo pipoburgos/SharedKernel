@@ -1,5 +1,4 @@
-﻿
-namespace PayPal.V1.Payments;
+﻿namespace PayPal.V1.Payments;
 
 /// <summary>
 ///  A resource describing an installment
