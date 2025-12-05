@@ -33,17 +33,17 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore --verbosity normal ./SharedKernel.sln
 
+      - name: Ajustar vm.max_map_count
+        if: runner.os == 'Linux'
+        run: |
+          sudo sysctl -w vm.max_map_count=262144
+          echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf
+
       - name: Start docker test containers
         if: runner.os == 'Linux'
         run: |
           docker compose -f ./test/Infrastructure/compose.yml up -d
           docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/compose.yml up -d
-          
-      - name: Start docker test containers
-        if: runner.os == 'Linux'
-        run: |
-          docker compose -f ./test/Infrastructure/docker-compose.yml up -d
-          docker compose -f ./samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/docker-compose.yml up -d
 
       - name: Test
         if: runner.os == 'Linux'
