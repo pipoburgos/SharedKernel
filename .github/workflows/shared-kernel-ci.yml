@@ -130,6 +130,13 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Debug - list files
+        run: |
+            echo "=== Working directory ==="
+            pwd
+            echo "=== Files ==="
+            ls -R .
+
       - name: Push to NuGet.org
         run: |
           dotnet nuget push /packages/**.nupkg \
