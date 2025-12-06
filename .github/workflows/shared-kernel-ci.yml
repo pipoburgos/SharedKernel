@@ -125,14 +125,14 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Setup .NET 9.0
+      - name: Setup .NET 10.0
         uses: actions/setup-dotnet@v4.1.0
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Push to NuGet.org
         run: |
-          dotnet nuget push src/*/bin/Release/*.nupkg \
+          dotnet nuget push *.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
