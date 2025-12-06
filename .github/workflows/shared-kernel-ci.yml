@@ -77,6 +77,11 @@ jobs:
     if: success()
 
     steps:
+      - name: Setup Git remote only
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          no-checkout: true
 
       - name: Download packages
         uses: actions/download-artifact@v6
