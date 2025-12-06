@@ -132,7 +132,7 @@ jobs:
 
       - name: Push to NuGet.org
         run: |
-          dotnet nuget push packages/*.nupkg \
+          dotnet nuget push src/*/bin/Release/*.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
