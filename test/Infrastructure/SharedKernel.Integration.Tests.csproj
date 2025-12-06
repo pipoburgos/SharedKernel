@@ -11,12 +11,15 @@
 
   <ItemGroup>
     <Compile Remove="Caching\DistributedCache\PostgreSql\**" />
+    <Compile Remove="Data\Elasticsearch\**" />
     <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <Compile Remove="System\Threading\PostgreSql\**" />
     <EmbeddedResource Remove="Caching\DistributedCache\PostgreSql\**" />
+    <EmbeddedResource Remove="Data\Elasticsearch\**" />
     <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <EmbeddedResource Remove="System\Threading\PostgreSql\**" />
     <None Remove="Caching\DistributedCache\PostgreSql\**" />
+    <None Remove="Data\Elasticsearch\**" />
     <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <None Remove="System\Threading\PostgreSql\**" />
   </ItemGroup>
