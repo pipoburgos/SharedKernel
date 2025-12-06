@@ -131,17 +131,11 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Push to NuGet.org
-        shell: bash
         run: |
-          # push all packages found in the downloaded packages/ folder
-          if compgen -G "packages/*.nupkg" > /dev/null; then
-            dotnet nuget push packages/*.nupkg \
-              --api-key ${{ secrets.API_KEY }} \
-              --source "https://api.nuget.org/v3/index.json" \
-              --skip-duplicate
-          else
-            echo "No NuGet packages found to push."
-          fi
+          dotnet nuget push *.nupkg \
+          --api-key ${{ secrets.API_KEY }} \
+          --source "https://api.nuget.org/v3/index.json" \
+          --skip-duplicate
 
       - name: Prep GitHub Packages source
         run: |
