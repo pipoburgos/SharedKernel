@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload packages
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: nuget-packages
           path: |
@@ -79,7 +79,7 @@ jobs:
     steps:
 
       - name: Download packages
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: nuget-packages
           path: .
@@ -93,7 +93,7 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Setup Git remote only
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           no-checkout: true
@@ -126,13 +126,13 @@ jobs:
           prerelease: false
 
       - name: Setup .NET 10.0
-        uses: actions/setup-dotnet@v4.1.0
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
       - name: Push to NuGet.org
         run: |
-          dotnet nuget push *.nupkg \
+          dotnet nuget push /packages/**.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
           --skip-duplicate
@@ -147,6 +147,6 @@ jobs:
 
       - name: Push to GitHub Packages
         run: |
-          dotnet nuget push packages/*.nupkg \
+          dotnet nuget push /packages/*.nupkg \
           --source "github" \
           --skip-duplicate
