@@ -57,9 +57,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MicroElements.IsExternalInit" Version="1.1.0" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.*-*" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.*-*" PrivateAssets="all" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.*-*" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.*-*" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.*-*" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.*-*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

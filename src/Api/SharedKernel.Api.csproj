@@ -19,7 +19,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.*-*" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.*-*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.*-*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.*-*" />
     <PackageReference Include="System.Text.Encodings.Web" Version="10.0.*-*" />
     <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2" />
   </ItemGroup>
