@@ -10,27 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Caching\DistributedCache\PostgreSql\**" />
-    <Compile Remove="Data\Elasticsearch\**" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <Compile Remove="System\Threading\PostgreSql\**" />
-    <EmbeddedResource Remove="Caching\DistributedCache\PostgreSql\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <EmbeddedResource Remove="System\Threading\PostgreSql\**" />
-    <None Remove="Caching\DistributedCache\PostgreSql\**" />
-    <None Remove="Data\Elasticsearch\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <None Remove="System\Threading\PostgreSql\**" />
-  </ItemGroup>
-
-  <!--<ItemGroup>
-    <Compile Remove="Data\Elasticsearch\**" />
-    <EmbeddedResource Remove="Data\Elasticsearch\**" />
-    <None Remove="Data\Elasticsearch\**" />
-  </ItemGroup>-->
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -75,7 +54,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
-    <!--<ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />-->
+    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
@@ -188,10 +167,6 @@
     <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Adapter\" />
   </ItemGroup>
 
 </Project>
