@@ -1,26 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net472;net48;net481;netstandard2.1;net9.0;net10.0</TargetFrameworks>
-    <Description>Mongo infrastructure implementations</Description>
-    <PackageId>Pipoburgos.SharedKernel.Infrastructure.Mongo</PackageId>
-    <PackageTags>Mongo</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net472;net48;net481;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+		<Description>Mongo infrastructure implementations</Description>
+		<PackageId>Pipoburgos.SharedKernel.Infrastructure.Mongo</PackageId>
+		<PackageTags>Mongo</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="System\**" />
-    <EmbeddedResource Remove="System\**" />
-    <None Remove="System\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="System\**" />
+		<EmbeddedResource Remove="System\**" />
+		<None Remove="System\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
-    <PackageReference Include="DistributedLock.Mongo" Version="3.1.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.5.*-*" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
+		<PackageReference Include="DistributedLock.Mongo" Version="3.1.0" />
+		<PackageReference Include="MongoDB.Driver" Version="3.5.*-*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Backport.System.Threading.Lock" Version="3.1.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>analyzers</IncludeAssets>
+		</PackageReference>
+		<Using Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="System.Threading.Lock" />
+		<Using Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="Backport.System.Threading.Lock" />
+		<Using Alias="LockFactory" Include="Backport.System.Threading.LockFactory" />
+	</ItemGroup>
 
 </Project>

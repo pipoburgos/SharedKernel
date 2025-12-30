@@ -2,12 +2,12 @@
 
 public class PublishUserCreatedDomainEvent
 {
-    private readonly object _lock;
+    private readonly Lock _lock;
 
     public PublishUserCreatedDomainEvent()
     {
         Users = new List<Guid>();
-        _lock = new object();
+        _lock = new Lock();
     }
 
     public List<Guid> Users { get; }

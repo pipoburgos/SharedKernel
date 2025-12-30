@@ -8,6 +8,7 @@ namespace SharedKernel.Domain.Entities;
 public static class MimeMappingEntity
 {
     private static readonly MimeMappingDictionaryBase MappingDictionary = new MimeMappingDictionaryClassic();
+    private static readonly Lock LockObject = LockFactory.Create();
 
     /// <summary>Returns the MIME mapping for the specified file name.</summary>
     /// <param name="fileName">The file name that is used to determine the MIME type.</param>
@@ -50,7 +51,7 @@ public static class MimeMappingEntity
             if (_isInitialized)
                 return;
 
-            lock (this)
+            lock (LockObject)
             {
                 if (_isInitialized)
                     return;

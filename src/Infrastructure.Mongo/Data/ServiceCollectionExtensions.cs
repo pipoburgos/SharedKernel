@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     public static bool IsRegistered { get; set; }
 
     /// <summary> Lock object to synchronize the registration of the serializer </summary>
-    private static readonly object LockObject = new object();
+    private static readonly Lock LockObject = LockFactory.Create();
 
     /// <summary> . </summary>
     public static IServiceCollection AddSharedKernelMongoDbContext<TDbContext>(this IServiceCollection services,
