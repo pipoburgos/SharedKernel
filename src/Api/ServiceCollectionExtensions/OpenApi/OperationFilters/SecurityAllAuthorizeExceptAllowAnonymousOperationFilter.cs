@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
@@ -29,16 +29,13 @@ public class SecurityAllAuthorizeExceptAllowAnonymousOperationFilter : IOperatio
         operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
         operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
 
-        var oAuthScheme = new OpenApiSecurityScheme
-        {
-            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" },
-        };
+        var oAuthScheme = new OpenApiSecuritySchemeReference("oauth2");
 
         operation.Security = new List<OpenApiSecurityRequirement>
         {
-            new OpenApiSecurityRequirement
+            new()
             {
-                [ oAuthScheme ] = ["policy"],
+                [oAuthScheme] = ["policy"],
             },
         };
     }

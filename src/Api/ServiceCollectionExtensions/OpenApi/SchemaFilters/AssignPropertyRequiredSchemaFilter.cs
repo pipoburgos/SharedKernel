@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.ObjectModel;
 using System.Reflection;
@@ -9,7 +9,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
 {
     /// <summary> . </summary>
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
         if (schema.Properties == null || schema.Properties.Count == 0)
         {
@@ -28,12 +28,12 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
             // see also: https://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1.1
             switch (property.Value.Type)
             {
-                case "boolean":
-                case "integer":
-                case "number":
+                case JsonSchemaType.Boolean:
+                case JsonSchemaType.Integer:
+                case JsonSchemaType.Number:
                     AddPropertyToRequired(schema, property.Key);
                     break;
-                case "string":
+                case JsonSchemaType.String:
                     switch (property.Value.Format)
                     {
                         case "date-time":
@@ -46,7 +46,7 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
                     }
                     break;
                 default:
-                    if (schema.Type != "object")
+                    if (schema.Type != JsonSchemaType.Object)
                         AddPropertyToRequired(schema, property.Key);
                     break;
             }
@@ -59,9 +59,9 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
             info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase) && IsNullable(info));
     }
 
-    private static void AddPropertyToRequired(OpenApiSchema schema, string propertyName)
+    private static void AddPropertyToRequired(IOpenApiSchema schema, string propertyName)
     {
-        schema.Required ??= new HashSet<string>();
+        //schema.Required ??= new HashSet<string>();
         schema.Required.Add(propertyName);
     }
 

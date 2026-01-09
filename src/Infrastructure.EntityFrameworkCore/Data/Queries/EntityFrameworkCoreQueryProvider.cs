@@ -67,7 +67,7 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposab
         where T : class where TResult : class
     {
 #if NET6_0_OR_GREATER
-            var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
+        var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
 #else
         var dbContext = _factory.CreateDbContext();
 #endif

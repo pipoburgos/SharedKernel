@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.5.*-*" />
+    <PackageReference Include="MassTransit" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

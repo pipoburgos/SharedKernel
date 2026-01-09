@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
@@ -17,6 +17,6 @@ public class TagReOrderDocumentFilter : IDocumentFilter
     {
         swaggerDoc.Tags = swaggerDoc.Tags
             .OrderBy(tag => tag.Name)
-            .ToList();
+            .ToHashSet();
     }
 }

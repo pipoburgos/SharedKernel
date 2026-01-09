@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;

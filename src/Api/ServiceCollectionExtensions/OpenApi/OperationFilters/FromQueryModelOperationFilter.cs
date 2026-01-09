@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -40,8 +40,8 @@ public class FromQueryModelOperationFilter : IOperationFilter
         operation.Parameters = parameters;
     }
 
-    private static IList<OpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
-        IList<OpenApiParameter> operationParameters, OperationFilterContext context)
+    private static IList<IOpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
+        IList<IOpenApiParameter> operationParameters, OperationFilterContext context)
     {
         var newParameters = actionParameters
             .Select(p => CreateParameter(p, operationParameters, context))
@@ -51,8 +51,8 @@ public class FromQueryModelOperationFilter : IOperationFilter
         return newParameters.Any() ? newParameters : default;
     }
 
-    private static OpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
-        IList<OpenApiParameter> operationParameters, OperationFilterContext context)
+    private static IOpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
+        IList<IOpenApiParameter> operationParameters, OperationFilterContext context)
     {
         if (actionParameter.ParameterType == typeof(CancellationToken))
             return default;

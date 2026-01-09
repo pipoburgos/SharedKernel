@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using SharedKernel.Application.Cqrs.Commands;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,7 +8,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 public class HideNonPublicCommandPropertiesSchemaFilter : ISchemaFilter
 {
     /// <summary> . </summary>
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
         if (schema.Properties == null || schema.Properties.Count == 0)
         {
