@@ -1,37 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
-    <Description>PayPal</Description>
-    <PackageId>Pipoburgos.PayPal</PackageId>
-    <PackageTags>PayPal</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+		<Description>PayPal</Description>
+		<PackageId>Pipoburgos.PayPal</PackageId>
+		<PackageTags>PayPal</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="V1\Payments\Authorizations\**" />
-    <Compile Remove="V1\Payments\BillingAgreements\**" />
-    <Compile Remove="V1\Payments\Captures\**" />
-    <Compile Remove="V1\Payments\Orders\**" />
-    <Compile Remove="V1\Payments\Payouts\**" />
-    <Compile Remove="V1\Payments\Refunds\**" />
-    <Compile Remove="V1\Payments\Sales\**" />
-    <Compile Remove="V1\Shared\ModelsToMigrate\**" />
-    <EmbeddedResource Remove="V1\Payments\Authorizations\**" />
-    <EmbeddedResource Remove="V1\Payments\BillingAgreements\**" />
-    <EmbeddedResource Remove="V1\Payments\Captures\**" />
-    <EmbeddedResource Remove="V1\Payments\Orders\**" />
-    <EmbeddedResource Remove="V1\Payments\Payouts\**" />
-    <EmbeddedResource Remove="V1\Payments\Refunds\**" />
-    <EmbeddedResource Remove="V1\Payments\Sales\**" />
-    <EmbeddedResource Remove="V1\Shared\ModelsToMigrate\**" />
-    <None Remove="V1\Payments\Authorizations\**" />
-    <None Remove="V1\Payments\BillingAgreements\**" />
-    <None Remove="V1\Payments\Captures\**" />
-    <None Remove="V1\Payments\Orders\**" />
-    <None Remove="V1\Payments\Payouts\**" />
-    <None Remove="V1\Payments\Refunds\**" />
-    <None Remove="V1\Payments\Sales\**" />
-    <None Remove="V1\Shared\ModelsToMigrate\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="V1\Payments\Authorizations\**" />
+		<Compile Remove="V1\Payments\BillingAgreements\**" />
+		<Compile Remove="V1\Payments\Captures\**" />
+		<Compile Remove="V1\Payments\Orders\**" />
+		<Compile Remove="V1\Payments\Payouts\**" />
+		<Compile Remove="V1\Payments\Refunds\**" />
+		<Compile Remove="V1\Payments\Sales\**" />
+		<Compile Remove="V1\Shared\ModelsToMigrate\**" />
+		<EmbeddedResource Remove="V1\Payments\Authorizations\**" />
+		<EmbeddedResource Remove="V1\Payments\BillingAgreements\**" />
+		<EmbeddedResource Remove="V1\Payments\Captures\**" />
+		<EmbeddedResource Remove="V1\Payments\Orders\**" />
+		<EmbeddedResource Remove="V1\Payments\Payouts\**" />
+		<EmbeddedResource Remove="V1\Payments\Refunds\**" />
+		<EmbeddedResource Remove="V1\Payments\Sales\**" />
+		<EmbeddedResource Remove="V1\Shared\ModelsToMigrate\**" />
+		<None Remove="V1\Payments\Authorizations\**" />
+		<None Remove="V1\Payments\BillingAgreements\**" />
+		<None Remove="V1\Payments\Captures\**" />
+		<None Remove="V1\Payments\Orders\**" />
+		<None Remove="V1\Payments\Payouts\**" />
+		<None Remove="V1\Payments\Refunds\**" />
+		<None Remove="V1\Payments\Sales\**" />
+		<None Remove="V1\Shared\ModelsToMigrate\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Backport.System.Threading.Lock" Version="3.1.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>analyzers</IncludeAssets>
+		</PackageReference>
+		<Using Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="System.Threading.Lock" />
+		<Using Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="Backport.System.Threading.Lock" />
+		<Using Alias="LockFactory" Include="Backport.System.Threading.LockFactory" />
+	</ItemGroup>
 
 </Project>

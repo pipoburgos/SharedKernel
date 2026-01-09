@@ -1,45 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
-    <Description>C# DDD Domain Layer</Description>
-    <PackageId>Pipoburgos.SharedKernel.Domain</PackageId>
-    <PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository Rop Railway Oriented Programming Guards</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+		<Description>C# DDD Domain Layer</Description>
+		<PackageId>Pipoburgos.SharedKernel.Domain</PackageId>
+		<PackageTags>C# DDD Aggregate AggregateRoot Entity ValueObject DomainEvent Specification Repository Rop Railway Oriented Programming Guards</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Using Include="SharedKernel.Domain.Aggregates" />
-    <Using Include="SharedKernel.Domain.Entities" />
-    <Using Include="SharedKernel.Domain.Entities.Paged" />
-    <Using Include="SharedKernel.Domain.Events" />
-    <Using Include="SharedKernel.Domain.Guards" />
-    <Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
-    <Using Include="SharedKernel.Domain.Repositories" />
-    <Using Include="SharedKernel.Domain.Requests" />
-    <Using Include="SharedKernel.Domain.Specifications" />
-    <Using Include="SharedKernel.Domain.Specifications.Common" />
-    <Using Include="SharedKernel.Domain.ValueObjects" />
-    <Using Include="System.Collections" />
-    <Using Include="System.Linq" />
-    <Using Include="System.Linq.Expressions" />
-    <Using Include="System.Runtime.CompilerServices" />
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
+	<ItemGroup>
+		<Using Include="SharedKernel.Domain.Aggregates" />
+		<Using Include="SharedKernel.Domain.Entities" />
+		<Using Include="SharedKernel.Domain.Entities.Paged" />
+		<Using Include="SharedKernel.Domain.Events" />
+		<Using Include="SharedKernel.Domain.Guards" />
+		<Using Include="SharedKernel.Domain.RailwayOrientedProgramming" />
+		<Using Include="SharedKernel.Domain.Repositories" />
+		<Using Include="SharedKernel.Domain.Requests" />
+		<Using Include="SharedKernel.Domain.Specifications" />
+		<Using Include="SharedKernel.Domain.Specifications.Common" />
+		<Using Include="SharedKernel.Domain.ValueObjects" />
+		<Using Include="System.Collections" />
+		<Using Include="System.Linq" />
+		<Using Include="System.Linq.Expressions" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Remove="System.Net.Http" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Exceptions\ExceptionCodes.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>ExceptionCodes.Designer.cs</LastGenOutput>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Exceptions\ExceptionCodes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionCodes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Exceptions\ExceptionCodes.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ExceptionCodes.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Backport.System.Threading.Lock" Version="3.1.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>analyzers</IncludeAssets>
+		</PackageReference>
+		<Using Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="System.Threading.Lock" />
+		<Using Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Alias="Lock" Include="Backport.System.Threading.Lock" />
+		<Using Alias="LockFactory" Include="Backport.System.Threading.LockFactory" />
+	</ItemGroup>
 
 </Project>

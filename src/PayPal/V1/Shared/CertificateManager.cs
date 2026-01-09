@@ -11,7 +11,7 @@ public sealed class CertificateManager
     /// <summary>
     /// Private static member for locking the singleton object while it's being instantiated.
     /// </summary>
-    private static readonly object SyncRoot = new object();
+    private static readonly Lock SyncRoot = LockFactory.Create();
 
     ///// <summary>Cache of X509 certificates.</summary>
     //private static readonly ConcurrentDictionary<string, X509Certificate2Collection> Certificates;

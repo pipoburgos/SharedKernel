@@ -2,11 +2,11 @@
 
 public class SaveValueSingletonService
 {
-    private readonly object _lock;
+    private readonly Lock _lock;
 
     public SaveValueSingletonService()
     {
-        _lock = new object();
+        _lock = new Lock();
     }
 
     public int Id { get; private set; }
