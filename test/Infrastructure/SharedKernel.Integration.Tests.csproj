@@ -167,6 +167,9 @@
     <None Update="Security\UnsignedPdf.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="System\Threading\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
