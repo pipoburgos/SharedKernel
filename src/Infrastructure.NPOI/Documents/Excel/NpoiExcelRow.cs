@@ -129,9 +129,9 @@ public class NpoiExcelRow : IRowData
             case CellType.Formula:
                 cellValue = GetFormulaValue(cell);
                 break;
-            case CellType.Unknown:
-                cellValue = default!;
-                break;
+            //case CellType.Unknown:
+            //    cellValue = default!;
+            //    break;
             case CellType.Blank:
                 cellValue = default!;
                 break;

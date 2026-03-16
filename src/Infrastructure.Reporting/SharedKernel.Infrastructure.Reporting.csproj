@@ -11,7 +11,7 @@
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*-*" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.*-*" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
     <PackageReference Include="System.Security.Permissions" Version="10.0.*-*" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*-*" />
   </ItemGroup>

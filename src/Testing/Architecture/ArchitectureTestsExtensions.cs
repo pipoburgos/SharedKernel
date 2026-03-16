@@ -8,6 +8,7 @@ using SharedKernel.Domain.Events;
 using SharedKernel.Domain.Requests;
 using SharedKernel.Domain.ValueObjects;
 using System.Reflection;
+using TestResult = NetArchTest.Rules.TestResult;
 
 namespace SharedKernel.Testing.Architecture;
 

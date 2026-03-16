@@ -1,6 +1,6 @@
 ﻿using BankAccounts.Infrastructure;
-using NetArchTest.Rules;
 using System.Reflection;
+using TestResult = NetArchTest.Rules.TestResult;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 

@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Testing.Architecture;
+﻿using TestResult = NetArchTest.Rules.TestResult;
+
+namespace SharedKernel.Testing.Architecture;
 
 public abstract class BaseArchitectureTest
 {

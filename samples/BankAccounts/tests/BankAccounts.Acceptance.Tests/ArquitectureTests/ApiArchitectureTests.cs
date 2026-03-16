@@ -2,9 +2,9 @@
 using BankAccounts.Application;
 using BankAccounts.Domain;
 using BankAccounts.Infrastructure;
-using NetArchTest.Rules;
 using SharedKernel.Testing.Architecture;
 using System.Reflection;
+using TestResult = NetArchTest.Rules.TestResult;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 
