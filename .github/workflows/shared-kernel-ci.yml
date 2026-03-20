@@ -20,12 +20,12 @@ jobs:
       - name: Setup .NET 9.0
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: "9.0.x"
 
       - name: Setup .NET 10.0
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: "10.0.x"
 
       - name: Install dependencies
         run: dotnet restore ./SharedKernel.sln
@@ -67,9 +67,8 @@ jobs:
         with:
           name: nuget-packages
           path: |
-              packages/
-              version/
-
+            packages/
+            version/
 
   release:
     needs: build-and-test
@@ -127,21 +126,22 @@ jobs:
       - name: Setup .NET 10.0
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: "10.0.x"
 
       - name: Debug - list files
         run: |
-            echo "=== Working directory ==="
-            pwd
-            echo "=== Files ==="
-            ls -R .
+          echo "=== Working directory ==="
+          pwd
+          echo "=== Files ==="
+          ls -R .
 
       - name: Push to NuGet.org
         run: |
           dotnet nuget push packages/**.nupkg \
           --api-key ${{ secrets.API_KEY }} \
           --source "https://api.nuget.org/v3/index.json" \
-          --skip-duplicate
+          --skip-duplicate \
+          --timeout 600
 
       - name: Prep GitHub Packages source
         run: |
