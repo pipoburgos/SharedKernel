@@ -1,5 +1,8 @@
 name: Shared Kernel CI
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: ["master"]
@@ -63,7 +66,7 @@ jobs:
 
       - name: Upload packages
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-packages
           path: |
@@ -83,7 +86,7 @@ jobs:
           no-checkout: true
 
       - name: Download packages
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: nuget-packages
           path: .
