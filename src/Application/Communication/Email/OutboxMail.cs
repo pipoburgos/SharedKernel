@@ -9,7 +9,7 @@ public class OutboxMail : Mail
     }
 
     /// <summary> . </summary>
-    public OutboxMail(Guid id, string to, string? subject, string? body = default, string? from = default,
+    public OutboxMail(Guid id, string to, string subject, string body, string? from = default,
         List<string>? emailsBcc = default, List<MailAttachment>? attachments = default) : base(to, subject, body, from,
         emailsBcc, attachments)
     {
@@ -18,7 +18,7 @@ public class OutboxMail : Mail
     }
 
     /// <summary> . </summary>
-    public OutboxMail(Guid id, List<string> to, string? subject, string? body = default, string? from = default,
+    public OutboxMail(Guid id, List<string> to, string subject, string body, string? from = default,
         List<string>? emailsBcc = default, List<MailAttachment>? attachments = default) : base(to, subject, body, from,
         emailsBcc, attachments)
     {

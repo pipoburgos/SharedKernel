@@ -9,7 +9,7 @@ public class Mail
     }
 
     /// <summary> . </summary>
-    public Mail(string to, string? subject, string? body = default, string? from = default,
+    public Mail(string to, string subject, string body, string? from = default,
         List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
     {
         From = from;
@@ -21,7 +21,7 @@ public class Mail
     }
 
     /// <summary> . </summary>
-    public Mail(List<string> to, string? subject, string? body = default, string? from = default,
+    public Mail(List<string> to, string subject, string body, string? from = default,
         List<string>? emailsBcc = default, List<MailAttachment>? attachments = default)
     {
         From = from;
@@ -42,10 +42,10 @@ public class Mail
     public List<string>? EmailsBcc { get; set; }
 
     /// <summary> Subject. </summary>
-    public string? Subject { get; set; }
+    public string Subject { get; set; } = null!;
 
     /// <summary> Body. </summary>
-    public string? Body { get; set; }
+    public string Body { get; set; } = null!;
 
     /// <summary> Attachments. </summary>
     public List<MailAttachment>? Attachments { get; set; }

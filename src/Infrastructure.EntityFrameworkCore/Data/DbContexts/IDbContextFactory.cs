@@ -4,7 +4,6 @@ namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.DbContexts;
 /// <summary>
 ///     Defines a factory for creating <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> instances.
 ///     A service of this type is registered in the dependency injection container by the
-///     <see cref="M:EntityFrameworkServiceCollectionExtensions.AddDbContextPool" /> methods.
 /// </summary>
 /// <typeparam name="TContext"> The <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> type to create. </typeparam>
 public interface IDbContextFactory<out TContext> where TContext : DbContext

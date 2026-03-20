@@ -9,14 +9,14 @@
 public class IdentityException : HttpException
 {
     /// <summary>
-    /// Gets a <see cref="T:SharedKernel.Infrastructure.PayPal.IdentityError" /> JSON object containing the parsed details of the Identity error.
+    /// Gets a <see cref="T:PayPal.Exceptions.IdentityError" /> JSON object containing the parsed details of the Identity error.
     /// </summary>
     public IdentityError? Details { get; private set; }
 
     /// <summary>
     /// Copy constructor that attempts to deserialize the response from the specified <seealso name="HttpException" />.
     /// </summary>
-    /// <param name="ex">Originating <see cref="T:SharedKernel.Infrastructure.PayPal.HttpException" /> object that contains the details of the exception.</param>
+    /// <param name="ex">Originating <see cref="T:PayPal.Exceptions.HttpException" /> object that contains the details of the exception.</param>
     public IdentityException(HttpException ex)
         : base(ex)
     {

@@ -6,14 +6,14 @@
 public class PaymentsException : HttpException
 {
     /// <summary>
-    /// Gets a <see cref="T:SharedKernel.Infrastructure.PayPal.Api.Error" /> JSON object containing the parsed details of the Payments error.
+    /// Gets a <see cref="T:PayPal.Exceptions.Error" /> JSON object containing the parsed details of the Payments error.
     /// </summary>
     public Error? Details { get; private set; }
 
     /// <summary>
     /// Copy constructor that attempts to deserialize the response from the specified <seealso name="HttpException" />.
     /// </summary>
-    /// <param name="ex">Originating <see cref="T:SharedKernel.Infrastructure.PayPal.HttpException" /> object that contains the details of the exception.</param>
+    /// <param name="ex">Originating <see cref="T:PayPal.Exceptions.HttpException" /> object that contains the details of the exception.</param>
     public PaymentsException(HttpException ex)
         : base(ex)
     {

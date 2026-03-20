@@ -9,7 +9,6 @@ public enum State
     /// <summary>
     /// The entity is not being tracked by the context.
     /// An entity is in this state immediately after it has been created with the new operator
-    /// or with one of the <see cref="T:System.Data.Entity.DbSet" /> Create methods.
     /// </summary>
     Detached = 1,
 

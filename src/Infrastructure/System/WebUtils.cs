@@ -34,9 +34,8 @@ public class WebUtils : IWeb
         return WebUtility.UrlDecode(str);
     }
 
-    /// <summary>Parses a query string into a <see cref="T:System.Collections.Specialized.NameValueCollection" /> using the specified <see cref="T:System.Text.Encoding" />. </summary>
+    /// <summary>Parses a query string. </summary>
     /// <param name="query">The query string to parse.</param>
-    /// <returns>A <see cref="T:System.Collections.Specialized.NameValueCollection" /> of query parameters and values.</returns>
     /// <paramref name="query" /> is <see langword="null" />.- or -
     public NameValueCollection ParseQueryString(string query)
     {

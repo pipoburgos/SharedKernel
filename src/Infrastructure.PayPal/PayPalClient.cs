@@ -18,7 +18,7 @@ internal class PayPalClient : IPayPalClient
     private readonly IOptions<PayPalOptions> _options;
 
     /// <summary>
-    /// Initializes a new instance of <seealso cref="T:SharedKernel.Infrastructure.PayPal.Api.IPayPalClient" /> that is used when making HTTP calls to the PayPal REST API.
+    /// Initializes a new instance of <seealso cref="T:IPayPalClient" /> that is used when making HTTP calls to the PayPal REST API.
     /// </summary>
     public PayPalClient(
         IHttpClientFactory clientFactory,
@@ -38,10 +38,13 @@ internal class PayPalClient : IPayPalClient
     public Dictionary<string, string> HttpHeaders { get; set; }
 
     /// <summary>  </summary>
+    [Obsolete("Use SendAsync instead.")]
     public T Send<T>(string httpMethod, string relativeUri, object? body = null)
     {
         return SendAsync<T>(httpMethod, relativeUri, body, CancellationToken.None)
+#pragma warning disable VSTHRD002
             .GetAwaiter().GetResult();
+#pragma warning restore VSTHRD002
     }
 
     /// <summary>  </summary>

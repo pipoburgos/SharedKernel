@@ -68,7 +68,7 @@ public class SmtpEmailSender : IEmailSender
             {
                 From = new MailAddress(email.From ?? _smtp.DefaultSender),
                 Subject = email.Subject,
-                Body = email.Body ?? string.Empty,
+                Body = email.Body,
                 IsBodyHtml = true,
             };
 

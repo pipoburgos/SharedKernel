@@ -62,7 +62,7 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
     private static void AddPropertyToRequired(IOpenApiSchema schema, string propertyName)
     {
         //schema.Required ??= new HashSet<string>();
-        schema.Required.Add(propertyName);
+        schema.Required?.Add(propertyName);
     }
 
     private static bool IsNullable(PropertyInfo property) => IsNullableHelper(property.PropertyType,

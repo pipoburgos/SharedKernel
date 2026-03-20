@@ -35,9 +35,9 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <param name="relativeUri">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
     /// <returns>Response object or null otherwise for void API calls</returns>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.HttpException">Thrown if there was an error sending the request.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
+    /// <exception cref="T:PayPal.Exceptions.HttpException">Thrown if there was an error sending the request.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     internal static T ConfigureAndExecute<T>(IPayPalClient apiContext, string httpMethod, string relativeUri, T payload)
     {
         return ConfigureAndExecute<T>(apiContext, httpMethod, relativeUri, (object?)payload);
@@ -49,9 +49,9 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <param name="relativeUri">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
     /// <returns>Response object or null otherwise for void API calls</returns>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.HttpException">Thrown if there was an error sending the request.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
+    /// <exception cref="T:PayPal.Exceptions.HttpException">Thrown if there was an error sending the request.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     internal static T ConfigureAndExecute<T>(IPayPalClient apiContext, string httpMethod, string relativeUri,
         PatchRequest payload)
     {
@@ -65,9 +65,9 @@ public abstract class PayPalResource ////: PayPalSerializableObject
     /// <param name="relativeUri">URI path of the resource</param>
     /// <param name="payload">JSON request payload</param>
     /// <returns>Response object or null otherwise for void API calls</returns>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.HttpException">Thrown if there was an error sending the request.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
-    /// <exception cref="T:SharedKernel.Infrastructure.PayPal.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
+    /// <exception cref="T:PayPal.Exceptions.HttpException">Thrown if there was an error sending the request.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PaymentsException">Thrown if an HttpException was raised and contains a Payments API error object.</exception>
+    /// <exception cref="T:PayPal.Exceptions.PayPalException">Thrown for any other issues encountered. See inner exception for further details.</exception>
     internal static T ConfigureAndExecute<T>(IPayPalClient apiContext, string httpMethod, string relativeUri,
         object? payload = null)
     {

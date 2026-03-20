@@ -5,7 +5,7 @@
 public class PayPalException : Exception
 {
     /// <summary>
-    /// Initializes a new <seealso cref="T:SharedKernel.Infrastructure.PayPal.PayPalException" /> with no exception details set.
+    /// Initializes a new <seealso cref="T:PayPal.Exceptions.PayPalException" /> with no exception details set.
     /// </summary>
     public PayPalException()
         : this(string.Empty)
@@ -22,7 +22,7 @@ public class PayPalException : Exception
     }
 
     /// <summary>
-    /// Initializes a new <seealso cref="T:SharedKernel.Infrastructure.PayPal.PayPalException" /> and sets the exception message and cause.
+    /// Initializes a new <seealso cref="T:PayPal.Exceptions.PayPalException" /> and sets the exception message and cause.
     /// </summary>
     /// <param name="message">The message that describes the error</param>
     /// <param name="cause">The exception that is the cause of the current exception</param>

@@ -35,5 +35,5 @@ public class Scope
     public string Name { get; set; } = null!;
 
     /// <summary> . </summary>
-    public string? DisplayName { get; set; }
+    public string DisplayName { get; set; } = null!;
 }

@@ -34,14 +34,14 @@ public class FromQueryModelOperationFilter : IOperationFilter
 
         var parameters = CreateParameters(actionParameters, operation.Parameters, context);
 
-        if (parameters == default || !parameters.Any())
+        if (parameters == null || !parameters.Any())
             return;
 
-        operation.Parameters = parameters;
+        operation.Parameters = parameters!;
     }
 
     private static IList<IOpenApiParameter?>? CreateParameters(IList<ParameterDescriptor> actionParameters,
-        IList<IOpenApiParameter> operationParameters, OperationFilterContext context)
+        IList<IOpenApiParameter>? operationParameters, OperationFilterContext context)
     {
         var newParameters = actionParameters
             .Select(p => CreateParameter(p, operationParameters, context))
@@ -52,7 +52,7 @@ public class FromQueryModelOperationFilter : IOperationFilter
     }
 
     private static IOpenApiParameter? CreateParameter(ParameterDescriptor actionParameter,
-        IList<IOpenApiParameter> operationParameters, OperationFilterContext context)
+        IList<IOpenApiParameter>? operationParameters, OperationFilterContext context)
     {
         if (actionParameter.ParameterType == typeof(CancellationToken))
             return default;
@@ -64,6 +64,9 @@ public class FromQueryModelOperationFilter : IOperationFilter
             return default;
 
         if (actionParameter.ParameterType.IsClass && !actionParameter.ParameterType.GetProperties().Any())
+            return default;
+
+        if (operationParameters == null)
             return default;
 
         var operationParamNames = operationParameters.Select(p => p.Name);

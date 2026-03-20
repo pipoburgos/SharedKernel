@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Infrastructure.Data;
 
@@ -53,10 +53,13 @@ public static class ProgramExtensions
     /// <typeparam name="TStartup"></typeparam>
     /// <param name="args"></param>
     /// <returns></returns>
-    public static IWebHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
+    public static IHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
     {
-        return WebHost
+        return Host
             .CreateDefaultBuilder(args)
-            .UseStartup<TStartup>();
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<TStartup>();
+            });
     }
 }

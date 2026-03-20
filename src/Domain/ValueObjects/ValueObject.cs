@@ -7,9 +7,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
         where TValueObject : ValueObject<TValueObject>
 {
     /// <inheritdoc />
-    /// <summary> <see cref="M:System.Object.IEquatable{TValueObject}" /> </summary>
-    /// <param name="other"><see cref="M:System.Object.IEquatable{TValueObject}" /></param>
-    /// <returns><see cref="M:System.Object.IEquatable{TValueObject}" /></returns>
+    /// <summary> <see cref="M:System.IEquatable{TValueObject}" /> </summary>
     public bool Equals(TValueObject? other)
     {
         if (other! == default!)
@@ -53,9 +51,7 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
         return equals;
     }
 
-    /// <summary> <see cref="M:System.Object.Equals"/> </summary>
-    /// <param name="obj"><see cref="M:System.Object.Equals"/></param>
-    /// <returns><see cref="M:System.Object.Equals"/></returns>
+    /// <summary> <see cref="M:System.Object.Equals(object)"/> </summary>
     public override bool Equals(object? obj)
     {
         if (obj == default)
@@ -68,7 +64,6 @@ public class ValueObject<TValueObject> : IEquatable<TValueObject>
     }
 
     /// <summary> <see cref="M:System.Object.GetHashCode"/> </summary>
-    /// <returns><see cref="M:System.Object.GetHashCode"/></returns>
     public override int GetHashCode()
     {
         var hashCode = 31;

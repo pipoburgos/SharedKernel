@@ -15,7 +15,7 @@ public class TagReOrderDocumentFilter : IDocumentFilter
     /// <param name="context"></param>
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        swaggerDoc.Tags = swaggerDoc.Tags
+        swaggerDoc.Tags = swaggerDoc.Tags?
             .OrderBy(tag => tag.Name)
             .ToHashSet();
     }

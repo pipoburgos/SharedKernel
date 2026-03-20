@@ -26,7 +26,7 @@ internal sealed class SendEmailToOwnerSubcriber : IDomainEventSubscriber<BankAcc
         if (bankAccount == default!)
             return;
 
-        var email = new Mail("a@a.es", "Bank account created", bankAccount.InternationalBankAccountNumber.ToString());
+        var email = new Mail("a@a.es", "Bank account created", bankAccount.InternationalBankAccountNumber.ToString()!);
         await _emailSender.SendEmailAsync(email, cancellationToken);
     }
 }
