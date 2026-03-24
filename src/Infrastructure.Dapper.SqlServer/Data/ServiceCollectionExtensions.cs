@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Scoped, string? serviceKey = "default")
     {
         services.AddHealthChecks()
-            .AddSqlServer(connectionString, "SELECT 1;", _ => { }, "Sql Server Dapper",
+            .AddSqlServer(connectionString, "SELECT 1;", _ => { }, serviceKey == "default" ? "Sql Server Dapper" : $"Sql Server Dapper {serviceKey}",
                 HealthStatus.Unhealthy, ["DB", "Sql", "SqlServer"]);
 
         return services.AddSharedKernelDapperQueryProvider(serviceLifetime, serviceKey)
