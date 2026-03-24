@@ -146,17 +146,17 @@ jobs:
           --skip-duplicate \
           --timeout 600
 
-      - name: Prep GitHub Packages source
-        run: |
-          dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-          --name "github" \
-          --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
-          --store-password-in-clear-text
+      # - name: Prep GitHub Packages source
+      #   run: |
+      #     dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+      #     --name "github" \
+      #     --username ${{ github.actor }} \
+      #     --password ${{ secrets.GITHUB_TOKEN }} \
+      #     --store-password-in-clear-text
 
-      - name: Push to GitHub Packages
-        run: |
-          dotnet nuget push packages/*.nupkg \
-          --source "github" \
-          --api-key ${{ secrets.GITHUB_TOKEN }} \
-          --skip-duplicate
+      # - name: Push to GitHub Packages
+      #   run: |
+      #     dotnet nuget push packages/*.nupkg \
+      #     --source "github" \
+      #     --api-key ${{ secrets.GITHUB_TOKEN }} \
+      #     --skip-duplicate
