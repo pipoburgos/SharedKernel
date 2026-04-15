@@ -9,34 +9,6 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 /// <summary> SwaggerGenOptions Extensions. </summary>
 public static class SwaggerGenOptionsExtensions
 {
-    ///// <summary>Add filters to fix enums in OpenApi document.</summary>
-    ///// <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions" />.</param>
-    ///// <param name="xmlPath"></param>
-    //public static void AddSharedKernelEnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, string xmlPath)
-    //{
-    //    swaggerGenOptions.AddEnumsWithValuesFixFilters(o =>
-    //    {
-    //        // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
-    //        o.ApplySchemaFilter = true;
-
-    //        // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
-    //        o.ApplyParameterFilter = true;
-
-    //        // add document filter to fix enums displaying in swagger document
-    //        o.ApplyDocumentFilter = true;
-
-    //        // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
-    //        o.IncludeDescriptions = true;
-
-    //        // get descriptions from DescriptionAttribute then from xml-comments
-    //        //o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;
-
-    //        // get descriptions from xml-file comments on the specified path should use "options.IncludeXmlComments(xmlFilePath);" before
-    //        if (!string.IsNullOrWhiteSpace(xmlPath))
-    //            o.IncludeXmlCommentsFrom(xmlPath);
-    //    });
-    //}
-
     /// <summary>
     /// Add one or more "securityDefinitions", describing how your API is protected, to the generated Swagger
     /// </summary>

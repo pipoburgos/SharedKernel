@@ -23,7 +23,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.*-*" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.*-*" />
     <PackageReference Include="System.Text.Encodings.Web" Version="10.0.*-*" />
-    <!--<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.2" />-->
   </ItemGroup>
 
   <ItemGroup>

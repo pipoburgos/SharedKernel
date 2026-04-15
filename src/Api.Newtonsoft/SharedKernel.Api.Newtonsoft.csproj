@@ -9,7 +9,7 @@
 
   <ItemGroup>
   <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.*-*" />
-	<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.1.*-*" />
+	<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.1.7" />
   </ItemGroup>
 
   <ItemGroup>
