@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Collections;
@@ -69,7 +70,7 @@ public class FakeJwtBearerHandler : AuthenticationHandler<JwtBearerOptions>
 
             var tokenDecoded = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(token);
 
-            var claimsIdentity = new ClaimsIdentity(AuthenticationScheme, ClaimTypes.Sid, ClaimTypes.Role);
+            var claimsIdentity = new ClaimsIdentity(AuthenticationScheme, JwtRegisteredClaimNames.Sub, "role");
 
             foreach (var td in tokenDecoded!)
             {

@@ -43,7 +43,7 @@ public class MailKitSmtpEmailSender : IEmailSender
             if (string.IsNullOrWhiteSpace(_smtp.Password))
                 throw new EmailException(nameof(ExceptionCodes.SMT_PASS_EMPTY));
 
-            await client.AuthenticateAsync(new SaslMechanismLogin(_smtp.User, _smtp.Password), cancellationToken);
+            await client.AuthenticateAsync(new SaslMechanismLogin(_smtp.User!, _smtp.Password!), cancellationToken);
         }
 
         var tasks = new List<Task>();

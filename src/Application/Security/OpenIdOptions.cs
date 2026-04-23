@@ -26,6 +26,9 @@ public class OpenIdOptions
 
     /// <summary> . </summary>
     public int AccessTokenSecondsLifetime { get; set; } = 300;
+
+    /// <summary> . </summary>
+    public int RefreshTokenSecondsLifetime { get; set; } = 1800;
 }
 
 /// <summary> . </summary>

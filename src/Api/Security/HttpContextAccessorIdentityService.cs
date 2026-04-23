@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.JsonWebTokens;
 using SharedKernel.Application.Security;
 using System.Security.Claims;
 
@@ -87,11 +88,11 @@ public class HttpContextAccessorIdentityService : IIdentityService
         (_httpContextAccessor.HttpContext?.Request.Headers.ToDictionary(h => h.Key,
             a => a.Value.ToArray().AsEnumerable()) ?? new Dictionary<string, IEnumerable<string>>()!)!;
 
-    /// <summary> Get user id from <see cref="ClaimTypes.Sid"/>. </summary>
+    /// <summary> Get user id from 'sub' claim. </summary>
     /// <returns></returns>
     protected virtual Guid GetUserId()
     {
-        var id = User?.FindFirst(ClaimTypes.Sid)?.Value;
+        var id = User?.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
 
         return !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out _) ? new Guid(id) : Guid.Empty;
     }

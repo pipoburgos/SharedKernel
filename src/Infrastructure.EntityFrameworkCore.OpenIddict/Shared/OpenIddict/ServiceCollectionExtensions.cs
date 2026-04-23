@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using SharedKernel.Application.Security;
-using System.Security.Claims;
 using System.Text;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.OpenIddict;
@@ -42,9 +41,9 @@ public static class ServiceCollectionExtensions
             {
                 options.AllowPasswordFlow().AllowRefreshTokenFlow().AllowClientCredentialsFlow();
                 options.SetTokenEndpointUris("/connect/token");
-                options.SetAccessTokenLifetime(TimeSpan.FromMinutes(10));
-                options.SetIdentityTokenLifetime(TimeSpan.FromMinutes(1));
-                options.SetRefreshTokenLifetime(TimeSpan.FromMinutes(30));
+                options.SetAccessTokenLifetime(TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime));
+                options.SetIdentityTokenLifetime(TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime));
+                options.SetRefreshTokenLifetime(TimeSpan.FromSeconds(openIdOptions.RefreshTokenSecondsLifetime));
                 options.UseAspNetCore().EnableTokenEndpointPassthrough().DisableTransportSecurityRequirement();
                 options.DisableAccessTokenEncryption();
 
@@ -52,7 +51,8 @@ public static class ServiceCollectionExtensions
                     OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess,
                     OpenIddictConstants.Scopes.OpenId);
 
-                options.RegisterClaims(OpenIddictConstants.Claims.Role, ClaimTypes.Sid);
+                options.RegisterClaims(OpenIddictConstants.Claims.Subject, OpenIddictConstants.Claims.Role,
+                    OpenIddictConstants.Claims.PreferredUsername, OpenIddictConstants.Claims.Email);
 
                 options.AddEncryptionKey(new SymmetricSecurityKey(key));
 

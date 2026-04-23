@@ -2,6 +2,7 @@
 using BankAccounts.Infrastructure.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.JsonWebTokens;
 using SharedKernel.Testing.Acceptance.Authentication;
 using SharedKernel.Testing.Acceptance.WebApplication;
 using System.Security.Claims;
@@ -42,6 +43,6 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
 
     private static List<Claim> GenerateClaims()
     {
-        return [new(ClaimTypes.Sid, "12345678-1234-1234-1234-123456789123")];
+        return [new(JwtRegisteredClaimNames.Sub, "12345678-1234-1234-1234-123456789123")];
     }
 }

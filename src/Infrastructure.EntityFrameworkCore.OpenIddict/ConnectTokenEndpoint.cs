@@ -51,7 +51,7 @@ public abstract class ConnectTokenEndpoint : ControllerBase
         if (!result)
             throw new UnauthorizedAccessException("Application not found.");
 
-        ClaimsIdentity identity = new("Bearer", nameType: ClaimTypes.Sid, roleType: OpenIddictConstants.Claims.Role);
+        ClaimsIdentity identity = new("Bearer", nameType: OpenIddictConstants.Claims.Subject, roleType: OpenIddictConstants.Claims.Role);
 
         var user = await _userManager.FindByNameAsync(request.Username ?? string.Empty);
         if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password ?? string.Empty))
@@ -62,8 +62,9 @@ public abstract class ConnectTokenEndpoint : ControllerBase
             identity.SetClaim(OpenIddictConstants.Claims.Role, role);
         }
 
-        identity.SetClaim(OpenIddictConstants.Claims.Subject, request.ClientId);
-        identity.SetClaim(ClaimTypes.Sid, user.Id.ToString());
+        identity.SetClaim(OpenIddictConstants.Claims.Subject, user.Id.ToString());
+        identity.SetClaim(OpenIddictConstants.Claims.PreferredUsername, user.UserName);
+        identity.SetClaim(OpenIddictConstants.Claims.Email, user.Email);
         var scopes = request.GetScopes();
         identity.SetScopes(scopes);
 
