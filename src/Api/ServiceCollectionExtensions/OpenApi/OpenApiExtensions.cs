@@ -70,6 +70,11 @@ public static class OpenApiExtensions
 
             swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
+            swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecuritySchemeReference("oauth2", document)] = []
+            });
+
             if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
                 swaggerGenOptions.OperationFilter<SecurityAllAuthorizeExceptAllowAnonymousOperationFilter>();
 
@@ -114,8 +119,8 @@ public static class OpenApiExtensions
             if (options.Value.Collapsed)
                 c.DocExpansion(DocExpansion.None);
 
-            if (string.IsNullOrWhiteSpace(authority))
-                return;
+            //if (string.IsNullOrWhiteSpace(authority))
+            //    return;
 
             c.RoutePrefix = string.Empty;
             c.OAuthAppName(options.Value.AppName ?? "Open API specification");
