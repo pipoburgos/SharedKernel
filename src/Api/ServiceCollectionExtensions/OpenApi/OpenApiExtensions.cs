@@ -65,9 +65,9 @@ public static class OpenApiExtensions
             foreach (var xmlDocumentationFile in openApiOptions.XmlDocumentationFiles)
             {
                 swaggerGenOptions.IncludeXmlComments(Path.Combine(basePath, xmlDocumentationFile), true);
-                //swaggerGenOptions.AddEnumsWithValuesFixFilters(xmlDocumentationFile);
             }
 
+            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(new object[] { openApiOptions.XmlDocumentationFiles.Select(xmlDocumentationFile => Path.Combine(basePath, xmlDocumentationFile)) });
             swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
             swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
