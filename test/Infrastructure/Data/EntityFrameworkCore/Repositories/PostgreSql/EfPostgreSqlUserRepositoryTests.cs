@@ -18,7 +18,6 @@ public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfP
     public override void BeforeStart()
     {
         var dbContext = GetRequiredService<PostgreSqlSharedKernelDbContext>();
-        //dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
     }
 
