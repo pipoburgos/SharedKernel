@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -105,12 +111,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\OpenIddict\appsettings.OpenIddict.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\FileSystem\appsettings.fileSystem.json">
