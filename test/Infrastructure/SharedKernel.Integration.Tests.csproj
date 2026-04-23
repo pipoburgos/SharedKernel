@@ -107,6 +107,9 @@
     <None Update="Data\EntityFrameworkCore\OpenIddict\appsettings.OpenIddict.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\FileSystem\appsettings.fileSystem.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
