@@ -10,11 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\Migrations\20240126102443_EmailsToUser.cs" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\Migrations\20240126102443_EmailsToUser.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*-*" Condition="'$(TargetFramework)' == 'net9.0'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
