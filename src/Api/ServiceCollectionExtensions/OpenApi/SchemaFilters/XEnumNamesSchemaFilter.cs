@@ -25,8 +25,7 @@ public class XEnumNamesSchemaFilter : ISchemaFilter
         if (context.Type.IsEnum)
         {
             // FORZAMOS EL CAST a la clase concreta para poder inicializar Extensions
-            var concreteSchema = schema as OpenApiSchema;
-            if (concreteSchema == null) return;
+            if (schema is not OpenApiSchema concreteSchema) return;
 
             // Si es null, le asignamos un nuevo diccionario
             if (concreteSchema.Extensions == null)
@@ -58,7 +57,7 @@ public class XEnumNamesSchemaFilter : ISchemaFilter
 
             sb.Append(!string.IsNullOrEmpty(enumSummary) ? enumSummary : "Valores permitidos:");
 
-            for (int i = 0; i < names.Count; i++)
+            for (var i = 0; i < names.Count; i++)
             {
                 var d = descriptions[i];
                 // Formato: 1 = Efectivo (En efectivo.)
@@ -70,13 +69,13 @@ public class XEnumNamesSchemaFilter : ISchemaFilter
         }
     }
 
-    private string GetXmlSummary(MemberInfo memberInfo)
+    private string GetXmlSummary(MemberInfo? memberInfo)
     {
         if (memberInfo == null || !_xmlNavigators.Any()) return string.Empty;
 
         // F para campos (enum values), T para tipos (la clase enum)
-        string prefix = memberInfo is Type ? "T:" : "F:";
-        string memberName = $"{prefix}{memberInfo.DeclaringType?.FullName ?? memberInfo.ReflectedType?.FullName}.{memberInfo.Name}";
+        var prefix = memberInfo is Type ? "T:" : "F:";
+        var memberName = $"{prefix}{memberInfo.DeclaringType?.FullName ?? memberInfo.ReflectedType?.FullName}.{memberInfo.Name}";
 
         // Si es el tipo en sí, el nombre es diferente
         if (memberInfo is Type t) memberName = $"T:{t.FullName}";

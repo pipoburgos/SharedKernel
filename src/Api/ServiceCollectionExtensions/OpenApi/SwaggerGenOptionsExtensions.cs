@@ -36,11 +36,6 @@ public static class SwaggerGenOptionsExtensions
                 },
             },
         });
-
-        swaggerGenOptions.AddSecurityRequirement(d => new OpenApiSecurityRequirement
-        {
-            [new OpenApiSecuritySchemeReference("oauth2")] = openIdOptions.Scopes.Select(s => s.Name).ToList(),
-        });
     }
 
     /// <summary>

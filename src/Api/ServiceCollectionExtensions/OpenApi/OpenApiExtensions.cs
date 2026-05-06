@@ -67,12 +67,12 @@ public static class OpenApiExtensions
                 swaggerGenOptions.IncludeXmlComments(Path.Combine(basePath, xmlDocumentationFile), true);
             }
 
-            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(new object[] { openApiOptions.XmlDocumentationFiles.Select(xmlDocumentationFile => Path.Combine(basePath, xmlDocumentationFile)) });
+            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(openApiOptions.XmlDocumentationFiles.Select(xmlDocumentationFile => Path.Combine(basePath, xmlDocumentationFile)));
             swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
 
             swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
             {
-                [new OpenApiSecuritySchemeReference("oauth2", document)] = []
+                [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
             });
 
             if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))

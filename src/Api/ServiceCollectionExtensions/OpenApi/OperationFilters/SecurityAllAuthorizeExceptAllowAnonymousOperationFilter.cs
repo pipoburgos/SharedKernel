@@ -29,8 +29,8 @@ public class SecurityAllAuthorizeExceptAllowAnonymousOperationFilter : IOperatio
         operation.Responses?.TryAdd("401", new OpenApiResponse { Description = "Unauthorized" });
         operation.Responses?.TryAdd("403", new OpenApiResponse { Description = "Forbidden" });
 
-        var schemeReference = new OpenApiSecuritySchemeReference("oauth2", null, null);
-        var securityRequirement = new OpenApiSecurityRequirement()
+        var schemeReference = new OpenApiSecuritySchemeReference("oauth2");
+        var securityRequirement = new OpenApiSecurityRequirement
         {
             { schemeReference, new List<string>() },
         };
