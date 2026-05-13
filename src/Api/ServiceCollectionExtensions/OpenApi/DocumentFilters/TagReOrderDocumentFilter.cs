@@ -3,16 +3,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary> . </summary>
 public class TagReOrderDocumentFilter : IDocumentFilter
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="swaggerDoc"></param>
-    /// <param name="context"></param>
+    /// <summary> . </summary>
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         swaggerDoc.Tags = swaggerDoc.Tags?

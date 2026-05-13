@@ -46,11 +46,7 @@ public class MailKitSmtpEmailSender : IEmailSender
             await client.AuthenticateAsync(new SaslMechanismLogin(_smtp.User!, _smtp.Password!), cancellationToken);
         }
 
-        var tasks = new List<Task>();
-        foreach (var email in mails)
-        {
-            tasks.Add(client.SendAsync(email, cancellationToken));
-        }
+        var tasks = mails.Select(email => client.SendAsync(email, cancellationToken)).Cast<Task>().ToList();
         await Task.WhenAll(tasks);
 
         //await client.DisconnectAsync(true, cancellationToken);

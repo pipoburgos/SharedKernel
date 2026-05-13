@@ -39,20 +39,4 @@ public sealed class CreateBankAccount : ICommandRequest<Result<Unit>>
     /// <summary> Adds bank account identifier </summary>
     /// <param name="id"></param>
     public void AddId(Guid id) => BankAccountId = id;
-
-    ///// <summary> . </summary>
-    //public override string GetUniqueName()
-    //{
-    //    return "bankAccounts.create";
-    //}
-
-    ///// <summary> . </summary>
-    //public override Request FromPrimitives(Dictionary<string, string> body, string id, string occurredOn)
-    //{
-    //    var command = new CreateBankAccount(Guid.Parse(body[nameof(OwnerId)]), body[nameof(Name)],
-    //        ConvertToDateTime(body, nameof(Birthdate)), body[nameof(Surname)], Guid.Parse(body[nameof(MovementId)]),
-    //        decimal.Parse(body[nameof(Amount)]));
-    //    command.AddId(Guid.Parse(body[nameof(Id)]));
-    //    return command;
-    //}
 }

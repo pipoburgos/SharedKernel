@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Cqrs.Middlewares;
 using SharedKernel.Application.Events;
@@ -67,7 +66,7 @@ internal class RequestMediator : IRequestMediator
 
                 switch (method)
                 {
-                    case nameof(ICommandRequestHandler<CommandRequest>.Handle):
+                    case nameof(ICommandRequestHandler<>.Handle):
                         {
 
                             // not call GetRequiredService Async commands are in other api
@@ -78,7 +77,7 @@ internal class RequestMediator : IRequestMediator
 
                             break;
                         }
-                    case nameof(IDomainEventSubscriber<DomainEvent>.On):
+                    case nameof(IDomainEventSubscriber<>.On):
                         {
                             var types = scope.ServiceProvider.GetServices(requestTypeGeneric);
                             await Task.WhenAll(types.Select(type =>

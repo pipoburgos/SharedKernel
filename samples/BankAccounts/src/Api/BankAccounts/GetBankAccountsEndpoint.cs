@@ -12,7 +12,7 @@ public sealed class GetBankAccountsEndpoint : BankAccountBaseEndpoint
     /// <summary> Gets bank accounts paged. </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///{
     ///    "pageOptions": {
     ///        "skip": 0,

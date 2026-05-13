@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
@@ -46,7 +45,7 @@ internal class RedisCommandsConsumer : BackgroundService
                 try
                 {
                     await requestMediator.Execute(value.ToString(), typeof(ICommandRequestHandler<>),
-                        nameof(ICommandRequestHandler<CommandRequest>.Handle), CancellationToken.None);
+                        nameof(ICommandRequestHandler<>.Handle), CancellationToken.None);
                 }
                 catch (Exception ex)
                 {

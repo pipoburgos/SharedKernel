@@ -47,8 +47,10 @@ public class RetryEmailDecorator : IEmailSender
                     await _emailSender.SendEmailAsync(email, cancellationToken);
                     attempts = MaxRetries;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    _logger.Error(ex, $"Smtp error: {ex.Message}");
+
                     attempts++;
 
                     if (attempts == MaxRetries)

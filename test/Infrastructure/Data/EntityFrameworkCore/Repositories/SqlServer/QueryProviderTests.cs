@@ -142,8 +142,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
             .GetQuery<User>()
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-        result.Items.Count().Should().BeGreaterOrEqualTo(0);
-        result.TotalRecordsFiltered.Should().BeGreaterOrEqualTo(0);
+        result.Items.Count().Should().BeGreaterThanOrEqualTo(0);
+        result.TotalRecordsFiltered.Should().BeGreaterThanOrEqualTo(0);
     }
 
     [Fact]
@@ -160,8 +160,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
             .GetQuery<User>()
             .ToPagedListAsync(pageOptions, CancellationToken.None);
 
-        result.Items.Count().Should().BeGreaterOrEqualTo(0);
-        result.TotalRecordsFiltered.Should().BeGreaterOrEqualTo(0);
+        result.Items.Count().Should().BeGreaterThanOrEqualTo(0);
+        result.TotalRecordsFiltered.Should().BeGreaterThanOrEqualTo(0);
     }
 
     [Fact]

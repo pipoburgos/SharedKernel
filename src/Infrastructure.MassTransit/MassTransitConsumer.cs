@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 using SharedKernel.Infrastructure.Requests;
@@ -24,7 +23,7 @@ public class MassTransitConsumer : IConsumer<MassTransitCommand>
     public Task Consume(ConsumeContext<MassTransitCommand> context)
     {
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
-        const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
+        const string method = nameof(ICommandRequestHandler<>.Handle);
 
         if (context.Message.Content == null ||
            !_requestMediator.HandlerImplemented(context.Message.Content, commandRequestHandlerType))

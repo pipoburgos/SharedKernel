@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.System;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 using StackExchange.Redis;
 
@@ -33,7 +32,7 @@ internal class RedisDomainEventsConsumer : BackgroundService
             try
             {
                 TaskHelper.RunSync(requestMediator.Execute(value.ToString(), typeof(IDomainEventSubscriber<>),
-                    nameof(IDomainEventSubscriber<DomainEvent>.On), CancellationToken.None));
+                    nameof(IDomainEventSubscriber<>.On), CancellationToken.None));
             }
             catch (Exception ex)
             {

@@ -9,7 +9,8 @@ public sealed class CreateBankAccountEndpoint : BankAccountBaseEndpoint
 {
     /// <summary> Create a bank account. </summary>
     [HttpPost("{bankAccountId:guid}")]
-    public Task<IActionResult> Handle(Guid bankAccountId, CreateBankAccount createBankAccount, CancellationToken cancellationToken)
+    public Task<IActionResult> Handle(Guid bankAccountId, [FromBody] CreateBankAccount createBankAccount,
+        int prueba, string? abc = null, CancellationToken cancellationToken = default)
     {
         createBankAccount.AddId(bankAccountId);
         return OkTyped(CommandBus.Dispatch(createBankAccount, cancellationToken));

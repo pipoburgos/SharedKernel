@@ -98,7 +98,7 @@ public class ValidationMiddleware : IMiddleware
         if (validator == default)
             throw new Exception($"Validator '{result}' not found");
 
-        const string methodName = nameof(IClassValidator<object>.ValidateListAsync);
+        const string methodName = nameof(IClassValidator<>.ValidateListAsync);
         var method = validator.GetType().GetMethod(methodName);
 
         if (method == default)
@@ -107,7 +107,7 @@ public class ValidationMiddleware : IMiddleware
         var failuresTaskObject = method.Invoke(validator, [request, cancellationToken]);
 
         if (failuresTaskObject is not Task<List<ValidationFailure>> validationResult)
-            throw new Exception($"{nameof(Task<List<ValidationFailure>>)} null on executing '{result}.{methodName}'");
+            throw new Exception($"{nameof(Task<>)} null on executing '{result}.{methodName}'");
 
         return validationResult;
     }

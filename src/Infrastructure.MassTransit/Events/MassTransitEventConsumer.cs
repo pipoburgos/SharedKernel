@@ -1,6 +1,5 @@
 ﻿using MassTransit;
 using SharedKernel.Application.Events;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.MassTransit.Cqrs.Commands;
 using SharedKernel.Infrastructure.Requests;
 
@@ -24,7 +23,7 @@ public class MassTransitEventConsumer : IConsumer<MassTransitCommand>
     public Task Consume(ConsumeContext<MassTransitCommand> context)
     {
         var commandRequestHandlerType = typeof(IDomainEventSubscriber<>);
-        const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
+        const string method = nameof(IDomainEventSubscriber<>.On);
 
         if (context.Message.Content == null ||
             !_requestMediator.HandlerImplemented(context.Message.Content, commandRequestHandlerType))

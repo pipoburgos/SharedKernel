@@ -31,7 +31,7 @@ public class SynchronousEventBus : IEventBus
     public Task Publish(DomainEvent @event, CancellationToken cancellationToken)
     {
         var eventSerialized = _requestSerializer.Serialize(@event);
-        return _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
+        return _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<>.On), cancellationToken);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class SynchronousEventBus : IEventBus
         foreach (var @event in events)
         {
             var eventSerialized = _requestSerializer.Serialize(@event);
-            await _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<DomainEvent>.On),
+            await _requestMediator.Execute(eventSerialized, typeof(IDomainEventSubscriber<>), nameof(IDomainEventSubscriber<>.On),
                 cancellationToken);
         }
     }

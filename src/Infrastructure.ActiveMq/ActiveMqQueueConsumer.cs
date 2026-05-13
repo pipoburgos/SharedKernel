@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Infrastructure.Requests;
 
@@ -26,7 +25,7 @@ public class ActiveMqQueueConsumer : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
-        const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
+        const string method = nameof(ICommandRequestHandler<>.Handle);
 
         using var scope = _serviceScopeFactory.CreateScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<ActiveMqTopicsConsumer>>();

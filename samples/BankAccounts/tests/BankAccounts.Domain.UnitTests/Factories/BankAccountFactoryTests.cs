@@ -110,6 +110,6 @@ public class BankAccountFactoryTests
 
         // Assert
         var events = bankAccount.PullDomainEvents();
-        events.Count.Should().BeGreaterOrEqualTo(1);
+        events.Count.Should().BeGreaterThanOrEqualTo(1);
     }
 }

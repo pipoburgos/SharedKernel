@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SharedKernel.Application.Events;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 
 namespace SharedKernel.Infrastructure.ActiveMq;
@@ -26,7 +25,7 @@ public class ActiveMqTopicsConsumer : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var domainEventSubscriberType = typeof(IDomainEventSubscriber<>);
-        const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
+        const string method = nameof(IDomainEventSubscriber<>.On);
 
         using var scope = _serviceScopeFactory.CreateScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<ActiveMqTopicsConsumer>>();

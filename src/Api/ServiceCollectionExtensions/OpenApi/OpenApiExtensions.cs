@@ -7,6 +7,7 @@ using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
@@ -15,7 +16,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 public static class OpenApiExtensions
 {
     /// <summary> Services configuration. </summary>
-    public static IServiceCollection AddSharedKernelOpenApi(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedKernelOpenApi(this IServiceCollection services, IConfiguration configuration, Action<SwaggerGenOptions>? setupAction = null)
     {
         var openApiOptions = new OpenApiOptions();
         configuration.GetSection(nameof(OpenApiOptions)).Bind(openApiOptions);
@@ -46,15 +47,6 @@ public static class OpenApiExtensions
                 return path;
             });
 
-            swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesSchemaFilter>();
-
-            // Not working
-            //swaggerGenOptions.SupportNonNullableReferenceTypes();
-
-            swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
-
-            swaggerGenOptions.DescribeAllParametersInCamelCase();
-
 #if NET6_0_OR_GREATER
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
 #else
@@ -67,20 +59,41 @@ public static class OpenApiExtensions
                 swaggerGenOptions.IncludeXmlComments(Path.Combine(basePath, xmlDocumentationFile), true);
             }
 
-            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(openApiOptions.XmlDocumentationFiles.Select(xmlDocumentationFile => Path.Combine(basePath, xmlDocumentationFile)));
-            swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
-
-            swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-            {
-                [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
-            });
-
             if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
+            {
+                swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
+
+                swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("oauth2", document)] = [],
+                });
                 swaggerGenOptions.OperationFilter<SecurityAllAuthorizeExceptAllowAnonymousOperationFilter>();
+            }
+
+            swaggerGenOptions.SupportNonNullableReferenceTypes();
+            swaggerGenOptions.DescribeAllParametersInCamelCase();
+
+            // DocumentFilters
+            swaggerGenOptions.DocumentFilter<TagReOrderDocumentFilter>();
+
+            // OperationFilters
+            swaggerGenOptions.OperationFilter<RequiredQueryParametersOperationFilter>();
+
+            // SchemaFilters
+            swaggerGenOptions.SchemaFilter<HideNonPublicCommandPropertiesSchemaFilter>();
+            swaggerGenOptions.SchemaFilter<RequiredFromConstructorSchemaFilter>();
+            //swaggerGenOptions.SchemaFilter<AssignPropertyRequiredSchemaFilter>();
+            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(
+                openApiOptions.XmlDocumentationFiles.Select(xmlDocumentationFile =>
+                    Path.Combine(basePath, xmlDocumentationFile)));
+
+            // OperationFilters
+            //swaggerGenOptions.OperationFilter<FromQueryModelOperationFilter>();
+            //swaggerGenOptions.OperationFilter<OptionalParameterOperationFilter>();
 
             //swaggerGenOptions.CustomOperationIds(_ => default);
 
-            swaggerGenOptions.DocumentFilter<TagReOrderDocumentFilter>();
+            setupAction?.Invoke(swaggerGenOptions);
         });
     }
 

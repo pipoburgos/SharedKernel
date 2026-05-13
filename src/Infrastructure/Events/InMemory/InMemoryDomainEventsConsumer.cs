@@ -46,7 +46,7 @@ public class InMemoryDomainEventsConsumer : IInMemoryDomainEventsConsumer
         while (_eventQueue.TryDequeue(out var domainEvent))
         {
             await _requestMediator.Execute(domainEvent, typeof(IDomainEventSubscriber<>),
-                nameof(IDomainEventSubscriber<DomainEvent>.On), cancellationToken);
+                nameof(IDomainEventSubscriber<>.On), cancellationToken);
         }
 
         await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);

@@ -34,8 +34,8 @@ public class ExcelWriterTests
                 {"Date", "Date"},
             }, "Users");
 
-        stream.Length.Should().BeGreaterOrEqualTo(4_150);
-        stream.Length.Should().BeLessOrEqualTo(5_300);
+        stream.Length.Should().BeGreaterThanOrEqualTo(4_150);
+        stream.Length.Should().BeLessThanOrEqualTo(5_300);
     }
 
     private class ExcelUser

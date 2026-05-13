@@ -3,11 +3,9 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Commands.Handlers;
 using SharedKernel.Application.Events;
 using SharedKernel.Application.RetryPolicies;
-using SharedKernel.Domain.Events;
 using SharedKernel.Infrastructure.Requests;
 using System.Text;
 
@@ -114,7 +112,7 @@ internal sealed class RabbitMqConsumer : IDisposable, IAsyncDisposable
     private async Task ConsumeQueue(string queue, ushort prefetchCount = 10, CancellationToken cancellationToken = default)
     {
         var commandRequestHandlerType = typeof(ICommandRequestHandler<>);
-        const string method = nameof(ICommandRequestHandler<CommandRequest>.Handle);
+        const string method = nameof(ICommandRequestHandler<>.Handle);
 
         _connection = await _rabbitMqConnectionFactory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
@@ -149,7 +147,7 @@ internal sealed class RabbitMqConsumer : IDisposable, IAsyncDisposable
     private async Task ConsumeTopic(string topicName, ushort prefetchCount = 10, CancellationToken cancellationToken = default)
     {
         var domainEventSubscriberType = typeof(IDomainEventSubscriber<>);
-        const string method = nameof(IDomainEventSubscriber<DomainEvent>.On);
+        const string method = nameof(IDomainEventSubscriber<>.On);
 
         _connection = await _rabbitMqConnectionFactory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);

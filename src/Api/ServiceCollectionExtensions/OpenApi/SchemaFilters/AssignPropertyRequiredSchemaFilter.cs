@@ -12,17 +12,14 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
     public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
         if (schema.Properties == null || schema.Properties.Count == 0)
-        {
             return;
-        }
 
         var typeProperties = context.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var property in schema.Properties)
         {
-            if (IsSourceTypePropertyNullable(typeProperties, property.Key)) // || property.Value.Nullable)
-            {
+            if (typeProperties.Any(info =>
+                    info.Name.Equals(property.Key, StringComparison.OrdinalIgnoreCase) && IsNullable(info)))
                 continue;
-            }
 
             // "null", "boolean", "object", "array", "number", or "string"), or "integer" which matches any number with a zero fractional part.
             // see also: https://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1.1
@@ -31,56 +28,31 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
                 case JsonSchemaType.Boolean:
                 case JsonSchemaType.Integer:
                 case JsonSchemaType.Number:
-                    AddPropertyToRequired(schema, property.Key);
+                    schema.Required?.Add(property.Key);
                     break;
                 case JsonSchemaType.String:
                     switch (property.Value.Format)
                     {
                         case "date-time":
                         case "uuid":
-                            AddPropertyToRequired(schema, property.Key);
+                            schema.Required?.Add(property.Key);
                             break;
-                            //default:
-                            //    AddPropertyToRequired(schema, property.Key);
-                            //    break;
                     }
                     break;
                 default:
                     if (schema.Type != JsonSchemaType.Object)
-                        AddPropertyToRequired(schema, property.Key);
+                        schema.Required?.Add(property.Key);
                     break;
             }
         }
     }
 
-    private static bool IsSourceTypePropertyNullable(PropertyInfo[] typeProperties, string propertyName)
+    private static bool IsNullable(PropertyInfo property)
     {
-        return typeProperties.Any(info =>
-            info.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase) && IsNullable(info));
-    }
+        if (property.PropertyType.IsValueType)
+            return Nullable.GetUnderlyingType(property.PropertyType) != null;
 
-    private static void AddPropertyToRequired(IOpenApiSchema schema, string propertyName)
-    {
-        //schema.Required ??= new HashSet<string>();
-        schema.Required?.Add(propertyName);
-    }
-
-    private static bool IsNullable(PropertyInfo property) => IsNullableHelper(property.PropertyType,
-        property.DeclaringType, property.CustomAttributes);
-
-    //private static bool IsNullable(FieldInfo field) =>
-    //    IsNullableHelper(field.FieldType, field.DeclaringType, field.CustomAttributes);
-
-    //private static bool IsNullable(ParameterInfo parameter) =>
-    //    IsNullableHelper(parameter.ParameterType, parameter.Member, parameter.CustomAttributes);
-
-    private static bool IsNullableHelper(Type memberType, MemberInfo? declaringType,
-        IEnumerable<CustomAttributeData> customAttributes)
-    {
-        if (memberType.IsValueType)
-            return Nullable.GetUnderlyingType(memberType) != null;
-
-        var nullable = customAttributes
+        var nullable = property.CustomAttributes
             .FirstOrDefault(x => x.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
 
         if (nullable != null && nullable.ConstructorArguments.Count == 1)
@@ -100,7 +72,7 @@ public class AssignPropertyRequiredSchemaFilter : ISchemaFilter
             }
         }
 
-        for (var type = declaringType; type != null; type = type.DeclaringType)
+        for (var type = property.DeclaringType; type != null; type = type.DeclaringType)
         {
             var context = type.CustomAttributes
                 .FirstOrDefault(x =>
