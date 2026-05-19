@@ -18,11 +18,13 @@ public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity
 
         builder.HasOne(x => x.Entity)
             .WithMany(x => x.Translations)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.EntityId)
+            .OnDelete(DeleteBehavior.ClientNoAction);
 
         builder.HasOne(x => x.Language)
             .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(x => x.LanguageId)
+            .OnDelete(DeleteBehavior.ClientNoAction);
     }
 }
 

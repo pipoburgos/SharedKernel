@@ -3,14 +3,10 @@ using SharedKernel.Domain.Entities.Globalization;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Data.Configurations;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary> . </summary>
 public class LanguageTranslatedConfiguration : IEntityTypeConfiguration<LanguageTranslated>
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary> .  </summary>
     /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<LanguageTranslated> builder)
     {

@@ -15,7 +15,7 @@ public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslat
     /// <param name="builder"></param>
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.HasMany<TTranslation>().WithOne(x => x.Entity).OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany<TTranslation>().WithOne(x => x.Entity).HasForeignKey(x => x.EntityId).OnDelete(DeleteBehavior.ClientNoAction);
     }
 }
 

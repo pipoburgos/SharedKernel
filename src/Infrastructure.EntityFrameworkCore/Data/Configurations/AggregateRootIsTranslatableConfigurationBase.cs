@@ -10,13 +10,11 @@ public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TT
         where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, TLanguageKey>
         where TTranslation : class, IEntityTranslated<TEntityId, TEntity, TLanguage, TLanguageKey> where TEntityId : notnull
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary> . </summary>
     /// <param name="builder"></param>
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.HasMany<TTranslation>().WithOne(x => x.Entity).OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany<TTranslation>().WithOne(x => x.Entity).OnDelete(DeleteBehavior.ClientNoAction);
     }
 }
 
