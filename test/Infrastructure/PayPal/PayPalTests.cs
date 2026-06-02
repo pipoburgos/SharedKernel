@@ -55,7 +55,7 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
 
         var transactionList = new List<Transaction>
         {
-            new Transaction
+            new()
             {
                 Description = "Windows License",
                 InvoiceNumber = invoiceNumber,
@@ -120,12 +120,12 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
 
         var requestData = new StringContent("grant_type=client_credentials", Encoding.UTF8, "application/x-www-form-urlencoded");
 
-        var response = await httpClient.PostAsync("https://api-m.sandbox.paypal.com/v1/oauth2/token", requestData);
+        var response = await httpClient.PostAsync("https://api-m.sandbox.paypal.com/v1/oauth2/token", requestData, TestContext.Current.CancellationToken);
 
         if (!response.IsSuccessStatusCode)
             throw new Exception($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
 
-        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var jsonResponse = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var token = jsonSerializer.Deserialize<PayPalTokenResponse>(jsonResponse, NamingConvention.SnakeCase);
 
         token.Should().NotBeNull();

@@ -1,18 +1,24 @@
-﻿using BankAccounts.Api.Shared;
-using BankAccounts.Application.BankAccounts.Commands;
+﻿using BankAccounts.Application.BankAccounts.Commands;
+using SharedKernel.Api.Endpoints;
+using SharedKernel.Application.Cqrs.Commands;
 
 namespace BankAccounts.Api.BankAccounts;
 
-/// <summary> Bank accounts Controller. </summary>
-[Route("api/bankAccounts", Name = "Bank Accounts")]
-public sealed class CreateBankAccountEndpoint : BankAccountBaseEndpoint
+internal sealed class CreateBankAccountEndpoint : IEndpoint
 {
-    /// <summary> Create a bank account. </summary>
-    [HttpPost("{bankAccountId:guid}")]
-    public Task<IActionResult> Handle(Guid bankAccountId, [FromBody] CreateBankAccount createBankAccount,
-        CancellationToken cancellationToken)
+    public void MapEndpoint(IEndpointRouteBuilder app)
+    {
+        app.MapBankAccountsGroup()
+            .MapPost("{bankAccountId:guid}", Handle)
+            .WithName("CreateBankAccount")
+            .WithSummary("Create a bank account.");
+    }
+
+    private static async Task<IResult> Handle(ICommandBus commandBus, Guid bankAccountId,
+        CreateBankAccount createBankAccount, CancellationToken cancellationToken)
     {
         createBankAccount.AddId(bankAccountId);
-        return OkTyped(CommandBus.Dispatch(createBankAccount, cancellationToken));
+        var result = await commandBus.Dispatch(createBankAccount, cancellationToken);
+        return result.ToIResult();
     }
 }

@@ -9,7 +9,7 @@ public class PayPalSettings
     public string Mode { get; set; } = "sandbox";
 
     /// <summary> . </summary>
-    public Uri TokenEndpoint { get; set; } = new Uri("https://api-m.sandbox.paypal.com/v1/oauth2/token");
+    public Uri TokenEndpoint { get; set; } = new("https://api-m.sandbox.paypal.com/v1/oauth2/token");
 
     /// <summary> . </summary>
     public string? ClientId { get; set; }

@@ -1,5 +1,4 @@
-﻿using BankAccounts.Api;
-using BankAccounts.Infrastructure.Shared.Data;
+﻿using BankAccounts.Infrastructure.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -9,7 +8,7 @@ using System.Security.Claims;
 
 namespace BankAccounts.Acceptance.Tests.Shared;
 
-public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
+public class BankAccountClientFactory : WebApplicationFactoryBase<Program>
 {
     public BankAccountClientFactory()
     {
@@ -21,9 +20,9 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Startup>
         return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
     }
 
-    public override async Task<HttpClient> CreateClientAsync(string? language = "en-US")
+    public override async Task<HttpClient> CreateClientAsync(CancellationToken cancellationToken)
     {
-        var client = await base.CreateClientAsync(language);
+        var client = await base.CreateClientAsync(cancellationToken);
         client.AddBearerToken(GenerateClaims());
         return client;
     }

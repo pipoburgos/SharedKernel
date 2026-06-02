@@ -10,7 +10,9 @@ namespace SharedKernel.Testing.Acceptance.Tests;
 public abstract class WebApplicationFactoryBaseTests<T> where T : class
 {
     private readonly WebApplicationFactoryBase<T> _factory;
+
     protected abstract T CreateStartup(IConfiguration configuration, WebHostBuilderContext webHostBuilderContext);
+
     protected abstract void ConfigureServices(T startup, IServiceCollection services);
 
     public WebApplicationFactoryBaseTests(WebApplicationFactoryBase<T> factory)
@@ -24,7 +26,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
         IServiceCollection serviceCollection = default!;
 
         T startup = default!;
-        Host.CreateDefaultBuilder()
+        using var host = Host.CreateDefaultBuilder()
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder
@@ -58,9 +60,9 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     [Fact]
     public virtual async Task SwaggerTestGenerateJson()
     {
-        var client = await _factory.CreateClientAsync();
+        var client = await _factory.CreateClientAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
 
-        var response = await client.GetAsync("swagger/v1/swagger.json");
+        var response = await client.GetAsync("swagger/v1/swagger.json", TestContext.Current.CancellationToken).ConfigureAwait(false);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -68,11 +70,11 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     [Fact]
     public virtual async Task AllIsHealthy()
     {
-        var client = await _factory.CreateClientAsync();
+        var client = await _factory.CreateClientAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
 
-        var response = await client.GetAsync("health");
+        var response = await client.GetAsync("health").ConfigureAwait(false);
 
-        var text = await response.Content.ReadAsStringAsync();
+        var text = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         text.Should().StartWith("{\"status\":\"Healthy\",");
 

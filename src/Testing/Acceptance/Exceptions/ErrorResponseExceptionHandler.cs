@@ -33,7 +33,7 @@ public class ErrorResponseExceptionHandler
         _responseMessage.StatusCode.Should().BeOneOf(new List<HttpStatusCode>
             {HttpStatusCode.BadRequest, HttpStatusCode.NotAcceptable});
 
-        var message = await _responseMessage.Content.ReadAsStringAsync();
+        var message = await _responseMessage.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 
         _errors = new Dictionary<string, string[]>();
 

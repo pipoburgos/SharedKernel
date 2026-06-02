@@ -17,15 +17,15 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*-*" />
-    <PackageReference Include="System.CodeDom" Version="10.0.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
+    <PackageReference Include="System.CodeDom" Version="10.0.*" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.DirectoryServices" Version="10.0.*-*" />
+    <PackageReference Include="System.DirectoryServices" Version="10.0.*" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*-*" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,14 +68,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionCodes.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.21.0.135717" />
   </ItemGroup>
 
 </Project>

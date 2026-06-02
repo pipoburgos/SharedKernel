@@ -16,7 +16,7 @@ public sealed class CreateBankAccount : ICommandRequest<Result<Unit>>
     }
 
     /// <summary> Bank account identifier. </summary>
-    public Guid BankAccountId { get; set; }
+    public Guid BankAccountId { get; private set; }
 
     /// <summary> Owner identifier. </summary>
     public Guid OwnerId { get; }

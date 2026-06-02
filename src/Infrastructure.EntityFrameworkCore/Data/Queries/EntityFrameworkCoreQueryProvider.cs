@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Entities.Paged;
 using SharedKernel.Domain.Specifications;
@@ -95,7 +94,7 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposab
 
         #endregion
 
-        var queryDto = selector == default ? query.ProjectTo<TResult>() : query.Select(selector);
+        var queryDto = selector == default ? query.Cast<TResult>() : query.Select(selector);
 
         #region Dto Specifications
 

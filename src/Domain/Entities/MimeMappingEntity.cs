@@ -28,7 +28,7 @@ public static class MimeMappingEntity
             Path.VolumeSeparatorChar,
         ];
 
-        private readonly Dictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> _mappings = new(StringComparer.OrdinalIgnoreCase);
 
         private bool _isInitialized;
 

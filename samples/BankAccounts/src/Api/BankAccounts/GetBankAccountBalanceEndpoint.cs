@@ -1,20 +1,34 @@
-﻿using BankAccounts.Api.Shared;
-using BankAccounts.Application.BankAccounts.Queries;
-using Microsoft.AspNetCore.OutputCaching;
-using SharedKernel.Api;
+﻿using BankAccounts.Application.BankAccounts.Queries;
+using SharedKernel.Api.Endpoints;
+using SharedKernel.Application.Cqrs.Queries;
 
 namespace BankAccounts.Api.BankAccounts;
 
-/// <summary> Bank accounts Controller. </summary>
-[Route("api/bankAccounts", Name = "Bank Accounts")]
-public sealed class GetBankAccountBalanceEndpoint : BankAccountBaseEndpoint
+internal sealed class GetBankAccountBalanceEndpoint : IEndpoint
 {
-    /// <summary> Gets the balance. </summary>
-    [HttpGet("{bankAccountId:guid}/balance")]
-    [ResponseCache(Duration = CacheDuration.Day, VaryByQueryKeys = ["*"])]
-    [OutputCache(Duration = CacheDuration.Day, VaryByQueryKeys = ["*"])]
-    public async Task<ActionResult<decimal>> Handle(Guid bankAccountId, CancellationToken cancellationToken)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        return OkTyped(await QueryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken));
+        app.MapBankAccountsGroup()
+            .MapGet("{bankAccountId:guid}/balance", Handle)
+            .WithName("GetBankAccountBalance")
+            .WithSummary("Gets the balance of a bank account.")
+            .Produces<decimal>();
+        //.WithMetadata(new ResponseCacheAttribute
+        //{
+        //    Duration = CacheDuration.Day,
+        //    VaryByQueryKeys = ["*"],
+        //})
+        //.CacheOutput(policy =>
+        //{
+        //    policy.Expire(TimeSpan.FromDays(1));
+        //    policy.SetVaryByQuery("*");
+        //});
+    }
+
+    private static async Task<IResult> Handle(IQueryBus queryBus, Guid bankAccountId,
+        CancellationToken cancellationToken)
+    {
+        var result = await queryBus.Ask(new GetBankAccountBalance(bankAccountId), cancellationToken);
+        return Results.Ok(result);
     }
 }

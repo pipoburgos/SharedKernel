@@ -38,7 +38,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         if (httpContextAccessor != default)
         {
             httpContextAccessor.User =
-                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
+                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new("Name", "Peter") }));
 
             httpContextAccessor.AddKeyValue("Authorization", "Prueba");
         }
@@ -61,7 +61,7 @@ public abstract class CommandBusCommonTestCase : InfrastructureTestCase<FakeStar
         if (httpContextAccessor != default)
         {
             httpContextAccessor.User =
-                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
+                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new("Name", "Peter") }));
 
             httpContextAccessor.AddKeyValue("Authorization", "Prueba");
         }

@@ -25,4 +25,15 @@ public abstract class ApiArchitectureTests : BaseArchitectureTest
         // Assert
         Assert(result);
     }
+
+    [Fact]
+    public void MinimalEndpoints_Should_BeSealed_And_HaveNameEndingWithEndpoint()
+    {
+        // Arrange and Act
+        var result = Types.InAssembly(GetApiAssembly())
+            .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEndpoint), "Endpoint");
+
+        // Assert
+        Assert(result);
+    }
 }

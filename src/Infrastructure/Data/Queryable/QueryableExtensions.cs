@@ -1,6 +1,5 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
-using SharedKernel.Application.Mapper;
 using SharedKernel.Domain.Extensions;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
@@ -124,13 +123,14 @@ public static class QueryableExtensions
     /// <param name="queryable"></param>
     /// <param name="selector"></param>
     /// <returns></returns>
+    [Obsolete("Use Select from LINQ")]
     public static IQueryable<TResult> MapToDto<T, TResult>(this IQueryable<T> queryable,
         Expression<Func<T, TResult>>? selector)
     {
         if (typeof(T) == typeof(TResult))
             return queryable.Cast<TResult>();
 
-        return selector == default ? queryable.ProjectTo<TResult>() : queryable.Select(selector);
+        return selector == default ? queryable.Cast<TResult>() : queryable.Select(selector);
     }
 
     /// <summary> . </summary>

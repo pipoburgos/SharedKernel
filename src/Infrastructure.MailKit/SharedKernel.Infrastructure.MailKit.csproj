@@ -9,11 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="9.0.0" />
-    <PackageReference Include="MailKit" Version="4.16.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.*-*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*-*" />
-    <PackageReference Include="System.Formats.Asn1" Version="10.0.*-*" />
+    <PackageReference Include="MailKit" Version="4.17.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
+    <PackageReference Include="System.Formats.Asn1" Version="10.0.*" />
   </ItemGroup>
 
   <ItemGroup>

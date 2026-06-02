@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mapper\**" />
     <Compile Remove="RailwayOrientedProgramming\**" />
+    <EmbeddedResource Remove="Mapper\**" />
     <EmbeddedResource Remove="RailwayOrientedProgramming\**" />
+    <None Remove="Mapper\**" />
     <None Remove="RailwayOrientedProgramming\**" />
   </ItemGroup>
 
@@ -44,14 +47,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionCodes.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.21.0.135717" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="NPOI" Version="2.8.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.*-*" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.*" />
   </ItemGroup>
 
   <ItemGroup>

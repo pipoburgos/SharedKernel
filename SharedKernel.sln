@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33502.453
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11822.322 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Domain", "src\Domain\SharedKernel.Domain.csproj", "{A52EFD8D-C79D-4416-B9D1-A6408B3B1207}"
 EndProject
@@ -102,6 +102,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayPal", "src\PayPal\PayPal.csproj", "{F82E5E1F-FAB3-4A80-BD72-5B24C1560289}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Infrastructure.MassTransit", "src\Infrastructure.MassTransit\SharedKernel.Infrastructure.MassTransit.csproj", "{32130565-506C-4BE2-A4E4-2648F0A3F41A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3022CCF2-056D-4A8C-85BD-1388102758F3}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Build.targets = src\Directory.Build.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

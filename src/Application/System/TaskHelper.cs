@@ -57,11 +57,11 @@ public static class TaskHelper
     /// </summary>
     public static void RunSync(Task task) => Create().StartNew(async () => await task).Unwrap().GetAwaiter().GetResult();
 
-    private static TaskFactory Create() => new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
+    private static TaskFactory Create() => new(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
 #else
     /// <summary>Gets a task that has already completed successfully.</summary>
     /// <returns>The successfully completed task.</returns>
-    public static Task CompletedTask => new Task(() => { });
+    public static Task CompletedTask => new(() => { });
 
 #endif
 

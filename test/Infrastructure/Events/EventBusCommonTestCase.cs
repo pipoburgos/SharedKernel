@@ -40,7 +40,7 @@ public abstract class EventBusCommonTestCase : InfrastructureTestCase<FakeStartu
         if (httpContextAccessor != default)
         {
             httpContextAccessor.User =
-                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim("Name", "Peter") }));
+                new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new("Name", "Peter") }));
 
             httpContextAccessor.AddKeyValue("Authorization", "Prueba");
         }

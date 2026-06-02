@@ -1,36 +1,81 @@
+using BankAccounts.Api;
+using BankAccounts.Infrastructure.Shared;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
-using System.Diagnostics.CodeAnalysis;
+using SharedKernel.Api.Endpoints;
+using SharedKernel.Api.Middlewares;
+using SharedKernel.Api.Newtonsoft;
+using SharedKernel.Api.ServiceCollectionExtensions;
+using SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
+using SharedKernel.Infrastructure.Cqrs.Commands;
+using SharedKernel.Infrastructure.Cqrs.Queries;
+using SharedKernel.Infrastructure.NetJson;
+using SharedKernel.Infrastructure.Newtonsoft;
+using SharedKernel.Infrastructure.Redis.Caching;
+using SharedKernel.Infrastructure.Redis.Cqrs.Commands;
+using SharedKernel.Infrastructure.Redis.Events;
+using SharedKernel.Infrastructure.Redis.System.Threading;
 
-namespace BankAccounts.Api;
+const string corsPolicy = "CorsPolicy";
 
-/// <summary> Program. </summary>
-public sealed class Program
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
 {
-    /// <summary> Main. </summary>
-    /// <param name="args"></param>
-    [ExcludeFromCodeCoverage]
-    public static async Task<int> Main(string[] args)
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
+
+builder.Services
+    .AddAuthorization(options =>
     {
-        Log.Logger = new LoggerConfiguration().CreateLogger();
+        options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+            .Build();
+    })
+    .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly)
+    .AddSharedKernelInMemoryCommandBus()
+    .AddSharedKernelRedisCommandBusAsync(builder.Configuration)
+    .AddSharedKernelNewtonsoftSerializer()
+    .AddSharedKernelNetJsonSerializer()
+    .AddSharedKernelInMemoryQueryBus()
+    .AddSharedKernelRedisEventBus(builder.Configuration)
+    .AddSharedKernelRedisDistributedCache(builder.Configuration)
+    .AddSharedKernelRedisMutex(builder.Configuration)
+    .AddBankAccounts(builder.Configuration, "BankAccountConnection")
+    .AddSharedKernelOpenApi(builder.Configuration)
+    .AddSharedKernelSwaggerGenNewtonsoftSupport()
+    .AddSharedKernelAuth(builder.Configuration)
+    .AddSharedKernelApi(corsPolicy, builder.Configuration.GetSection("Origins").Get<string[]>());
 
-        try
-        {
-            await CreateHostBuilder(args).Build().RunAsync();
-            return 0;
-        }
-        catch (Exception ex)
-        {
-            Log.Logger.Error(ex.Message);
-            return 1;
-        }
-    }
+var app = builder.Build();
 
-    /// <summary> CreateHostBuilder. </summary>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            //.UseSerilog((hostingContext, loggerConfiguration) =>
-            //    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration))
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-}
+app
+    .UseSharedKernelCurrentCulture("en-US", "es-ES", "en", "es")
+    .UseSharedKernelServicesPage(builder.Services)
+    .UseSharedKernelExceptionHandler("BankAccounts",
+        exceptionHandler =>
+            $"An error has occurred, check with the administrator ({exceptionHandler.Error.Message})",
+        debug => Console.WriteLine(debug.Error))
+    .UseCors(corsPolicy)
+    .UseRouting()
+    .UseResponseCaching()
+    .UseSharedKernelOpenApi()
+    .UseAuthentication()
+    .UseAuthorization()
+    .UseEndpoints(endpoints =>
+    {
+        endpoints.MapEndpoints();
+        endpoints.MapHealthChecks("/health", new HealthCheckOptions
+        {
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+        });
+    });
+
+await app.RunAsync();
+
+public partial class Program;

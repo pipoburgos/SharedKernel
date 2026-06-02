@@ -21,12 +21,12 @@ public class CreateBankAccountEndpointTesting
     [Fact]
     public async Task CreateBankAccountOk()
     {
-        var client = await _bankAccountClientFactory.CreateClientAsync();
+        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var result = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+        var result = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -52,7 +52,7 @@ public class CreateBankAccountEndpointTesting
     [Fact]
     public async Task CreateBankAccountNameMoreThan100TestFailover()
     {
-        var client = await _bankAccountClientFactory.CreateClientAsync();
+        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
@@ -74,28 +74,31 @@ public class CreateBankAccountEndpointTesting
     [Fact]
     public async Task FluentValidationSpanishOnSpanish()
     {
-        var client = await _bankAccountClientFactory.CreateClientAsync("es-ES");
+        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        client.ChangeLanguage("es");
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
-            new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
+            new DateTime(1980, 5, 5), string.Empty, Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         var ex = await response.GetErrorResponse();
-        ex.Should("Name", "'Name' debe ser menor o igual que 100 caracteres. Ingresó 101 caracteres.");
+        ex.Should(nameof(CreateBankAccount.Name), "'Name' debe ser menor o igual que 100 caracteres. Ingresó 101 caracteres.");
+        ex.Should(nameof(CreateBankAccount.Surname), "'Surname' debe ser mayor o igual que 1 caracteres. Ingresó 0 caracteres.");
     }
 
     [Fact]
     public async Task InvalidSupportedCultures()
     {
-        var client = await _bankAccountClientFactory.CreateClientAsync("zh");
+        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        client.ChangeLanguage("zh");
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "abcde",
             new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -106,13 +109,13 @@ public class CreateBankAccountEndpointTesting
     [Fact]
     public async Task CreateBankAccountLessThan18YearsOld()
     {
-        var client = await _bankAccountClientFactory.CreateClientAsync();
+        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "abc",
             new DateTime(2300, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         var ex = await response.GetErrorResponse();
         ex.Should("Owner", "At Least 18 Years Old");

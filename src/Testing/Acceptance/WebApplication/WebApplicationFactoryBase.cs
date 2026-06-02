@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using File = System.IO.File;
-using Path = System.IO.Path;
 
 namespace SharedKernel.Testing.Acceptance.WebApplication;
 
@@ -27,11 +26,11 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
     {
         if (_dataBase != default)
         {
-            await _dataBase.DisposeAsync();
+            await _dataBase.DisposeAsync().ConfigureAwait(false);
             _dataBase = null;
         }
 
-        await base.DisposeAsync();
+        await base.DisposeAsync().ConfigureAwait(false);
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -42,10 +41,10 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
 
         builder
             .UseEnvironment(Environment)
-            .ConfigureAppConfiguration((_, conf) =>
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .ConfigureAppConfiguration((context, config) =>
             {
-                conf.AddJsonFile("appsettings.json");
-                conf.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), ficheroConfiguracion), false);
+                config.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true);
             })
             .ConfigureServices(ConfigureServices)
             // En medio se ejecutan los servicios de la app
@@ -97,32 +96,32 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
     }
 
-    public virtual async Task<HttpClient> CreateClientAsync(string? language = "en-US")
+    public virtual async Task<HttpClient> CreateClientAsync(CancellationToken cancellationToken)
     {
         if (_firstTime)
         {
-            await RegenerateDatabase(CancellationToken.None);
+            await RegenerateDatabaseAsync(cancellationToken).ConfigureAwait(false);
             _firstTime = false;
         }
 
         if (_dataBase != default)
-            await _dataBase.DisposeAsync();
+            await _dataBase.DisposeAsync().ConfigureAwait(false);
 
         _dataBase = new DatabaseManager(GetNewDbContext());
 
         var client = CreateClient();
-        client.Timeout = TimeSpan.FromMinutes(2);
-        client.DefaultRequestHeaders.Add("Accept-Language", language ?? Culture);
+        client.Timeout = TimeSpan.FromMinutes(20);
+        client.DefaultRequestHeaders.Add("Accept-Language", Culture);
         return client;
     }
 
-    protected virtual async Task RegenerateDatabase(CancellationToken cancellationToken)
+    protected virtual async Task RegenerateDatabaseAsync(CancellationToken cancellationToken)
     {
         var unitOfWork = GetNewDbContext();
         if (DeleteDatabase)
-            await unitOfWork.Database.EnsureDeletedAsync(cancellationToken);
+            await unitOfWork.Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
         unitOfWork.Database.SetCommandTimeout(300);
-        await unitOfWork.Database.MigrateAsync(cancellationToken);
+        await unitOfWork.Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public DatabaseManager? Database() => _dataBase;

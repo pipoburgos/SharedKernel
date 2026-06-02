@@ -40,7 +40,7 @@ public static class AddFromMatchingInterfaceExtensions
 
         assemblies
             .SelectMany(a => a.GetTypes())
-            .Where(t => t.IsClass && !t.IsAbstract && typeof(TInterface).IsAssignableFrom(t))
+            .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && typeof(TInterface).IsAssignableFrom(t))
             .ToList()
             .ForEach(type => services.Add(new ServiceDescriptor(typeof(TInterface), type, serviceLifetime)));
 
