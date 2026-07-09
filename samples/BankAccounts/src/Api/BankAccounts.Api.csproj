@@ -14,14 +14,10 @@
     <!--<OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>-->
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.*">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>-->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

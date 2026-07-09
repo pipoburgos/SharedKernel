@@ -28,7 +28,6 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration);
 });
 
-
 builder.Services
     .AddAuthorization(options =>
     {
@@ -37,7 +36,7 @@ builder.Services
             .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
             .Build();
     })
-    .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly)
+    .AddSharedKernelMicrosoftOpenApi(2, ["v1", "v2"])
     .AddSharedKernelInMemoryCommandBus()
     .AddSharedKernelRedisCommandBusAsync(builder.Configuration)
     .AddSharedKernelNewtonsoftSerializer()
@@ -47,7 +46,8 @@ builder.Services
     .AddSharedKernelRedisDistributedCache(builder.Configuration)
     .AddSharedKernelRedisMutex(builder.Configuration)
     .AddBankAccounts(builder.Configuration, "BankAccountConnection")
-    .AddSharedKernelOpenApi(builder.Configuration)
+    .AddSharedKernelSwashbuckle(builder.Configuration)
+    .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly)
     .AddSharedKernelSwaggerGenNewtonsoftSupport()
     .AddSharedKernelAuth(builder.Configuration)
     .AddSharedKernelApi(corsPolicy, builder.Configuration.GetSection("Origins").Get<string[]>());
@@ -64,7 +64,13 @@ app
     .UseCors(corsPolicy)
     .UseRouting()
     .UseResponseCaching()
-    .UseSharedKernelOpenApi()
+    .UseSharedKernelSwashbuckle(c =>
+    {
+        c.SwaggerEndpoint("swagger/v1.json", "Swashbuckle v1");
+        c.SwaggerEndpoint("swagger/v2.json", "Swashbuckle v2");
+        c.SwaggerEndpoint("openapi/v1.json", "Openapi v1");
+        c.SwaggerEndpoint("openapi/v2.json", "Openapi v2");
+    })
     .UseAuthentication()
     .UseAuthorization()
     .UseEndpoints(endpoints =>

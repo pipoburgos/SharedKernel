@@ -26,7 +26,7 @@ public class CreateBankAccountEndpointTesting
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var result = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
+        var result = await client.PostAsJsonAsync($"api/v1/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -58,7 +58,7 @@ public class CreateBankAccountEndpointTesting
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
             new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body);
+        var response = await client.PostAsJsonAsync($"api/v1/bankAccounts/{bankAccountId}", body);
 
         var ex = await response.GetErrorResponse();
         ex.Should("Name", "The length of 'Name' must be 100 characters or fewer. You entered 101 characters.");
@@ -81,7 +81,7 @@ public class CreateBankAccountEndpointTesting
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
             new DateTime(1980, 5, 5), string.Empty, Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
+        var response = await client.PostAsJsonAsync($"api/v1/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         var ex = await response.GetErrorResponse();
         ex.Should(nameof(CreateBankAccount.Name), "'Name' debe ser menor o igual que 100 caracteres. Ingresó 101 caracteres.");
@@ -98,7 +98,7 @@ public class CreateBankAccountEndpointTesting
         var body = new CreateBankAccount(Guid.NewGuid(), "abcde",
             new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
+        var response = await client.PostAsJsonAsync($"api/v1/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -115,7 +115,7 @@ public class CreateBankAccountEndpointTesting
         var body = new CreateBankAccount(Guid.NewGuid(), "abc",
             new DateTime(2300, 5, 5), "Fernández", Guid.NewGuid(), 250);
 
-        var response = await client.PostAsJsonAsync($"api/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
+        var response = await client.PostAsJsonAsync($"api/v1/bankAccounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
         var ex = await response.GetErrorResponse();
         ex.Should("Owner", "At Least 18 Years Old");

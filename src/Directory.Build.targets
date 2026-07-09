@@ -5,15 +5,15 @@
 	<PackageReference Include="Meziantou.Analyzer" Version="3.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="10.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.*" PrivateAssets="all" />
-	<PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.*" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.DotNet.ApiCompat.Task" Version="10.*" PrivateAssets="all" />
-	<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.*" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.*" PrivateAssets="all" />
 	<PackageReference Include="NetFabric.Hyperlinq.Analyzer" Version="2.*" PrivateAssets="all" />
 	<PackageReference Include="Nullable.Extended.Analyzer" Version="1.*" PrivateAssets="all" />
 	<PackageReference Include="Roslynator.Analyzers" Version="4.*" PrivateAssets="all" />
 	<PackageReference Include="SerilogAnalyzer" Version="0.15.*" PrivateAssets="all" />
-	<PackageReference Include="SonarAnalyzer.CSharp" Version="10.27.0.*" PrivateAssets="all" />
+	<PackageReference Include="SonarAnalyzer.CSharp" Version="10.28.0.*" PrivateAssets="all" />
 	<PackageReference Include="StyleCop.Analyzers" Version="1.2.*-*" PrivateAssets="all" />
   </ItemGroup>
 </Project>

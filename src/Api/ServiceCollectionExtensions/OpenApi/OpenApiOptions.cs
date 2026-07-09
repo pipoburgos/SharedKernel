@@ -15,11 +15,10 @@ public class OpenApiOptions
     /// <summary> TokenEndpoint. </summary>
     public string? TokenEndpoint { get; set; } = "connect/token";
 
-    /// <summary> De Url of swagger.json. </summary>
-    public string? Url { get; set; }
-
-    /// <summary> De Url of api. </summary>
-    public string? UrlApi { get; set; }
+    /// <summary>
+    /// An array of Server Objects, which provide connectivity information to a target server.
+    /// </summary>
+    public IEnumerable<string> ServersUrls { get; set; } = [];
 
     /// <summary> Default "swagger/{documentName}/swagger.json". </summary>
     public string? RouteTemplate { get; set; } = "swagger/{documentName}/swagger.json";
@@ -34,5 +33,5 @@ public class OpenApiOptions
     public string? Authority { get; set; }
 
     /// <summary> Documentation files names. </summary>
-    public IEnumerable<string> XmlDocumentationFiles { get; set; } = new List<string>();
+    public IEnumerable<string> XmlDocumentationFiles { get; set; } = [];
 }

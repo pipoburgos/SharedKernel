@@ -56,6 +56,10 @@ internal class RedisCommandsConsumer : BackgroundService
             {
                 logger.LogError(e, e.Message);
             }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+            }
         }
     }
 }

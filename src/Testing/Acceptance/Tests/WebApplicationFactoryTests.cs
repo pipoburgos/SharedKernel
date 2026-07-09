@@ -62,7 +62,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     {
         var client = await _factory.CreateClientAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
 
-        var response = await client.GetAsync("swagger/v1/swagger.json", TestContext.Current.CancellationToken).ConfigureAwait(false);
+        var response = await client.GetAsync("swagger/v1.json", TestContext.Current.CancellationToken).ConfigureAwait(false);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }

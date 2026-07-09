@@ -9,11 +9,19 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Asp.Versioning.Http" Version="8.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <!--<PackageReference Include="Asp.Versioning.Mvc" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />-->
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.*" />
+    <!--<PackageReference Include="Microsoft.OpenApi" Version="3.8.0" />-->
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.*" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.*" />

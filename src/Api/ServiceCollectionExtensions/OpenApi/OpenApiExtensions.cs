@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -7,6 +9,7 @@ using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
 using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
+using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -15,8 +18,56 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 /// <summary> Swagger configuration. </summary>
 public static class OpenApiExtensions
 {
+    /// <summary> . </summary>
+    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services,
+        int defaultVersion = 1, string[]? versions = null)
+    {
+        versions ??= ["v1"];
+
+        foreach (var version in versions)
+        {
+            services.AddOpenApi(version, o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1);
+        }
+
+        services
+            .AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(defaultVersion, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+        return services;
+    }
+
+    private sealed class ConfigureSwaggerOptions(
+        IApiVersionDescriptionProvider provider,
+        IOptions<OpenApiOptions> openApiOptions)
+        : IConfigureOptions<SwaggerGenOptions>
+    {
+        public void Configure(SwaggerGenOptions options)
+        {
+            foreach (var description in provider.ApiVersionDescriptions)
+            {
+                var version = $"v{description.ApiVersion.MajorVersion}";
+
+                options.SwaggerDoc(version, new OpenApiInfo
+                {
+                    Title = $"{openApiOptions.Value.Title} {version}",
+                    Version = version,
+                });
+            }
+        }
+    }
+
     /// <summary> Services configuration. </summary>
-    public static IServiceCollection AddSharedKernelOpenApi(this IServiceCollection services, IConfiguration configuration, Action<SwaggerGenOptions>? setupAction = null)
+    public static IServiceCollection AddSharedKernelSwashbuckle(this IServiceCollection services, IConfiguration configuration, Action<SwaggerGenOptions>? setupAction = null)
     {
         var openApiOptions = new OpenApiOptions();
         configuration.GetSection(nameof(OpenApiOptions)).Bind(openApiOptions);
@@ -25,10 +76,8 @@ public static class OpenApiExtensions
         var openIdOptions = new OpenIdOptions();
         configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
 
-        return services.AddSwaggerGen(swaggerGenOptions =>
+        services.AddSwaggerGen(swaggerGenOptions =>
         {
-            swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = openApiOptions.Title, Version = "v1" });
-
             swaggerGenOptions.OrderActionsBy(a =>
             {
                 // Sort actions in tags (controllers)
@@ -95,57 +144,45 @@ public static class OpenApiExtensions
 
             setupAction?.Invoke(swaggerGenOptions);
         });
+
+        return services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
     }
 
     /// <summary> Configure Open Api UI. </summary>
-    public static IApplicationBuilder UseSharedKernelOpenApi(this IApplicationBuilder app)
+    public static IApplicationBuilder UseSharedKernelSwashbuckle(this IApplicationBuilder app,
+        Action<SwaggerUIOptions>? setupActionUi = null, Action<SwaggerOptions>? setupAction = null)
     {
-        var options = app.ApplicationServices.GetService<IOptions<OpenApiOptions>>();
-        if (options?.Value == default)
-            throw new ArgumentNullException(nameof(options));
-
+        var openApiOptions = app.ApplicationServices.GetRequiredService<IOptions<OpenApiOptions>>().Value;
         var openIdOptions = app.ApplicationServices.GetService<IOptions<OpenIdOptions>>();
 
         app.UseSwagger(c =>
         {
-            var url = options.Value.UrlApi;
-            if (string.IsNullOrWhiteSpace(url))
-                return;
+            c.RouteTemplate = "swagger/{documentName}.json";
 
-            c.RouteTemplate = options.Value.RouteTemplate;
+            setupAction?.Invoke(c);
+
             c.PreSerializeFilters.Add((swaggerDoc, _) =>
-            {
-                swaggerDoc.Servers = new List<OpenApiServer> { new() { Url = url } };
-            });
+                swaggerDoc.Servers = openApiOptions.ServersUrls.Select(url => new OpenApiServer { Url = url }).ToList());
         });
 
         app.UseSwaggerUI(c =>
         {
-            var authority = options.Value.Authority ?? openIdOptions?.Value.Authority;
-
-            var url = options.Value.Url;
-            if (string.IsNullOrWhiteSpace(url))
-                url = string.IsNullOrWhiteSpace(authority) ? "v1/swagger.json" : "swagger/v1/swagger.json";
-
-            c.SwaggerEndpoint(url, options.Value.Name ?? "Open API v1");
-
-            if (options.Value.Collapsed)
+            if (openApiOptions.Collapsed)
                 c.DocExpansion(DocExpansion.None);
 
-            //if (string.IsNullOrWhiteSpace(authority))
-            //    return;
+            setupActionUi?.Invoke(c);
 
             c.RoutePrefix = string.Empty;
-            c.OAuthAppName(options.Value.AppName ?? "Open API specification");
+            c.OAuthAppName(openApiOptions.AppName ?? "Open API specification");
             c.OAuthScopeSeparator(" ");
             c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
 
-            if (openIdOptions?.Value.ClientId != default!)
-            {
-                c.OAuthClientId(openIdOptions.Value.ClientId);
-                if (openIdOptions.Value.ClientSecret != default!)
-                    c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
-            }
+            if (openIdOptions?.Value.ClientId == default!)
+                return;
+
+            c.OAuthClientId(openIdOptions.Value.ClientId);
+            if (openIdOptions.Value.ClientSecret != default!)
+                c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
         });
 
         return app;
