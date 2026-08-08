@@ -49,4 +49,24 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Meziantou.Analyzer" Version="3.0.140" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.AspNetCore.Components.Analyzers" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.302" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.DotNet.ApiCompat.Task" Version="10.0.302" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.31.0.145097" />
+  </ItemGroup>
+
 </Project>

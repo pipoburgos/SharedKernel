@@ -13,7 +13,7 @@
 	<PackageReference Include="Nullable.Extended.Analyzer" Version="1.*" PrivateAssets="all" />
 	<PackageReference Include="Roslynator.Analyzers" Version="4.*" PrivateAssets="all" />
 	<PackageReference Include="SerilogAnalyzer" Version="0.15.*" PrivateAssets="all" />
-	<PackageReference Include="SonarAnalyzer.CSharp" Version="10.28.0.*" PrivateAssets="all" />
+	<PackageReference Include="SonarAnalyzer.CSharp" Version="10.31.0.*" PrivateAssets="all" />
 	<PackageReference Include="StyleCop.Analyzers" Version="1.2.*-*" PrivateAssets="all" />
   </ItemGroup>
 </Project>

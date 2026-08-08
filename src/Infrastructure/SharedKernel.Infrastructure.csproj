@@ -17,15 +17,15 @@
     <PackageReference Include="AspNetCore.HealthChecks.Network" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
-    <PackageReference Include="System.CodeDom" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.10" />
+    <PackageReference Include="System.CodeDom" Version="10.0.10" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.DirectoryServices" Version="10.0.*" />
+    <PackageReference Include="System.DirectoryServices" Version="10.0.10" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +68,26 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionCodes.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Meziantou.Analyzer" Version="3.0.140" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.AspNetCore.Components.Analyzers" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.302" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.DotNet.ApiCompat.Task" Version="10.0.302" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.31.0.145097" />
   </ItemGroup>
 
 </Project>
