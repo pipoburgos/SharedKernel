@@ -16,7 +16,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/pipoburgos/SharedKernel</RepositoryUrl>
-    <Version>10.0.10.0</Version>
+    <Version>10.0.11.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
