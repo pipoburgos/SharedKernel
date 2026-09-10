@@ -5,6 +5,7 @@
     <Description>C# Testing</Description>
     <PackageId>Pipoburgos.SharedKernel.Testing</PackageId>
     <PackageTags>C# Testing Docker </PackageTags>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
