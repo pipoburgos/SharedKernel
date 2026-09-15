@@ -10,8 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <Compile Remove="System\Threading\AsyncKeyedLock\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <EmbeddedResource Remove="System\Threading\AsyncKeyedLock\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <None Remove="System\Threading\AsyncKeyedLock\**" />
   </ItemGroup>
 
