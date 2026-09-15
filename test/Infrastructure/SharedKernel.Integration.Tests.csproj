@@ -11,8 +11,11 @@
 
   <ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
+    <Compile Remove="System\Threading\Redis\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
+    <EmbeddedResource Remove="System\Threading\Redis\**" />
     <None Remove="Data\Elasticsearch\**" />
+    <None Remove="System\Threading\Redis\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -178,9 +181,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="System\Threading\Redis\appsettings.redis.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="System\Threading\SqlServer\appsettings.sqlServer.json">
