@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Elastic.Clients.Elasticsearch;
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Domain.Tests.Users;
 using SharedKernel.Infrastructure.Elasticsearch.Data;
@@ -14,9 +15,36 @@ public class ElasticsearchUserRepositoryTests : UserRepositoryCommonTestTests<El
 {
     public override void BeforeStart()
     {
+        WaitForElasticsearch();
         var db = GetRequiredService<SharedKernelElasticsearchDbContext>();
-
         db.DeleteIndexAsync<User>(CancellationToken.None).GetAwaiter().GetResult();
+    }
+
+    private void WaitForElasticsearch()
+    {
+        var client = GetRequiredService<ElasticsearchClient>();
+        var timeout = TimeSpan.FromMinutes(2);
+        var start = DateTime.UtcNow;
+
+        while (DateTime.UtcNow - start < timeout)
+        {
+            try
+            {
+                var response = client.Cluster.Health();
+
+                if (response.IsValidResponse)
+                    return;
+            }
+            catch (Exception)
+            {
+                // Elasticsearch todavía no está disponible.
+            }
+
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
+
+        throw new TimeoutException(
+            "Elasticsearch no estuvo disponible dentro del tiempo esperado.");
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)

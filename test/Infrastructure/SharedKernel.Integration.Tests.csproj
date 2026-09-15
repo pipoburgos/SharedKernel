@@ -10,19 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <Compile Remove="System\Threading\AsyncKeyedLock\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <EmbeddedResource Remove="System\Threading\AsyncKeyedLock\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
-    <None Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <None Remove="System\Threading\AsyncKeyedLock\**" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Compile Remove="Communication\Email\Smtp\MailKitSmtpEmailSenderTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlBankAccountRepositoryTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlUserRepositoryTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlUserUnitOfWorkTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerBankAccountRepositoryTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerUserRepositoryTests.cs" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerUserUnitOfWorkTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
