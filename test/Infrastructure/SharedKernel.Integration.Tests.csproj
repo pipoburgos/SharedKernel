@@ -11,10 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="Data\Elasticsearch\**" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <Compile Remove="System\Threading\Redis\**" />
     <EmbeddedResource Remove="Data\Elasticsearch\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <EmbeddedResource Remove="System\Threading\Redis\**" />
     <None Remove="Data\Elasticsearch\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\SqlServer\**" />
     <None Remove="System\Threading\Redis\**" />
   </ItemGroup>
 
@@ -118,9 +121,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\FileSystem\appsettings.fileSystem.json">
