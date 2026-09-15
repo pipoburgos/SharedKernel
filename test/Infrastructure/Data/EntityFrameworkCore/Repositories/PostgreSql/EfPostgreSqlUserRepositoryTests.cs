@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.Data;
 using SharedKernel.Integration.Tests.Data.CommonRepositoryTesting;
 using SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
@@ -12,6 +14,23 @@ public class EfPostgreSqlUserRepositoryTests : UserRepositoryCommonTestTests<EfP
     protected override string GetJsonFile()
     {
         return "Data/EntityFrameworkCore/Repositories/PostgreSql/appsettings.postgreSql.json";
+    }
+
+    public override void BeforeStart()
+    {
+        var dbContext = GetRequiredServiceOnNewScope<PostgreSqlSharedKernelDbContext>();
+        if (!dbContext.Database.CanConnect())
+        {
+            try
+            {
+                dbContext.Database.EnsureDeleted();
+            }
+            catch (PostgresException ex) when (ex.SqlState == "3D000")
+            {
+            }
+            dbContext.Database.EnsureCreated();
+            dbContext.Database.Migrate();
+        }
     }
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)

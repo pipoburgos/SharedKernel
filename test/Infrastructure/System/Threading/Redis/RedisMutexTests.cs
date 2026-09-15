@@ -3,7 +3,7 @@
 
 public class RedisMutexTests : CommonMutexTests<RedisApp>
 {
-    public RedisMutexTests(RedisApp app1Mutex, RedisApp app2Mutex) : base(app1Mutex, app2Mutex)
+    public RedisMutexTests(TwoAppFixture<RedisApp> fixture) : base(fixture)
     {
     }
 }

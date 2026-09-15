@@ -24,7 +24,7 @@ public class SqlServerApp : InfrastructureTestCase<FakeStartup>
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
+        var connection = Configuration.GetConnectionString("RepositoryConnectionStringMutex")!;
 
         return services
             .AddSharedKernelEntityFrameworkCoreSqlServerUnitOfWork<ISharedKernelEntityFrameworkUnitOfWork, SharedKernelEntityFrameworkDbContext>(connection)

@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="System\Threading\AsyncKeyedLock\**" />
+    <EmbeddedResource Remove="System\Threading\AsyncKeyedLock\**" />
+    <None Remove="System\Threading\AsyncKeyedLock\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Communication\Email\Smtp\MailKitSmtpEmailSenderTests.cs" />
   </ItemGroup>
 

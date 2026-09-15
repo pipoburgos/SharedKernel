@@ -25,7 +25,7 @@ public class PostgreSqlApp : InfrastructureTestCase<FakeStartup>
 
     protected override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        var connection = Configuration.GetConnectionString("RepositoryConnectionString")!;
+        var connection = Configuration.GetConnectionString("RepositoryConnectionStringMutex")!;
 
         return services
             .AddSharedKernelEntityFrameworkCorePostgreSqlUnitOfWork<IPostgreSqlSharedKernelUnitOfWork, PostgreSqlSharedKernelDbContext>(connection)

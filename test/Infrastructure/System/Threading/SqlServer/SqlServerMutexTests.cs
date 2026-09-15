@@ -3,7 +3,7 @@
 
 public class SqlServerMutexTests : CommonMutexTests<SqlServerApp>
 {
-    public SqlServerMutexTests(SqlServerApp app1Mutex, SqlServerApp app2Mutex) : base(app1Mutex, app2Mutex)
+    public SqlServerMutexTests(TwoAppFixture<SqlServerApp> fixture) : base(fixture)
     {
     }
 }

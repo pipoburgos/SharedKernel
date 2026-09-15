@@ -2,7 +2,7 @@
 
 public class AsyncKeyedLockMutexTests : CommonMutexTests<AsyncKeyedLockApp>
 {
-    public AsyncKeyedLockMutexTests(AsyncKeyedLockApp app1Mutex) : base(app1Mutex, app1Mutex)
+    public AsyncKeyedLockMutexTests(TwoAppFixture<AsyncKeyedLockApp> fixture) : base(fixture)
     {
     }
 }
