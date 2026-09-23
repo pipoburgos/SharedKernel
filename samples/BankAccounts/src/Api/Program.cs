@@ -36,7 +36,8 @@ builder.Services
             .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
             .Build();
     })
-    .AddSharedKernelMicrosoftOpenApi(2, ["v1", "v2"])
+    .AddSharedKernelApiVersioning()
+    .AddSharedKernelMicrosoftOpenApi(["v1", "v2"])
     .AddSharedKernelInMemoryCommandBus()
     .AddSharedKernelRedisCommandBusAsync(builder.Configuration)
     .AddSharedKernelNewtonsoftSerializer()

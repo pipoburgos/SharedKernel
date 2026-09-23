@@ -4,17 +4,11 @@ using BankAccounts.Domain;
 using BankAccounts.Infrastructure;
 using SharedKernel.Testing.Architecture;
 using System.Reflection;
-using TestResult = NetArchTest.Rules.TestResult;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
 
 public class ApiArchitectureTests : SharedKernel.Testing.Architecture.ApiArchitectureTests
 {
-    protected override void Assert(TestResult? testResult)
-    {
-        testResult?.IsSuccessful.Should().BeTrue();
-    }
-
     protected override Assembly GetApiAssembly()
     {
         return typeof(BankAccountsApiAssembly).Assembly;
@@ -23,7 +17,7 @@ public class ApiArchitectureTests : SharedKernel.Testing.Architecture.ApiArchite
     [Fact]
     public void TestCqrs()
     {
-        new List<Assembly>
+        Assert(new List<Assembly>
         {
             typeof(BankAccountsDomainAssembly).Assembly,
             typeof(BankAccountsApplicationAssembly).Assembly,
@@ -33,6 +27,6 @@ public class ApiArchitectureTests : SharedKernel.Testing.Architecture.ApiArchite
         }.TestCqrsArquitecture([
             CheckFile.Handler,
             CheckFile.Endpoint,
-        ]);//, true);
+        ]));//, true);
     }
 }

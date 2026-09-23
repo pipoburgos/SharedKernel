@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Prometheus;
 using SharedKernel.Application.System;
 using SharedKernel.Infrastructure.System;
+using Asp.Versioning;
+
 #if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
@@ -51,6 +53,27 @@ public static class SharedKernelApiExtensions
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
+    }
+
+    /// <summary> . </summary>
+    public static IServiceCollection AddSharedKernelApiVersioning(this IServiceCollection services,
+        int defaultVersion = 1)
+    {
+        services
+            .AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(defaultVersion, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+        return services;
     }
 
     /// <summary>

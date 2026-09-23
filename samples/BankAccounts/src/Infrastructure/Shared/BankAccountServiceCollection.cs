@@ -48,6 +48,7 @@ public static class BankAccountServiceCollection
             .AddSharedKernelDomainEventsSubscribers(typeof(BankAccountsApplicationAssembly), typeof(BankAccountsDomainAssembly))
             .AddSharedKernelCommandsHandlers(typeof(BankAccountsApplicationAssembly))
             .AddSharedKernelQueriesHandlers(typeof(BankAccountsInfrastructureAssembly))
+            .AddSharedKernelFluentValidation(typeof(PageOptionsValidator))
             .AddSharedKernelFluentValidation(typeof(BankAccountsInfrastructureAssembly));
     }
 

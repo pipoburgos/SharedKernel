@@ -17,7 +17,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
             .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -39,6 +39,6 @@ public abstract class InfrastructureArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 }

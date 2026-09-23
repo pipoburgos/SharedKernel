@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Validator;
-using SharedKernel.Domain;
 using System.Reflection;
 
 namespace SharedKernel.Infrastructure.FluentValidation;
@@ -24,7 +23,7 @@ public static class ServiceCollectionExtensions
 
         return services
             .AddTransient(typeof(IClassValidator<>), typeof(FluentValidator<>))
-            .AddValidatorsFromAssembly(typeof(SharedKernelDomainAssembly).Assembly, serviceLifetime,
+            .AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly, serviceLifetime,
                 includeInternalTypes: true)
             .AddValidatorsFromAssembly(assembly, serviceLifetime, includeInternalTypes: true);
     }

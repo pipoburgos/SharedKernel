@@ -27,7 +27,7 @@ public abstract class ArchitectureTests
 
     protected virtual bool CheckQueryValidators => false;
 
-    protected virtual void Assert(List<string>? failingTypeNames)
+    protected virtual void Assert(IReadOnlyList<string>? failingTypeNames)
     {
         failingTypeNames.Should().BeNullOrEmpty();
     }

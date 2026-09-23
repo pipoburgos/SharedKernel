@@ -28,7 +28,7 @@ public abstract class DomainArchitectureTests : BaseArchitectureTest
             .GetResult();
 
         // Assert
-        Assert(result);
+        Assert(result?.FailingTypeNames);
     }
 
     [Fact]

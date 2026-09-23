@@ -8,12 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Tasks.Git" Version="10.0.401">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="NPOI" Version="2.8.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.*" />
+    <PackageReference Include="NPOI" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup>

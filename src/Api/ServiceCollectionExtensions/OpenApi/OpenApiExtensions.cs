@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using Asp.Versioning.ApiExplorer;
+﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +18,7 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 public static class OpenApiExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services,
-        int defaultVersion = 1, string[]? versions = null)
+    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services, string[]? versions = null)
     {
         versions ??= ["v1"];
 
@@ -29,42 +27,10 @@ public static class OpenApiExtensions
             services.AddOpenApi(version, o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1);
         }
 
-        services
-            .AddApiVersioning(options =>
-            {
-                options.DefaultApiVersion = new ApiVersion(defaultVersion, 0);
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            })
-            .AddApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'V";
-                options.SubstituteApiVersionInUrl = true;
-            });
-
         return services;
     }
 
-    private sealed class ConfigureSwaggerOptions(
-        IApiVersionDescriptionProvider provider,
-        IOptions<OpenApiOptions> openApiOptions)
-        : IConfigureOptions<SwaggerGenOptions>
-    {
-        public void Configure(SwaggerGenOptions options)
-        {
-            foreach (var description in provider.ApiVersionDescriptions)
-            {
-                var version = $"v{description.ApiVersion.MajorVersion}";
 
-                options.SwaggerDoc(version, new OpenApiInfo
-                {
-                    Title = $"{openApiOptions.Value.Title} {version}",
-                    Version = version,
-                });
-            }
-        }
-    }
 
     /// <summary> Services configuration. </summary>
     public static IServiceCollection AddSharedKernelSwashbuckle(this IServiceCollection services, IConfiguration configuration, Action<SwaggerGenOptions>? setupAction = null)
@@ -146,6 +112,39 @@ public static class OpenApiExtensions
         });
 
         return services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+    }
+
+    private sealed class ConfigureSwaggerOptions(
+        IServiceProvider serviceProvider,
+        IOptions<OpenApiOptions> openApiOptions)
+        : IConfigureOptions<SwaggerGenOptions>
+    {
+        public void Configure(SwaggerGenOptions options)
+        {
+            var provider = serviceProvider.GetService<IApiVersionDescriptionProvider>();
+
+            if (provider is null)
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = openApiOptions.Value.Title,
+                    Version = "v1",
+                });
+
+                return;
+            }
+
+            foreach (var description in provider.ApiVersionDescriptions)
+            {
+                var version = $"v{description.ApiVersion.MajorVersion}";
+
+                options.SwaggerDoc(version, new OpenApiInfo
+                {
+                    Title = $"{openApiOptions.Value.Title} {version}",
+                    Version = version,
+                });
+            }
+        }
     }
 
     /// <summary> Configure Open Api UI. </summary>

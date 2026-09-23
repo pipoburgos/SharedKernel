@@ -9,11 +9,11 @@ using SharedKernel.Testing.Acceptance.Extensions;
 namespace BankAccounts.Acceptance.Tests.BankAccounts;
 
 [Collection("Factory")]
-public class CreateBankAccountEndpointTesting
+public class CreateBankAccountEndpointTests
 {
     private readonly BankAccountClientFactory _bankAccountClientFactory;
 
-    public CreateBankAccountEndpointTesting(BankAccountClientFactory bankAccountClientFactory)
+    public CreateBankAccountEndpointTests(BankAccountClientFactory bankAccountClientFactory)
     {
         _bankAccountClientFactory = bankAccountClientFactory;
     }

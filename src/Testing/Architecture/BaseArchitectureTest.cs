@@ -1,8 +1,9 @@
-﻿using TestResult = NetArchTest.Rules.TestResult;
+﻿namespace SharedKernel.Testing.Architecture;
 
-namespace SharedKernel.Testing.Architecture;
-
-public abstract class BaseArchitectureTest
+public class BaseArchitectureTest
 {
-    protected abstract void Assert(TestResult? testResult);
+    protected virtual void Assert(IReadOnlyList<string>? failingTypeNames)
+    {
+        failingTypeNames?.Should().BeEmpty();
+    }
 }

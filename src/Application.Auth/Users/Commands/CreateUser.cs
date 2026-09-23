@@ -7,13 +7,12 @@ namespace SharedKernel.Application.Auth.Users.Commands;
 public sealed class CreateUser : ICommandRequest
 {
     /// <summary> . </summary>
-    public CreateUser(Guid id, string userName, string email, bool emailConfirmed, string password,
+    public CreateUser(Guid id, string userName, string email, string password,
         string passwordConfirmation, IEnumerable<Claim> claims, IEnumerable<string> roles)
     {
         Id = id;
         UserName = userName;
         Email = email;
-        EmailConfirmed = emailConfirmed;
         Password = password;
         PasswordConfirmation = passwordConfirmation;
         Claims = claims;
@@ -28,9 +27,6 @@ public sealed class CreateUser : ICommandRequest
 
     /// <summary> . </summary>
     public string Email { get; }
-
-    /// <summary> . </summary>
-    public bool EmailConfirmed { get; }
 
     /// <summary> . </summary>
     public string Password { get; }

@@ -23,7 +23,7 @@ public abstract class ApiArchitectureTests : BaseArchitectureTest
             .GetResult();
 
         // Assert
-        Assert(result);
+        base.Assert(result?.FailingTypeNames);
     }
 
     [Fact]
@@ -34,6 +34,6 @@ public abstract class ApiArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEndpoint), "Endpoint");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 }

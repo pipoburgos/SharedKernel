@@ -19,7 +19,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealed(typeof(IQueryRequest<>));
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealed(typeof(ICommandRequest));
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealed(typeof(ICommandRequest<>));
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 
     [Fact]
@@ -74,6 +74,6 @@ public abstract class ApplicationArchitectureTests : BaseArchitectureTest
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler");
 
         // Assert
-        Assert(result);
+        Assert(result.FailingTypeNames);
     }
 }
