@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Application.Cqrs.Queries;
 
-namespace BankAccounts.Api.BankAccounts;
+namespace BankAccounts.Api.BankAccounts.Queries;
 
 internal sealed class GetBankAccountsEndpoint : IEndpoint
 {

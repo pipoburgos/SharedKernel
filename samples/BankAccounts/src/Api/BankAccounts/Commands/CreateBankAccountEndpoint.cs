@@ -3,7 +3,7 @@ using BankAccounts.Application.BankAccounts.Commands;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Application.Cqrs.Commands;
 
-namespace BankAccounts.Api.BankAccounts;
+namespace BankAccounts.Api.BankAccounts.Commands;
 
 internal sealed class CreateBankAccountEndpoint : IEndpoint
 {

@@ -29,7 +29,7 @@ public abstract class ArchitectureTests
 
     protected virtual void Assert(IReadOnlyList<string>? failingTypeNames)
     {
-        failingTypeNames.Should().BeNullOrEmpty();
+        failingTypeNames?.Should().HaveCount(0);
     }
 
     [Fact]
@@ -164,6 +164,19 @@ public abstract class ArchitectureTests
             .FailingTypes
             ?.Select(x => x.Name)
             .ToList());
+    }
+
+    [Fact]
+    public void TestCqrsTypesShouldBeInSameNamespace()
+    {
+        Assert(new List<Assembly>
+        {
+            GetApplicationAssembly(),
+            GetInfrastructureAssembly(),
+            GetApiAssembly(),
+            GetUseCasesTestsAssembly(),
+            GetAcceptanceTestsAssembly(),
+        }.TestCqrsTypesShouldBeInSameNamespace());
     }
 
     [Fact]

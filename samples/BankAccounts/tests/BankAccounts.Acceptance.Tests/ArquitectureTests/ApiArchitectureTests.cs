@@ -1,8 +1,4 @@
 ﻿using BankAccounts.Api;
-using BankAccounts.Application;
-using BankAccounts.Domain;
-using BankAccounts.Infrastructure;
-using SharedKernel.Testing.Architecture;
 using System.Reflection;
 
 namespace BankAccounts.Acceptance.Tests.ArquitectureTests;
@@ -14,19 +10,5 @@ public class ApiArchitectureTests : SharedKernel.Testing.Architecture.ApiArchite
         return typeof(BankAccountsApiAssembly).Assembly;
     }
 
-    [Fact]
-    public void TestCqrs()
-    {
-        Assert(new List<Assembly>
-        {
-            typeof(BankAccountsDomainAssembly).Assembly,
-            typeof(BankAccountsApplicationAssembly).Assembly,
-            typeof(BankAccountsInfrastructureAssembly).Assembly,
-            typeof(BankAccountsApiAssembly).Assembly,
-            typeof(ApiArchitectureTests).Assembly,
-        }.TestCqrsArquitecture([
-            CheckFile.Handler,
-            CheckFile.Endpoint,
-        ]));//, true);
-    }
+
 }

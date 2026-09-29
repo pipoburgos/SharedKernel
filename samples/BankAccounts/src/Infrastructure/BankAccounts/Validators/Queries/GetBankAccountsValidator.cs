@@ -1,7 +1,7 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
 using SharedKernel.Infrastructure.FluentValidation;
 
-namespace BankAccounts.Infrastructure.BankAccounts.Queries.Validators;
+namespace BankAccounts.Infrastructure.BankAccounts.Validators.Queries;
 
 internal sealed class GetBankAccountsValidator : AbstractValidator<GetBankAccounts>
 {

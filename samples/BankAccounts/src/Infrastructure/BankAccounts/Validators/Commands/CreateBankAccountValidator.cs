@@ -2,7 +2,7 @@
 using BankAccounts.Domain.BankAccounts;
 using BankAccounts.Domain.BankAccounts.Repository;
 
-namespace BankAccounts.Infrastructure.BankAccounts.Commands.Validators;
+namespace BankAccounts.Infrastructure.BankAccounts.Validators.Commands;
 
 internal sealed class CreateBankAccountValidator : AbstractValidator<CreateBankAccount>
 {

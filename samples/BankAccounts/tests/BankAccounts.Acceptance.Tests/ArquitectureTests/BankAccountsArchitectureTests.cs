@@ -53,6 +53,6 @@ public sealed class BankAccountsArchitectureTests : ArchitectureTests
 
     protected override void Assert(IReadOnlyList<string>? failingTypeNames)
     {
-        failingTypeNames.Should().BeNullOrEmpty();
+        failingTypeNames?.Should().HaveCount(0);
     }
 }

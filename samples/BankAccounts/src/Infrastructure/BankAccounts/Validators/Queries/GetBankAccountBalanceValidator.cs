@@ -1,7 +1,7 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
 using BankAccounts.Domain.BankAccounts.Repository;
 
-namespace BankAccounts.Infrastructure.BankAccounts.Queries.Validators;
+namespace BankAccounts.Infrastructure.BankAccounts.Validators.Queries;
 
 internal sealed class GetBankAccountBalanceValidator : AbstractValidator<GetBankAccountBalance>
 {
