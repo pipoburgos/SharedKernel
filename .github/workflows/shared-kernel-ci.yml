@@ -31,10 +31,10 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Install dependencies
-        run: dotnet restore ./SharedKernel.sln
+        run: dotnet restore ./SharedKernel.slnx
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore --verbosity normal ./SharedKernel.sln
+        run: dotnet build --configuration Release --no-restore --verbosity normal ./SharedKernel.slnx
 
       - name: Ajustar vm.max_map_count
         if: runner.os == 'Linux'
@@ -50,11 +50,11 @@ jobs:
 
       - name: Test
         if: runner.os == 'Linux'
-        run: dotnet test --configuration Release --no-build --no-restore --verbosity normal ./SharedKernel.sln --filter "FullyQualifiedName!~SharedKernel.Testing"
+        run: dotnet test --configuration Release --no-build --no-restore --verbosity normal ./SharedKernel.slnx --filter "FullyQualifiedName!~SharedKernel.Testing"
 
       - name: Pack
         if: runner.os == 'Linux'
-        run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.sln
+        run: dotnet pack --configuration Release --no-restore -ignore:.sln,.dcproj ./SharedKernel.slnx
 
       - name: Prepare artifact folder
         if: runner.os == 'Linux'

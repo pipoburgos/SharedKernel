@@ -1,0 +1,61 @@
+<Solution>
+  <Folder Name="/BankAccounts/" />
+  <Folder Name="/BankAccounts/src/">
+    <Project Path="samples/BankAccounts/src/Api/BankAccounts.Api.csproj" />
+    <Project Path="samples/BankAccounts/src/Application/BankAccounts.Application.csproj" />
+    <Project Path="samples/BankAccounts/src/Domain/BankAccounts.Domain.csproj" />
+    <Project Path="samples/BankAccounts/src/Infrastructure/BankAccounts.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/BankAccounts/tests/">
+    <Project Path="samples/BankAccounts/tests/BankAccounts.Acceptance.Tests/BankAccounts.Acceptance.Tests.csproj" />
+    <Project Path="samples/BankAccounts/tests/BankAccounts.Domain.UnitTests/BankAccounts.Domain.Tests.csproj" />
+    <Project Path="samples/BankAccounts/tests/BankAccounts.UseCases.Tests/BankAccounts.UseCases.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Api.Newtonsoft/SharedKernel.Api.Newtonsoft.csproj" />
+    <Project Path="src/Api/SharedKernel.Api.csproj" />
+    <Project Path="src/Application.Auth/SharedKernel.Application.Auth.csproj" />
+    <Project Path="src/Application/SharedKernel.Application.csproj" />
+    <Project Path="src/Domain/SharedKernel.Domain.csproj" />
+    <Project Path="src/Infrastructure/SharedKernel.Infrastructure.csproj" />
+    <Project Path="src/PayPal/PayPal.csproj" />
+    <Project Path="src/Testing/SharedKernel.Testing.csproj" />
+  </Folder>
+  <Folder Name="/src/SharedKernel.Infrastructure.Implementations/">
+    <Project Path="src/Infrastructure.ActiveMq/SharedKernel.Infrastructure.ActiveMq.csproj" />
+    <Project Path="src/Infrastructure.AsyncKeyedLock/SharedKernel.Infrastructure.AsyncKeyedLock.csproj" />
+    <Project Path="src/Infrastructure.Dapper.PostgreSQL/SharedKernel.Infrastructure.Dapper.PostgreSQL.csproj" />
+    <Project Path="src/Infrastructure.Dapper.SqlServer/SharedKernel.Infrastructure.Dapper.SqlServer.csproj" />
+    <Project Path="src/Infrastructure.Dapper/SharedKernel.Infrastructure.Dapper.csproj" />
+    <Project Path="src/Infrastructure.DotNetDBF/SharedKernel.Infrastructure.DotNetDBF.csproj" />
+    <Project Path="src/Infrastructure.Elasticsearch/SharedKernel.Infrastructure.Elasticsearch.csproj" />
+    <Project Path="src/Infrastructure.EntityFrameworkCore.OpenIddict/SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
+    <Project Path="src/Infrastructure.EntityFrameworkCore.PostgreSQL/SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />
+    <Project Path="src/Infrastructure.EntityFrameworkCore.SqlServer/SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
+    <Project Path="src/Infrastructure.EntityFrameworkCore/SharedKernel.Infrastructure.EntityFrameworkCore.csproj" />
+    <Project Path="src/Infrastructure.FileSystem/SharedKernel.Infrastructure.FileSystem.csproj" />
+    <Project Path="src/Infrastructure.FluentValidation/SharedKernel.Infrastructure.FluentValidation.csproj" />
+    <Project Path="src/Infrastructure.iText/SharedKernelInfrastructure.iText.csproj" />
+    <Project Path="src/Infrastructure.MailKit/SharedKernel.Infrastructure.MailKit.csproj" />
+    <Project Path="src/Infrastructure.MassTransit/SharedKernel.Infrastructure.MassTransit.csproj" />
+    <Project Path="src/Infrastructure.Mongo/SharedKernel.Infrastructure.Mongo.csproj" />
+    <Project Path="src/Infrastructure.NetJson/SharedKernel.Infrastructure.NetJson.csproj" />
+    <Project Path="src/Infrastructure.Newtonsoft/SharedKernel.Infrastructure.Newtonsoft.csproj" />
+    <Project Path="src/Infrastructure.NPOI/SharedKernel.Infrastructure.NPOI.csproj" />
+    <Project Path="src/Infrastructure.PayPal/SharedKernel.Infrastructure.PayPal.csproj" />
+    <Project Path="src/Infrastructure.Polly/SharedKernel.Infrastructure.Polly.csproj" />
+    <Project Path="src/Infrastructure.RabbitMq/SharedKernel.Infrastructure.RabbitMq.csproj" />
+    <Project Path="src/Infrastructure.Redis/SharedKernel.Infrastructure.Redis.csproj" />
+    <Project Path="src/Infrastructure.Redsys/SharedKernel.Infrastructure.Redsys.csproj" />
+    <Project Path="src/Infrastructure.Reporting/SharedKernel.Infrastructure.Reporting.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="test/Application/SharedKernel.Application.Tests.csproj" />
+    <Project Path="test/Domain/SharedKernel.Domain.Tests.csproj" />
+    <Project Path="test/Infrastructure/SharedKernel.Integration.Tests.csproj" />
+  </Folder>
+</Solution>
