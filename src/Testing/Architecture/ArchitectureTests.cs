@@ -119,6 +119,14 @@ public abstract class ArchitectureTests
     }
 
     [Fact]
+    public void CommandHandlers_Should_Have_SaveChanges_And_Publish()
+    {
+        Assert(GetApplicationAssembly().CommandHandlersShouldInjectEventBusAndUnitOfWork()
+            .Select(x => x.Name)
+            .ToList());
+    }
+
+    [Fact]
     public void Repositories_Should_BeSealed_And_NotBePublic()
     {
         Assert(Types.InAssembly(GetInfrastructureAssembly())

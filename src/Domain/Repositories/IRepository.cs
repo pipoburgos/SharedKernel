@@ -11,6 +11,4 @@ public interface IRepository<TAggregateRoot, in TId> :
     IReadOneRepository<TAggregateRoot, TId>,
     IUpdateRepository<TAggregateRoot>,
     IDeleteRepository<TAggregateRoot>
-    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
-{
-}
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;

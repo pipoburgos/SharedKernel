@@ -11,6 +11,7 @@ using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 
@@ -24,7 +25,10 @@ public static class OpenApiExtensions
 
         foreach (var version in versions)
         {
-            services.AddOpenApi(version, o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1);
+            services.AddOpenApi(version, o =>
+            {
+                o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+            });
         }
 
         return services;
@@ -183,6 +187,16 @@ public static class OpenApiExtensions
             if (openIdOptions.Value.ClientSecret != default!)
                 c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
         });
+
+        return app;
+    }
+
+    public static WebApplication UseSharedKernelOpenApi(this WebApplication app, [StringSyntax("Route")] string? pattern = null)
+    {
+        if (string.IsNullOrWhiteSpace(pattern))
+            app.MapOpenApi().AllowAnonymous();
+        else
+            app.MapOpenApi(pattern).AllowAnonymous();
 
         return app;
     }

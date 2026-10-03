@@ -9,4 +9,4 @@
 namespace BankAccounts.Domain;
 
 /// <summary> . </summary>
-public class BankAccountsDomainAssembly { }
+public class BankAccountsDomainAssembly;

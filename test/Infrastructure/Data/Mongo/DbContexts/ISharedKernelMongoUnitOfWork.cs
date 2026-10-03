@@ -2,6 +2,4 @@
 
 namespace SharedKernel.Integration.Tests.Data.Mongo.DbContexts;
 
-public interface ISharedKernelMongoUnitOfWork : IUnitOfWorkAsync
-{
-}
+public interface ISharedKernelMongoUnitOfWork : IUnitOfWorkAsync;

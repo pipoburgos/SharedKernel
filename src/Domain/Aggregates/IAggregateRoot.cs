@@ -9,6 +9,4 @@ public interface IAggregateRoot
 }
 
 /// <summary> This root aggregate contains your domain identifier and events. </summary>
-public interface IAggregateRoot<out TId> : IAggregateRoot, IEntity<TId> where TId : notnull
-{
-}
+public interface IAggregateRoot<out TId> : IAggregateRoot, IEntity<TId> where TId : notnull;

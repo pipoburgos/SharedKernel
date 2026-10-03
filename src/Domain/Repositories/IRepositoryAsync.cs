@@ -12,6 +12,4 @@ public interface IRepositoryAsync<TAggregateRoot, in TId> :
     IReadOneRepositoryAsync<TAggregateRoot, TId>,
     IUpdateRepositoryAsync<TAggregateRoot>,
     IDeleteRepositoryAsync<TAggregateRoot>
-    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull
-{
-}
+    where TAggregateRoot : class, IAggregateRoot<TId> where TId : notnull;

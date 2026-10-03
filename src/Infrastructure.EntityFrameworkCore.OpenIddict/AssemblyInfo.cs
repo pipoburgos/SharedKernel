@@ -5,4 +5,4 @@
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict;
 
 /// <summary> . </summary>
-public class InfrastructureEntityFrameworkCoreOpenIddictAssembly { }
+public class InfrastructureEntityFrameworkCoreOpenIddictAssembly;

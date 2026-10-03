@@ -21,6 +21,18 @@ public class InMemoryQueryBus : IQueryBus
         _serviceProvider = serviceProvider;
     }
 
+    public Task Ask(IQueryRequest query, CancellationToken cancellationToken)
+    {
+        return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
+        {
+            var handler = GetWrappedHandlers(req);
+
+            return handler == default
+                ? throw new QueryNotRegisteredException(req.ToString())
+                : handler.Handle(req, _serviceProvider, c);
+        });
+    }
+
     /// <inheritdoc />
     public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
     {
@@ -47,20 +59,39 @@ public class InMemoryQueryBus : IQueryBus
         });
     }
 
-    private QueryHandlerWrapper<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)
+    private QueryHandlerWrapper GetWrappedHandlers(IQueryRequest query)
     {
-        Type[] typeArgs = [query.GetType(), typeof(TResponse)];
+        Type[] typeArgs = [query.GetType()];
 
         var handlerType = typeof(IQueryRequestHandler<,>).MakeGenericType(typeArgs);
-        var wrapperType = typeof(QueryHandlerWrapper<,>).MakeGenericType(typeArgs);
+        var wrapperType = typeof(QueryHandlerWrapperResponse<,>).MakeGenericType(typeArgs);
 
         var handlers =
             (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
-        var wrappedHandlers = (QueryHandlerWrapper<TResponse>)QueryHandlers
+        var wrappedHandlers = (QueryHandlerWrapper)QueryHandlers
             .GetOrAdd(query.GetType(), handlers
                 .Cast<object>()
-                .Select(_ => (QueryHandlerWrapper<TResponse>)Activator.CreateInstance(wrapperType)!)
+                .Select(_ => (QueryHandlerWrapper)Activator.CreateInstance(wrapperType)!)
+                .FirstOrDefault()!);
+
+        return wrappedHandlers;
+    }
+
+    private QueryHandlerWrapperResponse<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)
+    {
+        Type[] typeArgs = [query.GetType(), typeof(TResponse)];
+
+        var handlerType = typeof(IQueryRequestHandler<,>).MakeGenericType(typeArgs);
+        var wrapperType = typeof(QueryHandlerWrapperResponse<,>).MakeGenericType(typeArgs);
+
+        var handlers =
+            (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+
+        var wrappedHandlers = (QueryHandlerWrapperResponse<TResponse>)QueryHandlers
+            .GetOrAdd(query.GetType(), handlers
+                .Cast<object>()
+                .Select(_ => (QueryHandlerWrapperResponse<TResponse>)Activator.CreateInstance(wrapperType)!)
                 .FirstOrDefault()!);
 
         return wrappedHandlers;

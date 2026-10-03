@@ -3,9 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public interface IEntity
-{
-}
+public interface IEntity;
 
 /// <summary>
 /// 

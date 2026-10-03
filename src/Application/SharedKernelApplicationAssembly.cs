@@ -4,4 +4,4 @@
 namespace SharedKernel.Application;
 
 /// <summary> . </summary>
-public class SharedKernelApplicationAssembly { }
+public class SharedKernelApplicationAssembly;

@@ -1,20 +1,16 @@
-﻿using Asp.Versioning;
-using BankAccounts.Application.BankAccounts.Commands;
+﻿using BankAccounts.Application.BankAccounts.Commands;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Application.Cqrs.Commands;
 
 namespace BankAccounts.Api.BankAccounts.Commands;
 
-internal sealed class CreateBankAccountEndpoint : IEndpoint
+internal sealed class CreateBankAccountEndpoint : IEndpoint<BankAccountsGroup>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public void Map(IEndpointRouteBuilder app)
     {
-        app.MapBankAccountsGroup()
-            .MapPost("{bankAccountId:guid}", Handle)
+        app.MapPost("{bankAccountId:guid}", Handle)
             .WithName("CreateBankAccount")
-            .WithSummary("Create a bank account.")
-            .MapToApiVersion(new ApiVersion(1, 0))
-            .WithGroupName("v1");
+            .WithSummary("Create a bank account.");
     }
 
     private static async Task<IResult> Handle(ICommandBus commandBus, Guid bankAccountId,

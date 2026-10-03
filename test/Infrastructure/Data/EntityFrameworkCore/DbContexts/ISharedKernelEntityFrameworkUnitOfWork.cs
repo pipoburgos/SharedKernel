@@ -2,6 +2,4 @@
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.DbContexts;
 
-public interface ISharedKernelEntityFrameworkUnitOfWork : IUnitOfWorkAsync
-{
-}
+public interface ISharedKernelEntityFrameworkUnitOfWork : IUnitOfWorkAsync;

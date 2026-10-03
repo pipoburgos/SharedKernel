@@ -3,6 +3,4 @@
 [CollectionDefinition("Factory")]
 public class BankAccountClientFactoryCollection :
     //ICollectionFixture<DockerComposeCmdHook>,
-    ICollectionFixture<BankAccountClientFactory>
-{
-}
+    ICollectionFixture<BankAccountClientFactory>;

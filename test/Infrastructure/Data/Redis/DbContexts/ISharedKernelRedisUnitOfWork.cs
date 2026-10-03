@@ -2,6 +2,4 @@
 
 namespace SharedKernel.Integration.Tests.Data.Redis.DbContexts;
 
-public interface ISharedKernelRedisUnitOfWork : IUnitOfWorkAsync
-{
-}
+public interface ISharedKernelRedisUnitOfWork : IUnitOfWorkAsync;

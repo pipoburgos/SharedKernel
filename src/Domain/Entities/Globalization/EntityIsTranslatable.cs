@@ -31,14 +31,10 @@ public abstract class EntityIsTranslatable<TEntityId, TEntity, TTranslation, TLa
 public abstract class EntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage> :
     EntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage, string>,
     IEntityIsTranslatable<TEntityId, TEntity, TTranslation, TLanguage>
-    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, TLanguage> where TEntityId : notnull
-{
-}
+    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, TLanguage> where TEntityId : notnull;
 
 /// <summary> . </summary>
 public abstract class EntityIsTranslatable<TEntityId, TEntity, TTranslation> :
     EntityIsTranslatable<TEntityId, TEntity, TTranslation, Language>,
     IEntityIsTranslatable<TEntityId, TEntity, TTranslation>
-    where TTranslation : class, IEntityTranslated<TEntityId, TEntity> where TEntityId : notnull
-{
-}
+    where TTranslation : class, IEntityTranslated<TEntityId, TEntity> where TEntityId : notnull;

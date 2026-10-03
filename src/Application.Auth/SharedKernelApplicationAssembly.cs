@@ -6,4 +6,4 @@
 namespace SharedKernel.Application.Auth;
 
 /// <summary> . </summary>
-public class SharedKernelApplicationAuthAssembly { }
+public class SharedKernelApplicationAuthAssembly;

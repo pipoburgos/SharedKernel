@@ -22,6 +22,4 @@ public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TT
 public class AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation> :
     AggregateRootIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, Language, string>
     where TEntity : AggregateRootIsTranslatable<TEntityId, TEntity, TTranslation, Language, string>
-    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, Language, string> where TEntityId : notnull
-{
-}
+    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, Language, string> where TEntityId : notnull;

@@ -33,6 +33,4 @@ public class EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity
     EntityTranslatedConfiguration<TEntityTranslated, TEntityId, TEntity, Language, string>
     where TEntityTranslated : class, IEntityTranslated<TEntityId, TEntity, Language, string>
     where TEntity : class, IEntityIsTranslatable<TEntityId, TEntity, TEntityTranslated, Language, string>
-    where TEntityId : notnull
-{
-}
+    where TEntityId : notnull;

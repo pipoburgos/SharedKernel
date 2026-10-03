@@ -1,5 +1,3 @@
 ﻿namespace BankAccounts.Acceptance.Tests.BankAccounts;
 
-internal sealed class GetBankAccountBalanceEndpointTests
-{
-}
+internal sealed class GetBankAccountBalanceEndpointTests;

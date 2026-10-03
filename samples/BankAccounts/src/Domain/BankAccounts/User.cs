@@ -32,4 +32,10 @@ internal class User : Entity<Guid>
     public DateTime Birthdate { get; private set; }
 
     public IEnumerable<Email> Emails => _emails.AsEnumerable();
+
+    public User AddEmail(Email email)
+    {
+        _emails.Add(email);
+        return this;
+    }
 }

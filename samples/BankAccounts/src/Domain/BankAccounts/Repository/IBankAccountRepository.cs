@@ -5,6 +5,4 @@ namespace BankAccounts.Domain.BankAccounts.Repository;
 
 internal interface IBankAccountRepository :
     ICreateRepositoryAsync<BankAccount>,
-    IReadOneRepositoryAsync<BankAccount, BankAccountId>
-{
-}
+    IReadOneRepositoryAsync<BankAccount, BankAccountId>;

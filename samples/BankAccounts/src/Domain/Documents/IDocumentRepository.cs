@@ -2,6 +2,5 @@
 using SharedKernel.Domain.Repositories.Read;
 
 namespace BankAccounts.Domain.Documents;
-internal interface IDocumentRepository : ICreateRepositoryAsync<Document>, IReadOneRepository<Document, Guid>
-{
-}
+
+internal interface IDocumentRepository : ICreateRepositoryAsync<Document>, IReadOneRepository<Document, Guid>;

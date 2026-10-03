@@ -2,6 +2,4 @@
 
 namespace SharedKernel.Domain.Tests.Users;
 
-internal interface IUserRepository : ICreateRepository<User>
-{
-}
+internal interface IUserRepository : ICreateRepository<User>;

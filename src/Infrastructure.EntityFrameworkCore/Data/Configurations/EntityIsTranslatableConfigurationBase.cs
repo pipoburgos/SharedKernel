@@ -23,6 +23,4 @@ public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslat
 public class EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation> :
     EntityIsTranslatableConfigurationBase<TEntityId, TEntity, TTranslation, Language, string>
     where TEntity : EntityIsTranslatable<TEntityId, TEntity, TTranslation, Language, string>
-    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, Language, string> where TEntityId : notnull
-{
-}
+    where TTranslation : class, IEntityTranslated<TEntityId, TEntity, Language, string> where TEntityId : notnull;

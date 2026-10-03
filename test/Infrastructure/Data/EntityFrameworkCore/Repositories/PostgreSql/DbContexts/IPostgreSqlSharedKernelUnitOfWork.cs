@@ -2,6 +2,4 @@
 
 namespace SharedKernel.Integration.Tests.Data.EntityFrameworkCore.Repositories.PostgreSql.DbContexts;
 
-public interface IPostgreSqlSharedKernelUnitOfWork : IUnitOfWorkAsync
-{
-}
+public interface IPostgreSqlSharedKernelUnitOfWork : IUnitOfWorkAsync;

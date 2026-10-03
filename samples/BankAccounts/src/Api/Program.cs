@@ -1,9 +1,12 @@
 using BankAccounts.Api;
 using BankAccounts.Infrastructure.Shared;
 using HealthChecks.UI.Client;
+using MicroElements.AspNetCore.OpenApi.FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.OpenApi;
 using Serilog;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Api.Middlewares;
@@ -29,6 +32,8 @@ builder.Host.UseSerilog((context, configuration) =>
 });
 
 builder.Services
+    .AddFluentValidationRulesToOpenApi()
+    .AddFluentValidationRulesToSwagger()
     .AddAuthorization(options =>
     {
         options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -36,8 +41,7 @@ builder.Services
             .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
             .Build();
     })
-    .AddSharedKernelApiVersioning()
-    .AddSharedKernelMicrosoftOpenApi(["v1", "v2"])
+
     .AddSharedKernelInMemoryCommandBus()
     .AddSharedKernelRedisCommandBusAsync(builder.Configuration)
     .AddSharedKernelNewtonsoftSerializer()
@@ -47,15 +51,32 @@ builder.Services
     .AddSharedKernelRedisDistributedCache(builder.Configuration)
     .AddSharedKernelRedisMutex(builder.Configuration)
     .AddBankAccounts(builder.Configuration, "BankAccountConnection")
-    .AddSharedKernelSwashbuckle(builder.Configuration)
-    .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly)
-    .AddSharedKernelSwaggerGenNewtonsoftSupport()
     .AddSharedKernelAuth(builder.Configuration)
-    .AddSharedKernelApi(corsPolicy, builder.Configuration.GetSection("Origins").Get<string[]>());
+    .AddSharedKernelApi(corsPolicy, builder.Configuration.GetSection("Origins").Get<string[]>())
+    .AddSharedKernelApiVersioning(2)
+    .AddSharedKernelMicrosoftOpenApi(["v1", "v2"])
+    .AddSharedKernelSwashbuckle(builder.Configuration)
+    .AddSharedKernelSwaggerGenNewtonsoftSupport()
+    .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly);
+
+
+builder.Services.AddOpenApi("v1", o =>
+{
+    o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+    o.AddFluentValidationRules();
+});
+
+builder.Services.AddOpenApi("v2", o =>
+{
+    o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+    o.AddFluentValidationRules();
+});
 
 var app = builder.Build();
 
 app
+    .UseEndpoints(typeof(BankAccountsApiAssembly).Assembly)
+    .UseSharedKernelOpenApi()
     .UseSharedKernelCurrentCulture("en-US", "es-ES", "en", "es")
     .UseSharedKernelServicesPage(builder.Services)
     .UseSharedKernelExceptionHandler("BankAccounts",
@@ -76,7 +97,6 @@ app
     .UseAuthorization()
     .UseEndpoints(endpoints =>
     {
-        endpoints.MapEndpoints();
         endpoints.MapHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
@@ -84,5 +104,3 @@ app
     });
 
 await app.RunAsync();
-
-public partial class Program;

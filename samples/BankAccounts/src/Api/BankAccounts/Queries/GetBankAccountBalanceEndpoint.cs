@@ -1,21 +1,17 @@
-﻿using Asp.Versioning;
-using BankAccounts.Application.BankAccounts.Queries;
+﻿using BankAccounts.Application.BankAccounts.Queries;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Application.Cqrs.Queries;
 
 namespace BankAccounts.Api.BankAccounts.Queries;
 
-internal sealed class GetBankAccountBalanceEndpoint : IEndpoint
+internal sealed class GetBankAccountBalanceEndpoint : IEndpoint<BankAccountsGroup>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app)
+    public void Map(IEndpointRouteBuilder app)
     {
-        app.MapBankAccountsGroup()
-            .MapGet("{bankAccountId:guid}/balance", Handle)
+        app.MapGet("{bankAccountId:guid}/balance", Handle)
             .WithName("GetBankAccountBalance")
             .WithSummary("Gets the balance of a bank account.")
-            .Produces<decimal>()
-            .MapToApiVersion(new ApiVersion(2, 0))
-            .WithGroupName("v2");
+            .Produces<decimal>();
         //.WithMetadata(new ResponseCacheAttribute
         //{
         //    Duration = CacheDuration.Day,

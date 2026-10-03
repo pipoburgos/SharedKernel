@@ -5,9 +5,7 @@
 /// Specifies that an input argument was not null when the call returns.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue)]
-internal sealed class NotNullAttribute : Attribute
-{
-}
+internal sealed class NotNullAttribute : Attribute;
 
 
 #if NET462_OR_GREATER || NETSTANDARD || NET6_0_OR_GREATER

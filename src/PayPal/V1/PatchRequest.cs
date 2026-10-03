@@ -6,6 +6,4 @@
 /// See <a href="https://developer.paypal.com/docs/api/">PayPal Developer documentation</a> for more information.
 /// </para>
 /// </summary>
-public class PatchRequest : PayPalSerializableListObject<Patch>
-{
-}
+public class PatchRequest : PayPalSerializableListObject<Patch>;

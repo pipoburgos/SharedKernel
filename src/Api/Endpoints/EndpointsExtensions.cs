@@ -17,21 +17,8 @@ public static class EndpointsExtensions
     {
         return services
             .AddEndpointsApiExplorer()
-            .AddSharedKernelFromMatchingInterface<IEndpoint>(ServiceLifetime.Scoped, assembly);
-    }
-
-    public static void MapEndpoints(this IEndpointRouteBuilder app)
-    {
-        app.MapOpenApi().AllowAnonymous();
-
-        using var scope = app.ServiceProvider.CreateScope();
-
-        var endpoints = scope.ServiceProvider.GetRequiredService<IEnumerable<IEndpoint>>();
-
-        foreach (var endpoint in endpoints)
-        {
-            endpoint.MapEndpoint(app);
-        }
+            .AddSharedKernelFromMatchingInterfaceOnlyClasses(typeof(IEndpointGroup), ServiceLifetime.Singleton, assembly)
+            .AddSharedKernelFromMatchingInterfaceOnlyClasses(typeof(IEndpoint<>), ServiceLifetime.Singleton, assembly);
     }
 
     public static IResult ToIResult(this Result<Unit> result)

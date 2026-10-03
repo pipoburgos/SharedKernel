@@ -3,6 +3,4 @@
 namespace SharedKernel.Infrastructure.Data.UnitOfWorks;
 
 /// <summary> . </summary>
-public interface IGlobalUnitOfWork : IUnitOfWork
-{
-}
+public interface IGlobalUnitOfWork : IUnitOfWork;

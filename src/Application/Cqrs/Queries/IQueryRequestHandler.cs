@@ -1,6 +1,13 @@
 ﻿namespace SharedKernel.Application.Cqrs.Queries;
 
 /// <summary> Query bus request abstaction. </summary>
+public interface IQueryRequestHandler<in TRequest> where TRequest : IQueryRequest
+{
+    /// <summary> Query handler. </summary>
+    Task Handle(TRequest query, CancellationToken cancellationToken);
+}
+
+/// <summary> Query bus request abstaction. </summary>
 public interface IQueryRequestHandler<in TRequest, TResponse> where TRequest : IQueryRequest<TResponse>
 {
     /// <summary> Query handler. </summary>

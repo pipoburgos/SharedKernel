@@ -1,6 +1,4 @@
 ﻿namespace SharedKernel.Domain.Validators;
 
 /// <summary> </summary>
-public sealed class ValidationContext
-{
-}
+public sealed class ValidationContext;

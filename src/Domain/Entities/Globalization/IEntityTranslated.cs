@@ -31,12 +31,8 @@ public interface IEntityTranslated<out TEntityId, out TEntity, out TLanguage, ou
 
 /// <summary> . </summary>
 public interface IEntityTranslated<out TEntityId, out TEntity, out TLanguage>
-    : IEntityTranslated<TEntityId, TEntity, TLanguage, string> where TEntityId : notnull
-{
-}
+    : IEntityTranslated<TEntityId, TEntity, TLanguage, string> where TEntityId : notnull;
 
 /// <summary> . </summary>
 public interface IEntityTranslated<out TEntityId, out TEntity>
-    : IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull
-{
-}
+    : IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull;

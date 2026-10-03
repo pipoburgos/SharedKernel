@@ -1,6 +1,4 @@
 ﻿namespace SharedKernel.Application.Documents;
 
 /// <summary> . </summary>
-public interface IXmlReader : IDocumentReader
-{
-}
+public interface IXmlReader : IDocumentReader;

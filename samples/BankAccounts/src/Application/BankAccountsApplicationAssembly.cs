@@ -8,4 +8,4 @@
 namespace BankAccounts.Application;
 
 /// <summary> . </summary>
-public class BankAccountsApplicationAssembly { }
+public class BankAccountsApplicationAssembly;

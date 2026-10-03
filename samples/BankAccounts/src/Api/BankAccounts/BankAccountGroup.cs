@@ -1,19 +1,18 @@
-﻿namespace BankAccounts.Api.BankAccounts;
+﻿using SharedKernel.Api.Endpoints;
 
-public static class BankAccountsGroup
+namespace BankAccounts.Api.BankAccounts;
+
+public class BankAccountsGroup : IEndpointGroup
 {
-    private static IEndpointRouteBuilder? _routeGroupBuilder;
+    public string Name => "BankAccounts";
+    public string Prefix => "/api/v{version:apiVersion}/bank-accounts";
 
-    public static IEndpointRouteBuilder MapBankAccountsGroup(this IEndpointRouteBuilder app)
+    public void Configure(RouteGroupBuilder group)
     {
-        if (_routeGroupBuilder != null)
-            return _routeGroupBuilder;
-
-        _routeGroupBuilder = app.MapApiGroup()
-            .MapGroup("bankAccounts")
+        group
+            .WithTags(Name)
             .WithDisplayName("Bank Accounts")
-            .WithTags("BankAccounts");
-
-        return _routeGroupBuilder;
+            .HasApiVersion(1)
+            .HasApiVersion(2);
     }
 }

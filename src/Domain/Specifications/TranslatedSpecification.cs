@@ -20,6 +20,4 @@ public class TranslatedSpecification<TEntityId, TEntity, TTranslation, TLanguage
 public class TranslatedSpecification<TEntityId, TEntity, TTranslation>
     : TranslatedSpecification<TEntityId, TEntity, TTranslation, Language> where TTranslation : class,
     IEntityIsTranslatable<TEntityId, TEntity, TTranslation, Language>,
-    IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull
-{
-}
+    IEntityTranslated<TEntityId, TEntity, Language> where TEntityId : notnull;

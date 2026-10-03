@@ -7,4 +7,4 @@
 namespace SharedKernel.Domain;
 
 /// <summary> . </summary>
-public class SharedKernelDomainAssembly { }
+public class SharedKernelDomainAssembly;

@@ -28,6 +28,39 @@ public static class AddFromMatchingInterfaceExtensions
     /// <summary>
     /// Register all clases thats implements interface
     /// </summary>
+    public static IServiceCollection AddSharedKernelFromMatchingInterfaceOnlyClasses(
+        this IServiceCollection services,
+        Type interfaceType,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
+        params Assembly[] assemblies)
+    {
+        if (assemblies is null || assemblies.Length == 0)
+            return services;
+
+        assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t =>
+                t.IsClass &&
+                !t.IsAbstract &&
+                (interfaceType.IsAssignableFrom(t) ||
+                 t.GetInterfaces().Any(i =>
+                     i.IsGenericType &&
+                     i.GetGenericTypeDefinition() == interfaceType)))
+            .ToList()
+            .ForEach(type =>
+            {
+                services.Add(new ServiceDescriptor(
+                    type,
+                    type,
+                    serviceLifetime));
+            });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Register all clases thats implements interface
+    /// </summary>
     /// <param name="services"></param>
     /// <param name="serviceLifetime"></param>
     /// <param name="assemblies"></param>
@@ -43,6 +76,28 @@ public static class AddFromMatchingInterfaceExtensions
             .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && typeof(TInterface).IsAssignableFrom(t))
             .ToList()
             .ForEach(type => services.Add(new ServiceDescriptor(typeof(TInterface), type, serviceLifetime)));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Register all clases thats implements interface
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="serviceLifetime"></param>
+    /// <param name="assemblies"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddSharedKernelFromMatchingInterfaceOnlyClass<TInterface>(this IServiceCollection services,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Transient, params Assembly[] assemblies)
+    {
+        if (assemblies == default!)
+            return services;
+
+        assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => t.IsClass && !t.IsAbstract && !t.IsInterface && typeof(TInterface).IsAssignableFrom(t))
+            .ToList()
+            .ForEach(type => services.Add(new ServiceDescriptor(type, type, serviceLifetime)));
 
         return services;
     }
