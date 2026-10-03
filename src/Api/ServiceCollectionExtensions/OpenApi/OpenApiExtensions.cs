@@ -19,7 +19,8 @@ namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
 public static class OpenApiExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services, string[]? versions = null)
+    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services,
+        string[]? versions = null, Action<Microsoft.AspNetCore.OpenApi.OpenApiOptions>? configureOptions = null)
     {
         versions ??= ["v1"];
 
@@ -28,6 +29,7 @@ public static class OpenApiExtensions
             services.AddOpenApi(version, o =>
             {
                 o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+                configureOptions?.Invoke(o);
             });
         }
 

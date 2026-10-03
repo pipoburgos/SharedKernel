@@ -34,7 +34,7 @@ public static class AddFromMatchingInterfaceExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient,
         params Assembly[] assemblies)
     {
-        if (assemblies is null || assemblies.Length == 0)
+        if (assemblies.Length == 0)
             return services;
 
         assemblies

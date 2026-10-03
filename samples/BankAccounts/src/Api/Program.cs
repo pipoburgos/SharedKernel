@@ -6,7 +6,6 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.OpenApi;
 using Serilog;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Api.Middlewares;
@@ -32,8 +31,6 @@ builder.Host.UseSerilog((context, configuration) =>
 });
 
 builder.Services
-    .AddFluentValidationRulesToOpenApi()
-    .AddFluentValidationRulesToSwagger()
     .AddAuthorization(options =>
     {
         options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -54,23 +51,13 @@ builder.Services
     .AddSharedKernelAuth(builder.Configuration)
     .AddSharedKernelApi(corsPolicy, builder.Configuration.GetSection("Origins").Get<string[]>())
     .AddSharedKernelApiVersioning(2)
-    .AddSharedKernelMicrosoftOpenApi(["v1", "v2"])
+    .AddSharedKernelMicrosoftOpenApi(["v1", "v2"], o => o.AddFluentValidationRules())
+    .AddFluentValidationRulesToOpenApi()
     .AddSharedKernelSwashbuckle(builder.Configuration)
+    .AddFluentValidationRulesToSwagger()
     .AddSharedKernelSwaggerGenNewtonsoftSupport()
     .AddSharedKernelEndpoints(typeof(BankAccountsApiAssembly).Assembly);
 
-
-builder.Services.AddOpenApi("v1", o =>
-{
-    o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
-    o.AddFluentValidationRules();
-});
-
-builder.Services.AddOpenApi("v2", o =>
-{
-    o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
-    o.AddFluentValidationRules();
-});
 
 var app = builder.Build();
 
