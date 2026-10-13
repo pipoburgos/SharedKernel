@@ -32,6 +32,8 @@ public abstract class ArchitectureTests
         failingTypeNames?.Should().HaveCount(0);
     }
 
+    protected virtual List<string> HandlersExclude => new();
+
     [Fact]
     public void DomainEvents_Should_BeSealed()
     {
@@ -121,7 +123,7 @@ public abstract class ArchitectureTests
     [Fact]
     public void CommandHandlers_Should_Have_SaveChanges_And_Publish()
     {
-        Assert(GetApplicationAssembly().CommandHandlersShouldInjectEventBusAndUnitOfWork()
+        Assert(GetApplicationAssembly().CommandHandlersShouldInjectEventBusAndUnitOfWork(HandlersExclude)
             .Select(x => x.Name)
             .ToList());
     }

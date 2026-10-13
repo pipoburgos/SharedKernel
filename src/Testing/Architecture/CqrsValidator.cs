@@ -139,16 +139,34 @@ public static class CqrsValidator
 
     private static void CheckResponseTypeValidators(List<string> notFound, List<Type> classTypes, Type type, Type useCase)
     {
-        // Si es un tipo genérico, bajamos a sus argumentos.
-        if (type.IsGenericType)
+        // Si es un array, comprobamos el tipo de sus elementos.
+        if (type.IsArray)
         {
-            foreach (var genericArgument in type.GetGenericArguments())
-                CheckResponseTypeValidators(notFound, classTypes, genericArgument, useCase);
+            CheckResponseTypeValidators(
+                notFound,
+                classTypes,
+                type.GetElementType()!,
+                useCase);
 
             return;
         }
 
-        // Tipos simples no necesitan validator.
+        // Si es un tipo genérico, bajamos a sus argumentos.
+        if (type.IsGenericType)
+        {
+            foreach (var genericArgument in type.GetGenericArguments())
+            {
+                CheckResponseTypeValidators(
+                    notFound,
+                    classTypes,
+                    genericArgument,
+                    useCase);
+            }
+
+            return;
+        }
+
+        // Los tipos simples no necesitan validator.
         if (!type.IsClass || type == typeof(string))
             return;
 

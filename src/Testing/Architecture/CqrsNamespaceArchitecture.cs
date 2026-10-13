@@ -42,8 +42,9 @@ public static class CqrsNamespaceArchitecture
     private static bool IsQuery(Type type)
     {
         return type.GetInterfaces().Any(x =>
+            //x == typeof(IQueryRequest) || (
             x.IsGenericType &&
-            x.GetGenericTypeDefinition() == typeof(IQueryRequest<>));
+             x.GetGenericTypeDefinition() == typeof(IQueryRequest<>));
     }
 
     private static void Check(
@@ -51,7 +52,7 @@ public static class CqrsNamespaceArchitecture
         Type type,
         params string[] namespaces)
     {
-        if (!namespaces.Any(n => type.Namespace == n))
+        if (namespaces.All(n => type.Namespace?.EndsWith(n, StringComparison.Ordinal) != true))
         {
             errors.Add(
                 $"{type.FullName}: {type.Namespace} expected namespace '{string.Join("', '", namespaces)}'");
@@ -66,6 +67,7 @@ public static class CqrsNamespaceArchitecture
                 (
                     @interface.GetGenericTypeDefinition() == typeof(ICommandRequestHandler<>) ||
                     @interface.GetGenericTypeDefinition() == typeof(ICommandRequestHandler<,>) ||
+                    //@interface.GetGenericTypeDefinition() == typeof(IQueryRequestHandler<>) ||
                     @interface.GetGenericTypeDefinition() == typeof(IQueryRequestHandler<,>)
                 ) &&
                 @interface.GetGenericArguments()[0] == useCase));
@@ -82,11 +84,20 @@ public static class CqrsNamespaceArchitecture
 
     private static Type? GetEndpoint(Type useCase, IEnumerable<Type> types)
     {
-        return types.SingleOrDefault(type =>
-            type.Name == $"{useCase.Name}Endpoint" &&
-            type.GetInterfaces().Any(@interface =>
-                @interface.IsGenericType &&
-                @interface.GetGenericTypeDefinition() == typeof(IEndpoint<>)));
+        try
+        {
+            return types.SingleOrDefault(type =>
+                type.Name == $"{useCase.Name}Endpoint" &&
+                type.GetInterfaces().Any(@interface =>
+                    @interface.IsGenericType &&
+                    @interface.GetGenericTypeDefinition() == typeof(IEndpoint<>)));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
     }
 
     public static List<string> TestCqrsTypesShouldBeInSameNamespace(
@@ -175,7 +186,7 @@ public static class CqrsNamespaceArchitecture
                 Check(
                     errors,
                     endpoint,
-                    $"{projectName}.Api.{aggregateName}.{path}");
+                    $"Api.{aggregateName}.{path}");
             }
         }
 

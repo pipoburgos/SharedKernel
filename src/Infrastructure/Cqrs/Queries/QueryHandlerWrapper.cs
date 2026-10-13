@@ -3,22 +3,22 @@ using SharedKernel.Application.Cqrs.Queries;
 
 namespace SharedKernel.Infrastructure.Cqrs.Queries;
 
-internal abstract class QueryHandlerWrapper
-{
-    public abstract Task Handle(IQueryRequest query, IServiceProvider provider,
-        CancellationToken cancellationToken);
-}
+//internal abstract class QueryHandlerWrapper
+//{
+//    public abstract Task Handle(IQueryRequest query, IServiceProvider provider,
+//        CancellationToken cancellationToken);
+//}
 
-internal class QueryHandlerWrapper<TQuery> : QueryHandlerWrapper where TQuery : IQueryRequest
-{
-    public override Task Handle(IQueryRequest query, IServiceProvider provider, CancellationToken cancellationToken)
-    {
-        var handler = (IQueryRequestHandler<TQuery>)provider.CreateScope().ServiceProvider
-            .GetRequiredService(typeof(IQueryRequestHandler<TQuery>));
+//internal class QueryHandlerWrapper<TQuery> : QueryHandlerWrapper where TQuery : IQueryRequest
+//{
+//    public override Task Handle(IQueryRequest query, IServiceProvider provider, CancellationToken cancellationToken)
+//    {
+//        var handler = (IQueryRequestHandler<TQuery>)provider.CreateScope().ServiceProvider
+//            .GetRequiredService(typeof(IQueryRequestHandler<TQuery>));
 
-        return handler.Handle((TQuery)query, cancellationToken);
-    }
-}
+//        return handler.Handle((TQuery)query, cancellationToken);
+//    }
+//}
 
 internal abstract class QueryHandlerWrapperResponse<TResponse>
 {

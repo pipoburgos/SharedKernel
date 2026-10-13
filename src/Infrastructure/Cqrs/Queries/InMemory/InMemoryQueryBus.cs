@@ -21,17 +21,17 @@ public class InMemoryQueryBus : IQueryBus
         _serviceProvider = serviceProvider;
     }
 
-    public Task Ask(IQueryRequest query, CancellationToken cancellationToken)
-    {
-        return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
-        {
-            var handler = GetWrappedHandlers(req);
+    //public Task Ask(IQueryRequest query, CancellationToken cancellationToken)
+    //{
+    //    return _pipeline.ExecuteAsync(query, cancellationToken, (req, c) =>
+    //    {
+    //        var handler = GetWrappedHandlers(req);
 
-            return handler == default
-                ? throw new QueryNotRegisteredException(req.ToString())
-                : handler.Handle(req, _serviceProvider, c);
-        });
-    }
+    //        return handler == default
+    //            ? throw new QueryNotRegisteredException(req.ToString())
+    //            : handler.Handle(req, _serviceProvider, c);
+    //    });
+    //}
 
     /// <inheritdoc />
     public Task<TResponse> Ask<TResponse>(IQueryRequest<TResponse> query, CancellationToken cancellationToken)
@@ -59,24 +59,23 @@ public class InMemoryQueryBus : IQueryBus
         });
     }
 
-    private QueryHandlerWrapper GetWrappedHandlers(IQueryRequest query)
-    {
-        Type[] typeArgs = [query.GetType()];
+    //private QueryHandlerWrapper GetWrappedHandlers(IQueryRequest query)
+    //{
 
-        var handlerType = typeof(IQueryRequestHandler<,>).MakeGenericType(typeArgs);
-        var wrapperType = typeof(QueryHandlerWrapperResponse<,>).MakeGenericType(typeArgs);
+    //    var handlerType = typeof(IQueryRequestHandler<>).MakeGenericType(query.GetType());
+    //    var wrapperType = typeof(QueryHandlerWrapper<>).MakeGenericType(query.GetType());
 
-        var handlers =
-            (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
+    //    var handlers =
+    //        (IEnumerable)_serviceProvider.GetRequiredService(typeof(IEnumerable<>).MakeGenericType(handlerType));
 
-        var wrappedHandlers = (QueryHandlerWrapper)QueryHandlers
-            .GetOrAdd(query.GetType(), handlers
-                .Cast<object>()
-                .Select(_ => (QueryHandlerWrapper)Activator.CreateInstance(wrapperType)!)
-                .FirstOrDefault()!);
+    //    var wrappedHandlers = (QueryHandlerWrapper)QueryHandlers
+    //        .GetOrAdd(query.GetType(), handlers
+    //            .Cast<object>()
+    //            .Select(_ => (QueryHandlerWrapper)Activator.CreateInstance(wrapperType)!)
+    //            .FirstOrDefault()!);
 
-        return wrappedHandlers;
-    }
+    //    return wrappedHandlers;
+    //}
 
     private QueryHandlerWrapperResponse<TResponse> GetWrappedHandlers<TResponse>(IQueryRequest<TResponse> query)
     {

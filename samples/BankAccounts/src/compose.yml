@@ -1,7 +1,7 @@
 services:
   sql_server:
     image: mcr.microsoft.com/mssql/server:latest
-    restart: always
+    # restart: always
     user: root
     environment:
       - ACCEPT_EULA=Y

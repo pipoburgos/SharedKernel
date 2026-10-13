@@ -28,10 +28,7 @@ public static class EndpointMappingExtensions
                 .OrderBy(x => x.Type.FullName)
                 .ToList();
 
-        foreach (var endpointsByGroup in
-                 endpointTypes.GroupBy(
-                     x => x.GroupInterface!
-                         .GetGenericArguments()[0]))
+        foreach (var endpointsByGroup in endpointTypes.GroupBy(x => x.GroupInterface!.GetGenericArguments()[0]))
         {
             var groupType = endpointsByGroup.Key;
 

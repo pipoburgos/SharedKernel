@@ -7,8 +7,7 @@ namespace SharedKernel.Testing.Architecture;
 
 public static class CommandsSaveAndPublish
 {
-    public static List<Type> CommandHandlersShouldInjectEventBusAndUnitOfWork(
-        this Assembly assembly)
+    public static List<Type> CommandHandlersShouldInjectEventBusAndUnitOfWork(this Assembly assembly, List<string> exclude)
     {
         var handlers = Types
             .InAssembly(assembly)
@@ -22,6 +21,9 @@ public static class CommandsSaveAndPublish
 
         foreach (var handler in handlers)
         {
+            if (exclude.Any(e => e == handler.Name))
+                continue;
+
             var constructor = handler.GetConstructors()
                 .FirstOrDefault();
 

@@ -18,9 +18,6 @@ internal sealed class GetBankAccountBalanceHandler : IQueryRequestHandler<GetBan
         var bankAccount = await _bankAccountRepository
             .GetByIdAsync(BankAccountId.Create(query.BankAccountId), cancellationToken);
 
-        if (bankAccount == default!)
-            return await Task.FromResult(0);
-
-        return bankAccount.Balance;
+        return bankAccount!.Balance;
     }
 }

@@ -131,11 +131,14 @@ public static class OpenApiExtensions
 
             if (provider is null)
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
+                if (!options.SwaggerGeneratorOptions.SwaggerDocs.ContainsKey("v1"))
                 {
-                    Title = openApiOptions.Value.Title,
-                    Version = "v1",
-                });
+                    options.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = openApiOptions.Value.Title,
+                        Version = "v1",
+                    });
+                }
 
                 return;
             }
@@ -143,6 +146,9 @@ public static class OpenApiExtensions
             foreach (var description in provider.ApiVersionDescriptions)
             {
                 var version = $"v{description.ApiVersion.MajorVersion}";
+
+                if (options.SwaggerGeneratorOptions.SwaggerDocs.ContainsKey(version))
+                    continue;
 
                 options.SwaggerDoc(version, new OpenApiInfo
                 {
