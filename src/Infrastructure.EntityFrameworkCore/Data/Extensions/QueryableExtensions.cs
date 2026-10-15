@@ -17,11 +17,11 @@ public static class QueryableExtensions
 
     /// <summary> . </summary>
     public static async Task<IPagedList<T>> ToPagedListAsync<T>(this IQueryable<T> queryable,
-        PageOptions pageOptions, CancellationToken cancellationToken)
+        PageOptions? pageOptions, CancellationToken cancellationToken)
     {
         var query = queryable
-            .Where(pageOptions.FilterProperties)
-            .Where(pageOptions.SearchText);
+            .Where(pageOptions?.FilterProperties)
+            .Where(pageOptions?.SearchText);
 
         var total = await query.CountAsync(cancellationToken);
 

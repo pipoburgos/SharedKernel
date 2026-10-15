@@ -96,11 +96,11 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         //services.RemoveAll<IEventBus>().AddSingleton<IEventBus, SynchronousEventBus>();
     }
 
-    public virtual async Task<HttpClient> CreateClientAsync(CancellationToken cancellationToken)
+    public virtual async Task<HttpClient> CreateClientAsync()
     {
         if (_firstTime)
         {
-            await RegenerateDatabaseAsync(cancellationToken).ConfigureAwait(false);
+            await RegenerateDatabaseAsync().ConfigureAwait(false);
             _firstTime = false;
         }
 
@@ -115,13 +115,13 @@ public abstract class WebApplicationFactoryBase<TStartup> : WebApplicationFactor
         return client;
     }
 
-    protected virtual async Task RegenerateDatabaseAsync(CancellationToken cancellationToken)
+    protected virtual async Task RegenerateDatabaseAsync()
     {
         var unitOfWork = GetNewDbContext();
         if (DeleteDatabase)
-            await unitOfWork.Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
+            await unitOfWork.Database.EnsureDeletedAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
         unitOfWork.Database.SetCommandTimeout(300);
-        await unitOfWork.Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+        await unitOfWork.Database.MigrateAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
     }
 
     public DatabaseManager? Database() => _dataBase;

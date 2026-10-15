@@ -24,7 +24,7 @@ public static class QueryBusExtensions
         var orders = request.Order.Select(c => new Order(columns[c.Column], c.Dir == "asc"));
 
         var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted,
-            showOnlyDeleted, orders, null);
+            showOnlyDeleted, orders);
 
         ReflectionHelper.SetProperty(request.Filter, nameof(PageOptions), pageOptions);
 
@@ -51,8 +51,7 @@ public static class QueryBusExtensions
         var orders = request.Order.Select(c => new Order(columns[c.Column - 1], c.Dir == "asc"));
 
         var pageOptions = new PageOptions(request.Start, request.Length, request.Search?.Value, showDeleted,
-            showOnlyDeleted, orders,
-            null);
+            showOnlyDeleted, orders);
 
         ReflectionHelper.SetProperty(obj, nameof(PageOptions), pageOptions);
 

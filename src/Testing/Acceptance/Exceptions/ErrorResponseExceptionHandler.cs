@@ -76,6 +76,11 @@ public class ErrorResponseExceptionHandler
 
     #endregion
 
+    public override string ToString()
+    {
+        return _errors.ToString() ?? string.Empty + _error;
+    }
+
     #region Private
 
     // ReSharper disable UnusedMember.Local

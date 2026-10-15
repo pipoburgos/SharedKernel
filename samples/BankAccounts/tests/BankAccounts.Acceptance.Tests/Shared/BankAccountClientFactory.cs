@@ -20,9 +20,9 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Program>
         return Services.CreateScope().ServiceProvider.GetRequiredService<BankAccountDbContext>();
     }
 
-    public override async Task<HttpClient> CreateClientAsync(CancellationToken cancellationToken)
+    public override async Task<HttpClient> CreateClientAsync()
     {
-        var client = await base.CreateClientAsync(cancellationToken);
+        var client = await base.CreateClientAsync();
         client.AddBearerToken(GenerateClaims());
         return client;
     }

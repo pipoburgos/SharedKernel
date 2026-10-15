@@ -1,5 +1,5 @@
 ﻿using BankAccounts.Application.BankAccounts.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 using SharedKernel.Api.Endpoints;
 using SharedKernel.Application.Cqrs.Queries;
 
@@ -9,15 +9,14 @@ internal sealed class GetBankAccountsEndpoint : IEndpoint<BankAccountsGroup>
 {
     public void Map(IEndpointRouteBuilder app)
     {
-        app.MapQuery(string.Empty, Handle)
-            .WithName("GetBankAccounts")
-            .WithSummary("Gets bank accounts paged.")
-            .Produces<IPagedList<BankAccountItem>>();
+        app.MapQuery("paged", Handle)
+            .WithName(nameof(GetBankAccounts))
+            .WithSummary("Gets bank accounts paged.");
     }
 
-    private static async Task<IResult> Handle(IQueryBus queryBus, [FromBody] GetBankAccounts getBankAccounts,
-        CancellationToken cancellationToken)
+    private static async Task<Ok<IPagedList<BankAccountItem>>> Handle(IQueryBus queryBus,
+        GetBankAccounts getBankAccounts, CancellationToken cancellationToken)
     {
-        return Results.Ok(await queryBus.Ask(getBankAccounts, cancellationToken));
+        return TypedResults.Ok(await queryBus.Ask(getBankAccounts, cancellationToken));
     }
 }

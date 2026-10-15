@@ -52,7 +52,7 @@ public sealed class DapperQueryProvider : IDisposable
     }
 
     /// <summary> . </summary>
-    public async Task<IPagedList<T>> ToPagedListSync<T>(string sql, object parameters, PageOptions pageOptions,
+    public async Task<IPagedList<T>> ToPagedListSync<T>(string sql, object parameters, PageOptions? pageOptions,
         string? preselect = default, CancellationToken cancellationToken = default)
     {
         var connection = _dbConnectionFactory.GetConnection();
@@ -72,15 +72,19 @@ public sealed class DapperQueryProvider : IDisposable
             return PagedList<T>.Empty();
 
         var queryString = $"{preselect}{sql}";
-        if (pageOptions.Orders != default! && pageOptions.Orders.Any())
+        if (pageOptions?.Orders != default! && pageOptions.Orders.Any())
         {
             var orders = pageOptions.Orders.Select(order =>
                 order.Field + (!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : " DESC"));
             queryString += $"{Environment.NewLine}ORDER BY {string.Join(", ", orders)}";
         }
 
-        if (pageOptions.Take.HasValue)
-            queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
+        // ReSharper disable once ConstantConditionalAccessQualifier
+        if (pageOptions?.Skip != null)
+            queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip.Value} ROWS";
+
+        if (pageOptions?.Take != null)
+            queryString += $"{Environment.NewLine}FETCH NEXT {pageOptions.Take.Value} ROWS ONLY";
 
         _logger.Verbose(queryString);
         var elements = await connection.QueryAsync<T>(queryString, parameters);
@@ -89,7 +93,7 @@ public sealed class DapperQueryProvider : IDisposable
     }
 
     /// <summary> . </summary>
-    public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions pageOptions,
+    public async Task<IPagedList<T>> ToPagedListAsync<T>(string sql, object parameters, PageOptions? pageOptions,
         string? preselect = default, CancellationToken cancellationToken = default)
     {
         var connection = _dbConnectionFactory.GetConnection();
@@ -106,15 +110,19 @@ public sealed class DapperQueryProvider : IDisposable
         var totalTask = connection.QueryFirstOrDefaultAsync<int>(queryCountString, parameters);
 
         var queryString = $"{preselect}{sql}";
-        if (pageOptions.Orders != default! && pageOptions.Orders.Any())
+        if (pageOptions?.Orders != default! && pageOptions.Orders.Any())
         {
             var orders = pageOptions.Orders.Select(order =>
                 order.Field + (!order.Ascending.HasValue || order.Ascending.Value ? string.Empty : " DESC"));
             queryString += $"{Environment.NewLine}ORDER BY {string.Join(", ", orders)}";
         }
 
-        if (pageOptions.Take.HasValue)
-            queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip} ROWS FETCH NEXT {pageOptions.Take} ROWS ONLY";
+        // ReSharper disable once ConstantConditionalAccessQualifier
+        if (pageOptions?.Skip != null)
+            queryString += $"{Environment.NewLine}OFFSET {pageOptions.Skip.Value} ROWS";
+
+        if (pageOptions?.Take != null)
+            queryString += $"{Environment.NewLine}FETCH NEXT {pageOptions.Take.Value} ROWS ONLY";
 
         _logger.Verbose(queryString);
         var elementsTask = connection.QueryAsync<T>(queryString, parameters);

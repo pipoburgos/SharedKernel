@@ -110,8 +110,7 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) }
-                , default);
+        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) });
         //,new List<FilterProperty> { new("emails", "a@a.es", FilterOperator.Contains) });
 
         //var result2 = await queryProvider

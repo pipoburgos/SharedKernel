@@ -27,12 +27,34 @@ public abstract class ArchitectureTests
 
     protected virtual bool CheckQueryValidators => false;
 
-    protected virtual void Assert(IReadOnlyList<string>? failingTypeNames)
+    // ReSharper disable once UnusedParameter.Global
+    protected virtual void Assert(IReadOnlyList<string>? failingTypeNames, TestMethod? testMethod = null)
     {
         failingTypeNames?.Should().HaveCount(0);
     }
 
     protected virtual List<string> HandlersExclude => new();
+
+    public enum TestMethod
+    {
+        DomainEventsShouldBeSealed = 1,
+        EntitiesShouldNotHavePublicConstructors = 2,
+        EntitiesShouldHavePublicFactory = 3,
+        QueriesShouldBeSealed = 4,
+        QueriesHandlersShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler = 5,
+        CommandsShouldBeSealed = 6,
+        CommandsShouldBeSealedResult = 7,
+        CommandsHandlersShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler = 8,
+        CommandsHandlersResultShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler = 9,
+        CommandHandlersShouldHaveSaveChangesAndPublish = 10,
+        RepositoriesShouldBeSealedAndNotBePublic = 11,
+        ValidatorsShouldBeSealedAndNotBePublic = 12,
+        ConfigurationsShouldBeSealedAndNotBePublic = 13,
+        EndpointsShouldBeSealedAndHaveNameEndingWithEndpoint = 14,
+        TestCqrsTypesShouldBeInSameNamespace = 15,
+        TestCqrs = 16,
+
+    }
 
     [Fact]
     public void DomainEvents_Should_BeSealed()
@@ -40,7 +62,7 @@ public abstract class ArchitectureTests
         Assert(GetDomainAssembly()
             .TestDomainEventsShouldBeSealed()
             .Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.DomainEventsShouldBeSealed);
     }
 
     [Fact]
@@ -49,7 +71,7 @@ public abstract class ArchitectureTests
         Assert(GetDomainAssembly()
             .TestEntitiesShouldNotHavePublicConstructors()
             .Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.EntitiesShouldNotHavePublicConstructors);
     }
 
     [Fact]
@@ -58,7 +80,7 @@ public abstract class ArchitectureTests
         Assert(GetDomainAssembly()
             .TestEntitiesShouldHavePublicFactory()
             .Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.EntitiesShouldHavePublicFactory);
     }
 
     [Fact]
@@ -68,7 +90,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealed(typeof(IQueryRequest<>))
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.QueriesShouldBeSealed);
     }
 
     [Fact]
@@ -78,7 +100,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IQueryRequestHandler<,>), "Handler")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.QueriesHandlersShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler);
     }
 
     [Fact]
@@ -87,7 +109,7 @@ public abstract class ArchitectureTests
         Assert(Types.InAssembly(GetApplicationAssembly())
             .InterfaceBeSealed(typeof(ICommandRequest))
             .FailingTypeNames
-            ?.ToList());
+            ?.ToList(), TestMethod.CommandsShouldBeSealed);
     }
 
     [Fact]
@@ -97,7 +119,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealed(typeof(ICommandRequest<>))
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.CommandsShouldBeSealedResult);
     }
 
     [Fact]
@@ -107,7 +129,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<>), "Handler")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.CommandsHandlersShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler);
     }
 
     [Fact]
@@ -117,7 +139,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(ICommandRequestHandler<,>), "Handler")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.CommandsHandlersResultShouldBeSealedAndNotBePublicAndHaveNameEndingWithHandler);
     }
 
     [Fact]
@@ -125,7 +147,7 @@ public abstract class ArchitectureTests
     {
         Assert(GetApplicationAssembly().CommandHandlersShouldInjectEventBusAndUnitOfWork(HandlersExclude)
             .Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.CommandHandlersShouldHaveSaveChangesAndPublish);
     }
 
     [Fact]
@@ -135,7 +157,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IBaseRepository), "Repository")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.RepositoriesShouldBeSealedAndNotBePublic);
     }
 
     [Fact]
@@ -145,7 +167,7 @@ public abstract class ArchitectureTests
             .ClassBeSealedAndNotPublicEndingWith(typeof(AbstractValidator<>), "Validator")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.ValidatorsShouldBeSealedAndNotBePublic);
     }
 
     [Fact]
@@ -155,7 +177,7 @@ public abstract class ArchitectureTests
             .InterfaceBeSealedAndNotPublicEndingWith(typeof(IEntityTypeConfiguration<>), "Configuration")
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.ConfigurationsShouldBeSealedAndNotBePublic);
     }
 
     [Fact]
@@ -173,7 +195,7 @@ public abstract class ArchitectureTests
             .GetResult()
             .FailingTypes
             ?.Select(x => x.Name)
-            .ToList());
+            .ToList(), TestMethod.EndpointsShouldBeSealedAndHaveNameEndingWithEndpoint);
     }
 
     [Fact]
@@ -186,7 +208,7 @@ public abstract class ArchitectureTests
             GetApiAssembly(),
             GetUseCasesTestsAssembly(),
             GetAcceptanceTestsAssembly(),
-        }.TestCqrsTypesShouldBeInSameNamespace());
+        }.TestCqrsTypesShouldBeInSameNamespace(), TestMethod.TestCqrsTypesShouldBeInSameNamespace);
     }
 
     [Fact]
@@ -199,6 +221,6 @@ public abstract class ArchitectureTests
             GetApiAssembly(),
             GetUseCasesTestsAssembly(),
             GetAcceptanceTestsAssembly(),
-        }.TestCqrsArquitecture(CheckFiles(), CheckQueryValidators));
+        }.TestCqrsArquitecture(CheckFiles(), CheckQueryValidators), TestMethod.TestCqrs);
     }
 }

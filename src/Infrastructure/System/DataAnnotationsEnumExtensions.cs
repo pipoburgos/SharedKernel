@@ -14,7 +14,25 @@ namespace SharedKernel.Infrastructure.System
         /// </summary>
         /// <typeparam name="TEnum"></typeparam>
         /// <returns></returns>
-        public static Task<IEnumerable<ComboDto<int>>> FromEnumToComboListAsync<TEnum>() where TEnum : IConvertible
+        public static Task<IEnumerable<ComboDto<TEnum>>> FromEnumToComboListAsync<TEnum>() where TEnum : IConvertible
+        {
+            var list = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+                .Select(g => new ComboDto<TEnum>
+                {
+                    Value = g,
+                    Text = g.DisplayAttrName(),
+                })
+                .Where(g => !string.IsNullOrWhiteSpace(g.Text));
+
+            return Task.FromResult(list);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <returns></returns>
+        public static Task<IEnumerable<ComboDto<int>>> FromEnumToIntComboListAsync<TEnum>() where TEnum : IConvertible
         {
             var list = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
                 .Select(g => new ComboDto<int>

@@ -60,7 +60,7 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposab
     /// <param name="selector"></param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
-    public async Task<IPagedList<TResult>> ToPagedListAsync<T, TResult>(PageOptions pageOptions,
+    public async Task<IPagedList<TResult>> ToPagedListAsync<T, TResult>(PageOptions? pageOptions,
         ISpecification<T>? domainSpecification = default, ISpecification<TResult>? dtoSpecification = default,
         Expression<Func<T, TResult>>? selector = default, CancellationToken cancellationToken = default)
         where T : class where TResult : class
@@ -76,29 +76,31 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposab
 
         //var totalBefore = await query.CountAsync(cancellationToken);
 
-        #region Domain Specifications
-
-        if (pageOptions.ShowDeleted.HasValue && !pageOptions.ShowDeleted.Value && typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
+        if (pageOptions?.ShowDeleted.HasValue == true && !pageOptions.ShowDeleted.Value &&
+            typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
+        {
             query = query
                 .Cast<IEntityAuditableLogicalRemove>()
                 .Where(new NotDeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
                 .Cast<T>();
-        if (pageOptions.ShowDeleted.HasValue && pageOptions.ShowOnlyDeleted.HasValue && pageOptions.ShowDeleted.Value && pageOptions.ShowOnlyDeleted.Value &&
+        }
+
+        if (pageOptions?.ShowDeleted.HasValue == true && pageOptions.ShowOnlyDeleted.HasValue &&
+            pageOptions.ShowDeleted.Value && pageOptions.ShowOnlyDeleted.Value &&
             typeof(IEntityAuditableLogicalRemove).IsAssignableFrom(typeof(T)))
+        {
             query = query
                 .Cast<IEntityAuditableLogicalRemove>()
                 .Where(new DeletedSpecification<IEntityAuditableLogicalRemove>().SatisfiedBy())
                 .Cast<T>();
+        }
+
         if (domainSpecification != null)
             query = query.Where(domainSpecification.SatisfiedBy());
 
-        #endregion
-
         var queryDto = selector == default ? query.Cast<TResult>() : query.Select(selector);
 
-        #region Dto Specifications
-
-        if (pageOptions.FilterProperties != default)
+        if (pageOptions?.FilterProperties != default)
         {
             var propertiesSpec = new PropertiesContainsOrEqualSpecification<TResult>(
                 pageOptions.FilterProperties.Select(p => new Property(p.Field, p.Value, default, true)));
@@ -116,7 +118,6 @@ public sealed class EntityFrameworkCoreQueryProvider<TDbContextBase> : IDisposab
         if (dtoSpecification != null)
             queryDto = queryDto.Where(dtoSpecification.SatisfiedBy());
 
-        #endregion
 
         var totalAfter = await queryDto.CountAsync(cancellationToken);
 

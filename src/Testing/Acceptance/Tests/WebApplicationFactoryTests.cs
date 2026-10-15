@@ -60,7 +60,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     [Fact]
     public virtual async Task SwaggerTestGenerateJson()
     {
-        var client = await _factory.CreateClientAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
+        var client = await _factory.CreateClientAsync().ConfigureAwait(false);
 
         var response = await client.GetAsync("swagger/v1.json", TestContext.Current.CancellationToken).ConfigureAwait(false);
 
@@ -70,7 +70,7 @@ public abstract class WebApplicationFactoryBaseTests<T> where T : class
     [Fact]
     public virtual async Task AllIsHealthy()
     {
-        var client = await _factory.CreateClientAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
+        var client = await _factory.CreateClientAsync().ConfigureAwait(false);
 
         var response = await client.GetAsync("health").ConfigureAwait(false);
 

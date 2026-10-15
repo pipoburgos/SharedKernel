@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Application.Cqrs.Queries.Contracts;
 using SharedKernel.Application.Cqrs.Queries.Entities;
+using SharedKernel.Application.Validator;
 using SharedKernel.Domain.Extensions;
 // ReSharper disable ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
 
@@ -159,47 +160,33 @@ public static class QueryableExtensions
     /// <param name="queryable"></param>
     /// <param name="pageOptions"></param>
     /// <returns></returns>
-    public static IQueryable<T> OrderAndPaged<T>(this IQueryable<T> queryable, PageOptions pageOptions)
+    public static IQueryable<T> OrderAndPaged<T>(this IQueryable<T> queryable, PageOptions? pageOptions)
     {
-        var query = queryable
-            .Order(pageOptions.Orders);
 
-        if (pageOptions.Skip.HasValue)
-            query = query.Skip(pageOptions.Skip.Value);
-
-        if (pageOptions.Take.HasValue)
-            query = query.Take(pageOptions.Take.Value);
-
-        return query;
-    }
-
-    /// <summary>
-    /// Apply IQueryable
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="query"></param>
-    /// <param name="sortedColumns"></param>
-    /// <returns></returns>
-    private static IQueryable<T> Order<T>(this IQueryable<T> query, IEnumerable<Order>? sortedColumns)
-    {
-        var sortedList = sortedColumns?.ToList();
+        var sortedList = pageOptions?.Orders?.ToList();
         if (sortedList == default || !sortedList.Any())
         {
             if (new IsClassTypeSpecification<T>().SatisfiedBy().Compile()(default!))
-                throw new ArgumentException(nameof(sortedColumns));
+                return queryable;
 
             sortedList = [new Order(default, true)];
         }
 
         var firstColumn = sortedList.First();
-        query = ApplyOrderBy(query, firstColumn.Ascending ?? true, firstColumn.Field?.CapitalizeFirstLetter());
+        queryable = ApplyOrderBy(queryable, firstColumn.Ascending ?? true, firstColumn.Field?.CapitalizeFirstLetter());
 
         foreach (var column in sortedList.Skip(1))
         {
-            query = ApplyThenBy(query, column.Ascending ?? true, column.Field?.CapitalizeFirstLetter());
+            queryable = ApplyThenBy(queryable, column.Ascending ?? true, column.Field?.CapitalizeFirstLetter());
         }
 
-        return query;
+        if (pageOptions?.Skip.HasValue == true)
+            queryable = queryable.Skip(pageOptions.Skip.Value);
+
+        if (pageOptions?.Take.HasValue == true)
+            queryable = queryable.Take(pageOptions.Take.Value);
+
+        return queryable;
     }
 
     /// <summary>
@@ -216,7 +203,7 @@ public static class QueryableExtensions
     {
         var expression = ExpressionHelper.GetLambdaExpressions<TResult>(propertyName);
         if (expression == null)
-            return source;
+            throw new ValidationFailureException($"Order Property {propertyName} not found");
 
         var order = ascending
             ? nameof(global::System.Linq.Queryable.OrderBy)
@@ -246,7 +233,7 @@ public static class QueryableExtensions
     {
         var expression = ExpressionHelper.GetLambdaExpressions<TResult>(propertyName);
         if (expression == null)
-            return source;
+            throw new ValidationFailureException($"Order Property {propertyName} not found");
 
         var order = ascending
             ? nameof(global::System.Linq.Queryable.ThenBy)

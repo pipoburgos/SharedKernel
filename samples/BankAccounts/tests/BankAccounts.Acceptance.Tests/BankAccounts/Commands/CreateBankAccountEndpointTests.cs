@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure.Requests.Middlewares.Failover;
 using SharedKernel.Testing.Acceptance.Extensions;
 
-namespace BankAccounts.Acceptance.Tests.BankAccounts;
+namespace BankAccounts.Acceptance.Tests.BankAccounts.Commands;
 
 [Collection("Factory")]
 public class CreateBankAccountEndpointTests
@@ -21,7 +21,7 @@ public class CreateBankAccountEndpointTests
     [Fact]
     public async Task CreateBankAccountOk()
     {
-        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        using var client = await _bankAccountClientFactory.CreateClientAsync();
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández", Guid.NewGuid(), 250);
@@ -52,7 +52,7 @@ public class CreateBankAccountEndpointTests
     [Fact]
     public async Task CreateBankAccountNameMoreThan100TestFailover()
     {
-        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        using var client = await _bankAccountClientFactory.CreateClientAsync();
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
@@ -74,7 +74,7 @@ public class CreateBankAccountEndpointTests
     [Fact]
     public async Task FluentValidationSpanishOnSpanish()
     {
-        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        using var client = await _bankAccountClientFactory.CreateClientAsync();
         client.ChangeLanguage("es");
 
         var bankAccountId = Guid.NewGuid();
@@ -91,7 +91,7 @@ public class CreateBankAccountEndpointTests
     [Fact]
     public async Task InvalidSupportedCultures()
     {
-        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        using var client = await _bankAccountClientFactory.CreateClientAsync();
         client.ChangeLanguage("zh");
 
         var bankAccountId = Guid.NewGuid();
@@ -109,7 +109,7 @@ public class CreateBankAccountEndpointTests
     [Fact]
     public async Task CreateBankAccountLessThan18YearsOld()
     {
-        using var client = await _bankAccountClientFactory.CreateClientAsync(TestContext.Current.CancellationToken);
+        using var client = await _bankAccountClientFactory.CreateClientAsync();
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "abc",

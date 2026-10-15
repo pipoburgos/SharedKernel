@@ -51,7 +51,7 @@ public sealed class BankAccountsArchitectureTests : ArchitectureTests
         return typeof(BankAccountsArchitectureTests).Assembly;
     }
 
-    protected override void Assert(IReadOnlyList<string>? failingTypeNames)
+    protected override void Assert(IReadOnlyList<string>? failingTypeNames, TestMethod? testMethod = null)
     {
         failingTypeNames?.Should().HaveCount(0);
     }

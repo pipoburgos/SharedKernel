@@ -104,13 +104,13 @@ public static class HttpClientExtensions
 
     public static async Task<T> GetResponseContentAsync<T>(this HttpResponseMessage response)
     {
-        var stringResponse = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
-        if (response.StatusCode != HttpStatusCode.OK)
-        {
-            throw new Exception(stringResponse);
-        }
+        if (response.StatusCode == HttpStatusCode.InternalServerError)
+            response.StatusCode.Should().Be(HttpStatusCode.OK, "Error: {0}", await response.Content.ReadAsStringAsync());
 
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        if (!response.IsSuccessStatusCode)
+            response.StatusCode.Should().Be(HttpStatusCode.OK, "Error: {0}", await response.GetErrorResponse());
+
+        var stringResponse = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
         return JsonConvert.DeserializeObject<T>(stringResponse)!;
     }
 

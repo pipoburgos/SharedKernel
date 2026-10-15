@@ -9,7 +9,7 @@ internal sealed class GetBankAccountBalanceEndpoint : IEndpoint<BankAccountsGrou
     public void Map(IEndpointRouteBuilder app)
     {
         app.MapGet("{bankAccountId:guid}/balance", Handle)
-            .WithName("GetBankAccountBalance")
+            .WithName(nameof(GetBankAccountBalance))
             .WithSummary("Gets the balance of a bank account.")
             .Produces<decimal>();
         //.WithMetadata(new ResponseCacheAttribute
