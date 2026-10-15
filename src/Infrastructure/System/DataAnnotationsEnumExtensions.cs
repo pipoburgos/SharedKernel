@@ -4,19 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SharedKernel.Infrastructure.System
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     public static class EnumExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <returns></returns>
-        public static Task<IEnumerable<ComboDto<TEnum>>> FromEnumToComboListAsync<TEnum>() where TEnum : IConvertible
+        /// <summary>  </summary>
+        public static IEnumerable<ComboDto<TEnum>> FromEnumToComboList<TEnum>() where TEnum : IConvertible
         {
-            var list = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+            var list = Enum.GetValues(typeof(TEnum))
+                .Cast<TEnum>()
                 .Select(g => new ComboDto<TEnum>
                 {
                     Value = g,
@@ -24,17 +19,14 @@ namespace SharedKernel.Infrastructure.System
                 })
                 .Where(g => !string.IsNullOrWhiteSpace(g.Text));
 
-            return Task.FromResult(list);
+            return list;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <returns></returns>
-        public static Task<IEnumerable<ComboDto<int>>> FromEnumToIntComboListAsync<TEnum>() where TEnum : IConvertible
+        /// <summary>  </summary>
+        public static IEnumerable<ComboDto<int>> FromEnumToIntComboList<TEnum>() where TEnum : IConvertible
         {
-            var list = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+            var list = Enum.GetValues(typeof(TEnum))
+                .Cast<TEnum>()
                 .Select(g => new ComboDto<int>
                 {
                     Value = (int)Convert.ChangeType(g, typeof(int)),
@@ -42,10 +34,11 @@ namespace SharedKernel.Infrastructure.System
                 })
                 .Where(g => !string.IsNullOrWhiteSpace(g.Text));
 
-            return Task.FromResult(list);
+            return list;
         }
 
-        private static string DisplayAttrName(this IConvertible value)
+        /// <summary>  </summary>
+        public static string DisplayAttrName(this IConvertible value)
         {
             var enumType = value.GetType();
             if (!enumType.IsEnum)

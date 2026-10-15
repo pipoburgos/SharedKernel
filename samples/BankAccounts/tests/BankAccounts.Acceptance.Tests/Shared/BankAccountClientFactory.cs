@@ -12,7 +12,7 @@ public class BankAccountClientFactory : WebApplicationFactoryBase<Program>
 {
     public BankAccountClientFactory()
     {
-        DeleteDatabase = false;
+        DeleteDatabase = true;
     }
 
     public override DbContext GetNewDbContext()
