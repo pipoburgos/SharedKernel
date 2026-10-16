@@ -37,7 +37,7 @@ public class SqlServerDapperQueryProviderTests : InfrastructureTestCase<FakeStar
         dbContext.Set<User>().Add(user);
         await dbContext.SaveChangesAsync();
 
-        var result = await GetRequiredServiceOnNewScope<DapperQueryProvider>()
+        var result = await GetRequiredServiceOnNewScope<IDapperQueryProvider>()
             .ExecuteQueryFirstOrDefaultAsync<int>($"SELECT COUNT(*) FROM skr.[User] WHERE Id = '{user.Id}'");
 
         result.Should().Be(1);

@@ -41,7 +41,7 @@ public abstract class PageOptionsBinder
         for (var i = 0; i < ordersFieldsValues.Values.Count; i++)
         {
             var field = ordersFieldsValues.ToArray()[i];
-            if (ordersAscendingValues.Length >= i+1)
+            if (ordersAscendingValues.Length >= i + 1)
             {
                 var ok = bool.TryParse(ordersAscendingValues.ToArray()[i], out var ascending);
                 if (!string.IsNullOrWhiteSpace(field))
@@ -53,7 +53,7 @@ public abstract class PageOptionsBinder
                     orders.Add(new Order(field, true));
             }
         }
-        pageOptions.Orders = orders;
+        pageOptions.Orders = orders.ToArray();
 
         var filtersFieldsValues = bindingContext.ValueProvider.GetValue("pageOptions[filterProperties][field]");
         var filtersAscendingValues = bindingContext.ValueProvider.GetValue("pageOptions[filterProperties][value]");
@@ -77,7 +77,7 @@ public abstract class PageOptionsBinder
                 filters.Add(new FilterProperty(field, filtersAscendingValues.ToArray()[i], filterOperator,
                     !ok || ignoreCase));
         }
-        pageOptions.FilterProperties = filters;
+        pageOptions.FilterProperties = filters.ToArray();
 
         return pageOptions;
     }

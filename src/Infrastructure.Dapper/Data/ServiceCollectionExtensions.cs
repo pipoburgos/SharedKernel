@@ -1,9 +1,4 @@
 ﻿using Dapper;
-using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Logging;
-using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
-using SharedKernel.Infrastructure.Dapper.Data.Queries;
-using SharedKernel.Infrastructure.System;
 using System.Collections;
 
 namespace SharedKernel.Infrastructure.Dapper.Data;
@@ -11,15 +6,6 @@ namespace SharedKernel.Infrastructure.Dapper.Data;
 /// <summary> . </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelDapperQueryProvider(this IServiceCollection services,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped, string? serviceKey = "default")
-    {
-        return services.AddSharedKernelKeyed(serviceKey,
-            (sp, key) => new DapperQueryProvider(sp.GetRequiredService<ICustomLogger<DapperQueryProvider>>(),
-                sp.GetRequiredKeyedService<IDbConnectionFactory>(key)), serviceLifetime);
-    }
-
     /// <summary> . </summary>
     public static string ShowDapperQuery(this string sql, DynamicParameters? parameters = null)
     {

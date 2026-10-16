@@ -48,7 +48,7 @@ public class GetBankAccountsEndpointTests
 
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        using var response = await client.PostAsJsonAsync("api/v1/bank-accounts/paged", new GetBankAccounts(new PageOptions(orders: new List<Order> { new("not_found") })), TestContext.Current.CancellationToken);
+        using var response = await client.PostAsJsonAsync("api/v1/bank-accounts/paged", new GetBankAccounts(new PageOptions(orders: [new("not_found")])), TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var error = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);

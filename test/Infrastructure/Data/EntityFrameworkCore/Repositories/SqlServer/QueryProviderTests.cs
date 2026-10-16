@@ -40,8 +40,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("NumberOfChildren", "220", FilterOperator.LessThanOrEqualTo) });
+        var pageOptions = new PageOptions(default, default, default, true, false, [new("Name", true)],
+            [new("NumberOfChildren", "220", FilterOperator.LessThanOrEqualTo)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -58,8 +58,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(default, default, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("Birthdate", "1970-05-01T00:00:00Z", FilterOperator.GreaterThan) });
+        var pageOptions = new PageOptions(default, default, default, true, false, [new("Name", true)],
+            [new("Birthdate", "1970-05-01T00:00:00Z", FilterOperator.GreaterThan)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -92,8 +92,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
     {
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("Name", "23", FilterOperator.NotStartsWith) });
+        var pageOptions = new PageOptions(0, 5, default, true, false, [new("Name", true)],
+            [new("Name", "23", FilterOperator.NotStartsWith)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -110,8 +110,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) });
-        //,new List<FilterProperty> { new("emails", "a@a.es", FilterOperator.Contains) });
+        var pageOptions = new PageOptions(0, 5, default, true, false, [new("Name", true)]);
+        //,new FilterProperty[] { new("emails", "a@a.es", FilterOperator.Contains) });
 
         //var result2 = await queryProvider
         //    .GetQuery<User>()
@@ -134,8 +134,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("parent.name", "abcde@a.es", FilterOperator.Contains) });
+        var pageOptions = new PageOptions(0, 5, default, true, false, [new("Name", true)],
+            [new("parent.name", "abcde@a.es", FilterOperator.Contains)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -152,8 +152,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, 10, "aasdfa", true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty>());
+        var pageOptions = new PageOptions(0, 10, "aasdfa", true, false, [new("Name", true)],
+            []);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -172,8 +172,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var today = DateTime.Today;
 
-        var pageOptions = new PageOptions(0, 5, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty> { new("CreatedAt", today.ToUniversalTime().ToString("O")) });
+        var pageOptions = new PageOptions(0, 5, default, true, false, [new("Name", true)],
+            [new("CreatedAt", today.ToUniversalTime().ToString("O"))]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -192,9 +192,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var today = DateTime.Today;
 
-        var pageOptions = new PageOptions(0, 10, default, true, false, new List<Order> { new("Name", true) },
-            new List<FilterProperty>
-                {new("CreatedAt", today.ToUniversalTime().ToString("O"), FilterOperator.NotDateEqual)});
+        var pageOptions = new PageOptions(0, 10, default, true, false, [new("Name", true)],
+            [new("CreatedAt", today.ToUniversalTime().ToString("O"), FilterOperator.NotDateEqual)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -217,7 +216,7 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
         var pageOptions = new PageOptions(0, total, default, true, false, default,
-            new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
+            [new("NumberOfChildren", "150", FilterOperator.NotEqualTo)]);
 
         var result = await queryProvider
             .GetQuery<User>()
@@ -247,8 +246,8 @@ public class QueryProviderTests : IClassFixture<SqlServerApp>
 
         var queryProvider = _sqlServerApp.GetRequiredService<EntityFrameworkCoreQueryProvider<SharedKernelEntityFrameworkDbContext>>();
 
-        var pageOptions = new PageOptions(0, total, default, true, false, new List<Order> { new(default, false) },
-            new List<FilterProperty> { new("NumberOfChildren", "150", FilterOperator.NotEqualTo) });
+        var pageOptions = new PageOptions(0, total, default, true, false, [new(default, false)],
+            [new("NumberOfChildren", "150", FilterOperator.NotEqualTo)]);
 
         var result = await queryProvider
             .GetQuery<User>()

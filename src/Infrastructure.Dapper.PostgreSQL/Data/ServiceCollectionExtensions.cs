@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Dapper.Data;
+using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
+using SharedKernel.Infrastructure.Dapper.Data.Queries;
+using SharedKernel.Infrastructure.Dapper.PostgreSql.Data;
 using SharedKernel.Infrastructure.Dapper.PostgreSQL.Data.ConnectionFactory;
+using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure.Dapper.PostgreSQL.Data;
 
@@ -16,7 +19,10 @@ public static class ServiceCollectionExtensions
             .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre Dapper");
 
         return services
-            .AddSharedKernelDapperQueryProvider(serviceLifetime, serviceKey)
-            .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString));
+            .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString))
+            .AddSharedKernelKeyed<IDapperQueryProvider>(serviceKey,
+                (sp, key) =>
+                    new PostgreSqlDapperQueryProvider(sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
+                        sp.GetRequiredKeyedService<IDbConnectionFactory>(key)), serviceLifetime);
     }
 }

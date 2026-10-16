@@ -8,8 +8,7 @@ public class PageOptions
 
     /// <summary> </summary>
     public PageOptions(int? skip = null, int? take = null, string? searchText = null, bool? showDeleted = null,
-        bool? showOnlyDeleted = null, IEnumerable<Order>? orders = null,
-        IEnumerable<FilterProperty>? filterProperties = null)
+        bool? showOnlyDeleted = null, Order[]? orders = null, FilterProperty[]? filterProperties = null)
     {
         Skip = skip;
         Take = take;
@@ -36,8 +35,8 @@ public class PageOptions
     public bool? ShowOnlyDeleted { get; set; }
 
     /// <summary> . </summary>
-    public IEnumerable<Order>? Orders { get; set; }
+    public Order[]? Orders { get; set; }
 
     /// <summary> . </summary>
-    public IEnumerable<FilterProperty>? FilterProperties { get; set; }
+    public FilterProperty[]? FilterProperties { get; set; }
 }
