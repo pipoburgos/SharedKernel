@@ -4,7 +4,6 @@ using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 using SharedKernel.Infrastructure.Dapper.Data.Queries;
 using SharedKernel.Infrastructure.Dapper.PostgreSql.Data;
 using SharedKernel.Infrastructure.Dapper.PostgreSQL.Data.ConnectionFactory;
-using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure.Dapper.PostgreSQL.Data;
 
@@ -20,9 +19,8 @@ public static class ServiceCollectionExtensions
 
         return services
             .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString))
-            .AddSharedKernelKeyed<IDapperQueryProvider>(serviceKey,
-                (sp, key) =>
-                    new PostgreSqlDapperQueryProvider(sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
-                        sp.GetRequiredKeyedService<IDbConnectionFactory>(key)), serviceLifetime);
+            .AddKeyedTransient<IDapperQueryProvider>(serviceKey, (sp, key) => new PostgreSqlDapperQueryProvider(
+                sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
+                sp.GetRequiredKeyedService<IDbConnectionFactory>(key)));
     }
 }

@@ -169,11 +169,12 @@ public sealed class SqlServerDapperQueryProvider : IDapperQueryProvider
                         var textField =
                             $"CONVERT(nvarchar(max), {field})";
 
-                        if (filter.IgnoreCase != false)
+                        if (filter.IgnoreCase)
+                        {
                             textField = $"LOWER({textField})";
-
-                        if (filter.IgnoreCase != false)
                             pattern = pattern.ToLowerInvariant();
+                        }
+
 
                         var likeOperator = op is
                             FilterOperator.NotStartsWith or

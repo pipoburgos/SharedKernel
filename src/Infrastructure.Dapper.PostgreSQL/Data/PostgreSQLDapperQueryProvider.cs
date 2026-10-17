@@ -227,7 +227,7 @@ public sealed class PostgreSqlDapperQueryProvider : IDapperQueryProvider
 
                             var textField = $"CAST({field} AS TEXT)";
 
-                            if (filter.IgnoreCase != false)
+                            if (filter.IgnoreCase)
                             {
                                 textField = $"LOWER({textField})";
                                 pattern = pattern.ToLowerInvariant();

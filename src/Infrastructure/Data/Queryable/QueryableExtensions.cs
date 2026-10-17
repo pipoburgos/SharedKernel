@@ -79,7 +79,7 @@ public static class QueryableExtensions
             return queryable;
 
         var propertiesSpec = new AllPropertiesValueMatchesSpecification<T>(
-            properties.Select(p => new Property(p.Field, p.Value, (Operator?)p.Operator, p.IgnoreCase ?? true)));
+            properties.Select(p => new Property(p.Field, p.Value, (Operator?)p.Operator, p.IgnoreCase)));
 
         return queryable.Where(propertiesSpec.SatisfiedBy());
     }

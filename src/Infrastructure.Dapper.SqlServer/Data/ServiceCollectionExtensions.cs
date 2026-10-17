@@ -4,7 +4,6 @@ using SharedKernel.Application.Logging;
 using SharedKernel.Infrastructure.Dapper.Data.ConnectionFactory;
 using SharedKernel.Infrastructure.Dapper.Data.Queries;
 using SharedKernel.Infrastructure.Dapper.SqlServer.Data.ConnectionFactory;
-using SharedKernel.Infrastructure.System;
 
 namespace SharedKernel.Infrastructure.Dapper.SqlServer.Data;
 
@@ -12,8 +11,7 @@ namespace SharedKernel.Infrastructure.Dapper.SqlServer.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelDapperSqlServer(this IServiceCollection services, string connectionString,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped, string? serviceKey = "default")
+    public static IServiceCollection AddSharedKernelDapperSqlServer(this IServiceCollection services, string connectionString, string? serviceKey = "default")
     {
         services.AddHealthChecks()
             .AddSqlServer(connectionString, "SELECT 1;", _ => { }, serviceKey == "default" ? "Sql Server Dapper" : $"Sql Server Dapper {serviceKey}",
@@ -21,9 +19,8 @@ public static class ServiceCollectionExtensions
 
         return services
             .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new SqlConnectionFactory(connectionString))
-            .AddSharedKernelKeyed<IDapperQueryProvider>(serviceKey,
-                (sp, key) =>
-                    new SqlServerDapperQueryProvider(sp.GetRequiredService<ICustomLogger<SqlServerDapperQueryProvider>>(),
-                        sp.GetRequiredKeyedService<IDbConnectionFactory>(key)), serviceLifetime);
+            .AddKeyedTransient<IDapperQueryProvider>(serviceKey, (sp, key) => new SqlServerDapperQueryProvider(
+                sp.GetRequiredService<ICustomLogger<SqlServerDapperQueryProvider>>(),
+                sp.GetRequiredKeyedService<IDbConnectionFactory>(key)));
     }
 }
