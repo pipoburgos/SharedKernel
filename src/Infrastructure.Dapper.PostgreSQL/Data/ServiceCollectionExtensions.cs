@@ -11,11 +11,17 @@ namespace SharedKernel.Infrastructure.Dapper.PostgreSQL.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelDapperPostgreSql(this IServiceCollection services, string connectionString,
-        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped, string? serviceKey = "default")
+    public static IServiceCollection AddSharedKernelDapperPostgreSql(this IServiceCollection services, string connectionString, string? serviceKey = null)
     {
         services.AddHealthChecks()
-            .AddNpgSql(connectionString, "SELECT 1;", null, "Postgre Dapper");
+            .AddNpgSql(connectionString, "SELECT 1;", null, serviceKey == null ? "PostgreSQL Dapper" : $"PostgreSQL Dapper {serviceKey}");
+
+        if (serviceKey == null)
+            return services
+                .AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString))
+                .AddTransient<IDapperQueryProvider>(sp => new PostgreSqlDapperQueryProvider(
+                    sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
+                    sp.GetRequiredService<IDbConnectionFactory>()));
 
         return services
             .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString))

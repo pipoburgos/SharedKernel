@@ -11,11 +11,18 @@ namespace SharedKernel.Infrastructure.Dapper.SqlServer.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelDapperSqlServer(this IServiceCollection services, string connectionString, string? serviceKey = "default")
+    public static IServiceCollection AddSharedKernelDapperSqlServer(this IServiceCollection services, string connectionString, string? serviceKey = null)
     {
         services.AddHealthChecks()
-            .AddSqlServer(connectionString, "SELECT 1;", _ => { }, serviceKey == "default" ? "Sql Server Dapper" : $"Sql Server Dapper {serviceKey}",
+            .AddSqlServer(connectionString, "SELECT 1;", _ => { }, serviceKey == null ? "Sql Server Dapper" : $"Sql Server Dapper {serviceKey}",
                 HealthStatus.Unhealthy, ["DB", "Sql", "SqlServer"]);
+
+        if (serviceKey == null)
+            return services
+                .AddTransient<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString))
+                .AddTransient<IDapperQueryProvider>(sp => new SqlServerDapperQueryProvider(
+                    sp.GetRequiredService<ICustomLogger<SqlServerDapperQueryProvider>>(),
+                    sp.GetRequiredService<IDbConnectionFactory>()));
 
         return services
             .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new SqlConnectionFactory(connectionString))
