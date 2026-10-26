@@ -8,18 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
     <PackageReference Include="OpenIddict.AspNetCore" Version="7.7.2" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.7.2" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.*" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Auth\SharedKernel.Application.Auth.csproj" />
     <ProjectReference Include="..\Application\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure.EntityFrameworkCore.Identity\SharedKernel.Infrastructure.EntityFrameworkCore.Identity.csproj" />
     <ProjectReference Include="..\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
     <ProjectReference Include="..\Infrastructure\SharedKernel.Infrastructure.csproj" />
   </ItemGroup>

@@ -19,6 +19,17 @@ public static class RequestServiceExtensions
         {
             var eventName = GetUniqueName<T>(eventType, method);
 
+            var exists = services
+                .Where(x => x.ServiceType == typeof(IRequestType))
+                .Any(x =>
+                    x.ImplementationInstance is RequestType requestType &&
+                    requestType.UniqueName == eventName);
+
+            if (exists)
+            {
+                continue;
+            }
+
             services.Add(new ServiceDescriptor(typeof(IRequestType),
                 _ => new RequestType(eventName, eventType, isTopic), serviceLifetime));
         }

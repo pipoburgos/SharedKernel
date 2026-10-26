@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Communication.Email;
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Communication.Email.Smtp;
 
@@ -44,7 +45,8 @@ public static class ServiceCollectionExtensions
                 new RetryEmailDecorator(
                     sp.GetRequiredService<ICustomLogger<RetryEmailDecorator>>(),
                     sp.GetRequiredService<SmtpEmailSender>(),
-                    default));
+                    sp.GetRequiredService<IRandomNumberGenerator>(),
+                    null));
     }
 
     /// <summary> . </summary>

@@ -1,6 +1,7 @@
 [*.cs]
 dotnet_diagnostic.CS1591.severity = suggestion         # Missing XML comment for publicly visible type or member 'Type_or_Member'
 dotnet_diagnostic.IDE0028.severity = suggestion        # Use collection initializer
+dotnet_diagnostic.MA0004.severity = none
 dotnet_diagnostic.RCS1138.severity = suggestion        # Add summary to documentation comment
 dotnet_diagnostic.RS0019.severity = suggestion         # Duplicate resource
 dotnet_diagnostic.S125.severity = suggestion           # Remove this commented out code.

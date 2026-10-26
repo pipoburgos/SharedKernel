@@ -20,4 +20,18 @@ public interface ISha256
     /// <param name="value"></param>
     /// <returns></returns>
     string GetSignature(byte[] tripeDesKey, string value);
+
+    /// <summary>
+    /// Computes a hash value for the specified byte array. 
+    /// </summary>
+    /// <param name="bytes">The input data to hash.</param>
+    /// <returns>A string representation of the computed hash.</returns>
+    string ComputeHash(byte[] bytes);
+
+    /// <summary>
+    /// Computes a hash value for the specified byte array. 
+    /// </summary>
+    /// <param name="stream">The input data to hash.</param>
+    /// <returns>A string representation of the computed hash.</returns>
+    string ComputeHash(Stream stream);
 }

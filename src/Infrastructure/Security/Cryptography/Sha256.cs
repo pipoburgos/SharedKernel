@@ -50,4 +50,26 @@ public class Sha256 : ISha256
 
         return signature;
     }
+
+    public string ComputeHash(byte[] bytes)
+    {
+        using var sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(bytes);
+
+        return BitConverter
+            .ToString(hashBytes)
+            .Replace("-", string.Empty)
+            .ToLowerInvariant();
+    }
+
+    public string ComputeHash(Stream stream)
+    {
+        using var sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(stream);
+
+        return BitConverter
+            .ToString(hashBytes)
+            .Replace("-", string.Empty)
+            .ToLowerInvariant();
+    }
 }

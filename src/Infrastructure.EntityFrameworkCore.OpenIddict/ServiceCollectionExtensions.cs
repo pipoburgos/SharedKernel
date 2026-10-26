@@ -4,23 +4,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Auth;
+using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Abstractions;
+using OpenIddict.Validation.AspNetCore;
 using SharedKernel.Application.Auth.Applications.Services;
-using SharedKernel.Application.Auth.Roles.Services;
 using SharedKernel.Application.Auth.UnitOfWork;
-using SharedKernel.Application.Auth.Users.Services;
 using SharedKernel.Application.Security;
-using SharedKernel.Infrastructure.Cqrs.Commands;
-using SharedKernel.Infrastructure.Cqrs.Queries;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Identity;
 using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Applications;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Roles;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.DataProtection;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.Identity;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Shared.OpenIddict;
-using SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.Users;
-using SharedKernel.Infrastructure.Events;
-using SharedKernel.Infrastructure.FluentValidation;
+using System.Text;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict;
 
@@ -36,25 +28,77 @@ public static class ServiceCollectionExtensions
         where TRole : IdentityRole<Guid>
     {
         return services
-            .AddHostedService<MigrationDbContext<TDbContext>>()
+            .AddSharedKernelCustomIdentity<TDbContext, TUser, TRole>(configuration, encryptionKey, configureOptions)
             .Configure<DbContextOptions<TDbContext>>(options =>
             {
                 var builder = new DbContextOptionsBuilder<TDbContext>(options);
                 builder.UseOpenIddict();
             })
-            .Configure<OpenIdOptions>(configuration.GetSection(nameof(OpenIdOptions)))
-            .AddScoped<IUserManager, UserManager>()
-            .AddScoped<IRoleManager, RoleManager>()
             .AddScoped<IApplicationManager, ApplicationManager>()
-            .AddSharedKernelDomainEventsSubscribers(typeof(SharedKernelApplicationAuthAssembly), typeof(SharedKernelApplicationAuthAssembly))
-            .AddSharedKernelCommandsHandlers(typeof(SharedKernelApplicationAuthAssembly))
-            .AddSharedKernelQueriesHandlers(typeof(SharedKernelApplicationAuthAssembly))
-            .AddSharedKernelFluentValidation(typeof(SharedKernelApplicationAuthAssembly))
-            .AddSharedKernelIdentity<TDbContext, TUser, TRole, Guid>(configureOptions)
-            .AddScoped<IUserStore<TUser>, UserRepository<TDbContext, TUser, TRole, Guid>>()
-            .AddScoped<IRoleStore<TRole>, RoleRepository<TDbContext, TUser, TRole, Guid>>()
-            .AddSharedKernelDataProtection<TDbContext>()
             .AddSharedKernelServer<TDbContext>(configuration, encryptionKey, configure)
             .AddScoped<IAuthUnitOfWork>(sp => sp.GetRequiredService<TDbContext>());
+    }
+
+    /// <summary> . </summary>
+    public static IServiceCollection AddSharedKernelServer<TDbContext>(this IServiceCollection services,
+        IConfiguration configuration, string encryptionKey, Action<OpenIddictServerBuilder>? configure) where TDbContext : DbContext
+    {
+        var openIdOptions = new OpenIdOptions();
+        configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
+
+        services.AddDbContext<TDbContext>(options =>
+        {
+            options.UseOpenIddict();
+        });
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+        });
+
+        var key = Encoding.ASCII.GetBytes(encryptionKey);
+
+        services.AddOpenIddict()
+            .AddCore(x =>
+            {
+                x.UseEntityFrameworkCore().UseDbContext<TDbContext>();
+
+            })
+            .AddServer(options =>
+            {
+                options.AllowPasswordFlow().AllowRefreshTokenFlow().AllowClientCredentialsFlow();
+                options.SetTokenEndpointUris("/connect/token");
+                options.SetAccessTokenLifetime(TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime));
+                options.SetIdentityTokenLifetime(TimeSpan.FromSeconds(openIdOptions.AccessTokenSecondsLifetime));
+                options.SetRefreshTokenLifetime(TimeSpan.FromSeconds(openIdOptions.RefreshTokenSecondsLifetime));
+                options.UseAspNetCore().EnableTokenEndpointPassthrough().DisableTransportSecurityRequirement();
+                options.DisableAccessTokenEncryption();
+
+                options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile,
+                    OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess,
+                    OpenIddictConstants.Scopes.OpenId);
+
+                options.RegisterClaims(OpenIddictConstants.Claims.Subject, OpenIddictConstants.Claims.Role,
+                    OpenIddictConstants.Claims.PreferredUsername, OpenIddictConstants.Claims.Email);
+
+                options.AddEncryptionKey(new SymmetricSecurityKey(key));
+
+                if (configure != null)
+                    configure.Invoke(options);
+                else
+                    options.AddDevelopmentSigningCertificate();
+            })
+            .AddValidation(options =>
+            {
+                options.UseLocalServer();
+                options.UseAspNetCore();
+                options.EnableTokenEntryValidation();
+                options.SetIssuer(new Uri(openIdOptions.Authority!));
+                options.AddAudiences(openIdOptions.Audience!);
+                options.AddEncryptionKey(new SymmetricSecurityKey(key));
+                options.UseSystemNetHttp();
+            });
+
+        return services;
     }
 }

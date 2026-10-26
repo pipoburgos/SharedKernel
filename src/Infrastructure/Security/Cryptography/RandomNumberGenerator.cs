@@ -1,6 +1,9 @@
-﻿using SharedKernel.Application.Security.Cryptography;
+﻿
+
+using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Infrastructure.Security.Cryptography;
+
 
 /// <summary>
 /// 
@@ -15,12 +18,14 @@ public class RandomNumberGenerator : IRandomNumberGenerator
     /// <returns></returns>
     public int GetRandom(int minValue, int maxValue)
     {
-        var rng = global::System.Security.Cryptography.RandomNumberGenerator.Create();
-        var rndBytes = new byte[4];
-        rng.GetBytes(rndBytes);
-        var rand = BitConverter.ToInt32(rndBytes, 0);
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+        return global::System.Security.Cryptography.RandomNumberGenerator.GetInt32(minValue, maxValue);
+#else
+#pragma warning disable S2245
+        var random = new Random();
 
-        var gen = new Random(rand);
-        return gen.Next(minValue, maxValue);
+        return random.Next(minValue, maxValue);
+#pragma warning restore S2245
+#endif
     }
 }

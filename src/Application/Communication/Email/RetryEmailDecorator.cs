@@ -1,5 +1,6 @@
 ﻿#if !NET40
 using SharedKernel.Application.Logging;
+using SharedKernel.Application.Security.Cryptography;
 
 namespace SharedKernel.Application.Communication.Email;
 
@@ -9,6 +10,7 @@ public class RetryEmailDecorator : IEmailSender
     private readonly ICustomLogger<RetryEmailDecorator> _logger;
     private readonly IEmailSender _emailSender;
     private readonly IEmailSender? _emailSenderSaver;
+    private readonly IRandomNumberGenerator _randomNumberGenerator;
 
     /// <summary> . </summary>
     protected int MaxRetries { get; } = 5;
@@ -17,11 +19,13 @@ public class RetryEmailDecorator : IEmailSender
     public RetryEmailDecorator(
         ICustomLogger<RetryEmailDecorator> logger,
         IEmailSender emailSender,
+        IRandomNumberGenerator randomNumberGenerator,
         IEmailSender? emailSenderSaver)
     {
         _logger = logger;
         _emailSender = emailSender;
         _emailSenderSaver = emailSenderSaver;
+        _randomNumberGenerator = randomNumberGenerator;
     }
 
     /// <summary> . </summary>
@@ -61,7 +65,7 @@ public class RetryEmailDecorator : IEmailSender
                         throw;
                     }
 
-                    var delay = new Random().Next(500, 2_000);
+                    var delay = _randomNumberGenerator.GetRandom(500, 2_000);
                     await Task.Delay(delay, cancellationToken);
                 }
             }

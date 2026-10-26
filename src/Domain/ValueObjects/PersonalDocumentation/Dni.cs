@@ -42,8 +42,21 @@ public class Dni : ValueObject<Dni>
             return false;
 
         // Check NIF format.
+#if NET40
         if (!Regex.IsMatch(nif, @"[0-9]{8,10}[" + Correspondencia + "]$"))
+        {
             return false;
+        }
+#else
+        if (!Regex.IsMatch(
+                nif,
+                @"[0-9]{8,10}[" + Correspondencia + "]$",
+                RegexOptions.None,
+                TimeSpan.FromSeconds(1)))
+        {
+            return false;
+        }
+#endif
 
         int.TryParse(nif.Substring(0, 8), out var dniNumber);
         var controlDigit = nif.LastOrDefault().ToString();

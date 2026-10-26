@@ -25,11 +25,12 @@ public static class AddSharedKernelExtensions
             .AddTransient<IBinarySerializer, BinarySerializer>()
             .AddTransient<ICulture, ThreadUiCulture>()
             .AddTransient<IDateTime, MachineDateTime>()
-            .AddTransient<IMd5Encryptor, Md5Encryptor>()
             .AddTransient<IGuid, GuidGenerator>()
             .AddTransient<IIdentityService, DefaultIdentityService>()
             .AddTransient<IParallel, System.Threading.Parallel>()
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
             .AddTransient<IRandomNumberGenerator, RandomNumberGenerator>()
+#endif
             .AddTransient<ISha256, Sha256>()
             .AddTransient<IStreamHelper, StreamHelper>()
             .AddTransient<IStringHelper, StringHelper>()

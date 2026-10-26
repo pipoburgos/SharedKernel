@@ -33,6 +33,7 @@
     <Project Path="src/Infrastructure.Dapper/SharedKernel.Infrastructure.Dapper.csproj" />
     <Project Path="src/Infrastructure.DotNetDBF/SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <Project Path="src/Infrastructure.Elasticsearch/SharedKernel.Infrastructure.Elasticsearch.csproj" />
+    <Project Path="src/Infrastructure.EntityFrameworkCore.Identity/SharedKernel.Infrastructure.EntityFrameworkCore.Identity.csproj" />
     <Project Path="src/Infrastructure.EntityFrameworkCore.OpenIddict/SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
     <Project Path="src/Infrastructure.EntityFrameworkCore.PostgreSQL/SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />
     <Project Path="src/Infrastructure.EntityFrameworkCore.SqlServer/SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />

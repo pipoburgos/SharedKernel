@@ -58,7 +58,7 @@ public class OpenIddictTests : InfrastructureTestCase<FakeStartup>
         const string fakePassword = "PassWord$88";
 
         await commandBus.Dispatch(
-            new CreateUser(id, userName, email, fakePassword, fakePassword, [], ["testRole"]),
+            new CreateAuthUser(id, userName, email, fakePassword, fakePassword, [], ["testRole"]),
             CancellationToken.None);
 
 

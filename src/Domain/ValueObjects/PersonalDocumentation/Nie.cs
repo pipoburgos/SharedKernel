@@ -42,8 +42,21 @@ public class Nie
             return false;
 
         // Check NIE format.
+#if NET40
         if (!Regex.IsMatch(nie, @"[K-MX-Z]\d{7}[" + Correspondencia + "]$"))
+        {
             return false;
+        }
+#else
+        if (!Regex.IsMatch(
+                nie,
+                @"[K-MX-Z]\d{7}[" + Correspondencia + "]$",
+                RegexOptions.None,
+                TimeSpan.FromSeconds(1)))
+        {
+            return false;
+        }
+#endif
 
         var initialLetter = nie.FirstOrDefault().ToString();
         int.TryParse(nie.Substring(1, 7), out var nieNumber);
