@@ -2,6 +2,7 @@ name: Shared Kernel CI
 
 permissions:
   contents: write
+  id-token: write
 
 on:
   push:
@@ -138,13 +139,19 @@ jobs:
           echo "=== Files ==="
           ls -R .
 
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: pipoburgos
+
       - name: Push to NuGet.org
         run: |
           dotnet nuget push packages/**.nupkg \
-          --api-key ${{ secrets.API_KEY }} \
-          --source "https://api.nuget.org/v3/index.json" \
-          --skip-duplicate \
-          --timeout 600
+            --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
+            --source "https://api.nuget.org/v3/index.json" \
+            --skip-duplicate \
+            --timeout 600
 
       # - name: Prep GitHub Packages source
       #   run: |
