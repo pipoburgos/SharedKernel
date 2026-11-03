@@ -78,6 +78,8 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: success()
+    environment:
+      name: Shared Kernel CI
 
     steps:
       - name: Setup Git remote only
