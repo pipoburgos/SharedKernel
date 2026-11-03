@@ -32,6 +32,12 @@ public class DateTimeConverter : JsonConverter<DateTime>
     }
 
     /// <summary> . </summary>
-    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options) =>
-        writer.WriteStringValue(value.ToUniversalTime());
+    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+    {
+        var utcValue = value.Kind == DateTimeKind.Utc
+            ? value
+            : DateTime.SpecifyKind(value, DateTimeKind.Utc);
+
+        writer.WriteStringValue(utcValue.ToUniversalTime());
+    }
 }

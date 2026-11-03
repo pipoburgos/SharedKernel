@@ -85,6 +85,22 @@ public class UserManager : IUserManager
         Validate(result);
     }
 
+    public async Task RemoveClaimsAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var applicationUser = await GetUser(id);
+        var claims = await _userManager.GetClaimsAsync(applicationUser);
+        var result = await _userManager.RemoveClaimsAsync(applicationUser, claims);
+        Validate(result);
+    }
+
+    public async Task RemoveRolesAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var applicationUser = await GetUser(id);
+        var roles = await _userManager.GetRolesAsync(applicationUser);
+        var result = await _userManager.RemoveFromRolesAsync(applicationUser, roles);
+        Validate(result);
+    }
+
     /// <summary> . </summary>
     public virtual async Task AddToRolesAsync(Guid id, IEnumerable<string> roles, CancellationToken cancellationToken = default)
     {
@@ -114,15 +130,17 @@ public class UserManager : IUserManager
     {
         var applicationUser = await GetUser(id);
 
-        var result = await _userManager.SetLockoutEnabledAsync(applicationUser, true);
+        await RemoveClaimsAsync(id, cancellationToken);
+        await RemoveRolesAsync(id, cancellationToken);
 
+        var result = await _userManager.SetLockoutEnabledAsync(applicationUser, true);
         Validate(result);
 
-        await _userManager.SetLockoutEndDateAsync(applicationUser, DateTimeOffset.MaxValue);
+        var result2 = await _userManager.SetLockoutEndDateAsync(applicationUser, DateTimeOffset.MaxValue);
+        Validate(result2);
     }
 
-    /// <summary> . </summary>
-    public virtual async Task ReactivateAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task ReactivateAsync(Guid id, IEnumerable<string> roles, IEnumerable<Claim> claims, CancellationToken cancellationToken = default)
     {
         var applicationUser = await GetUser(id);
 

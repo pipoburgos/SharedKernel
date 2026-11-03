@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddLogging()
-            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>));
-        //.AddTransient<ICustomLogger, DefaultCustomLogger>();
+            .AddTransient(typeof(ICustomLogger<>), typeof(DefaultCustomLogger<>))
+            .AddTransient<ICustomLogger, DefaultCustomLogger>();
     }
 }

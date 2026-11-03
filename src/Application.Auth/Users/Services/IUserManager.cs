@@ -31,10 +31,17 @@ public interface IUserManager
     Task RemoveClaimAsync(Guid id, Claim claim, CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>
+    Task RemoveClaimsAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary> . </summary>
+    Task RemoveRolesAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary> . </summary>
     Task RemoveAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>
-    Task ReactivateAsync(Guid id, CancellationToken cancellationToken = default);
+    Task ReactivateAsync(Guid id, IEnumerable<string> roles, IEnumerable<Claim> claims,
+        CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>
     Task<string> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken = default);

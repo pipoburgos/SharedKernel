@@ -27,7 +27,7 @@ internal sealed class ReactivateAuthUserHandler : ICommandRequestHandler<Reactiv
 
     public async Task Handle(ReactivateAuthUser request, CancellationToken cancellationToken)
     {
-        await _userManager.ReactivateAsync(request.Id, cancellationToken);
+        await _userManager.ReactivateAsync(request.Id, request.Roles, request.Claims, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         // ReSharper disable once UseCollectionExpression
         await _eventBus.Publish(Enumerable.Empty<DomainEvent>(), cancellationToken);

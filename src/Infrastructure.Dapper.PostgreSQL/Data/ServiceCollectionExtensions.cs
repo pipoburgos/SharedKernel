@@ -20,13 +20,13 @@ public static class ServiceCollectionExtensions
             return services
                 .AddTransient<IDbConnectionFactory>(_ => new PostgreSqlConnectionFactory(connectionString))
                 .AddTransient<IDapperQueryProvider>(sp => new PostgreSqlDapperQueryProvider(
-                    sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
+                    sp.GetRequiredService<ICustomLogger>(),
                     sp.GetRequiredService<IDbConnectionFactory>()));
 
         return services
             .AddKeyedTransient<IDbConnectionFactory>(serviceKey, (_, _) => new PostgreSqlConnectionFactory(connectionString))
             .AddKeyedTransient<IDapperQueryProvider>(serviceKey, (sp, key) => new PostgreSqlDapperQueryProvider(
-                sp.GetRequiredService<ICustomLogger<PostgreSqlDapperQueryProvider>>(),
+                sp.GetRequiredService<ICustomLogger>(),
                 sp.GetRequiredKeyedService<IDbConnectionFactory>(key)));
     }
 }

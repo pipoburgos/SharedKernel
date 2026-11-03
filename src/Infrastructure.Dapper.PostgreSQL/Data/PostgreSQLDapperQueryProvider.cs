@@ -16,14 +16,14 @@ namespace SharedKernel.Infrastructure.Dapper.PostgreSql.Data;
 /// </summary>
 public sealed class PostgreSqlDapperQueryProvider : IDapperQueryProvider
 {
-    private readonly ICustomLogger<PostgreSqlDapperQueryProvider> _logger;
+    private readonly ICustomLogger _logger;
     private readonly IDbConnectionFactory _dbConnectionFactory;
 
     /// <summary>
     /// Inicializa el proveedor de consultas.
     /// </summary>
     public PostgreSqlDapperQueryProvider(
-        ICustomLogger<PostgreSqlDapperQueryProvider> logger,
+        ICustomLogger logger,
         IDbConnectionFactory dbConnectionFactory)
     {
         _logger = logger;
