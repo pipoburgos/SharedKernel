@@ -58,6 +58,7 @@ public class NieTests
     [InlineData("Y8262547H")]
     [InlineData("X8551926C")]
     [InlineData("Z8167370Y")]
+    [InlineData("Y4831626F")]
     public void NieOks(string value)
     {
         Nie.Create(value).IsValid().Should().BeTrue();

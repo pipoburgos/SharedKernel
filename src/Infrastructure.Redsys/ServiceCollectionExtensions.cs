@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         configureOptions?.Invoke(redsysOptions);
 
         return services
+            .Configure<RedsysOptions>(configuration.GetSection(nameof(RedsysOptions)))
             .AddTransient<IBase64, Base64>()
             .AddTransient<ISha256, Sha256>()
             .AddTransient<ITripleDes, TripleDes>()

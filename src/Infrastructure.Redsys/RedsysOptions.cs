@@ -65,6 +65,6 @@ public class RedsysOptions
 
     /// <summary> Form url. </summary>
     public string FormUrl => Production
-        ? "https://sis.redsys.es/sis/rest/trataPeticionREST"
-        : "https://sis-t.redsys.es:25443/sis/rest/trataPeticionREST";
+        ? "https://sis.redsys.es/sis/realizarPago"
+        : "https://sis-t.redsys.es:25443/sis/realizarPago";
 }

@@ -58,6 +58,8 @@ public class DniTests
     [InlineData("60013365V")]
     [InlineData("80838422T")]
     [InlineData("23241986A")]
+    [InlineData("3128754H")]
+    [InlineData("1R")]
     public void DniOks(string value)
     {
         Dni.Create(value).IsValid().Should().BeTrue();

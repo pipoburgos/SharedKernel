@@ -29,36 +29,42 @@ public class Dni : ValueObject<Dni>
     /// Check if the value meets the validation rules or not
     /// </summary>
     /// <returns></returns>
+    /// <summary>
+    /// Check if the value meets the validation rules or not
+    /// </summary>
+    /// <returns></returns>
     public bool IsValid()
     {
         if (string.IsNullOrEmpty(Value))
             return true;
 
         // The excess characters are deleted.
-        var nif = DeleteInvalidChars(Value);
+        var nif = DeleteInvalidChars(Value).ToUpperInvariant();
 
         // Check DNI length.
-        if (nif.Length != 9)
+        if (nif.Length < 2 || nif.Length > 9)
             return false;
 
         // Check NIF format.
 #if NET40
-        if (!Regex.IsMatch(nif, @"[0-9]{8,10}[" + Correspondencia + "]$"))
+        if (!Regex.IsMatch(nif, @"^[0-9]{1,8}[" + Correspondencia + "]$"))
         {
             return false;
         }
 #else
-        if (!Regex.IsMatch(
-                nif,
-                @"[0-9]{8,10}[" + Correspondencia + "]$",
-                RegexOptions.None,
-                TimeSpan.FromSeconds(1)))
-        {
-            return false;
-        }
+    if (!Regex.IsMatch(
+            nif,
+            @"^[0-9]{1,8}[" + Correspondencia + "]$",
+            RegexOptions.None,
+            TimeSpan.FromSeconds(1)))
+    {
+        return false;
+    }
 #endif
 
-        int.TryParse(nif.Substring(0, 8), out var dniNumber);
+        if (!int.TryParse(nif.Substring(0, nif.Length - 1), out var dniNumber))
+            return false;
+
         var controlDigit = nif.LastOrDefault().ToString();
 
         // Check letter.
