@@ -30,7 +30,6 @@ public class ValidationFailureException : Exception
 
     private static string BuildErrorMessage(IEnumerable<ValidationFailure> errors)
     {
-        var values = errors.Select(x => Environment.NewLine + " -- " + x.PropertyName + ": " + x.ErrorMessage);
-        return $"Validation failed: {string.Join(string.Empty, values)}";
+        return $"Validation failed: {string.Join($"{Environment.NewLine} -- ", errors.Select(x => x.ToString()))}";
     }
 }

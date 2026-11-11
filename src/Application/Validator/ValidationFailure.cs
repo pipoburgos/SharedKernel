@@ -26,6 +26,6 @@ public class ValidationFailure
     /// <summary>Creates a textual representation of the failure.</summary>
     public override string ToString()
     {
-        return ErrorMessage;
+        return $"{PropertyName}: {ErrorMessage}";
     }
 }

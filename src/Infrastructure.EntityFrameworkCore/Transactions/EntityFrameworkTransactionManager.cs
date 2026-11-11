@@ -4,7 +4,7 @@ using System.Transactions;
 
 namespace SharedKernel.Infrastructure.EntityFrameworkCore.Transactions;
 
-internal sealed class EntityFrameworkTransactionManager : ITransactionManager
+public sealed class EntityFrameworkTransactionManager : ITransactionManager
 {
     private readonly DbContext _dbContext;
 

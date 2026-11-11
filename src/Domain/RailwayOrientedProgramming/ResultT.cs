@@ -1,8 +1,13 @@
-﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿using System.Net;
+
+namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary> . </summary>
 public readonly record struct Result<T>
 {
+    /// <summary> . </summary>
+    public readonly HttpStatusCode HttpStatusCode;
+
     /// <summary> . </summary>
     public readonly T Value;
 
@@ -11,6 +16,9 @@ public readonly record struct Result<T>
 
     /// <summary> . </summary>
     public readonly IEnumerable<Error> Errors;
+
+    /// <summary> . </summary>
+    public readonly string ErrorsText => $"Validation failed: {string.Join($"{Environment.NewLine} -- ", Errors.Select(x => x.ToString()))}";
 
     /// <summary> . </summary>
     public bool IsSuccess => Errors != default && !Errors.Any();
@@ -24,6 +32,15 @@ public readonly record struct Result<T>
         Value = value;
         // ReSharper disable once UseCollectionExpression
         Errors = Enumerable.Empty<Error>();
+        HttpStatusCode = HttpStatusCode.OK;
+    }
+
+    private Result(T value, HttpStatusCode httpStatusCode)
+    {
+        Value = value;
+        // ReSharper disable once UseCollectionExpression
+        Errors = Enumerable.Empty<Error>();
+        HttpStatusCode = httpStatusCode;
     }
 
     /// <summary> . </summary>
@@ -38,6 +55,7 @@ public readonly record struct Result<T>
 
         Value = default!;
         Errors = list;
+        HttpStatusCode = HttpStatusCode.BadRequest;
     }
 
     /// <summary> . </summary>
@@ -50,6 +68,12 @@ public readonly record struct Result<T>
     public static Result<T> Create(T value)
     {
         return new Result<T>(value);
+    }
+
+    /// <summary> . </summary>
+    public static Result<T> Create(T value, HttpStatusCode httpStatusCode)
+    {
+        return new Result<T>(value, httpStatusCode);
     }
 
     /// <summary> . </summary>

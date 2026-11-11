@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#if NET || NETSTANDARD
+using SharedKernel.Application.Transactions;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Transactions;
+#endif
+using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Security;
 using SharedKernel.Application.System;
 using SharedKernel.Application.Validator;
@@ -34,6 +38,9 @@ public static class ServiceCollectionExtensions
             .AddTransient<IEntityAuditableService, EntityAuditableService>()
             .AddTransient<IGuid, GuidGenerator>()
             .AddTransient<IIdentityService, DefaultIdentityService>()
+#if NET || NETSTANDARD
+            .AddTransient<ITransactionManager, EntityFrameworkTransactionManager>()
+#endif
             .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>));
     }
 }

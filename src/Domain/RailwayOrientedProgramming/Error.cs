@@ -24,4 +24,9 @@ public class Error
 
     /// <summary> The error message. </summary>
     public string ErrorMessage { get; set; } = null!;
+
+    public override string ToString()
+    {
+        return $"{PropertyName}: {ErrorMessage}";
+    }
 }

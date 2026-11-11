@@ -6,6 +6,7 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
 using SharedKernel.Application.Validator;
 using SharedKernel.Domain.RailwayOrientedProgramming;
+using System.Net;
 
 namespace SharedKernel.Api.Controllers;
 
@@ -32,10 +33,16 @@ public abstract class BaseController : ControllerBase
     /// <returns>The created <see cref="ActionResult&lt;Value&gt;"/> for the response.</returns>
     protected IActionResult OkTyped(Result<Unit> result)
     {
-        return result.IsSuccess
-            ? Ok()
-            : BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
+        if (result.IsSuccess)
+            return Ok();
+
+        if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+        {
+            return BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
                 new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+        }
+
+        return StatusCode((int)result.HttpStatusCode);
     }
 
     /// <summary>

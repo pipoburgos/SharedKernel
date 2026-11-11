@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿using System.Net;
+
+namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary> . </summary>
 public static class Result
@@ -31,5 +33,8 @@ public static class Result
     public static Result<Unit> Failure(Error error) => Result<Unit>.Create(new List<Error> { error });
 
     /// <summary> . </summary>
-    public static Result<Unit> NotFound() => Result<Unit>.Create(Unit);
+    public static Result<Unit> NotFound() => Result<Unit>.Create(Unit, HttpStatusCode.NotFound);
+
+    /// <summary> . </summary>
+    public static Result<Unit> Conflict() => Result<Unit>.Create(Unit, HttpStatusCode.Conflict);
 }

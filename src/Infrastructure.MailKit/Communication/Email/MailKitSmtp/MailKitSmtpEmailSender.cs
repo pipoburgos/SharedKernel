@@ -1,5 +1,5 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
+﻿using MailKit;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -29,12 +29,13 @@ public class MailKitSmtpEmailSender : IEmailSender
         return SendEmailAsync(new List<Mail> { email }, cancellationToken);
     }
 
-    /// <summary> . </summary>
+
+    /// <summary> Envía una colección de correos electrónicos. </summary>
     public async Task SendEmailAsync(IEnumerable<Mail> emails, CancellationToken cancellationToken)
     {
         var mails = await CreateMimeMessages(emails, cancellationToken);
 
-        using var client = new SmtpClient();
+        await using var client = new SmtpClient();
 
         await client.ConnectAsync(_smtp.MailServer, _smtp.MailPort, false, cancellationToken);
 
@@ -43,14 +44,18 @@ public class MailKitSmtpEmailSender : IEmailSender
             if (string.IsNullOrWhiteSpace(_smtp.Password))
                 throw new EmailException(nameof(ExceptionCodes.SMT_PASS_EMPTY));
 
-            await client.AuthenticateAsync(new SaslMechanismLogin(_smtp.User!, _smtp.Password!), cancellationToken);
+            await client.AuthenticateAsync(_smtp.User!, _smtp.Password!,
+                cancellationToken);
         }
 
-        var tasks = mails.Select(email => client.SendAsync(email, cancellationToken)).Cast<Task>().ToList();
-        await Task.WhenAll(tasks);
+        foreach (var email in mails)
+        {
+            await client.SendAsync(email, cancellationToken);
+        }
 
-        //await client.DisconnectAsync(true, cancellationToken);
+        await client.DisconnectAsync(true, cancellationToken);
     }
+
 
     private async Task<List<MimeMessage>> CreateMimeMessages(IEnumerable<Mail> emails, CancellationToken cancellationToken)
     {
@@ -68,7 +73,7 @@ public class MailKitSmtpEmailSender : IEmailSender
 
             mailMessage.To.AddRange(email.To.Select(t => new MailboxAddress(t, t)));
 
-            if (email.Attachments != default && email.Attachments.Any())
+            if (email.Attachments != null && email.Attachments.Any())
             {
                 if (_smtp.MaxSendSize.HasValue && email.Attachments.Sum(a => a.ContentStream.Length) > _smtp.MaxSendSize)
                     throw new EmailException(nameof(ExceptionCodes.EMAIL_ATTACH_EXT));
