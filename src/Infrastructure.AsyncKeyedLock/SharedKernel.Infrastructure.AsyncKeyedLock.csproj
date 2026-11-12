@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net10.0;net11.0</TargetFrameworks>
     <Description>AsyncKeyedLock infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.AsyncKeyedLock</PackageId>
     <PackageTags>AsyncKeyedLock Mutex</PackageTags>
@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AsyncKeyedLock" Version="8.1.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="11.0.*" />
   </ItemGroup>
 
   <ItemGroup>

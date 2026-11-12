@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net10.0;net11.0</TargetFrameworks>
     <Description>NPOI infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.NPOI</PackageId>
     <PackageTags>NPOI</PackageTags>
@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="NPOI" Version="2.8.1" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.*" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.*" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="11.0.*" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.*" />
   </ItemGroup>
 
   <ItemGroup>

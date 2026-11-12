@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;netstandard2.0;netstandard2.1;net10.0;net11.0</TargetFrameworks>
     <Description>C# DDD Infrastructure Layer</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure</PackageId>
     <PackageTags>C# InMemoryCache CQRS InMemoryCommandBus InMemoryQueryBus InMemoryEventBus InMemoryMutex LDAP SMTP HealthChecks Logger Serializers</PackageTags>
@@ -16,15 +16,15 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
-    <PackageReference Include="System.CodeDom" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="11.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="11.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="11.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="11.0.*" />
+    <PackageReference Include="System.CodeDom" Version="11.0.*" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.DirectoryServices" Version="10.0.*" />
+    <PackageReference Include="System.DirectoryServices" Version="11.0.*" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.*" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="11.0.*" />
   </ItemGroup>
 
   <ItemGroup>

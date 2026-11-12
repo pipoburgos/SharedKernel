@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net47;net471;net472;net48;net481;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net471;net472;net48;net481;net10.0;net11.0</TargetFrameworks>
     <Description>Dapper infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.Dapper.SqlServer</PackageId>
     <PackageTags>Dapper Sql Server</PackageTags>
@@ -10,8 +10,8 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.*" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="11.0.*" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="11.0.*" />
   </ItemGroup>
 
   <ItemGroup>

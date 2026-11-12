@@ -3,11 +3,11 @@
 	<PackageReference Include="AsyncFixer" Version="2.1.*" PrivateAssets="all" />
 	<PackageReference Include="IDisposableAnalyzers" Version="4.*" PrivateAssets="all" />
 	<PackageReference Include="Meziantou.Analyzer" Version="3.*" PrivateAssets="all" />
-	<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="10.*" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="11.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.*" PrivateAssets="all" />
-	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.*" PrivateAssets="all" />
-	<PackageReference Include="Microsoft.DotNet.ApiCompat.Task" Version="10.*" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="11.*" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.DotNet.ApiCompat.Task" Version="11.*" PrivateAssets="all" />
 	<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.*" PrivateAssets="all" />
 	<PackageReference Include="NetFabric.Hyperlinq.Analyzer" Version="2.*" PrivateAssets="all" />
 	<PackageReference Include="Nullable.Extended.Analyzer" Version="1.*" PrivateAssets="all" />

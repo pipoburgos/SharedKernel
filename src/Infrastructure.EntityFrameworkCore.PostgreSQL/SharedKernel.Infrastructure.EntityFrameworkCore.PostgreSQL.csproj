@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Description>EntityFrameworkCore.PostgreSQL infrastructure implementations</Description>
     <PackageId>Pipoburgos.SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL</PackageId>
     <PackageTags>EntityFrameworkCore PostgreSQL PostGIS</PackageTags>
@@ -12,10 +12,10 @@
     <PackageReference Include="Community.Microsoft.Extensions.Caching.PostgreSql" Version="6.0.2" />
     <PackageReference Include="DistributedLock.Postgres" Version="1.3.2" />
     <PackageReference Include="EFCore.NamingConventions" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageReference Include="EFCore.NamingConventions" Version="10.0.*" Condition="'$(TargetFramework)' == 'net11.0'" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="EFCore.NamingConventions" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="9.0.*" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageReference Include="System.Text.Json" Version="10.0.*" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="11.0.0-rc.3" Condition="'$(TargetFramework)' == 'net11.0'" />
+    <PackageReference Include="System.Text.Json" Version="11.0.*" />
   </ItemGroup>
 
   <ItemGroup>
