@@ -10,17 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Caching\DistributedCache\PostgreSql\**" />
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <Compile Remove="System\Threading\AsyncKeyedLock\**" />
+    <Compile Remove="System\Threading\PostgreSql\**" />
+    <EmbeddedResource Remove="Caching\DistributedCache\PostgreSql\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <EmbeddedResource Remove="System\Threading\AsyncKeyedLock\**" />
+    <EmbeddedResource Remove="System\Threading\PostgreSql\**" />
+    <None Remove="Caching\DistributedCache\PostgreSql\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\**" />
     <None Remove="System\Threading\AsyncKeyedLock\**" />
+    <None Remove="System\Threading\PostgreSql\**" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Compile Remove="Communication\Email\Smtp\MailKitSmtpEmailSenderTests.cs" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlBankAccountRepositoryTests.cs" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlUserRepositoryTests.cs" />
-    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\EfPostgreSqlUserUnitOfWorkTests.cs" />
     <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerBankAccountRepositoryTests.cs" />
     <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerUserRepositoryTests.cs" />
     <Compile Remove="Data\EntityFrameworkCore\Repositories\SqlServer\EfCoreSqlServerUserUnitOfWorkTests.cs" />
@@ -60,7 +66,7 @@
     <ProjectReference Include="..\..\src\Infrastructure.DotNetDBF\SharedKernel.Infrastructure.DotNetDBF.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.Elasticsearch\SharedKernel.Infrastructure.Elasticsearch.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.OpenIddict\SharedKernel.Infrastructure.EntityFrameworkCore.OpenIddict.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />
+    <!--<ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.PostgreSQL\SharedKernel.Infrastructure.EntityFrameworkCore.PostgreSQL.csproj" />-->
     <ProjectReference Include="..\..\src\Infrastructure.EntityFrameworkCore.SqlServer\SharedKernel.Infrastructure.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FileSystem\SharedKernel.Infrastructure.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure.FluentValidation\SharedKernel.Infrastructure.FluentValidation.csproj" />
@@ -111,9 +117,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\OpenIddict\appsettings.OpenIddict.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\EntityFrameworkCore\Repositories\PostgreSql\appsettings.postgreSql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\EntityFrameworkCore\Repositories\SqlServer\appsettings.sqlServer.json">
@@ -174,9 +177,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="System\Threading\Mongo\appsettings.mongo.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="System\Threading\PostgreSql\appsettings.postgreSql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="System\Threading\Redis\appsettings.redis.json">
