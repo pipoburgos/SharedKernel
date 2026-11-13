@@ -38,7 +38,7 @@ public static class ExceptionHandlerMiddleware
 
                 var errorType = error.Error.GetType();
                 if ((errorType.Namespace != null &&
-                     errorType.Namespace.Split(".").First().ToLower().StartsWith(appName)) ||
+                     errorType.Namespace.Split(".").First().ToLowerInvariant().StartsWith(appName)) ||
                     (error.Error.InnerException?.GetType().Namespace != default &&
                      error.Error.InnerException.GetType().Namespace!.Split(".").First()
                          .StartsWith(appName)))

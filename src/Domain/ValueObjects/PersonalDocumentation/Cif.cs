@@ -30,7 +30,7 @@ public class Cif : ValueObject<Cif>
         if (string.IsNullOrEmpty(Value))
             return true;
 
-        var cif = Value.Trim().ToUpper();
+        var cif = Value.Trim().ToUpperInvariant();
 
         //Debe tener una longitud igual a 9 caracteres;
         if (cif.Length != 9)

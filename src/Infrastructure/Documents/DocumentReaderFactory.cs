@@ -17,11 +17,11 @@ public class DocumentReaderFactory : IDocumentReaderFactory
     /// <summary> . </summary>
     public IDocumentReader Create(string name)
     {
-        var providers = _serviceProvider.GetServices<IDocumentReader>().ToDictionary(e => e.Extension.ToLower());
+        var providers = _serviceProvider.GetServices<IDocumentReader>().ToDictionary(e => e.Extension.ToLowerInvariant());
 
         var extension = name;
         if (name.Contains('.'))
-            extension = name.Split('.').Last().ToLower();
+            extension = name.Split('.').Last().ToLowerInvariant();
 
         if (!providers.TryGetValue(extension, out var provider))
             throw new NotImplementedException($"Document reader '{extension}' no implemented.");
@@ -32,6 +32,6 @@ public class DocumentReaderFactory : IDocumentReaderFactory
     /// <summary> . </summary>
     public IEnumerable<string> GetExtensions()
     {
-        return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLower());
+        return _serviceProvider.GetServices<IDocumentReader>().Select(e => e.Extension.ToLowerInvariant());
     }
 }

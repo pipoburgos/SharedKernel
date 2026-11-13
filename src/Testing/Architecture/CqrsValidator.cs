@@ -16,7 +16,7 @@ public static class CqrsValidator
         var classTypes = assemblies
             .SelectMany(a => a.GetTypes())
             .Where(t => t.IsClass && !t.IsAbstract)
-            .OrderBy(x => x.FullName)
+            .OrderBy(x => x.FullName, StringComparer.Ordinal)
             .ToList();
 
         var usesCases = classTypes

@@ -25,7 +25,7 @@ public static class EndpointMappingExtensions
                             typeof(IEndpoint<>)),
                 })
                 .Where(x => x.GroupInterface is not null)
-                .OrderBy(x => x.Type.FullName)
+                .OrderBy(x => x.Type.FullName, StringComparer.Ordinal)
                 .ToList();
 
         foreach (var endpointsByGroup in endpointTypes.GroupBy(x => x.GroupInterface!.GetGenericArguments()[0]))

@@ -8,6 +8,7 @@ using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.Newtonsoft;
 using SharedKernel.Infrastructure.PayPal;
 using SharedKernel.Testing.Infrastructure;
+using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -39,7 +40,7 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
         var client = GetRequiredServiceOnNewScope<IPayPalClient>();
 
         const string currency = "EUR";
-        var price = 125.75.ToString("N2").Replace(",", ".");
+        var price = 125.75.ToString("N2", CultureInfo.InvariantCulture).Replace(",", ".");
 
         var invoiceNumber = Guid.NewGuid().ToString();
 
@@ -88,7 +89,7 @@ public class PayPalTests : InfrastructureTestCase<FakeStartup>
         createdPayment.Id.Should().NotBeNullOrWhiteSpace();
 
         var response = createdPayment.Links?
-            .SingleOrDefault(lnk => lnk.Rel != null && lnk.Rel.ToLower().Trim().Equals("approval_url"));
+            .SingleOrDefault(lnk => lnk.Rel != null && lnk.Rel.ToLowerInvariant().Trim().Equals("approval_url"));
 
         response.Should().NotBeNull();
         response!.Href.Should().NotBeNullOrWhiteSpace();

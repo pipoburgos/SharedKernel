@@ -155,6 +155,13 @@ public class UserManager : IUserManager
         await _userManager.ResetAccessFailedCountAsync(applicationUser);
     }
 
+    public async Task ChangeUserLockoutEndDate(Guid id, DateTime? lockoutEndDate, CancellationToken cancellationToken = default)
+    {
+        var applicationUser = await GetUser(id);
+        var result = await _userManager.SetLockoutEndDateAsync(applicationUser, DateTimeOffset.MaxValue);
+        Validate(result);
+    }
+
     /// <summary> . </summary>
     public virtual async Task<string> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken = default)
     {

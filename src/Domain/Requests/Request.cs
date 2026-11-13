@@ -61,7 +61,7 @@ public abstract class Request : IRequest
     /// <summary> Cast Datetime from body. </summary>
     public DateTime ConvertToDateTime(string value)
     {
-        return Convert.ToDateTime(value);
+        return Convert.ToDateTime(value, CultureInfo.InvariantCulture);
     }
 
     #endregion

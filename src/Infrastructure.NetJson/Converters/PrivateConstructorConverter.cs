@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+// ReSharper disable InvocationIsCultureSensitive
 
 namespace SharedKernel.Infrastructure.NetJson.Converters;
 

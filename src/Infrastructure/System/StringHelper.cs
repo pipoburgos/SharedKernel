@@ -13,10 +13,10 @@ public class StringHelper : IStringHelper
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
-    public string ToLowerUnderscore(string text)
+    public string ToLowerInvariantUnderscore(string text)
     {
         const string rgx = @"(?x)( [A-Z][a-z,0-9]+ | [A-Z]+(?![a-z]) )";
-        text = Regex.Replace(text, rgx, "_$0", RegexOptions.None, TimeSpan.FromMinutes(1)).ToLower();
+        text = Regex.Replace(text, rgx, "_$0", RegexOptions.None, TimeSpan.FromMinutes(1)).ToLowerInvariant();
         if (text.StartsWith("_"))
             text = text.Substring(1);
 

@@ -24,8 +24,8 @@ public static class ServicesPageMiddleware
             sb.Append("</thead><tbody>");
             var total = services
                 .OrderBy(s => s.Lifetime)
-                .ThenBy(s => s.ImplementationType?.FullName)
-                .ThenBy(s => s.ServiceType.FullName);
+                .ThenBy(s => s.ImplementationType?.FullName, StringComparer.Ordinal)
+                .ThenBy(s => s.ServiceType.FullName, StringComparer.Ordinal);
 
             foreach (var svc in total)
             {

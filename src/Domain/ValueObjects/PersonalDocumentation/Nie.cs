@@ -92,7 +92,7 @@ public class Nie
         var regex = new Regex(@"[^\w]", RegexOptions.None, TimeSpan.FromMinutes(1));
 #endif
 
-        return regex.Replace(number, string.Empty).ToUpper();
+        return regex.Replace(number, string.Empty).ToUpperInvariant();
     }
 
     /// <summary>

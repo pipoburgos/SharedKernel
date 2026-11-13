@@ -10,7 +10,7 @@ public class TagReOrderDocumentFilter : IDocumentFilter
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         swaggerDoc.Tags = swaggerDoc.Tags?
-            .OrderBy(tag => tag.Name)
+            .OrderBy(tag => tag.Name, StringComparer.Ordinal)
             .ToHashSet();
     }
 }

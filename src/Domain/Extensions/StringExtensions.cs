@@ -27,12 +27,12 @@ public static class StringExtensions
             {
                 if (capitalizeNext)
                 {
-                    stringBuilder.Append(char.ToUpper(c));
+                    stringBuilder.Append(char.ToUpperInvariant(c));
                     capitalizeNext = false;
                 }
                 else
                 {
-                    stringBuilder.Append(i == 0 ? char.ToLower(c) : c);
+                    stringBuilder.Append(i == 0 ? char.ToLowerInvariant(c) : c);
                 }
             }
         }
@@ -51,7 +51,7 @@ public static class StringExtensions
 
         // Convertir cada palabra respetando las mayúsculas existentes
         var pascalCase = string.Concat(words.Select(word =>
-            char.ToUpper(word[0]) + (word.Length > 1 ? word.Substring(1) : string.Empty)));
+            char.ToUpperInvariant(word[0]) + (word.Length > 1 ? word.Substring(1) : string.Empty)));
 
         return pascalCase;
     }
@@ -73,7 +73,7 @@ public static class StringExtensions
             if (c == ' ' || c == '_')
                 stringBuilder.Append('-');
             else
-                stringBuilder.Append(char.ToLower(c));
+                stringBuilder.Append(char.ToLowerInvariant(c));
         }
 
         return stringBuilder.ToString().Trim('-');
@@ -102,7 +102,7 @@ public static class StringExtensions
                 if (i > 0 && stringBuilder.Length > 0 && stringBuilder[stringBuilder.Length - 1] != '_')
                     stringBuilder.Append('_');
 
-                stringBuilder.Append(char.ToLower(c));
+                stringBuilder.Append(char.ToLowerInvariant(c));
             }
             else
             {
@@ -144,7 +144,7 @@ public static class StringExtensions
             {
                 if (capitalizeNext)
                 {
-                    stringBuilder.Append(char.ToUpper(c));
+                    stringBuilder.Append(char.ToUpperInvariant(c));
                     capitalizeNext = false;
                 }
                 else
@@ -221,9 +221,9 @@ public static class StringExtensions
             case 0:
                 return text;
             case 1:
-                return text.ToUpper();
+                return text.ToUpperInvariant();
             default:
-                return $"{char.ToUpper(text[0])}{text.Substring(1)}";
+                return $"{char.ToUpperInvariant(text[0])}{text.Substring(1)}";
         }
     }
 

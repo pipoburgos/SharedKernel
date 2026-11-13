@@ -20,7 +20,7 @@ public class FromQueryModelOperationFilter : IOperationFilter
     {
         var description = context.ApiDescription;
         // We only want to do this for GET requests, if this is not a GET request, leave this operation as is, do not modify
-        if (description.HttpMethod?.ToLower() != HttpMethod.Get.ToString().ToLower())
+        if (description.HttpMethod?.ToLowerInvariant() != HttpMethod.Get.ToString().ToLowerInvariant())
             return;
 
         var actionParameters = description.ActionDescriptor.Parameters;

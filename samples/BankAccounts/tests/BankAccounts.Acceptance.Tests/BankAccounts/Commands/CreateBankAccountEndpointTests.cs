@@ -66,7 +66,7 @@ public class CreateBankAccountEndpointTests
         _bankAccountClientFactory
             .GetNewDbContext()
             .Set<ErrorRequest>()
-            .Any(t => t.Request.Contains(bankAccountId.ToString().ToLower()))
+            .Any(t => t.Request.Contains(bankAccountId.ToString().ToLowerInvariant()))
             .Should()
             .BeTrue();
     }

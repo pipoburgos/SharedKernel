@@ -2,6 +2,7 @@
 using SharedKernel.Infrastructure.Redsys.Contracts;
 using SharedKernel.Infrastructure.Redsys.Enums;
 using SharedKernel.Infrastructure.Redsys.Models;
+using System.Globalization;
 
 namespace SharedKernel.Infrastructure.Redsys.Services;
 
@@ -53,7 +54,7 @@ internal sealed class PaymentRequestService : IPaymentRequestService
 
     private static string GenerateAmount(decimal price)
     {
-        var t = price.ToString("#.##");
+        var t = price.ToString("#.##", CultureInfo.InvariantCulture);
         var s = t.IndexOf(",", StringComparison.Ordinal) + 1;
         if (s == 0)
         {

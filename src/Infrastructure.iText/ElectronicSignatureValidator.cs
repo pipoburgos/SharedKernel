@@ -86,7 +86,7 @@ public class ElectronicSignatureValidator : IElectronicSignatureValidator
         if (serialNumber != default && certificados.All(c => c.GetSerialNumberString() != serialNumber))
             return false;
 
-        var isValid = nif == default || certificados.Any(c => c.Subject.ToUpper().Contains($"IDCES-{nif.ToUpper()}"));
+        var isValid = nif == default || certificados.Any(c => c.Subject.ToUpperInvariant().Contains($"IDCES-{nif.ToUpperInvariant()}"));
 
         pdfDocument.Close();
 

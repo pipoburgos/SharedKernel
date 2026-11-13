@@ -44,6 +44,9 @@ public interface IUserManager
         CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>
+    Task ChangeUserLockoutEndDate(Guid id, DateTime? lockoutEndDate, CancellationToken cancellationToken = default);
+
+    /// <summary> . </summary>
     Task<string> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken = default);
 
     /// <summary> . </summary>

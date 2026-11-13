@@ -110,7 +110,7 @@ public static class CqrsNamespaceArchitecture
 
         var useCases = types
             .Where(IsUseCase)
-            .OrderBy(t => t.FullName)
+            .OrderBy(t => t.FullName, StringComparer.Ordinal)
             .ToList();
 
         var errors = new List<string>();

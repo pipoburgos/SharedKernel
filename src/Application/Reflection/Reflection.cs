@@ -17,7 +17,7 @@ public static class ReflectionHelper
 #if NET6_0_OR_GREATER
             .FirstOrDefault(x => x.FullName?.Contains(name, StringComparison.InvariantCulture) == true);
 #else
-            .FirstOrDefault(x => x.FullName.ToUpper(CultureInfo.InvariantCulture).Contains(name.ToUpper(CultureInfo.InvariantCulture)));
+            .FirstOrDefault(x => x.FullName.ToUpperInvariant().Contains(name.ToUpperInvariant()));
 #endif
     }
 
@@ -144,7 +144,7 @@ public static class ReflectionHelper
                     fieldInfo.SetValue(obj, null);
                 else
 #endif
-                    fieldInfo.SetValue(obj, new Guid(valueString));
+                fieldInfo.SetValue(obj, new Guid(valueString));
             }
             else
             {

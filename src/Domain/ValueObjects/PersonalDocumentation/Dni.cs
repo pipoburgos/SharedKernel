@@ -84,7 +84,7 @@ public class Dni : ValueObject<Dni>
 #else
         var regex = new Regex(@"[^\w]", RegexOptions.None, TimeSpan.FromMinutes(1));
 #endif
-        return regex.Replace(numero, string.Empty).ToUpper();
+        return regex.Replace(numero, string.Empty).ToUpperInvariant();
     }
 
     /// <summary>

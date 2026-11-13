@@ -10,7 +10,7 @@ public interface IStringHelper
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
-    string ToLowerUnderscore(string text);
+    string ToLowerInvariantUnderscore(string text);
 
     /// <summary>
     /// 
