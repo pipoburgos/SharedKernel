@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
+namespace SharedKernel.Api.OpenApi.DocumentFilters;
 
 /// <summary> . </summary>
 public class TagReOrderDocumentFilter : IDocumentFilter

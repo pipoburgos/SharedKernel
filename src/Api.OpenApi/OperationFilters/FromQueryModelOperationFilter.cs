@@ -4,7 +4,7 @@ using SharedKernel.Application.Cqrs.Commands;
 using SharedKernel.Application.Cqrs.Queries;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
+namespace SharedKernel.Api.OpenApi.OperationFilters;
 
 /// <summary>
 /// 

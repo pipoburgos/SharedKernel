@@ -12,11 +12,13 @@
     <Project Path="samples/BankAccounts/tests/BankAccounts.UseCases.Tests/BankAccounts.UseCases.Tests.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/shared-kernel-ci.yml" />
     <File Path="src/Directory.Build.props" />
     <File Path="src/Directory.Build.targets" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Api.Newtonsoft/SharedKernel.Api.Newtonsoft.csproj" />
+    <Project Path="src/Api.OpenApi/SharedKernel.Api.OpenApi.csproj" />
     <Project Path="src/Api/SharedKernel.Api.csproj" />
     <Project Path="src/Application.Auth/SharedKernel.Application.Auth.csproj" />
     <Project Path="src/Application/SharedKernel.Application.csproj" />

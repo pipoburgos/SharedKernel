@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.XPath;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
+namespace SharedKernel.Api.OpenApi.SchemaFilters;
 
 public class XEnumNamesSchemaFilter : ISchemaFilter
 {

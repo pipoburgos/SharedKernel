@@ -39,7 +39,8 @@ public static class ServiceCollectionExtensions
             .AddTransient<IGuid, GuidGenerator>()
             .AddTransient<IIdentityService, DefaultIdentityService>()
 #if NET || NETSTANDARD
-            .AddTransient<ITransactionManager, EntityFrameworkTransactionManager>()
+            .AddTransient<ITransactionManager>(sp =>
+                new EntityFrameworkTransactionManager(sp.GetRequiredService<TDbContext>()))
 #endif
             .AddTransient(typeof(EntityFrameworkCoreQueryProvider<>));
     }

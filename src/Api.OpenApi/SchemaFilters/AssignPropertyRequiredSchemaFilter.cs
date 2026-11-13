@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
+namespace SharedKernel.Api.OpenApi.SchemaFilters;
 
 /// <summary> . </summary>
 public class AssignPropertyRequiredSchemaFilter : ISchemaFilter

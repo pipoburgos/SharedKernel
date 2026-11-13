@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
+namespace SharedKernel.Api.OpenApi.OperationFilters;
 
 public class RequiredQueryParametersOperationFilter : IOperationFilter
 {

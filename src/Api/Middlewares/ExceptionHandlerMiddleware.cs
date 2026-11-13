@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Serializers;
 using SharedKernel.Application.Validator;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Net;
 using System.Security.Authentication;
 
@@ -58,7 +57,7 @@ public static class ExceptionHandlerMiddleware
                     case nameof(UnauthorizedAccessException):
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         break;
-                    case nameof(SwaggerGeneratorException):
+                    case "SwaggerGeneratorException":
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         var errorsSerialized2 = jsonSerializer.Serialize(error.Error);
                         await context.Response.WriteAsync(errorsSerialized2).ConfigureAwait(false);

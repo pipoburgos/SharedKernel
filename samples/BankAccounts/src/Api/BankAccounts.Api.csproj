@@ -14,12 +14,9 @@
     <!--<OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>-->
-    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.0-beta.1" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Api.Newtonsoft\SharedKernel.Api.Newtonsoft.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Api.OpenApi\SharedKernel.Api.OpenApi.csproj" />
     <ProjectReference Include="..\..\..\..\src\Api\SharedKernel.Api.csproj" />
     <ProjectReference Include="..\..\..\..\src\Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\Infrastructure\BankAccounts.Infrastructure.csproj" />

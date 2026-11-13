@@ -1,43 +1,23 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
-using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.DocumentFilters;
-using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
-using SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
+using SharedKernel.Api.OpenApi.DocumentFilters;
+using SharedKernel.Api.OpenApi.OperationFilters;
+using SharedKernel.Api.OpenApi.SchemaFilters;
 using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Diagnostics.CodeAnalysis;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
+namespace SharedKernel.Api.OpenApi;
 
 /// <summary> Swagger configuration. </summary>
-public static class OpenApiExtensions
+public static class SwashbuckleExtensions
 {
-    /// <summary> . </summary>
-    public static IServiceCollection AddSharedKernelMicrosoftOpenApi(this IServiceCollection services,
-        string[]? versions = null, Action<Microsoft.AspNetCore.OpenApi.OpenApiOptions>? configureOptions = null)
-    {
-        versions ??= ["v1"];
-
-        foreach (var version in versions)
-        {
-            services.AddOpenApi(version, o =>
-            {
-                o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
-                configureOptions?.Invoke(o);
-            });
-        }
-
-        return services;
-    }
-
-
-
     /// <summary> Services configuration. </summary>
     public static IServiceCollection AddSharedKernelSwashbuckle(this IServiceCollection services, IConfiguration configuration, Action<SwaggerGenOptions>? setupAction = null)
     {
@@ -48,7 +28,10 @@ public static class OpenApiExtensions
         var openIdOptions = new OpenIdOptions();
         configuration.GetSection(nameof(OpenIdOptions)).Bind(openIdOptions);
 
-        services.AddSwaggerGen(swaggerGenOptions =>
+
+        services
+            .AddFluentValidationRulesToSwagger()
+            .AddSwaggerGen(swaggerGenOptions =>
         {
             swaggerGenOptions.OrderActionsBy(a =>
             {
@@ -82,7 +65,7 @@ public static class OpenApiExtensions
 
             if (!string.IsNullOrWhiteSpace(openIdOptions.Authority))
             {
-                swaggerGenOptions.AddSecurityDefinition(openIdOptions, openApiOptions);
+                swaggerGenOptions.AddSharedKernelSecurityDefinition(openIdOptions, openApiOptions);
 
                 swaggerGenOptions.AddSecurityRequirement(document => new OpenApiSecurityRequirement
                 {
@@ -195,16 +178,6 @@ public static class OpenApiExtensions
             if (openIdOptions.Value.ClientSecret != default!)
                 c.OAuthClientSecret(openIdOptions.Value.ClientSecret);
         });
-
-        return app;
-    }
-
-    public static WebApplication UseSharedKernelOpenApi(this WebApplication app, [StringSyntax("Route")] string? pattern = null)
-    {
-        if (string.IsNullOrWhiteSpace(pattern))
-            app.MapOpenApi().AllowAnonymous();
-        else
-            app.MapOpenApi(pattern).AllowAnonymous();
 
         return app;
     }

@@ -5,7 +5,6 @@
     <Description>C# DDD Distributed Services Layer</Description>
     <PackageId>Pipoburgos.SharedKernel.Api</PackageId>
     <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
-    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,15 +17,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="11.0.*" Condition="'$(TargetFramework)' == 'net11.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="11.0.*" Condition="'$(TargetFramework)' == 'net11.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="11.0.*" Condition="'$(TargetFramework)' == 'net11.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="11.0.*" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.*" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.3.1" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="11.0.1" Condition="'$(TargetFramework)' == 'net11.0'" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.3.1" Condition="'$(TargetFramework)' == 'net10.0'" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="11.0.1" Condition="'$(TargetFramework)' == 'net11.0'" />
     <PackageReference Include="System.Text.Encodings.Web" Version="11.0.*" />
   </ItemGroup>
 

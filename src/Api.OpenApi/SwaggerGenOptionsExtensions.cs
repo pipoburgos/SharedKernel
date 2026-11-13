@@ -4,7 +4,7 @@ using SharedKernel.Application.Security;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Xml.Linq;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
+namespace SharedKernel.Api.OpenApi;
 
 /// <summary> SwaggerGenOptions Extensions. </summary>
 public static class SwaggerGenOptionsExtensions
@@ -15,7 +15,7 @@ public static class SwaggerGenOptionsExtensions
     /// <param name="swaggerGenOptions"></param>
     /// <param name="openIdOptions"><see cref="OpenIdOptions"/></param>
     /// <param name="openApiOptions"><see cref="OpenApiOptions"/></param>
-    public static void AddSecurityDefinition(this SwaggerGenOptions swaggerGenOptions, OpenIdOptions openIdOptions,
+    public static void AddSharedKernelSecurityDefinition(this SwaggerGenOptions swaggerGenOptions, OpenIdOptions openIdOptions,
         OpenApiOptions openApiOptions)
     {
         var authority = openApiOptions.Authority ?? openIdOptions.Authority;

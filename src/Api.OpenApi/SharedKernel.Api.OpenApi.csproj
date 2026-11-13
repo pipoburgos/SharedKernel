@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net11.0</TargetFrameworks>
+    <Description>C# DDD Distributed Services Layer</Description>
+    <PackageId>Pipoburgos.SharedKernel.Api.OpenApi</PackageId>
+    <PackageTags>C# DDD AggregateRoot Entity ValueObject Event EventBus Specification Repository</PackageTags>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.0-beta.1" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.3.0-beta.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="11.0.*" />
+    <PackageReference Include="Microsoft.OpenApi" Version="3.11.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="11.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="11.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="11.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api\SharedKernel.Api.csproj" />
+  </ItemGroup>
+
+</Project>

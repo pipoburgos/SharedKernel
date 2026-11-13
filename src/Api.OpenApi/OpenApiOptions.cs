@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi;
+﻿namespace SharedKernel.Api.OpenApi;
 
 /// <summary> Open api options./// </summary>
 public class OpenApiOptions

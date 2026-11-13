@@ -2,7 +2,7 @@
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.OperationFilters;
+namespace SharedKernel.Api.OpenApi.OperationFilters;
 
 /// <summary>
 /// 

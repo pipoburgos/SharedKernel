@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace SharedKernel.Api.ServiceCollectionExtensions.OpenApi.SchemaFilters;
+namespace SharedKernel.Api.OpenApi.SchemaFilters;
 
 public class RequiredFromConstructorSchemaFilter : ISchemaFilter
 {
