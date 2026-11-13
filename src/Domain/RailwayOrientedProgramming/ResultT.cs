@@ -35,14 +35,6 @@ public readonly record struct Result<T>
         HttpStatusCode = HttpStatusCode.OK;
     }
 
-    private Result(T value, HttpStatusCode httpStatusCode)
-    {
-        Value = value;
-        // ReSharper disable once UseCollectionExpression
-        Errors = Enumerable.Empty<Error>();
-        HttpStatusCode = httpStatusCode;
-    }
-
     /// <summary> . </summary>
     private Result(IEnumerable<Error> errors)
     {
@@ -71,13 +63,19 @@ public readonly record struct Result<T>
     }
 
     /// <summary> . </summary>
-    public static Result<T> Create(T value, HttpStatusCode httpStatusCode)
+    public static Result<T> Create(string error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        return new Result<T>(value, httpStatusCode);
+        return new Result<T>([Error.Create(error)]);
     }
 
     /// <summary> . </summary>
-    public static Result<T> Create(IEnumerable<Error> errors)
+    public static Result<T> Create(Error error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    {
+        return new Result<T>([error]);
+    }
+
+    /// <summary> . </summary>
+    public static Result<T> Create(IEnumerable<Error> errors, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
         return new Result<T>(errors);
     }

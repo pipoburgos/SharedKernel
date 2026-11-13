@@ -24,7 +24,7 @@ public class CreateBankAccountEndpointTests
         using var client = await _bankAccountClientFactory.CreateClientAsync();
 
         var bankAccountId = Guid.NewGuid();
-        var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), "Fernández", Guid.NewGuid(), 250);
+        var body = new CreateBankAccount(Guid.NewGuid(), "Roberto", new DateTime(1890, 5, 5), Guid.NewGuid(), 250, "Fernández");
 
         var result = await client.PostAsJsonAsync($"api/v1/bank-accounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
@@ -56,7 +56,7 @@ public class CreateBankAccountEndpointTests
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
-            new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
+            new DateTime(1980, 5, 5), Guid.NewGuid(), 250, "Fernández");
 
         var response = await client.PostAsJsonAsync($"api/v1/bank-accounts/{bankAccountId}", body);
 
@@ -79,7 +79,7 @@ public class CreateBankAccountEndpointTests
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), new string('*', 101),
-            new DateTime(1980, 5, 5), string.Empty, Guid.NewGuid(), 250);
+            new DateTime(1980, 5, 5), Guid.NewGuid(), 250, string.Empty);
 
         var response = await client.PostAsJsonAsync($"api/v1/bank-accounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
@@ -96,7 +96,7 @@ public class CreateBankAccountEndpointTests
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "abcde",
-            new DateTime(1980, 5, 5), "Fernández", Guid.NewGuid(), 250);
+            new DateTime(1980, 5, 5), Guid.NewGuid(), 250, "Fernández");
 
         var response = await client.PostAsJsonAsync($"api/v1/bank-accounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 
@@ -113,7 +113,7 @@ public class CreateBankAccountEndpointTests
 
         var bankAccountId = Guid.NewGuid();
         var body = new CreateBankAccount(Guid.NewGuid(), "abc",
-            new DateTime(2300, 5, 5), "Fernández", Guid.NewGuid(), 250);
+            new DateTime(2300, 5, 5), Guid.NewGuid(), 250, "Fernández");
 
         var response = await client.PostAsJsonAsync($"api/v1/bank-accounts/{bankAccountId}", body, TestContext.Current.CancellationToken);
 

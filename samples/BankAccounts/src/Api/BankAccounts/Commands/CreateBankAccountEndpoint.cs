@@ -16,8 +16,7 @@ internal sealed class CreateBankAccountEndpoint : IEndpoint<BankAccountsGroup>
     private static async Task<IResult> Handle(ICommandBus commandBus, Guid bankAccountId,
         CreateBankAccount createBankAccount, CancellationToken cancellationToken)
     {
-        createBankAccount.AddId(bankAccountId);
-        var result = await commandBus.Dispatch(createBankAccount, cancellationToken);
+        var result = await commandBus.Dispatch(createBankAccount.WithBankAccountId(bankAccountId), cancellationToken);
         return result.ToIResult();
     }
 }

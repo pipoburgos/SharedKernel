@@ -6,6 +6,7 @@ using SharedKernel.Application.Validator;
 using SharedKernel.Domain.RailwayOrientedProgramming;
 using SharedKernel.Infrastructure.System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Reflection;
 
 namespace SharedKernel.Api.Endpoints;
@@ -26,8 +27,21 @@ public static class EndpointsExtensions
         if (result.IsSuccess)
             return Results.Ok();
 
-        return Results.BadRequest(new ValidationError(new ValidationFailureException(result.Errors
-            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+        if (result.HttpStatusCode == HttpStatusCode.NotFound)
+            return Results.NotFound();
+
+        var error = new ValidationError(new ValidationFailureException(result.Errors
+            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList()));
+
+        if (result.HttpStatusCode == HttpStatusCode.Conflict)
+            return Results.Conflict(error);
+
+        if (result.IsFailure)
+            return Results.BadRequest(error);
+
+
+
+        return TypedResults.StatusCode((int)result.HttpStatusCode);
     }
 
     /// <summary>

@@ -82,6 +82,6 @@ public class Pipeline : IPipeline
 
         i++;
         return (r, c) => middlewares[i - 1]
-            .Handle<TRequest, Result<TResponse>>(r, c, GetNext(middlewares, i, lastIndex, last));
+            .Handle(r, c, GetNext(middlewares, i, lastIndex, last));
     }
 }

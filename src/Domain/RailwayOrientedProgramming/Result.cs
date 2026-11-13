@@ -24,17 +24,26 @@ public static class Result
     public static Result<T> Failure<T>(Error error) => Result<T>.Create(new List<Error> { error });
 
     /// <summary> . </summary>
+    public static Result<T> Conflict<T>(string error) => Result<T>.Create(error, HttpStatusCode.Conflict);
+
+    /// <summary> . </summary>
+    public static Result<T> Conflict<T>(Error error) => Result<T>.Create(error, HttpStatusCode.Conflict);
+
+    /// <summary> . </summary>
     public static Result<Unit> Success() => Result<Unit>.Create(Unit);
 
     /// <summary> . </summary>
     public static Result<Unit> Failure(IEnumerable<Error> errors) => Result<Unit>.Create(errors);
 
     /// <summary> . </summary>
-    public static Result<Unit> Failure(Error error) => Result<Unit>.Create(new List<Error> { error });
+    public static Result<Unit> Failure(string error) => Result<Unit>.Create(error);
 
     /// <summary> . </summary>
-    public static Result<Unit> NotFound() => Result<Unit>.Create(Unit, HttpStatusCode.NotFound);
+    public static Result<Unit> Failure(Error error) => Result<Unit>.Create([error]);
 
     /// <summary> . </summary>
-    public static Result<Unit> Conflict() => Result<Unit>.Create(Unit, HttpStatusCode.Conflict);
+    public static Result<Unit> Conflict(string error) => Result<Unit>.Create(error, HttpStatusCode.Conflict);
+
+    /// <summary> . </summary>
+    public static Result<Unit> Conflict(Error error) => Result<Unit>.Create(error, HttpStatusCode.Conflict);
 }
