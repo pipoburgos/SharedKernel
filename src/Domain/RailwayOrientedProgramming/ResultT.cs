@@ -18,27 +18,32 @@ public readonly record struct Result<T>
     public readonly IEnumerable<Error> Errors;
 
     /// <summary> . </summary>
-    public readonly string ErrorsText => $"Validation failed: {string.Join($"{Environment.NewLine} -- ", Errors.Select(x => x.ToString()))}";
+    public readonly string ErrorsText => string.Join(", ", Errors.Select(x => x.ToString()));
 
     /// <summary> . </summary>
-    public bool IsSuccess => Errors != default && !Errors.Any();
+    public bool IsSuccess =>
+        Errors != null && !Errors.Any() &&
+        HttpStatusCode >= HttpStatusCode.OK && HttpStatusCode < HttpStatusCode.Ambiguous;
 
     /// <summary> . </summary>
-    public bool IsFailure => Errors == default || Errors.Any();
+    public bool IsFailure => !IsSuccess;
 
     /// <summary> . </summary>
-    private Result(T value)
+    private Result(T value, HttpStatusCode httpStatusCode = HttpStatusCode.OK)
     {
         Value = value;
         // ReSharper disable once UseCollectionExpression
         Errors = Enumerable.Empty<Error>();
-        HttpStatusCode = HttpStatusCode.OK;
+        if (HttpStatusCode < HttpStatusCode.OK || HttpStatusCode >= HttpStatusCode.Ambiguous)
+            throw new InvalidOperationException("Invalid HTTP status code.");
+
+        HttpStatusCode = httpStatusCode;
     }
 
     /// <summary> . </summary>
-    private Result(IEnumerable<Error> errors)
+    private Result(IEnumerable<Error> errors, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        if (errors == default)
+        if (errors == null)
             throw new InvalidOperationException("At least one error.");
 
         var list = errors.ToList();
@@ -47,7 +52,10 @@ public readonly record struct Result<T>
 
         Value = default!;
         Errors = list;
-        HttpStatusCode = HttpStatusCode.BadRequest;
+        if (HttpStatusCode >= HttpStatusCode.OK && HttpStatusCode < HttpStatusCode.Ambiguous)
+            throw new InvalidOperationException("Invalid HTTP status code.");
+
+        HttpStatusCode = httpStatusCode;
     }
 
     /// <summary> . </summary>
@@ -57,26 +65,26 @@ public readonly record struct Result<T>
     }
 
     /// <summary> . </summary>
-    public static Result<T> Create(T value)
+    public static Result<T> Create(T value, HttpStatusCode httpStatusCode = HttpStatusCode.OK)
     {
-        return new Result<T>(value);
+        return new Result<T>(value, httpStatusCode);
     }
 
     /// <summary> . </summary>
     public static Result<T> Create(string error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        return new Result<T>([Error.Create(error)]);
+        return new Result<T>([Error.Create(error)], httpStatusCode);
     }
 
     /// <summary> . </summary>
     public static Result<T> Create(Error error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        return new Result<T>([error]);
+        return new Result<T>([error], httpStatusCode);
     }
 
     /// <summary> . </summary>
     public static Result<T> Create(IEnumerable<Error> errors, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        return new Result<T>(errors);
+        return new Result<T>(errors, httpStatusCode);
     }
 }
