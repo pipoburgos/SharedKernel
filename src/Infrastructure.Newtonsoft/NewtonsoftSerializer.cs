@@ -30,6 +30,12 @@ public class NewtonsoftSerializer : IJsonSerializer
     }
 
     /// <summary> . </summary>
+    public string Serialize(object? value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        return JsonConvert.SerializeObject(value, type, GetOptions(namingConvention));
+    }
+
+    /// <summary> . </summary>
     public void Serialize<T>(T data, Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         var writer = new StreamWriter(stream);

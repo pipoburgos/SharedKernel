@@ -30,6 +30,9 @@ public interface IJsonSerializer
     /// <summary> . </summary>
     string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase);
 
+    /// <summary> . </summary>
+    string Serialize(object? value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase);
+
     /// <summary>
     /// Serialize an instance of <typeparamref name="T"/> to <paramref name="stream"/>
     /// </summary>

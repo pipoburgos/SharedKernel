@@ -51,7 +51,7 @@ public class FailoverCommonLogic
         }
         else
         {
-            var requestString = _jsonSerializer.Serialize(request);
+            var requestString = _jsonSerializer.Serialize(request, request.GetType());
             errorRequest = ErrorRequest.Create(_guid.NewGuid().ToString(), requestString, exceptionString);
         }
 

@@ -1,20 +1,25 @@
 ﻿using SharedKernel.Application.Serializers;
 using SharedKernel.Infrastructure.NetJson.Converters;
 using SharedKernel.Infrastructure.NetJson.Policies;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace SharedKernel.Infrastructure.NetJson;
 
 /// <summary> . </summary>
 public class NetJsonSerializer : IJsonSerializer
 {
-
-
     /// <summary> . </summary>
     public string Serialize(object? value, NamingConvention namingConvention = NamingConvention.CamelCase)
     {
         return JsonSerializer.Serialize(value, GetOptions(namingConvention));
+    }
+
+    public string Serialize(object? value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        return JsonSerializer.Serialize(value, type, GetOptions(namingConvention));
     }
 
     /// <summary> . </summary>
@@ -114,15 +119,43 @@ public class NetJsonSerializer : IJsonSerializer
         return GetOptions(policy);
     }
 
-    /// <summary> . </summary>
     public static JsonSerializerOptions GetOptions(JsonNamingPolicy? jsonNamingPolicy)
     {
+        var resolver = new DefaultJsonTypeInfoResolver();
+
+        resolver.Modifiers.Add(typeInfo =>
+        {
+            if (typeInfo.Kind != JsonTypeInfoKind.Object)
+                return;
+
+            foreach (var property in typeInfo.Type.GetProperties(
+                         BindingFlags.Instance | BindingFlags.NonPublic))
+            {
+                if (property.GetMethod is null || property.GetMethod.IsPublic)
+                    continue;
+
+                var jsonProperty = typeInfo.CreateJsonPropertyInfo(
+                    property.PropertyType,
+                    property.Name);
+
+                jsonProperty.Get = property.GetValue;
+                jsonProperty.Set = property.SetValue;
+
+                jsonProperty.Name = jsonNamingPolicy?.ConvertName(property.Name)
+                                    ?? property.Name;
+
+                typeInfo.Properties.Add(jsonProperty);
+            }
+        });
+
         return new JsonSerializerOptions
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNamingPolicy = jsonNamingPolicy,
+            TypeInfoResolver = resolver,
             Converters =
             {
+                new SystemTypeConverter(),
                 new DateTimeConverter(),
                 new PrivateConstructorConverterFactory(),
             },
