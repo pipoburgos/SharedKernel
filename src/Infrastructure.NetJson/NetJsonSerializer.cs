@@ -53,6 +53,11 @@ public class NetJsonSerializer : IJsonSerializer
         return JsonSerializer.Deserialize<T>(stream, GetOptions(namingConvention));
     }
 
+    public object? Deserialize(string value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        return JsonSerializer.Deserialize(value, type, GetOptions(namingConvention));
+    }
+
     /// <summary> . </summary>
     public async Task<T?> DeserializeAsync<T>(Stream stream,
         NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)

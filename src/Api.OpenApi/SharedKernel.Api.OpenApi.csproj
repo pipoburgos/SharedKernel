@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.0-beta.1" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.3.0-beta.1" />
+    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.0" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="11.0.*" />
     <PackageReference Include="Microsoft.OpenApi" Version="3.11.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="11.0.*" />

@@ -16,11 +16,14 @@ public interface IJsonSerializer
     /// <summary> Deserialize <paramref name="stream"/> to an instance of <typeparamref name="T" /></summary>
     T? Deserialize<T>(Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase);
 
-    /// <inheritdoc cref="Deserialize"/>
+    /// <summary> . </summary>
+    object? Deserialize(string value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase);
+
+    /// <summary> . </summary>
     Task<object> DeserializeAsync(Type type, Stream stream,
         NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default);
 
-    /// <inheritdoc cref="Deserialize"/>
+    /// <summary> . </summary>
     Task<T?> DeserializeAsync<T>(Stream stream, NamingConvention namingConvention = NamingConvention.CamelCase,
         CancellationToken cancellationToken = default);
 

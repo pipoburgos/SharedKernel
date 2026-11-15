@@ -67,6 +67,12 @@ public class NewtonsoftSerializer : IJsonSerializer
     }
 
     /// <summary> . </summary>
+    public object? Deserialize(string value, Type type, NamingConvention namingConvention = NamingConvention.CamelCase)
+    {
+        return JsonConvert.DeserializeObject(value, type, GetOptions(namingConvention));
+    }
+
+    /// <summary> . </summary>
     public async Task<object> DeserializeAsync(Type type, Stream stream,
         NamingConvention namingConvention = NamingConvention.CamelCase, CancellationToken cancellationToken = default)
     {

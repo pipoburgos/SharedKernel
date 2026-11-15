@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenIddict.AspNetCore" Version="7.8.0" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.8.0" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="7.9.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.9.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.*" />
   </ItemGroup>
 

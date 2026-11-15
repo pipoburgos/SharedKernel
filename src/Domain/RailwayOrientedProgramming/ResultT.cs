@@ -34,7 +34,7 @@ public readonly record struct Result<T>
         Value = value;
         // ReSharper disable once UseCollectionExpression
         Errors = Enumerable.Empty<Error>();
-        if (HttpStatusCode < HttpStatusCode.OK || HttpStatusCode >= HttpStatusCode.Ambiguous)
+        if (HttpStatusCode < HttpStatusCode.OK && HttpStatusCode >= HttpStatusCode.Ambiguous)
             throw new InvalidOperationException("Invalid HTTP status code.");
 
         HttpStatusCode = httpStatusCode;
