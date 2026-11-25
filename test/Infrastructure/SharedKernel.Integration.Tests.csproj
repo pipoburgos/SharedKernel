@@ -10,8 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\Migrations\**" />
     <Compile Remove="System\Threading\AsyncKeyedLock\**" />
+    <EmbeddedResource Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\Migrations\**" />
     <EmbeddedResource Remove="System\Threading\AsyncKeyedLock\**" />
+    <None Remove="Data\EntityFrameworkCore\Repositories\PostgreSql\Migrations\**" />
     <None Remove="System\Threading\AsyncKeyedLock\**" />
   </ItemGroup>
 
