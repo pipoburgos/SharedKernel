@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.0" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.3.0" />
+    <PackageReference Include="MicroElements.AspNetCore.OpenApi.FluentValidation" Version="7.3.2" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="7.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="11.0.*" />
     <PackageReference Include="Microsoft.OpenApi" Version="3.11.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="11.0.*" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="11.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="11.0.*" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="11.0.*" />
   </ItemGroup>

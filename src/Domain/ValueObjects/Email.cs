@@ -19,7 +19,7 @@ public class Email : ValueObject<Email>
     {
         var email = CreateResult(value);
         if (email.IsFailure)
-            throw new TextException(string.Join(",", email.Errors));
+            throw new TextException(string.Join(",", email.Messages));
 
         return email.Value;
     }

@@ -45,8 +45,8 @@ public abstract class DocumentReaderTests
         var result = row.GetResult<int>(0);
 
         result.IsFailure.Should().BeTrue();
-        result.Errors.Should()
-            .Contain(x => x.ErrorMessage.Equals($"Cannot convert cell value to type '{nameof(Int32)}'."));
+        result.Messages.Should()
+            .Contain(x => x.Message.Equals($"Cannot convert cell value to type '{nameof(Int32)}'."));
 
 
         var resultDateTime = row.GetResult<DateTime?>(4);
@@ -55,8 +55,8 @@ public abstract class DocumentReaderTests
 
         var resultDateTimeNull = row.GetResult<DateTime>(4);
         resultDateTimeNull.IsFailure.Should().BeTrue();
-        resultDateTimeNull.Errors.Should()
-            .Contain(x => x.ErrorMessage.Equals("Type is required, cell is null"));
+        resultDateTimeNull.Messages.Should()
+            .Contain(x => x.Message.Equals("Type is required, cell is null"));
     }
 
 

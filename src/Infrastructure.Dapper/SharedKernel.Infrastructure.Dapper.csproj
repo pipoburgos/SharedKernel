@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.89" />
+    <PackageReference Include="Dapper" Version="2.1.100" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="11.0.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="11.0.*" />
   </ItemGroup>

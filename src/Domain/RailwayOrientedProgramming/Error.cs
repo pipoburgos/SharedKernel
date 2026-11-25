@@ -1,32 +1,21 @@
-﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿using System.Net;
 
-/// <summary> . </summary>
-public class Error
+namespace SharedKernel.Domain.RailwayOrientedProgramming;
+
+public sealed class Error : ResultMessage
 {
-    /// <summary> . </summary>
-    protected Error() { }
+    public override bool IsError => true;
 
-    /// <summary> Creates a new Error. </summary>
-    protected Error(string errorMessage, string? propertyName = default)
+    public Error(string errorMessage, string? propertyName = null,
+        HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest) : base(errorMessage, httpStatusCode, propertyName)
     {
-        PropertyName = propertyName;
-        ErrorMessage = errorMessage;
+        if ((int)HttpStatusCode < 400)
+            throw new InvalidOperationException("Invalid HTTP status code.");
     }
 
-    /// <summary> Creates a new Error. </summary>
-    public static Error Create(string errorMessage, string? propertyName = default)
+    public static Error Create(string errorMessage, string? propertyName = null,
+        HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
     {
-        return new Error(errorMessage, propertyName);
-    }
-
-    /// <summary> The name of the property. </summary>
-    public string? PropertyName { get; set; }
-
-    /// <summary> The error message. </summary>
-    public string ErrorMessage { get; set; } = null!;
-
-    public override string ToString()
-    {
-        return $"{PropertyName}: {ErrorMessage}";
+        return new Error(errorMessage, propertyName, httpStatusCode);
     }
 }

@@ -43,6 +43,6 @@ public class BankTransferServiceTests
             new BankTransferService().Transfer(fromAccount, toAccount, amount, date, fromMovementId, toMovementId);
 
         // Assert
-        result.Errors.Should().Contain(e => e.ErrorMessage == BankAccountErrors.QuantityCannotBeNegative);
+        result.Messages.Should().Contain(e => e.Message == BankAccountErrors.QuantityCannotBeNegative);
     }
 }

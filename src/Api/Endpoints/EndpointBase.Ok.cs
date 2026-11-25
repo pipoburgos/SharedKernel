@@ -16,8 +16,8 @@ public abstract partial class EndpointBase
     {
         return result.IsSuccess
             ? Ok()
-            : BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
-                new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+            : BadRequest(new ValidationError(new ValidationFailureException(result.Messages.Select(e =>
+                new ValidationFailure(e.PropertyName, e.Message)).ToList())));
     }
 
     /// <summary>
@@ -63,8 +63,8 @@ public abstract partial class EndpointBase
         if (result.IsSuccess)
             return Ok(result.Value);
 
-        var validationFailureErrors = result.Errors
-            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage))
+        var validationFailureErrors = result.Messages
+            .Select(e => new ValidationFailure(e.PropertyName, e.Message))
             .ToList();
 
         return
@@ -82,8 +82,8 @@ public abstract partial class EndpointBase
         if (result.IsSuccess)
             return Ok();
 
-        var validationFailureErrors = result.Errors
-            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage))
+        var validationFailureErrors = result.Messages
+            .Select(e => new ValidationFailure(e.PropertyName, e.Message))
             .ToList();
 
         return
@@ -98,7 +98,7 @@ public abstract partial class EndpointBase
     {
         return result.IsSuccess
             ? Ok(result.Value)
-            : BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
-                new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+            : BadRequest(new ValidationError(new ValidationFailureException(result.Messages.Select(e =>
+                new ValidationFailure(e.PropertyName, e.Message)).ToList())));
     }
 }

@@ -12,7 +12,7 @@ public static partial class ResultExtensions
         var result = await resultTask;
         return result.IsSuccess
             ? await predicate(result.Value)
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 
     /// <summary> . </summary>
@@ -20,7 +20,7 @@ public static partial class ResultExtensions
     {
         return result.IsSuccess
             ? await predicate(result.Value)
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 
     /// <summary> . </summary>
@@ -28,7 +28,7 @@ public static partial class ResultExtensions
         Func<Exception, Result<TU>>? capture = default, Func<Task>? finallyFunc = default)
     {
         if (!result.IsSuccess)
-            return Result.Failure<TU>(result.Errors);
+            return Result.Failure<TU>(result.Messages);
 
         Result<TU> resultError;
         try
@@ -53,7 +53,7 @@ public static partial class ResultExtensions
         Func<Task>? finallyFunc = default) where TException : Exception
     {
         if (!result.IsSuccess)
-            return Result.Failure<TU>(result.Errors);
+            return Result.Failure<TU>(result.Messages);
 
         Result<TU> resultError;
         try

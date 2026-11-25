@@ -19,7 +19,7 @@ public static partial class ResultExtensions
         if (predicate(result.Value))
             return result;
 
-        var errors = result.Errors.ToList();
+        var errors = result.Messages.ToList();
         errors.Add(error);
         return Result.Failure<T>(errors);
     }

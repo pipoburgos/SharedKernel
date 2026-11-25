@@ -1,61 +1,51 @@
-﻿using System.Net;
-
-namespace SharedKernel.Domain.RailwayOrientedProgramming;
+﻿namespace SharedKernel.Domain.RailwayOrientedProgramming;
 
 /// <summary> . </summary>
 public readonly record struct Result<T>
 {
     /// <summary> . </summary>
-    public readonly HttpStatusCode HttpStatusCode;
-
-    /// <summary> . </summary>
-    public readonly T Value;
+    public readonly T? Value;
 
     /// <summary> . </summary>
     public static implicit operator Result<T>(T value) => new(value);
 
     /// <summary> . </summary>
-    public readonly IEnumerable<Error> Errors;
+    public readonly IEnumerable<IResultMessage> Messages;
 
     /// <summary> . </summary>
-    public readonly string ErrorsText => string.Join(", ", Errors.Select(x => x.ToString()));
-
-    /// <summary> . </summary>
-    public bool IsSuccess =>
-        Errors != null && !Errors.Any() &&
-        HttpStatusCode >= HttpStatusCode.OK && HttpStatusCode < HttpStatusCode.Ambiguous;
-
-    /// <summary> . </summary>
-    public bool IsFailure => !IsSuccess;
-
-    /// <summary> . </summary>
-    private Result(T value, HttpStatusCode httpStatusCode = HttpStatusCode.OK)
+    public override string ToString()
     {
-        Value = value;
-        // ReSharper disable once UseCollectionExpression
-        Errors = Enumerable.Empty<Error>();
-        if (HttpStatusCode < HttpStatusCode.OK && HttpStatusCode >= HttpStatusCode.Ambiguous)
-            throw new InvalidOperationException("Invalid HTTP status code.");
-
-        HttpStatusCode = httpStatusCode;
+        return string.Join(", ", Messages.Select(x => x.ToString()));
     }
 
     /// <summary> . </summary>
-    private Result(IEnumerable<Error> errors, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    public bool IsSuccess => !IsFailure;
+
+    /// <summary> . </summary>
+    public bool IsFailure =>
+        EqualityComparer<T?>.Default.Equals(Value, default) &&
+        Messages != null &&
+        Messages.Any(x => x.IsError);
+
+    /// <summary> . </summary>
+    private Result(T value)
     {
-        if (errors == null)
+        Value = value;
+        Messages = Enumerable.Empty<IResultMessage>();
+    }
+
+    /// <summary> . </summary>
+    private Result(IEnumerable<IResultMessage> messages)
+    {
+        if (messages == null)
             throw new InvalidOperationException("At least one error.");
 
-        var list = errors.ToList();
+        var list = messages.ToList();
         if (list.Count == 0)
             throw new InvalidOperationException("At least one error.");
 
         Value = default!;
-        Errors = list;
-        if (HttpStatusCode >= HttpStatusCode.OK && HttpStatusCode < HttpStatusCode.Ambiguous)
-            throw new InvalidOperationException("Invalid HTTP status code.");
-
-        HttpStatusCode = httpStatusCode;
+        Messages = list;
     }
 
     /// <summary> . </summary>
@@ -65,26 +55,14 @@ public readonly record struct Result<T>
     }
 
     /// <summary> . </summary>
-    public static Result<T> Create(T value, HttpStatusCode httpStatusCode = HttpStatusCode.OK)
+    public static Result<T> Create(T value)
     {
-        return new Result<T>(value, httpStatusCode);
+        return new Result<T>(value);
     }
 
     /// <summary> . </summary>
-    public static Result<T> Create(string error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
+    public static Result<T> Create(IEnumerable<IResultMessage> errors)
     {
-        return new Result<T>([Error.Create(error)], httpStatusCode);
-    }
-
-    /// <summary> . </summary>
-    public static Result<T> Create(Error error, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
-    {
-        return new Result<T>([error], httpStatusCode);
-    }
-
-    /// <summary> . </summary>
-    public static Result<T> Create(IEnumerable<Error> errors, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
-    {
-        return new Result<T>(errors, httpStatusCode);
+        return new Result<T>(errors);
     }
 }

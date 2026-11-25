@@ -27,21 +27,23 @@ public static class EndpointsExtensions
         if (result.IsSuccess)
             return Results.Ok();
 
-        if (result.HttpStatusCode == HttpStatusCode.NotFound)
+        if (result.Messages.Any(x => x.HttpStatusCode == HttpStatusCode.NotFound))
             return Results.NotFound();
 
-        var error = new ValidationError(new ValidationFailureException(result.Errors
-            .Select(e => new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList()));
+        var error = new ValidationError(new ValidationFailureException(result.Messages
+            .Select(e => new ValidationFailure(e.PropertyName, e.Message)).ToList()));
 
-        if (result.HttpStatusCode == HttpStatusCode.Conflict)
+        if (result.Messages.Any(x => x.HttpStatusCode == HttpStatusCode.Conflict))
             return Results.Conflict(error);
 
         if (result.IsFailure)
             return Results.BadRequest(error);
 
+        var httpStatusCode = HttpStatusCode.OK;
+        if (result.Messages.Any())
+            httpStatusCode = result.Messages.Select(x => x.HttpStatusCode).FirstOrDefault();
 
-
-        return TypedResults.StatusCode((int)result.HttpStatusCode);
+        return TypedResults.StatusCode((int)httpStatusCode);
     }
 
     /// <summary>

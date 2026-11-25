@@ -36,13 +36,16 @@ public abstract class BaseController : ControllerBase
         if (result.IsSuccess)
             return Ok();
 
-        if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+        if (result.Messages.Any(x => x.HttpStatusCode == HttpStatusCode.BadRequest))
         {
-            return BadRequest(new ValidationError(new ValidationFailureException(result.Errors.Select(e =>
-                new ValidationFailure(e.PropertyName, e.ErrorMessage)).ToList())));
+            return BadRequest(new ValidationError(new ValidationFailureException(result.Messages.Select(e =>
+                new ValidationFailure(e.PropertyName, e.Message)).ToList())));
         }
 
-        return StatusCode((int)result.HttpStatusCode);
+        var httpStatusCode = HttpStatusCode.OK;
+        if (result.Messages.Any())
+            httpStatusCode = result.Messages.Select(x => x.HttpStatusCode).FirstOrDefault();
+        return StatusCode((int)httpStatusCode);
     }
 
     /// <summary>

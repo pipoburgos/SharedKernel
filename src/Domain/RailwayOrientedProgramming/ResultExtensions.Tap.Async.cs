@@ -47,7 +47,7 @@ public static partial class ResultExtensions
         if (EqualityComparer<Result<TU>>.Default.Equals(default!, resultPredicate))
             return result;
 
-        return resultPredicate.IsSuccess ? result : Result.Failure<T>(resultPredicate.Errors);
+        return resultPredicate.IsSuccess ? result : Result.Failure<T>(resultPredicate.Messages);
     }
 }
 

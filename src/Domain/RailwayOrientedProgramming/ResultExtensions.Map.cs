@@ -9,6 +9,6 @@ public static partial class ResultExtensions
     {
         return r.IsSuccess
             ? Result.Success(mapper(r.Value))
-            : Result.Failure<TU>(r.Errors);
+            : Result.Failure<TU>(r.Messages);
     }
 }

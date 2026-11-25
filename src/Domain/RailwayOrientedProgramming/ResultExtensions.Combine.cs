@@ -10,7 +10,7 @@ public static partial class ResultExtensions
         var resultList = result.ToList();
         return resultList.All(r => r.IsSuccess)
             ? Result.Success(resultList.Select(r => r.Value))
-            : Result.Failure<IEnumerable<T1>>(resultList.SelectMany(r => r.Errors));
+            : Result.Failure<IEnumerable<T1>>(resultList.SelectMany(r => r.Messages));
     }
 
     /// <summary> . </summary>
@@ -19,7 +19,7 @@ public static partial class ResultExtensions
         if (!result.IsFailure && !result2.IsFailure)
             return Result.Success(new Tuple<T1, T2>(result.Value, result2.Value));
 
-        return Result.Failure<Tuple<T1, T2>>(result.Errors.Concat(result2.Errors));
+        return Result.Failure<Tuple<T1, T2>>(result.Messages.Concat(result2.Messages));
     }
 
     /// <summary> . </summary>
@@ -29,7 +29,7 @@ public static partial class ResultExtensions
         if (!result.IsFailure && !result2.IsFailure && !result3.IsFailure)
             return Result.Success(new Tuple<T1, T2, T3>(result.Value, result2.Value, result3.Value));
 
-        return Result.Failure<Tuple<T1, T2, T3>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors));
+        return Result.Failure<Tuple<T1, T2, T3>>(result.Messages.Concat(result2.Messages).Concat(result3.Messages));
     }
 
     /// <summary> . </summary>
@@ -39,8 +39,8 @@ public static partial class ResultExtensions
         if (!result.IsFailure && !result2.IsFailure && !result3.IsFailure && !result4.IsFailure)
             return Result.Success(new Tuple<T1, T2, T3, T4>(result.Value, result2.Value, result3.Value, result4.Value));
 
-        return Result.Failure<Tuple<T1, T2, T3, T4>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors)
-            .Concat(result4.Errors));
+        return Result.Failure<Tuple<T1, T2, T3, T4>>(result.Messages.Concat(result2.Messages).Concat(result3.Messages)
+            .Concat(result4.Messages));
     }
 
     /// <summary> . </summary>
@@ -51,7 +51,7 @@ public static partial class ResultExtensions
             return Result.Success(new Tuple<T1, T2, T3, T4, T5>(result.Value, result2.Value, result3.Value,
                 result4.Value, result5.Value));
 
-        return Result.Failure<Tuple<T1, T2, T3, T4, T5>>(result.Errors.Concat(result2.Errors).Concat(result3.Errors)
-            .Concat(result4.Errors).Concat(result5.Errors));
+        return Result.Failure<Tuple<T1, T2, T3, T4, T5>>(result.Messages.Concat(result2.Messages).Concat(result3.Messages)
+            .Concat(result4.Messages).Concat(result5.Messages));
     }
 }

@@ -53,7 +53,7 @@ public class FailoverMiddleware : IMiddleware
             var result = await next(request, cancellationToken);
 
             if (result.IsFailure)
-                await _failoverCommonLogic.Handle(request, new Exception(result.ErrorsText), cancellationToken);
+                await _failoverCommonLogic.Handle(request, new Exception(result.ToString()), cancellationToken);
 
             return result;
         }

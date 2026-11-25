@@ -57,6 +57,12 @@ public class AuditableService : IAuditableService
         {
             _customLogger.LogTrace($"Logically deleting the entity {removed.Entity.GetType()}");
             removed.State = EntityState.Modified;
+
+            foreach (var reference in removed.References)
+            {
+                if (reference.TargetEntry?.State == EntityState.Deleted)
+                    reference.TargetEntry.State = EntityState.Modified;
+            }
         }
     }
 

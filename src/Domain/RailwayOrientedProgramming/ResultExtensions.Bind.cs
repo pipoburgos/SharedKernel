@@ -9,7 +9,7 @@ public static partial class ResultExtensions
     {
         return result.IsSuccess
             ? predicate(result.Value)
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 
     /// <summary> . </summary>
@@ -17,7 +17,7 @@ public static partial class ResultExtensions
         Func<Exception, Result<TU>>? capture = default, Action? finallyFunc = default)
     {
         if (!result.IsSuccess)
-            return Result.Failure<TU>(result.Errors);
+            return Result.Failure<TU>(result.Messages);
 
         Result<TU> resultError;
         try
@@ -42,7 +42,7 @@ public static partial class ResultExtensions
         Action? finallyFunc = default) where TException : Exception
     {
         if (!result.IsSuccess)
-            return Result.Failure<TU>(result.Errors);
+            return Result.Failure<TU>(result.Messages);
 
         Result<TU> resultError;
         try

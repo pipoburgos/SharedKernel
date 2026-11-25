@@ -11,7 +11,7 @@ public static partial class ResultExtensions
     {
         return result.IsSuccess
             ? Result.Success(await mapper(result.Value))
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 
     /// <summary> . </summary>
@@ -20,7 +20,7 @@ public static partial class ResultExtensions
         var result = await resultTask;
         return result.IsSuccess
             ? Result.Success(mapper(result.Value))
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 
     /// <summary> . </summary>
@@ -29,7 +29,7 @@ public static partial class ResultExtensions
         var result = await resultTask;
         return result.IsSuccess
             ? Result.Success(await mapper(result.Value))
-            : Result.Failure<TU>(result.Errors);
+            : Result.Failure<TU>(result.Messages);
     }
 }
 
